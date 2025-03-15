@@ -105,6 +105,7 @@ export default class Player extends Character {
     public ready = false; // indicates if login processed finished
     public authenticated = false;
     public isGuest = false;
+    public isAI = false; // indicates if this player is controlled by an AI agent
     public canTalk = true;
     public noclip = false;
     public questsLoaded = false;

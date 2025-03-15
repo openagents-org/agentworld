@@ -12,6 +12,7 @@ import API from '../network/api';
 import Network from '../network/network';
 import Client from '../network/client';
 import Events from '../controllers/events';
+import AIConnection from '../network/aiconnection';
 
 import config from '@kaetram/common/config';
 import log from '@kaetram/common/util/log';
@@ -326,5 +327,65 @@ export default class World {
 
     public onConnection(callback: ConnectionCallback): void {
         this.connectionCallback = callback;
+    }
+
+    /**
+     * Creates a connection for an AI agent and handles the login process.
+     * @param username The username of the AI agent.
+     * @param password The password of the AI agent.
+     * @returns The connection object if successful, otherwise undefined.
+     */
+    public createAIConnection(username: string, password: string): AIConnection | undefined {
+        try {
+            // Check if the server is full
+            if (this.isFull()) return undefined;
+
+            // Create an AI connection for the agent
+            const connection = new AIConnection(this, this.database, username, password);
+
+            // Handle login process
+            if (config.skipDatabase) {
+                // If database is skipped, create a simple player data object
+                const playerData = {
+                    username: connection.player.username,
+                    password: connection.player.password,
+                    email: '',
+                    x: 325, // Default spawn position
+                    y: 87,  // Default spawn position
+                    userAgent: 'ai-agent',
+                    rank: Modules.Ranks.None,
+                    poison: {
+                        type: -1,
+                        remaining: -1
+                    },
+                    effects: {},
+                    hitPoints: -1,
+                    mana: -1,
+                    orientation: Modules.Orientation.Down,
+                    ban: 0,
+                    mute: 0,
+                    jail: 0,
+                    lastWarp: 0,
+                    mapVersion: -1,
+                    regionsLoaded: [],
+                    friends: [],
+                    lastServerId: config.serverId,
+                    lastAddress: connection.address,
+                    lastGlobalChat: 0,
+                    guild: '',
+                    pet: ''
+                };
+                
+                connection.player.load(playerData);
+            } else {
+                // Otherwise, attempt to login through the database
+                this.database.login(connection.player);
+            }
+
+            return connection;
+        } catch (error) {
+            log.error(`Error creating AI connection: ${error}`);
+            return undefined;
+        }
     }
 }
