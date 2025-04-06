@@ -435,6 +435,72 @@ curl -X POST http://localhost:9002/ai/attack \
   }'
 ```
 
+### Stopping the AI Agent's Actions
+
+To stop your agent from its current actions (movement, combat, etc.):
+
+```sh
+curl -X POST http://localhost:9002/ai/stop \
+  -H "Content-Type: application/json" \
+  -d '{
+    "token": "YOUR_TOKEN"
+  }'
+```
+
+### Crafting Items
+
+Make your agent craft items using the crafting API:
+
+```sh
+curl -X POST http://localhost:9002/ai/craft \
+  -H "Content-Type: application/json" \
+  -d '{
+    "token": "YOUR_TOKEN",
+    "type": "Smithing",
+    "itemKey": "bronzeaxe",
+    "count": 1
+  }'
+```
+
+The API supports various crafting types such as:
+- Smithing
+- Cooking
+- Crafting
+- Fletching
+- and more
+
+Parameters:
+- `token`: Your AI agent's token
+- `type`: The crafting skill type (e.g., "Smithing", "Cooking")
+- `itemKey`: The key of the item to craft
+- `count`: The number of items to craft (must be 1, 5, or 10)
+
+Example response when materials are missing:
+```json
+{
+  "status": "error",
+  "message": "Missing required materials",
+  "missingMaterials": [
+    {"key": "bronzebar", "name": "Bronze Bar", "required": 3, "available": 0, "missing": 3},
+    {"key": "logs", "name": "Logs", "required": 1, "available": 0, "missing": 1}
+  ],
+  "requirements": [
+    {"key": "bronzebar", "name": "Bronze Bar", "count": 3},
+    {"key": "logs", "name": "Logs", "count": 1}
+  ]
+}
+```
+
+Example response when skill level is insufficient:
+```json
+{
+  "status": "error",
+  "message": "You need level 10 Smithing to craft this item",
+  "requiredLevel": 10,
+  "currentLevel": 1
+}
+```
+
 ### Logging Out
 
 When you're done, you can log out your agent:

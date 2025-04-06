@@ -533,6 +533,279 @@ Response:
 }
 ```
 
+### Collect Resource
+
+```
+POST /ai/collect
+```
+
+Collects a resource using the appropriate skill (lumberjacking, mining, fishing, or foraging).
+
+**Request Body:**
+```json
+{
+  "token": "string",
+  "targetInstance": "string"
+}
+```
+
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "Started cutting tree",
+  "resource": {
+    "instance": "string",
+    "type": "string",
+    "name": "string",
+    "x": number,
+    "y": number,
+    "distance": number
+  }
+}
+```
+
+**Error Responses:**
+```json
+{
+  "status": "error",
+  "message": "Target resource not found"
+}
+```
+
+```json
+{
+  "status": "error",
+  "message": "Too far from resource",
+  "distance": number,
+  "maxDistance": 2
+}
+```
+
+```json
+{
+  "status": "error",
+  "message": "Cannot collect this type of entity"
+}
+```
+
+**Examples:**
+
+Tree cutting example:
+```
+Request:
+{
+  "token": "gZOjeMAaAKaIjo3j4SC6PQuUZB8nXWjB",
+  "targetInstance": "10-32367915"
+}
+
+Response:
+{
+  "status": "success",
+  "message": "Started cutting tree",
+  "resource": {
+    "instance": "10-32367915",
+    "type": "tree",
+    "name": "Oak",
+    "x": 242,
+    "y": 251,
+    "distance": 1
+  }
+}
+```
+
+Special tree example:
+```
+Request:
+{
+  "token": "gZOjeMAaAKaIjo3j4SC6PQuUZB8nXWjB",
+  "targetInstance": "10-88815984"
+}
+
+Response:
+{
+  "status": "success",
+  "message": "Started cutting tree",
+  "resource": {
+    "instance": "10-88815984",
+    "type": "tree",
+    "name": "Aquasillius",
+    "x": 250,
+    "y": 258,
+    "distance": 1
+  }
+}
+```
+
+Foraging example:
+```
+Request:
+{
+  "token": "gZOjeMAaAKaIjo3j4SC6PQuUZB8nXWjB",
+  "targetInstance": "12-54383935"
+}
+
+Response:
+{
+  "status": "success",
+  "message": "Started foraging",
+  "resource": {
+    "instance": "12-54383935",
+    "type": "plant",
+    "name": "Tomato Plant Thingy",
+    "x": 261,
+    "y": 253,
+    "distance": 1
+  }
+}
+```
+
+**Notes:**
+- The player must be within 2 tiles of the resource to collect it
+- The player must have the appropriate weapon/tool equipped for the resource type
+- Resource collection is an ongoing process once started, with items automatically being added to the player's inventory
+- Possible resource types: "tree", "rock", "fishing spot", "plant"
+- Depending on the resource type, different skills will be used (Lumberjacking, Mining, Fishing, Foraging)
+- Resource message varies based on type:
+  - Trees: "Started cutting tree"
+  - Rocks: "Started mining rock"
+  - Fishing spots: "Started fishing"
+  - Plants: "Started foraging"
+
+### Craft Item
+
+```
+POST /ai/craft
+```
+
+Crafts an item using one of the crafting skills (Smithing, Cooking, Alchemy, etc.).
+
+**Request Body:**
+```json
+{
+  "token": "string",
+  "type": "string",
+  "itemKey": "string",
+  "count": number
+}
+```
+
+**Parameters:**
+- `token`: The authentication token for the AI agent
+- `type`: The crafting skill to use. Valid values: "Smithing", "Cooking", "Crafting", "Alchemy", "Smelting", "Fletching", "Chiseling"
+- `itemKey`: The key of the item to craft
+- `count`: The number of items to craft (1, 5, or 10). Default is 1
+
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "Crafted 1x steelsword using Smithing skill",
+  "details": {
+    "skill": "Smithing",
+    "itemKey": "steelsword",
+    "count": 1
+  }
+}
+```
+
+**Error Responses:**
+```json
+{
+  "status": "error",
+  "message": "Invalid crafting skill type"
+}
+```
+
+```json
+{
+  "status": "error",
+  "message": "Crafting is on cooldown"
+}
+```
+
+```json
+{
+  "status": "error",
+  "message": "You need to start the crafting quest to use crafting"
+}
+```
+
+```json
+{
+  "status": "error",
+  "message": "Count must be 1, 5, or 10"
+}
+```
+
+```json
+{
+  "status": "error",
+  "message": "Missing required materials",
+  "missingMaterials": [
+    {
+      "key": "steelbar",
+      "name": "Steel Bar",
+      "required": 3,
+      "available": 1,
+      "missing": 2
+    },
+    {
+      "key": "wood",
+      "name": "Wood",
+      "required": 2,
+      "available": 0,
+      "missing": 2
+    }
+  ],
+  "requirements": [
+    {
+      "key": "steelbar",
+      "name": "Steel Bar",
+      "count": 3
+    },
+    {
+      "key": "wood",
+      "name": "Wood",
+      "count": 2
+    }
+  ]
+}
+```
+
+**Example:**
+
+Request:
+```json
+{
+  "token": "gZOjeMAaAKaIjo3j4SC6PQuUZB8nXWjB",
+  "type": "Smithing",
+  "itemKey": "steelsword",
+  "count": 1
+}
+```
+
+Response:
+```json
+{
+  "status": "success",
+  "message": "Crafted 1x steelsword using Smithing skill",
+  "details": {
+    "skill": "Smithing",
+    "itemKey": "steelsword",
+    "count": 1
+  }
+}
+```
+
+**Notes:**
+- The AI agent must have all the required materials in their inventory to craft the item
+- If the agent doesn't have the required materials, the API will return a detailed list of missing materials with the required amount, available amount, and how many are missing
+- Some crafting skills (like Crafting and Alchemy) require completing specific quests first
+- There is a cooldown period between crafting operations
+- The crafting system will automatically deduct the required materials from the inventory
+- The player will gain experience in the relevant skill when successfully crafting an item
+
 ## Error Responses
 
 All endpoints may return error responses in the following format:

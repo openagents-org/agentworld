@@ -7,6 +7,8 @@ import * as Sentry from '@sentry/node';
 import * as Tracing from '@sentry/tracing';
 import Filter from '@kaetram/common/util/filter';
 import { Modules } from '@kaetram/common/network';
+import CraftingData from '../../data/crafting';
+import Items from '../../data/items.json';
 
 import type { Integration } from '@sentry/types';
 import type { Router, Express, Request, Response } from 'express';
@@ -645,6 +647,270 @@ export default class API {
                 });
             } catch (error) {
                 log.error(`Error equipping item: ${error}`);
+                response.status(500).json({
+                    status: 'error',
+                    message: 'Internal server error'
+                });
+            }
+        });
+
+        // Collect a resource (tree, rock, fish, etc.)
+        router.post('/ai/collect', (request: Request, response: Response) => {
+            try {
+                const { token, targetInstance } = request.body;
+
+                if (!token || !targetInstance) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Token and targetInstance are required'
+                    });
+                }
+
+                const player = this.aiAgents[token];
+
+                if (!player) {
+                    return response.status(401).json({
+                        status: 'error',
+                        message: 'Invalid token'
+                    });
+                }
+
+                // Find the target resource entity
+                const entity = this.world.entities.get(targetInstance);
+
+                if (!entity) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Target resource not found'
+                    });
+                }
+
+                // Calculate distance between player and resource
+                const distance = entity.getDistance(player);
+
+                // Ensure player is close enough to the resource
+                if (distance > 2) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Too far from resource',
+                        distance: distance,
+                        maxDistance: 2
+                    });
+                }
+
+                let resourceType = null;
+                let result = { status: 'error', message: 'Unknown resource type' };
+
+                // Determine the type of resource and use the appropriate skill
+                if (entity.isTree()) {
+                    player.skills.getLumberjacking().cut(player, entity);
+                    resourceType = 'tree';
+                    result = { status: 'success', message: 'Started cutting tree' };
+                }
+                else if (entity.isRock()) {
+                    player.skills.getMining().mine(player, entity);
+                    resourceType = 'rock';
+                    result = { status: 'success', message: 'Started mining rock' };
+                }
+                else if (entity.isFishSpot()) {
+                    player.skills.getFishing().catch(player, entity);
+                    resourceType = 'fishing spot';
+                    result = { status: 'success', message: 'Started fishing' };
+                }
+                else if (entity.isForaging()) {
+                    player.skills.getForaging().harvest(player, entity);
+                    resourceType = 'plant';
+                    result = { status: 'success', message: 'Started foraging' };
+                }
+                else {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Cannot collect this type of entity'
+                    });
+                }
+
+                // Return information about the collection attempt
+                response.json({
+                    ...result,
+                    resource: {
+                        instance: entity.instance,
+                        type: resourceType,
+                        name: entity.name,
+                        x: entity.x,
+                        y: entity.y,
+                        distance: distance
+                    }
+                });
+            } catch (error) {
+                log.error(`Error collecting resource: ${error}`);
+                response.status(500).json({
+                    status: 'error',
+                    message: 'Internal server error'
+                });
+            }
+        });
+
+        // Craft an item
+        router.post('/ai/craft', (request: Request, response: Response) => {
+            try {
+                const { token, type, itemKey, count = 1 } = request.body;
+
+                if (!token || !type || !itemKey) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Token, type, and itemKey are required'
+                    });
+                }
+
+                const player = this.aiAgents[token];
+
+                if (!player) {
+                    return response.status(401).json({
+                        status: 'error',
+                        message: 'Invalid token'
+                    });
+                }
+
+                // Convert the string type to the Skills enum value
+                const skillType = Modules.Skills[type as keyof typeof Modules.Skills];
+                if (skillType === undefined) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Invalid crafting skill type'
+                    });
+                }
+
+                // Check if player can craft (cooldown)
+                if (!player.canCraft()) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Crafting is on cooldown'
+                    });
+                }
+
+                // For some skill types, check if the player has the necessary quest requirements
+                if (skillType === Modules.Skills.Crafting && !player.canUseCrafting()) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'You need to start the crafting quest to use crafting'
+                    });
+                }
+
+                if (skillType === Modules.Skills.Alchemy && !player.canUseAlchemy()) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'You need to start the alchemy quest to use alchemy'
+                    });
+                }
+
+                // Check if count is valid
+                if (count !== 1 && count !== 5 && count !== 10) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Count must be 1, 5, or 10'
+                    });
+                }
+
+                // Open the crafting interface for the player to set the activeCraftingInterface
+                this.world.crafting.open(player, skillType);
+
+                // Get the crafting data to check if player has materials
+                const skillName = Modules.Skills[skillType].toLowerCase();
+                const craftingData = (CraftingData as any)[skillName];
+
+                // Check if the crafting data exists
+                if (!craftingData) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Invalid crafting data'
+                    });
+                }
+
+                // Check if the item exists in the crafting data
+                const craftingItem = craftingData[itemKey];
+                if (!craftingItem) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Invalid item key'
+                    });
+                }
+
+                // Ensure the player has the correct level to craft the item
+                // Since we can't access the private getSkillByInterface method, we'll map the skills directly
+                let skillToCheck = skillType;
+                if (skillType === Modules.Skills.Smelting) {
+                    skillToCheck = Modules.Skills.Smithing;
+                } else if (skillType === Modules.Skills.Chiseling) {
+                    skillToCheck = Modules.Skills.Crafting;
+                }
+                
+                const skill = player.skills.get(skillToCheck);
+                if (skill.level < craftingItem.level) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: `You need level ${craftingItem.level} ${type} to craft this item`,
+                        requiredLevel: craftingItem.level,
+                        currentLevel: skill.level
+                    });
+                }
+
+                // Check if the player has all required materials
+                const missingMaterials = [];
+                for (const requirement of craftingItem.requirements) {
+                    const required = requirement.count * count;
+                    const available = player.inventory.count(requirement.key);
+                    
+                    if (available < required) {
+                        // Add item information to missing materials
+                        const itemData = (Items as any)[requirement.key];
+                        missingMaterials.push({
+                            key: requirement.key,
+                            name: itemData?.name || requirement.key,
+                            required: required,
+                            available: available,
+                            missing: required - available
+                        });
+                    }
+                }
+
+                // If there are missing materials, return them in the response
+                if (missingMaterials.length > 0) {
+                    // Create requirements with names
+                    const requirements = craftingItem.requirements.map((req: { key: string, count: number }) => {
+                        const item = (Items as any)[req.key];
+                        return {
+                            key: req.key,
+                            name: item?.name || req.key,
+                            count: req.count * count
+                        };
+                    });
+                    
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Missing required materials',
+                        missingMaterials: missingMaterials,
+                        requirements: requirements
+                    });
+                }
+
+                // Try to craft the item
+                this.world.crafting.craft(player, itemKey, count);
+
+                // Record the time of crafting
+                player.lastCraft = Date.now();
+
+                // Return success response
+                response.json({
+                    status: 'success',
+                    message: `Crafted ${count}x ${itemKey} using ${type} skill`,
+                    details: {
+                        skill: type,
+                        itemKey: itemKey,
+                        count: count
+                    }
+                });
+            } catch (error) {
+                log.error(`Error crafting item: ${error}`);
                 response.status(500).json({
                     status: 'error',
                     message: 'Internal server error'
