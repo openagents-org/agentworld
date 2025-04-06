@@ -13,7 +13,8 @@ import type { Router, Express, Request, Response } from 'express';
 import type World from '../game/world';
 import type Player from '../game/entity/character/player/player';
 import type Entity from '../game/entity/entity';
-import type Character from '../game/entity/character/character';
+import Character from '../game/entity/character/character';
+import type { EquipmentData, SerializedEquipment } from '@kaetram/common/network/impl/equipment';
 
 /**
  * API will have a variety of uses. Including communication
@@ -211,13 +212,19 @@ export default class API {
                     });
                 }
 
-                // Move the player to the specified position
-                player.setPosition(x, y);
-
+                // Get current player position
+                const startX = player.x;
+                const startY = player.y;
+                
+                // Teleport the player to the target position
+                // Since AI agents don't have actual clients, we use teleport instead of path movement
+                player.teleport(x, y);
+                
                 response.json({
                     status: 'success',
-                    message: 'Character moved successfully',
-                    position: { x: player.x, y: player.y }
+                    message: 'Character moved to the destination',
+                    startPosition: { x: startX, y: startY },
+                    targetPosition: { x, y }
                 });
             } catch (error) {
                 log.error(`Error moving AI agent: ${error}`);
@@ -286,51 +293,227 @@ export default class API {
                     });
                 }
 
-                // Get nearby entities
-                const nearbyEntities: any[] = [];
-                const radius = 5; // Observation radius
+                // Get observation radius (default 64)
+                const radius = parseInt(request.query.radius as string) || 64;
 
+                // Get location information
+                const location = {
+                    x: player.x,
+                    y: player.y,
+                    regionId: this.world.map.regions.getRegion(player.x, player.y),
+                    mapName: 'World' // Default name since map doesn't have a name property
+                };
+
+                // Get map information including boundaries
+                const map = {
+                    name: 'World', // Default name since map doesn't have a name property
+                    width: this.world.map.width,
+                    height: this.world.map.height,
+                    tileSize: this.world.map.tileSize,
+                    version: this.world.map.version
+                };
+
+                // Get all warp/entry points in the map - don't filter by radius
+                const entries: any[] = [];
+                for (let warp of this.world.map.warps) {
+                    entries.push({
+                        x: warp.x,
+                        y: warp.y,
+                        destination: warp.name || 'Unknown',
+                        levelRequirement: warp.level || 0,
+                        distanceFrom: Utils.getDistance(player.x, player.y, warp.x, warp.y)
+                    });
+                }
+
+                // Get nearby mobs
+                const mobs: any[] = [];
                 this.world.getGrids().forEachEntityNear(
                     player.x,
                     player.y,
-                    (entity: Entity) => {
-                        // Skip the player itself
-                        if (entity.instance === player.instance) return;
-
-                        // Add entity to the list
-                        nearbyEntities.push({
-                            instance: entity.instance,
-                            type: entity.type,
-                            name: entity.name,
-                            x: entity.x,
-                            y: entity.y,
-                            distance: Utils.getDistance(player.x, player.y, entity.x, entity.y)
-                        });
+                    (entity) => {
+                        // Skip if entity is not a mob
+                        if (!entity.isMob()) return;
+                        
+                        // Check if the mob is within the radius
+                        if (Utils.getDistance(player.x, player.y, entity.x, entity.y) <= radius) {
+                            mobs.push({
+                                instance: entity.instance,
+                                type: entity.type,
+                                name: entity.name,
+                                level: entity.level,
+                                x: entity.x,
+                                y: entity.y,
+                                hitPoints: entity.hitPoints?.getHitPoints() || 0,
+                                maxHitPoints: entity.hitPoints?.getMaxHitPoints() || 0,
+                                aggressive: entity.aggressive,
+                                distanceFrom: Utils.getDistance(player.x, player.y, entity.x, entity.y)
+                            });
+                        }
                     },
                     radius
                 );
 
-                // Get player status
+                // Get nearby resources (trees, rocks, etc.)
+                const resources: any[] = [];
+                this.world.getGrids().forEachEntityNear(
+                    player.x,
+                    player.y,
+                    (entity) => {
+                        // Skip if entity is not a resource
+                        if (!entity.isResource()) return;
+                        
+                        // Check if the resource is within the radius
+                        if (Utils.getDistance(player.x, player.y, entity.x, entity.y) <= radius) {
+                            resources.push({
+                                instance: entity.instance,
+                                type: entity.type,
+                                name: entity.name,
+                                x: entity.x,
+                                y: entity.y,
+                                distanceFrom: Utils.getDistance(player.x, player.y, entity.x, entity.y)
+                            });
+                        }
+                    },
+                    radius
+                );
+
+                // Get nearby players
+                const players: any[] = [];
+                this.world.getGrids().forEachEntityNear(
+                    player.x,
+                    player.y,
+                    (entity) => {
+                        // Skip if entity is not a player or is the current player
+                        if (!entity.isPlayer() || entity.instance === player.instance) return;
+                        
+                        // Check if the player is within the radius
+                        if (Utils.getDistance(player.x, player.y, entity.x, entity.y) <= radius) {
+                            // Cast to Player type
+                            const otherPlayer = entity;
+                            
+                            players.push({
+                                instance: otherPlayer.instance,
+                                name: otherPlayer.name,
+                                level: otherPlayer.level,
+                                x: otherPlayer.x,
+                                y: otherPlayer.y,
+                                rank: (otherPlayer as any).rank,
+                                distanceFrom: Utils.getDistance(player.x, player.y, otherPlayer.x, otherPlayer.y)
+                            });
+                        }
+                    },
+                    radius
+                );
+
+                // Get inventory items - filter out empty slots with count -1
+                const inventoryItems: any[] = [];
+                for (let i = 0; i < player.inventory.size; i++) {
+                    const slot = player.inventory.get(i);
+                    if (slot) {
+                        const item = player.inventory.getItem(slot);
+                        // Only include items with count > -1
+                        if (item.count > -1) {
+                            inventoryItems.push({
+                                index: i,
+                                key: item.key,
+                                name: item.name,
+                                count: item.count,
+                                edible: item.edible,
+                                equippable: item.isEquippable(),
+                                description: item.description || `A ${item.name}` // Add item description if available
+                            });
+                        }
+                    }
+                }
+
+                // Get equipped items - filter out empty equipment
+                const equippedItems = player.equipment.serialize().equipments.filter((equipment: any) => 
+                    equipment && equipment.key && equipment.count > -1
+                );
+
+                // Get player status with enhanced skill information
+                const skillsInfo = player.skills.serialize();
+                
+                // Map skill types to skill names
+                const skillNames: { [key: number]: string } = {
+                    0: 'Combat',
+                    1: 'Archery',
+                    2: 'Magic',
+                    3: 'Defense',
+                    4: 'Mining',
+                    5: 'Woodcutting',
+                    6: 'Fishing',
+                    7: 'Cooking',
+                    8: 'Smithing',
+                    9: 'Crafting',
+                    10: 'Cheesemaking',
+                    11: 'Brewing',
+                    13: 'Foraging',
+                    15: 'Accuracy',
+                    16: 'Strength',
+                    17: 'Health',
+                    18: 'Looting'
+                };
+                
+                // Add skill names to the skills information
+                if (skillsInfo && skillsInfo.skills) {
+                    for (let skill of skillsInfo.skills) {
+                        if (skill.type !== undefined && skillNames[skill.type]) {
+                            // Use type assertion to add name property
+                            (skill as any).name = skillNames[skill.type];
+                            
+                            // Add estimated level based on experience (simple formula)
+                            if (skill.experience) {
+                                const estimatedLevel = Math.floor(Math.sqrt(skill.experience / 100)) + 1;
+                                (skill as any).level = estimatedLevel;
+                            } else {
+                                (skill as any).level = 1; // Default level if no experience
+                            }
+                        }
+                    }
+                }
+
                 const playerStatus = {
-                    instance: player.instance,
                     name: player.name,
-                    x: player.x,
-                    y: player.y,
+                    level: player.level,
+                    experience: player.getTotalExperience(),
                     hitPoints: player.hitPoints.getHitPoints(),
                     maxHitPoints: player.hitPoints.getMaxHitPoints(),
                     mana: player.mana.getMana(),
                     maxMana: player.mana.getMaxMana(),
-                    level: player.level,
                     orientation: player.orientation,
+                    combat: player.inCombat(),
+                    poisoned: player.poison,
                     moving: player.moving,
-                    combat: player.inCombat()
+                    skills: skillsInfo
                 };
+
+                // Detect collisions around the player
+                const collisions = [];
+                // Check collisions in a 5x5 grid around the player
+                for (let y = player.y - 5; y <= player.y + 5; y++) {
+                    for (let x = player.x - 5; x <= player.x + 5; x++) {
+                        if (this.world.map.isColliding(x, y, player)) {
+                            collisions.push({ x, y });
+                        }
+                    }
+                }
 
                 response.json({
                     status: 'success',
-                    player: playerStatus,
-                    entities: nearbyEntities,
-                    region: player.region
+                    location,
+                    map,
+                    entries,
+                    mobs,
+                    resources,
+                    players,
+                    inventory: {
+                        items: inventoryItems,
+                        equipped: equippedItems
+                    },
+                    playerStatus,
+                    collisions,
+                    observationRadius: radius
                 });
             } catch (error) {
                 log.error(`Error getting observations: ${error}`);
@@ -362,17 +545,25 @@ export default class API {
                     });
                 }
 
-                // Get the target entity
+                // Find the target entity
                 const target = this.world.entities.get(targetInstance);
 
-                if (!target || !target.isCharacter()) {
+                if (!target) {
                     return response.status(400).json({
                         status: 'error',
-                        message: 'Target not found or not attackable'
+                        message: 'Target not found'
                     });
                 }
 
-                // Attack the target (using the target as a Character instance)
+                // Check if target is a character that can be attacked
+                if (!(target instanceof Character)) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Cannot attack this type of entity'
+                    });
+                }
+
+                // Initiate attack
                 player.combat.attack(target);
 
                 response.json({
@@ -381,6 +572,79 @@ export default class API {
                 });
             } catch (error) {
                 log.error(`Error attacking target: ${error}`);
+                response.status(500).json({
+                    status: 'error',
+                    message: 'Internal server error'
+                });
+            }
+        });
+
+        // Equip an item from the inventory
+        router.post('/ai/equip', (request: Request, response: Response) => {
+            try {
+                const { token, index } = request.body;
+
+                if (!token || index === undefined) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Token and index are required'
+                    });
+                }
+
+                const player = this.aiAgents[token];
+
+                if (!player) {
+                    return response.status(401).json({
+                        status: 'error',
+                        message: 'Invalid token'
+                    });
+                }
+
+                // Get the item at the specified inventory index
+                const slot = player.inventory.get(index);
+                
+                if (slot.isEmpty()) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'No item found at specified inventory index'
+                    });
+                }
+                
+                const item = player.inventory.getItem(slot);
+                
+                // Check if the item is equippable
+                if (!item.isEquippable()) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'This item cannot be equipped'
+                    });
+                }
+                
+                // Check if the player meets requirements to equip this item
+                if (!item.canEquip(player)) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Requirements not met to equip this item'
+                    });
+                }
+                
+                // Equip the item
+                player.equipment.equip(item, index);
+                
+                // Get equipment type that was equipped
+                const equipmentType = item.getEquipmentType();
+                
+                response.json({
+                    status: 'success',
+                    message: 'Item equipped successfully',
+                    item: {
+                        key: item.key,
+                        name: item.name,
+                        equipmentType: equipmentType
+                    }
+                });
+            } catch (error) {
+                log.error(`Error equipping item: ${error}`);
                 response.status(500).json({
                     status: 'error',
                     message: 'Internal server error'
@@ -421,6 +685,144 @@ export default class API {
                 });
             } catch (error) {
                 log.error(`Error logging out AI agent: ${error}`);
+                response.status(500).json({
+                    status: 'error',
+                    message: 'Internal server error'
+                });
+            }
+        });
+
+        // Stop an AI agent's movement or combat
+        router.post('/ai/stop', (request: Request, response: Response) => {
+            try {
+                const { token } = request.body;
+
+                if (!token) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Token is required'
+                    });
+                }
+
+                const player = this.aiAgents[token];
+
+                if (!player) {
+                    return response.status(401).json({
+                        status: 'error',
+                        message: 'Invalid token'
+                    });
+                }
+                
+                // Store current state to report in response
+                const wasMoving = player.moving;
+                const wasInCombat = player.inCombat();
+                
+                // Stop movement if player is moving
+                if (player.moving) {
+                    player.stopMovement();
+                }
+                
+                // Stop combat if player is in combat
+                if (player.inCombat()) {
+                    player.combat.stop();
+                }
+                
+                // Prepare response message
+                let message = 'No actions were stopped';
+                if (wasMoving && wasInCombat) {
+                    message = 'Movement and combat stopped';
+                } else if (wasMoving) {
+                    message = 'Movement stopped';
+                } else if (wasInCombat) {
+                    message = 'Combat stopped';
+                }
+                
+                response.json({
+                    status: 'success',
+                    message,
+                    stopped: {
+                        movement: wasMoving,
+                        combat: wasInCombat
+                    }
+                });
+            } catch (error) {
+                log.error(`Error stopping AI agent actions: ${error}`);
+                response.status(500).json({
+                    status: 'error',
+                    message: 'Internal server error'
+                });
+            }
+        });
+
+        // New endpoint to allow an AI agent to enter a portal/warp
+        router.post('/ai/enter', (request: Request, response: Response) => {
+            try {
+                const { token } = request.body;
+
+                if (!token) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Token is required'
+                    });
+                }
+
+                const player = this.aiAgents[token];
+
+                if (!player) {
+                    return response.status(401).json({
+                        status: 'error',
+                        message: 'Invalid token'
+                    });
+                }
+                
+                // Check if player is standing on a warp point
+                const playerX = player.x;
+                const playerY = player.y;
+                let foundWarp = null;
+                
+                // Check all warps to see if player is on a warp point
+                for (const warp of this.world.map.warps) {
+                    // Check if the player is within the warp area
+                    const inWarpX = playerX >= warp.x && playerX < (warp.x + warp.width);
+                    const inWarpY = playerY >= warp.y && playerY < (warp.y + warp.height);
+                    
+                    if (inWarpX && inWarpY) {
+                        foundWarp = warp;
+                        break;
+                    }
+                }
+                
+                // If no warp found at current position
+                if (!foundWarp) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'No entry point found at the current position',
+                        position: { x: playerX, y: playerY }
+                    });
+                }
+                
+                // Check if player meets level requirement for the warp
+                if (foundWarp.level && player.level < foundWarp.level) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: `Level ${foundWarp.level} required to enter this area`,
+                        playerLevel: player.level,
+                        requiredLevel: foundWarp.level
+                    });
+                }
+                
+                // Use the world's warp controller to handle teleportation
+                this.world.warps.warp(player, foundWarp.id);
+                
+                response.json({
+                    status: 'success',
+                    message: `Entered ${foundWarp.name || 'new area'}`,
+                    previousPosition: { x: playerX, y: playerY },
+                    destination: foundWarp.name || 'unknown'
+                });
+                
+            } catch (error) {
+                log.error(`Error using entry point: ${error}`);
                 response.status(500).json({
                     status: 'error',
                     message: 'Internal server error'

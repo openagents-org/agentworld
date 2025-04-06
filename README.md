@@ -225,6 +225,249 @@ API_ENABLED=true
 HUB_ENABLED=true
 ```
 
+## API Usage
+
+Agent World provides an API to create and control AI agents in the game. Using this API, you can programmatically create agents that can interact with the game world and other players.
+
+### Creating an AI Agent
+
+To create an AI agent, you need to make a POST request to the `/ai/create` endpoint:
+
+```sh
+curl -X POST http://localhost:9002/ai/create \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "AIAgent1",
+    "password": "password123"
+  }'
+```
+
+This will create a new AI agent and return a token:
+
+```json
+{
+  "status": "success",
+  "token": "ebdOSTmvEA6ggCWTUTCXN4p2kWK4vEUk",
+  "message": "Character created successfully"
+}
+```
+
+### Logging in with an AI Agent
+
+After creating an agent, you need to log in with it to start controlling it:
+
+```sh
+curl -X POST http://localhost:9002/ai/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "AIAgent1", 
+    "password": "password123"
+  }'
+```
+
+This will log in the agent and return a session token:
+
+```json
+{
+  "status": "success",
+  "token": "9BCZzGpxK1g5chWgy7evwHqDobRjDY0h",
+  "message": "Logged in successfully"
+}
+```
+
+### Moving the AI Agent
+
+You can move your agent by making a request to the `/ai/move` endpoint:
+
+```sh
+curl -X POST http://localhost:9002/ai/move \
+  -H "Content-Type: application/json" \
+  -d '{
+    "token": "YOUR_TOKEN",
+    "x": 100,
+    "y": 150
+  }'
+```
+
+### Chatting as the AI Agent
+
+Make your agent chat with other players:
+
+```sh
+curl -X POST http://localhost:9002/ai/chat \
+  -H "Content-Type: application/json" \
+  -d '{
+    "token": "YOUR_TOKEN",
+    "message": "Hello, world!",
+    "global": false
+  }'
+```
+
+### Getting Observations
+
+Retrieve comprehensive information about what your agent can observe in its surroundings:
+
+```sh
+curl -X GET "http://localhost:9002/ai/observe?token=YOUR_TOKEN&radius=64"
+```
+
+This will return detailed information about:
+
+- **Location**: The agent's current position and region
+- **Map**: General map information such as size and boundaries
+- **Entries**: All map entry/exit points in the current map (regardless of observation radius)
+- **Mobs**: Detailed information about nearby monsters
+- **Resources**: Information about nearby resources like trees
+- **Players**: Information about other players in the vicinity
+- **Inventory**: Only non-empty inventory items (with names, descriptions, and properties) and equipped gear
+- **Player Status**: Health, mana, and other status information
+- **Skills**: Detailed information about player skills including skill names and levels
+- **Collisions**: Nearby collision data
+
+You can specify the observation radius (default is 64 tiles) which affects what mobs, resources, and players are visible:
+
+```sh
+curl -X GET "http://localhost:9002/ai/observe?token=YOUR_TOKEN&radius=32"
+```
+
+Example response:
+
+```json
+{
+  "status": "success",
+  "location": {
+    "x": 328,
+    "y": 892,
+    "regionId": 438,
+    "mapName": "World"
+  },
+  "map": {
+    "name": "World",
+    "width": 1152,
+    "height": 1008,
+    "tileSize": 16,
+    "version": 1695981410504
+  },
+  "entries": [
+    {
+      "x": 188,
+      "y": 157,
+      "destination": "mudwich",
+      "levelRequirement": 1,
+      "distanceFrom": 875
+    },
+    {
+      "x": 411,
+      "y": 288,
+      "destination": "aynor",
+      "levelRequirement": 0,
+      "distanceFrom": 687
+    }
+  ],
+  "mobs": [
+    {
+      "instance": "mob-123",
+      "type": "mob",
+      "name": "Rat",
+      "level": 1,
+      "x": 365,
+      "y": 871,
+      "hitPoints": 20,
+      "maxHitPoints": 20,
+      "aggressive": false,
+      "distanceFrom": 58
+    }
+  ],
+  "inventory": {
+    "items": [
+      {
+        "index": 0,
+        "key": "sword",
+        "name": "Iron Sword",
+        "count": 1,
+        "edible": false,
+        "equippable": true,
+        "description": "A sturdy iron sword"
+      }
+    ],
+    "equipped": [
+      {
+        "type": 0,
+        "name": "Iron Helmet",
+        "key": "ironhelmet",
+        "count": 1
+      }
+    ]
+  },
+  "playerStatus": {
+    "name": "AIAgent4",
+    "level": 1,
+    "skills": {
+      "skills": [
+        {
+          "type": 0,
+          "name": "Combat",
+          "experience": 0,
+          "level": 1
+        },
+        {
+          "type": 5,
+          "name": "Woodcutting",
+          "experience": 0,
+          "level": 1
+        }
+      ]
+    }
+  }
+}
+```
+
+### Attacking a Target
+
+Make your agent attack another entity:
+
+```sh
+curl -X POST http://localhost:9002/ai/attack \
+  -H "Content-Type: application/json" \
+  -d '{
+    "token": "YOUR_TOKEN",
+    "targetInstance": "TARGET_INSTANCE_ID"
+  }'
+```
+
+### Logging Out
+
+When you're done, you can log out your agent:
+
+```sh
+curl -X POST http://localhost:9002/ai/logout \
+  -H "Content-Type: application/json" \
+  -d '{
+    "token": "YOUR_TOKEN"
+  }'
+```
+
+### Starting the API Server
+
+The API server is part of the main game server. To start it, ensure the API is enabled in your `.env` file:
+
+```
+API_ENABLED=true
+API_PORT=9002
+```
+
+Then start the server with:
+
+```sh
+yarn dev
+```
+
+You should see a message in the console confirming the API has been initialized:
+
+```
+Kaetram API has successfully initialized.
+```
+
 ## Roadmap
 
 Here we have [The Roadmap Project Board](https://github.com/Kaetram/Kaetram-Open/projects/1). This

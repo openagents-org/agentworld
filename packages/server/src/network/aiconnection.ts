@@ -36,6 +36,27 @@ export default class AIConnection {
         this.player.isAI = true;
         
         log.info(`Created AI connection for: ${this.username}`);
+        
+        // Automatically mark the player as ready after a short delay
+        // This prevents the readyTimeout from rejecting the connection
+        setTimeout(() => {
+            if (this.player && !this.closed) {
+                this.player.ready = true;
+                
+                // Clear the readyTimeout to prevent rejection
+                if (this.player.readyTimeout) {
+                    clearTimeout(this.player.readyTimeout);
+                    this.player.readyTimeout = null;
+                }
+                
+                // Update the player's state
+                this.player.updateRegion();
+                this.player.updateEntities();
+                this.player.updateEntityList();
+                
+                log.info(`AI agent ${this.username} is now ready`);
+            }
+        }, 1000);
     }
 
     /**
@@ -92,5 +113,12 @@ export default class AIConnection {
      */
     public onMessage(_callback: (message: string) => void): void {
         // No-op, AI agents don't send messages through sockets
+    }
+    
+    /**
+     * Updates the timeout duration for the connection
+     */
+    public updateTimeout(_duration: number): void {
+        // No-op, AI agents don't need timeouts
     }
 } 
