@@ -13,6 +13,7 @@ export interface LoginPacket {
     username?: string;
     password?: string;
     email?: string;
+    monitorMode?: boolean; // Indicates this login is for monitoring an AI agent
 }
 
 export interface EquipmentPacket {

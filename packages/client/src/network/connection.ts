@@ -236,7 +236,8 @@ export default class Connection {
         this.socket.send(Packets.Login, {
             opcode: Opcodes.Login.Login,
             username,
-            password
+            password,
+            monitorMode: this.app.isMonitoring()
         });
     }
 

@@ -106,6 +106,7 @@ export default class Player extends Character {
     public authenticated = false;
     public isGuest = false;
     public isAI = false; // indicates if this player is controlled by an AI agent
+    public isMonitoring = false; // indicates if this player is monitoring an AI agent
     public canTalk = true;
     public noclip = false;
     public questsLoaded = false;

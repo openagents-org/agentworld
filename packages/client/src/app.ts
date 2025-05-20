@@ -50,6 +50,7 @@ export default class App {
     private emailResetInput: HTMLInputElement = document.querySelector('#email-reset-input')!;
     private rememberMe: HTMLInputElement = document.querySelector('#remember-me input')!;
     private guest: HTMLInputElement = document.querySelector('#guest input')!;
+    private monitor: HTMLInputElement = document.querySelector('#monitor input')!;
 
     private about: HTMLElement = document.querySelector('#toggle-about')!;
     private credits: HTMLElement = document.querySelector('#toggle-credits')!;
@@ -519,6 +520,14 @@ export default class App {
 
     public isGuest(): boolean {
         return this.guest.checked;
+    }
+
+    /**
+     * @returns Whether or not the monitor toggle is checked.
+     */
+
+    public isMonitoring(): boolean {
+        return this.monitor.checked;
     }
 
     /**

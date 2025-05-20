@@ -192,7 +192,7 @@ export default class Incoming {
         // Ensure the handshake has been completed before proceeding.
         if (!this.completedHandshake) return this.connection.reject('lost');
 
-        let { opcode, username, password, email } = data;
+        let { opcode, username, password, email, monitorMode } = data;
 
         if (username) {
             // Format username by making it all lower case, shorter than 32 characters, and no spaces.
@@ -204,8 +204,14 @@ export default class Incoming {
             if (password) this.player.password = password.slice(0, 64);
             if (email) this.player.email = email;
 
-            // Reject connection if player is already logged in.
-            if (this.world.isOnline(this.player.username))
+            // Set monitoring mode flag if specified
+            if (monitorMode) this.player.isMonitoring = true;
+
+            // Skip the "already logged in" check if monitorMode is enabled
+            if (
+                !monitorMode && // Reject connection if player is already logged in.
+                this.world.isOnline(this.player.username)
+            )
                 return this.connection.reject('loggedin');
 
             // Proceed directly to login with default player data if skip database is present.
@@ -218,6 +224,9 @@ export default class Incoming {
         // Handle login for each particular case.
         switch (opcode) {
             case Opcodes.Login.Login: {
+                // Skip the "already logged in" check if monitorMode is enabled
+                if (monitorMode) return this.database.login(this.player);
+
                 // Check the player in other servers first (defaults to false if hub is not present).
                 return this.world.api.isPlayerOnline(this.player.username, (online: boolean) => {
                     if (online) return this.connection.reject('loggedin');
@@ -268,6 +277,9 @@ export default class Incoming {
         if (this.player.isDead()) this.player.deathCallback?.();
 
         this.player.welcome();
+
+        // Skip the secondary check if we're in monitor mode
+        if (this.player.isMonitoring) return;
 
         // A secondary check after the player has fully loaded in.
         this.world.api.isPlayerOnline(this.player.username, (online: boolean) => {
