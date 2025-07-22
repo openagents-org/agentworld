@@ -16,6 +16,7 @@ import type World from '../game/world';
 import type Player from '../game/entity/character/player/player';
 import type Entity from '../game/entity/entity';
 import Character from '../game/entity/character/character';
+import Item from '../game/entity/objects/item';
 import type { EquipmentData, SerializedEquipment } from '@kaetram/common/network/impl/equipment';
 
 /**
@@ -1013,6 +1014,428 @@ export default class API {
                 });
             } catch (error) {
                 log.error(`Error stopping AI agent actions: ${error}`);
+                response.status(500).json({
+                    status: 'error',
+                    message: 'Internal server error'
+                });
+            }
+        });
+
+        // Teleport the AI agent to a specific location
+        router.post('/ai/teleport', (request: Request, response: Response) => {
+            try {
+                const { token, x, y, withAnimation = false } = request.body;
+
+                if (!token || x === undefined || y === undefined) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Token, x, and y coordinates are required'
+                    });
+                }
+
+                const player = this.aiAgents[token];
+
+                if (!player) {
+                    return response.status(401).json({
+                        status: 'error',
+                        message: 'Invalid token'
+                    });
+                }
+
+                // Validate coordinates are within map bounds
+                if (this.world.map.isOutOfBounds(x, y)) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Coordinates are out of map bounds',
+                        mapBounds: {
+                            width: this.world.map.width,
+                            height: this.world.map.height
+                        }
+                    });
+                }
+
+                // Store the previous position for response
+                const previousPosition = { x: player.x, y: player.y };
+
+                // Perform the teleport
+                player.teleport(x, y, withAnimation);
+
+                response.json({
+                    status: 'success',
+                    message: 'Player teleported successfully',
+                    previousPosition,
+                    newPosition: { x, y },
+                    withAnimation
+                });
+            } catch (error) {
+                log.error(`Error teleporting AI agent: ${error}`);
+                response.status(500).json({
+                    status: 'error',
+                    message: 'Internal server error'
+                });
+            }
+        });
+
+        // Set player status (health, mana, level, etc.)
+        router.post('/ai/setPlayerStatus', (request: Request, response: Response) => {
+            try {
+                const { token, hitPoints, maxHitPoints, mana, maxMana, level, experience, poison } = request.body;
+
+                if (!token) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Token is required'
+                    });
+                }
+
+                const player = this.aiAgents[token];
+
+                if (!player) {
+                    return response.status(401).json({
+                        status: 'error',
+                        message: 'Invalid token'
+                    });
+                }
+
+                const updates: string[] = [];
+
+                // Update hit points
+                if (hitPoints !== undefined) {
+                    const validHitPoints = Math.max(0, Math.min(hitPoints, player.hitPoints.getMaxHitPoints()));
+                    player.hitPoints.setHitPoints(validHitPoints);
+                    updates.push(`hitPoints: ${validHitPoints}`);
+                }
+
+                // Update max hit points
+                if (maxHitPoints !== undefined && maxHitPoints > 0) {
+                    player.hitPoints.setMaxHitPoints(maxHitPoints);
+                    updates.push(`maxHitPoints: ${maxHitPoints}`);
+                }
+
+                // Update mana
+                if (mana !== undefined) {
+                    const validMana = Math.max(0, Math.min(mana, player.mana.getMaxMana()));
+                    player.mana.setMana(validMana);
+                    updates.push(`mana: ${validMana}`);
+                }
+
+                // Update max mana
+                if (maxMana !== undefined && maxMana > 0) {
+                    player.mana.setMaxMana(maxMana);
+                    updates.push(`maxMana: ${maxMana}`);
+                }
+
+                // Update level
+                if (level !== undefined && level > 0 && level <= Modules.Constants.MAX_LEVEL) {
+                    player.level = level;
+                    updates.push(`level: ${level}`);
+                }
+
+                // Update experience (note: this requires updating skills individually)
+                if (experience !== undefined && experience >= 0) {
+                    // Experience in this game is calculated from skill totals, so we cannot set it directly
+                    // Instead, we notify that this functionality would require skill-level modifications
+                    updates.push(`experience update not supported (experience is calculated from skills)`);
+                }
+
+                // Update poison status
+                if (poison !== undefined) {
+                    if (poison.type !== undefined && poison.remaining !== undefined) {
+                        player.setPoison(poison.type, poison.remaining);
+                        updates.push(`poison: type ${poison.type}, remaining ${poison.remaining}ms`);
+                    }
+                }
+
+                // Sync the player's status to other players
+                player.sync();
+
+                response.json({
+                    status: 'success',
+                    message: 'Player status updated successfully',
+                    updates,
+                    currentStatus: {
+                        hitPoints: player.hitPoints.getHitPoints(),
+                        maxHitPoints: player.hitPoints.getMaxHitPoints(),
+                        mana: player.mana.getMana(),
+                        maxMana: player.mana.getMaxMana(),
+                        level: player.level,
+                        experience: player.getTotalExperience(),
+                        poison: player.poison
+                    }
+                });
+            } catch (error) {
+                log.error(`Error setting player status: ${error}`);
+                response.status(500).json({
+                    status: 'error',
+                    message: 'Internal server error'
+                });
+            }
+        });
+
+        // Set player inventory
+        router.post('/ai/setInventory', (request: Request, response: Response) => {
+            try {
+                const { token, items, clearFirst = true } = request.body;
+
+                if (!token) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Token is required'
+                    });
+                }
+
+                if (!Array.isArray(items)) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Items must be an array'
+                    });
+                }
+
+                const player = this.aiAgents[token];
+
+                if (!player) {
+                    return response.status(401).json({
+                        status: 'error',
+                        message: 'Invalid token'
+                    });
+                }
+
+                // Clear inventory first if requested
+                if (clearFirst) {
+                    for (let i = 0; i < player.inventory.size; i++) {
+                        if (!player.inventory.get(i).isEmpty()) {
+                            player.inventory.remove(i, player.inventory.get(i).count);
+                        }
+                    }
+                }
+
+                const addedItems: any[] = [];
+                const failedItems: any[] = [];
+
+                // Add new items to inventory
+                for (let itemData of items) {
+                    try {
+                        const { key, count = 1, enchantments, index } = itemData;
+
+                        if (!key || typeof key !== 'string') {
+                            failedItems.push({ ...itemData, reason: 'Invalid item key' });
+                            continue;
+                        }
+
+                        // Validate the item exists in the game
+                        const itemInstance = new Item(key, -1, -1, false, count, enchantments);
+                        if (!itemInstance.exists) {
+                            failedItems.push({ ...itemData, reason: 'Item does not exist' });
+                            continue;
+                        }
+
+                        // If specific index is provided, try to place item there
+                        if (index !== undefined && index >= 0 && index < player.inventory.size) {
+                            const slot = player.inventory.get(index);
+                            
+                            // If slot is not empty and we're not clearing first, skip
+                            if (!slot.isEmpty() && !clearFirst) {
+                                failedItems.push({ ...itemData, reason: 'Slot already occupied' });
+                                continue;
+                            }
+
+                            // Clear the slot if it has items
+                            if (!slot.isEmpty()) {
+                                player.inventory.remove(index, slot.count);
+                            }
+
+                            // Set the item directly to the slot
+                            slot.update(itemInstance);
+                            addedItems.push({ key, count, index, enchantments });
+                        } else {
+                            // Add to next available slot
+                            const amountAdded = player.inventory.add(itemInstance);
+                            if (amountAdded > 0) {
+                                addedItems.push({ key, count: amountAdded, enchantments });
+                            } else {
+                                failedItems.push({ ...itemData, reason: 'No inventory space' });
+                            }
+                        }
+                    } catch (itemError) {
+                        failedItems.push({ ...itemData, reason: `Error: ${itemError}` });
+                    }
+                }
+
+                response.json({
+                    status: 'success',
+                    message: 'Inventory updated successfully',
+                    results: {
+                        addedItems,
+                        failedItems,
+                        clearedFirst: clearFirst
+                    }
+                });
+            } catch (error) {
+                log.error(`Error setting inventory: ${error}`);
+                response.status(500).json({
+                    status: 'error',
+                    message: 'Internal server error'
+                });
+            }
+        });
+
+        // Set player equipment
+        router.post('/ai/setEquipments', (request: Request, response: Response) => {
+            try {
+                const { token, equipment, clearFirst = true } = request.body;
+
+                if (!token) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Token is required'
+                    });
+                }
+
+                if (!equipment || typeof equipment !== 'object') {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Equipment must be an object'
+                    });
+                }
+
+                const player = this.aiAgents[token];
+
+                if (!player) {
+                    return response.status(401).json({
+                        status: 'error',
+                        message: 'Invalid token'
+                    });
+                }
+
+                // Clear all equipment first if requested
+                if (clearFirst) {
+                    // Equipment enum has 12 types: Helmet, Pendant, Arrows, Chestplate, Weapon, Shield, Ring, ArmourSkin, WeaponSkin, Legplates, Cape, Boots
+                    for (let type = 0; type < 12; type++) {
+                        const currentEquipment = player.equipment.get(type);
+                        if (!currentEquipment.isEmpty()) {
+                            // Add current equipment back to inventory if there's space
+                            if (player.inventory.hasSpace()) {
+                                player.inventory.add(new Item(
+                                    currentEquipment.key,
+                                    -1,
+                                    -1,
+                                    false,
+                                    currentEquipment.count,
+                                    currentEquipment.enchantments
+                                ));
+                            }
+                            currentEquipment.empty();
+                        }
+                    }
+                }
+
+                const equippedItems: any[] = [];
+                const failedItems: any[] = [];
+
+                // Equipment type mapping
+                const equipmentTypes: { [key: string]: number } = {
+                    weapon: Modules.Equipment.Weapon,
+                    helmet: Modules.Equipment.Helmet,
+                    pendant: Modules.Equipment.Pendant,
+                    arrows: Modules.Equipment.Arrows,
+                    chestplate: Modules.Equipment.Chestplate,
+                    shield: Modules.Equipment.Shield,
+                    ring: Modules.Equipment.Ring,
+                    legplates: Modules.Equipment.Legplates,
+                    cape: Modules.Equipment.Cape,
+                    boots: Modules.Equipment.Boots
+                };
+
+                // Equip each item
+                for (let [typeName, itemData] of Object.entries(equipment)) {
+                    try {
+                        const equipmentType = equipmentTypes[typeName.toLowerCase()];
+                        
+                        if (equipmentType === undefined) {
+                            failedItems.push({ type: typeName, itemData, reason: 'Invalid equipment type' });
+                            continue;
+                        }
+
+                        // Ensure itemData is an object with the expected properties
+                        if (!itemData || typeof itemData !== 'object') {
+                            failedItems.push({ type: typeName, itemData, reason: 'Invalid item data' });
+                            continue;
+                        }
+
+                        const { key, count = 1, enchantments } = itemData as any;
+
+                        if (!key || typeof key !== 'string') {
+                            failedItems.push({ type: typeName, ...itemData, reason: 'Invalid item key' });
+                            continue;
+                        }
+
+                        // Create and validate the item
+                        const itemInstance = new Item(key, -1, -1, false, count, enchantments);
+                        
+                        if (!itemInstance.exists) {
+                            failedItems.push({ type: typeName, ...itemData, reason: 'Item does not exist' });
+                            continue;
+                        }
+
+                        if (!itemInstance.isEquippable()) {
+                            failedItems.push({ type: typeName, ...itemData, reason: 'Item is not equippable' });
+                            continue;
+                        }
+
+                        if (itemInstance.getEquipmentType() !== equipmentType) {
+                            failedItems.push({ type: typeName, ...itemData, reason: 'Item type does not match equipment slot' });
+                            continue;
+                        }
+
+                        // Check if player meets requirements
+                        if (!itemInstance.canEquip(player)) {
+                            failedItems.push({ type: typeName, ...itemData, reason: 'Player does not meet requirements' });
+                            continue;
+                        }
+
+                        // Get the equipment slot and update it
+                        const equipmentSlot = player.equipment.get(equipmentType);
+                        
+                        // Handle two-handed weapons and shields
+                        if (itemInstance.isTwoHanded() && !player.equipment.getShield().isEmpty()) {
+                            const shield = player.equipment.getShield();
+                            if (player.inventory.hasSpace()) {
+                                player.inventory.add(new Item(shield.key, -1, -1, false, shield.count, shield.enchantments));
+                            }
+                            player.equipment.getShield().empty();
+                        }
+
+                        if (equipmentType === Modules.Equipment.Shield && player.equipment.getWeapon().isTwoHanded()) {
+                            const weapon = player.equipment.getWeapon();
+                            if (player.inventory.hasSpace()) {
+                                player.inventory.add(new Item(weapon.key, -1, -1, false, weapon.count, weapon.enchantments));
+                            }
+                            player.equipment.getWeapon().empty();
+                        }
+
+                        // Update the equipment slot
+                        equipmentSlot.update(itemInstance);
+                        
+                        equippedItems.push({ type: typeName, key, count, enchantments });
+                                            } catch (equipError) {
+                            failedItems.push({ type: typeName, itemData, reason: `Error: ${equipError}` });
+                        }
+                    }
+
+                    // Note: Player stats will be automatically recalculated when equipment is updated
+                    // The calculateStats method is called internally by the equipment system
+
+                response.json({
+                    status: 'success',
+                    message: 'Equipment updated successfully',
+                    results: {
+                        equippedItems,
+                        failedItems,
+                        clearedFirst: clearFirst
+                    }
+                });
+            } catch (error) {
+                log.error(`Error setting equipment: ${error}`);
                 response.status(500).json({
                     status: 'error',
                     message: 'Internal server error'

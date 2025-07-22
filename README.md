@@ -513,6 +513,94 @@ curl -X POST http://localhost:9002/ai/logout \
   }'
 ```
 
+### Teleporting
+
+Instantly teleport your agent to any location on the map:
+
+```sh
+curl -X POST http://localhost:9002/ai/teleport \
+  -H "Content-Type: application/json" \
+  -d '{
+    "token": "YOUR_TOKEN",
+    "x": 500,
+    "y": 600,
+    "withAnimation": true
+  }'
+```
+
+### Setting Player Status
+
+Modify your agent's health, mana, level, and other status attributes:
+
+```sh
+curl -X POST http://localhost:9002/ai/setPlayerStatus \
+  -H "Content-Type: application/json" \
+  -d '{
+    "token": "YOUR_TOKEN",
+    "hitPoints": 100,
+    "maxHitPoints": 120,
+    "mana": 80,
+    "maxMana": 100,
+    "level": 15
+  }'
+```
+
+### Setting Inventory
+
+Set your agent's inventory with specific items:
+
+```sh
+curl -X POST http://localhost:9002/ai/setInventory \
+  -H "Content-Type: application/json" \
+  -d '{
+    "token": "YOUR_TOKEN",
+    "items": [
+      {
+        "key": "flask",
+        "count": 10,
+        "index": 0
+      },
+      {
+        "key": "sword",
+        "count": 1,
+        "index": 1
+      },
+      {
+        "key": "apple",
+        "count": 5
+      }
+    ],
+    "clearFirst": true
+  }'
+```
+
+### Setting Equipment
+
+Equip your agent with specific gear:
+
+```sh
+curl -X POST http://localhost:9002/ai/setEquipments \
+  -H "Content-Type: application/json" \
+  -d '{
+    "token": "YOUR_TOKEN",
+    "equipment": {
+      "weapon": {
+        "key": "steelsword",
+        "count": 1
+      },
+      "helmet": {
+        "key": "ironhelm",
+        "count": 1
+      },
+      "chestplate": {
+        "key": "leatherarmor",
+        "count": 1
+      }
+    },
+    "clearFirst": true
+  }'
+```
+
 ### Starting the API Server
 
 The API server is part of the main game server. To start it, ensure the API is enabled in your `.env` file:

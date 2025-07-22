@@ -806,6 +806,480 @@ Response:
 - The crafting system will automatically deduct the required materials from the inventory
 - The player will gain experience in the relevant skill when successfully crafting an item
 
+### Teleport
+
+```
+POST /ai/teleport
+```
+
+Instantly teleports the AI agent to a specific location on the map.
+
+**Request Body:**
+```json
+{
+  "token": "string",
+  "x": number,
+  "y": number,
+  "withAnimation": boolean
+}
+```
+
+**Parameters:**
+- `token`: The authentication token for the AI agent
+- `x`: The target x coordinate (grid position)
+- `y`: The target y coordinate (grid position)
+- `withAnimation`: (Optional) Whether to show teleport animation. Defaults to false
+
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "Player teleported successfully",
+  "previousPosition": {
+    "x": 328,
+    "y": 892
+  },
+  "newPosition": {
+    "x": 500,
+    "y": 600
+  },
+  "withAnimation": false
+}
+```
+
+**Error Responses:**
+```json
+{
+  "status": "error",
+  "message": "Coordinates are out of map bounds",
+  "mapBounds": {
+    "width": 1200,
+    "height": 800
+  }
+}
+```
+
+**Example:**
+
+Request:
+```json
+{
+  "token": "gZOjeMAaAKaIjo3j4SC6PQuUZB8nXWjB",
+  "x": 500,
+  "y": 600,
+  "withAnimation": true
+}
+```
+
+Response:
+```json
+{
+  "status": "success",
+  "message": "Player teleported successfully",
+  "previousPosition": {
+    "x": 328,
+    "y": 892
+  },
+  "newPosition": {
+    "x": 500,
+    "y": 600
+  },
+  "withAnimation": true
+}
+```
+
+**Notes:**
+- Teleportation is instant and bypasses normal movement restrictions
+- The coordinates must be within the map boundaries
+- Teleporting will stop any current combat or movement actions
+- Use this for quick positioning or testing purposes
+
+### Set Player Status
+
+```
+POST /ai/setPlayerStatus
+```
+
+Sets various player status attributes such as health, mana, level, and poison status.
+
+**Request Body:**
+```json
+{
+  "token": "string",
+  "hitPoints": number,
+  "maxHitPoints": number,
+  "mana": number,
+  "maxMana": number,
+  "level": number,
+  "experience": number,
+  "poison": {
+    "type": number,
+    "remaining": number
+  }
+}
+```
+
+**Parameters:**
+- `token`: The authentication token for the AI agent
+- `hitPoints`: (Optional) Current hit points to set
+- `maxHitPoints`: (Optional) Maximum hit points to set
+- `mana`: (Optional) Current mana to set
+- `maxMana`: (Optional) Maximum mana to set
+- `level`: (Optional) Player level to set (1-120)
+- `experience`: (Optional) Note: Experience is calculated from skills, so this parameter is informational only
+- `poison`: (Optional) Poison status with type and remaining duration in milliseconds
+
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "Player status updated successfully",
+  "updates": [
+    "hitPoints: 100",
+    "maxHitPoints: 100",
+    "mana: 50",
+    "maxMana: 50",
+    "level: 10"
+  ],
+  "currentStatus": {
+    "hitPoints": 100,
+    "maxHitPoints": 100,
+    "mana": 50,
+    "maxMana": 50,
+    "level": 10,
+    "experience": 2548,
+    "poison": 0
+  }
+}
+```
+
+**Example:**
+
+Request:
+```json
+{
+  "token": "gZOjeMAaAKaIjo3j4SC6PQuUZB8nXWjB",
+  "hitPoints": 100,
+  "maxHitPoints": 120,
+  "mana": 80,
+  "level": 15
+}
+```
+
+Response:
+```json
+{
+  "status": "success",
+  "message": "Player status updated successfully",
+  "updates": [
+    "hitPoints: 100",
+    "maxHitPoints: 120",
+    "mana: 80",
+    "level: 15"
+  ],
+  "currentStatus": {
+    "hitPoints": 100,
+    "maxHitPoints": 120,
+    "mana": 80,
+    "maxMana": 100,
+    "level": 15,
+    "experience": 3850,
+    "poison": 0
+  }
+}
+```
+
+**Notes:**
+- Values will be automatically clamped to valid ranges
+- Hit points cannot exceed maximum hit points
+- Mana cannot exceed maximum mana
+- Level must be between 1 and 120
+- Experience is calculated from skill totals and cannot be set directly
+- Changes are synchronized with other players in the region
+
+### Set Inventory
+
+```
+POST /ai/setInventory
+```
+
+Sets the player's inventory with specified items, with options to clear existing items first.
+
+**Request Body:**
+```json
+{
+  "token": "string",
+  "items": [
+    {
+      "key": "string",
+      "count": number,
+      "enchantments": object,
+      "index": number
+    }
+  ],
+  "clearFirst": boolean
+}
+```
+
+**Parameters:**
+- `token`: The authentication token for the AI agent
+- `items`: Array of items to add to the inventory
+  - `key`: The item key/identifier
+  - `count`: (Optional) Number of items. Defaults to 1
+  - `enchantments`: (Optional) Item enchantments object
+  - `index`: (Optional) Specific inventory slot index to place the item
+- `clearFirst`: (Optional) Whether to clear the inventory before adding items. Defaults to true
+
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "Inventory updated successfully",
+  "results": {
+    "addedItems": [
+      {
+        "key": "sword",
+        "count": 1,
+        "index": 0
+      },
+      {
+        "key": "flask",
+        "count": 5
+      }
+    ],
+    "failedItems": [
+      {
+        "key": "invaliditem",
+        "count": 1,
+        "reason": "Item does not exist"
+      }
+    ],
+    "clearedFirst": true
+  }
+}
+```
+
+**Error Responses:**
+```json
+{
+  "status": "error",
+  "message": "Items must be an array"
+}
+```
+
+**Example:**
+
+Request:
+```json
+{
+  "token": "gZOjeMAaAKaIjo3j4SC6PQuUZB8nXWjB",
+  "items": [
+    {
+      "key": "flask",
+      "count": 10,
+      "index": 0
+    },
+    {
+      "key": "sword",
+      "count": 1,
+      "index": 1
+    },
+    {
+      "key": "apple",
+      "count": 5
+    }
+  ],
+  "clearFirst": true
+}
+```
+
+Response:
+```json
+{
+  "status": "success",
+  "message": "Inventory updated successfully",
+  "results": {
+    "addedItems": [
+      {
+        "key": "flask",
+        "count": 10,
+        "index": 0
+      },
+      {
+        "key": "sword",
+        "count": 1,
+        "index": 1
+      },
+      {
+        "key": "apple",
+        "count": 5
+      }
+    ],
+    "failedItems": [],
+    "clearedFirst": true
+  }
+}
+```
+
+**Notes:**
+- If `clearFirst` is true, all existing items will be removed before adding new ones
+- If a specific index is provided, the item will be placed at that slot
+- If no index is provided, the item will be added to the next available slot
+- Invalid items or items that don't exist will be reported in `failedItems`
+- The inventory has a maximum size of 25 slots
+
+### Set Equipment
+
+```
+POST /ai/setEquipments
+```
+
+Sets the player's equipment with specified items for each equipment slot.
+
+**Request Body:**
+```json
+{
+  "token": "string",
+  "equipment": {
+    "weapon": {
+      "key": "string",
+      "count": number,
+      "enchantments": object
+    },
+    "helmet": {
+      "key": "string",
+      "count": number,
+      "enchantments": object
+    }
+  },
+  "clearFirst": boolean
+}
+```
+
+**Parameters:**
+- `token`: The authentication token for the AI agent
+- `equipment`: Object containing equipment for each slot
+  - Valid equipment types: `weapon`, `helmet`, `pendant`, `arrows`, `chestplate`, `shield`, `ring`, `legplates`, `cape`, `boots`
+  - Each equipment object contains:
+    - `key`: The item key/identifier
+    - `count`: (Optional) Number of items. Defaults to 1
+    - `enchantments`: (Optional) Item enchantments object
+- `clearFirst`: (Optional) Whether to clear all equipment before setting new items. Defaults to true
+
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "Equipment updated successfully",
+  "results": {
+    "equippedItems": [
+      {
+        "type": "weapon",
+        "key": "sword",
+        "count": 1
+      },
+      {
+        "type": "helmet",
+        "key": "ironhelm",
+        "count": 1
+      }
+    ],
+    "failedItems": [
+      {
+        "type": "shield",
+        "key": "invalidshield",
+        "reason": "Item does not exist"
+      }
+    ],
+    "clearedFirst": true
+  }
+}
+```
+
+**Error Responses:**
+```json
+{
+  "status": "error",
+  "message": "Equipment must be an object"
+}
+```
+
+```json
+{
+  "status": "error",
+  "message": "Invalid equipment type"
+}
+```
+
+```json
+{
+  "status": "error",
+  "message": "Player does not meet requirements"
+}
+```
+
+**Example:**
+
+Request:
+```json
+{
+  "token": "gZOjeMAaAKaIjo3j4SC6PQuUZB8nXWjB",
+  "equipment": {
+    "weapon": {
+      "key": "steelsword",
+      "count": 1
+    },
+    "helmet": {
+      "key": "ironhelm",
+      "count": 1
+    },
+    "chestplate": {
+      "key": "leatherarmor",
+      "count": 1
+    }
+  },
+  "clearFirst": true
+}
+```
+
+Response:
+```json
+{
+  "status": "success",
+  "message": "Equipment updated successfully",
+  "results": {
+    "equippedItems": [
+      {
+        "type": "weapon",
+        "key": "steelsword",
+        "count": 1
+      },
+      {
+        "type": "helmet", 
+        "key": "ironhelm",
+        "count": 1
+      },
+      {
+        "type": "chestplate",
+        "key": "leatherarmor",
+        "count": 1
+      }
+    ],
+    "failedItems": [],
+    "clearedFirst": true
+  }
+}
+```
+
+**Notes:**
+- If `clearFirst` is true, all current equipment will be unequipped and moved to inventory (if space allows)
+- Items must be equippable and match the correct equipment slot type
+- The player must meet the item's level and skill requirements
+- Two-handed weapons will automatically unequip shields
+- Equipping a shield will automatically unequip two-handed weapons
+- Player stats are automatically recalculated after equipment changes
+- Invalid items or items that don't meet requirements will be reported in `failedItems`
+
 ## Error Responses
 
 All endpoints may return error responses in the following format:
