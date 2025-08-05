@@ -21,8 +21,8 @@ KAETRAM_API_ENDPOINTS = {
     "stop": "/ai/stop",
     "equip": "/ai/equip",
     "collect": "/ai/collect",
-    "target": "/ai/target",
-    "attack": "/ai/attack"
+    "attack": "/ai/attack",
+    "teleport": "/ai/teleport"
 }
 
 # Agent Configuration
@@ -31,6 +31,14 @@ AGENT_PASSWORD = "qwen123456"
 MAX_RETRIES = 3
 REQUEST_TIMEOUT = 30
 OBSERVATION_RADIUS = 64
+
+# Spawn Position Configuration
+SPAWN_POSITION = {
+    "enabled": True,  # Set to False to disable auto teleport on login
+    "x": 250,         # X coordinate for spawn position
+    "y": 180,         # Y coordinate for spawn position
+    "withAnimation": False  # Whether to show teleport animation
+}
 
 # Game Strategy Configuration
 EXPLORATION_PRIORITY = True

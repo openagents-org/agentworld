@@ -106,6 +106,35 @@ class KaetramGameTools:
         else:
             return f"Failed to move character: {result.get('message', 'Unknown error')}"
 
+    def teleport_character(self, arguments: Dict[str, Any]) -> str:
+        """Teleport character instantly to specified coordinates"""
+        if not self.token:
+            return "Error: No token available. Please login first."
+        
+        x = arguments.get("x")
+        y = arguments.get("y")
+        with_animation = arguments.get("withAnimation", False)
+        
+        if x is None or y is None:
+            return "Error: Both x and y coordinates are required for teleportation."
+        
+        data = {
+            "token": self.token,
+            "x": int(x),
+            "y": int(y),
+            "withAnimation": bool(with_animation)
+        }
+        
+        result = self._make_request("POST", KAETRAM_API_ENDPOINTS["teleport"], data)
+        
+        if result.get("status") == "success":
+            prev_pos = result.get("previousPosition", {})
+            new_pos = result.get("newPosition", {})
+            animation_status = "with animation" if result.get("withAnimation", False) else "without animation"
+            return f"Character teleported from ({prev_pos.get('x')}, {prev_pos.get('y')}) to ({new_pos.get('x')}, {new_pos.get('y')}) {animation_status}"
+        else:
+            return f"Failed to teleport character: {result.get('message', 'Unknown error')}"
+
     def send_chat_message(self, arguments: Dict[str, Any]) -> str:
         """Send chat message in the game"""
         if not self.token:
@@ -146,8 +175,8 @@ class KaetramGameTools:
         result = self._make_request("GET", KAETRAM_API_ENDPOINTS["observe"], params=params)
         
         if result.get("status") == "success":
-            observations = result.get("observations", {})
-            return f"Environment observation (radius {radius}): {json.dumps(observations, indent=2)}"
+            # The entire result is the observation data, no nested "observations" field
+            return f"Environment observation (radius {radius}): {json.dumps(result, indent=2)}"
         else:
             return f"Failed to observe environment: {result.get('message', 'Unknown error')}"
 
@@ -233,7 +262,7 @@ class KaetramGameTools:
             return f"Failed to collect resource: {result.get('message', 'Unknown error')}"
 
     def target_entity(self, arguments: Dict[str, Any]) -> str:
-        """Target an entity for interaction or combat"""
+        """Target an entity for interaction or combat (Note: This uses attack API to target)"""
         if not self.token:
             return "Error: No token available. Please login first."
         
@@ -242,16 +271,16 @@ class KaetramGameTools:
         if not target_instance:
             return "Error: Target instance is required."
         
+        # Use attack API with targetInstance for targeting
         data = {
             "token": self.token,
             "targetInstance": target_instance
         }
         
-        result = self._make_request("POST", KAETRAM_API_ENDPOINTS["target"], data)
+        result = self._make_request("POST", KAETRAM_API_ENDPOINTS["attack"], data)
         
         if result.get("status") == "success":
-            target = result.get("target", {})
-            return f"Targeted entity: {target.get('name', 'Unknown')} at ({target.get('x')}, {target.get('y')})"
+            return f"Targeted entity successfully: {result.get('message', 'Attack initiated')}"
         else:
             return f"Failed to target entity: {result.get('message', 'Unknown error')}"
 
@@ -260,14 +289,20 @@ class KaetramGameTools:
         if not self.token:
             return "Error: No token available. Please login first."
         
+        target_instance = arguments.get("targetInstance", "")
+        
+        if not target_instance:
+            return "Error: Target instance is required for attack."
+        
         data = {
-            "token": self.token
+            "token": self.token,
+            "targetInstance": target_instance
         }
         
         result = self._make_request("POST", KAETRAM_API_ENDPOINTS["attack"], data)
         
         if result.get("status") == "success":
-            combat = result.get("combat", {})
-            return f"Attack started against: {combat.get('target', 'Unknown target')}"
+            # Attack API only returns status and message
+            return f"Attack initiated: {result.get('message', 'Attack started successfully')}"
         else:
             return f"Failed to attack: {result.get('message', 'Unknown error')}" 

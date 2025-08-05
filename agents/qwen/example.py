@@ -101,6 +101,7 @@ def custom_game_strategy_example():
         time.sleep(3)
 
 
+
 def test_all_game_functions():
     """Test all available game functions"""
     print("\n\n=== Testing All Game Functions ===")
@@ -150,6 +151,11 @@ def main():
         
         # Run interactive example
         interactive_conversation_example()
+        
+        # Wait before next example
+        time.sleep(3)
+        
+
         
         print("\n\n✅ All examples completed successfully!")
         

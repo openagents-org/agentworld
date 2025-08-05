@@ -67,6 +67,7 @@ GAME_TOOLS = [
             }
         }
     },
+
     {
         "type": "function",
         "function": {
@@ -184,11 +185,16 @@ GAME_TOOLS = [
         "type": "function",
         "function": {
             "name": "attack_target",
-            "description": "Attack the currently targeted entity. Make sure to target an enemy first using target_entity.",
+            "description": "Attack a targeted entity directly. Provide the target instance ID to initiate combat.",
             "parameters": {
                 "type": "object",
-                "properties": {},
-                "required": []
+                "properties": {
+                    "targetInstance": {
+                        "type": "string",
+                        "description": "The instance ID of the entity to attack (monster, player, etc.)."
+                    }
+                },
+                "required": ["targetInstance"]
             }
         }
     }

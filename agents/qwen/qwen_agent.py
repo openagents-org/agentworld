@@ -4,7 +4,6 @@ Implements Function Calling following Alibaba Cloud Qwen documentation
 """
 
 import json
-import re
 import requests
 import time
 from typing import Dict, List, Any, Optional
@@ -13,10 +12,11 @@ from config import (
     QWEN_MODEL, 
     QWEN_BASE_URL,
     AGENT_USERNAME,
-    AGENT_PASSWORD
+    AGENT_PASSWORD,
+    SPAWN_POSITION
 )
 from game_tools import KaetramGameTools
-from tool_definitions import get_tool_definitions, get_tools_as_string
+from tool_definitions import get_tool_definitions
 
 
 class QwenAgent:
@@ -47,10 +47,8 @@ class QwenAgent:
         ]
     
     def _build_system_prompt(self) -> str:
-        """Build system prompt with tools information"""
-        tools_content = get_tools_as_string()
-        
-        system_prompt = f"""You are an intelligent AI agent that plays the Kaetram MMORPG game. Your goal is to explore, interact, collect resources, and engage with the game world intelligently.
+        """Build system prompt for OpenAI compatible mode"""
+        system_prompt = """You are an intelligent AI agent that plays the Kaetram MMORPG game. Your goal is to explore, interact, collect resources, and engage with the game world intelligently.
 
 You have access to various game tools through function calling. Use these tools strategically to:
 1. Login or create a character when starting
@@ -60,20 +58,6 @@ You have access to various game tools through function calling. Use these tools 
 5. Interact with other players through chat
 6. Engage in combat when appropriate
 7. Equip items to improve your character
-
-# Tools
-
-You may call one or more functions to assist with game actions.
-
-You are provided with function signatures within <tools></tools> XML tags:
-<tools>
-{tools_content}
-</tools>
-
-For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
-<tool_call>
-{{"name": "<function-name>", "arguments": <args-json-object>}}
-</tool_call>
 
 Always think strategically about your actions. Start by logging in, then observe your environment, and make decisions based on what you see. Be proactive in exploring and engaging with the game world."""
 
@@ -97,25 +81,54 @@ Always think strategically about your actions. Start by logging in, then observe
         except requests.exceptions.RequestException as e:
             return {"error": f"API call failed: {str(e)}"}
     
-    def _extract_tool_calls(self, content: str) -> List[Dict[str, Any]]:
-        """Extract tool calls from response content"""
-        tool_calls = []
+    def _extract_tool_calls(self, assistant_message: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """Extract tool calls from OpenAI compatible response message"""
+        tool_calls = assistant_message.get("tool_calls", [])
+        processed_calls = []
         
-        # Find all tool_call XML tags
-        pattern = r'<tool_call>(.*?)</tool_call>'
-        matches = re.findall(pattern, content, re.DOTALL)
-        
-        for match in matches:
+        for tool_call in tool_calls:
             try:
-                # Parse JSON content
-                tool_call = json.loads(match.strip())
-                tool_calls.append(tool_call)
+                function_info = tool_call.get("function", {})
+                name = function_info.get("name", "")
+                arguments_str = function_info.get("arguments", "{}")
+                
+                # Parse arguments JSON string
+                arguments = json.loads(arguments_str) if arguments_str else {}
+                
+                processed_calls.append({
+                    "name": name,
+                    "arguments": arguments,
+                    "id": tool_call.get("id", ""),
+                    "type": tool_call.get("type", "function")
+                })
             except json.JSONDecodeError as e:
-                print(f"Failed to parse tool call: {match}, error: {e}")
+                print(f"Failed to parse tool call arguments: {arguments_str}, error: {e}")
                 continue
         
-        return tool_calls
+        return processed_calls
     
+    def _auto_teleport_to_spawn(self) -> str:
+        """Automatically teleport to configured spawn position after login"""
+        if not SPAWN_POSITION.get("enabled", False):
+            return ""
+        
+        if not self.game_tools.token:
+            return ""
+        
+        x = SPAWN_POSITION.get("x", 250)
+        y = SPAWN_POSITION.get("y", 180) 
+        with_animation = SPAWN_POSITION.get("withAnimation", False)
+        
+        try:
+            result = self.game_tools.teleport_character({
+                "x": x,
+                "y": y,
+                "withAnimation": with_animation
+            })
+            return f"Auto-teleported to spawn position: {result}"
+        except Exception as e:
+            return f"Failed to teleport to spawn position: {str(e)}"
+
     def _execute_tool_call(self, tool_call: Dict[str, Any]) -> str:
         """Execute a tool call and return the result"""
         function_name = tool_call.get("name", "")
@@ -139,6 +152,14 @@ Always think strategically about your actions. Start by logging in, then observe
         if function_name in tool_mapping:
             try:
                 result = tool_mapping[function_name](arguments)
+                
+                # Auto-teleport to spawn position after successful login or character creation
+                if function_name in ["login_character", "create_character"]:
+                    if "successfully" in result.lower() and "token obtained" in result.lower():
+                        teleport_result = self._auto_teleport_to_spawn()
+                        if teleport_result:
+                            result += f"\n{teleport_result}"
+                
                 return result
             except Exception as e:
                 return f"Error executing {function_name}: {str(e)}"
@@ -167,27 +188,30 @@ Always think strategically about your actions. Start by logging in, then observe
         assistant_message = choices[0].get("message", {})
         content = assistant_message.get("content", "")
         
-        # Add assistant response to conversation
-        self.conversation_history.append({
+        # Check for tool calls first
+        tool_calls = self._extract_tool_calls(assistant_message)
+        
+        # Add assistant response to conversation (including tool_calls if present)
+        assistant_msg = {
             "role": "assistant",
             "content": content
-        })
+        }
+        if tool_calls:
+            assistant_msg["tool_calls"] = assistant_message.get("tool_calls", [])
         
-        # Check for tool calls
-        tool_calls = self._extract_tool_calls(content)
+        self.conversation_history.append(assistant_msg)
         
         if tool_calls:
-            tool_results = []
+            # Execute tool calls and add results to conversation
             for tool_call in tool_calls:
                 result = self._execute_tool_call(tool_call)
-                tool_results.append(f"Tool {tool_call.get('name', 'unknown')}: {result}")
-            
-            # Add tool results to conversation
-            tool_results_text = "\n".join(tool_results)
-            self.conversation_history.append({
-                "role": "user",
-                "content": f"Tool execution results:\n{tool_results_text}"
-            })
+                
+                # Add tool result message following OpenAI format
+                self.conversation_history.append({
+                    "role": "tool",
+                    "content": result,
+                    "tool_call_id": tool_call.get("id", "")
+                })
             
             # Get AI response after tool execution
             follow_up_response = self._make_api_call(self.conversation_history)
@@ -200,9 +224,9 @@ Always think strategically about your actions. Start by logging in, then observe
                         "role": "assistant",
                         "content": follow_up_content
                     })
-                    return f"{content}\n\n{tool_results_text}\n\n{follow_up_content}"
+                    return follow_up_content
             
-            return f"{content}\n\n{tool_results_text}"
+            return f"Tool calls executed. {len(tool_calls)} functions were called."
         
         return content
     

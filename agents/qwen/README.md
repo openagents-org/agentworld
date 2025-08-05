@@ -4,7 +4,8 @@ An intelligent AI agent that plays the Kaetram MMORPG game using Alibaba Cloud Q
 
 ## Features
 
-- **Function Calling Integration**: Uses Qwen's function calling to interact with Kaetram game APIs
+- **OpenAI Compatible Function Calling**: Uses standard function calling format without XML dependencies
+- **Clean Implementation**: No custom XML parsing - relies on native API function calling
 - **Intelligent Gameplay**: AI makes strategic decisions about movement, combat, and resource collection
 - **Interactive Mode**: Chat with the agent and give it specific instructions
 - **Auto-Play Mode**: Let the agent play autonomously
@@ -64,6 +65,12 @@ python main.py --auto --steps 20  # Run for 20 steps
 python main.py --test
 ```
 
+#### Run Examples
+```bash
+python example.py          # Run all usage examples
+python spawn_example.py    # Demo automatic spawn position teleport
+```
+
 ## Usage Examples
 
 ### Interactive Mode Commands
@@ -96,6 +103,22 @@ Edit `config.py` to customize:
 - **API Settings**: Qwen model, API endpoints
 - **Game Settings**: Server URL, character credentials
 - **Agent Behavior**: Combat enabled, chat enabled, exploration priority
+- **Spawn Position**: Automatic teleport to specific coordinates after login
+
+### Spawn Position Configuration
+
+Configure automatic teleportation after login in `config.py`:
+
+```python
+SPAWN_POSITION = {
+    "enabled": True,        # Set to False to disable auto teleport
+    "x": 250,              # X coordinate for spawn position  
+    "y": 180,              # Y coordinate for spawn position
+    "withAnimation": False  # Whether to show teleport animation
+}
+```
+
+When enabled, the agent will automatically teleport to the specified coordinates immediately after successful login or character creation.
 
 ## Game Actions Supported
 
@@ -137,16 +160,20 @@ agents/qwen/
 ├── tool_definitions.py # Function calling tool definitions
 ├── qwen_agent.py       # Main AI agent implementation
 ├── main.py             # Entry point and CLI interface
+├── example.py          # Usage examples and demos
+├── spawn_example.py    # Spawn position demo
 ├── requirements.txt    # Python dependencies
 └── README.md           # This file
 ```
 
 ## How It Works
 
-1. **Function Calling**: The agent uses Qwen's function calling to translate natural language into game actions
-2. **API Integration**: Game tools wrap Kaetram's REST APIs with proper authentication
-3. **Strategic Decision Making**: The AI model makes intelligent decisions based on game state
-4. **Continuous Learning**: The agent maintains conversation context for better decision making
+1. **OpenAI Compatible Function Calling**: Uses standard OpenAI function calling format via tools parameter
+2. **Clean Implementation**: No XML tags or custom parsing - relies on native API function calling
+3. **API Integration**: Game tools wrap Kaetram's REST APIs with proper authentication
+4. **Auto Spawn Positioning**: Automatically teleports to configured coordinates after successful login
+5. **Strategic Decision Making**: The AI model makes intelligent decisions based on game state
+6. **Continuous Learning**: The agent maintains conversation context for better decision making
 
 ## Troubleshooting
 
