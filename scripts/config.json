@@ -1,0 +1,64 @@
+{
+  "server": {
+    "host": "localhost",
+    "port": 9001,
+    "base_url": "http://localhost:9001"
+  },
+  "hub": {
+    "host": "localhost",
+    "port": 9002,
+    "base_url": "http://localhost:9002",
+    "access_token": "your-hub-access-token"
+  },
+  "test_users": [
+    {
+      "username": "test_agent_1",
+      "password": "testpass123"
+    },
+    {
+      "username": "test_agent_2",
+      "password": "testpass456"
+    },
+    {
+      "username": "test_agent_3",
+      "password": "testpass789"
+    }
+  ],
+  "test_settings": {
+    "timeout": 30,
+    "retry_count": 3,
+    "delay_between_requests": 1.0,
+    "cleanup_after_test": true
+  },
+  "logging": {
+    "level": "INFO",
+    "file": "test_reports/test.log",
+    "console": true
+  },
+  "test_data": {
+    "move_positions": [
+      {"x": 100, "y": 150},
+      {"x": 200, "y": 250},
+      {"x": 300, "y": 350}
+    ],
+    "chat_messages": [
+      "Hello, world!",
+      "Testing chat functionality",
+      "This is a test message"
+    ],
+    "craft_items": [
+      {
+        "type": "Cooking",
+        "itemKey": "cookedmeat",
+        "count": 1
+      },
+      {
+        "type": "Smithing",
+        "itemKey": "ironSword",
+        "count": 1
+      }
+    ],
+    "test_email": "test@example.com",
+    "observation_radius": 64
+  }
+} 

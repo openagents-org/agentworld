@@ -1,5 +1,5 @@
-import { Modules } from '@kaetram/common/network';
 import log from '@kaetram/common/util/log';
+import { Modules } from '@kaetram/common/network';
 
 import type World from './game/world';
 import type Player from './game/entity/character/player/player';
@@ -131,6 +131,21 @@ export default class Console {
                     player.sync();
 
                     break;
+                }
+
+                case 'ipban':
+                case 'unbanip': {
+                    let ip = blocks.shift();
+
+                    if (!ip) return log.info(`Malformed command, expected /${command} <ip>`);
+
+                    this.database.setIpBan(ip, command === 'ipban');
+
+                    log.info(`IP ${ip} has been banned.`);
+
+                    // Kick all players with the same IP.
+                    for (let player of this.world.entities.getPlayersByIp(ip))
+                        player.connection.reject('banned');
                 }
 
                 case 'save': {

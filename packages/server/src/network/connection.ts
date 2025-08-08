@@ -29,7 +29,10 @@ export default class Connection {
 
     private closeCallback?: () => void;
 
-    public constructor(public instance: string, private socket: HeaderWebSocket) {
+    public constructor(
+        public instance: string,
+        private socket: HeaderWebSocket
+    ) {
         // Convert the IP address hex string to a readable IP address.
         this.address =
             socket.remoteAddress || Utils.bufferToAddress(socket.getRemoteAddressAsText());
@@ -53,7 +56,6 @@ export default class Connection {
         // Tried rejecting an already closed connection, attempt to destroy the player class.
         if (this.closed) return this.handleClose(reason);
 
-        this.sendUTF8(reason);
         this.close(reason);
     }
 
@@ -61,15 +63,15 @@ export default class Connection {
      * Closes a connection and takes a optional parameter for debugging purposes.
      * Depending on the type of socket currently present, a different function is used
      * for closing the connection.
-     * @param details Optional parameter for debugging why connection was closed.
+     * @param reason Optional parameter for debugging why connection was closed.
      * @param force Whether or not to forcefully call the close callback.
      */
 
-    public close(details?: string, force = false): void {
+    public close(reason?: string, force = false): void {
         // Prevent accessing a closed connection.
-        if (!this.closed) this.socket.end();
+        if (!this.closed) this.socket.end(1010, reason);
 
-        if (details) log.info(`Connection ${this.address} has closed, reason: ${details}.`);
+        if (reason) log.info(`Connection ${this.address} has closed, reason: ${reason}.`);
 
         if (force) this.handleClose();
     }
@@ -86,21 +88,32 @@ export default class Connection {
         this.closeCallback?.();
 
         this.clearTimeout();
+        this.clearRateInterval();
         this.clearVerifyInterval();
+    }
+
+    /**
+     * Updates the timeout duration for the player and refreshes the existing timeout.
+     * @param duration The new duration of the timeout.
+     */
+
+    public updateTimeout(duration: number): void {
+        this.timeoutDuration = duration;
+
+        this.refreshTimeout();
     }
 
     /**
      * Resets the timeout every time an action is performed. This way we keep
      * a `countdown` going constantly that resets every time an action is performed.
-     * @param duration The duration of the timeout. Defaults to the player's timeout duration.
      */
 
-    public refreshTimeout(duration = this.timeoutDuration): void {
+    public refreshTimeout(): void {
         // Clear the existing timeout and start over.
         this.clearTimeout();
 
         // Start a new timeout and set the player's timeout variable.
-        this.disconnectTimeout = setTimeout(() => this.reject('timeout'), duration);
+        this.disconnectTimeout = setTimeout(() => this.reject('timeout'), this.timeoutDuration);
     }
 
     /**
@@ -112,6 +125,17 @@ export default class Connection {
 
         clearInterval(this.verifyInterval);
         this.verifyInterval = null;
+    }
+
+    /**
+     * Removes the rate interval.
+     */
+
+    private clearRateInterval(): void {
+        if (!this.rateInterval) return;
+
+        clearInterval(this.rateInterval);
+        this.rateInterval = null;
     }
 
     /**
