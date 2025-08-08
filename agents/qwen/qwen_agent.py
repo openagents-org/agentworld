@@ -30,8 +30,12 @@ class QwenAgent:
         self.session = requests.Session()
         self.session.headers.update({
             "Authorization": f"Bearer {self.api_key}",
+            #"Authorization": "Bearer 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",
             "Content-Type": "application/json"
         })
+        
+        # Tool call tracking
+        self.tool_call_count = 0
         
         # Initialize with system prompt
         self._initialize_system_prompt()
@@ -59,19 +63,22 @@ You have access to various game tools through function calling. Use these tools 
 6. Engage in combat when appropriate
 7. Equip items to improve your character
 
-Always think strategically about your actions. Start by logging in, then observe your environment, and make decisions based on what you see. Be proactive in exploring and engaging with the game world."""
+Always think strategically about your actions. Start by logging in, then observe your environment, and make decisions based on what you see. Be proactive in exploring and engaging with the game world.
+"""
 
         return system_prompt
     
     def _make_api_call(self, messages: List[Dict[str, str]]) -> Dict[str, Any]:
         """Make API call to Qwen model"""
         url = f"{QWEN_BASE_URL}/chat/completions"
-        
+        # url = "https://api.openai.com/v1/chat/completions"
         data = {
             "model": self.model,
+            #"model": "gpt-5",
             "messages": messages,
             "tools": self.tools,
             "tool_choice": "auto"
+            #"parallel_tool_calls": True
         }
         
         try:
@@ -191,6 +198,11 @@ Always think strategically about your actions. Start by logging in, then observe
         # Check for tool calls first
         tool_calls = self._extract_tool_calls(assistant_message)
         
+        if tool_calls:
+            print(f"[ASSISTANT] Response with {len(tool_calls)} tool call(s): {content[:100] if content is not None and len(content) > 100 else content} {'...' if len(content) > 100 else ''}")
+        else:
+            print(f"[ASSISTANT] Final response: {content[:200] if content is not None and len(content) > 200 else content} {'...' if len(content) > 200 else ''}")
+        
         # Add assistant response to conversation (including tool_calls if present)
         assistant_msg = {
             "role": "assistant",
@@ -203,8 +215,15 @@ Always think strategically about your actions. Start by logging in, then observe
         
         if tool_calls:
             # Execute tool calls and add results to conversation
-            for tool_call in tool_calls:
+            print(f"\n[TOOL CALLS] Executing {len(tool_calls)} tool call(s):")
+            for i, tool_call in enumerate(tool_calls, 1):
+                self.tool_call_count += 1
+                function_name = tool_call.get("name", "unknown")
+                arguments = tool_call.get("arguments", {})
+                print(f"  [{i}] Calling {function_name} with args: {arguments}")
+                
                 result = self._execute_tool_call(tool_call)
+                print(f"  [{i}] Result: {result[:150] if result is not None and len(result) > 150 else result} {'...' if result is not None and len(result) > 150 else ''}")
                 
                 # Add tool result message following OpenAI format
                 self.conversation_history.append({
@@ -219,13 +238,48 @@ Always think strategically about your actions. Start by logging in, then observe
             if "error" not in follow_up_response:
                 follow_up_choices = follow_up_response.get("choices", [])
                 if follow_up_choices:
-                    follow_up_content = follow_up_choices[0].get("message", {}).get("content", "")
-                    self.conversation_history.append({
+                    follow_up_message = follow_up_choices[0].get("message", {})
+                    follow_up_content = follow_up_message.get("content", "")
+                    
+                    # Check if follow-up response contains more tool calls
+                    follow_up_tool_calls = self._extract_tool_calls(follow_up_message)
+                    
+                    # Add assistant response to conversation (including tool_calls if present)
+                    assistant_msg = {
                         "role": "assistant",
                         "content": follow_up_content
-                    })
+                    }
+                    if follow_up_tool_calls:
+                        assistant_msg["tool_calls"] = follow_up_message.get("tool_calls", [])
+                    
+                    self.conversation_history.append(assistant_msg)
+                    
+                    # If there are more tool calls, continue executing them
+                    if follow_up_tool_calls:
+                        print(f"\n[FOLLOW-UP TOOL CALLS] Executing {len(follow_up_tool_calls)} additional tool call(s):")
+                        for i, tool_call in enumerate(follow_up_tool_calls, 1):
+                            self.tool_call_count += 1
+                            function_name = tool_call.get("name", "unknown")
+                            arguments = tool_call.get("arguments", {})
+                            print(f"  [F{i}] Calling {function_name} with args: {arguments}")
+                            
+                            result = self._execute_tool_call(tool_call)
+                            print(f"  [F{i}] Result: {result[:150] if result is not None and len(result) > 150 else result} {'...' if result is not None and len(result) > 150 else ''}")
+                            
+                            # Add tool result message
+                            self.conversation_history.append({
+                                "role": "tool",
+                                "content": result,
+                                "tool_call_id": tool_call.get("id", "")
+                            })
+                        
+                        print(f"[RECURSIVE CALL] Continuing with follow-up response... (Total tools called so far: {self.tool_call_count})")
+                        # Recursively call process_user_input to handle any remaining tool calls
+                        return self.process_user_input("Continue with your task based on the tool results.")
+                    
                     return follow_up_content
             
+            print(f"\n[TOOL EXECUTION COMPLETE] Total tools called in this session: {self.tool_call_count}")
             return f"Tool calls executed. {len(tool_calls)} functions were called."
         
         return content
@@ -267,4 +321,13 @@ Always think strategically about your actions. Start by logging in, then observe
     
     def reset_conversation(self):
         """Reset the conversation history"""
-        self._initialize_system_prompt() 
+        self.tool_call_count = 0
+        self._initialize_system_prompt()
+    
+    def get_tool_call_stats(self) -> Dict[str, Any]:
+        """Get tool call statistics"""
+        return {
+            "total_tool_calls": self.tool_call_count,
+            "conversation_length": len(self.conversation_history),
+            "tool_results": sum(1 for msg in self.conversation_history if msg.get("role") == "tool")
+        } 

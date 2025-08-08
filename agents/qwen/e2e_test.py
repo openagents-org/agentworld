@@ -10,6 +10,9 @@ Usage:
 Example workflow:
 User [Fight the mob until you are level 2] -> Assistant [Action] -> Tool Result -> 
 Assistant [Action] -> Tool Result -> ... -> Assistant [Response without Action] -> Stop
+
+The agent now automatically handles multi-round tool calls internally,
+so the E2E script only needs to continue when there are tool results waiting for response.
 """
 
 import argparse
@@ -71,10 +74,8 @@ class E2ETestCLI:
         """
         Determine if we should continue executing actions based on conversation state
         
-        Logic:
-        - If last message is a tool result, continue (AI needs to respond)
-        - If last message is assistant with tool_calls, continue (tools will execute)
-        - If last message is assistant without tool_calls, stop (task complete)
+        Since the agent now handles multi-round tool calls automatically,
+        we only need to continue when there are tool results waiting for response.
         """
         if not conversation_history:
             return False
@@ -82,12 +83,8 @@ class E2ETestCLI:
         last_msg = conversation_history[-1]
         
         # If last message is from tool (tool result), we should continue
+        # because the agent needs to respond to the tool results
         if last_msg.get("role") == "tool":
-            return True
-            
-        # If last message is assistant with tool_calls, we should continue
-        if (last_msg.get("role") == "assistant" and 
-            "tool_calls" in last_msg):
             return True
             
         # If last message is assistant without tool_calls, task is complete
@@ -95,11 +92,29 @@ class E2ETestCLI:
             "tool_calls" not in last_msg):
             return False
             
+        # If last message is assistant with tool_calls, the agent will handle it automatically
+        # so we don't need to continue manually
         return False
+    
+    def has_pending_tool_results(self, conversation_history: List[Dict]) -> bool:
+        """
+        Check if there are tool results waiting for AI response.
+        This is more efficient than the general should_continue_execution check.
+        """
+        if not conversation_history:
+            return False
+            
+        # Look for the pattern: tool result -> assistant response
+        # If the last message is a tool result, we need to continue
+        last_msg = conversation_history[-1]
+        return last_msg.get("role") == "tool"
     
     def execute_continuous_task(self, user_prompt: str) -> Dict[str, Any]:
         """
         Execute a user prompt continuously until the AI stops calling tools
+        
+        The agent now handles multi-round tool calls automatically,
+        so we only need to continue when there are tool results waiting for response.
         
         Args:
             user_prompt: The high-level task (e.g., "Fight the mob until you are level 2")
@@ -139,15 +154,16 @@ class E2ETestCLI:
             tool_calls = sum(1 for msg in conversation_history if msg.get("role") == "tool")
             stats["tool_calls"] = tool_calls
             
-            # Check if we should continue based on conversation state
-            if not self.should_continue_execution(conversation_history):
+            # Check if there are pending tool results that need AI response
+            if not self.has_pending_tool_results(conversation_history):
                 stats["status"] = "completed"
                 stats["final_response"] = response
-                self.log_message("SYSTEM", "Task completed - AI stopped calling tools")
+                self.log_message("SYSTEM", "Task completed - No pending tool results")
                 break
                 
             # Continue with follow-up prompt to maintain task focus
-            follow_up = "Continue with your task. What is your next action to achieve the objective?"
+            # The agent will automatically handle any remaining tool calls
+            follow_up = "Continue with your task based on the previous results."
             self.log_message("SYSTEM", f"Auto-continuing (iteration {iteration + 1})")
             
             response = self.agent.process_user_input(follow_up)
