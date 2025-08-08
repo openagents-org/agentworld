@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
 """
-End-to-End Single Mode Testing Script for Qwen Agent
-Allows LLM to execute multi-step actions continuously until task completion.
+Natural Language Game Console for Qwen Agent
+Interactive CLI that allows players to control the game agent using natural language.
 
 Usage:
-    python e2e_test.py --username <username> --password <password>
-    python e2e_test.py --task "Fight the mob until you are level 2"
+    python e2e_test.py --username <username> --password <password>  # Interactive mode
+    python e2e_test.py --task "Fight mobs until level 2"            # Single task mode
 
-Example workflow:
-User [Fight the mob until you are level 2] -> Assistant [Action] -> Tool Result -> 
-Assistant [Action] -> Tool Result -> ... -> Assistant [Response without Action] -> Stop
+Features:
+- Auto-login without prompting the LLM
+- Direct natural language commands (e.g., "explore the area", "collect resources")
+- Fancy console interface with emojis
+- Session statistics and conversation history
+- Automatic tool call execution until task completion
 
-The agent now automatically handles multi-round tool calls internally,
-so the E2E script only needs to continue when there are tool results waiting for response.
+The agent handles multi-round tool calls internally and stops when no more tools are needed.
 """
 
 import argparse
@@ -26,9 +28,10 @@ from config import AGENT_USERNAME, AGENT_PASSWORD
 
 class E2ETestCLI:
     def __init__(self, username: str = None, password: str = None):
-        self.agent = QwenAgent()
+        # Pass credentials to agent so it can use them for login prompts
         self.username = username or AGENT_USERNAME
         self.password = password or AGENT_PASSWORD
+        self.agent = QwenAgent(username=self.username, password=self.password)
         self.max_iterations = 50  # Safety limit to prevent infinite loops
         self.session_logs = []
         
@@ -49,7 +52,8 @@ class E2ETestCLI:
             "ASSISTANT": "\033[92m", # Green  
             "TOOL": "\033[93m",      # Yellow
             "SYSTEM": "\033[91m",    # Red
-            "INFO": "\033[96m"       # Cyan
+            "INFO": "\033[96m",      # Cyan
+            "CHEAT": "\033[95m"      # Magenta
         }
         reset_color = "\033[0m"
         
@@ -59,187 +63,198 @@ class E2ETestCLI:
         if metadata:
             print(f"    └─ {json.dumps(metadata, indent=6)}")
     
-    def has_tool_calls_in_last_response(self, conversation_history: List[Dict]) -> bool:
-        """Check if the last assistant response contains tool calls"""
-        if not conversation_history:
-            return False
-            
-        # Find the last assistant message
-        for msg in reversed(conversation_history):
-            if msg.get("role") == "assistant":
-                return "tool_calls" in msg
-        return False
+
     
-    def should_continue_execution(self, conversation_history: List[Dict]) -> bool:
-        """
-        Determine if we should continue executing actions based on conversation state
-        
-        Since the agent now handles multi-round tool calls automatically,
-        we only need to continue when there are tool results waiting for response.
-        """
-        if not conversation_history:
-            return False
-            
-        last_msg = conversation_history[-1]
-        
-        # If last message is from tool (tool result), we should continue
-        # because the agent needs to respond to the tool results
-        if last_msg.get("role") == "tool":
-            return True
-            
-        # If last message is assistant without tool_calls, task is complete
-        if (last_msg.get("role") == "assistant" and 
-            "tool_calls" not in last_msg):
-            return False
-            
-        # If last message is assistant with tool_calls, the agent will handle it automatically
-        # so we don't need to continue manually
-        return False
+
     
-    def has_pending_tool_results(self, conversation_history: List[Dict]) -> bool:
-        """
-        Check if there are tool results waiting for AI response.
-        This is more efficient than the general should_continue_execution check.
-        """
-        if not conversation_history:
-            return False
+    def get_player_status(self) -> str:
+        """Get and format player status information"""
+        try:
+            # Call observe_environment to get player stats (silently, without LLM)
+            result = self.agent.game_tools.observe_environment({"radius": 1})
             
-        # Look for the pattern: tool result -> assistant response
-        # If the last message is a tool result, we need to continue
-        last_msg = conversation_history[-1]
-        return last_msg.get("role") == "tool"
-    
-    def execute_continuous_task(self, user_prompt: str) -> Dict[str, Any]:
-        """
-        Execute a user prompt continuously until the AI stops calling tools
-        
-        The agent now handles multi-round tool calls automatically,
-        so we only need to continue when there are tool results waiting for response.
-        
-        Args:
-            user_prompt: The high-level task (e.g., "Fight the mob until you are level 2")
+            if isinstance(result, str) and "Environment observation" in result:
+                # Try to extract JSON from the result string
+                import re
+                json_match = re.search(r'\{.*\}', result, re.DOTALL)
+                if json_match:
+                    import json
+                    data = json.loads(json_match.group())
+                    player_status = data.get("playerStatus", {})
+                    location = data.get("location", {})
+                    
+                    if player_status:  # Only proceed if we have player data
+                        # Extract key stats with defaults
+                        level = player_status.get("level", 1)
+                        exp = player_status.get("experience", 0)
+                        hp = player_status.get("hitPoints", "?")
+                        max_hp = player_status.get("maxHitPoints", "?")
+                        mp = player_status.get("mana", "?")
+                        max_mp = player_status.get("maxMana", "?")
+                        x = location.get("x", "?")
+                        y = location.get("y", "?")
+                        
+                        # Add combat status indicator
+                        combat_status = "⚔️" if player_status.get("combat", False) else ""
+                        
+                        # Format status line with colors for different stat types
+                        return f"📊 Lv.{level} | XP:{exp} | ❤️{hp}/{max_hp} | 💙{mp}/{max_mp} | 📍({x},{y}) {combat_status}".strip()
+                    
+            return "📊 Status: Player data not available (no playerStatus field)"
             
-        Returns:
-            Dictionary containing execution statistics and results
-        """
-        print(f"\n{'='*80}")
-        print(f"EXECUTING CONTINUOUS TASK: {user_prompt}")
-        print(f"{'='*80}")
-        
-        # Initialize execution stats
-        stats = {
-            "task": user_prompt,
-            "start_time": time.time(),
-            "iterations": 0,
-            "tool_calls": 0,
-            "status": "running",
-            "final_response": None,
-            "conversation_length": 0
-        }
-        
-        # Start the task with initial user prompt
-        self.log_message("USER", user_prompt)
-        response = self.agent.process_user_input(user_prompt)
-        stats["iterations"] += 1
-        
-        self.log_message("ASSISTANT", response)
-        
-        # Continue execution loop until AI stops calling tools
-        iteration = 1
-        while iteration < self.max_iterations:
-            conversation_history = self.agent.get_conversation_history()
-            stats["conversation_length"] = len(conversation_history)
+        except json.JSONDecodeError as e:
+            return f"📊 Status: JSON parse error ({str(e)[:20]}...)"
+        except Exception as e:
+            return f"📊 Status: Error ({str(e)[:30]}...)"
+
+    def handle_teleport_command(self, command: str):
+        """Handle /teleport cheat command"""
+        try:
+            # Parse command: /teleport x y [withAnimation] or /teleport preset
+            parts = command.strip().split()
+            if len(parts) < 2:
+                print("❌ Invalid teleport command. Usage:")
+                print("   /teleport x y [withAnimation]  - Teleport to coordinates")
+                print("   /teleport spawn                - Teleport to spawn (250, 180)")
+                print("   Example: /teleport 250 180")
+                print("   Example: /teleport 250 180 true")
+                print("   Example: /teleport spawn")
+                return
             
-            # Count total tool calls in conversation
-            tool_calls = sum(1 for msg in conversation_history if msg.get("role") == "tool")
-            stats["tool_calls"] = tool_calls
+            # Handle preset locations
+            if len(parts) == 2 and parts[1].lower() == 'spawn':
+                x, y, with_animation = 250, 180, False
+            elif len(parts) >= 3:
+                x = int(parts[1])
+                y = int(parts[2])
+                with_animation = parts[3].lower() == 'true' if len(parts) > 3 else False
+            else:
+                print("❌ Invalid teleport command. Use /teleport x y or /teleport spawn")
+                return
             
-            # Check if there are pending tool results that need AI response
-            if not self.has_pending_tool_results(conversation_history):
-                stats["status"] = "completed"
-                stats["final_response"] = response
-                self.log_message("SYSTEM", "Task completed - No pending tool results")
-                break
-                
-            # Continue with follow-up prompt to maintain task focus
-            # The agent will automatically handle any remaining tool calls
-            follow_up = "Continue with your task based on the previous results."
-            self.log_message("SYSTEM", f"Auto-continuing (iteration {iteration + 1})")
+            print(f"⚡ CHEAT: Teleporting bot to ({x}, {y}){' with animation' if with_animation else ''}...")
             
-            response = self.agent.process_user_input(follow_up)
-            stats["iterations"] += 1
+            # Direct teleport call without going through LLM
+            result = self.agent.game_tools.teleport_character({
+                "x": x,
+                "y": y,
+                "withAnimation": with_animation
+            })
             
-            self.log_message("ASSISTANT", response)
+            print(f"✅ Teleport result: {result}")
+            self.log_message("CHEAT", f"Teleported to ({x}, {y}): {result}")
             
-            iteration += 1
-            time.sleep(0.5)  # Brief pause between iterations
-            
-        # Finalize execution statistics
-        stats["end_time"] = time.time()
-        stats["duration"] = stats["end_time"] - stats["start_time"]
-        
-        if iteration >= self.max_iterations:
-            stats["status"] = "max_iterations_reached"
-            self.log_message("SYSTEM", f"WARNING: Reached maximum iterations ({self.max_iterations})")
-        
-        # Print execution summary
-        print(f"\n{'='*80}")
-        print(f"TASK EXECUTION SUMMARY")
-        print(f"{'='*80}")
-        print(f"Task: {stats['task']}")
-        print(f"Status: {stats['status']}")
-        print(f"Duration: {stats['duration']:.2f} seconds")  
-        print(f"Iterations: {stats['iterations']}")
-        print(f"Tool calls: {stats['tool_calls']}")
-        print(f"Conversation length: {stats['conversation_length']} messages")
-        print(f"{'='*80}")
-        
-        return stats
-    
+        except ValueError:
+            print("❌ Invalid coordinates. Please use integers.")
+            print("   Example: /teleport 250 180")
+        except Exception as e:
+            print(f"❌ Teleport failed: {str(e)}")
+            self.log_message("CHEAT", f"Teleport failed: {str(e)}")
+
     def start_interactive_session(self):
         """Start the interactive CLI session"""
-        print("Qwen Agent E2E Testing CLI")
-        print("=" * 60)
-        print(f"Agent Username: {self.username}")
-        print(f"Max Iterations per Task: {self.max_iterations}")
-        print("=" * 60)
+        # Fancy banner
+        print("\n" + "═" * 80)
+        print("🎮 AGENTWORLD AI AGENT - NATURAL LANGUAGE GAME CONSOLE")
+        print("═" * 80)
+        print(f"🤖 Agent Username: {self.username}")
+        print(f"⚙️  Max Iterations: {self.max_iterations}")
+        print("═" * 80)
         
-        # Initialize agent session with login
-        self.log_message("SYSTEM", "Initializing agent session...")
-        login_result = self.agent.start_game_session()
-        self.log_message("SYSTEM", f"Login result: {login_result}")
+        # Auto-login directly without LLM prompting
+        self.log_message("SYSTEM", "🔄 Auto-logging into game...")
+        try:
+            # Direct login call without going through LLM
+            login_result = self.agent.game_tools.login_character({
+                "username": self.username,
+                "password": self.password
+            })
+            
+            # If login failed, try logout first then login again
+            if "Failed to login" in login_result and "400 Client Error" in login_result:
+                self.log_message("SYSTEM", "⚠️ Login failed, attempting cleanup and retry...")
+                try:
+                    # Try to logout any existing session (this might fail, that's OK)
+                    cleanup_result = self.agent.game_tools.logout_character()
+                    self.log_message("SYSTEM", f"🧹 Cleanup: {cleanup_result}")
+                except:
+                    pass  # Ignore cleanup errors
+                
+                # Retry login after cleanup
+                login_result = self.agent.game_tools.login_character({
+                    "username": self.username,
+                    "password": self.password
+                })
+            
+            # Auto-teleport if enabled
+            if "successfully" in login_result.lower() and "token obtained" in login_result.lower():
+                teleport_result = self.agent._auto_teleport_to_spawn()
+                if teleport_result:
+                    login_result += f"\n{teleport_result}"
+            
+            self.log_message("SYSTEM", f"✅ {login_result}")
+        except Exception as e:
+            self.log_message("SYSTEM", f"❌ Login failed: {str(e)}")
+            print("\n⚠️  Failed to auto-login. You may need to login manually in your first command.")
         
-        print("\nReady for continuous task execution!")
-        print("\nAvailable Commands:")
-        print("  - Enter any task prompt to execute continuously")
-        print("  - 'reset' to reset conversation history") 
-        print("  - 'stats' to show session statistics")
-        print("  - 'save' to save session logs")
-        print("  - 'history' to show conversation history")
-        print("  - 'exit' to quit")
+        print("\n🎯 READY FOR NATURAL LANGUAGE COMMANDS!")
+        print("┌─" + "─" * 76 + "─┐")
+        print("│ 💬 Type what you want to do in the game (e.g., 'explore the area')     │")
+        print("│ 🔄 'reset' - Reset conversation and re-login                           │") 
+        print("│ 📊 'stats' - Show session statistics                                   │")
+        print("│ 💾 'save' - Save session logs                                          │")
+        print("│ 📜 'history' - Show conversation history                               │")
+        print("│ ⚡ '/teleport x y' or '/teleport spawn' - Cheat: teleport bot           │")
+        print("│ 🚪 'logout' - Logout current session                                   │")
+        print("│ 🚪 'exit' - Quit the console                                           │")
+        print("└─" + "─" * 76 + "─┘")
         print()
         
-        session_stats = []
+        command_count = 0
         
         while True:
             try:
-                user_input = input("\n> ").strip()
+                # Display player status above prompt
+                status = self.get_player_status()
+                print(f"\033[36m{status}\033[0m")  # Cyan color for status
+                
+                # Fancy prompt with emoji
+                user_input = input("🎮 What would you like to do? > ").strip()
                 
                 if not user_input:
                     continue
                     
                 if user_input.lower() == 'exit':
+                    print("🚪 Goodbye! Thanks for playing!")
                     break
                     
                 elif user_input.lower() == 'reset':
+                    print("🔄 Resetting conversation and re-logging in...")
+                    # First logout current session
+                    try:
+                        logout_result = self.agent.game_tools.logout_character()
+                        self.log_message("SYSTEM", f"🚪 {logout_result}")
+                    except Exception as e:
+                        self.log_message("SYSTEM", f"⚠️ Logout warning: {str(e)}")
+                    
                     self.agent.reset_conversation()
-                    # Re-login after reset
-                    login_result = self.agent.start_game_session()
-                    self.log_message("SYSTEM", "Conversation history reset and re-logged in")
+                    # Direct re-login without LLM
+                    try:
+                        login_result = self.agent.game_tools.login_character({
+                            "username": self.username,
+                            "password": self.password
+                        })
+                        if "successfully" in login_result.lower() and "token obtained" in login_result.lower():
+                            teleport_result = self.agent._auto_teleport_to_spawn()
+                            if teleport_result:
+                                login_result += f"\n{teleport_result}"
+                        self.log_message("SYSTEM", f"✅ Reset complete: {login_result}")
+                    except Exception as e:
+                        self.log_message("SYSTEM", f"❌ Reset login failed: {str(e)}")
                     continue
                     
                 elif user_input.lower() == 'stats':
-                    self.show_session_stats(session_stats)
+                    self.show_session_stats(command_count)
                     continue
                     
                 elif user_input.lower() == 'save':
@@ -250,50 +265,72 @@ class E2ETestCLI:
                     self.show_conversation_history()
                     continue
                 
-                # Execute the task continuously
-                task_stats = self.execute_continuous_task(user_input)
-                session_stats.append(task_stats)
+                elif user_input.startswith('/teleport'):
+                    # Handle teleport cheat command
+                    self.handle_teleport_command(user_input)
+                    continue
+                
+                elif user_input.lower() == 'logout':
+                    # Handle logout command
+                    try:
+                        logout_result = self.agent.game_tools.logout_character()
+                        self.log_message("SYSTEM", f"🚪 {logout_result}")
+                        print(f"🚪 {logout_result}")
+                    except Exception as e:
+                        self.log_message("SYSTEM", f"⚠️ Logout error: {str(e)}")
+                        print(f"⚠️ Logout error: {str(e)}")
+                    continue
+                
+                print(f"\n🚀 Executing: '{user_input}'")
+                print("─" * 60)
+                
+                # Execute natural language command directly through agent
+                response = self.agent.process_user_input(user_input)
+                command_count += 1
+                
+                print("─" * 60)
+                print(f"✅ {response}")
+                print("═" * 80)
                 
             except KeyboardInterrupt:
-                print("\n\nExiting...")
+                print("\n\n🔄 Cleaning up session...")
                 break
             except Exception as e:
                 self.log_message("SYSTEM", f"Error: {str(e)}")
                 import traceback
                 traceback.print_exc()
         
+        # Logout before exit
+        try:
+            logout_result = self.agent.game_tools.logout_character()
+            self.log_message("SYSTEM", f"🚪 {logout_result}")
+            print(f"🚪 {logout_result}")
+        except Exception as e:
+            self.log_message("SYSTEM", f"⚠️ Logout error: {str(e)}")
+            print(f"⚠️ Logout warning: {str(e)}")
+        
         # Save logs on exit
+        print("💾 Saving session logs...")
         self.save_session_logs()
-        print("\nSession ended. Logs saved.")
+        print("📋 Session ended. Logs saved.")
     
-    def show_session_stats(self, session_stats: List[Dict]):
+    def show_session_stats(self, command_count: int):
         """Display statistics for the current session"""
-        if not session_stats:
-            print("No tasks executed in this session yet.")
-            return
-            
-        print(f"\n{'='*60}")
-        print(f"SESSION STATISTICS ({len(session_stats)} tasks)")
-        print(f"{'='*60}")
+        print(f"\n📊 SESSION STATISTICS")
+        print("═" * 60)
         
-        total_duration = sum(s["duration"] for s in session_stats)
-        total_iterations = sum(s["iterations"] for s in session_stats)
-        total_tool_calls = sum(s["tool_calls"] for s in session_stats)
-        completed_tasks = sum(1 for s in session_stats if s["status"] == "completed")
+        history = self.agent.get_conversation_history()
+        tool_calls = sum(1 for msg in history if msg.get("role") == "tool")
+        conversation_length = len(history)
         
-        print(f"Total Tasks: {len(session_stats)}")
-        print(f"Completed: {completed_tasks}")
-        print(f"Success Rate: {completed_tasks/len(session_stats)*100:.1f}%")
-        print(f"Total Duration: {total_duration:.2f} seconds")
-        print(f"Total Iterations: {total_iterations}")
-        print(f"Total Tool Calls: {total_tool_calls}")
-        print(f"Avg Duration/Task: {total_duration/len(session_stats):.2f} seconds")
+        print(f"🎯 Commands Executed: {command_count}")
+        print(f"💬 Conversation Messages: {conversation_length}")
+        print(f"🔧 Total Tool Calls: {tool_calls}")
+        print(f"📈 Tool Calls per Command: {tool_calls/command_count:.1f}" if command_count > 0 else "📈 Tool Calls per Command: 0")
         
-        print(f"\nRECENT TASKS:")
-        for i, stats in enumerate(session_stats[-5:], 1):
-            status_emoji = "✅" if stats["status"] == "completed" else "❌"
-            task_preview = stats['task'][:50] + "..." if len(stats['task']) > 50 else stats['task']
-            print(f"  {status_emoji} {task_preview} ({stats['duration']:.1f}s, {stats['iterations']} iter)")
+        agent_stats = self.agent.get_tool_call_stats()
+        print(f"🔄 Agent Tool Call Count: {agent_stats['total_tool_calls']}")
+        print("═" * 60)
     
     def show_conversation_history(self):
         """Display recent conversation history"""
@@ -350,13 +387,13 @@ class E2ETestCLI:
 def parse_arguments():
     """Parse command line arguments"""
     parser = argparse.ArgumentParser(
-        description="End-to-End Single Mode Testing for Qwen Agent",
+        description="Natural Language Game Console for Qwen Agent",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python e2e_test.py                                    # Interactive mode
-  python e2e_test.py --task "Fight mobs until level 2" # Single task mode
-  python e2e_test.py --username myagent --password 123 # Custom credentials
+  python e2e_test.py                                      # Interactive console
+  python e2e_test.py --task "explore the forest"         # Single task mode
+  python e2e_test.py --username myagent --password 123   # Custom credentials
         """
     )
     
@@ -399,16 +436,59 @@ def main():
     try:
         if args.task:
             # Single task mode
-            print(f"Executing single task: {args.task}")
-            cli.log_message("SYSTEM", "Initializing for single task execution...")
+            print("═" * 80)
+            print(f"🎯 SINGLE TASK MODE: {args.task}")
+            print("═" * 80)
+            cli.log_message("SYSTEM", "🔄 Auto-logging into game...")
             
-            # Initialize session with login
-            login_result = cli.agent.start_game_session()
-            cli.log_message("SYSTEM", f"Login result: {login_result}")
+            # Direct login without LLM
+            try:
+                login_result = cli.agent.game_tools.login_character({
+                    "username": cli.username,
+                    "password": cli.password
+                })
+                
+                # If login failed, try logout first then login again
+                if "Failed to login" in login_result and "400 Client Error" in login_result:
+                    cli.log_message("SYSTEM", "⚠️ Login failed, attempting cleanup and retry...")
+                    try:
+                        # Try to logout any existing session
+                        cleanup_result = cli.agent.game_tools.logout_character()
+                        cli.log_message("SYSTEM", f"🧹 Cleanup: {cleanup_result}")
+                    except:
+                        pass  # Ignore cleanup errors
+                    
+                    # Retry login after cleanup
+                    login_result = cli.agent.game_tools.login_character({
+                        "username": cli.username,
+                        "password": cli.password
+                    })
+                
+                if "successfully" in login_result.lower() and "token obtained" in login_result.lower():
+                    teleport_result = cli.agent._auto_teleport_to_spawn()
+                    if teleport_result:
+                        login_result += f"\n{teleport_result}"
+                cli.log_message("SYSTEM", f"✅ {login_result}")
+            except Exception as e:
+                cli.log_message("SYSTEM", f"❌ Login failed: {str(e)}")
+                print("⚠️  Auto-login failed, continuing anyway...")
             
-            # Execute the continuous task
-            result = cli.execute_continuous_task(args.task)
-            print(f"\nSingle task execution completed with status: {result['status']}")
+            # Execute the single task via agent
+            print(f"\n🚀 Executing task...")
+            response = cli.agent.process_user_input(args.task)
+            
+            print("═" * 80)
+            print(f"✅ Task completed! Final response: {response[:200]}{'...' if len(response) > 200 else ''}")
+            print("═" * 80)
+            
+            # Logout after task completion
+            try:
+                logout_result = cli.agent.game_tools.logout_character()
+                cli.log_message("SYSTEM", f"🚪 {logout_result}")
+                print(f"🚪 {logout_result}")
+            except Exception as e:
+                cli.log_message("SYSTEM", f"⚠️ Logout error: {str(e)}")
+                print(f"⚠️ Logout warning: {str(e)}")
             
             # Save logs
             cli.save_session_logs()

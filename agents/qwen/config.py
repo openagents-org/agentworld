@@ -13,7 +13,8 @@ QWEN_BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1"
 KAETRAM_BASE_URL = "http://localhost:9002"
 KAETRAM_API_ENDPOINTS = {
     "create": "/ai/create",
-    "login": "/ai/login", 
+    "login": "/ai/login",
+    "logout": "/ai/logout",
     "move": "/ai/move",
     "chat": "/ai/chat",
     "observe": "/ai/observe",

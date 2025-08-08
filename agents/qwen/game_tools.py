@@ -80,6 +80,21 @@ class KaetramGameTools:
         else:
             return f"Failed to login: {result.get('message', 'Unknown error')}"
 
+    def logout_character(self) -> str:
+        """Logout the current character and invalidate token"""
+        if not self.token:
+            return "No active session to logout"
+        
+        data = {"token": self.token}
+        result = self._make_request("POST", KAETRAM_API_ENDPOINTS["logout"], data)
+        
+        if result.get("status") == "success":
+            old_token = self.token[:10] if self.token else "unknown"
+            self.token = None  # Clear token after successful logout
+            return f"Successfully logged out (token: {old_token}...)"
+        else:
+            return f"Failed to logout: {result.get('message', 'Unknown error')}"
+
     def move_character(self, arguments: Dict[str, Any]) -> str:
         """Move character to specified coordinates"""
         if not self.token:

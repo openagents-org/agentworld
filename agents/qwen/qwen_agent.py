@@ -1,5 +1,5 @@
 """
-Qwen AI Agent for Kaetram Game
+Qwen AI Agent for AgentWorld Game
 Implements Function Calling following Alibaba Cloud Qwen documentation
 """
 
@@ -20,13 +20,16 @@ from tool_definitions import get_tool_definitions
 
 
 class QwenAgent:
-    def __init__(self):
+    def __init__(self, username: Optional[str] = None, password: Optional[str] = None):
         self.api_key = DASHSCOPE_API_KEY
         self.model = QWEN_MODEL
         self.base_url = QWEN_BASE_URL
         self.game_tools = KaetramGameTools()
         self.tools = get_tool_definitions()
         self.conversation_history = []
+        # Credentials (can be overridden by CLI)
+        self.username = username or AGENT_USERNAME
+        self.password = password or AGENT_PASSWORD
         self.session = requests.Session()
         self.session.headers.update({
             "Authorization": f"Bearer {self.api_key}",
@@ -52,7 +55,7 @@ class QwenAgent:
     
     def _build_system_prompt(self) -> str:
         """Build system prompt for OpenAI compatible mode"""
-        system_prompt = """You are an intelligent AI agent that plays the Kaetram MMORPG game. Your goal is to explore, interact, collect resources, and engage with the game world intelligently.
+        system_prompt = """You are an intelligent AI agent that plays the AgentWorld MMORPG game. Your goal is to explore, interact, collect resources, and engage with the game world intelligently.
 
 You have access to various game tools through function calling. Use these tools strategically to:
 1. Login or create a character when starting
@@ -174,119 +177,94 @@ Always think strategically about your actions. Start by logging in, then observe
             return f"Unknown tool: {function_name}"
     
     def process_user_input(self, user_input: str) -> str:
-        """Process user input and return AI response"""
+        """Process user input and return AI response.
+
+        This method will loop, executing tool calls and querying the model
+        until the model returns a final assistant message without tool calls.
+        """
         # Add user message to conversation
         self.conversation_history.append({
-            "role": "user", 
+            "role": "user",
             "content": user_input
         })
-        
-        # Get AI response
-        response = self._make_api_call(self.conversation_history)
-        
-        if "error" in response:
-            return f"Error: {response['error']}"
-        
-        # Extract assistant message
-        choices = response.get("choices", [])
-        if not choices:
-            return "Error: No response from AI model"
-        
-        assistant_message = choices[0].get("message", {})
-        content = assistant_message.get("content", "")
-        
-        # Check for tool calls first
-        tool_calls = self._extract_tool_calls(assistant_message)
-        
-        if tool_calls:
-            print(f"[ASSISTANT] Response with {len(tool_calls)} tool call(s): {content[:100] if content is not None and len(content) > 100 else content} {'...' if len(content) > 100 else ''}")
-        else:
-            print(f"[ASSISTANT] Final response: {content[:200] if content is not None and len(content) > 200 else content} {'...' if len(content) > 200 else ''}")
-        
-        # Add assistant response to conversation (including tool_calls if present)
-        assistant_msg = {
-            "role": "assistant",
-            "content": content
-        }
-        if tool_calls:
-            assistant_msg["tool_calls"] = assistant_message.get("tool_calls", [])
-        
-        self.conversation_history.append(assistant_msg)
-        
-        if tool_calls:
-            # Execute tool calls and add results to conversation
-            print(f"\n[TOOL CALLS] Executing {len(tool_calls)} tool call(s):")
-            for i, tool_call in enumerate(tool_calls, 1):
+
+        max_rounds = 20  # safety cap to avoid infinite tool-call loops
+        rounds = 0
+        final_content: str = ""
+
+        while rounds < max_rounds:
+            rounds += 1
+
+            response = self._make_api_call(self.conversation_history)
+            if "error" in response:
+                return f"Error: {response['error']}"
+
+            choices = response.get("choices", [])
+            if not choices:
+                return "Error: No response from AI model"
+
+            assistant_message = choices[0].get("message", {})
+            content = assistant_message.get("content") or ""
+            tool_calls = self._extract_tool_calls(assistant_message)
+
+            if tool_calls:
+                print(f"\033[90m[ASSISTANT] Response with {len(tool_calls)} tool call(s): {content[:100]}{'...' if len(content) > 100 else ''}\033[0m")
+            else:
+                print(f"\033[92m[ASSISTANT] Final response: {content[:200]}{'...' if len(content) > 200 else ''}\033[0m")
+
+            # Add assistant message (include original tool_calls if present)
+            assistant_msg: Dict[str, Any] = {
+                "role": "assistant",
+                "content": content
+            }
+            if tool_calls:
+                assistant_msg["tool_calls"] = assistant_message.get("tool_calls", [])
+            self.conversation_history.append(assistant_msg)
+
+            # If no tool calls, we are done
+            if not tool_calls:
+                final_content = content
+                break
+
+            # Execute tool calls and append tool result messages
+            print(f"\n\033[90m[TOOL CALLS] Executing {len(tool_calls)} tool call(s):\033[0m")
+            for index, tool_call in enumerate(tool_calls, 1):
                 self.tool_call_count += 1
                 function_name = tool_call.get("name", "unknown")
                 arguments = tool_call.get("arguments", {})
-                print(f"  [{i}] Calling {function_name} with args: {arguments}")
-                
+                print(f"\033[90m  [{index}] Calling {function_name} with args: {arguments}\033[0m")
+
                 result = self._execute_tool_call(tool_call)
-                print(f"  [{i}] Result: {result[:150] if result is not None and len(result) > 150 else result} {'...' if result is not None and len(result) > 150 else ''}")
-                
-                # Add tool result message following OpenAI format
+                preview = (result or "")
+                print(f"\033[90m  [{index}] Result: {preview[:150]}{'...' if len(preview) > 150 else ''}\033[0m")
+
                 self.conversation_history.append({
                     "role": "tool",
                     "content": result,
                     "tool_call_id": tool_call.get("id", "")
                 })
-            
-            # Get AI response after tool execution
-            follow_up_response = self._make_api_call(self.conversation_history)
-            
-            if "error" not in follow_up_response:
-                follow_up_choices = follow_up_response.get("choices", [])
-                if follow_up_choices:
-                    follow_up_message = follow_up_choices[0].get("message", {})
-                    follow_up_content = follow_up_message.get("content", "")
-                    
-                    # Check if follow-up response contains more tool calls
-                    follow_up_tool_calls = self._extract_tool_calls(follow_up_message)
-                    
-                    # Add assistant response to conversation (including tool_calls if present)
-                    assistant_msg = {
-                        "role": "assistant",
-                        "content": follow_up_content
-                    }
-                    if follow_up_tool_calls:
-                        assistant_msg["tool_calls"] = follow_up_message.get("tool_calls", [])
-                    
-                    self.conversation_history.append(assistant_msg)
-                    
-                    # If there are more tool calls, continue executing them
-                    if follow_up_tool_calls:
-                        print(f"\n[FOLLOW-UP TOOL CALLS] Executing {len(follow_up_tool_calls)} additional tool call(s):")
-                        for i, tool_call in enumerate(follow_up_tool_calls, 1):
-                            self.tool_call_count += 1
-                            function_name = tool_call.get("name", "unknown")
-                            arguments = tool_call.get("arguments", {})
-                            print(f"  [F{i}] Calling {function_name} with args: {arguments}")
-                            
-                            result = self._execute_tool_call(tool_call)
-                            print(f"  [F{i}] Result: {result[:150] if result is not None and len(result) > 150 else result} {'...' if result is not None and len(result) > 150 else ''}")
-                            
-                            # Add tool result message
-                            self.conversation_history.append({
-                                "role": "tool",
-                                "content": result,
-                                "tool_call_id": tool_call.get("id", "")
-                            })
-                        
-                        print(f"[RECURSIVE CALL] Continuing with follow-up response... (Total tools called so far: {self.tool_call_count})")
-                        # Recursively call process_user_input to handle any remaining tool calls
-                        return self.process_user_input("Continue with your task based on the tool results.")
-                    
-                    return follow_up_content
-            
-            print(f"\n[TOOL EXECUTION COMPLETE] Total tools called in this session: {self.tool_call_count}")
-            return f"Tool calls executed. {len(tool_calls)} functions were called."
-        
-        return content
+
+            # Continue loop to let the model consume tool results and decide next step
+            print(f"\033[90m[TOOL EXECUTION] Round {rounds} completed, continuing...\033[0m")
+
+        if rounds >= max_rounds:
+            warning_msg = f"Stopped after {max_rounds} rounds to avoid infinite loop."
+            print(f"\033[91m⚠️  {warning_msg}\033[0m")
+            return warning_msg
+
+        print(f"\033[90m[TOOL EXECUTION] Completed after {rounds} round(s)\033[0m")
+        return final_content
     
-    def start_game_session(self) -> str:
-        """Start a new game session by logging in"""
-        login_prompt = f"Start playing the Kaetram game. Login with username '{AGENT_USERNAME}' and password '{AGENT_PASSWORD}'. If the character doesn't exist, create it first."
+    def start_game_session(self, username: Optional[str] = None, password: Optional[str] = None) -> str:
+        """Start a new game session by logging in with provided or default credentials."""
+        if username:
+            self.username = username
+        if password:
+            self.password = password
+        login_prompt = (
+            f"Start playing the AgentWorld game. Login with username '{self.username}' and password '{self.password}'. "
+            f"If the character doesn't exist, create it first."
+        )
         return self.process_user_input(login_prompt)
     
     def auto_play(self, steps: int = 10) -> List[str]:
