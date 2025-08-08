@@ -456,3 +456,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # https://www.toptal.com/developers/gitignore?templates=git,node,astro,cypressio,linux,macos,windows,visualstudiocode,webstorm,vim,emacs
+*.pyc
