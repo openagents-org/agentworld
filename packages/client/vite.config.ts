@@ -128,11 +128,12 @@ export default defineConfig(async ({ mode }) => {
         },
         server: {
             host: '0.0.0.0',
-            port: 9000,
+            port: 7002,
             strictPort: true,
+            allowedHosts: ['localhost', '127.0.0.1', 'play.agentworld.io'],
             hmr: {
                 protocol: 'ws',
-                host: ipv4!,
+                host: 'localhost',
                 port: 5183
             }
         },

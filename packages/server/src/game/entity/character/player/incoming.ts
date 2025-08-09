@@ -6,7 +6,7 @@ import log from '@kaetram/common/util/log';
 import Utils from '@kaetram/common/util/utils';
 import Filter from '@kaetram/common/util/filter';
 import Creator from '@kaetram/common/database/mongodb/creator';
-import { Spawn, Friends } from '@kaetram/common/network/impl';
+import { Spawn, Friends, Handshake } from '@kaetram/common/network/impl';
 import { Modules, Opcodes, Packets } from '@kaetram/common/network';
 
 import type MongoDB from '@kaetram/common/database/mongodb/mongodb';
@@ -145,7 +145,17 @@ export default class Incoming {
      */
 
     private handleHandshake(data: HandshakePacket): void {
-        if (data.gVer !== config.gver) this.connection.reject('updated');
+        log.debug(`Received handshake from client with version: ${data.gVer}, expected: ${config.gver}`);
+        
+        if (data.gVer !== config.gver) return this.connection.reject('updated');
+        
+        log.debug(`Sending handshake response to client with instance: ${this.player.instance}, serverId: ${config.serverId}`);
+        
+        // Send handshake response back to client with server info
+        this.player.send(new Handshake({
+            instance: this.player.instance,
+            serverId: config.serverId
+        }));
     }
 
     /**

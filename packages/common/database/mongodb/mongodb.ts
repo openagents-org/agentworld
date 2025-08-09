@@ -3,6 +3,7 @@ import Loader from './loader';
 
 import Filter from '@kaetram/common/util/filter';
 import log from '@kaetram/common/util/log';
+import config from '@kaetram/common/config';
 import bcryptjs from 'bcryptjs';
 import { MongoClient } from 'mongodb';
 
@@ -98,7 +99,7 @@ export default class MongoDB {
             else {
                 let [info] = playerInfo;
 
-                bcryptjs.compare(player.password, info.password, (error: Error, result) => {
+                bcryptjs.compare(player.password, info.password, (error: Error | null, result) => {
                     if (error) throw error;
 
                     // Reject if the password is incorrect.
@@ -366,5 +367,69 @@ export default class MongoDB {
 
     public onFail(callback: (error: Error) => void): void {
         this.failCallback = callback;
+    }
+
+    /**
+     * Checks if an IP address is banned.
+     * @param ip The IP address to check.
+     * @param callback Callback function that receives a boolean indicating if the IP is banned.
+     */
+
+    public isIpBanned(ip: string, callback: (banned: boolean) => void): void {
+        // Used for when we're working without a database.
+        if (!this.database || config.skipDatabase) return callback(false);
+
+        this.database
+            .collection('ip_bans')
+            .findOne({ ip }, (error, result) => {
+                if (error) {
+                    log.error(`Error checking IP ban for ${ip}: ${error}`);
+                    return callback(false);
+                }
+
+                // Check if the IP is banned and if the ban hasn't expired
+                if (result && (!result.expiry || result.expiry > Date.now())) {
+                    return callback(true);
+                }
+
+                callback(false);
+            });
+    }
+
+    /**
+     * Sets or removes an IP ban.
+     * @param ip The IP address to ban/unban.
+     * @param banned Whether to ban (true) or unban (false) the IP.
+     * @param duration Optional duration in milliseconds. If not provided, ban is permanent.
+     */
+
+    public setIpBan(ip: string, banned: boolean, duration?: number): void {
+        // Used for when we're working without a database.
+        if (!this.database || config.skipDatabase) return;
+
+        if (banned) {
+            let banData: { ip: string; timestamp: number; expiry?: number } = {
+                ip,
+                timestamp: Date.now()
+            };
+
+            // Add expiry if duration is provided
+            if (duration) banData.expiry = Date.now() + duration;
+
+            this.database.collection('ip_bans').updateOne(
+                { ip },
+                { $set: banData },
+                { upsert: true },
+                (error) => {
+                    if (error) log.error(`Error setting IP ban for ${ip}: ${error}`);
+                    else log.info(`IP ${ip} has been banned.`);
+                }
+            );
+        } else {
+            this.database.collection('ip_bans').deleteOne({ ip }, (error) => {
+                if (error) log.error(`Error removing IP ban for ${ip}: ${error}`);
+                else log.info(`IP ${ip} has been unbanned.`);
+            });
+        }
     }
 }

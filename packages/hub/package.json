@@ -17,7 +17,7 @@
         "express": "^4.18.2",
         "mongodb": "^4.8.1",
         "tsx": "^3.12.6",
-        "uws": "https://github.com/uNetworking/uWebSockets.js.git#commit=42c9c0d5d31f46ca4115dc75672b0037ec970f28"
+        "uws": "https://github.com/uNetworking/uWebSockets.js.git#v20.52.0"
     },
     "devDependencies": {
         "@types/dotenv-parse-variables": "^2.0.1",

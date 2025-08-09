@@ -1,4 +1,5 @@
 export { default as Handshake } from './handshake';
+export { default as HandshakePacket } from './handshake';
 export { default as Welcome } from './welcome';
 export { default as Map } from './map';
 export { default as Spawn } from './spawn';
@@ -44,4 +45,5 @@ export { default as Friends } from './friends';
 export { default as Rank } from './rank';
 export { default as Player } from './player';
 export { default as Relay } from './relay';
+export { default as RelayPacket } from './relay';
 export { default as Crafting } from './crafting';
