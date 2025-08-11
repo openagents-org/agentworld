@@ -322,6 +322,36 @@ class KaetramGameTools:
         else:
             return f"Failed to attack: {result.get('message', 'Unknown error')}"
 
+    def set_combat_level(self, arguments: Dict[str, Any]) -> str:
+        """Set combat level by adjusting all combat skills"""
+        if not self.token:
+            return "Error: No token available. Please login first."
+        
+        level = arguments.get("level")
+        
+        if level is None:
+            return "Error: Level is required."
+        
+        level = int(level)
+        if level < 1 or level > 120:
+            return "Error: Level must be between 1 and 120."
+        
+        data = {
+            "token": self.token,
+            "level": level
+        }
+        
+        # Use the dedicated AI endpoint for setting combat level
+        result = self._make_request("POST", "/ai/setCombatLevel", data)
+        
+        if result.get("status") == "success":
+            updates = result.get("updates", [])
+            combat_level = result.get("combatLevel", {})
+            updates_str = "\n".join(updates)
+            return f"Combat level updated successfully!\n{updates_str}\nTotal Combat Level: {combat_level.get('actual', 'Unknown')}"
+        else:
+            return f"Failed to set combat level: {result.get('message', 'Unknown error')}"
+
     def give_and_equip_item(self, arguments: Dict[str, Any]) -> str:
         """Give and equip an item (admin cheat command)"""
         if not self.token:

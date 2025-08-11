@@ -858,6 +858,9 @@ export default class Handler {
     private detectAggro(): void {
         let region = this.map.regions.get(this.player.region);
 
+        // Check if region exists before trying to iterate entities
+        if (!region) return;
+
         region.forEachEntity((entity: Entity) => {
             // Ignore non-mob entities.
             if (!entity.isMob()) return;

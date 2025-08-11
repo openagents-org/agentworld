@@ -58,7 +58,8 @@ export default class AIConnection {
                 log.info(`Loading existing AI character for ${this.username}`);
                 try {
                     await this.player.load(playerInfo);
-                    world.entities.addPlayer(this.player);
+                    // Mark AI player as ready immediately after loading to avoid timeout rejection
+                    this.makePlayerReady();
                     log.info(`AI agent ${this.username} has been loaded with existing character data`);
                 } catch (error) {
                     log.error(`Error loading existing AI character data for ${this.username}: ${error}`);
@@ -77,8 +78,34 @@ export default class AIConnection {
      */
     private async loadFreshCharacter(world: World): Promise<void> {
         await this.player.load(Creator.serializePlayer(this.player));
-        world.entities.addPlayer(this.player);
+        // Mark AI player as ready immediately after loading to avoid timeout rejection
+        this.makePlayerReady();
         log.info(`AI agent ${this.username} has been loaded with fresh character data`);
+    }
+
+    /**
+     * Marks the AI player as ready and starts necessary intervals
+     * This simulates the ready packet that normal clients send
+     */
+    private makePlayerReady(): void {
+        // Clear any existing ready timeout to prevent rejection
+        if (this.player.readyTimeout) {
+            clearTimeout(this.player.readyTimeout);
+            this.player.readyTimeout = null;
+        }
+
+        // Mark player as ready
+        this.player.ready = true;
+
+        // Start the update interval (normally done in handleReady)
+        this.player.handler.startUpdateInterval();
+
+        // Update regions and entities (normally done in handleReady)
+        this.player.updateRegion();
+        this.player.updateEntities();
+        this.player.updateEntityList();
+
+        log.info(`AI agent ${this.username} marked as ready`);
     }
 
     /**
@@ -110,6 +137,15 @@ export default class AIConnection {
         if (this.closed) return;
 
         log.info(`AI connection closed${reason ? ': ' + reason : ''}`);
+        
+        // Save player data before closing to ensure data persistence
+        if (this.player && this.player.authenticated && this.player.ready) {
+            log.info(`Attempting to save AI player data for ${this.username} - authenticated: ${this.player.authenticated}, ready: ${this.player.ready}, isGuest: ${this.player.isGuest}`);
+            this.player.save();
+            log.info(`Save method called for AI player ${this.username}`);
+        } else {
+            log.info(`Skipping save for ${this.username} - player: ${!!this.player}, authenticated: ${this.player?.authenticated}, ready: ${this.player?.ready}`);
+        }
         
         this.closed = true;
         

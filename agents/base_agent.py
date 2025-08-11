@@ -100,7 +100,8 @@ Always think strategically about your actions. Start by logging in, then observe
             "equip_item": self.game_tools.equip_item,
             "collect_resource": self.game_tools.collect_resource,
             "target_entity": self.game_tools.target_entity,
-            "attack_target": self.game_tools.attack_target
+            "attack_target": self.game_tools.attack_target,
+            "set_combat_level": self.game_tools.set_combat_level
         }
         
         if function_name in tool_mapping:

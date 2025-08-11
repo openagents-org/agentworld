@@ -197,6 +197,23 @@ GAME_TOOLS = [
                 "required": ["targetInstance"]
             }
         }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "set_combat_level",
+            "description": "Set the character's combat level by adjusting all combat skills (Accuracy, Strength, Defense, Health, Magic, Archery). Each skill will be set to the specified level.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "level": {
+                        "type": "integer",
+                        "description": "The level to set for all combat skills (1-120). Total combat level will be this value × 6."
+                    }
+                },
+                "required": ["level"]
+            }
+        }
     }
 ]
 
