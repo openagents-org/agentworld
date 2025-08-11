@@ -12,8 +12,8 @@ from tool_definitions import get_tool_definitions
 class BaseAgent(ABC):
     """Abstract base class for all LLM provider agents"""
     
-    def __init__(self, username: Optional[str] = None, password: Optional[str] = None):
-        self.game_tools = KaetramGameTools()
+    def __init__(self, username: Optional[str] = None, password: Optional[str] = None, base_url: Optional[str] = None):
+        self.game_tools = KaetramGameTools(base_url=base_url)
         self.tools = get_tool_definitions()
         self.conversation_history = []
         self.username = username

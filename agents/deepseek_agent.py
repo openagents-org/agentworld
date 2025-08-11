@@ -10,9 +10,9 @@ from base_agent import BaseAgent
 
 
 class DeepSeekAgent(BaseAgent):
-    def __init__(self, api_key: str, model: str = "deepseek-chat", username: Optional[str] = None, password: Optional[str] = None):
+    def __init__(self, api_key: str, model: str = "deepseek-chat", username: Optional[str] = None, password: Optional[str] = None, base_url: Optional[str] = None):
         # Initialize parent class
-        super().__init__(username, password)
+        super().__init__(username, password, base_url)
         
         # DeepSeek-specific configuration
         self.api_key = api_key

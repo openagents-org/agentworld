@@ -113,9 +113,9 @@ def test_connection():
     print("🎮 Testing Kaetram game server connection...")
     try:
         import requests
-        from config import KAETRAM_BASE_URL
+        from config import AGENTWORLD_BASE_URL
         
-        response = requests.get(f"{KAETRAM_BASE_URL}/", timeout=10)
+        response = requests.get(f"{AGENTWORLD_BASE_URL}/", timeout=10)
         if response.status_code == 200:
             print("✅ Game server connection successful")
             server_info = response.json()

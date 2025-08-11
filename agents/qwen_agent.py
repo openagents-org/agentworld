@@ -17,9 +17,9 @@ from base_agent import BaseAgent
 
 
 class QwenAgent(BaseAgent):
-    def __init__(self, username: Optional[str] = None, password: Optional[str] = None):
+    def __init__(self, username: Optional[str] = None, password: Optional[str] = None, base_url: Optional[str] = None):
         # Initialize parent class
-        super().__init__(username or AGENT_USERNAME, password or AGENT_PASSWORD)
+        super().__init__(username or AGENT_USERNAME, password or AGENT_PASSWORD, base_url)
         
         # Qwen-specific configuration
         self.api_key = DASHSCOPE_API_KEY

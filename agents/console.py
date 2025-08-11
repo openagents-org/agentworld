@@ -5,12 +5,13 @@ Interactive CLI that allows players to control the game agent using natural lang
 Supports multiple LLM providers: Qwen, OpenAI, Anthropic Claude, and DeepSeek.
 
 Usage:
-    python e2e_test.py                                              # Interactive mode with default provider
-    python e2e_test.py --provider openai --api-key sk-...          # Use OpenAI GPT-4
-    python e2e_test.py --provider claude --api-key sk-...          # Use Anthropic Claude  
-    python e2e_test.py --provider deepseek --api-key sk-...        # Use DeepSeek
-    python e2e_test.py --task "Fight mobs until level 2"           # Single task mode
-    python e2e_test.py --username myagent --password 123           # Custom credentials
+    python console.py                                              # Interactive mode with default provider
+    python console.py --provider openai --api-key sk-...          # Use OpenAI GPT-4
+    python console.py --provider claude --api-key sk-...          # Use Anthropic Claude  
+    python console.py --provider deepseek --api-key sk-...        # Use DeepSeek
+    python console.py --host http://localhost:9001                 # Connect to different game server
+    python console.py --task "Fight mobs until level 2"           # Single task mode
+    python console.py --username myagent --password 123           # Custom credentials
 
 Features:
 - Multi-LLM provider support (Qwen, OpenAI, Claude, DeepSeek)
@@ -48,7 +49,8 @@ class GameConsole:
         password: str = None, 
         provider: str = None, 
         api_key: str = None, 
-        model: str = None
+        model: str = None,
+        host: str = None
     ):
         # Pass credentials to agent so it can use them for login prompts
         self.username = username or AGENT_USERNAME
@@ -56,6 +58,7 @@ class GameConsole:
         self.provider = provider or DEFAULT_LLM_PROVIDER
         self.api_key = api_key
         self.model = model
+        self.host = host
         
         # Create the appropriate agent using the factory
         try:
@@ -64,7 +67,8 @@ class GameConsole:
                 api_key=self.api_key,
                 model=self.model,
                 username=self.username,
-                password=self.password
+                password=self.password,
+                base_url=self.host
             )
         except ValueError as e:
             print(f"❌ Failed to create agent: {e}")
@@ -551,6 +555,7 @@ Examples:
   python console.py --provider openai --api-key sk-...  # Use OpenAI GPT-4
   python console.py --provider claude --api-key sk-...  # Use Anthropic Claude
   python console.py --provider deepseek --api-key sk-... # Use DeepSeek
+  python console.py --host http://localhost:9001         # Connect to different game server
   python console.py --task "explore the forest"         # Single task mode
   python console.py --username myagent --password 123   # Custom credentials
 
@@ -589,6 +594,12 @@ Default Models: {', '.join([f'{p}={m}' for p, m in default_models.items()])}
         "--model",
         type=str,
         help="Model name to use (optional, uses provider defaults if not specified)"
+    )
+    
+    parser.add_argument(
+        "--host",
+        type=str,
+        help="Game server host URL (default: http://localhost:7001)"
     )
     
     parser.add_argument(
@@ -638,7 +649,8 @@ def main():
         password=args.password,
         provider=args.provider,
         api_key=api_key,
-        model=args.model
+        model=args.model,
+        host=args.host
     )
     console.max_iterations = args.max_iterations
     

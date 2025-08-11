@@ -7,8 +7,8 @@ import json
 import time
 from typing import Dict, Any, Optional
 from config import (
-    KAETRAM_BASE_URL, 
-    KAETRAM_API_ENDPOINTS, 
+    AGENTWORLD_BASE_URL, 
+    AGENTWORLD_API_ENDPOINTS, 
     REQUEST_TIMEOUT,
     OBSERVATION_RADIUS,
     MAX_RETRIES
@@ -16,14 +16,15 @@ from config import (
 
 
 class KaetramGameTools:
-    def __init__(self):
+    def __init__(self, base_url: Optional[str] = None):
+        self.base_url = base_url or AGENTWORLD_BASE_URL
         self.token = None
         self.session = requests.Session()
         self.session.timeout = REQUEST_TIMEOUT
     
     def _make_request(self, method: str, endpoint: str, data: Optional[Dict] = None, params: Optional[Dict] = None) -> Dict[str, Any]:
         """Make HTTP request to Kaetram API with retry logic"""
-        url = f"{KAETRAM_BASE_URL}{endpoint}"
+        url = f"{self.base_url}{endpoint}"
         
         for attempt in range(MAX_RETRIES):
             try:
@@ -54,7 +55,7 @@ class KaetramGameTools:
             "password": password
         }
         
-        result = self._make_request("POST", KAETRAM_API_ENDPOINTS["create"], data)
+        result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["create"], data)
         
         if result.get("status") == "success":
             self.token = result.get("token")
@@ -72,7 +73,7 @@ class KaetramGameTools:
             "password": password
         }
         
-        result = self._make_request("POST", KAETRAM_API_ENDPOINTS["login"], data)
+        result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["login"], data)
         
         if result.get("status") == "success":
             self.token = result.get("token")
@@ -86,7 +87,7 @@ class KaetramGameTools:
             return "No active session to logout"
         
         data = {"token": self.token}
-        result = self._make_request("POST", KAETRAM_API_ENDPOINTS["logout"], data)
+        result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["logout"], data)
         
         if result.get("status") == "success":
             old_token = self.token[:10] if self.token else "unknown"
@@ -112,7 +113,7 @@ class KaetramGameTools:
             "y": int(y)
         }
         
-        result = self._make_request("POST", KAETRAM_API_ENDPOINTS["move"], data)
+        result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["move"], data)
         
         if result.get("status") == "success":
             start_pos = result.get("startPosition", {})
@@ -140,7 +141,7 @@ class KaetramGameTools:
             "withAnimation": bool(with_animation)
         }
         
-        result = self._make_request("POST", KAETRAM_API_ENDPOINTS["teleport"], data)
+        result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["teleport"], data)
         
         if result.get("status") == "success":
             prev_pos = result.get("previousPosition", {})
@@ -167,7 +168,7 @@ class KaetramGameTools:
             "global": is_global
         }
         
-        result = self._make_request("POST", KAETRAM_API_ENDPOINTS["chat"], data)
+        result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["chat"], data)
         
         if result.get("status") == "success":
             chat_type = "global" if is_global else "local"
@@ -187,7 +188,7 @@ class KaetramGameTools:
             "radius": radius
         }
         
-        result = self._make_request("GET", KAETRAM_API_ENDPOINTS["observe"], params=params)
+        result = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], params=params)
         
         if result.get("status") == "success":
             # The entire result is the observation data, no nested "observations" field
@@ -204,7 +205,7 @@ class KaetramGameTools:
             "token": self.token
         }
         
-        result = self._make_request("POST", KAETRAM_API_ENDPOINTS["enter"], data)
+        result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["enter"], data)
         
         if result.get("status") == "success":
             destination = result.get("destination", "unknown")
@@ -222,7 +223,7 @@ class KaetramGameTools:
             "token": self.token
         }
         
-        result = self._make_request("POST", KAETRAM_API_ENDPOINTS["stop"], data)
+        result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["stop"], data)
         
         if result.get("status") == "success":
             stopped = result.get("stopped", {})
@@ -245,7 +246,7 @@ class KaetramGameTools:
             "index": int(index)
         }
         
-        result = self._make_request("POST", KAETRAM_API_ENDPOINTS["equip"], data)
+        result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["equip"], data)
         
         if result.get("status") == "success":
             item = result.get("item", {})
@@ -268,7 +269,7 @@ class KaetramGameTools:
             "targetInstance": target_instance
         }
         
-        result = self._make_request("POST", KAETRAM_API_ENDPOINTS["collect"], data)
+        result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["collect"], data)
         
         if result.get("status") == "success":
             resource = result.get("resource", {})
@@ -292,7 +293,7 @@ class KaetramGameTools:
             "targetInstance": target_instance
         }
         
-        result = self._make_request("POST", KAETRAM_API_ENDPOINTS["attack"], data)
+        result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["attack"], data)
         
         if result.get("status") == "success":
             return f"Targeted entity successfully: {result.get('message', 'Attack initiated')}"
@@ -314,7 +315,7 @@ class KaetramGameTools:
             "targetInstance": target_instance
         }
         
-        result = self._make_request("POST", KAETRAM_API_ENDPOINTS["attack"], data)
+        result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["attack"], data)
         
         if result.get("status") == "success":
             # Attack API only returns status and message
