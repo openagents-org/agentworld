@@ -296,6 +296,17 @@ export default class Equipments {
     }
 
     /**
+     * Grabs the shield equipment of the player.
+     * @returns Shield equipment type.
+     */
+
+    public getShield(): Equipment {
+        // Shield appears to be using a generic Equipment type for now
+        // This could be made more specific if a Shield class exists
+        return this.get(3); // Based on the API error mentioning Shield equipment type
+    }
+
+    /**
      * Goes through each one of our equipments and serializes it. It extracts
      * cruical information, such as the id, count, and enchantments
      * @param clientInfo Whether or not we are sending this information to the client.

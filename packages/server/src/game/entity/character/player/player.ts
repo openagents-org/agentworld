@@ -105,6 +105,7 @@ export default class Player extends Character {
     public ready = false; // indicates if login processed finished
     public authenticated = false;
     public isGuest = false;
+    public isAI = false; // indicates if this is an AI agent
     public canTalk = true;
     public noclip = false;
     public jailed = false;
@@ -1875,6 +1876,28 @@ export default class Player extends Character {
         else otherPlayer.notify(message, 'aquamarine', `[From ${formattedName}]`, true);
 
         if (!source) this.notify(message, 'aquamarine', `[To ${oFormattedName}]`, true);
+    }
+
+    /**
+     * Checks if the player can use crafting based on quest progression.
+     * @returns Whether the player can use crafting.
+     */
+    
+    public canUseCrafting(): boolean {
+        // For now, assume all players can use crafting
+        // This could be tied to a specific quest in the future
+        return true;
+    }
+
+    /**
+     * Checks if the player can use alchemy based on quest progression.
+     * @returns Whether the player can use alchemy.
+     */
+    
+    public canUseAlchemy(): boolean {
+        // For now, assume all players can use alchemy
+        // This could be tied to a specific quest in the future
+        return true;
     }
 
     /**

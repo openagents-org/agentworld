@@ -100,7 +100,7 @@ export default class App {
         this.cancelWorlds.addEventListener('click', () => this.openScroll('load-character'));
         this.continueWorlds.addEventListener('click', () => this.openScroll('load-character'));
 
-        this.about.addEventListener('click', () => this.openScroll('about'));
+        // About link now goes directly to external site, no event listener needed
         this.credits.addEventListener('click', () => this.openScroll('credits'));
 
         this.respawn.addEventListener('click', () => this.respawnCallback?.());

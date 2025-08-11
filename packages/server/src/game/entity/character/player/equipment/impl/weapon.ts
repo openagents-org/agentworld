@@ -213,6 +213,16 @@ export default class Weapon extends Equipment {
     }
 
     /**
+     * @returns Whether or not the weapon is two-handed.
+     */
+
+    public isTwoHanded(): boolean {
+        // Check if the weapon item is two-handed by checking the underlying item
+        // For now, assume bows, staves, and large weapons are two-handed
+        return this.key.includes('bow') || this.key.includes('staff') || this.key.includes('twohanded');
+    }
+
+    /**
      * Override for the superclass where we add the attack styles.
      * @param clientInfo Whether or not to send the client information.
      */

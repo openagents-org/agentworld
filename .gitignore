@@ -448,3 +448,7 @@ $RECYCLE.BIN/
 
 packages/tools/map/data/map.png
 packages/server/cache
+
+yarn.lock
+e2e_session*
+__pycache__

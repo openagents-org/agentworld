@@ -11,6 +11,7 @@ import Crafting from '../controllers/crafting';
 import API from '../network/api';
 import Network from '../network/network';
 import Client from '../network/client';
+import AIConnection from '../network/aiconnection';
 import Events from '../controllers/events';
 
 import config from '@kaetram/common/config';
@@ -316,6 +317,30 @@ export default class World {
         if (!this.events.isIncreasedExperience()) return Modules.Constants.EXPERIENCE_PER_HIT;
 
         return this.events.experiencePerHit;
+    }
+
+    /**
+     * Creates an AI connection for automated agents.
+     * @param username The username for the AI agent.
+     * @param password The password for the AI agent.
+     * @returns AIConnection instance or null if creation fails.
+     */
+
+    public createAIConnection(username: string, password: string): AIConnection | null {
+        try {
+            // Create the AI connection
+            const aiConnection = new AIConnection(this, this.database, username, password);
+            
+            // Set up connection close callback to clean up
+            aiConnection.onClose(() => {
+                this.entities.removePlayer(aiConnection.player);
+            });
+            
+            return aiConnection;
+        } catch (error) {
+            log.error(`Failed to create AI connection: ${error}`);
+            return null;
+        }
     }
 
     /**

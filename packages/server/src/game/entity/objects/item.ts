@@ -575,6 +575,15 @@ export default class Item extends Entity {
     }
 
     /**
+     * @returns Whether or not the item is a two-handed weapon.
+     */
+
+    public isTwoHanded(): boolean {
+        // Two-handed weapons typically include bows, staves, and large weapons
+        return this.weaponType === 'bow' || this.weaponType === 'staff' || this.weaponType === 'twohanded';
+    }
+
+    /**
      * Sets an enchantment onto an item or updates the level if it already exists.
      * @param id The id of the enchantment.
      * @param level The level of the enchantment.

@@ -35,7 +35,7 @@ DEFAULT_LLM_PROVIDER = os.getenv("DEFAULT_LLM_PROVIDER", "qwen")
 # =================================================================
 # Kaetram Game Server Configuration
 # =================================================================  
-KAETRAM_BASE_URL = "http://play.agentworld.io:9002"
+KAETRAM_BASE_URL = "http://play.agentworld.io:7001"
 KAETRAM_API_ENDPOINTS = {
     "create": "/ai/create",
     "login": "/ai/login",

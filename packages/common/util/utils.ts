@@ -313,5 +313,15 @@ export default {
             archery: 0,
             magic: 0
         };
+    },
+
+    /**
+     * Generates a random string of specified length.
+     * @param length The length of the random string to generate.
+     * @returns A randomly generated string.
+     */
+
+    generateRandomString(length: number): string {
+        return crypto.randomBytes(Math.ceil(length / 2)).toString('hex').slice(0, length);
     }
 };

@@ -1,6 +1,7 @@
 import log from '@kaetram/common/util/log';
 import Utils from '@kaetram/common/util/utils';
 import Player from '../game/entity/character/player/player';
+import Creator from '@kaetram/common/database/mongodb/creator';
 
 import type World from '../game/world';
 import type MongoDB from '@kaetram/common/database/mongodb/mongodb';
@@ -14,6 +15,10 @@ export default class AIConnection {
     public address: string = '127.0.0.1'; // Mock IP address
     public player: Player;
     public closed: boolean = false;
+
+    // Connection interface compatibility
+    public messageCallback?: (message: string) => void;
+    public messageRate: number = 0;
 
     private closeCallback?: () => void;
 
@@ -34,29 +39,46 @@ export default class AIConnection {
         
         // Mark the player as an AI agent
         this.player.isAI = true;
+        this.player.authenticated = true; // AI agents are automatically authenticated
         
         log.info(`Created AI connection for: ${this.username}`);
         
-        // Automatically mark the player as ready after a short delay
-        // This prevents the readyTimeout from rejecting the connection
-        setTimeout(() => {
-            if (this.player && !this.closed) {
-                this.player.ready = true;
-                
-                // Clear the readyTimeout to prevent rejection
-                if (this.player.readyTimeout) {
-                    clearTimeout(this.player.readyTimeout);
-                    this.player.readyTimeout = null;
+        // Try to load existing character from database first, then fallback to new character
+        this.loadPlayerData(world, database);
+    }
+
+    /**
+     * Attempts to load existing player data from database or creates new character
+     */
+    private loadPlayerData(world: World, database: MongoDB): void {
+        // Use the database's existing loginAI method or fallback to fresh character
+        database.loginAI(this.player, async (success: boolean, playerInfo?: any) => {
+            if (success && playerInfo) {
+                // Found existing character - load it
+                log.info(`Loading existing AI character for ${this.username}`);
+                try {
+                    await this.player.load(playerInfo);
+                    world.entities.addPlayer(this.player);
+                    log.info(`AI agent ${this.username} has been loaded with existing character data`);
+                } catch (error) {
+                    log.error(`Error loading existing AI character data for ${this.username}: ${error}`);
+                    await this.loadFreshCharacter(world);
                 }
-                
-                // Update the player's state
-                this.player.updateRegion();
-                this.player.updateEntities();
-                this.player.updateEntityList();
-                
-                log.info(`AI agent ${this.username} is now ready`);
+            } else {
+                // No existing character found or database unavailable - create new one
+                log.info(`No existing character found for ${this.username}, creating new character`);
+                await this.loadFreshCharacter(world);
             }
-        }, 1000);
+        });
+    }
+
+    /**
+     * Creates a fresh character with default data
+     */
+    private async loadFreshCharacter(world: World): Promise<void> {
+        await this.player.load(Creator.serializePlayer(this.player));
+        world.entities.addPlayer(this.player);
+        log.info(`AI agent ${this.username} has been loaded with fresh character data`);
     }
 
     /**
@@ -120,5 +142,19 @@ export default class AIConnection {
      */
     public updateTimeout(_duration: number): void {
         // No-op, AI agents don't need timeouts
+    }
+
+    /**
+     * Refreshes the timeout (no-op for AI agents)
+     */
+    public refreshTimeout(): void {
+        // No-op, AI agents don't need timeouts
+    }
+
+    /**
+     * Checks if a message is duplicate (always returns false for AI agents)
+     */
+    public isDuplicate(_message: string): boolean {
+        return false; // AI agents don't need duplicate message filtering
     }
 } 

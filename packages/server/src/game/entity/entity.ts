@@ -20,7 +20,7 @@ type MovementCallback = (x: number, y: number) => void;
  */
 
 abstract class Entity {
-    private type: number; // EntityType
+    public type: number; // EntityType
     public name = '';
 
     public x = -1;
@@ -261,6 +261,53 @@ abstract class Entity {
 
     public isProjectile(): this is Projectile {
         return this.type === Modules.EntityType.Projectile;
+    }
+
+    /**
+     * Checks whether the entity is a resource (tree, rock, fish spot, foraging area).
+     * @returns Whether the entity is a resource object.
+     */
+
+    public isResource(): boolean {
+        return this.type === Modules.EntityType.Object && (
+            this.isTree() || this.isRock() || this.isFishSpot() || this.isForaging()
+        );
+    }
+
+    /**
+     * Checks whether the entity is a tree resource.
+     * @returns Whether the entity key indicates it's a tree.
+     */
+
+    public isTree(): boolean {
+        return this.type === Modules.EntityType.Object && this.key.includes('tree');
+    }
+
+    /**
+     * Checks whether the entity is a rock resource.
+     * @returns Whether the entity key indicates it's a rock.
+     */
+
+    public isRock(): boolean {
+        return this.type === Modules.EntityType.Object && this.key.includes('rock');
+    }
+
+    /**
+     * Checks whether the entity is a fish spot resource.
+     * @returns Whether the entity key indicates it's a fish spot.
+     */
+
+    public isFishSpot(): boolean {
+        return this.type === Modules.EntityType.Object && this.key.includes('fishspot');
+    }
+
+    /**
+     * Checks whether the entity is a foraging resource.
+     * @returns Whether the entity key indicates it's a foraging area.
+     */
+
+    public isForaging(): boolean {
+        return this.type === Modules.EntityType.Object && this.key.includes('foraging');
     }
 
     /**

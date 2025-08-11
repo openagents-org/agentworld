@@ -116,6 +116,35 @@ export default class MongoDB {
     }
 
     /**
+     * Attempts to load existing AI character data from the database without password verification.
+     * This is specifically for AI agents that don't require password authentication.
+     * @param player The AI player object to load data for.
+     * @param callback Function called with success status and player info if found.
+     */
+
+    public loginAI(player: Player, callback: (success: boolean, playerInfo?: PlayerInfo) => void): void {
+        if (!this.hasDatabase()) return callback(false);
+
+        let cursor = this.database
+            .collection<PlayerInfo>('player_info')
+            .find({ username: player.username });
+
+        cursor.toArray().then((playerInfo) => {
+            if (playerInfo.length === 0) {
+                // No existing character found
+                callback(false);
+            } else {
+                // Found existing character
+                let [info] = playerInfo;
+                callback(true, info);
+            }
+        }).catch((error) => {
+            log.error(`Error querying database for AI character ${player.username}: ${error}`);
+            callback(false);
+        });
+    }
+
+    /**
      * Creates a new user and adds it to the database.
      * @param player Basic information about the player such as username, password, and email.
      */
