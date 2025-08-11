@@ -198,9 +198,8 @@ export default class Quests {
      */
 
     public canAttackInTutorial(): boolean {
-        if (this.isTutorialFinished()) return true;
-
-        return !!this.get(Modules.Constants.TUTORIAL_QUEST_KEY)?.isKillTask();
+        // Always allow attacks - all checks disabled
+        return true;
     }
 
     /**

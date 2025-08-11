@@ -800,47 +800,7 @@ export default abstract class Character extends Entity {
      */
 
     protected canAttack(target: Character): boolean {
-        if (target.isMob()) {
-            // Restrict the mobs in tutorial from being attacked by the player.
-            if (this.isPlayer() && !this.quests.canAttackInTutorial()) {
-                this.notify('You have no reason to attack these creatures.');
-                return false;
-            }
-
-            return true;
-        }
-
-        // If either of the entities are not players, we don't want to handle this.
-        if (!this.isPlayer() || !target.isPlayer()) return false;
-
-        // Prevent cheaters from being targeted by other players.
-        if (target.isCheater()) {
-            this.notify(`That player is a cheater, you don't wanna attack someone like that!`);
-
-            return false;
-        }
-
-        // Prevent cheaters from starting a fight with other players.
-        if (this.isCheater()) {
-            this.notify(
-                `Sorry but cheaters can't attack other players, that wouldn't be fair to them!`
-            );
-
-            return false;
-        }
-
-        // Use minigame logic to determine if the players can attack each other.
-        if (this.inMinigame() && target.inMinigame()) return this.team !== target.team;
-
-        // Prevent attacking in non-pvp areas.
-        if (!this.pvp && !target.pvp) return false;
-
-        // Prevent attacking when level difference is too great.
-        if (Math.abs(this.level - target.level) > 30) {
-            this.notify('You cannot attack someone more than 30 levels above or below you.');
-            return false;
-        }
-
+        // Always allow all attacks - all checks disabled
         return true;
     }
 
