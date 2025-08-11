@@ -10,7 +10,7 @@ import os
 # =================================================================
 
 # Qwen API Configuration (Alibaba Cloud DashScope)
-DASHSCOPE_API_KEY = os.getenv("DASHSCOPE_API_KEY", "sk-961f7e1c3a3e40e2a4b3b407e448c4c1")
+DASHSCOPE_API_KEY = os.getenv("DASHSCOPE_API_KEY", "")
 QWEN_MODEL = os.getenv("QWEN_MODEL", "qwen-plus")
 QWEN_BASE_URL = os.getenv("QWEN_BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1")
 
