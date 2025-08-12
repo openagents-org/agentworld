@@ -463,29 +463,39 @@ class KaetramGameTools:
         if not self.token:
             return "Error: No token available. Please login first."
         
-        # Essential equipment set suitable for level 45 - one good item per category
+        # Essential equipment set suitable for level 45 - verified valid item keys
         equipment_set = [
-            # One weapon from each major type
-            {"key": "sentinelsword", "count": 1},          # Sword (Level 36)
-            {"key": "cursedbattleaxe", "count": 1},        # Battle Axe (Level 46) - best axe for level 45
-            {"key": "bronzeaxe", "count": 1},              # Bronze Axe (basic axe)
-            {"key": "woodenbow", "count": 1},              # Wooden Bow (Level 5 - basic bow)
-            {"key": "witchsstaffancient", "count": 1},     # Magic Staff (Level 45) - one good staff
+            # Weapons - variety of types for different playstyles
+            {"key": "bastardsword", "count": 1},          # Heavy Sword (Level 40) [bigsword]
+            {"key": "cactusaxe", "count": 1},             # Cactus Axe (Level 36) [axe]
+            {"key": "trident", "count": 1},               # Trident Of The Seas (Level 40) [spear]
+            {"key": "whip", "count": 1},                  # Whip (Level 50) [whip]
             
-            # Complete armor set
-            {"key": "magmahelm", "count": 1},              # Helmet (Level 43)
-            {"key": "refinedsapphirechestplate", "count": 1},  # Chestplate (Level 43)
-            {"key": "rubylegplates", "count": 1},          # Legplates (Level 39)
-            {"key": "hellkeeperboots", "count": 1},        # Boots (Level 45)
-            {"key": "shieldofglory", "count": 1},          # Shield (Level 36)
+            # Archer weapons
+            {"key": "rosebow", "count": 1},               # Rose Bow (Level 50) [bow]
+            {"key": "hunterbow", "count": 1},             # Hunter Bow (Level 37) [bow]
+            
+            # Magic weapons
+            {"key": "icestaff", "count": 1},              # Ice Staff (Level 35) [staff]
+            {"key": "firestaff", "count": 1},             # Fire Staff (Level 25) [staff]
+            
+            # Armor pieces
+            {"key": "whitearmor", "count": 1},            # White Armour (Level 46)
+            {"key": "redguardarmor", "count": 1},         # Red Guard Armour (Level 40)
+            
+            # Boots
+            {"key": "lavaboots", "count": 1},             # Lava Boots (Level 0)
+            {"key": "goldboots", "count": 1},             # Golden Boots (Level 0)
             
             # Accessories
-            {"key": "dolring", "count": 1},                # Ring (Level 40)
-            {"key": "pendantsilveremerald", "count": 1},   # Pendant (Level 40)
-            {"key": "wingsdark", "count": 1},              # Cape (Level 45)
+            {"key": "pytharring", "count": 1},            # Pythar Ring (Level 50)
+            {"key": "emeraldring", "count": 1},           # Emerald Ring (Level 30)
+            {"key": "emeraldpendant", "count": 1},        # Emerald Pendant (Level 0)
+            {"key": "rubypendant", "count": 1},           # Ruby Pendant (Level 0)
             
-            # Ammunition
-            {"key": "pythararrow", "count": 100},          # High-tier arrows
+            # Arrows for archer builds
+            {"key": "pythararrow", "count": 100},         # Pythar Arrow (Level 0)
+            {"key": "firearrow", "count": 100},           # Fire Arrow (Level 0)
         ]
         
         # Use the existing setInventory endpoint to add all items to inventory
