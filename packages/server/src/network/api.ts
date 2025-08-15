@@ -278,6 +278,7 @@ export default class API {
 
         // Get observations for the AI agent
         router.get('/ai/observe', (request: Request, response: Response) => {
+            console.log('[API DEBUG] Observe endpoint called - NEW CODE ACTIVE');
             try {
                 const token = request.query.token as string;
 
@@ -440,23 +441,23 @@ export default class API {
                 
                 // Map skill types to skill names
                 const skillNames: { [key: number]: string } = {
-                    0: 'Combat',
-                    1: 'Archery',
-                    2: 'Magic',
-                    3: 'Defense',
-                    4: 'Mining',
-                    5: 'Woodcutting',
-                    6: 'Fishing',
-                    7: 'Cooking',
-                    8: 'Smithing',
-                    9: 'Crafting',
-                    10: 'Cheesemaking',
-                    11: 'Brewing',
-                    13: 'Foraging',
-                    15: 'Accuracy',
-                    16: 'Strength',
-                    17: 'Health',
-                    18: 'Looting'
+                    0: 'Lumberjacking',   // Skills.Lumberjacking
+                    1: 'Accuracy',        // Skills.Accuracy
+                    2: 'Archery',         // Skills.Archery
+                    3: 'Health',          // Skills.Health
+                    4: 'Magic',           // Skills.Magic
+                    5: 'Mining',          // Skills.Mining
+                    6: 'Strength',        // Skills.Strength
+                    7: 'Defense',         // Skills.Defense
+                    8: 'Fishing',         // Skills.Fishing
+                    9: 'Cooking',         // Skills.Cooking
+                    10: 'Smithing',       // Skills.Smithing
+                    11: 'Crafting',       // Skills.Crafting
+                    12: 'Fletching',      // Skills.Fletching
+                    13: 'Smelting',       // Skills.Smelting (not Foraging!)
+                    14: 'Foraging',       // Skills.Foraging
+                    15: 'Eating',         // Skills.Eating
+                    16: 'Loitering'       // Skills.Loitering
                 };
                 
                 // Add skill names to the skills information
@@ -505,6 +506,7 @@ export default class API {
 
                 response.json({
                     status: 'success',
+                    CACHE_TEST: 'NEW_CODE_LOADED_SUCCESSFULLY',
                     location,
                     map,
                     entries,
@@ -1676,22 +1678,23 @@ export default class API {
                 
                 // Create skill name mapping (console names -> enum names)
                 const skillNameMapping: { [key: string]: keyof typeof Modules.Skills } = {
-                    'accuracy': 'Accuracy',
-                    'strength': 'Strength',
-                    'defense': 'Defense',
-                    'health': 'Health',
-                    'magic': 'Magic',
-                    'archery': 'Archery',
-                    'lumberjacking': 'Lumberjacking',
-                    'mining': 'Mining',
-                    'fishing': 'Fishing',
-                    'cooking': 'Cooking',
-                    'smithing': 'Smithing',
-                    'crafting': 'Crafting',
-                    'fletching': 'Fletching',
-                    'foraging': 'Foraging',
-                    'eating': 'Eating',
-                    'loitering': 'Loitering'
+                    'lumberjacking': 'Lumberjacking',  // Skills.Lumberjacking = 0
+                    'accuracy': 'Accuracy',            // Skills.Accuracy = 1
+                    'archery': 'Archery',              // Skills.Archery = 2
+                    'health': 'Health',                // Skills.Health = 3
+                    'magic': 'Magic',                  // Skills.Magic = 4
+                    'mining': 'Mining',                // Skills.Mining = 5
+                    'strength': 'Strength',            // Skills.Strength = 6
+                    'defense': 'Defense',              // Skills.Defense = 7
+                    'fishing': 'Fishing',              // Skills.Fishing = 8
+                    'cooking': 'Cooking',              // Skills.Cooking = 9
+                    'smithing': 'Smithing',            // Skills.Smithing = 10
+                    'crafting': 'Crafting',            // Skills.Crafting = 11
+                    'fletching': 'Fletching',          // Skills.Fletching = 12
+                    'smelting': 'Smelting',            // Skills.Smelting = 13
+                    'foraging': 'Foraging',            // Skills.Foraging = 14
+                    'eating': 'Eating',                // Skills.Eating = 15
+                    'loitering': 'Loitering'           // Skills.Loitering = 16
                 };
                 
                 // Normalize input skill name and get proper enum name
@@ -1725,17 +1728,21 @@ export default class API {
                     });
                 }
 
-                // Reset skill to level 1 first if target level is lower than current
+                // Debug: Log current state
+                const initialLevel = playerSkill.level;
+                const initialExp = playerSkill.experience;
+                
+                // Use EXACTLY the same logic as admin /setlevel command (lines 512-516 in commands.ts)
                 if (targetLevel < playerSkill.level) {
                     playerSkill.setExperience(0);
                     playerSkill.addExperience(0);
+                } else {
+                    const expToAdd = Formulas.levelsToExperience(playerSkill.level, targetLevel);
+                    playerSkill.addExperience(expToAdd);
                 }
                 
-                // Calculate additional experience needed to reach target level (same as /setlevel command)
-                const additionalExp = Formulas.levelsToExperience(playerSkill.level, targetLevel);
-                
-                // Add experience to reach the target level
-                playerSkill.addExperience(additionalExp, false);
+                // Debug: Log results  
+                console.log(`[SETLEVEL DEBUG] ${skillEnumName}: ${initialLevel}(${initialExp}) -> ${playerSkill.level}(${playerSkill.experience}), target: ${targetLevel}`);
                 
                 // Sync the skills to update player level and other stats
                 player.skills.sync();
