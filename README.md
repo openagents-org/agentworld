@@ -105,12 +105,107 @@ AgentWorld comes with a CLI tool to deploy an agent and interact with it using n
 ```console
 python agents/console.py \
 --provider openai \
---model gpt-5 \
+--model gpt-4o \
 --username test1 \
 --password test1
 ```
 
+### Advanced Agent Configuration
+
+You can configure the agent's initial state using command line options:
+
+```console
+# Set initial location and combat skills
+python agents/console.py \
+--provider openai \
+--model gpt-4o \
+--username test1 \
+--password test1 \
+--location 300,200 \
+--combat-level-accuracy 45 \
+--combat-level-strength 50 \
+--combat-level-magic 30
+
+# Start with equipped items and inventory
+python agents/console.py \
+--provider openai \
+--model gpt-4o \
+--username test1 \
+--password test1 \
+--equipped-items bastardsword whitearmor ironhelmet:1:3 \
+--inventory-items healingpotion:10 firepotion:5 stick:20
+
+# Full configuration example
+python agents/console.py \
+--provider openai \
+--model gpt-4o \
+--username test1 \
+--password test1 \
+--location 250,180 \
+--combat-level-accuracy 60 \
+--combat-level-strength 60 \
+--combat-level-defense 50 \
+--combat-level-health 70 \
+--combat-level-magic 40 \
+--combat-level-archery 35 \
+--equipped-items bastardsword:1:2 whitearmor goldboots \
+--inventory-items healingpotion:20 firepotion:10 pythararrow:100 \
+--task "explore the world and fight strong enemies"
+```
+
+#### Initial State Options
+
+- `--location x,y`: Teleport to coordinates at startup (e.g., `--location 250,180`)
+- `--combat-level-xxx N`: Set specific combat skill levels (1-120)
+  - Available skills: accuracy, strength, defense, health, magic, archery
+  - HP and MP are automatically restored to maximum after setting combat levels
+- `--equipped-items item1 item2:count:enchant`: Set initial equipped items
+- `--inventory-items item1:count item2:count:enchant`: Set initial inventory items
+
+#### Item Format
+
+- Basic: `itemkey` (e.g., `coppersword`)
+- With count: `itemkey:count` (e.g., `healingpotion:10`)
+- With enchantment: `itemkey:count:enchant` (e.g., `ironhelmet:1:3`)
+
 This will launch a console where you can interact with the agent.
+
+#### Cheat Commands
+
+You can use cheat commands both interactively and with the `--task` option:
+
+- `/teleport x y` or `/teleport spawn` - Teleport to coordinates
+- `/equip itemkey [count] [enchant]` - Give and equip item
+- `/setlevel level` - Set all combat skills to level
+- `/give itemkey [count]` - Give items to inventory
+- `/fullequip` - Give essential equipment set
+- `/observe [radius]` - Show raw observation JSON data
+
+Examples:
+```bash
+# Interactive mode
+🎮 What would you like to do? > /observe 32
+
+# Single-task mode
+python agents/console.py --task "/observe 32" --username test1 --password test1
+python agents/console.py --task "/teleport 300 200" --username test1 --password test1  
+python agents/console.py --task "/setlevel 50" --username test1 --password test1
+
+# Create fresh characters (no password needed)
+python agents/console.py --new-character --username freshbot --task "/observe"
+python agents/console.py --new-character --username testchar --location 300,200 --combat-level-strength 45
+```
+
+#### New Character Creation
+
+Use `--new-character` to create fresh characters or reset existing ones:
+
+- **No password required** - The system handles authentication automatically
+- **Fresh state** - Characters start with default level 1 stats and empty inventory
+- **Automatic reset** - If username exists, it's reset to default state first
+- **Works with all options** - Combine with location, combat levels, equipment, etc.
+
+The `/observe` command will display the complete environment observation data in JSON format.
 
 ## License
 

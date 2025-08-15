@@ -1628,10 +1628,137 @@ export default class API {
 
             } catch (error) {
                 log.error(`Error setting combat level: ${error}`);
-                log.error(`Stack trace: ${error.stack}`);
+                log.error(`Stack trace: ${(error as Error).stack}`);
                 response.status(500).json({
                     status: 'error',
-                    message: `Internal server error: ${error.message}`
+                    message: `Internal server error: ${(error as Error).message}`
+                });
+            }
+        });
+
+        // Set individual skill level
+        router.post('/ai/setSkillLevel', (request: Request, response: Response) => {
+            try {
+                log.info(`setSkillLevel endpoint called with data: ${JSON.stringify(request.body)}`);
+                const { token, skill, level } = request.body;
+
+                if (!token) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Token is required'
+                    });
+                }
+
+                if (!skill) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Skill name is required'
+                    });
+                }
+
+                if (!level || level < 1 || level > Modules.Constants.MAX_LEVEL) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: `Level must be between 1 and ${Modules.Constants.MAX_LEVEL}`
+                    });
+                }
+
+                const player = this.aiAgents[token];
+
+                if (!player) {
+                    return response.status(401).json({
+                        status: 'error',
+                        message: 'Invalid token'
+                    });
+                }
+
+                const targetLevel = parseInt(level);
+                
+                // Create skill name mapping (console names -> enum names)
+                const skillNameMapping: { [key: string]: keyof typeof Modules.Skills } = {
+                    'accuracy': 'Accuracy',
+                    'strength': 'Strength',
+                    'defense': 'Defense',
+                    'health': 'Health',
+                    'magic': 'Magic',
+                    'archery': 'Archery',
+                    'lumberjacking': 'Lumberjacking',
+                    'mining': 'Mining',
+                    'fishing': 'Fishing',
+                    'cooking': 'Cooking',
+                    'smithing': 'Smithing',
+                    'crafting': 'Crafting',
+                    'fletching': 'Fletching',
+                    'foraging': 'Foraging',
+                    'eating': 'Eating',
+                    'loitering': 'Loitering'
+                };
+                
+                // Normalize input skill name and get proper enum name
+                const inputSkillLower = skill.toLowerCase();
+                const skillEnumName = skillNameMapping[inputSkillLower];
+                
+                if (!skillEnumName) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: `Invalid skill name: ${skill}. Valid skills: ${Object.keys(skillNameMapping).join(', ')}`
+                    });
+                }
+                
+                // Get the skill type from the Modules.Skills enum
+                const skillType = Modules.Skills[skillEnumName];
+                
+                if (skillType === undefined) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: `Could not find skill enum for: ${skillEnumName}`
+                    });
+                }
+
+                // Get the player's skill
+                const playerSkill = player.skills.get(skillType);
+                
+                if (!playerSkill) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: `Could not find skill: ${skillEnumName}`
+                    });
+                }
+
+                // Reset skill to level 1 first if target level is lower than current
+                if (targetLevel < playerSkill.level) {
+                    playerSkill.setExperience(0);
+                    playerSkill.addExperience(0);
+                }
+                
+                // Calculate additional experience needed to reach target level (same as /setlevel command)
+                const additionalExp = Formulas.levelsToExperience(playerSkill.level, targetLevel);
+                
+                // Add experience to reach the target level
+                playerSkill.addExperience(additionalExp, false);
+                
+                // Sync the skills to update player level and other stats
+                player.skills.sync();
+                
+                response.json({
+                    status: 'success',
+                    message: `${skillEnumName} level updated successfully`,
+                    skill: {
+                        name: skillEnumName,
+                        level: playerSkill.level,
+                        experience: playerSkill.experience,
+                        requested: targetLevel,
+                        actual: playerSkill.level
+                    },
+                    playerLevel: player.level
+                });
+
+            } catch (error) {
+                log.error(`Error setting skill level: ${error}`);
+                log.error(`Stack trace: ${(error as Error).stack}`);
+                response.status(500).json({
+                    status: 'error',
+                    message: `Internal server error: ${(error as Error).message}`
                 });
             }
         });
