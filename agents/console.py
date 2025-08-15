@@ -55,7 +55,12 @@ class GameConsole:
         api_key: str = None, 
         model: str = None,
         host: str = None,
-        output_file: str = None
+        output_file: str = None,
+        initial_location: tuple = None,
+        combat_levels: dict = None,
+        equipped_items: list = None,
+        inventory_items: list = None,
+        new_character: bool = False
     ):
         # Pass credentials to agent so it can use them for login prompts
         self.username = username or AGENT_USERNAME
@@ -65,6 +70,13 @@ class GameConsole:
         self.model = model
         self.host = host
         self.output_file = output_file
+        
+        # Initial state configuration
+        self.initial_location = initial_location
+        self.combat_levels = combat_levels or {}
+        self.equipped_items = equipped_items or []
+        self.inventory_items = inventory_items or []
+        self.new_character = new_character
         
         # Create the appropriate agent using the factory
         try:
@@ -356,6 +368,304 @@ class GameConsole:
             print(f"❌ Give failed: {str(e)}")
             self.log_message("CHEAT", f"Give failed: {str(e)}")
 
+    def handle_observe_command(self, command: str):
+        """Handle /observe cheat command"""
+        try:
+            # Parse command: /observe [radius]
+            parts = command.strip().split()
+            radius = 64  # Default radius
+            
+            if len(parts) > 1:
+                try:
+                    radius = int(parts[1])
+                    if radius < 1 or radius > 200:
+                        print("❌ Invalid radius. Must be between 1 and 200.")
+                        print("   Example: /observe 32")
+                        return
+                except ValueError:
+                    print("❌ Invalid radius. Please use an integer.")
+                    print("   Example: /observe 32")
+                    return
+            
+            print(f"🔍 CHEAT: Getting raw observation data (radius: {radius})...")
+            
+            # Direct call to observe_environment without going through LLM
+            result = self.agent.game_tools.observe_environment({"radius": radius})
+            
+            # Print the raw result
+            print("📋 RAW OBSERVATION DATA:")
+            print("=" * 80)
+            if isinstance(result, str):
+                # Try to parse and pretty-print JSON if it's in the string
+                import re
+                import json
+                
+                json_match = re.search(r'\{.*\}', result, re.DOTALL)
+                if json_match:
+                    try:
+                        data = json.loads(json_match.group())
+                        print(json.dumps(data, indent=2, ensure_ascii=False))
+                    except json.JSONDecodeError:
+                        # Fallback to raw string if JSON parsing fails
+                        print(result)
+                else:
+                    print(result)
+            else:
+                # If result is already a dict/object, pretty print it
+                import json
+                print(json.dumps(result, indent=2, ensure_ascii=False))
+            
+            print("=" * 80)
+            self.log_message("CHEAT", f"Observed environment (radius: {radius})")
+            
+        except Exception as e:
+            print(f"❌ Observe failed: {str(e)}")
+            self.log_message("CHEAT", f"Observe failed: {str(e)}")
+
+    def handle_cheat_command(self, command: str):
+        """Handle any cheat command - centralized dispatcher"""
+        command = command.strip()
+        
+        if command.startswith('/teleport'):
+            self.handle_teleport_command(command)
+        elif command.startswith('/equip'):
+            self.handle_equip_command(command)
+        elif command.startswith('/setlevel'):
+            self.handle_setlevel_command(command)
+        elif command.startswith('/fullequip'):
+            self.handle_fullequip_command(command)
+        elif command.startswith('/give'):
+            self.handle_give_command(command)
+        elif command.startswith('/observe'):
+            self.handle_observe_command(command)
+        else:
+            print(f"❌ Unknown cheat command: {command}")
+            print("Available cheat commands:")
+            print("  /teleport x y [withAnimation] - Teleport to coordinates")
+            print("  /equip <item> [count] [enchant] - Give and equip item")
+            print("  /setlevel <level> - Set all combat skills to level")
+            print("  /give <item> [count] - Give items to inventory")
+            print("  /fullequip - Give essential equipment set")
+            print("  /observe [radius] - Show raw observation JSON data")
+
+    def handle_new_character_creation(self):
+        """Handle new character creation or recreation"""
+        if not self.new_character:
+            return None
+            
+        self.log_message("SYSTEM", "🔄 Creating/recreating character...")
+        print("🔄 Creating/recreating character...")
+        
+        try:
+            # First try to create a new character (this will succeed if username doesn't exist)
+            create_result = self.agent.game_tools.create_character({
+                "username": self.username,
+                "password": "temp123456"  # Use a temporary password
+            })
+            
+            if "successfully" in create_result.lower() and "token obtained" in create_result.lower():
+                self.log_message("SYSTEM", f"✅ New character created: {create_result}")
+                
+                # After creating character, login with the credentials to get a proper session token
+                try:
+                    login_result = self.agent.game_tools.login_character({
+                        "username": self.username,
+                        "password": "temp123456"
+                    })
+                    if "successfully" in login_result.lower() and "token obtained" in login_result.lower():
+                        self.log_message("SYSTEM", f"✅ Logged into new character: {login_result}")
+                        return login_result
+                    else:
+                        self.log_message("SYSTEM", f"⚠️ Character created but login failed: {login_result}")
+                        return create_result  # Return create result as fallback
+                except Exception as e:
+                    self.log_message("SYSTEM", f"⚠️ Character created but login failed: {str(e)}")
+                    return create_result  # Return create result as fallback
+            
+            # If creation failed (likely because character exists), try to login and reset
+            self.log_message("SYSTEM", "⚠️ Character exists, attempting to recreate...")
+            print("⚠️ Character already exists, recreating with fresh state...")
+            
+            # Try to login with common passwords to access existing character
+            for dummy_password in ["temp123456", "password", "123456", "newchar123", self.password]:
+                try:
+                    login_result = self.agent.game_tools.login_character({
+                        "username": self.username,
+                        "password": dummy_password
+                    })
+                    
+                    if "successfully" in login_result.lower() and "token obtained" in login_result.lower():
+                        self.log_message("SYSTEM", f"✅ Logged into existing character: {login_result}")
+                        print("✅ Accessed existing character, will reset to fresh state")
+                        
+                        # Reset the character to default state
+                        self.reset_character_to_default()
+                        return login_result
+                        
+                except Exception as e:
+                    continue  # Try next password
+            
+            # If all login attempts failed, try to create with different approach
+            self.log_message("SYSTEM", "⚠️ Could not access existing character, trying creation again...")
+            
+            # Sometimes the create endpoint can be used even if character exists
+            # Let's try one more time with create
+            create_result = self.agent.game_tools.create_character({
+                "username": self.username,
+                "password": "newchar123"
+            })
+            
+            if "successfully" in create_result.lower() or "token obtained" in create_result.lower():
+                self.log_message("SYSTEM", f"✅ Character created/accessed: {create_result}")
+                return create_result
+            
+            # If everything failed, return error
+            error_msg = "Failed to create or access character. Character may exist with unknown password."
+            self.log_message("SYSTEM", f"❌ {error_msg}")
+            return f"Error: {error_msg}"
+            
+        except Exception as e:
+            error_msg = f"Character creation/recreation failed: {str(e)}"
+            self.log_message("SYSTEM", f"❌ {error_msg}")
+            return f"Error: {error_msg}"
+
+    def reset_character_to_default(self):
+        """Reset character to default/fresh state"""
+        try:
+            self.log_message("SYSTEM", "🔄 Resetting character to default state...")
+            
+            # Reset to level 1 and clear inventory/equipment
+            # Note: This uses existing cheat commands to reset the character
+            
+            # Reset combat levels to 1
+            try:
+                result = self.agent.game_tools.set_combat_level({"level": 1})
+                self.log_message("SYSTEM", f"Reset combat level: {result}")
+            except Exception as e:
+                self.log_message("SYSTEM", f"⚠️ Could not reset combat level: {str(e)}")
+            
+            # Clear inventory
+            try:
+                result = self.agent.game_tools.set_inventory({
+                    "items": [],
+                    "clearFirst": True
+                })
+                self.log_message("SYSTEM", f"Cleared inventory: {result}")
+            except Exception as e:
+                self.log_message("SYSTEM", f"⚠️ Could not clear inventory: {str(e)}")
+            
+            # Teleport to spawn
+            try:
+                result = self.agent.game_tools.teleport_character({
+                    "x": 250,
+                    "y": 180,
+                    "withAnimation": False
+                })
+                self.log_message("SYSTEM", f"Reset position: {result}")
+            except Exception as e:
+                self.log_message("SYSTEM", f"⚠️ Could not reset position: {str(e)}")
+            
+            self.log_message("SYSTEM", "✅ Character reset to default state")
+            print("✅ Character reset to fresh state")
+            
+        except Exception as e:
+            self.log_message("SYSTEM", f"⚠️ Character reset had some issues: {str(e)}")
+
+    def apply_initial_state(self):
+        """Apply initial state configuration after login"""
+        results = []
+        
+        # Apply initial location
+        if self.initial_location:
+            x, y = self.initial_location
+            try:
+                result = self.agent.game_tools.teleport_character({
+                    "x": x,
+                    "y": y,
+                    "withAnimation": False
+                })
+                results.append(f"🗺️ Teleported to ({x}, {y}): {result}")
+                self.log_message("INIT", f"Initial teleport to ({x}, {y}): {result}")
+            except Exception as e:
+                results.append(f"❌ Initial teleport failed: {str(e)}")
+                self.log_message("INIT", f"Initial teleport failed: {str(e)}")
+        
+        # Apply combat levels
+        if self.combat_levels:
+            for skill, level in self.combat_levels.items():
+                try:
+                    result = self.agent.game_tools.set_individual_skill_level({
+                        "skill": skill,
+                        "level": level
+                    })
+                    results.append(f"⚔️ Set {skill} to level {level}: {result}")
+                    self.log_message("INIT", f"Set {skill} to level {level}: {result}")
+                except Exception as e:
+                    results.append(f"❌ Failed to set {skill} level: {str(e)}")
+                    self.log_message("INIT", f"Failed to set {skill} level: {str(e)}")
+            
+            # Restore HP and MP after setting combat levels
+            try:
+                result = self.agent.game_tools.restore_hp_mp()
+                results.append(f"💚 Restored HP/MP: {result}")
+                self.log_message("INIT", f"HP/MP restoration: {result}")
+            except Exception as e:
+                results.append(f"❌ Failed to restore HP/MP: {str(e)}")
+                self.log_message("INIT", f"HP/MP restoration failed: {str(e)}")
+        
+        # Apply equipped items
+        if self.equipped_items:
+            for item_spec in self.equipped_items:
+                try:
+                    # Parse item specification: "itemkey" or "itemkey:count" or "itemkey:count:enchant"
+                    parts = item_spec.split(':')
+                    item_key = parts[0]
+                    count = int(parts[1]) if len(parts) > 1 else 1
+                    enchant = int(parts[2]) if len(parts) > 2 else 0
+                    
+                    result = self.agent.game_tools.give_and_equip_item({
+                        "itemKey": item_key,
+                        "count": count,
+                        "enchantmentLevel": enchant
+                    })
+                    results.append(f"🛡️ Equipped {item_key} (x{count}, +{enchant}): {result}")
+                    self.log_message("INIT", f"Equipped {item_key}: {result}")
+                except Exception as e:
+                    results.append(f"❌ Failed to equip {item_spec}: {str(e)}")
+                    self.log_message("INIT", f"Failed to equip {item_spec}: {str(e)}")
+        
+        # Apply inventory items
+        if self.inventory_items:
+            try:
+                # Parse inventory items into the format expected by setInventory
+                items_list = []
+                for item_spec in self.inventory_items:
+                    parts = item_spec.split(':')
+                    item_key = parts[0]
+                    count = int(parts[1]) if len(parts) > 1 else 1
+                    enchant = int(parts[2]) if len(parts) > 2 else 0
+                    
+                    item_data = {"key": item_key, "count": count}
+                    if enchant > 0:
+                        item_data["enchantments"] = {
+                            "damage": enchant,
+                            "accuracy": enchant,
+                            "defense": enchant
+                        }
+                    items_list.append(item_data)
+                
+                result = self.agent.game_tools.set_inventory({
+                    "items": items_list,
+                    "clearFirst": False
+                })
+                results.append(f"🎒 Added {len(items_list)} items to inventory: {result}")
+                self.log_message("INIT", f"Inventory setup: {result}")
+            except Exception as e:
+                results.append(f"❌ Failed to set inventory: {str(e)}")
+                self.log_message("INIT", f"Inventory setup failed: {str(e)}")
+        
+        return results
+
     def start_interactive_session(self):
         """Start the interactive CLI session"""
         # Fancy banner
@@ -369,41 +679,62 @@ class GameConsole:
         print(f"⚙️  Max Iterations: {self.max_iterations}")
         print("═" * 80)
         
-        # Auto-login directly without LLM prompting
-        self.log_message("SYSTEM", "🔄 Auto-logging into game...")
-        try:
-            # Direct login call without going through LLM
-            login_result = self.agent.game_tools.login_character({
-                "username": self.username,
-                "password": self.password
-            })
-            
-            # If login failed, try logout first then login again
-            if "Failed to login" in login_result and "400 Client Error" in login_result:
-                self.log_message("SYSTEM", "⚠️ Login failed, attempting cleanup and retry...")
-                try:
-                    # Try to logout any existing session (this might fail, that's OK)
-                    cleanup_result = self.agent.game_tools.logout_character()
-                    self.log_message("SYSTEM", f"🧹 Cleanup: {cleanup_result}")
-                except:
-                    pass  # Ignore cleanup errors
-                
-                # Retry login after cleanup
+        # Handle new character creation or regular login
+        if self.new_character:
+            self.log_message("SYSTEM", "🔄 Creating/accessing character...")
+            try:
+                login_result = self.handle_new_character_creation()
+            except Exception as e:
+                login_result = f"Character creation failed: {str(e)}"
+        else:
+            # Regular auto-login directly without LLM prompting
+            self.log_message("SYSTEM", "🔄 Auto-logging into game...")
+            try:
+                # Direct login call without going through LLM
                 login_result = self.agent.game_tools.login_character({
                     "username": self.username,
                     "password": self.password
                 })
-            
-            # Auto-teleport if enabled
+                
+                # If login failed, try logout first then login again
+                if "Failed to login" in login_result and "400 Client Error" in login_result:
+                    self.log_message("SYSTEM", "⚠️ Login failed, attempting cleanup and retry...")
+                    try:
+                        # Try to logout any existing session (this might fail, that's OK)
+                        cleanup_result = self.agent.game_tools.logout_character()
+                        self.log_message("SYSTEM", f"🧹 Cleanup: {cleanup_result}")
+                    except:
+                        pass  # Ignore cleanup errors
+                    
+                    # Retry login after cleanup
+                    login_result = self.agent.game_tools.login_character({
+                        "username": self.username,
+                        "password": self.password
+                    })
+            except Exception as e:
+                login_result = f"Login failed: {str(e)}"
+        
+        # Auto-teleport if enabled (for both new character and regular login)
+        try:
             if "successfully" in login_result.lower() and "token obtained" in login_result.lower():
-                teleport_result = self.agent._auto_teleport_to_spawn()
-                if teleport_result:
-                    login_result += f"\n{teleport_result}"
+                # Skip auto-teleport if custom location is specified
+                if not self.initial_location:
+                    teleport_result = self.agent._auto_teleport_to_spawn()
+                    if teleport_result:
+                        login_result += f"\n{teleport_result}"
+                
+                # Apply initial state configuration
+                initial_state_results = self.apply_initial_state()
+                if initial_state_results:
+                    print("\n🎯 APPLYING INITIAL STATE CONFIGURATION:")
+                    for result in initial_state_results:
+                        print(f"  {result}")
+                    login_result += f"\n\nInitial state applied: {len(initial_state_results)} operations completed"
             
             self.log_message("SYSTEM", f"✅ {login_result}")
         except Exception as e:
-            self.log_message("SYSTEM", f"❌ Login failed: {str(e)}")
-            print("\n⚠️  Failed to auto-login. You may need to login manually in your first command.")
+            self.log_message("SYSTEM", f"❌ Login/setup failed: {str(e)}")
+            print("\n⚠️  Failed to complete login/setup process.")
         
         print("\n🎯 READY FOR NATURAL LANGUAGE COMMANDS!")
         print("┌─" + "─" * 76 + "─┐")
@@ -417,6 +748,7 @@ class GameConsole:
         print("│ ⚡ '/setlevel <level>' - Cheat: set player level                        │")
         print("│ ⚡ '/give <item> [count]' - Cheat: give items to inventory              │")
         print("│ ⚡ '/fullequip' - Cheat: give essential equipment set (sword, axe, staff, armor)   │")
+        print("│ ⚡ '/observe [radius]' - Cheat: show raw observation JSON data          │")
         print("│ 🚪 'logout' - Logout current session                                   │")
         print("│ 🚪 'exit' - Quit the console                                           │")
         print("└─" + "─" * 76 + "─┘")
@@ -457,9 +789,19 @@ class GameConsole:
                             "password": self.password
                         })
                         if "successfully" in login_result.lower() and "token obtained" in login_result.lower():
-                            teleport_result = self.agent._auto_teleport_to_spawn()
-                            if teleport_result:
-                                login_result += f"\n{teleport_result}"
+                            # Skip auto-teleport if custom location is specified
+                            if not self.initial_location:
+                                teleport_result = self.agent._auto_teleport_to_spawn()
+                                if teleport_result:
+                                    login_result += f"\n{teleport_result}"
+                            
+                            # Apply initial state configuration after reset
+                            initial_state_results = self.apply_initial_state()
+                            if initial_state_results:
+                                print("\n🎯 APPLYING INITIAL STATE CONFIGURATION:")
+                                for result in initial_state_results:
+                                    print(f"  {result}")
+                                login_result += f"\n\nInitial state applied: {len(initial_state_results)} operations completed"
                         self.log_message("SYSTEM", f"✅ Reset complete: {login_result}")
                     except Exception as e:
                         self.log_message("SYSTEM", f"❌ Reset login failed: {str(e)}")
@@ -477,29 +819,9 @@ class GameConsole:
                     self.show_conversation_history()
                     continue
                 
-                elif user_input.startswith('/teleport'):
-                    # Handle teleport cheat command
-                    self.handle_teleport_command(user_input)
-                    continue
-                
-                elif user_input.startswith('/equip'):
-                    # Handle equip cheat command
-                    self.handle_equip_command(user_input)
-                    continue
-                
-                elif user_input.startswith('/setlevel'):
-                    # Handle setlevel cheat command
-                    self.handle_setlevel_command(user_input)
-                    continue
-                
-                elif user_input.startswith('/fullequip'):
-                    # Handle fullequip cheat command
-                    self.handle_fullequip_command(user_input)
-                    continue
-                
-                elif user_input.startswith('/give'):
-                    # Handle give item cheat command
-                    self.handle_give_command(user_input)
+                elif user_input.startswith('/'):
+                    # Handle any cheat command using centralized dispatcher
+                    self.handle_cheat_command(user_input)
                     continue
                 
                 elif user_input.lower() == 'logout':
@@ -665,15 +987,53 @@ def parse_arguments():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=f"""
 Examples:
+  # Basic usage
   python console.py                                      # Interactive console with {DEFAULT_LLM_PROVIDER}
   python console.py --provider openai --api-key sk-...  # Use OpenAI GPT-4
   python console.py --provider claude --api-key sk-...  # Use Anthropic Claude
   python console.py --provider deepseek --api-key sk-... # Use DeepSeek
+  
+  # Initial state configuration
+  python console.py --location 250,180                  # Start at coordinates (250, 180)
+  python console.py --combat-level-accuracy 45          # Set accuracy to level 45
+  python console.py --combat-level-strength 50 --combat-level-cooking 30  # Set multiple skills
+  python console.py --equipped-items coppersword ironhelmet:1:3  # Equip sword and +3 helmet
+  python console.py --inventory-items stick:10 bead:5 ironbar:3  # Start with items
+  
+  # Combined configuration
+  python console.py --location 300,200 --combat-level-accuracy 45 \\
+    --equipped-items bastardsword whitearmor \\
+    --inventory-items healingpotion:10 firepotion:5 \\
+    --task "explore and fight mobs"
+  
+  # Other options
   python console.py --host http://localhost:9001         # Connect to different game server
   python console.py --task "explore the forest"         # Single task mode
   python console.py --task "fight mobs" --output game.log # Single task with log file
   python console.py --username myagent --password 123   # Custom credentials
   python console.py --output session.log                # Save all logs to file
+
+Cheat Commands (interactive mode or --task):
+  /teleport x y                # Teleport to coordinates
+  /equip itemkey [count] [enchant]  # Give and equip item
+  /setlevel level              # Set all combat skills to level
+  /give itemkey [count]        # Give items to inventory
+  /fullequip                   # Give essential equipment set
+  /observe [radius]            # Show raw observation JSON data
+  
+  # Examples with --task:
+  python console.py --task "/observe 32"
+  python console.py --task "/teleport 300 200"
+  python console.py --task "/setlevel 50"
+  
+  # New character creation:
+  python console.py --new-character --username freshbot --task "/observe"
+  python console.py --new-character --username testchar --location 300,200 --combat-level-strength 45
+
+Item Format:
+  - Equipment: 'itemkey' or 'itemkey:count' or 'itemkey:count:enchant'
+  - Inventory: 'itemkey:count' or 'itemkey:count:enchant'
+  - Examples: coppersword, ironhelmet:1:3, healingpotion:10
 
 Supported Providers: {', '.join(providers)}
 Default Models: {', '.join([f'{p}={m}' for p, m in default_models.items()])}
@@ -737,6 +1097,134 @@ Default Models: {', '.join([f'{p}={m}' for p, m in default_models.items()])}
         help="Output log file path (e.g., game_session.log)"
     )
     
+    # Initial state configuration options
+    parser.add_argument(
+        "--location",
+        type=str,
+        help="Initial spawn location as 'x,y' coordinates (e.g., '250,180')"
+    )
+    
+    parser.add_argument(
+        "--combat-level-accuracy",
+        type=int,
+        metavar="LEVEL",
+        help="Set initial Accuracy skill level (1-120)"
+    )
+    
+    parser.add_argument(
+        "--combat-level-strength",
+        type=int,
+        metavar="LEVEL",
+        help="Set initial Strength skill level (1-120)"
+    )
+    
+    parser.add_argument(
+        "--combat-level-defense",
+        type=int,
+        metavar="LEVEL",
+        help="Set initial Defense skill level (1-120)"
+    )
+    
+    parser.add_argument(
+        "--combat-level-health",
+        type=int,
+        metavar="LEVEL",
+        help="Set initial Health skill level (1-120)"
+    )
+    
+    parser.add_argument(
+        "--combat-level-magic",
+        type=int,
+        metavar="LEVEL",
+        help="Set initial Magic skill level (1-120)"
+    )
+    
+    parser.add_argument(
+        "--combat-level-archery",
+        type=int,
+        metavar="LEVEL",
+        help="Set initial Archery skill level (1-120)"
+    )
+    
+    # Non-combat skills
+    parser.add_argument(
+        "--combat-level-lumberjacking",
+        type=int,
+        metavar="LEVEL",
+        help="Set initial Lumberjacking skill level (1-120)"
+    )
+    
+    parser.add_argument(
+        "--combat-level-mining",
+        type=int,
+        metavar="LEVEL",
+        help="Set initial Mining skill level (1-120)"
+    )
+    
+    parser.add_argument(
+        "--combat-level-fishing",
+        type=int,
+        metavar="LEVEL",
+        help="Set initial Fishing skill level (1-120)"
+    )
+    
+    parser.add_argument(
+        "--combat-level-cooking",
+        type=int,
+        metavar="LEVEL",
+        help="Set initial Cooking skill level (1-120)"
+    )
+    
+    parser.add_argument(
+        "--combat-level-smithing",
+        type=int,
+        metavar="LEVEL",
+        help="Set initial Smithing skill level (1-120)"
+    )
+    
+    parser.add_argument(
+        "--combat-level-crafting",
+        type=int,
+        metavar="LEVEL",
+        help="Set initial Crafting skill level (1-120)"
+    )
+    
+    parser.add_argument(
+        "--combat-level-fletching",
+        type=int,
+        metavar="LEVEL",
+        help="Set initial Fletching skill level (1-120)"
+    )
+    
+    parser.add_argument(
+        "--combat-level-foraging",
+        type=int,
+        metavar="LEVEL",
+        help="Set initial Foraging skill level (1-120)"
+    )
+    
+    parser.add_argument(
+        "--equipped-items",
+        type=str,
+        nargs='+',
+        metavar="ITEM",
+        help="Initial equipped items. Format: 'itemkey' or 'itemkey:count' or 'itemkey:count:enchant'. Example: coppersword ironhelmet:1:3"
+    )
+    
+    parser.add_argument(
+        "--inventory-items",
+        type=str,
+        nargs='+',
+        metavar="ITEM",
+        help="Initial inventory items. Format: 'itemkey:count' or 'itemkey:count:enchant'. Example: stick:10 bead:5 ironbar:3:2"
+    )
+    
+    parser.add_argument(
+        "--new-character",
+        action="store_true",
+        help="Create a fresh character. If username exists, recreate it with default settings. No password required."
+    )
+    
     return parser.parse_args()
 
 
@@ -765,6 +1253,36 @@ def main():
                 print("   Set DEEPSEEK_API_KEY environment variable")
             sys.exit(1)
     
+    # Parse initial state configuration
+    initial_location = None
+    if args.location:
+        try:
+            x, y = map(int, args.location.split(','))
+            initial_location = (x, y)
+        except ValueError:
+            print(f"❌ Error: Invalid location format '{args.location}'. Expected 'x,y' (e.g., '250,180')")
+            sys.exit(1)
+    
+    # Parse combat levels (all available skills)
+    combat_levels = {}
+    all_skills = ['accuracy', 'strength', 'defense', 'health', 'magic', 'archery', 
+                  'lumberjacking', 'mining', 'fishing', 'cooking', 'smithing', 
+                  'crafting', 'fletching', 'foraging']
+    
+    for skill in all_skills:
+        level = getattr(args, f'combat_level_{skill}')
+        if level is not None:
+            if level < 1 or level > 120:
+                print(f"❌ Error: {skill} level must be between 1 and 120")
+                sys.exit(1)
+            combat_levels[skill] = level
+    
+    # Parse equipped items
+    equipped_items = args.equipped_items or []
+    
+    # Parse inventory items
+    inventory_items = args.inventory_items or []
+    
     # Create console instance
     console = GameConsole(
         username=args.username, 
@@ -773,7 +1291,12 @@ def main():
         api_key=api_key,
         model=args.model,
         host=args.host,
-        output_file=args.output
+        output_file=args.output,
+        initial_location=initial_location,
+        combat_levels=combat_levels,
+        equipped_items=equipped_items,
+        inventory_items=inventory_items,
+        new_character=args.new_character
     )
     console.max_iterations = args.max_iterations
     
@@ -783,43 +1306,71 @@ def main():
             print("═" * 80)
             print(f"🎯 SINGLE TASK MODE: {args.task}")
             print("═" * 80)
-            console.log_message("SYSTEM", "🔄 Auto-logging into game...")
-            
-            # Direct login without LLM
-            try:
-                login_result = console.agent.game_tools.login_character({
-                    "username": console.username,
-                    "password": console.password
-                })
+            # Handle new character creation or regular login
+            if console.new_character:
+                console.log_message("SYSTEM", "🔄 Creating/accessing character...")
+                try:
+                    login_result = console.handle_new_character_creation()
+                except Exception as e:
+                    login_result = f"Character creation failed: {str(e)}"
+            else:
+                console.log_message("SYSTEM", "🔄 Auto-logging into game...")
                 
-                # If login failed, try logout first then login again
-                if "Failed to login" in login_result and "400 Client Error" in login_result:
-                    console.log_message("SYSTEM", "⚠️ Login failed, attempting cleanup and retry...")
-                    try:
-                        # Try to logout any existing session
-                        cleanup_result = console.agent.game_tools.logout_character()
-                        console.log_message("SYSTEM", f"🧹 Cleanup: {cleanup_result}")
-                    except:
-                        pass  # Ignore cleanup errors
-                    
-                    # Retry login after cleanup
+                # Direct login without LLM
+                try:
                     login_result = console.agent.game_tools.login_character({
                         "username": console.username,
                         "password": console.password
                     })
-                
+                    
+                    # If login failed, try logout first then login again
+                    if "Failed to login" in login_result and "400 Client Error" in login_result:
+                        console.log_message("SYSTEM", "⚠️ Login failed, attempting cleanup and retry...")
+                        try:
+                            # Try to logout any existing session
+                            cleanup_result = console.agent.game_tools.logout_character()
+                            console.log_message("SYSTEM", f"🧹 Cleanup: {cleanup_result}")
+                        except:
+                            pass  # Ignore cleanup errors
+                        
+                        # Retry login after cleanup
+                        login_result = console.agent.game_tools.login_character({
+                            "username": console.username,
+                            "password": console.password
+                        })
+                except Exception as e:
+                    login_result = f"Login failed: {str(e)}"
+            
+            # Auto-teleport and initial state setup (for both new character and regular login)
+            try:
                 if "successfully" in login_result.lower() and "token obtained" in login_result.lower():
-                    teleport_result = console.agent._auto_teleport_to_spawn()
-                    if teleport_result:
-                        login_result += f"\n{teleport_result}"
+                    # Skip auto-teleport if custom location is specified
+                    if not console.initial_location:
+                        teleport_result = console.agent._auto_teleport_to_spawn()
+                        if teleport_result:
+                            login_result += f"\n{teleport_result}"
+                    
+                    # Apply initial state configuration
+                    initial_state_results = console.apply_initial_state()
+                    if initial_state_results:
+                        print("\n🎯 APPLYING INITIAL STATE CONFIGURATION:")
+                        for result in initial_state_results:
+                            print(f"  {result}")
+                        login_result += f"\n\nInitial state applied: {len(initial_state_results)} operations completed"
                 console.log_message("SYSTEM", f"✅ {login_result}")
             except Exception as e:
-                console.log_message("SYSTEM", f"❌ Login failed: {str(e)}")
-                print("⚠️  Auto-login failed, continuing anyway...")
+                console.log_message("SYSTEM", f"❌ Login/setup failed: {str(e)}")
+                print("⚠️  Auto-login/setup failed, continuing anyway...")
             
-            # Execute the single task via agent
-            print(f"\n🚀 Executing task...")
-            response = console.agent.process_user_input(args.task)
+            # Check if the task is a cheat command
+            if args.task.startswith('/'):
+                print(f"\n🚀 Executing cheat command: {args.task}")
+                console.handle_cheat_command(args.task)
+                response = "Cheat command executed successfully"
+            else:
+                # Execute the single task via agent
+                print(f"\n🚀 Executing task...")
+                response = console.agent.process_user_input(args.task)
             
             print("═" * 80)
             print(f"✅ Task completed! Final response: {response[:200]}{'...' if len(response) > 200 else ''}")

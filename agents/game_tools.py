@@ -1026,4 +1026,145 @@ class KaetramGameTools:
         if not response or not isinstance(response, str):
             response = "Task completed."
             
-        return f"TASK_COMPLETE: {response}" 
+        return f"TASK_COMPLETE: {response}"
+
+    def set_individual_skill_level(self, arguments: Dict[str, Any]) -> str:
+        """Set individual skill level (admin cheat command)"""
+        if not self.token:
+            return "Error: No token available. Please login first."
+        
+        skill = arguments.get("skill", "")
+        level = arguments.get("level", 1)
+        
+        if not skill:
+            return "Error: Skill name is required."
+        
+        if level < 1 or level > 120:
+            return "Error: Level must be between 1 and 120."
+        
+        # Map skill names to proper casing
+        skill_mapping = {
+            "accuracy": "Accuracy",
+            "strength": "Strength", 
+            "defense": "Defense",
+            "health": "Health",
+            "magic": "Magic",
+            "archery": "Archery",
+            "lumberjacking": "Lumberjacking",
+            "mining": "Mining",
+            "fishing": "Fishing",
+            "cooking": "Cooking",
+            "smithing": "Smithing",
+            "crafting": "Crafting",
+            "fletching": "Fletching",
+            "foraging": "Foraging"
+        }
+        
+        skill_proper = skill_mapping.get(skill.lower(), skill)
+        
+        # Use the existing setCombatLevel endpoint for individual skills by setting specific skill
+        # For now, we'll use setPlayerStatus to try to modify levels
+        data = {
+            "token": self.token,
+            "skill": skill_proper,
+            "level": int(level)
+        }
+        
+        # Try a direct skill setting approach (this may not exist in the API)
+        result = self._make_request("POST", "/ai/setSkillLevel", data)
+        
+        if result.get("status") == "success":
+            return f"Successfully set {skill_proper} to level {level}"
+        else:
+            # Fallback: use setCombatLevel if it's a combat skill
+            combat_skills = ["accuracy", "strength", "defense", "health", "magic", "archery"]
+            if skill.lower() in combat_skills:
+                # For combat skills, we can only set all at once currently
+                combat_result = self._make_request("POST", "/ai/setCombatLevel", {
+                    "token": self.token,
+                    "level": int(level)
+                })
+                
+                if combat_result.get("status") == "success":
+                    return f"Set all combat skills to level {level} (individual skill setting not available)"
+                else:
+                    return f"Failed to set skill level: {result.get('message', 'Unknown error')}"
+            else:
+                return f"Failed to set {skill_proper} level: {result.get('message', 'Individual non-combat skill setting not supported')}"
+
+    def restore_hp_mp(self) -> str:
+        """Restore HP and MP to maximum values"""
+        if not self.token:
+            return "Error: No token available. Please login first."
+        
+        # First observe to get current max values
+        try:
+            observation_result = self.observe_environment({"radius": 1})
+            if isinstance(observation_result, str) and "Environment observation" in observation_result:
+                import re
+                import json
+                
+                json_match = re.search(r'\{.*\}', observation_result, re.DOTALL)
+                if json_match:
+                    data = json.loads(json_match.group())
+                    player_status = data.get("playerStatus", {})
+                    
+                    max_hp = player_status.get("maxHitPoints", 100)
+                    max_mp = player_status.get("maxMana", 50)
+                    
+                    # Set HP and MP to max values
+                    restore_data = {
+                        "token": self.token,
+                        "hitPoints": max_hp,
+                        "mana": max_mp
+                    }
+                    
+                    result = self._make_request("POST", "/ai/setPlayerStatus", restore_data)
+                    
+                    if result.get("status") == "success":
+                        return f"Successfully restored HP to {max_hp} and MP to {max_mp}"
+                    else:
+                        return f"Failed to restore HP/MP: {result.get('message', 'Unknown error')}"
+                else:
+                    return "Error: Could not parse player status"
+            else:
+                return "Error: Could not get player status"
+        except Exception as e:
+            return f"Error restoring HP/MP: {str(e)}"
+
+    def set_inventory(self, arguments: Dict[str, Any]) -> str:
+        """Set inventory items (admin cheat command)"""
+        if not self.token:
+            return "Error: No token available. Please login first."
+        
+        items = arguments.get("items", [])
+        clear_first = arguments.get("clearFirst", False)
+        
+        if not items:
+            return "Error: Items list is required."
+        
+        data = {
+            "token": self.token,
+            "items": items,
+            "clearFirst": clear_first
+        }
+        
+        result = self._make_request("POST", "/ai/setInventory", data)
+        
+        if result.get("status") == "success":
+            results = result.get("results", {})
+            added_items = results.get("addedItems", [])
+            failed_items = results.get("failedItems", [])
+            
+            success_count = len(added_items)
+            total_count = len(items)
+            
+            message = f"Successfully added {success_count}/{total_count} items to inventory"
+            
+            if failed_items:
+                failed_names = [item.get("key", "unknown") for item in failed_items]
+                message += f". Failed items: {', '.join(failed_names)}"
+            
+            return message
+        else:
+            return f"Failed to set inventory: {result.get('message', 'Unknown error')}" 
