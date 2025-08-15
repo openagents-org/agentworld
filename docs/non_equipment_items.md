@@ -1,0 +1,422 @@
+# Non-Equipment Items
+
+This document contains all non-equipment item keys organized by category.
+
+## Summary
+
+**Total Non-Equipment Items**: 133
+
+- **Consumables**: 34 items
+- **Crafting**: 17 items
+- **Currency**: 4 items
+- **Misc**: 78 items
+
+## Consumables (34 items)
+
+- **accuracypotion** - Accuracy Potion (Edible| Price: 1000| Plugin: accuracypotion)
+- **cure** - Antidote (Edible| Price: 150| Plugin: poisoncure)
+  - Are you poisoned? Have you been involved in a fight with a poisonous snake or venomous spider? Well this is the cure for you!
+- **apple** - Apple (Edible| Heal: 450| Plugin: healingitem)
+  - An apple, an excellent source of energy!
+- **banana** - Banana (Edible| Heal: 700| Plugin: healingitem)
+  - A banana, a fruit that is yellow and long. It is a good source of potassium and fiber.
+- **beermug** - Beer (Edible| Price: 1000| Plugin: beermug)
+  - Nothing is quite as refreshing as a beer, though this may potentially inhibit your accuracy for a wee bit.
+- **bigflask** - Big Flask (Edible| Heal: 250| Stackable| Price: 600| Plugin: healingitem)
+  - It's like the other flask, except it's bigger, so obviously it must heal more! +250 HP!
+- **bigmanaflask** - Big Mana Flask (Edible| Mana: 95| Stackable| Price: 600| Plugin: healingitem)
+  - For those seriously thirsty for some mana! +95 MP!
+- **blackpotion** - Black Potion (Edible| Price: 100| Plugin: blackpotion)
+  - This potion is not at all suspicious. Drink up, it's really yummy!
+- **blueberry** - Blueberry (Edible| Heal: 500| Plugin: healingitem)
+  - A blueberry, a fruit that is blue and round. It is a good source of antioxidants.
+- **boostpotion** - Boost Potion (Edible| Price: 2500| Plugin: boostpotion)
+  - Drinking this will probably speed up your attack rate for a short period of time. I think.
+- **burger** - Burger (Edible| Heal: 200| Stackable| Price: 350| Plugin: healingitem)
+  - How did a burger make its way into a fantasy world? Who knows, but it's delicious! +200 HP!
+- **chilli** - Chilli (Edible| Price: 100| Plugin: healingitem)
+  - A chilli pepper, it's hot so be careful.
+- **clamchowder** - Clam Chowder (Edible| Heal: 750| Price: 1000| Plugin: healingitem)
+  - A delicious soup made from clams. It's a bit salty though.
+- **cookedbeef** - Cooked Beef (Edible| Heal: 400| Price: 250| Plugin: healingitem)
+  - A scrumptious piece of beef. You can eat it and it'll heal you.
+- **cookedchicken** - Cooked Chicken (Edible| Heal: 400| Price: 250| Plugin: healingitem)
+  - A delicious piece of chicken. It's pretty tasty.
+- **cookedpork** - Cooked Pork (Edible| Heal: 400| Price: 100| Plugin: healingitem)
+  - A delicious piece of pork. It's pretty tasty.
+- **cookedsausage** - Cooked Sausage (Edible| Heal: 650| Price: 100| Plugin: healingitem)
+  - A delicious sausage. It's pretty tasty.
+- **cookedshrimp** - Cooked Shrimp (Edible| Heal: 450| Price: 200| Plugin: healingitem)
+  - A singular cooked shrimp, alone and dead. But still delicious.
+- **stew2** - Corn Stew (Edible| Heal: 800| Price: 900| Plugin: healingitem)
+  - A very filling stew, possibly the best stew currently available.
+- **defencepotion** - Defence Potion (Edible| Price: 1000| Plugin: defencepotion)
+  - Drinking this will make give you some serious defense for a short period of time.
+- **firepotion** - Fire Potion (Edible| Price: 250| Plugin: firepotion)
+- **flask** - Flask (Edible| Heal: 100| Stackable| Price: 40| Plugin: healingitem)
+  - A flask used to increment your health from one point to another. How much does it increment it by? +100 HP!
+- **hotsauce** - Hot Sauce (Edible| Price: 150| Plugin: hotsauce)
+  - It's really weird why random mobs would be carrying this item. Like what could they possibly use this for?
+- **jellyfishsmoothie** - Jellyfish Smoothie (Edible| Heal: 750| Price: 1000| Plugin: healingitem)
+  - I can't believe someone would actually think up to create something like this.
+- **manaflask** - Mana Flask (Edible| Mana: 35| Stackable| Price: 200| Plugin: healingitem)
+  - A refreshing drink for those a little bit low on mana! +35 MP!
+- **onion** - Onion (Edible| Heal: 100| Price: 100| Plugin: healingitem)
+  - An onion, it has layers, like an ogre.
+- **orange** - Orange (Edible| Heal: 750| Plugin: healingitem)
+  - It's funny, the name of the fruit is the same as the colour and its colour.
+- **potato** - Potato (Edible| Price: 100| Plugin: healingitem)
+  - A potato, it's a vegetable and it's edible, though cooking it might be better.
+- **snowpotion** - Snow Potion (Edible| Stackable| Price: 25| Plugin: snowpotion)
+  - A magical potion received by some weird monument. It temporarily prevents the player from taking damage from the cold.
+- **strengthpotion** - Strength Potion (Edible| Price: 1000| Plugin: strengthpotion)
+  - Do you wanna partake in maximum damage contests? This potion is probably your best friend.
+- **tomato** - Tomato (Edible| Heal: 100| Price: 100| Plugin: healingitem)
+  - A tomato, it's a fruit and it's edible. Yes it's a fruit get over it.
+- **stew** - Tomato Stew (Edible| Heal: 500| Price: 600| Plugin: healingitem)
+  - A stew composed of tomato, mushrooms, and a bowl.
+- **tunasushi** - Tuna Sushi (Edible| Heal: 850| Price: 1000| Plugin: healingitem)
+  - A delicious sushi made from tuna. Probably the best in-game food at the moment, or not, who knows, I'm just a piece of text.
+- **watermelon** - Watermelon (Edible| Heal: 800| Plugin: healingitem)
+  - A watermelon, I should probably cut this up before eating it.
+
+## Crafting (17 items)
+
+- **bloodwoodlogs** - Bloodwood Logs (Price: 400)
+  - It almost looks like they're crying blood.
+- **bronzeore** - Bronze Ore (Price: 100)
+  - A piece of bronze ore. It's pretty heavy.
+- **cinnabarore** - Cinnabar Ore (Price: 350)
+  - A red ore containing special metals. May be used for crafting of certain weapons.
+- **copperore** - Copper Ore (Price: 100)
+  - A piece of copper ore. It's pretty heavy.
+- **iboore** - Ibo Ore (Price: 800)
+  - A peculiar ore. Its uses are not well understood, perhaps with further research it can be used for something.
+- **icelogs** - Ice Logs (Price: 65)
+  - These logs are made out of ice. They're very cold to the touch. No matter what, they will not thaw. I wonder what happens when you put it in fire.
+- **icepalmlogs** - Ice Palm Logs (Price: 50)
+  - These logs are made out of ice and palm wood. They're very cold to the touch.
+- **icepinelogs** - Ice Pine Logs (Price: 85)
+  - I think I found these when I accidentally swung my axe at a tree repeatedly until it fell down.
+- **ironore** - Iron Ore (Price: 100)
+  - A piece of iron ore.
+- **jellyfish** - Jellyfish (Price: 100)
+  - Did you know that jellyfish don't actually have a brain. So don't feel so bad about yourself!
+- **logs** - Logs (Price: 65)
+  - Ah yes, the classic logs. Looking at them I can see that they're made out of wood.
+- **nisocore** - Nisoc Ore (Price: 250)
+  - An ancient rock forming in volcanic areas. Generally used for crafting pendants and rings, and perhaps other things.
+- **palmlogs** - Palm Logs (Price: 75)
+  - Funny enough, these logs are made out of palm wood. Which is not the same as the other kinds of wood.
+- **pinelogs** - Pine Logs (Price: 88)
+  - I think I found these when I accidentally swung my axe at a tree repeatedly until it fell down.
+- **pytharore** - Pythar Ore (Price: 500)
+  - A purple crystal with magical properties.
+- **tinore** - Tin Ore (Price: 100)
+  - A piece of tin ore.
+- **willowlogs** - Willow Logs (Price: 350)
+  - Classic type of wood. It's hard, it's strong, you can use it for a lot of things. But for now I guess I can sell it.
+
+## Currency (4 items)
+
+- **gold** - Gold (Stackable)
+  - A very useful shiny metal that for some reason people like to exchange for goods.
+- **goldbar** - Gold Bar (Price: 1200)
+  - A bar of gold. It's pretty heavy and shiny.
+- **goldnugget** - Gold Ore (Price: 650)
+  - Raw gold ore, will need to be processed before it can be turned into something nice.
+- **goldore** - Gold Ore (Price: 100)
+  - A piece of gold ore. It's pretty heavy.
+
+## Misc (78 items)
+
+- **amethyst** - Amethyst (Price: 1500)
+  - A nice purple gemstone that is somewhat valuable I guess.
+- **barley** - Barley (Price: 100)
+  - It's a fruit, no it's a sald, no it's a grain. You can probably use it to make bread or something like that.
+- **beryl** - Beryl (Price: 650)
+  - Beryl gemstone, it's quite pretty.
+- **blackberry** - Blackberry (Price: 100)
+  - A berry that grows on bushes. It's pretty tasty when cooked.
+- **bluelily** - Blue Lily (Price: 100)
+  - A blue lily, a flower that can be used for crafting stuff.
+- **book** - Book [Quest]
+- **borth** - Borth (Price: 100)
+  - A nice yummy warm and nice smelling... I really don't know what it is.
+- **bronzebar** - Bronze Bar (Price: 250)
+  - A bar of bronze. It's pretty heavy.
+- **bucket** - Bucket (Price: 100)
+  - A bucket, you can use it to put a variety of liquids in it.
+- **cake** - Cake (Price: 100)
+  - A delicious cake. It's pretty tasty.
+- **candykey** - Candy Key (Price: 50)
+  - A key that allows entrance into Santa's secret chamber. Crumbles upon entering.
+- **cd** - CD [Quest]
+  - A CD received by some dying soldier Private Ryan. Contains his last mixtape. I should probably get this to his Sexy wife or something.
+- **cheese** - Cheese (Price: 100)
+  - A piece of cheese. I think it came from milk.
+- **cilantro** - Cilantro (Price: 100)
+  - A leafy herb that is commonly used in Mexican cuisine. It's pretty tasty when cooked.
+- **citrine** - Citrine (Price: 1100)
+  - It's rather shiny and nice to hold.
+- **clamobject** - Clam (Price: 100)
+  - It has a hard outer shell but I bet it's yummy inside.
+- **cloudberry** - Cloudberry (Price: 100)
+  - A berry that grows on bushes. It's pretty tasty when cooked.
+- **coal** - Coal (Price: 75)
+  - A piece of coal. You can use it smelt ores.
+- **copperbar** - Copper Bar (Price: 100)
+  - A bar of copper. It's pretty heavy.
+- **corn** - Corn (Price: 100)
+  - It's corn, and it's on a cob.
+- **mushroom5** - Cortinarius (Price: 250)
+  - A mushroom that can be used for cooking.
+- **egg** - Egg (Price: 100)
+  - A wonderful sorta round egg, it came from a chicken, I think.
+- **emerald** - Emerald (Price: 1400)
+  - A very nice gemstone that can be used to made rings or pendants.
+- **feather** - Feather (Stackable| Price: 50)
+  - A feather, I think it came off of a bird or something. You could make arrows with this thing.
+- **gooseberry** - Gooseberry (Price: 100)
+  - A berry that grows on bushes. It's pretty tasty when cooked.
+- **hilt1** - Hilt (Price: 1000)
+  - May be used with certain metals to produce a sword.
+- **hilt2** - Hilt (Price: 1000)
+  - May be used with certain metals to produce a sword.
+- **ironbar** - Iron Bar (Price: 100)
+  - A bar of iron. It's pretty heavy.
+- **kelp** - Kelp (Price: 100)
+  - Kelp is a type of seaweed that grows in water. It's pretty tasty when combined with other stuff.
+- **knife** - Knife (Price: 50| Plugin: knife)
+  - A versatile cutting tool that will primarily be used for fletching and stuff.
+- **mushroom3** - Kuriositas (Price: 250)
+  - A mushroom that can be used for cooking.
+- **lapislazuli** - Lapis Lazuli (Price: 800)
+  - A semi-precious stone, it's quite pretty.
+- **lightningbead** - Lightning Bead
+  - A magical bead imbued with lightning properties. Can be used to craft magical items.
+- **bead** - Magic Bead (Stackable| Price: 10)
+  - A bead that emanates magical properties. Can be used in conjunction with other items to create magical items.
+- **naturebead** - Magic Bead
+  - A magical bead imbued with the power of nature. Can be used to craft magical items.
+- **firebead** - Magic Bead
+  - A magical bead imbued with fire. Can be used to craft magical items.
+- **icebead** - Magic Bead
+  - A strong magical bead perpetually frozen. Can be used to craft magical items.
+- **mango** - Mango (Price: 100)
+  - A mango, it's a fruit and it's edible
+- **mushroom4** - Matsutake (Price: 250)
+  - A mushroom that can be used for cooking.
+- **bowlmedium** - Medium Bowl (Price: 100)
+  - A medium bowl. Can be used to cook stuff in it.
+- **milkbottle** - Milk Bottle (Price: 100)
+  - A bottle of milk. It's pretty tasty when cooked.
+- **mulberry** - Mulberry (Price: 100)
+  - A berry that grows on or in bushes.
+- **oat** - Oat (Price: 100)
+  - A grain that is commonly used in bread.
+- **opal** - Opal (Price: 1300)
+  - A nice gemstone that is somewhat valuable I guess.
+- **peach** - Peach (Price: 100)
+  - A peach, it's a fruit and it's edible
+- **peridot** - Peridot (Price: 1300)
+  - A nice green gemstone that is somewhat valuable I guess.
+- **pineapple** - Pineapple (Price: 100)
+  - A pineapple, it's a fruit and it's edible
+- **plum** - Plum (Price: 100)
+  - A plum, it's a fruit and it's edible
+- **quinoa** - Quinoa (Price: 100)
+  - Hello this is the developer, I really don't know what this is even used in so I can't come up with a witty description.
+- **raspberry** - Raspberry (Price: 100)
+  - A berry that grows on or around bushes..
+- **rawbeef** - Raw Beef (Price: 100)
+  - A piece of raw beef. It's probably not the best idea to eat it raw.
+- **rawchicken** - Raw Chicken (Price: 100)
+  - I think I should cook this before I eat it.
+- **rawpork** - Raw Pork (Price: 250)
+  - I think I should cook this before I eat it.
+- **rawsausage** - Raw Sausage (Price: 100)
+  - I think I should cook this before I eat it.
+- **rawshrimp** - Raw Shrimp (Price: 100)
+  - Maybe if I cook this it'll become something actually edible.
+- **rawtuna** - Raw Tuna (Price: 100)
+  - A fish that is commonly found in water. It's pretty tasty when cooked.
+- **rice** - Rice (Price: 100)
+  - You can eat this after you cook it for a bit.
+- **royalazalea** - Royal Azalea
+- **ruby** - Ruby (Price: 1300)
+  - A very nice gemstone that can be used to made rings or pendants.
+- **mushroom2** - Russula (Price: 250)
+  - A mushroom that can be used for cooking.
+- **stick** - Shaft (Stackable| Price: 2)
+  - A stick. It's a stick. What else do you want me to say about it? You can probably use it to craft stuff now that it has been added in the game.
+- **shardt1** - Shard - Tier 1 (Stackable| Price: 1500)
+  - Shards are items used to enchant equipments. Each tier represents the maximum attainable enchantment level and chance of enchanting succeeding.
+- **shardt2** - Shard - Tier 2 (Stackable| Price: 3000)
+  - Shards are items used to enchant equipments. Each tier represents the maximum attainable enchantment level and chance of enchanting succeeding.
+- **shardt3** - Shard - Tier 3 (Stackable| Price: 4500)
+  - Shards are items used to enchant equipments. Each tier represents the maximum attainable enchantment level and chance of enchanting succeeding.
+- **shardt4** - Shard - Tier 4 (Stackable| Price: 6000)
+  - Shards are items used to enchant equipments. Each tier represents the maximum attainable enchantment level and chance of enchanting succeeding.
+- **shardt5** - Shard - Tier 5 (Stackable| Price: 7500)
+  - Shards are items used to enchant equipments. Each tier represents the maximum attainable enchantment level and chance of enchanting succeeding.
+- **mushroom1** - Shiitake (Price: 250)
+  - A mushroom that can be used for cooking.
+- **bowlsmall** - Small Bowl (Price: 100)
+  - A small bowl. Can be used to cook stuff in it.
+- **moonrockore** - Space Rock (Price: 2400)
+  - Part of an Astroid that fell from the sky 172,000 Earthling years ago. Must be special!
+- **strawberry** - Strawberry (Price: 100)
+  - A berry that grows on bushes.
+- **string** - String (Stackable| Price: 50)
+  - A piece of string, can probably be used to make things with it.
+- **taaffeite** - Taaffeite (Price: 1220)
+  - A nice purple gemstone that is somewhat valuable I guess.
+- **tinbar** - Tin Bar (Price: 100)
+  - A bar of tin. It's pretty heavy.
+- **tofu** - Tofu (Price: 100)
+  - A block of tofu. I don't know what to do with this, I'm not vegan.
+- **token** - Token (Stackable)
+  - A special token that can be exchanged for special stuff at a special store somewhere special.
+- **topaz** - Topaz (Price: 350)
+  - A topaz gemstome, it's quite pretty.
+- **mushroom6** - Violet Cort (Price: 250)
+  - A mushroom that can be used for cooking.
+- **waterbucket** - Water Bucket (Price: 100)
+  - A bucket of water. You can use it to cook stuff with it.
+
+## Alphabetical Index
+
+- **accuracypotion** - Accuracy Potion
+- **amethyst** - Amethyst
+- **cure** - Antidote
+- **apple** - Apple
+- **banana** - Banana
+- **barley** - Barley
+- **beermug** - Beer
+- **beryl** - Beryl
+- **bigflask** - Big Flask
+- **bigmanaflask** - Big Mana Flask
+- **blackpotion** - Black Potion
+- **blackberry** - Blackberry
+- **bloodwoodlogs** - Bloodwood Logs
+- **bluelily** - Blue Lily
+- **blueberry** - Blueberry
+- **book** - Book [Quest]
+- **boostpotion** - Boost Potion
+- **borth** - Borth
+- **bronzebar** - Bronze Bar
+- **bronzeore** - Bronze Ore
+- **bucket** - Bucket
+- **burger** - Burger
+- **cake** - Cake
+- **candykey** - Candy Key
+- **cd** - CD [Quest]
+- **cheese** - Cheese
+- **chilli** - Chilli
+- **cilantro** - Cilantro
+- **cinnabarore** - Cinnabar Ore
+- **citrine** - Citrine
+- **clamobject** - Clam
+- **clamchowder** - Clam Chowder
+- **cloudberry** - Cloudberry
+- **coal** - Coal
+- **cookedbeef** - Cooked Beef
+- **cookedchicken** - Cooked Chicken
+- **cookedpork** - Cooked Pork
+- **cookedsausage** - Cooked Sausage
+- **cookedshrimp** - Cooked Shrimp
+- **copperbar** - Copper Bar
+- **copperore** - Copper Ore
+- **corn** - Corn
+- **stew2** - Corn Stew
+- **mushroom5** - Cortinarius
+- **defencepotion** - Defence Potion
+- **egg** - Egg
+- **emerald** - Emerald
+- **feather** - Feather
+- **firepotion** - Fire Potion
+- **flask** - Flask
+- **gold** - Gold
+- **goldbar** - Gold Bar
+- **goldnugget** - Gold Ore
+- **goldore** - Gold Ore
+- **gooseberry** - Gooseberry
+- **hilt1** - Hilt
+- **hilt2** - Hilt
+- **hotsauce** - Hot Sauce
+- **iboore** - Ibo Ore
+- **icelogs** - Ice Logs
+- **icepalmlogs** - Ice Palm Logs
+- **icepinelogs** - Ice Pine Logs
+- **ironbar** - Iron Bar
+- **ironore** - Iron Ore
+- **jellyfish** - Jellyfish
+- **jellyfishsmoothie** - Jellyfish Smoothie
+- **kelp** - Kelp
+- **knife** - Knife
+- **mushroom3** - Kuriositas
+- **lapislazuli** - Lapis Lazuli
+- **lightningbead** - Lightning Bead
+- **logs** - Logs
+- **bead** - Magic Bead
+- **naturebead** - Magic Bead
+- **firebead** - Magic Bead
+- **icebead** - Magic Bead
+- **manaflask** - Mana Flask
+- **mango** - Mango
+- **mushroom4** - Matsutake
+- **bowlmedium** - Medium Bowl
+- **milkbottle** - Milk Bottle
+- **mulberry** - Mulberry
+- **nisocore** - Nisoc Ore
+- **oat** - Oat
+- **onion** - Onion
+- **opal** - Opal
+- **orange** - Orange
+- **palmlogs** - Palm Logs
+- **peach** - Peach
+- **peridot** - Peridot
+- **pinelogs** - Pine Logs
+- **pineapple** - Pineapple
+- **plum** - Plum
+- **potato** - Potato
+- **pytharore** - Pythar Ore
+- **quinoa** - Quinoa
+- **raspberry** - Raspberry
+- **rawbeef** - Raw Beef
+- **rawchicken** - Raw Chicken
+- **rawpork** - Raw Pork
+- **rawsausage** - Raw Sausage
+- **rawshrimp** - Raw Shrimp
+- **rawtuna** - Raw Tuna
+- **rice** - Rice
+- **royalazalea** - Royal Azalea
+- **ruby** - Ruby
+- **mushroom2** - Russula
+- **stick** - Shaft
+- **shardt1** - Shard - Tier 1
+- **shardt2** - Shard - Tier 2
+- **shardt3** - Shard - Tier 3
+- **shardt4** - Shard - Tier 4
+- **shardt5** - Shard - Tier 5
+- **mushroom1** - Shiitake
+- **bowlsmall** - Small Bowl
+- **snowpotion** - Snow Potion
+- **moonrockore** - Space Rock
+- **strawberry** - Strawberry
+- **strengthpotion** - Strength Potion
+- **string** - String
+- **taaffeite** - Taaffeite
+- **tinbar** - Tin Bar
+- **tinore** - Tin Ore
+- **tofu** - Tofu
+- **token** - Token
+- **tomato** - Tomato
+- **stew** - Tomato Stew
+- **topaz** - Topaz
+- **tunasushi** - Tuna Sushi
+- **mushroom6** - Violet Cort
+- **waterbucket** - Water Bucket
+- **watermelon** - Watermelon
+- **willowlogs** - Willow Logs

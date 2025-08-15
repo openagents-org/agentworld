@@ -277,31 +277,75 @@ class KaetramGameTools:
         else:
             return f"Failed to collect resource: {result.get('message', 'Unknown error')}"
 
-    def target_entity(self, arguments: Dict[str, Any]) -> str:
-        """Target an entity for interaction or combat (Note: This uses attack API to target)"""
+    def craft_item(self, arguments: Dict[str, Any]) -> str:
+        """Craft an item using the specified crafting skill"""
         if not self.token:
             return "Error: No token available. Please login first."
         
-        target_instance = arguments.get("targetInstance", "")
+        skill = arguments.get("skill", "")
+        item_key = arguments.get("itemKey", "")
+        count = arguments.get("count", 1)
         
-        if not target_instance:
-            return "Error: Target instance is required."
+        if not skill:
+            return "Error: Crafting skill is required."
         
-        # Use attack API with targetInstance for targeting
+        if not item_key:
+            return "Error: Item key is required for crafting."
+        
+        # Validate skill type (based on actual Modules.Skills enum and API documentation)
+        valid_skills = ["Crafting", "Smithing", "Fletching", "Cooking", "Smelting"]
+        if skill not in valid_skills:
+            return f"Error: Invalid skill '{skill}'. Must be one of: {', '.join(valid_skills)}"
+        
+        # Validate count (API only accepts 1, 5, or 10)
+        if count not in [1, 5, 10]:
+            return "Error: Count must be 1, 5, or 10."
+        
         data = {
             "token": self.token,
-            "targetInstance": target_instance
+            "type": skill,
+            "itemKey": item_key,
+            "count": count
         }
         
-        result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["attack"], data)
+        result = self._make_request("POST", KAETRAM_API_ENDPOINTS["craft"], data)
         
         if result.get("status") == "success":
-            return f"Targeted entity successfully: {result.get('message', 'Attack initiated')}"
+            item_info = result.get("item", {})
+            return f"Successfully crafted {count}x {item_info.get('name', item_key)}!"
         else:
-            return f"Failed to target entity: {result.get('message', 'Unknown error')}"
+            # Handle missing materials error with detailed information
+            missing_materials = result.get("missingMaterials", [])
+            requirements = result.get("requirements", [])
+            
+            if missing_materials:
+                missing_list = []
+                for material in missing_materials:
+                    missing_list.append(f"{material.get('name', material.get('key'))}: need {material.get('required')} but have {material.get('available')}")
+                
+                requirements_list = []
+                for req in requirements:
+                    requirements_list.append(f"{req.get('name', req.get('key'))}: {req.get('count')}")
+                
+                return (f"Failed to craft {item_key}: Missing materials!\n"
+                       f"Required materials: {', '.join(requirements_list)}\n"
+                       f"Missing: {', '.join(missing_list)}")
+            else:
+                return f"Failed to craft {item_key}: {result.get('message', 'Unknown error')}"
 
-    def attack_target(self, arguments: Dict[str, Any]) -> str:
-        """Attack the currently targeted entity"""
+    def attack_entity(self, arguments: Dict[str, Any]) -> str:
+        """Attack an entity directly by providing its instance ID.
+        
+        This method will automatically:
+        1. Find the target entity in the current environment
+        2. Move to an adjacent position (up/down/left/right) if not already adjacent
+        3. Wait briefly for position sync
+        4. Initiate the attack
+        5. After combat, move to the target's location to automatically pick up any dropped items
+        
+        Args:
+            targetInstance: The instance ID of the entity to attack (from environment observation)
+        """
         if not self.token:
             return "Error: No token available. Please login first."
         
@@ -310,18 +354,118 @@ class KaetramGameTools:
         if not target_instance:
             return "Error: Target instance is required for attack."
         
-        data = {
+        # First, get current environment to find target location and player position
+        observe_result = self._make_request("GET", KAETRAM_API_ENDPOINTS["observe"], params={"token": self.token, "radius": 64})
+        
+        if observe_result.get("status") != "success":
+            return f"Error: Could not observe environment to locate target: {observe_result.get('message', 'Unknown error')}"
+        
+        # Extract player current position
+        location = observe_result.get("location", {})
+        player_x = location.get("x")
+        player_y = location.get("y")
+        
+        if player_x is None or player_y is None:
+            return "Error: Could not determine player position."
+        
+        # Find target entity in mobs list
+        mobs = observe_result.get("mobs", [])
+        target_entity = None
+        
+        for mob in mobs:
+            if mob.get("instance") == target_instance:
+                target_entity = mob
+                break
+        
+        if not target_entity:
+            return f"Error: Target entity {target_instance} not found in current environment."
+        
+        target_x = target_entity.get("x")
+        target_y = target_entity.get("y")
+        target_name = target_entity.get("name", "Unknown")
+        
+        if target_x is None or target_y is None:
+            return f"Error: Could not determine target position for {target_name}."
+        
+        # Calculate distance to target (Manhattan distance for adjacent tiles)
+        dx = abs(target_x - player_x)
+        dy = abs(target_y - player_y)
+        
+        # Check if already adjacent (in one of the 4 cardinal directions)
+        is_adjacent = (dx == 1 and dy == 0) or (dx == 0 and dy == 1)
+        
+        # If not adjacent, move to one of the 4 adjacent positions (up, down, left, right)
+        if not is_adjacent:
+            # Choose the best adjacent position based on current player position
+            possible_positions = [
+                (target_x, target_y - 1),  # Above target
+                (target_x, target_y + 1),  # Below target
+                (target_x - 1, target_y),  # Left of target
+                (target_x + 1, target_y)   # Right of target
+            ]
+            
+            # Find the closest adjacent position to current player position
+            best_position = None
+            min_distance = float('inf')
+            
+            for pos_x, pos_y in possible_positions:
+                pos_distance = abs(pos_x - player_x) + abs(pos_y - player_y)
+                if pos_distance < min_distance:
+                    min_distance = pos_distance
+                    best_position = (pos_x, pos_y)
+            
+            move_x, move_y = best_position
+            
+            # Move to attack position
+            move_data = {
+                "token": self.token,
+                "x": move_x,
+                "y": move_y
+            }
+            
+            move_result = self._make_request("POST", KAETRAM_API_ENDPOINTS["move"], move_data)
+            
+            if move_result.get("status") != "success":
+                return f"Error: Failed to move to attack position: {move_result.get('message', 'Unknown error')}"
+            
+            # Wait briefly for position sync
+            time.sleep(1)
+            
+            movement_info = f"Moved from ({player_x}, {player_y}) to ({move_x}, {move_y}) to attack {target_name}. "
+        else:
+            movement_info = f"Already adjacent to {target_name} at ({target_x}, {target_y}). "
+        
+        # Now initiate the attack
+        attack_data = {
             "token": self.token,
             "targetInstance": target_instance
         }
         
-        result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["attack"], data)
+        attack_result = self._make_request("POST", KAETRAM_API_ENDPOINTS["attack"], attack_data)
         
-        if result.get("status") == "success":
-            # Attack API only returns status and message
-            return f"Attack initiated: {result.get('message', 'Attack started successfully')}"
+        if attack_result.get("status") == "success":
+            attack_info = f"{movement_info}Attack initiated successfully on {target_name}: {attack_result.get('message', 'Combat started')}"
+            
+            # Wait a moment for combat to potentially finish, then move to target location to pick up any drops
+            time.sleep(3)  # Wait for combat to finish
+            
+            # Move to the exact target location to pick up any dropped items
+            pickup_move_data = {
+                "token": self.token,
+                "x": target_x,
+                "y": target_y
+            }
+            pickup_move_result = self._make_request("POST", KAETRAM_API_ENDPOINTS["move"], pickup_move_data)
+            
+            pickup_info = ""
+            if pickup_move_result.get("status") == "success":
+                pickup_info = f" After combat, moved to ({target_x}, {target_y}) to collect any dropped items."
+            else:
+                pickup_info = f" Combat finished, but failed to move to pickup location: {pickup_move_result.get('message', 'Unknown error')}"
+            
+            return f"{attack_info}{pickup_info}"
         else:
-            return f"Failed to attack: {result.get('message', 'Unknown error')}"
+            return f"{movement_info}Failed to attack {target_name}: {attack_result.get('message', 'Unknown error')}"
 
     def set_combat_level(self, arguments: Dict[str, Any]) -> str:
         """Set combat level by adjusting all combat skills"""
@@ -464,29 +608,39 @@ class KaetramGameTools:
         if not self.token:
             return "Error: No token available. Please login first."
         
-        # Essential equipment set suitable for level 45 - one good item per category
+        # Essential equipment set suitable for level 45 - verified valid item keys
         equipment_set = [
-            # One weapon from each major type
-            {"key": "sentinelsword", "count": 1},          # Sword (Level 36)
-            {"key": "cursedbattleaxe", "count": 1},        # Battle Axe (Level 46) - best axe for level 45
-            {"key": "bronzeaxe", "count": 1},              # Bronze Axe (basic axe)
-            {"key": "woodenbow", "count": 1},              # Wooden Bow (Level 5 - basic bow)
-            {"key": "witchsstaffancient", "count": 1},     # Magic Staff (Level 45) - one good staff
+            # Weapons - variety of types for different playstyles
+            {"key": "bastardsword", "count": 1},          # Heavy Sword (Level 40) [bigsword]
+            {"key": "cactusaxe", "count": 1},             # Cactus Axe (Level 36) [axe]
+            {"key": "trident", "count": 1},               # Trident Of The Seas (Level 40) [spear]
+            {"key": "whip", "count": 1},                  # Whip (Level 50) [whip]
             
-            # Complete armor set
-            {"key": "magmahelm", "count": 1},              # Helmet (Level 43)
-            {"key": "refinedsapphirechestplate", "count": 1},  # Chestplate (Level 43)
-            {"key": "rubylegplates", "count": 1},          # Legplates (Level 39)
-            {"key": "hellkeeperboots", "count": 1},        # Boots (Level 45)
-            {"key": "shieldofglory", "count": 1},          # Shield (Level 36)
+            # Archer weapons
+            {"key": "rosebow", "count": 1},               # Rose Bow (Level 50) [bow]
+            {"key": "hunterbow", "count": 1},             # Hunter Bow (Level 37) [bow]
+            
+            # Magic weapons
+            {"key": "icestaff", "count": 1},              # Ice Staff (Level 35) [staff]
+            {"key": "firestaff", "count": 1},             # Fire Staff (Level 25) [staff]
+            
+            # Armor pieces
+            {"key": "whitearmor", "count": 1},            # White Armour (Level 46)
+            {"key": "redguardarmor", "count": 1},         # Red Guard Armour (Level 40)
+            
+            # Boots
+            {"key": "lavaboots", "count": 1},             # Lava Boots (Level 0)
+            {"key": "goldboots", "count": 1},             # Golden Boots (Level 0)
             
             # Accessories
-            {"key": "dolring", "count": 1},                # Ring (Level 40)
-            {"key": "pendantsilveremerald", "count": 1},   # Pendant (Level 40)
-            {"key": "wingsdark", "count": 1},              # Cape (Level 45)
+            {"key": "pytharring", "count": 1},            # Pythar Ring (Level 50)
+            {"key": "emeraldring", "count": 1},           # Emerald Ring (Level 30)
+            {"key": "emeraldpendant", "count": 1},        # Emerald Pendant (Level 0)
+            {"key": "rubypendant", "count": 1},           # Ruby Pendant (Level 0)
             
-            # Ammunition
-            {"key": "pythararrow", "count": 100},          # High-tier arrows
+            # Arrows for archer builds
+            {"key": "pythararrow", "count": 100},         # Pythar Arrow (Level 0)
+            {"key": "firearrow", "count": 100},           # Fire Arrow (Level 0)
         ]
         
         # Use the existing setInventory endpoint to add all items to inventory
@@ -560,4 +714,32 @@ class KaetramGameTools:
         if any(arrow in item_key_lower for arrow in ['arrow', 'bolt']):
             return 'arrows'
         
-        return None  # Can't determine equipment type, will add to inventory instead 
+        return None  # Can't determine equipment type, will add to inventory instead
+
+    def sleep(self, arguments: Dict[str, Any]) -> str:
+        """Sleep for specified number of seconds"""
+        import time
+        
+        seconds = arguments.get("seconds", 1)
+        
+        try:
+            seconds = int(seconds)
+            if seconds < 1:
+                seconds = 1
+            elif seconds > 60:
+                seconds = 60
+                
+            time.sleep(seconds)
+            return f"Slept for {seconds} second(s)."
+            
+        except (ValueError, TypeError):
+            return "Error: Invalid seconds value. Must be an integer between 1 and 60."
+
+    def complete(self, arguments: Dict[str, Any]) -> str:
+        """Complete the current task with a final response"""
+        response = arguments.get("response", "Task completed.")
+        
+        if not response or not isinstance(response, str):
+            response = "Task completed."
+            
+        return f"TASK_COMPLETE: {response}" 

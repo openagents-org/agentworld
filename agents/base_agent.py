@@ -33,21 +33,74 @@ class BaseAgent(ABC):
             }
         ]
     
+    def _get_current_environment_observation(self) -> str:
+        """Get current environment observation. Returns empty string if not available."""
+        try:
+            if not self.game_tools.token:
+                return ""
+            
+            result = self.game_tools.observe_environment({"radius": 64})
+            if isinstance(result, str) and "Environment observation" in result:
+                return result
+            return ""
+        except Exception:
+            return ""
+    
+    def _add_environment_observation_if_changed(self):
+        """Add current environment observation to conversation if it has changed"""
+        current_observation = self._get_current_environment_observation()
+        if not current_observation:
+            return
+            
+        # Check if the last message is already an environment observation
+        if (self.conversation_history and 
+            self.conversation_history[-1].get("role") == "system" and
+            "CURRENT ENVIRONMENT OBSERVATION" in self.conversation_history[-1].get("content", "")):
+            # Update the last observation instead of adding a new one
+            self.conversation_history[-1]["content"] = f"=== CURRENT ENVIRONMENT OBSERVATION ===\n{current_observation}\n=== END OBSERVATION ==="
+        else:
+            # Add new environment observation
+            self.conversation_history.append({
+                "role": "system", 
+                "content": f"=== CURRENT ENVIRONMENT OBSERVATION ===\n{current_observation}\n=== END OBSERVATION ==="
+            })
+    
     def _build_system_prompt(self) -> str:
-        """Build system prompt for the agent"""
-        return """You are an intelligent AI agent that plays the AgentWorld MMORPG game. Your goal is to explore, interact, collect resources, and engage with the game world intelligently.
+        """Build base system prompt for the agent without environment observation"""
+        base_prompt = """You are an intelligent AI agent that plays the AgentWorld MMORPG game. Your goal is to explore, interact, collect resources, and engage with the game world intelligently.
+
+IMPORTANT: You MUST call exactly ONE tool function in every response. Never respond without calling a tool function.
 
 You have access to various game tools through function calling. Use these tools strategically to:
 1. Login or create a character when starting
-2. Observe your environment regularly to understand your surroundings  
-3. Move around to explore the game world
-4. Collect resources when available
-5. Interact with other players through chat
-6. Engage in combat when appropriate
-7. Equip items to improve your character
+2. Move around to explore the game world
+3. Collect resources when available
+4. Interact with other players through chat
+5. Engage in combat when appropriate
+6. Equip items to improve your character
+7. Use 'sleep' only when you need to wait for specific game events or cooldowns
+8. Use 'complete' when you finish a task, accomplish a goal, or naturally conclude your actions
 
-Always think strategically about your actions. Start by logging in, then observe your environment, and make decisions based on what you see. Be proactive in exploring and engaging with the game world.
-"""
+IMPORTANT TOOL USAGE GUIDELINES:
+- Prefer action tools (move, attack, chat, etc.) over sleep when possible
+- Use 'complete' to wrap up accomplished tasks, not just to end conversations
+- Sleep should be used sparingly and only when waiting serves a purpose
+- Complete does not terminate the session - it just finishes the current task
+
+CRITICAL COMBAT GUIDELINES:
+- Check your equipped weapons in the environment observation - make sure weapon and ammunition match
+- The attack_entity function now handles ALL aspects of combat automatically:
+  1. Moves you to the optimal attack position (adjacent to target)
+  2. Initiates the attack and handles combat
+  3. After combat, automatically moves to the target's location to pick up any dropped items/loot
+- You no longer need to manually move to pick up drops - this is handled automatically after each successful attack
+- For combat: Simply use attack_entity with the target's instance ID
+- Always check the environment observation to find target instance IDs
+- The attack system now handles movement and timing automatically for better reliability
+
+Always think strategically about your actions. Start by logging in, then make decisions based on your current environment observation. Be proactive in exploring and engaging with the game world. Remember: EVERY response must include exactly one tool call."""
+        
+        return base_prompt
     
     @abstractmethod
     def _make_api_call(self, messages: List[Dict[str, str]]) -> Dict[str, Any]:
@@ -94,14 +147,15 @@ Always think strategically about your actions. Start by logging in, then observe
             "login_character": self.game_tools.login_character,
             "move_character": self.game_tools.move_character,
             "send_chat_message": self.game_tools.send_chat_message,
-            "observe_environment": self.game_tools.observe_environment,
             "enter_portal": self.game_tools.enter_portal,
             "stop_action": self.game_tools.stop_action,
             "equip_item": self.game_tools.equip_item,
             "collect_resource": self.game_tools.collect_resource,
-            "target_entity": self.game_tools.target_entity,
-            "attack_target": self.game_tools.attack_target,
-            "set_combat_level": self.game_tools.set_combat_level
+            "craft_item": self.game_tools.craft_item,
+            "attack_entity": self.game_tools.attack_entity,
+            "set_combat_level": self.game_tools.set_combat_level,
+            "sleep": self.game_tools.sleep,
+            "complete": self.game_tools.complete
         }
         
         if function_name in tool_mapping:
@@ -140,6 +194,9 @@ Always think strategically about your actions. Start by logging in, then observe
         while rounds < max_rounds:
             rounds += 1
 
+            # Add current environment observation as a new message before each API call
+            self._add_environment_observation_if_changed()
+            
             response = self._make_api_call(self.conversation_history)
             if "error" in response:
                 return f"Error: {response['error']}"
@@ -188,6 +245,12 @@ Always think strategically about your actions. Start by logging in, then observe
                     "content": result,
                     "tool_call_id": tool_call.get("id", "")
                 })
+
+                # Check if complete tool was called
+                if function_name == "complete" and result.startswith("TASK_COMPLETE:"):
+                    final_content = result[len("TASK_COMPLETE:"):].strip()
+                    print(f"\033[92m[TASK COMPLETED] {final_content}\033[0m")
+                    return final_content
 
             # Continue loop to let the model consume tool results and decide next step
             print(f"\033[90m[TOOL EXECUTION] Round {rounds} completed, continuing...\033[0m")

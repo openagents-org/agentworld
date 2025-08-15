@@ -10,7 +10,11 @@ import os
 # =================================================================
 
 # Qwen API Configuration (Alibaba Cloud DashScope)
+<<<<<<< HEAD
 DASHSCOPE_API_KEY = os.getenv("DASHSCOPE_API_KEY", "")
+=======
+DASHSCOPE_API_KEY = os.getenv("DASHSCOPE_API_KEY", "sk-a2773c532fa94d13bfb9fcc14ba0796c")
+>>>>>>> origin/rebuild
 QWEN_MODEL = os.getenv("QWEN_MODEL", "qwen-plus")
 QWEN_BASE_URL = os.getenv("QWEN_BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1")
 
@@ -47,6 +51,7 @@ AGENTWORLD_API_ENDPOINTS = {
     "stop": "/ai/stop",
     "equip": "/ai/equip",
     "collect": "/ai/collect",
+    "craft": "/ai/craft",
     "attack": "/ai/attack",
     "teleport": "/ai/teleport"
 }

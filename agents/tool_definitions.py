@@ -92,25 +92,8 @@ GAME_TOOLS = [
     {
         "type": "function",
         "function": {
-            "name": "observe_environment",
-            "description": "Observe the surrounding environment to get information about nearby entities, players, items, and terrain. Essential for situational awareness.",
-            "parameters": {
-                "type": "object", 
-                "properties": {
-                    "radius": {
-                        "type": "integer",
-                        "description": "The observation radius in game units. Default is 64. Larger values give wider view but may include more data."
-                    }
-                },
-                "required": []
-            }
-        }
-    },
-    {
-        "type": "function",
-        "function": {
             "name": "enter_portal",
-            "description": "Enter a portal or warp point when standing on it. Used for fast travel between different areas of the game.",
+            "description": "Enter a portal or warp point when standing on it. IMPORTANT: You can only use this function if you can see a portal in your current environment observation and you are standing close to it. Check your environment observation for portals before using this function.",
             "parameters": {
                 "type": "object",
                 "properties": {},
@@ -134,13 +117,13 @@ GAME_TOOLS = [
         "type": "function",
         "function": {
             "name": "equip_item",
-            "description": "Equip an item from the character's inventory. Use this to improve character stats or abilities.",
+            "description": "Equip an item from the character's inventory. IMPORTANT: You can only use this function if you can see items in your inventory from your environment observation. Check the 'inventory' section in your environment observation to see available items and their slot indices.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "index": {
                         "type": "integer",
-                        "description": "The inventory slot index of the item to equip (0-based indexing)."
+                        "description": "The inventory slot index of the item to equip (0-based indexing). This MUST be a valid index from the 'inventory' section in your environment observation."
                     }
                 },
                 "required": ["index"]
@@ -151,13 +134,13 @@ GAME_TOOLS = [
         "type": "function",
         "function": {
             "name": "collect_resource",
-            "description": "Collect a resource using the appropriate skill (lumberjacking, mining, fishing, foraging). Use this to gather materials.",
+            "description": "Collect a resource using the appropriate skill (lumberjacking, mining, fishing, foraging). IMPORTANT: You can ONLY use this function if you can see the resource in your current environment observation. The targetInstance must be a valid resource ID that appears in the 'resources' section of your environment observation.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "targetInstance": {
                         "type": "string",
-                        "description": "The instance ID of the resource to collect (e.g., tree, rock, fishing spot)."
+                        "description": "The instance ID of the resource to collect. This MUST be an exact instance ID from the 'resources' section in your current environment observation (e.g., '10-12345'). Do not use made-up or guessed IDs."
                     }
                 },
                 "required": ["targetInstance"]
@@ -167,31 +150,14 @@ GAME_TOOLS = [
     {
         "type": "function",
         "function": {
-            "name": "target_entity",
-            "description": "Target an entity for interaction or combat. Use this before attacking enemies or interacting with NPCs.",
+            "name": "attack_entity",
+            "description": "Attack an entity directly by providing its instance ID. This function will automatically handle positioning, combat, and loot collection - it will move you close to the target if needed, initiate the attack, and after combat automatically move to the target's location to pick up any dropped items. You can ONLY use this function if you can see the target entity (monster, mob, or player) in your current environment observation.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "targetInstance": {
                         "type": "string",
-                        "description": "The instance ID of the entity to target (player, NPC, monster, etc.)."
-                    }
-                },
-                "required": ["targetInstance"]
-            }
-        }
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "attack_target",
-            "description": "Attack a targeted entity directly. Provide the target instance ID to initiate combat.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "targetInstance": {
-                        "type": "string",
-                        "description": "The instance ID of the entity to attack (monster, player, etc.)."
+                        "description": "The instance ID of the entity to attack. This MUST be an exact instance ID from the 'entities' or 'mobs' section in your current environment observation (e.g., '3995661692'). Do not use made-up or guessed IDs. Make sure you are close to the target before attacking."
                     }
                 },
                 "required": ["targetInstance"]
@@ -212,6 +178,67 @@ GAME_TOOLS = [
                     }
                 },
                 "required": ["level"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "sleep",
+            "description": "Wait for a specified number of seconds. Use this when you need to wait for game events, cooldowns, or IMPORTANTLY, after moving before attacking to ensure position sync with the server. Essential for successful combat timing.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "seconds": {
+                        "type": "integer",
+                        "description": "The number of seconds to wait (minimum 1, maximum 60)."
+                    }
+                },
+                "required": ["seconds"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "craft_item",
+            "description": "Craft an item using the specified crafting skill. You must have the required materials in your inventory and meet the level requirements. Available crafting skills: Crafting, Smithing, Fletching, Cooking, Smelting. Common items you can craft include: staff (magic staff), lightningstaff, firestaff, icestaff, naturestaff, arrow, sword2, axe, pickaxe, etc.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "skill": {
+                        "type": "string",
+                        "description": "The crafting skill to use. Must be one of: Crafting, Smithing, Fletching, Cooking, Smelting",
+                        "enum": ["Crafting", "Smithing", "Fletching", "Cooking", "Smelting"]
+                    },
+                    "itemKey": {
+                        "type": "string",
+                        "description": "The key/identifier of the item to craft (e.g., 'staff', 'lightningstaff', 'arrow', 'sword2', 'axe', 'pickaxe')"
+                    },
+                    "count": {
+                        "type": "integer",
+                        "description": "Number of items to craft (optional, defaults to 1). Must be 1, 5, or 10.",
+                        "enum": [1, 5, 10]
+                    }
+                },
+                "required": ["skill", "itemKey"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "complete",
+            "description": "Finish your current task with a final response. Use this when you have accomplished what was asked, need to provide a summary, or when the conversation feels naturally concluded. This does not end the entire session - just the current task.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "response": {
+                        "type": "string",
+                        "description": "A meaningful response describing what you accomplished or your final thoughts on the task."
+                    }
+                },
+                "required": ["response"]
             }
         }
     }
