@@ -358,29 +358,83 @@ export default class API {
                     radius
                 );
 
-                // Get nearby resources (trees, rocks, etc.)
+                // Get nearby resources (trees, rocks, etc.) from regions
                 const resources: any[] = [];
-                this.world.getGrids().forEachEntityNear(
-                    player.x,
-                    player.y,
-                    (entity) => {
-                        // Skip if entity is not a resource
-                        if (!entity.isResource()) return;
-                        
-                        // Check if the resource is within the radius
-                        if (Utils.getDistance(player.x, player.y, entity.x, entity.y) <= radius) {
-                            resources.push({
-                                instance: entity.instance,
-                                type: entity.type,
-                                name: entity.name,
-                                x: entity.x,
-                                y: entity.y,
-                                distanceFrom: Utils.getDistance(player.x, player.y, entity.x, entity.y)
-                            });
-                        }
-                    },
-                    radius
-                );
+                
+                // Get the current region and surrounding regions
+                const currentRegion = this.world.map.regions.getRegion(player.x, player.y);
+                
+                // Get resources from trees
+                const trees = this.world.globals.getTrees();
+                for (let instance in trees.getResources()) {
+                    const resource = trees.getResources()[instance];
+                    const distance = Utils.getDistance(player.x, player.y, resource.x, resource.y);
+                    
+                    if (distance <= radius && resource.state === 0) { // Only available resources
+                        resources.push({
+                            instance: resource.instance,
+                            type: 10, // Object type
+                            name: resource.type.charAt(0).toUpperCase() + resource.type.slice(1) + ' Tree',
+                            x: resource.x,
+                            y: resource.y,
+                            distanceFrom: distance
+                        });
+                    }
+                }
+                
+                // Get resources from rocks
+                const rocks = this.world.globals.getRocks();
+                for (let instance in rocks.getResources()) {
+                    const resource = rocks.getResources()[instance];
+                    const distance = Utils.getDistance(player.x, player.y, resource.x, resource.y);
+                    
+                    if (distance <= radius && resource.state === 0) { // Only available resources
+                        resources.push({
+                            instance: resource.instance,
+                            type: 10, // Object type
+                            name: resource.type.charAt(0).toUpperCase() + resource.type.slice(1) + ' Rock',
+                            x: resource.x,
+                            y: resource.y,
+                            distanceFrom: distance
+                        });
+                    }
+                }
+                
+                // Get resources from fishing spots
+                const fishSpots = this.world.globals.getFishingSpots();
+                for (let instance in fishSpots.getResources()) {
+                    const resource = fishSpots.getResources()[instance];
+                    const distance = Utils.getDistance(player.x, player.y, resource.x, resource.y);
+                    
+                    if (distance <= radius && resource.state === 0) { // Only available resources
+                        resources.push({
+                            instance: resource.instance,
+                            type: 10, // Object type
+                            name: 'Fishing Spot',
+                            x: resource.x,
+                            y: resource.y,
+                            distanceFrom: distance
+                        });
+                    }
+                }
+                
+                // Get resources from foraging
+                const foraging = this.world.globals.getForaging();
+                for (let instance in foraging.getResources()) {
+                    const resource = foraging.getResources()[instance];
+                    const distance = Utils.getDistance(player.x, player.y, resource.x, resource.y);
+                    
+                    if (distance <= radius && resource.state === 0) { // Only available resources
+                        resources.push({
+                            instance: resource.instance,
+                            type: 10, // Object type
+                            name: resource.type.charAt(0).toUpperCase() + resource.type.slice(1) + ' Plant',
+                            x: resource.x,
+                            y: resource.y,
+                            distanceFrom: distance
+                        });
+                    }
+                }
 
                 // Get nearby players
                 const players: any[] = [];
@@ -679,10 +733,45 @@ export default class API {
                     });
                 }
 
-                // Find the target resource entity
-                const entity = this.world.entities.get(targetInstance);
+                // Find the target resource from globals (trees, rocks, fish spots, foraging)
+                let resource = null;
+                let resourceGlobalType = null;
+                
+                // Check trees
+                const treesResources = this.world.globals.getTrees().getResources();
+                if (treesResources[targetInstance]) {
+                    resource = treesResources[targetInstance];
+                    resourceGlobalType = 'tree';
+                }
+                
+                // Check rocks
+                if (!resource) {
+                    const rocksResources = this.world.globals.getRocks().getResources();
+                    if (rocksResources[targetInstance]) {
+                        resource = rocksResources[targetInstance];
+                        resourceGlobalType = 'rock';
+                    }
+                }
+                
+                // Check fishing spots
+                if (!resource) {
+                    const fishResources = this.world.globals.getFishingSpots().getResources();
+                    if (fishResources[targetInstance]) {
+                        resource = fishResources[targetInstance];
+                        resourceGlobalType = 'fishing spot';
+                    }
+                }
+                
+                // Check foraging
+                if (!resource) {
+                    const forageResources = this.world.globals.getForaging().getResources();
+                    if (forageResources[targetInstance]) {
+                        resource = forageResources[targetInstance];
+                        resourceGlobalType = 'plant';
+                    }
+                }
 
-                if (!entity) {
+                if (!resource) {
                     return response.status(400).json({
                         status: 'error',
                         message: 'Target resource not found'
@@ -690,7 +779,7 @@ export default class API {
                 }
 
                 // Calculate distance between player and resource
-                const distance = entity.getDistance(player);
+                const distance = Utils.getDistance(player.x, player.y, resource.x, resource.y);
 
                 // Ensure player is close enough to the resource
                 if (distance > 2) {
@@ -702,28 +791,23 @@ export default class API {
                     });
                 }
 
-                let resourceType = null;
                 let result = { status: 'error', message: 'Unknown resource type' };
 
-                // Determine the type of resource and use the appropriate skill
-                if (entity.isTree()) {
-                    player.skills.getLumberjacking().cut(player, entity);
-                    resourceType = 'tree';
+                // Use the appropriate skill based on resource type
+                if (resourceGlobalType === 'tree') {
+                    player.skills.getLumberjacking().cut(player, resource);
                     result = { status: 'success', message: 'Started cutting tree' };
                 }
-                else if (entity.isRock()) {
-                    player.skills.getMining().mine(player, entity);
-                    resourceType = 'rock';
+                else if (resourceGlobalType === 'rock') {
+                    player.skills.getMining().mine(player, resource);
                     result = { status: 'success', message: 'Started mining rock' };
                 }
-                else if (entity.isFishSpot()) {
-                    player.skills.getFishing().catch(player, entity);
-                    resourceType = 'fishing spot';
+                else if (resourceGlobalType === 'fishing spot') {
+                    player.skills.getFishing().catch(player, resource);
                     result = { status: 'success', message: 'Started fishing' };
                 }
-                else if (entity.isForaging()) {
-                    player.skills.getForaging().harvest(player, entity);
-                    resourceType = 'plant';
+                else if (resourceGlobalType === 'plant') {
+                    player.skills.getForaging().harvest(player, resource);
                     result = { status: 'success', message: 'Started foraging' };
                 }
                 else {
@@ -737,11 +821,11 @@ export default class API {
                 response.json({
                     ...result,
                     resource: {
-                        instance: entity.instance,
-                        type: resourceType,
-                        name: entity.name,
-                        x: entity.x,
-                        y: entity.y,
+                        instance: resource.instance,
+                        type: resourceGlobalType,
+                        name: resource.type.charAt(0).toUpperCase() + resource.type.slice(1),
+                        x: resource.x,
+                        y: resource.y,
                         distance: distance
                     }
                 });

@@ -23,6 +23,10 @@ export default class Resource {
     // The state of the resource
     public state: Modules.ResourceState = Modules.ResourceState.Default;
 
+    // Coordinates for API access
+    public x: number = 0;
+    public y: number = 0;
+
     private respawnTimeout?: NodeJS.Timeout | undefined;
     private stateCallback?: () => void;
 

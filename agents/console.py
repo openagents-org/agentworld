@@ -9,7 +9,7 @@ Usage:
     python console.py --provider openai --api-key sk-...          # Use OpenAI GPT-4
     python console.py --provider claude --api-key sk-...          # Use Anthropic Claude  
     python console.py --provider deepseek --api-key sk-...        # Use DeepSeek
-    python console.py --host http://localhost:9001                 # Connect to different game server
+    python console.py --host http://localhost:7031                 # Connect to different game server
     python console.py --task "Fight mobs until level 2"           # Single task mode
     python console.py --username myagent --password 123           # Custom credentials
     python console.py --task "Fight mobs until level 2"           # Single task mode
@@ -1007,7 +1007,7 @@ Examples:
     --task "explore and fight mobs"
   
   # Other options
-  python console.py --host http://localhost:9001         # Connect to different game server
+  python console.py --host http://localhost:7031         # Connect to different game server
   python console.py --task "explore the forest"         # Single task mode
   python console.py --task "fight mobs" --output game.log # Single task with log file
   python console.py --username myagent --password 123   # Custom credentials

@@ -363,44 +363,26 @@ class KaetramGameTools:
         if observe_result.get("status") != "success":
             return f"Error: Could not observe environment to locate resource: {observe_result.get('message', 'Unknown error')}"
         
-        # Find the resource in the environment data to determine its type
+        # Find the resource in the raw resources array (our fixed API now returns resources here)
         resource_entity = None
         resource_type = None
         
-        # Check in trees
-        trees = observe_result.get("trees", [])
-        for tree in trees:
-            if tree.get("instance") == target_instance:
-                resource_entity = tree
-                resource_type = "tree"
-                break
-        
-        # Check in rocks if not found in trees
-        if not resource_entity:
-            rocks = observe_result.get("rocks", [])
-            for rock in rocks:
-                if rock.get("instance") == target_instance:
-                    resource_entity = rock
+        # Check in the raw resources array from the fixed API
+        resources = observe_result.get("resources", [])
+        for resource in resources:
+            if resource.get("instance") == target_instance:
+                resource_entity = resource
+                # Determine type from the resource name
+                name = resource.get("name", "").lower()
+                if "tree" in name:
+                    resource_type = "tree"
+                elif "rock" in name:
                     resource_type = "rock"
-                    break
-        
-        # Check in fishing spots if not found in rocks
-        if not resource_entity:
-            fish_spots = observe_result.get("fishSpots", [])
-            for fish_spot in fish_spots:
-                if fish_spot.get("instance") == target_instance:
-                    resource_entity = fish_spot
+                elif "fishing" in name or "fish" in name:
                     resource_type = "fishing spot"
-                    break
-        
-        # Check in foraging spots if not found in fishing spots
-        if not resource_entity:
-            foraging = observe_result.get("foraging", [])
-            for forage in foraging:
-                if forage.get("instance") == target_instance:
-                    resource_entity = forage
-                    resource_type = "plant"
-                    break
+                else:
+                    resource_type = "foraging"  # Default for plants/foraging
+                break
         
         if not resource_entity:
             return f"Error: Resource with instance {target_instance} not found in current environment."
@@ -1045,7 +1027,7 @@ class KaetramGameTools:
         if not response or not isinstance(response, str):
             response = "Task completed."
             
-        return f"TASK_COMPLETE: {response}"
+        return f"TASK_COMPLETE: {response}" 
 
     def set_individual_skill_level(self, arguments: Dict[str, Any]) -> str:
         """Set individual skill level (admin cheat command)"""

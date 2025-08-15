@@ -12,6 +12,13 @@ export default class Resources {
     private regions: Regions;
 
     protected resources: { [instance: string]: Resource } = {};
+    
+    /**
+     * Public getter to access resources from API
+     */
+    public getResources() {
+        return this.resources;
+    }
 
     /**
      * @param data Contains the resource data we are creating resources with. Trees
@@ -58,6 +65,10 @@ export default class Resources {
             coords = this.map.indexToCoord(index),
             regionIndex = this.regions.getRegion(coords.x, coords.y),
             region = this.regions.get(regionIndex);
+
+        // Set resource coordinates
+        resource.x = coords.x;
+        resource.y = coords.y;
 
         // Load actual resource tile data.
         this.search(info, resource, index);

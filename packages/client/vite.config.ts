@@ -133,8 +133,8 @@ export default defineConfig(async ({ mode }) => {
             allowedHosts: ['localhost', '127.0.0.1', 'play.agentworld.io', 'narita1.acenta.ai'],
             hmr: {
                 protocol: 'ws',
-                host: 'localhost',
-                port: 5183
+                host: process.env.VITE_HMR_HOST || 'localhost',
+                port: parseInt(process.env.VITE_HMR_PORT || '7030', 10)
             }
         },
         define: { 'window.config': env }
