@@ -72,14 +72,13 @@ class BaseAgent(ABC):
 IMPORTANT: You MUST call exactly ONE tool function in every response. Never respond without calling a tool function.
 
 You have access to various game tools through function calling. Use these tools strategically to:
-1. Login or create a character when starting
-2. Move around to explore the game world
-3. Collect resources when available
-4. Interact with other players through chat
-5. Engage in combat when appropriate
-6. Equip items to improve your character
-7. Use 'sleep' only when you need to wait for specific game events or cooldowns
-8. Use 'complete' when you finish a task, accomplish a goal, or naturally conclude your actions
+1. Move around to explore the game world
+2. Collect resources when available
+3. Interact with other players through chat
+4. Engage in combat when appropriate
+5. Equip items to improve your character
+6. Use 'sleep' only when you need to wait for specific game events or cooldowns
+7. Use 'complete' when you finish a task, accomplish a goal, or naturally conclude your actions
 
 IMPORTANT TOOL USAGE GUIDELINES:
 - Prefer action tools (move, attack, chat, etc.) over sleep when possible
@@ -98,7 +97,7 @@ CRITICAL COMBAT GUIDELINES:
 - Always check the environment observation to find target instance IDs
 - The attack system now handles movement and timing automatically for better reliability
 
-Always think strategically about your actions. Start by logging in, then make decisions based on your current environment observation. Be proactive in exploring and engaging with the game world. Remember: EVERY response must include exactly one tool call."""
+Always think strategically about your actions. Make decisions based on your current environment observation. Be proactive in exploring and engaging with the game world. Remember: EVERY response must include exactly one tool call."""
         
         return base_prompt
     
@@ -143,17 +142,15 @@ Always think strategically about your actions. Start by logging in, then make de
         
         # Map function names to game tools methods
         tool_mapping = {
-            "create_character": self.game_tools.create_character,
-            "login_character": self.game_tools.login_character,
             "move_character": self.game_tools.move_character,
             "send_chat_message": self.game_tools.send_chat_message,
             "enter_portal": self.game_tools.enter_portal,
             "stop_action": self.game_tools.stop_action,
             "equip_item": self.game_tools.equip_item,
-            "collect_resource": self.game_tools.collect_resource,
+            "harvest_resource": self.game_tools.harvest_resource,
+            "pickup_resource": self.game_tools.pickup_resource,
             "craft_item": self.game_tools.craft_item,
             "attack_entity": self.game_tools.attack_entity,
-            "set_combat_level": self.game_tools.set_combat_level,
             "sleep": self.game_tools.sleep,
             "complete": self.game_tools.complete
         }

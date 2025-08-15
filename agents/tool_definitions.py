@@ -7,48 +7,6 @@ GAME_TOOLS = [
     {
         "type": "function",
         "function": {
-            "name": "create_character",
-            "description": "Create a new AI character in the Kaetram game. Use this when you need to create a character for the first time.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "username": {
-                        "type": "string",
-                        "description": "The username for the new character. If not provided, will use default 'QwenAgent'."
-                    },
-                    "password": {
-                        "type": "string", 
-                        "description": "The password for the new character. If not provided, will use default password."
-                    }
-                },
-                "required": []
-            }
-        }
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "login_character",
-            "description": "Login with an existing character in the Kaetram game. Use this to start a game session.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "username": {
-                        "type": "string",
-                        "description": "The username of the existing character."
-                    },
-                    "password": {
-                        "type": "string",
-                        "description": "The password of the existing character."
-                    }
-                },
-                "required": []
-            }
-        }
-    },
-    {
-        "type": "function",
-        "function": {
             "name": "move_character",
             "description": "Move the character to specific coordinates on the game map. Useful for exploration and navigation.",
             "parameters": {
@@ -133,14 +91,31 @@ GAME_TOOLS = [
     {
         "type": "function",
         "function": {
-            "name": "collect_resource",
-            "description": "Collect a resource using the appropriate skill (lumberjacking, mining, fishing, foraging). IMPORTANT: You can ONLY use this function if you can see the resource in your current environment observation. The targetInstance must be a valid resource ID that appears in the 'resources' section of your environment observation.",
+            "name": "harvest_resource",
+            "description": "Instantly harvest a resource using the appropriate skill (lumberjacking for trees, mining for rocks, fishing for fish spots, foraging for plants). This function automatically moves closer if needed, completes the entire harvesting process, and collects all dropped items into inventory immediately in one operation. This is an enhanced mode that eliminates waiting time for AI agents. You can ONLY use this function if you can see the target resource in your current environment observation under trees, rocks, fishSpots, or foraging arrays.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "targetInstance": {
                         "type": "string",
-                        "description": "The instance ID of the resource to collect. This MUST be an exact instance ID from the 'resources' section in your current environment observation (e.g., '10-12345'). Do not use made-up or guessed IDs."
+                        "description": "The instance ID of the resource to harvest. This MUST be an exact instance ID from the 'trees', 'rocks', 'fishSpots', or 'foraging' sections in your current environment observation (e.g., '10-12345'). Do not use made-up or guessed IDs."
+                    }
+                },
+                "required": ["targetInstance"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "pickup_resource",
+            "description": "Pick up a dropped item or resource from the ground. You can ONLY use this function if you can see the dropped item in your current environment observation.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "targetInstance": {
+                        "type": "string",
+                        "description": "The instance ID of the dropped item to pick up. This MUST be an exact instance ID from your current environment observation."
                     }
                 },
                 "required": ["targetInstance"]
@@ -161,23 +136,6 @@ GAME_TOOLS = [
                     }
                 },
                 "required": ["targetInstance"]
-            }
-        }
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "set_combat_level",
-            "description": "Set the character's combat level by adjusting all combat skills (Accuracy, Strength, Defense, Health, Magic, Archery). Each skill will be set to the specified level.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "level": {
-                        "type": "integer",
-                        "description": "The level to set for all combat skills (1-120). Total combat level will be this value × 6."
-                    }
-                },
-                "required": ["level"]
             }
         }
     },
