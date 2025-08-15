@@ -47,6 +47,7 @@ KAETRAM_API_ENDPOINTS = {
     "stop": "/ai/stop",
     "equip": "/ai/equip",
     "collect": "/ai/collect",
+    "craft": "/ai/craft",
     "attack": "/ai/attack",
     "teleport": "/ai/teleport"
 }

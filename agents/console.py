@@ -5,12 +5,14 @@ Interactive CLI that allows players to control the game agent using natural lang
 Supports multiple LLM providers: Qwen, OpenAI, Anthropic Claude, and DeepSeek.
 
 Usage:
-    python e2e_test.py                                              # Interactive mode with default provider
-    python e2e_test.py --provider openai --api-key sk-...          # Use OpenAI GPT-4
-    python e2e_test.py --provider claude --api-key sk-...          # Use Anthropic Claude  
-    python e2e_test.py --provider deepseek --api-key sk-...        # Use DeepSeek
-    python e2e_test.py --task "Fight mobs until level 2"           # Single task mode
-    python e2e_test.py --username myagent --password 123           # Custom credentials
+    python console.py                                              # Interactive mode with default provider
+    python console.py --provider openai --api-key sk-...          # Use OpenAI GPT-4
+    python console.py --provider claude --api-key sk-...          # Use Anthropic Claude  
+    python console.py --provider deepseek --api-key sk-...        # Use DeepSeek
+    python console.py --task "Fight mobs until level 2"           # Single task mode
+    python console.py --task "explore" --output game.log          # Single task with log output
+    python console.py --username myagent --password 123           # Custom credentials
+    python console.py --output session.log                        # Interactive mode with log file
 
 Features:
 - Multi-LLM provider support (Qwen, OpenAI, Claude, DeepSeek)
@@ -48,7 +50,8 @@ class GameConsole:
         password: str = None, 
         provider: str = None, 
         api_key: str = None, 
-        model: str = None
+        model: str = None,
+        output_file: str = None
     ):
         # Pass credentials to agent so it can use them for login prompts
         self.username = username or AGENT_USERNAME
@@ -56,6 +59,7 @@ class GameConsole:
         self.provider = provider or DEFAULT_LLM_PROVIDER
         self.api_key = api_key
         self.model = model
+        self.output_file = output_file
         
         # Create the appropriate agent using the factory
         try:
@@ -73,6 +77,16 @@ class GameConsole:
         self.max_iterations = 50  # Safety limit to prevent infinite loops
         self.session_logs = []
         
+        # Open output file if specified
+        self.log_file_handle = None
+        if self.output_file:
+            try:
+                self.log_file_handle = open(self.output_file, 'w', encoding='utf-8')
+                print(f"📝 Logging to file: {self.output_file}")
+            except Exception as e:
+                print(f"❌ Failed to open output file {self.output_file}: {e}")
+                sys.exit(1)
+        
     def log_message(self, message_type: str, content: str, metadata: Optional[Dict] = None):
         """Log a message with timestamp and formatting"""
         timestamp = time.strftime("%H:%M:%S")
@@ -84,7 +98,17 @@ class GameConsole:
         }
         self.session_logs.append(log_entry)
         
-        # Color coding for different message types
+        # Format log message for both console and file
+        log_message_text = f"[{timestamp}] {message_type}: {content}"
+        if metadata:
+            log_message_text += f"\n    └─ {json.dumps(metadata, indent=6)}"
+        
+        # Write to file if output file is specified
+        if self.log_file_handle:
+            self.log_file_handle.write(log_message_text + "\n")
+            self.log_file_handle.flush()  # Ensure immediate write
+        
+        # Color coding for console output
         colors = {
             "USER": "\033[94m",      # Blue
             "ASSISTANT": "\033[92m", # Green  
@@ -101,7 +125,11 @@ class GameConsole:
         if metadata:
             print(f"    └─ {json.dumps(metadata, indent=6)}")
     
-
+    def close_log_file(self):
+        """Close the log file handle if open"""
+        if self.log_file_handle:
+            self.log_file_handle.close()
+            self.log_file_handle = None
     
 
     
@@ -282,6 +310,46 @@ class GameConsole:
             print(f"❌ Full equip failed: {str(e)}")
             self.log_message("CHEAT", f"Full equip failed: {str(e)}")
 
+    def handle_give_command(self, command: str):
+        """Handle /give cheat command"""
+        try:
+            # Parse command: /give <item_key> [count]
+            parts = command.strip().split()
+            if len(parts) < 2:
+                print("❌ Invalid give command. Usage:")
+                print("   /give <item_key> [count]")
+                print("   Examples:")
+                print("   /give stick 5              - Give 5 sticks")
+                print("   /give bead 1               - Give 1 magic bead")
+                print("   /give logs 10              - Give 10 logs")
+                print("   /give ironbar 5            - Give 5 iron bars")
+                print("")
+                print("   Common crafting materials: stick, bead, logs, ironbar, goldbar,")
+                print("                              feather, string, emerald, ruby, topaz")
+                return
+            
+            item_key = parts[1].lower()
+            count = int(parts[2]) if len(parts) > 2 else 1
+            
+            print(f"⚡ CHEAT: Giving {count}x {item_key}...")
+            
+            # Use setInventory to add items without clearing existing inventory
+            items_to_add = [{"key": item_key, "count": count}]
+            result = self.agent.game_tools.set_inventory({
+                "items": items_to_add,
+                "clearFirst": False
+            })
+            
+            print(f"✅ Give result: {result}")
+            self.log_message("CHEAT", f"Gave {count}x {item_key}: {result}")
+            
+        except ValueError:
+            print("❌ Invalid count. Please use an integer.")
+            print("   Example: /give stick 5")
+        except Exception as e:
+            print(f"❌ Give failed: {str(e)}")
+            self.log_message("CHEAT", f"Give failed: {str(e)}")
+
     def start_interactive_session(self):
         """Start the interactive CLI session"""
         # Fancy banner
@@ -341,6 +409,7 @@ class GameConsole:
         print("│ ⚡ '/teleport x y' or '/teleport spawn' - Cheat: teleport bot           │")
         print("│ ⚡ '/equip <item>' - Cheat: give and equip item                         │")
         print("│ ⚡ '/setlevel <level>' - Cheat: set player level                        │")
+        print("│ ⚡ '/give <item> [count]' - Cheat: give items to inventory              │")
         print("│ ⚡ '/fullequip' - Cheat: give essential equipment set (sword, axe, staff, armor)   │")
         print("│ 🚪 'logout' - Logout current session                                   │")
         print("│ 🚪 'exit' - Quit the console                                           │")
@@ -422,6 +491,11 @@ class GameConsole:
                     self.handle_fullequip_command(user_input)
                     continue
                 
+                elif user_input.startswith('/give'):
+                    # Handle give item cheat command
+                    self.handle_give_command(user_input)
+                    continue
+                
                 elif user_input.lower() == 'logout':
                     # Handle logout command
                     try:
@@ -464,6 +538,7 @@ class GameConsole:
         # Save logs on exit
         print("💾 Saving session logs...")
         self.save_session_logs()
+        self.close_log_file()
         print("📋 Session ended. Logs saved.")
     
     def show_session_stats(self, command_count: int):
@@ -515,25 +590,54 @@ class GameConsole:
     
     def save_session_logs(self):
         """Save session logs to JSON file"""
-        timestamp = int(time.time())
-        filename = f"e2e_session_{timestamp}.json"
-        
-        try:
-            session_data = {
-                "session_info": {
-                    "username": self.username,
-                    "start_time": timestamp,
-                    "max_iterations": self.max_iterations
-                },
-                "logs": self.session_logs,
-                "conversation_history": self.agent.get_conversation_history()
-            }
+        # If output file is specified, append JSON data to the log file
+        if self.output_file:
+            try:
+                timestamp = int(time.time())
+                session_data = {
+                    "session_info": {
+                        "username": self.username,
+                        "start_time": timestamp,
+                        "max_iterations": self.max_iterations
+                    },
+                    "logs": self.session_logs,
+                    "conversation_history": self.agent.get_conversation_history()
+                }
+                
+                # Append JSON session data to the log file
+                if self.log_file_handle:
+                    self.log_file_handle.write("\n" + "="*80 + "\n")
+                    self.log_file_handle.write("SESSION DATA (JSON)\n")
+                    self.log_file_handle.write("="*80 + "\n")
+                    self.log_file_handle.write(json.dumps(session_data, indent=2, ensure_ascii=False))
+                    self.log_file_handle.write("\n")
+                    self.log_file_handle.flush()
+                    print(f"Session data appended to: {self.output_file}")
+                else:
+                    print(f"Warning: Log file handle not available")
+            except Exception as e:
+                print(f"Failed to append session data to log file: {e}")
+        else:
+            # Original behavior: save to separate JSON file
+            timestamp = int(time.time())
+            filename = f"e2e_session_{timestamp}.json"
             
-            with open(filename, 'w') as f:
-                json.dump(session_data, f, indent=2)
-            print(f"Session logs saved to: {filename}")
-        except Exception as e:
-            print(f"Failed to save logs: {e}")
+            try:
+                session_data = {
+                    "session_info": {
+                        "username": self.username,
+                        "start_time": timestamp,
+                        "max_iterations": self.max_iterations
+                    },
+                    "logs": self.session_logs,
+                    "conversation_history": self.agent.get_conversation_history()
+                }
+                
+                with open(filename, 'w', encoding='utf-8') as f:
+                    json.dump(session_data, f, indent=2, ensure_ascii=False)
+                print(f"Session logs saved to: {filename}")
+            except Exception as e:
+                print(f"Failed to save logs: {e}")
 
 
 def parse_arguments():
@@ -552,7 +656,9 @@ Examples:
   python console.py --provider claude --api-key sk-...  # Use Anthropic Claude
   python console.py --provider deepseek --api-key sk-... # Use DeepSeek
   python console.py --task "explore the forest"         # Single task mode
+  python console.py --task "fight mobs" --output game.log # Single task with log file
   python console.py --username myagent --password 123   # Custom credentials
+  python console.py --output session.log                # Save all logs to file
 
 Supported Providers: {', '.join(providers)}
 Default Models: {', '.join([f'{p}={m}' for p, m in default_models.items()])}
@@ -604,6 +710,12 @@ Default Models: {', '.join([f'{p}={m}' for p, m in default_models.items()])}
         help="Execute a single task and exit"
     )
     
+    parser.add_argument(
+        "--output",
+        type=str,
+        help="Output log file path (e.g., game_session.log)"
+    )
+    
     return parser.parse_args()
 
 
@@ -638,7 +750,8 @@ def main():
         password=args.password,
         provider=args.provider,
         api_key=api_key,
-        model=args.model
+        model=args.model,
+        output_file=args.output
     )
     console.max_iterations = args.max_iterations
     
@@ -701,16 +814,19 @@ def main():
             
             # Save logs
             console.save_session_logs()
+            console.close_log_file()
         else:
             # Interactive mode
             console.start_interactive_session()
             
     except KeyboardInterrupt:
         print("\nInterrupted by user")
+        console.close_log_file()
     except Exception as e:
         print(f"Fatal error: {e}")
         import traceback
         traceback.print_exc()
+        console.close_log_file()
 
 
 if __name__ == "__main__":
