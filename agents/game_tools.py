@@ -308,7 +308,7 @@ class KaetramGameTools:
             "count": count
         }
         
-        result = self._make_request("POST", KAETRAM_API_ENDPOINTS["craft"], data)
+        result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["craft"], data)
         
         if result.get("status") == "success":
             item_info = result.get("item", {})
@@ -355,7 +355,7 @@ class KaetramGameTools:
             return "Error: Target instance is required for attack."
         
         # First, get current environment to find target location and player position
-        observe_result = self._make_request("GET", KAETRAM_API_ENDPOINTS["observe"], params={"token": self.token, "radius": 64})
+        observe_result = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], params={"token": self.token, "radius": 64})
         
         if observe_result.get("status") != "success":
             return f"Error: Could not observe environment to locate target: {observe_result.get('message', 'Unknown error')}"
@@ -423,7 +423,7 @@ class KaetramGameTools:
                 "y": move_y
             }
             
-            move_result = self._make_request("POST", KAETRAM_API_ENDPOINTS["move"], move_data)
+            move_result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["move"], move_data)
             
             if move_result.get("status") != "success":
                 return f"Error: Failed to move to attack position: {move_result.get('message', 'Unknown error')}"
@@ -441,7 +441,7 @@ class KaetramGameTools:
             "targetInstance": target_instance
         }
         
-        attack_result = self._make_request("POST", KAETRAM_API_ENDPOINTS["attack"], attack_data)
+        attack_result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["attack"], attack_data)
         
         if attack_result.get("status") == "success":
             attack_info = f"{movement_info}Attack initiated successfully on {target_name}: {attack_result.get('message', 'Combat started')}"
@@ -455,7 +455,7 @@ class KaetramGameTools:
                 "x": target_x,
                 "y": target_y
             }
-            pickup_move_result = self._make_request("POST", KAETRAM_API_ENDPOINTS["move"], pickup_move_data)
+            pickup_move_result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["move"], pickup_move_data)
             
             pickup_info = ""
             if pickup_move_result.get("status") == "success":

@@ -9,16 +9,13 @@ Usage:
     python console.py --provider openai --api-key sk-...          # Use OpenAI GPT-4
     python console.py --provider claude --api-key sk-...          # Use Anthropic Claude  
     python console.py --provider deepseek --api-key sk-...        # Use DeepSeek
-<<<<<<< HEAD
     python console.py --host http://localhost:9001                 # Connect to different game server
     python console.py --task "Fight mobs until level 2"           # Single task mode
     python console.py --username myagent --password 123           # Custom credentials
-=======
     python console.py --task "Fight mobs until level 2"           # Single task mode
     python console.py --task "explore" --output game.log          # Single task with log output
     python console.py --username myagent --password 123           # Custom credentials
     python console.py --output session.log                        # Interactive mode with log file
->>>>>>> origin/rebuild
 
 Features:
 - Multi-LLM provider support (Qwen, OpenAI, Claude, DeepSeek)
@@ -57,7 +54,7 @@ class GameConsole:
         provider: str = None, 
         api_key: str = None, 
         model: str = None,
-        host: str = None
+        host: str = None,
         output_file: str = None
     ):
         # Pass credentials to agent so it can use them for login prompts
@@ -529,6 +526,14 @@ class GameConsole:
                 
             except KeyboardInterrupt:
                 print("\n\n🔄 Cleaning up session...")
+                # Logout character immediately on interrupt
+                try:
+                    logout_result = self.agent.game_tools.logout_character()
+                    self.log_message("SYSTEM", f"🚪 Interrupt logout: {logout_result}")
+                    print(f"🚪 Interrupt logout: {logout_result}")
+                except Exception as e:
+                    self.log_message("SYSTEM", f"⚠️ Interrupt logout error: {str(e)}")
+                    print(f"⚠️ Interrupt logout warning: {str(e)}")
                 break
             except Exception as e:
                 self.log_message("SYSTEM", f"Error: {str(e)}")
@@ -767,7 +772,7 @@ def main():
         provider=args.provider,
         api_key=api_key,
         model=args.model,
-        host=args.host
+        host=args.host,
         output_file=args.output
     )
     console.max_iterations = args.max_iterations
@@ -838,11 +843,27 @@ def main():
             
     except KeyboardInterrupt:
         print("\nInterrupted by user")
+        # Cleanup: logout character before exit
+        try:
+            logout_result = console.agent.game_tools.logout_character()
+            console.log_message("SYSTEM", f"🚪 Cleanup logout: {logout_result}")
+            print(f"🚪 Cleanup logout: {logout_result}")
+        except Exception as e:
+            console.log_message("SYSTEM", f"⚠️ Cleanup logout error: {str(e)}")
+            print(f"⚠️ Cleanup logout warning: {str(e)}")
         console.close_log_file()
     except Exception as e:
         print(f"Fatal error: {e}")
         import traceback
         traceback.print_exc()
+        # Cleanup: logout character before exit
+        try:
+            logout_result = console.agent.game_tools.logout_character()
+            console.log_message("SYSTEM", f"🚪 Cleanup logout: {logout_result}")
+            print(f"🚪 Cleanup logout: {logout_result}")
+        except Exception as e:
+            console.log_message("SYSTEM", f"⚠️ Cleanup logout error: {str(e)}")
+            print(f"⚠️ Cleanup logout warning: {str(e)}")
         console.close_log_file()
 
 
