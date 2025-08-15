@@ -552,14 +552,33 @@ class KaetramGameTools:
                         break
                 final_harvested_items.append({"key": key, "name": item_name, "gained": gained})
         
-        # Build result message
+        # Build comprehensive result message with detailed outcome
         if final_harvested_items:
             items_text = ", ".join([f"{item['gained']}x {item['name']}" for item in final_harvested_items])
-            return f"{movement_info}Completed {action} {resource_name} at ({resource_x}, {resource_y}) and collected: {items_text}"
+            total_items = sum(item['gained'] for item in final_harvested_items)
+            
+            # Create detailed success message
+            result_message = (
+                f"{movement_info}✅ HARVEST COMPLETE: {action.title()} {resource_name} at ({resource_x}, {resource_y})\n"
+                f"📦 Items Collected ({total_items} total): {items_text}\n"
+                f"⚡ Process: Resource depleted and items automatically added to inventory\n"
+                f"🎯 Status: Ready for next action"
+            )
+            return result_message
+            
         elif attempts >= max_attempts:
-            return f"{movement_info}Started {action} {resource_name} at ({resource_x}, {resource_y}) - harvesting in progress (may take time to complete)"
+            return (
+                f"{movement_info}⏳ HARVEST IN PROGRESS: {action.title()} {resource_name} at ({resource_x}, {resource_y})\n"
+                f"📋 Status: Harvesting process started but may take additional time to complete\n"
+                f"💡 Note: Check inventory periodically for collected items"
+            )
         else:
-            return f"{movement_info}Completed {action} {resource_name} at ({resource_x}, {resource_y}) - resource depleted"
+            return (
+                f"{movement_info}✅ HARVEST COMPLETE: {action.title()} {resource_name} at ({resource_x}, {resource_y})\n"
+                f"📦 Items Collected: Resource depleted (no items detected in inventory change)\n"
+                f"⚡ Process: Resource successfully harvested\n"
+                f"🎯 Status: Ready for next action"
+            )
 
     def craft_item(self, arguments: Dict[str, Any]) -> str:
         """Craft an item using the specified crafting skill"""
