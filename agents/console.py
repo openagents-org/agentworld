@@ -710,7 +710,7 @@ Default Models: {', '.join([f'{p}={m}' for p, m in default_models.items()])}
     parser.add_argument(
         "--host",
         type=str,
-        help="Game server host URL (default: http://localhost:7001)"
+        help="Game server host URL (default: http://localhost:7032)"
     )
     
     parser.add_argument(
