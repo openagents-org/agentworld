@@ -454,60 +454,55 @@ class KaetramGameTools:
         if result.get("status") != "success":
             return f"{movement_info}Failed to start {action} {resource_name}: {result.get('message', 'Unknown error')}"
         
-        # CHEAT MODE: Force completion by repeatedly calling the API until resource is depleted
-        max_attempts = 50  # Prevent infinite loops
-        attempts = 0
+        # ENHANCED MODE: Monitor the harvesting process until completion
+        max_wait_time = 30  # Maximum wait time in seconds
+        check_interval = 0.5  # Check every 500ms
+        total_wait = 0
         harvested_items = []
         
-        while attempts < max_attempts:
-            attempts += 1
-            
+        while total_wait < max_wait_time:
             # Small delay to let server process
-            time.sleep(0.1)
+            time.sleep(check_interval)
+            total_wait += check_interval
             
-            # Check if resource is still there and try to harvest again
+            # Check current status
             current_observe = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], params={"token": self.token, "radius": 10})
             
             if current_observe.get("status") == "success":
                 # Check if the target resource still exists
                 resource_still_exists = False
-                all_resources = []
+                current_resources = current_observe.get("resources", [])
                 
-                # Collect all resources from categorized arrays
-                all_resources.extend(current_observe.get("trees", []))
-                all_resources.extend(current_observe.get("rocks", []))
-                all_resources.extend(current_observe.get("fishSpots", []))
-                all_resources.extend(current_observe.get("foraging", []))
-                
-                for res in all_resources:
+                for res in current_resources:
                     if res.get("instance") == target_instance:
                         resource_still_exists = True
                         break
                 
-                # If resource is gone, we're done!
+                # If resource is gone, harvesting is complete!
                 if not resource_still_exists:
                     break
-                
-                # Try harvesting again to speed up the process
-                harvest_again = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["collect"], data)
-                # Continue regardless of result - sometimes API returns error when already harvesting
             
-            # Every 5 attempts, check inventory for new items
-            if attempts % 5 == 0:
+                # Track inventory changes during harvesting
                 current_inventory = {}
-                if current_observe.get("status") == "success":
-                    for item in current_observe.get("inventory", {}).get("items", []):
-                        key = item.get("key", "")
-                        count = item.get("count", 0)
-                        if key:
-                            current_inventory[key] = current_inventory.get(key, 0) + count
+                for item in current_observe.get("inventory", {}).get("items", []):
+                    key = item.get("key", "")
+                    count = item.get("count", 0)
+                    if key:
+                        current_inventory[key] = current_inventory.get(key, 0) + count
                 
-                # Check what items we gained
+                # Check what items we gained so far
                 for key, count in current_inventory.items():
                     initial_count = initial_inventory.get(key, 0)
                     if count > initial_count:
                         gained = count - initial_count
-                        if key not in [item["key"] for item in harvested_items]:
+                        # Update existing entry or add new one
+                        found = False
+                        for item in harvested_items:
+                            if item["key"] == key:
+                                item["gained"] = gained
+                                found = True
+                                break
+                        if not found:
                             harvested_items.append({"key": key, "name": key.title(), "gained": gained})
         
         # Final inventory check to see what we collected
@@ -548,7 +543,7 @@ class KaetramGameTools:
             )
             return result_message
             
-        elif attempts >= max_attempts:
+        elif total_wait >= max_wait_time:
             return (
                 f"{movement_info}⏳ HARVEST IN PROGRESS: {action.title()} {resource_name} at ({resource_x}, {resource_y})\n"
                 f"📋 Status: Harvesting process started but may take additional time to complete\n"
