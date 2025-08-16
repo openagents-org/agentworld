@@ -282,12 +282,20 @@ export default class Mob extends Character {
      */
 
     public drop(owner = ''): void {
+        log.error(`[MOBDROP] ${this.key} drop() called for owner: ${owner}`);
         let drops = this.getDrops();
+        
+        log.error(`[MOBDROP] ${this.key} getDrops() returned: ${JSON.stringify(drops)}`);
 
-        if (drops.length === 0) return;
+        if (drops.length === 0) {
+            log.error(`[MOBDROP] ${this.key} no drops - returning early`);
+            return;
+        }
 
-        for (let drop of drops)
+        for (let drop of drops) {
+            log.error(`[MOBDROP] ${this.key} spawning item: ${drop.key} x${drop.count} at (${this.x}, ${this.y})`);
             this.world.entities.spawnItem(drop.key, this.x, this.y, true, drop.count, {}, owner);
+        }
     }
 
     /**
@@ -340,15 +348,24 @@ export default class Mob extends Character {
      */
 
     public getDrops(): ItemDrop[] {
+        log.error(`[DEBUG] ${this.key} getDrops() called - personal drops: ${JSON.stringify(this.drops)}`);
+        
         let drops: ItemDrop[] = [], // The items that the mob will drop
             randomItem = this.getRandomItem(this.drops);
 
         // Add a random item from the mob's personal list of drops.
-        if (randomItem) drops.push(randomItem);
+        if (randomItem) {
+            drops.push(randomItem);
+            log.error(`[DEBUG] ${this.key} personal drop successful: ${JSON.stringify(randomItem)}`);
+        } else {
+            log.error(`[DEBUG] ${this.key} personal drop failed`);
+        }
 
         // Add items from the mob's drop table.
-        drops = [...drops, ...this.getDropTableItems()];
-
+        let tableDrops = this.getDropTableItems();
+        drops = [...drops, ...tableDrops];
+        
+        log.error(`[DEBUG] ${this.key} final drops: ${JSON.stringify(drops)}`);
         return drops;
     }
 
@@ -431,7 +448,13 @@ export default class Mob extends Character {
         // If the chance is greater than the drop probability, we adjust the drop
         if (drop > probability) drop = probability;
 
-        return Utils.randomInt(0, probability) < drop ? { key, count } : undefined;
+        let roll = Utils.randomInt(0, probability);
+        let success = roll < drop;
+        
+        // Debug logging for drop attempts
+        log.error(`[DROP] ${this.key} attempting drop: ${key} (${drop}/${probability}) | Roll: ${roll} | Success: ${success}`);
+
+        return success ? { key, count } : undefined;
     }
 
     /**

@@ -747,6 +747,231 @@ class KaetramGameTools:
         else:
             return f"{movement_info}Failed to attack {target_name}: {attack_result.get('message', 'Unknown error')}"
 
+    def attack_mob(self, arguments: Dict[str, Any]) -> str:
+        """Enhanced combat function that completes entire battle until mob or player dies.
+        
+        This function automatically:
+        1. Finds the target mob and moves to optimal attack position
+        2. Monitors the entire combat process until completion
+        3. Automatically collects all dropped items when mob dies
+        4. Reports detailed outcome including items obtained and current HP/MP
+        
+        Args:
+            targetInstance: The instance ID of the mob to attack (from environment observation)
+        """
+        if not self.token:
+            return "Error: No token available. Please login first."
+        
+        target_instance = arguments.get("targetInstance", "")
+        
+        if not target_instance:
+            return "Error: Target instance is required for combat."
+        
+        # Get initial state
+        observe_result = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], params={"token": self.token, "radius": 64})
+        
+        if observe_result.get("status") != "success":
+            return f"Error: Could not observe environment: {observe_result.get('message', 'Unknown error')}"
+        
+        # Find target mob
+        mobs = observe_result.get("mobs", [])
+        target_mob = None
+        
+        for mob in mobs:
+            if mob.get("instance") == target_instance:
+                target_mob = mob
+                break
+        
+        if not target_mob:
+            return f"Error: Target mob {target_instance} not found in current environment."
+        
+        # Get initial player status
+        player_status = observe_result.get("playerStatus", {})
+        initial_hp = player_status.get("hitPoints", 0)
+        initial_max_hp = player_status.get("maxHitPoints", 0)
+        initial_mp = player_status.get("mana", 0)
+        initial_max_mp = player_status.get("maxMana", 0)
+        
+        # Get initial inventory for tracking drops
+        initial_inventory = {}
+        for item in observe_result.get("inventory", {}).get("items", []):
+            key = item.get("key", "")
+            count = item.get("count", 0)
+            if key:
+                initial_inventory[key] = initial_inventory.get(key, 0) + count
+        
+        # Extract positions
+        location = observe_result.get("location", {})
+        player_x, player_y = location.get("x"), location.get("y")
+        target_x, target_y = target_mob.get("x"), target_mob.get("y")
+        target_name = target_mob.get("name", "Unknown")
+        target_level = target_mob.get("level", "?")
+        
+        if any(v is None for v in [player_x, player_y, target_x, target_y]):
+            return "Error: Could not determine positions."
+        
+        # Move to attack position if needed
+        dx, dy = abs(target_x - player_x), abs(target_y - player_y)
+        is_adjacent = (dx == 1 and dy == 0) or (dx == 0 and dy == 1)
+        movement_info = ""
+        
+        if not is_adjacent:
+            # Find best adjacent position
+            possible_positions = [
+                (target_x, target_y - 1), (target_x, target_y + 1),
+                (target_x - 1, target_y), (target_x + 1, target_y)
+            ]
+            
+            best_position = min(possible_positions, 
+                              key=lambda pos: abs(pos[0] - player_x) + abs(pos[1] - player_y))
+            
+            move_data = {"token": self.token, "x": best_position[0], "y": best_position[1]}
+            move_result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["move"], move_data)
+            
+            if move_result.get("status") != "success":
+                return f"Error: Failed to move to attack position: {move_result.get('message', 'Unknown error')}"
+            
+            movement_info = f"Moved from ({player_x}, {player_y}) to {best_position} to attack {target_name}. "
+            time.sleep(0.5)  # Position sync
+        else:
+            movement_info = f"Already adjacent to {target_name}. "
+        
+        # Initiate combat
+        attack_data = {"token": self.token, "targetInstance": target_instance}
+        attack_result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["attack"], attack_data)
+        
+        if attack_result.get("status") != "success":
+            return f"{movement_info}Failed to start combat: {attack_result.get('message', 'Unknown error')}"
+        
+        # ENHANCED COMBAT MONITORING - Wait until combat concludes
+        max_combat_time = 60  # Maximum combat time in seconds
+        check_interval = 0.5  # Check every 500ms
+        total_time = 0
+        combat_outcome = "unknown"
+        final_hp = initial_hp
+        final_mp = initial_mp
+        
+        while total_time < max_combat_time:
+            time.sleep(check_interval)
+            total_time += check_interval
+            
+            # Check current battle status
+            current_observe = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], 
+                                               params={"token": self.token, "radius": 32})
+            
+            if current_observe.get("status") == "success":
+                # Check if player is still alive
+                current_player_status = current_observe.get("playerStatus", {})
+                final_hp = current_player_status.get("hitPoints", 0)
+                final_mp = current_player_status.get("mana", 0)
+                player_in_combat = current_player_status.get("combat", False)
+                
+                if final_hp <= 0:
+                    combat_outcome = "player_died"
+                    break
+                
+                # Check if target mob still exists
+                current_mobs = current_observe.get("mobs", [])
+                target_still_alive = any(mob.get("instance") == target_instance for mob in current_mobs)
+                
+                if not target_still_alive:
+                    combat_outcome = "mob_died"
+                    break
+                
+                # If not in combat anymore, assume victory
+                if not player_in_combat and total_time > 2:  # Allow time for combat to start
+                    combat_outcome = "mob_died"
+                    break
+        
+        # IMPROVED Auto-collect dropped items if mob died
+        collected_items = []
+        
+        if combat_outcome == "mob_died":
+            # Move to mob's death location to collect drops
+            pickup_move_data = {"token": self.token, "x": target_x, "y": target_y}
+            pickup_move_result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["move"], pickup_move_data)
+            
+            if pickup_move_result.get("status") == "success":
+                # Wait longer for items to drop and server processing
+                time.sleep(2.0)
+                
+                # Multiple collection attempts for better reliability
+                for attempt in range(3):
+                    # Check for inventory changes after combat
+                    final_observe = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], 
+                                                     params={"token": self.token, "radius": 5})
+                    
+                    if final_observe.get("status") == "success":
+                        # Calculate items gained during combat
+                        current_inventory = {}
+                        for item in final_observe.get("inventory", {}).get("items", []):
+                            key = item.get("key", "")
+                            count = item.get("count", 0)
+                            if key:
+                                current_inventory[key] = current_inventory.get(key, 0) + count
+                        
+                        # Find newly acquired items
+                        for key, current_count in current_inventory.items():
+                            initial_count = initial_inventory.get(key, 0)
+                            if current_count > initial_count:
+                                gained = current_count - initial_count
+                                # Update existing item or add new one
+                                existing_item = next((item for item in collected_items if item["key"] == key), None)
+                                if existing_item:
+                                    existing_item["count"] = gained
+                                else:
+                                    collected_items.append({"key": key, "name": key.title(), "count": gained})
+                    
+                    # If we found items, stop trying
+                    if collected_items:
+                        break
+                        
+                    # Brief wait before next attempt
+                    if attempt < 2:
+                        time.sleep(1.0)
+        
+        # Build comprehensive result message
+        hp_change = final_hp - initial_hp
+        mp_change = final_mp - initial_mp
+        
+        if combat_outcome == "mob_died":
+            if collected_items:
+                items_text = ", ".join([f"{item['count']}x {item['name']}" for item in collected_items])
+                loot_note = f"🎁 Loot Collected: {items_text}"
+            else:
+                # Note about drop rates for user understanding
+                loot_note = f"🎁 Loot Collected: No items collected this time"
+            
+            result_message = (
+                f"{movement_info}🏆 VICTORY: Defeated {target_name} (Level {target_level})\n"
+                f"💀 Enemy Status: {target_name} eliminated\n"
+                f"{loot_note}\n"
+                f"❤️  Player HP: {final_hp}/{initial_max_hp} ({hp_change:+d})\n"
+                f"💙 Player MP: {final_mp}/{initial_max_mp} ({mp_change:+d})\n"
+                f"⚡ Combat Duration: {total_time:.1f}s\n"
+                f"🎯 Status: Ready for next action"
+            )
+        
+        elif combat_outcome == "player_died":
+            result_message = (
+                f"{movement_info}💀 DEFEAT: You were slain by {target_name} (Level {target_level})\n"
+                f"❤️  Player HP: 0/{initial_max_hp} (DEAD)\n"
+                f"💙 Player MP: {final_mp}/{initial_max_mp}\n"
+                f"⚡ Combat Duration: {total_time:.1f}s\n"
+                f"⚠️  Status: Respawn required"
+            )
+        
+        else:
+            result_message = (
+                f"{movement_info}⏳ COMBAT ONGOING: Battle with {target_name} (Level {target_level})\n"
+                f"❤️  Player HP: {final_hp}/{initial_max_hp} ({hp_change:+d})\n"
+                f"💙 Player MP: {final_mp}/{initial_max_mp} ({mp_change:+d})\n"
+                f"⚡ Combat Duration: {total_time:.1f}s+\n"
+                f"📋 Status: Combat may still be in progress"
+            )
+        
+        return result_message
+
     def set_combat_level(self, arguments: Dict[str, Any]) -> str:
         """Set combat level by adjusting all combat skills"""
         if not self.token:

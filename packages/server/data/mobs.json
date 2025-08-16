@@ -2,7 +2,7 @@
   "rat": {
     "name": "Rat",
     "description": "Ah yes, this rat is made out of rat.",
-    "drops": {"sword1": 1, "egg": 900},
+    "drops": {"gold": 10000},
     "hitPoints": 34,
     "defenseLevel": 1,
     "attackLevel": 1,
