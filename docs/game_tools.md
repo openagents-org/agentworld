@@ -18,11 +18,12 @@ Below are the function-calling tools exposed to the AI agent, sourced from `agen
 ---
 
 ### move_character
-- **Description**: Move the character to specific map coordinates.
+- **Description**: Move the character to specific map coordinates. Limited to maximum 32 tiles per movement.
 - **Parameters**:
-  - **x** (integer): X coordinate
-  - **y** (integer): Y coordinate
+  - **x** (integer): X coordinate (must be within 32 tiles of current position)
+  - **y** (integer): Y coordinate (must be within 32 tiles of current position)
 - **Required**: `x`, `y`
+- **Distance Limitation**: Maximum 32 tiles per tool call to prevent unrealistic teleportation
 - **Example**:
 ```json
 { "x": 120, "y": 340 }

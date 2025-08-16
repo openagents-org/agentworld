@@ -33,6 +33,15 @@ class BaseAgent(ABC):
             }
         ]
     
+    def _update_system_prompt(self):
+        """Update the system prompt with current environment observation"""
+        if self.conversation_history and self.conversation_history[0].get("role") == "system":
+            # Update the existing system prompt with current observation
+            self.conversation_history[0]["content"] = self._build_system_prompt()
+        else:
+            # This shouldn't happen, but if it does, recreate the system prompt
+            self._initialize_system_prompt()
+    
     def _get_current_environment_observation(self) -> str:
         """Get current environment observation. Returns empty string if not available."""
         try:
@@ -46,27 +55,10 @@ class BaseAgent(ABC):
         except Exception:
             return ""
     
-    def _add_environment_observation_if_changed(self):
-        """Add current environment observation to conversation if it has changed"""
-        current_observation = self._get_current_environment_observation()
-        if not current_observation:
-            return
-            
-        # Check if the last message is already an environment observation
-        if (self.conversation_history and 
-            self.conversation_history[-1].get("role") == "system" and
-            "CURRENT ENVIRONMENT OBSERVATION" in self.conversation_history[-1].get("content", "")):
-            # Update the last observation instead of adding a new one
-            self.conversation_history[-1]["content"] = f"=== CURRENT ENVIRONMENT OBSERVATION ===\n{current_observation}\n=== END OBSERVATION ==="
-        else:
-            # Add new environment observation
-            self.conversation_history.append({
-                "role": "system", 
-                "content": f"=== CURRENT ENVIRONMENT OBSERVATION ===\n{current_observation}\n=== END OBSERVATION ==="
-            })
+
     
     def _build_system_prompt(self) -> str:
-        """Build base system prompt for the agent without environment observation"""
+        """Build complete system prompt for the agent including current environment observation"""
         base_prompt = """You are an intelligent AI agent that plays the AgentWorld MMORPG game. Your goal is to explore, interact, collect resources, and engage with the game world intelligently.
 
 IMPORTANT: You MUST call exactly ONE tool function in every response. Never respond without calling a tool function.
@@ -86,6 +78,12 @@ IMPORTANT TOOL USAGE GUIDELINES:
 - Sleep should be used sparingly and only when waiting serves a purpose
 - Complete does not terminate the session - it just finishes the current task
 
+MOVEMENT LIMITATIONS:
+- Each move_character tool call is limited to a maximum distance of 32 tiles
+- If you need to travel farther distances, plan multiple shorter movements
+- The system will reject movements that exceed this distance limit and inform you of your current position
+- This prevents unrealistic teleportation and encourages more realistic navigation
+
 CRITICAL COMBAT GUIDELINES:
 - Check your equipped weapons in the environment observation - make sure weapon and ammunition match
 - The attack_entity function now handles ALL aspects of combat automatically:
@@ -98,6 +96,11 @@ CRITICAL COMBAT GUIDELINES:
 - The attack system now handles movement and timing automatically for better reliability
 
 Always think strategically about your actions. Make decisions based on your current environment observation. Be proactive in exploring and engaging with the game world. Remember: EVERY response must include exactly one tool call."""
+        
+        # Get current environment observation and append it to the system prompt
+        current_observation = self._get_current_environment_observation()
+        if current_observation:
+            base_prompt += f"\n\n=== CURRENT ENVIRONMENT OBSERVATION ===\n{current_observation}\n=== END OBSERVATION ==="
         
         return base_prompt
     
@@ -191,8 +194,8 @@ Always think strategically about your actions. Make decisions based on your curr
         while rounds < max_rounds:
             rounds += 1
 
-            # Add current environment observation as a new message before each API call
-            self._add_environment_observation_if_changed()
+            # Regenerate system prompt with current environment observation
+            self._update_system_prompt()
             
             response = self._make_api_call(self.conversation_history)
             if "error" in response:

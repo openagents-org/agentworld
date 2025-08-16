@@ -107,10 +107,33 @@ class KaetramGameTools:
         if x is None or y is None:
             return "Error: Both x and y coordinates are required for movement."
         
+        target_x = int(x)
+        target_y = int(y)
+        
+        # Get current player position to check distance
+        observe_result = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], {"token": self.token, "radius": 5})
+        
+        if observe_result.get("status") != "success":
+            return "Error: Could not determine current position to validate movement distance."
+        
+        location = observe_result.get("location", {})
+        current_x = location.get("x")
+        current_y = location.get("y")
+        
+        if current_x is None or current_y is None:
+            return "Error: Could not determine current player position."
+        
+        # Calculate distance using Chebyshev distance (max of x_diff, y_diff)
+        distance = max(abs(target_x - current_x), abs(target_y - current_y))
+        max_distance = 32  # Maximum distance per movement tool call
+        
+        if distance > max_distance:
+            return f"Error: Movement distance ({distance} tiles) exceeds maximum allowed distance ({max_distance} tiles) per tool call. Current position: ({current_x}, {current_y}), Target: ({target_x}, {target_y}). Please choose a closer destination or make multiple shorter movements."
+        
         data = {
             "token": self.token,
-            "x": int(x),
-            "y": int(y)
+            "x": target_x,
+            "y": target_y
         }
         
         result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["move"], data)
@@ -118,7 +141,7 @@ class KaetramGameTools:
         if result.get("status") == "success":
             start_pos = result.get("startPosition", {})
             target_pos = result.get("targetPosition", {})
-            return f"Character moved from ({start_pos.get('x')}, {start_pos.get('y')}) to ({target_pos.get('x')}, {target_pos.get('y')})"
+            return f"Character moved from ({start_pos.get('x')}, {start_pos.get('y')}) to ({target_pos.get('x')}, {target_pos.get('y')}) (distance: {distance} tiles)"
         else:
             return f"Failed to move character: {result.get('message', 'Unknown error')}"
 

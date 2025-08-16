@@ -8,17 +8,17 @@ GAME_TOOLS = [
         "type": "function",
         "function": {
             "name": "move_character",
-            "description": "Move the character to specific coordinates on the game map. Useful for exploration and navigation.",
+            "description": "Move the character to specific coordinates on the game map. Useful for exploration and navigation. IMPORTANT: Movement is limited to a maximum distance of 32 tiles per tool call to prevent unrealistic teleportation. If you need to travel farther, make multiple shorter movements.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "x": {
                         "type": "integer",
-                        "description": "The X coordinate to move to."
+                        "description": "The X coordinate to move to. Must be within 32 tiles of current position."
                     },
                     "y": {
                         "type": "integer", 
-                        "description": "The Y coordinate to move to."
+                        "description": "The Y coordinate to move to. Must be within 32 tiles of current position."
                     }
                 },
                 "required": ["x", "y"]

@@ -44,7 +44,6 @@ class QwenAgent(BaseAgent):
             "tool_choice": "auto"
             #"parallel_tool_calls": True
         }
-        
         try:
             response = self.session.post(url, json=data, timeout=60)
             response.raise_for_status()
