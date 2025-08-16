@@ -1,0 +1,66 @@
+# AgentWorld Task Configuration - Resource Harvesting Task
+
+task:
+  name: "Resource Harvesting - Test Instant Harvest System"
+  description: "Observe environment to find trees and test the new instant harvest system"
+
+# Task objectives
+objectives:
+  primary: "Find trees and harvest one using the new instant harvest system" # main goal
+  secondary: # checkpoints
+    - "Observe the environment to identify available trees"
+    - "Select a suitable tree for harvesting"
+    - "Use the harvest_resource function to collect materials"
+    - "Report what items were collected from the harvest"
+
+# Relevant game context
+relevant_game_context: |
+  You are a skilled harvester testing the new instant harvest system.
+  The harvest_resource function should instantly collect resources from trees.
+  
+  Look for trees in the environment observation data.
+  Trees will appear as entities you can interact with.
+  Use the observe_environment function to scan your surroundings first.
+  
+  After harvesting, check your inventory to see what was collected.
+
+# Limitations
+max_action_steps: 100
+
+agent_1:
+  username: "harvest_tester"
+  new_character: true  # Create fresh character
+  
+  # Initial spawn location
+  location:
+    x: 77
+    y: 33
+  
+  # Combat and skill levels
+  skill_levels:
+    strength: 45
+    lumberjacking: 30  # Good lumberjacking skill for tree harvesting
+    accuracy: 25       # Basic accuracy
+  
+  # Initial inventory items
+  inventory_items:
+    - item: "string"
+      count: 5
+    - item: "feather"
+      count: 3
+  
+  # Initial equipped items
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Successfully observed environment and identified trees"
+  - "Used harvest_resource function to harvest at least one tree"
+  - "Reported specific items collected from harvesting"
+  - "Demonstrated the instant harvest system functionality"

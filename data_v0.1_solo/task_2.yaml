@@ -1,0 +1,69 @@
+# AgentWorld Task Configuration - Combat Testing Task
+
+task:
+  name: "Combat Testing - Hunt and Defeat Mobs"
+  description: "Hunt and defeat 3 different mobs using the enhanced attack system"
+
+# Task objectives
+objectives:
+  primary: "Hunt and defeat 3 different mobs using the enhanced attack system" # main goal
+  secondary: # checkpoints
+    - "Locate and identify different types of mobs in the area"
+    - "Engage each mob using the attack_entity function"
+    - "Report enemy level, loot collected, and HP/MP status after each fight"
+    - "Successfully defeat all 3 different mob types"
+
+# Relevant game context
+relevant_game_context: |
+  You are a skilled warrior testing the enhanced attack system.
+  The attack_entity function automatically handles:
+  - Moving to optimal attack position
+  - Initiating combat and managing the fight
+  - Automatically collecting loot after victory
+  
+  Focus on engaging different types of mobs to test combat variety.
+  After each fight, report the specific details requested.
+
+# Limitations
+max_action_steps: 150
+
+agent_1:
+  username: "warrior_bot"
+  new_character: true  # Create fresh character
+  
+  # Initial spawn location
+  location:
+    x: 77
+    y: 33
+  
+  # Combat and skill levels
+  skill_levels:
+    strength: 60
+    defense: 40
+    health: 50
+    accuracy: 45  # Good accuracy for reliable hits
+  
+  # Initial inventory items
+  inventory_items:
+    - item: "stick"
+      count: 10
+    - item: "bead"
+      count: 5
+    - item: "logs"
+      count: 3
+  
+  # Initial equipped items
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "armor"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Successfully defeated 3 different types of mobs"
+  - "Reported enemy level for each defeated mob"
+  - "Reported loot collected after each battle"
+  - "Reported HP/MP status after each fight"

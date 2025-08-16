@@ -1,0 +1,85 @@
+# AgentWorld Task Configuration
+
+task:
+  name: "Smithing Task - Craft Heavy Sword"
+  description: "craft a heavy sword using smithing skills"
+
+
+# Task objectives
+objectives:
+  primary: "Craft a heavy sword using smithing skills" # main goal
+  secondary: # checkpoints
+    - "Gather any missing materials if needed"
+    - "Use smithing station to craft the sword"
+    - "Verify successful crafting completion"
+
+
+# Relevant game context such as crafting receipts and mob info. This should be useful, but optioanl for use.
+relevant_game_context: |
+  You are a smithing expert
+  You are a master of smithing
+  You are a master of the forge
+  You are a master of the anvil
+  You are a master of the hammer
+  You are a master of the anvil
+
+# Limitations
+max_action_steps: 100
+  
+
+agent_1:
+  username: "smith_test"
+  new_character: true  # Create fresh character
+  
+  # Initial spawn location
+  location:
+    x: 88
+    y: 33
+  
+  # Combat and skill levels
+  skill_levels:
+    smithing: 15
+    # Additional skills can be added here
+    # strength: 10
+    # accuracy: 10
+    # defense: 10
+    # health: 10
+    # magic: 1
+    # archery: 1
+    # lumberjacking: 1
+    # mining: 10
+    # fishing: 1
+    # cooking: 1
+    # crafting: 5
+    # fletching: 1
+    # foraging: 1
+  
+  # Initial inventory items
+  inventory_items:
+    - item: "ironbar"
+      count: 3
+    - item: "hilt2" 
+      count: 1
+    - item: "healingpotion"
+      count: 5
+    - item: "coal"
+      count: 10
+  
+  # Initial equipped items
+  equipped_items:
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "coppersword"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Heavy sword is successfully crafted"

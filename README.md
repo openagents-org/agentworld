@@ -207,6 +207,211 @@ Use `--new-character` to create fresh characters or reset existing ones:
 
 The `/observe` command will display the complete environment observation data in JSON format.
 
+## Task Runner System
+
+AgentWorld includes a comprehensive task runner system that allows you to execute structured tasks from YAML configuration files. This is ideal for automated testing, benchmarking, and running complex multi-step scenarios.
+
+### Prerequisites for Task Runner
+
+Before using the task runner, ensure you have:
+
+1. **Game server running**: Start AgentWorld with `yarn dev`
+2. **API keys configured**: Set up your LLM provider API keys as environment variables
+
+```bash
+# For Qwen (Alibaba Cloud DashScope)
+export DASHSCOPE_API_KEY=your-dashscope-api-key
+
+# For OpenAI
+export OPENAI_API_KEY=sk-your-openai-key
+
+# For Anthropic Claude
+export ANTHROPIC_API_KEY=sk-ant-your-claude-key
+
+# For DeepSeek
+export DEEPSEEK_API_KEY=sk-your-deepseek-key
+```
+
+### Quick Start with Task Runner
+
+1. **Create a task configuration** (see `data_v0.1_solo/task_1.yaml` for example)
+2. **Use an agent configuration** (see `agents/configs/qwen_agent.yaml`)
+3. **Run the task**:
+
+```bash
+# Run a single task
+python3 agents/run.py --task data_v0.1_solo/task_1.yaml --agent agents/configs/qwen_agent.yaml --output logs/
+
+# Run all tasks in a folder
+python3 agents/run.py --task-folder data_v0.1_solo/ --agent agents/configs/qwen_agent.yaml --output logs/
+```
+
+### Task Configuration Format
+
+Create YAML files that define structured tasks for your agents:
+
+```yaml
+# Task definition
+task:
+  name: "Smithing Task - Craft Heavy Sword"
+  description: "craft a heavy sword using smithing skills"
+
+# Task objectives
+objectives:
+  primary: "Craft a heavy sword using smithing skills"
+  secondary:
+    - "Gather any missing materials if needed"
+    - "Use smithing station to craft the sword"
+    - "Verify successful crafting completion"
+
+# Agent configuration
+agent_1:
+  username: "smith_test"
+  new_character: true
+  
+  location:
+    x: 88
+    y: 33
+  
+  skill_levels:
+    smithing: 15
+    mining: 10
+  
+  inventory_items:
+    - item: "ironbar"
+      count: 3
+    - item: "hilt2"
+      count: 1
+  
+  equipped_items:
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Heavy sword is successfully crafted"
+
+# Optional: Game context and limitations
+max_action_steps: 100
+relevant_game_context: |
+  You are a smithing expert who knows how to use the forge and anvil effectively.
+```
+
+### Agent Configuration
+
+Agent configurations define the LLM provider settings and behavior:
+
+```yaml
+# agents/configs/qwen_agent.yaml
+agent:
+  name: "QwenAgent"
+  provider: "qwen"
+  
+  llm:
+    model: "qwen-plus"
+    api_key: null  # Uses DASHSCOPE_API_KEY environment variable
+    base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+    max_tokens: 4096
+    temperature: 0.7
+    
+  game:
+    host: "http://localhost:7031"
+    timeout: 30
+    max_retries: 3
+
+  # Custom system prompt template (optional)
+  system_prompt: |
+    You are an intelligent AI agent that plays the AgentWorld MMORPG game...
+    
+    === CURRENT ENVIRONMENT OBSERVATION ===
+    {{observation}}
+    === END OBSERVATION ===
+```
+
+### Key Features
+
+- **📋 Structured Task Definitions**: Define complex multi-step tasks in YAML
+- **🤖 Multi-Agent Support**: Run tasks with multiple agents (agent_1, agent_2, etc.)
+- **🔧 Configurable Agents**: Customize LLM provider, model, and system prompts
+- **📊 Comprehensive Logging**: Detailed logs saved to specified output folder
+- **📈 Execution Metrics**: Track duration, iterations, success rates
+- **🎯 Batch Processing**: Run entire folders of tasks automatically
+
+### Output and Logging
+
+The task runner creates comprehensive logs in your specified output directory:
+
+```
+logs/
+├── task_runner_20240115_143022.log     # Main runner log
+├── agent_1_20240115_143022.json        # Individual agent execution log
+├── task_summary_20240115_143022.json   # Task execution summary
+└── folder_summary_20240115_143022.json # Batch execution summary (if running folder)
+```
+
+### Advanced Usage
+
+```bash
+# Run with different agent configurations
+python3 agents/run.py --task task.yaml --agent configs/openai_agent.yaml --output results/
+python3 agents/run.py --task task.yaml --agent configs/claude_agent.yaml --output results/
+
+# Run multiple tasks with comprehensive logging
+python3 agents/run.py --task-folder experiments/ --agent configs/qwen_agent.yaml --output experiment_results/
+```
+
+### Task Runner vs Console
+
+| Feature | Console (`console.py`) | Task Runner (`run.py`) |
+|---------|----------------------|------------------------|
+| **Use Case** | Interactive development, testing | Automated execution, benchmarking |
+| **Input** | Command line arguments | YAML configuration files |
+| **Output** | Console + optional JSON log | Structured logs + summaries |
+| **Multi-agent** | Single agent per session | Multiple agents per task |
+| **Reproducibility** | Manual setup each time | Fully reproducible from configs |
+| **Batch Processing** | No | Yes (entire folders) |
+
+Choose **console.py** for interactive development and testing, and **run.py** for automated task execution and research experiments.
+
+### Troubleshooting
+
+#### Common Issues
+
+**API Key Errors (401 Unauthorized)**
+```
+Error: API call failed: 401 Client Error: Unauthorized
+```
+- Verify your API key is correctly set as an environment variable
+- For Qwen: Check your DashScope API key format and permissions
+- For other providers: Ensure the API key has sufficient credits/permissions
+
+**Game Server Connection Issues**
+```
+Error: Game server not responding
+```
+- Ensure AgentWorld is running with `yarn dev`
+- Check that the game server is accessible at `http://localhost:7031`
+- Verify no firewall is blocking the connection
+
+**Task Execution Failures**
+- Check the detailed logs in the output directory
+- Review the task summary JSON for specific error messages
+- Ensure task configuration YAML syntax is valid
+
+#### Debug Commands
+
+```bash
+# Test game server connectivity
+curl http://localhost:7031/ai/observe
+
+# Test API key configuration
+echo $DASHSCOPE_API_KEY  # Should show your API key
+
+# Run with verbose logging
+python3 agents/run.py --task task.yaml --agent config.yaml --output logs/ 2>&1 | tee debug.log
+```
+
 ## License
 
 AgentWorld inherits the MPL-2.0 license from Kaetram.
