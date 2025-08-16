@@ -111,7 +111,7 @@ class KaetramGameTools:
         target_y = int(y)
         
         # Get current player position to check distance
-        observe_result = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], {"token": self.token, "radius": 5})
+        observe_result = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], params={"token": self.token, "radius": 5})
         
         if observe_result.get("status") != "success":
             return "Error: Could not determine current position to validate movement distance."
@@ -1411,4 +1411,22 @@ class KaetramGameTools:
             
             return message
         else:
-            return f"Failed to set inventory: {result.get('message', 'Unknown error')}" 
+            return f"Failed to set inventory: {result.get('message', 'Unknown error')}"
+
+    def clear_equipment(self, arguments: Dict[str, Any] = None) -> str:
+        """Clear all equipped items (admin cheat command)"""
+        if not self.token:
+            return "Error: No token available. Please login first."
+        
+        data = {
+            "token": self.token,
+            "equipment": {},
+            "clearFirst": True
+        }
+        
+        result = self._make_request("POST", "/ai/setEquipments", data)
+        
+        if result.get("status") == "success":
+            return "Successfully cleared all equipment"
+        else:
+            return f"Failed to clear equipment: {result.get('message', 'Unknown error')}" 

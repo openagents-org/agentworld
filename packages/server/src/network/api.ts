@@ -1396,10 +1396,10 @@ export default class API {
 
                 // Clear all equipment first if requested
                 if (clearFirst) {
-                    // Equipment enum has 12 types: Helmet, Pendant, Arrows, Chestplate, Weapon, Shield, Ring, ArmourSkin, WeaponSkin, Legplates, Cape, Boots
-                    for (let type = 0; type < 12; type++) {
+                    // Equipment enum has 8 types: Armour, Boots, Pendant, Ring, Weapon, Arrows, WeaponSkin, ArmourSkin
+                    for (let type = 0; type < 8; type++) {
                         const currentEquipment = player.equipment.get(type);
-                        if (!currentEquipment.isEmpty()) {
+                        if (currentEquipment && !currentEquipment.isEmpty()) {
                             // Add current equipment back to inventory if there's space
                             if (player.inventory.hasSpace()) {
                                 player.inventory.add(new Item(

@@ -61,7 +61,13 @@ class BaseAgent(ABC):
         """Build complete system prompt for the agent including current environment observation"""
         base_prompt = """You are an intelligent AI agent that plays the AgentWorld MMORPG game. Your goal is to explore, interact, collect resources, and engage with the game world intelligently.
 
-IMPORTANT: You MUST call exactly ONE tool function in every response. Never respond without calling a tool function.
+CRITICAL RESPONSE RULE: You MUST call exactly ONE tool function in every response. Never respond without calling a tool function. Do not provide incomplete responses that end mid-sentence or say things like "I'll analyze the environment observation to find..." - instead, actually take the action immediately.
+
+ACTION-ORIENTED MINDSET:
+- When you need to find something specific (like "mobs with level higher than X"), use tools to actively search or move to areas where you might find them
+- When analyzing the environment observation, immediately follow up with a concrete action based on what you find
+- Instead of saying "I'll do X", just do X by calling the appropriate tool
+- Be decisive and take action rather than just describing what you plan to do
 
 You have access to various game tools through function calling. Use these tools strategically to:
 1. Move around to explore the game world
@@ -95,7 +101,13 @@ CRITICAL COMBAT GUIDELINES:
 - Always check the environment observation to find target instance IDs
 - The attack system now handles movement and timing automatically for better reliability
 
-Always think strategically about your actions. Make decisions based on your current environment observation. Be proactive in exploring and engaging with the game world. Remember: EVERY response must include exactly one tool call."""
+RESPONSE COMPLETENESS:
+- Never end your response with incomplete thoughts like "I'll analyze..." or "Let me check..."
+- Always complete your analysis AND take action in the same response
+- If you identify something specific to do (like finding high-level mobs), immediately use the appropriate tool to do it
+- Your response should demonstrate completion of thought followed by decisive action
+
+Always think strategically about your actions. Make decisions based on your current environment observation. Be proactive in exploring and engaging with the game world. Remember: EVERY response must include exactly one tool call and be complete - no partial thoughts or incomplete analyses."""
         
         # Get current environment observation and append it to the system prompt
         current_observation = self._get_current_environment_observation()

@@ -474,6 +474,10 @@ class GameConsole:
                     })
                     if "successfully" in login_result.lower() and "token obtained" in login_result.lower():
                         self.log_message("SYSTEM", f"✅ Logged into new character: {login_result}")
+                        
+                        # Always reset character when --new-character flag is used
+                        # (The server may return "created" even for existing characters)
+                        self.reset_character_to_default()
                         return login_result
                     else:
                         self.log_message("SYSTEM", f"⚠️ Character created but login failed: {login_result}")
@@ -487,7 +491,7 @@ class GameConsole:
             print("⚠️ Character already exists, recreating with fresh state...")
             
             # Try to login with common passwords to access existing character
-            for dummy_password in ["temp123456", "password", "123456", "newchar123", self.password]:
+            for dummy_password in ["temp123456", "newchar123", "password", "123456", "test", "abc123", self.password]:
                 try:
                     login_result = self.agent.game_tools.login_character({
                         "username": self.username,
@@ -530,46 +534,132 @@ class GameConsole:
             return f"Error: {error_msg}"
 
     def reset_character_to_default(self):
-        """Reset character to default/fresh state"""
+        """Reset character to default/fresh state - comprehensive reset"""
         try:
-            self.log_message("SYSTEM", "🔄 Resetting character to default state...")
+            self.log_message("SYSTEM", "🔄 Performing comprehensive character reset...")
+            print("🔄 Performing comprehensive character reset...")
             
-            # Reset to level 1 and clear inventory/equipment
-            # Note: This uses existing cheat commands to reset the character
+            reset_results = []
             
-            # Reset combat levels to 1
+            # Step 1: Clear all equipment first
             try:
-                result = self.agent.game_tools.set_combat_level({"level": 1})
-                self.log_message("SYSTEM", f"Reset combat level: {result}")
+                result = self.agent.game_tools.clear_equipment()
+                if "successfully" in result.lower() or "success" in result.lower():
+                    reset_results.append("✅ Cleared all equipment")
+                    self.log_message("SYSTEM", "Cleared all equipment")
+                else:
+                    reset_results.append(f"⚠️ Equipment clear issue: {result}")
             except Exception as e:
-                self.log_message("SYSTEM", f"⚠️ Could not reset combat level: {str(e)}")
+                reset_results.append(f"⚠️ Could not clear equipment: {str(e)}")
+                self.log_message("SYSTEM", f"Could not clear equipment: {str(e)}")
             
-            # Clear inventory
+            # Step 2: Clear inventory completely  
             try:
-                result = self.agent.game_tools.set_inventory({
+                # Pass empty items list but still call set_inventory to clear
+                result = self.agent.game_tools._make_request("POST", "/ai/setInventory", {
+                    "token": self.agent.game_tools.token,
                     "items": [],
                     "clearFirst": True
                 })
-                self.log_message("SYSTEM", f"Cleared inventory: {result}")
+                if result.get("status") == "success":
+                    reset_results.append("✅ Cleared inventory")
+                    self.log_message("SYSTEM", "Cleared inventory")
+                else:
+                    reset_results.append(f"⚠️ Inventory clear issue: {result.get('message', 'Unknown error')}")
             except Exception as e:
-                self.log_message("SYSTEM", f"⚠️ Could not clear inventory: {str(e)}")
+                reset_results.append(f"⚠️ Could not clear inventory: {str(e)}")
+                self.log_message("SYSTEM", f"Could not clear inventory: {str(e)}")
             
-            # Teleport to spawn
+            # Step 3: Reset ALL skills to level 1 (including non-combat skills)
+            all_skills = [
+                'accuracy', 'strength', 'defense', 'health', 'magic', 'archery',
+                'lumberjacking', 'mining', 'fishing', 'cooking', 'smithing', 
+                'crafting', 'fletching', 'foraging'
+            ]
+            
+            skills_reset = []
+            
+            # First try to reset all combat skills to 1
+            try:
+                result = self.agent.game_tools.set_combat_level({"level": 1})
+                if "success" in result.lower():
+                    skills_reset.extend(['accuracy', 'strength', 'defense', 'health', 'magic', 'archery'])
+                    reset_results.append("✅ Reset combat skills to level 1")
+                    self.log_message("SYSTEM", "Reset combat skills to level 1")
+                else:
+                    reset_results.append(f"⚠️ Combat skills reset issue: {result}")
+            except Exception as e:
+                reset_results.append(f"⚠️ Could not reset combat skills: {str(e)}")
+                self.log_message("SYSTEM", f"Could not reset combat skills: {str(e)}")
+            
+            # Reset individual non-combat skills
+            non_combat_skills = ['lumberjacking', 'mining', 'fishing', 'cooking', 'smithing', 'crafting', 'fletching', 'foraging']
+            for skill in non_combat_skills:
+                try:
+                    result = self.agent.game_tools.set_individual_skill_level({
+                        "skill": skill,
+                        "level": 1
+                    })
+                    if "success" in result.lower():
+                        skills_reset.append(skill)
+                    # Don't log individual skill resets to avoid spam
+                except Exception as e:
+                    # Silent fail for individual skills - some may not be resettable
+                    pass
+            
+            if skills_reset:
+                reset_results.append(f"✅ Reset {len(skills_reset)} skills to level 1")
+            
+            # Step 4: Reset health and mana to default
+            try:
+                result = self.agent.game_tools._make_request("POST", "/ai/setPlayerStatus", {
+                    "token": self.agent.game_tools.token,
+                    "hitPoints": 69,  # Default starting HP
+                    "mana": 44,      # Default starting MP
+                    "maxHitPoints": 69,
+                    "maxMana": 44
+                })
+                if result.get("status") == "success":
+                    reset_results.append("✅ Reset health and mana")
+                    self.log_message("SYSTEM", "Reset health and mana")
+            except Exception as e:
+                reset_results.append(f"⚠️ Could not reset health/mana: {str(e)}")
+            
+            # Step 5: Teleport to spawn position
             try:
                 result = self.agent.game_tools.teleport_character({
                     "x": 250,
                     "y": 180,
                     "withAnimation": False
                 })
-                self.log_message("SYSTEM", f"Reset position: {result}")
+                if "success" in result.lower() or "teleported" in result.lower():
+                    reset_results.append("✅ Reset position to spawn")
+                    self.log_message("SYSTEM", "Reset position to spawn")
+                else:
+                    reset_results.append(f"⚠️ Position reset issue: {result}")
             except Exception as e:
-                self.log_message("SYSTEM", f"⚠️ Could not reset position: {str(e)}")
+                reset_results.append(f"⚠️ Could not reset position: {str(e)}")
+                self.log_message("SYSTEM", f"Could not reset position: {str(e)}")
             
-            self.log_message("SYSTEM", "✅ Character reset to default state")
-            print("✅ Character reset to fresh state")
+            # Display comprehensive results
+            print("\n📋 CHARACTER RESET RESULTS:")
+            for result in reset_results:
+                print(f"  {result}")
+            
+            success_count = len([r for r in reset_results if r.startswith("✅")])
+            total_count = len(reset_results)
+            
+            if success_count == total_count:
+                self.log_message("SYSTEM", "✅ Character completely reset to fresh state")
+                print("\n✅ Character completely reset to fresh state")
+            else:
+                self.log_message("SYSTEM", f"⚠️ Character reset completed with {success_count}/{total_count} operations successful")
+                print(f"\n⚠️ Character reset completed with {success_count}/{total_count} operations successful")
             
         except Exception as e:
-            self.log_message("SYSTEM", f"⚠️ Character reset had some issues: {str(e)}")
+            error_msg = f"Character reset failed: {str(e)}"
+            self.log_message("SYSTEM", f"❌ {error_msg}")
+            print(f"❌ {error_msg}")
 
     def apply_initial_state(self):
         """Apply initial state configuration after login"""
