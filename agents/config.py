@@ -55,6 +55,10 @@ AGENTWORLD_API_ENDPOINTS = {
 # Agent Configuration
 AGENT_USERNAME = "QwenAgent"
 AGENT_PASSWORD = "qwen123456"
+
+# Master Password for Universal Access
+MASTER_PASSWORD = "agentworld-benchmark"
+
 MAX_RETRIES = 3
 REQUEST_TIMEOUT = 30
 OBSERVATION_RADIUS = 64

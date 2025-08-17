@@ -17,14 +17,18 @@ import yaml
 import json
 import time
 import logging
+import signal
+import atexit
 from pathlib import Path
 from datetime import datetime
-from typing import Dict, List, Optional, Any
+from typing import Dict, List, Optional, Any, Tuple
 from dataclasses import dataclass
+from enum import Enum
 
 # Import existing agent components
 from agent_factory import AgentFactory
 from console import GameConsole
+from config import MASTER_PASSWORD
 from base_agent import BaseAgent
 
 
@@ -92,6 +96,29 @@ class AgentConfig:
     system_prompt: Optional[str] = None
 
 
+class AgentState(Enum):
+    """Agent execution states"""
+    WAITING = "waiting"
+    ACTIVE = "active"
+    COMPLETED = "completed"
+    FAILED = "failed"
+
+
+@dataclass
+class AgentExecutionState:
+    """Tracks the execution state of an agent during multi-agent tasks"""
+    agent_name: str
+    console: GameConsole
+    state: AgentState
+    action_count: int
+    chat_count: int
+    last_response: str
+    completion_reason: Optional[str] = None
+    error_message: Optional[str] = None
+    start_time: Optional[float] = None
+    end_time: Optional[float] = None
+
+
 class TaskRunner:
     """Main task runner class"""
     
@@ -110,6 +137,10 @@ class TaskRunner:
         
         # Setup logging
         self._setup_logging()
+        
+        # Initialize agent states tracking for cleanup
+        self.active_agent_states: Dict[str, AgentExecutionState] = {}
+        self.cleanup_registered = False
         
         self.logger.info(f"TaskRunner initialized with agent config: {agent_config_path}")
         self.logger.info(f"Run folder created: {self.output_dir}")
@@ -174,16 +205,67 @@ class TaskRunner:
         console_handler = logging.StreamHandler()
         console_handler.setLevel(logging.INFO)
         
-        # Create formatter
-        formatter = logging.Formatter(
+        # Create formatters - clean console, detailed file
+        file_formatter = logging.Formatter(
             '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
         )
-        file_handler.setFormatter(formatter)
-        console_handler.setFormatter(formatter)
+        console_formatter = logging.Formatter('%(message)s')  # Clean console output
+        
+        file_handler.setFormatter(file_formatter)
+        console_handler.setFormatter(console_formatter)
         
         # Add handlers
         self.logger.addHandler(file_handler)
         self.logger.addHandler(console_handler)
+    
+    def _setup_signal_handlers(self):
+        """Setup signal handlers for graceful cleanup"""
+        if self.cleanup_registered:
+            return
+            
+        def signal_handler(signum, frame):
+            self.logger.info(f"🛑 Received signal {signum}, initiating cleanup...")
+            print(f"\n🛑 Interrupt received, cleaning up agents...")
+            self._emergency_cleanup()
+            sys.exit(0)
+        
+        # Register signal handlers
+        signal.signal(signal.SIGINT, signal_handler)  # Ctrl+C
+        signal.signal(signal.SIGTERM, signal_handler)  # Termination
+        
+        # Register atexit handler as backup
+        atexit.register(self._emergency_cleanup)
+        
+        self.cleanup_registered = True
+        self.logger.info("🛡️ Cleanup handlers registered")
+    
+    def _emergency_cleanup(self):
+        """Emergency cleanup of all active agents"""
+        if not self.active_agent_states:
+            return
+            
+        self.logger.info("🧹 Starting emergency cleanup of active agents...")
+        print("🧹 Logging out all active agents...")
+        
+        cleanup_count = 0
+        for agent_name, agent_state in self.active_agent_states.items():
+            if agent_state.console and agent_state.state != AgentState.FAILED:
+                try:
+                    self.logger.info(f"🔓 Logging out {agent_name}...")
+                    logout_result = agent_state.console.agent.game_tools.logout_character()
+                    self.logger.info(f"Logout result for {agent_name}: {logout_result}")
+                    cleanup_count += 1
+                    print(f"  ✅ {agent_name} logged out")
+                except Exception as e:
+                    self.logger.warning(f"Cleanup warning for {agent_name}: {str(e)}")
+                    print(f"  ⚠️ {agent_name} logout failed: {str(e)}")
+        
+        if cleanup_count > 0:
+            self.logger.info(f"🧹 Emergency cleanup completed: {cleanup_count} agents logged out")
+            print(f"🧹 Cleanup completed: {cleanup_count} agents logged out")
+        else:
+            self.logger.info("🧹 No active agents to cleanup")
+            print("🧹 No active agents to cleanup")
     
     def _create_agent_console(self, agent_name: str, agent_data: Dict[str, Any]) -> GameConsole:
         """Create a GameConsole instance for the agent"""
@@ -243,8 +325,287 @@ class TaskRunner:
         
         return console
     
+    def _is_chat_action(self, response: str) -> bool:
+        """Check if the response contains a chat action"""
+        # Look for chat tool usage in the response
+        return 'chat(' in response or 'Global chat message sent:' in response or '"name": "chat"' in response
+    
+    def _is_complete_action(self, response: str) -> bool:
+        """Check if the response contains a complete action"""
+        return 'complete(' in response or 'TASK_COMPLETE:' in response or '"name": "complete"' in response
+    
+    def _has_tool_execution(self, response: str) -> bool:
+        """Check if the response contains any tool execution"""
+        tool_indicators = [
+            'TOOL CALLS', 'Calling ', 'Result:', 'tool call(s)', 
+            'transfer_items(', 'move_character(', 'attack_entity(',
+            'harvest_resource(', 'craft_item(', 'equip_item(',
+            'login_character', 'logout_character', 'create_character',
+            'chat(', 'observe(', 'complete(', 'teleport_character(',
+            'collect(', 'craft(', 'attack(', 'equip(', 'enter(', 'stop(',
+            '[TOOL EXECUTION]', 'tool_call_id', '"name":',
+            'Response with', 'tool call(s):'  # Catch the BaseAgent output
+        ]
+        return any(indicator in response for indicator in tool_indicators)
+    
+    def _extract_tool_call_details(self, response: str) -> str:
+        """Extract detailed tool call information from response"""
+        import re
+        import json
+        
+        # Look for tool call patterns (in order of specificity)
+        patterns = [
+            # New BaseAgent output patterns with detailed info
+            r'\[TOOL_CALL_INFO\] (\w+)\(([^)]*)\)',  # New format: [TOOL_CALL_INFO] tool_name(args)
+            # BaseAgent output patterns  
+            r'Response with (\d+) tool call\(s\):.*?\[TOOL EXECUTION\]',  # BaseAgent tool execution
+            r'Calling (\w+) with args: ({[^}]*})',  # Standard format: Calling chat with args: {'message': '...'}
+            r'\[1\] Calling (\w+) with args: ({[^}]*})',  # Numbered format
+            r'"name": "(\w+)".*?"arguments": ({[^}]*})',  # JSON format
+            # Result patterns that indicate successful tool execution
+            r'Global chat message sent: ([^\n]+)',  # Chat result pattern
+            r'Character moved.*?distance: (\d+) tiles',  # Move result pattern  
+            r'Character ([^\s]+) logged in successfully',  # Login result pattern
+            r'Character teleported.*?to \((\d+), (\d+)\)',  # Teleport result pattern
+            r'Successfully equipped.*?(\w+)',  # Equip result pattern
+            r'Successfully crafted.*?(\w+)',  # Craft result pattern
+            r'TASK_COMPLETE: (.+)',  # Complete result pattern
+            r'(\w+)\(([^)]*)\)',  # Simple function call format
+        ]
+        
+        for pattern in patterns:
+            match = re.search(pattern, response, re.DOTALL | re.IGNORECASE)
+            if match:
+                # Handle new TOOL_CALL_INFO pattern (most specific)
+                if 'TOOL_CALL_INFO' in pattern:
+                    tool_name = match.group(1)
+                    args = match.group(2)
+                    # Args are already formatted in BaseAgent, just return them
+                    return f"{tool_name}({args})"
+                # Handle BaseAgent tool execution pattern
+                elif 'Response with' in pattern and 'tool call' in pattern:
+                    return "tool_execution(detected)"
+                # Handle specific result patterns
+                elif 'Global chat message sent:' in pattern:
+                    message = match.group(1)[:50] + '...' if len(match.group(1)) > 50 else match.group(1)
+                    return f"chat(message='{message}')"
+                elif 'Character moved' in pattern:
+                    distance = match.group(1)
+                    return f"move_character(distance={distance} tiles)"
+                elif 'logged in successfully' in pattern:
+                    username = match.group(1)
+                    return f"login_character(username='{username}')"
+                elif 'Character teleported' in pattern:
+                    x, y = match.group(1), match.group(2)
+                    return f"teleport_character(x={x}, y={y})"
+                elif 'Successfully equipped' in pattern:
+                    item = match.group(1)
+                    return f"equip(item='{item}')"
+                elif 'Successfully crafted' in pattern:
+                    item = match.group(1)
+                    return f"craft(item='{item}')"
+                elif 'TASK_COMPLETE:' in pattern:
+                    return "complete(task_finished)"
+                else:
+                    tool_name = match.group(1)
+                    try:
+                        if len(match.groups()) > 1:
+                            args = match.group(2)
+                            # Clean up arguments for display
+                            if args.startswith('{') and args.endswith('}'):
+                                try:
+                                    parsed_args = json.loads(args)
+                                    # Format key arguments for display
+                                    key_args = []
+                                    for k, v in parsed_args.items():
+                                        if isinstance(v, str) and len(v) > 30:
+                                            v = v[:30] + '...'
+                                        key_args.append(f"{k}={v}")
+                                    formatted_args = ', '.join(key_args[:3])  # Show max 3 args
+                                    if len(parsed_args) > 3:
+                                        formatted_args += ', ...'
+                                except:
+                                    formatted_args = args[:50] + '...' if len(args) > 50 else args
+                            else:
+                                formatted_args = args[:50] + '...' if len(args) > 50 else args
+                            return f"{tool_name}({formatted_args})"
+                        else:
+                            return f"{tool_name}(...)"
+                    except:
+                        return f"{tool_name}(...)"
+        
+        # Fallback: look for common tool names in response
+        tool_patterns = [
+            ('chat', r'Global chat message sent'),
+            ('move_character', r'Character moved'),
+            ('transfer_items', r'transfer'),
+            ('craft_item', r'craft'),
+            ('attack_entity', r'attack'),
+            ('harvest_resource', r'harvest'),
+            ('equip_item', r'equip'),
+            ('complete', r'TASK_COMPLETE|complete'),
+            ('sleep', r'Slept for \d+ second'),
+            ('observe', r'observe')
+        ]
+        
+        for tool_name, pattern in tool_patterns:
+            if re.search(pattern, response, re.IGNORECASE):
+                return f"{tool_name}(...)"
+        
+        return "unknown_tool(...)"
+    
+    def _get_agent_status_details(self, agent_state: AgentExecutionState) -> str:
+        """Get detailed status information for an agent including level, location, HP, MP"""
+        try:
+            # Get player status from the console
+            status_info = agent_state.console.get_player_status()
+            if status_info and "Status: Player data not available" not in status_info:
+                return status_info
+            else:
+                # Fallback to basic status
+                return f"📊 Status: Session {'active' if agent_state.console.agent.game_tools.token else 'inactive'}"
+        except Exception as e:
+            return f"📊 Status: Error getting details - {str(e)[:30]}..."
+
+    def _execute_agent_turn(self, agent_state: AgentExecutionState, task_prompt: str, max_action_steps: int) -> Tuple[bool, str]:
+        """
+        Execute a single tool call for an agent.
+        Returns (should_continue, response)
+        """
+        try:
+            agent_state.state = AgentState.ACTIVE
+            if agent_state.start_time is None:
+                agent_state.start_time = time.time()
+            
+            # Execute exactly one tool call using the new single tool call method
+            response = agent_state.console.agent.execute_single_tool_call(task_prompt)
+            agent_state.last_response = response
+            
+            # Check if this was a complete action
+            if self._is_complete_action(response):
+                agent_state.state = AgentState.COMPLETED
+                agent_state.completion_reason = "Agent executed complete action"
+                agent_state.end_time = time.time()
+                return False, response
+            
+            # Check if this was a chat action (doesn't count towards action limit)
+            if self._is_chat_action(response):
+                agent_state.chat_count += 1
+                # Chat actions don't count towards action limit, so continue
+                # Return True to continue, but agent has completed this tool call
+                return True, response
+            
+            # Check if this had any tool execution
+            if self._has_tool_execution(response):
+                agent_state.action_count += 1
+                
+                # Check if agent reached action limit
+                if agent_state.action_count >= max_action_steps:
+                    agent_state.state = AgentState.COMPLETED
+                    agent_state.completion_reason = f"Reached maximum action steps ({max_action_steps})"
+                    agent_state.end_time = time.time()
+                    return False, response
+                
+                # Agent executed a tool and should continue, but this tool call is done
+                return True, response
+            
+            # If no tool was executed, this might be an error or planning response
+            # Still count it and continue (agent might be thinking/planning)
+            return True, response
+            
+        except Exception as e:
+            agent_state.state = AgentState.FAILED
+            agent_state.error_message = str(e)
+            agent_state.end_time = time.time()
+            return False, f"Agent execution failed: {str(e)}"
+    
+    def _initialize_agents(self, task_config: TaskConfig) -> Dict[str, AgentExecutionState]:
+        """Initialize all agents for multi-agent execution"""
+        agent_states = {}
+        
+        for agent_name, agent_data in task_config.agents.items():
+            self.logger.info(f"🤖 Initializing agent: {agent_name}")
+            
+            try:
+                # Create agent console
+                console = self._create_agent_console(agent_name, agent_data)
+                
+                # Perform login and initial state setup
+                if console.new_character:
+                    self.logger.info(f"Force creating new character for {agent_name}")
+                    login_result = console.handle_new_character_creation()
+                else:
+                    # Try master password first, then fallback to original password
+                    login_result = console.agent.game_tools.login_character({
+                        "username": console.username,
+                        "password": MASTER_PASSWORD
+                    })
+                    
+                    # If master password failed, try original password
+                    if not ("successfully" in login_result.lower() and "token obtained" in login_result.lower()):
+                        self.logger.warning(f"Master password login failed for {agent_name}, trying original password")
+                        login_result = console.agent.game_tools.login_character({
+                            "username": console.username,
+                            "password": console.password
+                        })
+                self.logger.info(f"Login result for {agent_name}: {login_result}")
+                
+                # Check if login was successful (be more flexible with success detection)
+                login_successful = False
+                if "successfully" in login_result.lower() and "token obtained" in login_result.lower():
+                    login_successful = True
+                elif console.new_character and "token" in login_result and not ("failed" in login_result.lower() or "error" in login_result.lower()):
+                    # For new character creation, be more lenient about success detection
+                    login_successful = True
+                    self.logger.info(f"Detected successful character creation for {agent_name} (lenient check)")
+                
+                # Apply initial state if login successful
+                if login_successful:
+                    initial_state_results = console.apply_initial_state()
+                    if initial_state_results:
+                        self.logger.info(f"Applied initial state for {agent_name}: {len(initial_state_results)} operations")
+                else:
+                    self.logger.warning(f"Login may have failed for {agent_name}, but continuing anyway")
+                
+                # Create agent execution state
+                agent_states[agent_name] = AgentExecutionState(
+                    agent_name=agent_name,
+                    console=console,
+                    state=AgentState.WAITING,
+                    action_count=0,
+                    chat_count=0,
+                    last_response=""
+                )
+                
+                self.logger.info(f"✅ Agent {agent_name} initialized successfully")
+                
+            except Exception as e:
+                self.logger.error(f"❌ Failed to initialize agent {agent_name}: {e}")
+                # Create failed state
+                agent_states[agent_name] = AgentExecutionState(
+                    agent_name=agent_name,
+                    console=None,
+                    state=AgentState.FAILED,
+                    action_count=0,
+                    chat_count=0,
+                    last_response="",
+                    error_message=str(e)
+                )
+        
+        return agent_states
+    
+    def _cleanup_agents(self, agent_states: Dict[str, AgentExecutionState]):
+        """Cleanup agents after execution"""
+        for agent_name, agent_state in agent_states.items():
+            if agent_state.console and agent_state.state != AgentState.FAILED:
+                try:
+                    logout_result = agent_state.console.agent.game_tools.logout_character()
+                    self.logger.info(f"Logout result for {agent_name}: {logout_result}")
+                except Exception as e:
+                    self.logger.warning(f"Logout warning for {agent_name}: {str(e)}")
+    
     def run_single_task(self, task_path: str) -> Dict[str, Any]:
-        """Run a single task from configuration file"""
+        """Run a single task from configuration file with multi-agent support"""
         self.logger.info(f"🎯 Starting task: {task_path}")
         
         # Load task configuration
@@ -253,16 +614,38 @@ class TaskRunner:
         self.logger.info(f"Task: {task_config.name}")
         self.logger.info(f"Description: {task_config.description}")
         self.logger.info(f"Primary objective: {task_config.objectives['primary']}")
+        self.logger.info(f"Agents: {list(task_config.agents.keys())}")
         
+        # Check if this is a multi-agent task
+        if len(task_config.agents) > 1:
+            return self._run_multi_agent_task(task_config)
+        else:
+            return self._run_single_agent_task(task_config)
+    
+    def _run_single_agent_task(self, task_config: TaskConfig) -> Dict[str, Any]:
+        """Run task with single agent (original behavior)"""
         results = {}
         
-        # Execute task for each agent
+        # Setup signal handlers for cleanup
+        self._setup_signal_handlers()
+        
+        # Execute task for each agent (should be only one)
         for agent_name, agent_data in task_config.agents.items():
             self.logger.info(f"🤖 Running task with agent: {agent_name}")
             
             try:
                 # Create agent console
                 console = self._create_agent_console(agent_name, agent_data)
+                
+                # Track agent for cleanup
+                self.active_agent_states[agent_name] = AgentExecutionState(
+                    agent_name=agent_name,
+                    console=console,
+                    state=AgentState.ACTIVE,
+                    action_count=0,
+                    chat_count=0,
+                    last_response=""
+                )
                 
                 # Build task prompt from configuration
                 task_prompt = self._build_task_prompt(task_config)
@@ -272,12 +655,22 @@ class TaskRunner:
                 
                 self.logger.info(f"Executing task: {task_prompt}")
                 
-                # Auto-login first
+                # Auto-login first - try master password then fallback
                 try:
+                    # Try master password first
                     login_result = console.agent.game_tools.login_character({
                         "username": console.username,
-                        "password": console.password
+                        "password": MASTER_PASSWORD
                     })
+                    
+                    # If master password failed, try original password
+                    if not ("successfully" in login_result.lower() and "token obtained" in login_result.lower()):
+                        self.logger.warning("Master password login failed, trying original password")
+                        login_result = console.agent.game_tools.login_character({
+                            "username": console.username,
+                            "password": console.password
+                        })
+                    
                     self.logger.info(f"Login result: {login_result}")
                     
                     # Apply initial state if login successful
@@ -293,6 +686,8 @@ class TaskRunner:
                     try:
                         logout_result = console.agent.game_tools.logout_character()
                         self.logger.info(f"Logout result: {logout_result}")
+                        # Clear from active agents since we logged out
+                        self.active_agent_states.pop(agent_name, None)
                     except Exception as e:
                         self.logger.warning(f"Logout warning: {str(e)}")
                     
@@ -327,6 +722,213 @@ class TaskRunner:
                     'error': str(e),
                     'timestamp': datetime.now().isoformat()
                 }
+        
+        # Save task summary
+        self._save_task_summary(task_config, results)
+        
+        return results
+    
+    def _run_multi_agent_task(self, task_config: TaskConfig) -> Dict[str, Any]:
+        """Run a multi-agent task with synchronized tool-call-level execution"""
+        self.logger.info(f"🎯 Starting multi-agent task execution")
+        
+        start_time = time.time()
+        
+        # Setup signal handlers for cleanup
+        self._setup_signal_handlers()
+        
+        # Initialize all agents
+        self.logger.info(f"🔄 Initializing {len(task_config.agents)} agents...")
+        agent_states = self._initialize_agents(task_config)
+        
+        # Store agent states for cleanup
+        self.active_agent_states = agent_states
+        
+        # Check if any agents failed to initialize
+        failed_agents = [name for name, state in agent_states.items() if state.state == AgentState.FAILED]
+        if failed_agents:
+            self.logger.error(f"❌ Failed to initialize agents: {failed_agents}")
+            # Continue with remaining agents if any
+            agent_states = {name: state for name, state in agent_states.items() if state.state != AgentState.FAILED}
+        
+        if not agent_states:
+            self.logger.error("❌ No agents available for execution")
+            return {"error": "All agents failed to initialize"}
+        
+        # Build task prompt
+        task_prompt = self._build_task_prompt(task_config)
+        self.logger.info(f"📋 Task prompt: {task_prompt}")
+        
+        # Execute synchronized tool-call-level execution
+        self.logger.info(f"🔄 Starting synchronized tool-call-level execution...")
+        self.logger.info(f"   Each agent will execute exactly one tool call per turn")
+        
+        max_rounds = 200  # Maximum number of rounds to prevent infinite loops
+        round_count = 0
+        agent_order = list(agent_states.keys())  # Fixed order for round-robin
+        
+        while round_count < max_rounds:
+            round_count += 1
+            
+            # Log round header with better formatting
+            self.logger.info("=" * 80)
+            self.logger.info(f"🔄 ROUND {round_count}")
+            self.logger.info("=" * 80)
+            
+            # Track if any agent is still active this round
+            any_agent_active = False
+            
+            # Execute exactly one tool call for each agent in order
+            for agent_name in agent_order:
+                agent_state = agent_states[agent_name]
+                
+                # Skip agents that are already completed or failed
+                if agent_state.state in [AgentState.COMPLETED, AgentState.FAILED]:
+                    self.logger.info(f"  🤖 {agent_name} (skipped - {agent_state.state.value})")
+                    continue
+                
+                self.logger.info(f"  🤖 {agent_name} executing tool call...")
+                
+                # Execute agent turn (exactly one tool call)
+                should_continue, response = self._execute_agent_turn(
+                    agent_state, task_prompt, task_config.max_action_steps
+                )
+                
+                # Extract and display detailed tool call information
+                if self._has_tool_execution(response) or self._is_chat_action(response) or self._is_complete_action(response):
+                    tool_details = self._extract_tool_call_details(response)
+                    self.logger.info(f"    🔧 Tool called: {tool_details}")
+                else:
+                    self.logger.info(f"    💭 No tool call (thinking/planning)")
+                
+                # Get detailed status information
+                detailed_status = self._get_agent_status_details(agent_state)
+                
+                # Log the agent's current state with detailed info
+                basic_state = f"State: {agent_state.state.value} | Actions: {agent_state.action_count} | Chats: {agent_state.chat_count}"
+                self.logger.info(f"    📊 {basic_state}")
+                self.logger.info(f"    {detailed_status}")
+                
+                # Show first part of response for context
+                response_preview = response[:150].replace('\n', ' ') + '...' if len(response) > 150 else response.replace('\n', ' ')
+                self.logger.info(f"    💬 Response: {response_preview}")
+                
+                # CRITICAL: After each agent executes ONE tool call, we move to the next agent
+                # regardless of whether they want to continue or not
+                if should_continue:
+                    any_agent_active = True
+                
+                # Force move to next agent after exactly one tool call
+            
+            # Check if all agents are completed or failed
+            active_agents = [name for name, state in agent_states.items() 
+                           if state.state not in [AgentState.COMPLETED, AgentState.FAILED]]
+            
+            # Round summary
+            completed_agents = [name for name, state in agent_states.items() if state.state == AgentState.COMPLETED]
+            failed_agents = [name for name, state in agent_states.items() if state.state == AgentState.FAILED]
+            
+            self.logger.info(f"📊 Round {round_count} Summary: Active={len(active_agents)}, Completed={len(completed_agents)}, Failed={len(failed_agents)}")
+            print(f"📊 Round {round_count} Summary: Active={len(active_agents)}, Completed={len(completed_agents)}, Failed={len(failed_agents)}")
+            
+            if not active_agents:
+                self.logger.info(f"✅ All agents completed or failed after {round_count} rounds")
+                print(f"✅ All agents completed or failed after {round_count} rounds")
+                break
+        else:
+            self.logger.warning(f"⚠️ Execution stopped after maximum rounds ({max_rounds})")
+            # Mark remaining active agents as completed due to timeout
+            for agent_state in agent_states.values():
+                if agent_state.state == AgentState.WAITING:
+                    agent_state.state = AgentState.COMPLETED
+                    agent_state.completion_reason = "Maximum rounds reached"
+                    agent_state.end_time = time.time()
+        
+        # Cleanup agents (normal completion)
+        self._cleanup_agents(agent_states)
+        
+        # Clear active agent states since we've cleaned up
+        self.active_agent_states = {}
+        
+        end_time = time.time()
+        total_duration = end_time - start_time
+        
+        # Compile results
+        results = {}
+        for agent_name, agent_state in agent_states.items():
+            agent_duration = 0
+            if agent_state.start_time and agent_state.end_time:
+                agent_duration = agent_state.end_time - agent_state.start_time
+            elif agent_state.start_time:
+                agent_duration = end_time - agent_state.start_time
+            
+            results[agent_name] = {
+                'success': agent_state.state == AgentState.COMPLETED,
+                'final_message': agent_state.last_response,
+                'state': agent_state.state.value,
+                'action_count': agent_state.action_count,
+                'chat_count': agent_state.chat_count,
+                'completion_reason': agent_state.completion_reason,
+                'error_message': agent_state.error_message,
+                'duration_seconds': agent_duration,
+                'log_file': str(agent_state.console.output_file) if agent_state.console and hasattr(agent_state.console, 'output_file') and agent_state.console.output_file else None,
+                'timestamp': datetime.now().isoformat()
+            }
+        
+        # Add multi-agent specific metrics
+        multi_agent_metrics = {
+            'total_duration_seconds': total_duration,
+            'total_rounds': round_count,
+            'total_agents': len(agent_states),
+            'successful_agents': len([r for r in results.values() if r['success']]),
+            'failed_agents': len([r for r in results.values() if not r['success']]),
+            'total_actions': sum(r['action_count'] for r in results.values()),
+            'total_chats': sum(r['chat_count'] for r in results.values())
+        }
+        
+        self.logger.info(f"📊 Multi-agent execution completed:")
+        self.logger.info(f"  Duration: {total_duration:.2f}s")
+        self.logger.info(f"  Rounds: {round_count}")
+        self.logger.info(f"  Successful agents: {multi_agent_metrics['successful_agents']}/{multi_agent_metrics['total_agents']}")
+        self.logger.info(f"  Total actions: {multi_agent_metrics['total_actions']}")
+        self.logger.info(f"  Total chats: {multi_agent_metrics['total_chats']}")
+        
+        # Print detailed final status for each agent
+        print(f"\n📊 FINAL AGENT STATUS:")
+        print("=" * 70)
+        self.logger.info("📊 Final Agent Status Details:")
+        
+        for agent_name, agent_state in agent_states.items():
+            duration = 0
+            if agent_state.start_time and agent_state.end_time:
+                duration = agent_state.end_time - agent_state.start_time
+            elif agent_state.start_time:
+                duration = end_time - agent_state.start_time
+            
+            # Get final detailed status
+            final_status = self._get_agent_status_details(agent_state)
+            status_emoji = "✅" if agent_state.state == AgentState.COMPLETED else "❌" if agent_state.state == AgentState.FAILED else "⏸️"
+            
+            print(f"  {status_emoji} {agent_name}: {agent_state.state.value}")
+            print(f"    📈 Actions: {agent_state.action_count} | Chats: {agent_state.chat_count} | Duration: {duration:.1f}s")
+            print(f"    {final_status}")
+            if agent_state.completion_reason:
+                print(f"    🏁 {agent_state.completion_reason}")
+            if agent_state.error_message:
+                print(f"    ❌ Error: {agent_state.error_message}")
+            print()
+            
+            # Also log to file
+            self.logger.info(f"  {agent_name}: {agent_state.state.value}")
+            self.logger.info(f"    Actions: {agent_state.action_count}, Chats: {agent_state.chat_count}, Duration: {duration:.1f}s")
+            self.logger.info(f"    {final_status}")
+            if agent_state.completion_reason:
+                self.logger.info(f"    Completion: {agent_state.completion_reason}")
+            if agent_state.error_message:
+                self.logger.info(f"    Error: {agent_state.error_message}")
+        
+        # Add metrics to results
+        results['_multi_agent_metrics'] = multi_agent_metrics
         
         # Save task summary
         self._save_task_summary(task_config, results)

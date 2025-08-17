@@ -1,0 +1,154 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Cooperative Equipment Crafting - Team Dragon Slayer Preparation"
+  description: "Three agents work together to gather materials, craft equipment, and prepare one agent for a dangerous dragon boss fight"
+
+# Task objectives
+objectives:
+  primary: "Prepare warrior_agent with crafted heavy sword and protective equipment for dragon combat"
+  secondary: # checkpoints
+    - "miner_agent: Gather iron bars and coal through mining"
+    - "miner_agent: Transfer materials to smith_agent via coordination"
+    - "smith_agent: Craft heavy sword using received materials"
+    - "smith_agent: Transfer crafted weapon to warrior_agent"
+    - "warrior_agent: Receive equipment and confirm combat readiness"
+    - "All agents: Use global chat for coordination throughout the process"
+
+# Relevant game context
+relevant_game_context: |
+  This is a cooperative multi-agent scenario where teamwork is essential.
+  - miner_agent specializes in resource gathering (mining iron and coal)
+  - smith_agent specializes in weapon crafting using smithing skills
+  - warrior_agent specializes in combat and will face the dragon boss
+  
+  Key coordination requirements:
+  - Use global chat to announce status and coordinate meetups
+  - Use transfer_items to safely exchange materials and equipment
+  - Agents should communicate locations when transferring items
+  - The heavy sword requires iron bars and coal for crafting
+  
+  Success depends on effective communication and resource sharing between all three agents.
+
+# Limitations
+max_action_steps: 10  # Higher limit for multi-agent coordination
+
+# Agent configurations
+agent_1:
+  username: "miner_agent"
+  new_character: true
+  role: "Resource Gatherer"
+  
+  # Starting location - mining area
+  location:
+    x: 150
+    y: 120
+  
+  # Skills focused on resource gathering
+  skill_levels:
+    mining: 25
+    lumberjacking: 15
+    strength: 20
+    health: 25
+  
+  # Mining equipment and basic supplies
+  inventory_items:
+    - item: "healingpotion"
+      count: 10
+    - item: "bread"
+      count: 20
+  
+  equipped_items:
+    - item: "ironpickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "smith_agent"
+  new_character: true
+  role: "Master Craftsman"
+  
+  # Starting location - near smithy/forge area
+  location:
+    x: 88
+    y: 33
+  
+  # Skills focused on crafting
+  skill_levels:
+    smithing: 30
+    crafting: 20
+    strength: 25
+    health: 20
+  
+  # Smithing tools and backup materials
+  inventory_items:
+    - item: "coal"
+      count: 5  # Backup coal supply
+    - item: "hilt2"
+      count: 2  # Sword hilts for crafting
+    - item: "healingpotion"
+      count: 8
+  
+  equipped_items:
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "ironaxe"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "warrior_agent"
+  new_character: true
+  role: "Dragon Slayer"
+  
+  # Starting location - training/staging area
+  location:
+    x: 200
+    y: 180
+  
+  # Skills focused on combat
+  skill_levels:
+    strength: 35
+    accuracy: 30
+    defense: 32
+    health: 40
+    archery: 20
+  
+  # Combat consumables and basic gear
+  inventory_items:
+    - item: "healingpotion"
+      count: 20
+    - item: "firepotion"
+      count: 10
+    - item: "bread"
+      count: 15
+  
+  equipped_items:
+    - item: "coppersword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "miner_agent successfully gathers and transfers iron bars and coal to smith_agent"
+  - "smith_agent receives materials and crafts a heavy sword"
+  - "smith_agent successfully transfers the heavy sword to warrior_agent"
+  - "warrior_agent receives the heavy sword and equips it"
+  - "All agents use global chat for coordination throughout the process"
+  - "warrior_agent declares readiness for dragon combat"

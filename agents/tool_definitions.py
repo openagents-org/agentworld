@@ -199,6 +199,48 @@ GAME_TOOLS = [
                 "required": ["response"]
             }
         }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "chat",
+            "description": "Send a global group chat message to all agents and players in the game. This is different from send_chat_message as it is specifically designed for multi-agent communication and always sends messages globally for coordination between AI agents.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "description": "The message content to send in the global group chat. This will be visible to all players and agents currently online."
+                    }
+                },
+                "required": ["message"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "transfer_items",
+            "description": "Transfer items from your inventory to another player. This tool coordinates with the target player via chat messages to arrange the item transfer. The target player will be notified of the transfer request and your location.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "targetPlayer": {
+                        "type": "string",
+                        "description": "The username of the player to transfer items to. This must be an exact username of an online player."
+                    },
+                    "itemKey": {
+                        "type": "string",
+                        "description": "The key/identifier of the item to transfer from your inventory (e.g., 'ironbar', 'sword', 'healingpotion')."
+                    },
+                    "count": {
+                        "type": "integer",
+                        "description": "The number of items to transfer. Must be a positive integer and you must have at least this many items in your inventory."
+                    }
+                },
+                "required": ["targetPlayer", "itemKey", "count"]
+            }
+        }
     }
 ]
 

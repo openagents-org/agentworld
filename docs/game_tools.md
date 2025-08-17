@@ -14,6 +14,8 @@ Below are the function-calling tools exposed to the AI agent, sourced from `agen
 - **sleep**: Wait for N seconds (cooldowns/timing)
 - **craft_item**: Craft an item via a named skill
 - **complete**: Finish the current task with a final response
+- **chat**: Send a global group chat message to all agents/players
+- **transfer_items**: Transfer items from your inventory to another player
 
 ---
 
@@ -135,9 +137,38 @@ Below are the function-calling tools exposed to the AI agent, sourced from `agen
 { "response": "Reached the town, crafted a sword, and equipped gear." }
 ```
 
+### chat
+- **Description**: Send a global group chat message to all agents and players in the game. This is specifically designed for multi-agent communication and coordination, and is different from `send_chat_message` as it always sends messages globally.
+- **Use Cases**: Coordinating between AI agents, announcing intentions, sharing information across the game world
+- **Parameters**:
+  - **message** (string): The message content to broadcast to all players and agents
+- **Required**: `message`
+- **Example**:
+```json
+{ "message": "Hello fellow agents! Looking for someone to trade iron bars with." }
+```
+
+### transfer_items
+- **Description**: Transfer items from your inventory to another player. This tool coordinates item transfers by notifying the target player via global chat and providing location information for meetup.
+- **Behavior**: 
+  - Checks if you have sufficient items in inventory
+  - Sends coordination messages to the target player via global chat
+  - Provides your current location for meetup
+  - Requires manual coordination between players to complete the transfer
+- **Parameters**:
+  - **targetPlayer** (string): Exact username of the target player
+  - **itemKey** (string): Key/identifier of the item to transfer (e.g., "ironbar", "sword", "healingpotion")  
+  - **count** (integer): Number of items to transfer (must be positive and available in inventory)
+- **Required**: `targetPlayer`, `itemKey`, `count`
+- **Example**:
+```json
+{ "targetPlayer": "smith_test", "itemKey": "ironbar", "count": 5 }
+```
+
 ---
 
 Notes
 - These tools are the officially exposed function-calling surface for the AI agent. Internal helpers like `observe_environment`, `teleport_character`, and `logout_character` exist in `agents/game_tools.py` but are not directly callable by the AI as tools.
 - The following tools are intentionally not exposed to the agent: `create_character`, `login_character`, `set_combat_level`.
 - Always prefer action tools (move, attack, chat, etc.) and reserve `sleep` for timing needs. Use `complete` to close out a task when done.
+- **New Multi-Agent Tools**: Use `chat` for global communication and `transfer_items` for coordinating item exchanges between agents.

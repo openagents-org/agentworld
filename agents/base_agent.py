@@ -167,7 +167,9 @@ Always think strategically about your actions. Make decisions based on your curr
             "craft_item": self.game_tools.craft_item,
             "attack_entity": self.game_tools.attack_entity,
             "sleep": self.game_tools.sleep,
-            "complete": self.game_tools.complete
+            "complete": self.game_tools.complete,
+            "chat": self.game_tools.chat,
+            "transfer_items": self.game_tools.transfer_items
         }
         
         if function_name in tool_mapping:
@@ -187,6 +189,96 @@ Always think strategically about your actions. Make decisions based on your curr
         else:
             return f"Unknown tool: {function_name}"
     
+    def execute_single_tool_call(self, user_input: str) -> str:
+        """Execute exactly one tool call and return the response.
+        
+        This method is designed for synchronized multi-agent execution where
+        each agent should execute exactly one tool call before the next agent.
+        """
+        # Add user message to conversation if this is the first call for this input
+        if not self.conversation_history or self.conversation_history[-1].get("content") != user_input:
+            self.conversation_history.append({
+                "role": "user", 
+                "content": user_input
+            })
+
+        # Regenerate system prompt with current environment observation
+        self._update_system_prompt()
+        
+        response = self._make_api_call(self.conversation_history)
+        if "error" in response:
+            return f"Error: {response['error']}"
+
+        choices = response.get("choices", [])
+        if not choices:
+            return "Error: No response from AI model"
+
+        assistant_message = choices[0].get("message", {})
+        content = assistant_message.get("content") or ""
+        tool_calls = self._extract_tool_calls(assistant_message)
+
+        if tool_calls:
+            print(f"\033[90m[ASSISTANT] Response with {len(tool_calls)} tool call(s): {content[:100]}{'...' if len(content) > 100 else ''}\033[0m")
+        else:
+            print(f"\033[92m[ASSISTANT] Final response: {content[:200]}{'...' if len(content) > 200 else ''}\033[0m")
+
+        # Add assistant message (include original tool_calls if present)
+        assistant_msg: Dict[str, Any] = {
+            "role": "assistant",
+            "content": content
+        }
+        if tool_calls:
+            assistant_msg["tool_calls"] = assistant_message.get("tool_calls", [])
+        self.conversation_history.append(assistant_msg)
+
+        # Execute exactly ONE tool call if present
+        if tool_calls:
+            # Take only the first tool call
+            first_tool_call = tool_calls[0]
+            tool_result = self._execute_tool_call(first_tool_call)
+            
+            # Add tool message to conversation
+            self.conversation_history.append({
+                "role": "tool",
+                "tool_call_id": first_tool_call.get("id", "unknown"),
+                "content": tool_result
+            })
+            
+            print(f"\033[94m[TOOL EXECUTION] Round 1 completed, continuing...\033[0m")
+            
+            # Include tool call information in the response for better debugging
+            # The tool call structure is: {'name': 'tool_name', 'arguments': {...}, 'id': '...', 'type': 'function'}
+            tool_name = first_tool_call.get("name", first_tool_call.get("function", {}).get("name", "unknown"))
+            tool_args = first_tool_call.get("arguments", first_tool_call.get("function", {}).get("arguments", "{}"))
+            
+            # Clean up the arguments for better display
+            try:
+                import json
+                if isinstance(tool_args, str):
+                    parsed_args = json.loads(tool_args)
+                else:
+                    parsed_args = tool_args
+                
+                # Format args for display
+                if isinstance(parsed_args, dict) and parsed_args:
+                    formatted_args = []
+                    for k, v in parsed_args.items():
+                        if isinstance(v, str) and len(v) > 30:
+                            v = v[:30] + '...'
+                        formatted_args.append(f"{k}={v}")
+                    args_display = ', '.join(formatted_args)
+                else:
+                    args_display = ""
+            except:
+                args_display = str(tool_args)[:50] + '...' if len(str(tool_args)) > 50 else str(tool_args)
+            
+            # Format the response to include both content and tool call info
+            response_with_tool_info = f"{content}\n[TOOL_CALL_INFO] {tool_name}({args_display})\n[TOOL_RESULT] {tool_result}"
+            return response_with_tool_info
+        else:
+            # No tool calls, this is a final response
+            return content
+
     def process_user_input(self, user_input: str) -> str:
         """Process user input and return AI response.
 

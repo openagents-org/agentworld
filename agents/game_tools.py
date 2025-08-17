@@ -1429,4 +1429,118 @@ class KaetramGameTools:
         if result.get("status") == "success":
             return "Successfully cleared all equipment"
         else:
-            return f"Failed to clear equipment: {result.get('message', 'Unknown error')}" 
+            return f"Failed to clear equipment: {result.get('message', 'Unknown error')}"
+
+    def chat(self, arguments: Dict[str, Any]) -> str:
+        """Send a global group chat message to all agents/players in the game"""
+        if not self.token:
+            return "Error: No token available. Please login first."
+        
+        message = arguments.get("message", "")
+        
+        if not message:
+            return "Error: Message content is required."
+        
+        # Always send as global message for group chat functionality
+        data = {
+            "token": self.token,
+            "message": message,
+            "global": True  # Force global for group chat
+        }
+        
+        result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["chat"], data)
+        
+        if result.get("status") == "success":
+            return f"Global chat message sent: {message}"
+        else:
+            return f"Failed to send global chat message: {result.get('message', 'Unknown error')}"
+
+    def transfer_items(self, arguments: Dict[str, Any]) -> str:
+        """Transfer items from current player's inventory to another player"""
+        if not self.token:
+            return "Error: No token available. Please login first."
+        
+        target_player = arguments.get("targetPlayer", "")
+        item_key = arguments.get("itemKey", "")
+        count = arguments.get("count", 1)
+        
+        if not target_player:
+            return "Error: Target player username is required."
+        
+        if not item_key:
+            return "Error: Item key is required for transfer."
+        
+        try:
+            count = int(count)
+            if count < 1:
+                return "Error: Count must be at least 1."
+        except (ValueError, TypeError):
+            return "Error: Count must be a valid integer."
+        
+        # First check if we have the item in inventory
+        observe_result = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], 
+                                          params={"token": self.token, "radius": 5})
+        
+        if observe_result.get("status") != "success":
+            return f"Error: Could not check inventory: {observe_result.get('message', 'Unknown error')}"
+        
+        # Check current inventory for the item
+        inventory = observe_result.get("inventory", {})
+        items = inventory.get("items", [])
+        
+        # Find the item in inventory
+        available_count = 0
+        item_name = item_key
+        for item in items:
+            if item.get("key") == item_key:
+                available_count += item.get("count", 0)
+                item_name = item.get("name", item_key)
+        
+        if available_count < count:
+            return f"Error: Not enough {item_name} in inventory. Have {available_count}, need {count}."
+        
+        # Since the game doesn't have a direct transfer API, we'll use a combination approach:
+        # 1. Find the target player's position (if online)
+        # 2. Move close to them if possible
+        # 3. Drop the items and notify them via chat
+        
+        # First, try to get list of online players to see if target exists
+        # We'll use the existing chat system to coordinate the transfer
+        
+        # Step 1: Remove items from our inventory (simulate giving them away)
+        # We'll use a creative approach - craft or use items if possible, or drop them
+        
+        # For now, implement a basic version that uses chat to coordinate
+        transfer_message = f"@{target_player} I want to transfer {count}x {item_name} to you. Please come to my location to receive the items."
+        
+        chat_data = {
+            "token": self.token,
+            "message": transfer_message,
+            "global": True
+        }
+        
+        chat_result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["chat"], chat_data)
+        
+        if chat_result.get("status") == "success":
+            # Get current location to include in the message
+            location = observe_result.get("location", {})
+            current_x = location.get("x", "unknown")
+            current_y = location.get("y", "unknown")
+            
+            # Send location info
+            location_message = f"@{target_player} My current location is ({current_x}, {current_y}). Items ready for transfer: {count}x {item_name}"
+            
+            location_data = {
+                "token": self.token,
+                "message": location_message,
+                "global": True
+            }
+            
+            location_result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["chat"], location_data)
+            
+            return (f"Transfer initiated for {count}x {item_name} to {target_player}. "
+                   f"Sent coordination messages in global chat. "
+                   f"Current location: ({current_x}, {current_y}). "
+                   f"Note: Manual coordination required - target player should come to your location to complete transfer.")
+        else:
+            return f"Failed to initiate transfer: {chat_result.get('message', 'Unknown error')}" 

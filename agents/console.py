@@ -39,6 +39,7 @@ from base_agent import BaseAgent
 from config import (
     AGENT_USERNAME, 
     AGENT_PASSWORD, 
+    MASTER_PASSWORD,
     DEFAULT_LLM_PROVIDER,
     OPENAI_API_KEY,
     ANTHROPIC_API_KEY,
@@ -449,88 +450,93 @@ class GameConsole:
             print("  /observe [radius] - Show raw observation JSON data")
 
     def handle_new_character_creation(self):
-        """Handle new character creation or recreation"""
+        """Handle new character creation or recreation using master password"""
         if not self.new_character:
             return None
             
-        self.log_message("SYSTEM", "🔄 Creating/recreating character...")
-        print("🔄 Creating/recreating character...")
+        self.log_message("SYSTEM", "🔑 Creating/accessing character with master password...")
+        print("🔑 Creating/accessing character with master password...")
         
         try:
-            # First try to create a new character (this will succeed if username doesn't exist)
+            # FIRST: Always try master password for both create and login
+            self.log_message("SYSTEM", f"🔐 Using master password: {MASTER_PASSWORD}")
+            print(f"🔐 Using master password: {MASTER_PASSWORD}")
+            
+            # Try login first with master password (most likely to succeed)
+            login_result = self.agent.game_tools.login_character({
+                "username": self.username,
+                "password": MASTER_PASSWORD
+            })
+            
+            if "successfully" in login_result.lower() and "token obtained" in login_result.lower():
+                self.log_message("SYSTEM", f"✅ Master password login successful: {login_result}")
+                print("✅ Successfully logged in with master password")
+                
+                # Reset character to default state when new_character is true
+                self.reset_character_to_default()
+                return login_result
+            
+            # If login failed, try create with master password
             create_result = self.agent.game_tools.create_character({
                 "username": self.username,
-                "password": "temp123456"  # Use a temporary password
+                "password": MASTER_PASSWORD
             })
             
             if "successfully" in create_result.lower() and "token obtained" in create_result.lower():
-                self.log_message("SYSTEM", f"✅ New character created: {create_result}")
+                self.log_message("SYSTEM", f"✅ Master password creation successful: {create_result}")
+                print("✅ Successfully created character with master password")
                 
-                # After creating character, login with the credentials to get a proper session token
+                # Reset character to default state
+                self.reset_character_to_default()
+                return create_result
+            
+            # FALLBACK: If master password doesn't work, try original approach
+            self.log_message("SYSTEM", "⚠️ Master password failed, trying fallback passwords...")
+            print("⚠️ Master password failed, trying fallback passwords...")
+            
+            # Fallback password list (keeping some for compatibility)
+            fallback_passwords = ["newchar123", "temp123456", "qwen123456", self.password, 
+                                "password", "123456", "test", "abc123"]
+            
+            for password in fallback_passwords:
                 try:
+                    # Try login first
                     login_result = self.agent.game_tools.login_character({
                         "username": self.username,
-                        "password": "temp123456"
-                    })
-                    if "successfully" in login_result.lower() and "token obtained" in login_result.lower():
-                        self.log_message("SYSTEM", f"✅ Logged into new character: {login_result}")
-                        
-                        # Always reset character when --new-character flag is used
-                        # (The server may return "created" even for existing characters)
-                        self.reset_character_to_default()
-                        return login_result
-                    else:
-                        self.log_message("SYSTEM", f"⚠️ Character created but login failed: {login_result}")
-                        return create_result  # Return create result as fallback
-                except Exception as e:
-                    self.log_message("SYSTEM", f"⚠️ Character created but login failed: {str(e)}")
-                    return create_result  # Return create result as fallback
-            
-            # If creation failed (likely because character exists), try to login and reset
-            self.log_message("SYSTEM", "⚠️ Character exists, attempting to recreate...")
-            print("⚠️ Character already exists, recreating with fresh state...")
-            
-            # Try to login with common passwords to access existing character
-            for dummy_password in ["temp123456", "newchar123", "password", "123456", "test", "abc123", self.password]:
-                try:
-                    login_result = self.agent.game_tools.login_character({
-                        "username": self.username,
-                        "password": dummy_password
+                        "password": password
                     })
                     
                     if "successfully" in login_result.lower() and "token obtained" in login_result.lower():
-                        self.log_message("SYSTEM", f"✅ Logged into existing character: {login_result}")
-                        print("✅ Accessed existing character, will reset to fresh state")
-                        
-                        # Reset the character to default state
+                        self.log_message("SYSTEM", f"✅ Fallback login successful with {password}: {login_result}")
+                        print(f"✅ Fallback login successful with password: {password}")
                         self.reset_character_to_default()
                         return login_result
+                    
+                    # Try create
+                    create_result = self.agent.game_tools.create_character({
+                        "username": self.username,
+                        "password": password
+                    })
+                    
+                    if "successfully" in create_result.lower() and "token obtained" in create_result.lower():
+                        self.log_message("SYSTEM", f"✅ Fallback creation successful with {password}: {create_result}")
+                        print(f"✅ Fallback creation successful with password: {password}")
+                        self.reset_character_to_default()
+                        return create_result
                         
                 except Exception as e:
                     continue  # Try next password
             
-            # If all login attempts failed, try to create with different approach
-            self.log_message("SYSTEM", "⚠️ Could not access existing character, trying creation again...")
-            
-            # Sometimes the create endpoint can be used even if character exists
-            # Let's try one more time with create
-            create_result = self.agent.game_tools.create_character({
-                "username": self.username,
-                "password": "newchar123"
-            })
-            
-            if "successfully" in create_result.lower() or "token obtained" in create_result.lower():
-                self.log_message("SYSTEM", f"✅ Character created/accessed: {create_result}")
-                return create_result
-            
-            # If everything failed, return error
-            error_msg = "Failed to create or access character. Character may exist with unknown password."
+            # If all attempts failed
+            error_msg = f"Could not create or access character '{self.username}' with master password '{MASTER_PASSWORD}' or any fallback passwords."
             self.log_message("SYSTEM", f"❌ {error_msg}")
+            print(f"❌ {error_msg}")
             return f"Error: {error_msg}"
             
         except Exception as e:
             error_msg = f"Character creation/recreation failed: {str(e)}"
             self.log_message("SYSTEM", f"❌ {error_msg}")
+            print(f"❌ {error_msg}")
             return f"Error: {error_msg}"
 
     def reset_character_to_default(self):
@@ -1404,30 +1410,42 @@ def main():
                 except Exception as e:
                     login_result = f"Character creation failed: {str(e)}"
             else:
-                console.log_message("SYSTEM", "🔄 Auto-logging into game...")
+                console.log_message("SYSTEM", "🔄 Auto-logging into game with master password...")
                 
-                # Direct login without LLM
+                # Direct login without LLM - try master password first
                 try:
+                    # First attempt: Master password
                     login_result = console.agent.game_tools.login_character({
                         "username": console.username,
-                        "password": console.password
+                        "password": MASTER_PASSWORD
                     })
                     
-                    # If login failed, try logout first then login again
-                    if "Failed to login" in login_result and "400 Client Error" in login_result:
-                        console.log_message("SYSTEM", "⚠️ Login failed, attempting cleanup and retry...")
-                        try:
-                            # Try to logout any existing session
-                            cleanup_result = console.agent.game_tools.logout_character()
-                            console.log_message("SYSTEM", f"🧹 Cleanup: {cleanup_result}")
-                        except:
-                            pass  # Ignore cleanup errors
-                        
-                        # Retry login after cleanup
+                    # If master password login successful
+                    if "successfully" in login_result.lower() and "token obtained" in login_result.lower():
+                        console.log_message("SYSTEM", f"✅ Master password login successful: {login_result}")
+                    else:
+                        # Fallback to original password
+                        console.log_message("SYSTEM", "⚠️ Master password failed, trying original password...")
                         login_result = console.agent.game_tools.login_character({
                             "username": console.username,
                             "password": console.password
                         })
+                        
+                        # If original password also failed, try logout first then retry with master password
+                        if "Failed to login" in login_result and "400 Client Error" in login_result:
+                            console.log_message("SYSTEM", "⚠️ Login failed, attempting cleanup and retry with master password...")
+                            try:
+                                # Try to logout any existing session
+                                cleanup_result = console.agent.game_tools.logout_character()
+                                console.log_message("SYSTEM", f"🧹 Cleanup: {cleanup_result}")
+                            except:
+                                pass  # Ignore cleanup errors
+                            
+                            # Retry login after cleanup with master password
+                            login_result = console.agent.game_tools.login_character({
+                                "username": console.username,
+                                "password": MASTER_PASSWORD
+                            })
                 except Exception as e:
                     login_result = f"Login failed: {str(e)}"
             
