@@ -1455,6 +1455,39 @@ class KaetramGameTools:
         else:
             return f"Failed to send global chat message: {result.get('message', 'Unknown error')}"
 
+    def get_chat_messages(self) -> str:
+        """Retrieve all chat messages from the current game session (for system prompt context)"""
+        if not self.token:
+            return "No chat messages available (not logged in)"
+        
+        try:
+            # Use the global chat endpoint to get recent messages
+            result = self._make_request(
+                "GET", 
+                AGENTWORLD_API_ENDPOINTS["get_chat"], 
+                params={"token": self.token}
+            )
+            
+            if result.get("success"):
+                messages = result.get("messages", [])
+                if not messages:
+                    return "No chat messages in current session"
+                
+                # Format messages for system prompt
+                formatted_messages = []
+                for msg in messages:
+                    timestamp = msg.get("timestamp", "")
+                    player = msg.get("player", "Unknown")
+                    content = msg.get("message", "")
+                    formatted_messages.append(f"[{timestamp}] {player}: {content}")
+                
+                return "\n".join(formatted_messages)
+            else:
+                return f"Failed to retrieve chat messages: {result.get('message', 'Unknown error')}"
+                
+        except Exception as e:
+            return f"Error retrieving chat messages: {str(e)}"
+
     def transfer_items(self, arguments: Dict[str, Any]) -> str:
         """Transfer items from current player's inventory to another player"""
         if not self.token:

@@ -76,3 +76,7 @@ agent:
     {{observation}}
     === END OBSERVATION ===
 
+    === CHAT HISTORY ===
+    {{chat_messages}}
+    === END CHAT HISTORY ===
+

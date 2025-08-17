@@ -42,6 +42,7 @@ AGENTWORLD_API_ENDPOINTS = {
     "logout": "/ai/logout",
     "move": "/ai/move",
     "chat": "/ai/chat",
+    "get_chat": "/ai/chat",
     "observe": "/ai/observe",
     "enter": "/ai/enter",
     "stop": "/ai/stop",

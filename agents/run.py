@@ -55,21 +55,27 @@ class ConfigurableAgent:
         original_build_method = self.base_agent._build_system_prompt
         
         def custom_build_system_prompt():
-            # Use custom system prompt template
+            # Use custom system prompt template with placeholder replacement
             base_prompt = self.custom_system_prompt
             
-            # Get current environment observation and append it to the system prompt
+            # Get current environment observation and chat messages for the system prompt
             current_observation = self.base_agent._get_current_environment_observation()
-            if current_observation:
-                # Replace the {{observation}} placeholder with actual observation
-                if "{{observation}}" in base_prompt:
-                    base_prompt = base_prompt.replace("{{observation}}", current_observation)
-                else:
-                    # Fallback: append observation if placeholder not found
-                    base_prompt += f"\n\n=== CURRENT ENVIRONMENT OBSERVATION ===\n{current_observation}\n=== END OBSERVATION ==="
+            chat_messages = self.base_agent._get_current_chat_messages()
+            
+            # Replace placeholders in the system prompt
+            if "{{observation}}" in base_prompt:
+                base_prompt = base_prompt.replace("{{observation}}", current_observation or "No observation data available")
             else:
-                # Remove the observation placeholder if no observation available
-                base_prompt = base_prompt.replace("{{observation}}", "No observation data available")
+                # Fallback: append observation if placeholder not found
+                if current_observation:
+                    base_prompt += f"\n\n=== CURRENT ENVIRONMENT OBSERVATION ===\n{current_observation}\n=== END OBSERVATION ==="
+            
+            if "{{chat_messages}}" in base_prompt:
+                base_prompt = base_prompt.replace("{{chat_messages}}", chat_messages or "No chat messages in current session")
+            else:
+                # Fallback: append chat messages if placeholder not found
+                if chat_messages:
+                    base_prompt += f"\n\n=== CHAT HISTORY ===\n{chat_messages}\n=== END CHAT HISTORY ==="
             
             return base_prompt
         

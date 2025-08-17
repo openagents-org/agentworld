@@ -55,6 +55,23 @@ class BaseAgent(ABC):
         except Exception:
             return ""
     
+    def _get_current_chat_messages(self) -> str:
+        """Get current chat messages from the game session. Returns empty string if not available."""
+        try:
+            if not self.game_tools.token:
+                return ""
+            
+            # Get chat messages from game tools
+            result = self.game_tools.get_chat_messages()
+            
+            # Return the chat messages if available
+            if isinstance(result, str) and result.strip():
+                return result
+            else:
+                return ""
+        except Exception as e:
+            return ""
+    
 
     
     def _build_system_prompt(self) -> str:
@@ -109,10 +126,24 @@ RESPONSE COMPLETENESS:
 
 Always think strategically about your actions. Make decisions based on your current environment observation. Be proactive in exploring and engaging with the game world. Remember: EVERY response must include exactly one tool call and be complete - no partial thoughts or incomplete analyses."""
         
-        # Get current environment observation and append it to the system prompt
+        # Get current environment observation and chat messages for the system prompt
         current_observation = self._get_current_environment_observation()
-        if current_observation:
-            base_prompt += f"\n\n=== CURRENT ENVIRONMENT OBSERVATION ===\n{current_observation}\n=== END OBSERVATION ==="
+        chat_messages = self._get_current_chat_messages()
+        
+        # Replace placeholders in the system prompt
+        if "{{observation}}" in base_prompt:
+            base_prompt = base_prompt.replace("{{observation}}", current_observation or "No observation data available")
+        else:
+            # Fallback: append observation if placeholder not found
+            if current_observation:
+                base_prompt += f"\n\n=== CURRENT ENVIRONMENT OBSERVATION ===\n{current_observation}\n=== END OBSERVATION ==="
+        
+        if "{{chat_messages}}" in base_prompt:
+            base_prompt = base_prompt.replace("{{chat_messages}}", chat_messages or "No chat messages in current session")
+        else:
+            # Fallback: append chat messages if placeholder not found
+            if chat_messages:
+                base_prompt += f"\n\n=== CHAT HISTORY ===\n{chat_messages}\n=== END CHAT HISTORY ==="
         
         return base_prompt
     
