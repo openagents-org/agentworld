@@ -19,11 +19,18 @@ import time
 import logging
 import signal
 import atexit
+import threading
+import queue
 from pathlib import Path
 from datetime import datetime
 from typing import Dict, List, Optional, Any, Tuple
 from dataclasses import dataclass
 from enum import Enum
+try:
+    import curses
+    CURSES_AVAILABLE = True
+except ImportError:
+    CURSES_AVAILABLE = False
 
 # Import existing agent components
 from agent_factory import AgentFactory
@@ -119,10 +126,214 @@ class AgentExecutionState:
     end_time: Optional[float] = None
 
 
+class SplitScreenDisplay:
+    """Manages split-screen terminal display with agent logs and chat room"""
+    
+    def __init__(self):
+        self.stdscr = None
+        self.log_win = None
+        self.chat_win = None
+        self.log_queue = queue.Queue()
+        self.chat_queue = queue.Queue()
+        self.chat_messages = []
+        self.log_lines = []
+        self.max_chat_messages = 100
+        self.max_log_lines = 1000
+        self.running = True
+        
+    def init_curses(self):
+        """Initialize curses interface"""
+        if not CURSES_AVAILABLE:
+            return False
+            
+        try:
+            self.stdscr = curses.initscr()
+            curses.noecho()
+            curses.cbreak()
+            self.stdscr.nodelay(1)
+            curses.start_color()
+            
+            # Initialize color pairs
+            curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)   # Success
+            curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)     # Error
+            curses.init_pair(3, curses.COLOR_YELLOW, curses.COLOR_BLACK)  # Warning
+            curses.init_pair(4, curses.COLOR_BLUE, curses.COLOR_BLACK)    # Info
+            curses.init_pair(5, curses.COLOR_CYAN, curses.COLOR_BLACK)    # Chat
+            curses.init_pair(6, curses.COLOR_MAGENTA, curses.COLOR_BLACK) # Agent
+            
+            self.setup_windows()
+            return True
+        except Exception:
+            return False
+    
+    def setup_windows(self):
+        """Setup split-screen windows"""
+        height, width = self.stdscr.getmaxyx()
+        
+        # Split screen vertically (60/40 - more space for logs)
+        split_col = int(width * 0.6)
+        
+        # Create bordered windows
+        self.log_win = curses.newwin(height - 2, split_col - 1, 1, 0)
+        self.chat_win = curses.newwin(height - 2, width - split_col, 1, split_col)
+        
+        # Add borders and titles
+        self.stdscr.addstr(0, 2, "🤖 AGENT LOGS", curses.color_pair(6) | curses.A_BOLD)
+        self.stdscr.addstr(0, split_col + 2, "💬 CHAT ROOM", curses.color_pair(5) | curses.A_BOLD)
+        
+        # Draw vertical separator
+        for i in range(1, height - 1):
+            try:
+                self.stdscr.addstr(i, split_col - 1, "│")
+            except curses.error:
+                pass
+        
+        self.stdscr.refresh()
+        
+    def add_log(self, message: str, color_pair: int = 0):
+        """Add a log message to the left panel"""
+        timestamp = datetime.now().strftime("%H:%M:%S")
+        formatted_msg = f"[{timestamp}] {message}"
+        self.log_queue.put((formatted_msg, color_pair))
+        
+    def add_chat(self, agent_name: str, message: str, username: str = ""):
+        """Add a chat message to the right panel"""
+        # Format: [agent X | username]: message
+        if username:
+            formatted_msg = f"[{agent_name} | {username}]: {message}"
+        else:
+            formatted_msg = f"[{agent_name}]: {message}"
+        
+        self.chat_queue.put(formatted_msg)
+        # Add empty line after each message for better readability
+        self.chat_queue.put("")
+        
+    def update_display(self):
+        """Update both panels with new messages"""
+        if not self.stdscr:
+            return
+            
+        try:
+            # Process log messages
+            while not self.log_queue.empty():
+                try:
+                    msg, color = self.log_queue.get_nowait()
+                    self.log_lines.append((msg, color))
+                    if len(self.log_lines) > self.max_log_lines:
+                        self.log_lines.pop(0)
+                except queue.Empty:
+                    break
+            
+            # Process chat messages
+            while not self.chat_queue.empty():
+                try:
+                    msg = self.chat_queue.get_nowait()
+                    self.chat_messages.append(msg)
+                    if len(self.chat_messages) > self.max_chat_messages:
+                        self.chat_messages.pop(0)
+                except queue.Empty:
+                    break
+            
+            # Update log window
+            self.log_win.clear()
+            height, width = self.log_win.getmaxyx()
+            
+            # Show recent log lines
+            start_idx = max(0, len(self.log_lines) - height)
+            for i, (line, color) in enumerate(self.log_lines[start_idx:]):
+                if i >= height:
+                    break
+                try:
+                    # Truncate line if too long
+                    display_line = line[:width-2] if len(line) > width-2 else line
+                    if color:
+                        self.log_win.addstr(i, 0, display_line, curses.color_pair(color))
+                    else:
+                        self.log_win.addstr(i, 0, display_line)
+                except curses.error:
+                    pass
+            
+            self.log_win.refresh()
+            
+            # Update chat window
+            self.chat_win.clear()
+            height, width = self.chat_win.getmaxyx()
+            
+            # Prepare wrapped chat messages
+            wrapped_lines = []
+            max_width = max(10, width - 2)  # Ensure minimum width of 10 chars
+            
+            for msg in self.chat_messages:
+                # Handle empty messages
+                if not msg.strip():
+                    wrapped_lines.append("")
+                    continue
+                
+                # Word wrap the message
+                if len(msg) <= max_width:
+                    wrapped_lines.append(msg)
+                else:
+                    # Split message into words and wrap intelligently
+                    words = msg.split(' ')
+                    current_line = ""
+                    
+                    for word in words:
+                        # Check if adding this word would exceed width
+                        test_line = current_line + (" " if current_line else "") + word
+                        
+                        if len(test_line) <= max_width:
+                            current_line = test_line
+                        else:
+                            # Current line is full, save it and start new line
+                            if current_line:
+                                wrapped_lines.append(current_line)
+                            
+                            # Handle very long words that need to be broken
+                            if len(word) > max_width:
+                                while len(word) > max_width:
+                                    wrapped_lines.append(word[:max_width])
+                                    word = word[max_width:]
+                                current_line = word if word else ""
+                            else:
+                                current_line = word
+                    
+                    # Add any remaining content
+                    if current_line:
+                        wrapped_lines.append(current_line)
+            
+            # Show recent wrapped lines (from bottom up)
+            start_idx = max(0, len(wrapped_lines) - height)
+            for i, line in enumerate(wrapped_lines[start_idx:]):
+                if i >= height:
+                    break
+                try:
+                    self.chat_win.addstr(i, 0, line, curses.color_pair(5))
+                except curses.error:
+                    pass
+            
+            self.chat_win.refresh()
+            
+        except Exception as e:
+            # Fallback to regular print if curses fails
+            pass
+    
+    def cleanup(self):
+        """Clean up curses interface"""
+        self.running = False
+        if self.stdscr:
+            try:
+                curses.nocbreak()
+                self.stdscr.keypad(False)
+                curses.echo()
+                curses.endwin()
+            except:
+                pass
+
+
 class TaskRunner:
     """Main task runner class"""
     
-    def __init__(self, agent_config_path: str, output_dir: str):
+    def __init__(self, agent_config_path: str, output_dir: str, use_split_screen: bool = True):
         """Initialize the task runner"""
         self.agent_config_path = agent_config_path
         
@@ -135,6 +346,12 @@ class TaskRunner:
         # Load agent configuration
         self.agent_config = self._load_agent_config()
         
+        # Split-screen display
+        self.use_split_screen = use_split_screen and CURSES_AVAILABLE
+        self.display = None
+        if self.use_split_screen:
+            self.display = SplitScreenDisplay()
+        
         # Setup logging
         self._setup_logging()
         
@@ -145,6 +362,15 @@ class TaskRunner:
         self.logger.info(f"TaskRunner initialized with agent config: {agent_config_path}")
         self.logger.info(f"Run folder created: {self.output_dir}")
         self.logger.info(f"Run timestamp: {self.run_timestamp}")
+        
+        # Initialize split-screen display if available
+        if self.use_split_screen and self.display:
+            if self.display.init_curses():
+                self.log_message("TaskRunner initialized with split-screen display", color=4)
+            else:
+                self.use_split_screen = False
+                self.display = None
+                self.logger.warning("Failed to initialize split-screen display, falling back to regular output")
     
     def _load_agent_config(self) -> AgentConfig:
         """Load agent configuration from YAML file"""
@@ -218,15 +444,38 @@ class TaskRunner:
         self.logger.addHandler(file_handler)
         self.logger.addHandler(console_handler)
     
+    def log_message(self, message: str, color: int = 0):
+        """Log message to both file logger and split-screen display"""
+        # Always log to file
+        self.logger.info(message)
+        
+        # Also log to split-screen display if available
+        if self.use_split_screen and self.display:
+            self.display.add_log(message, color)
+            self.display.update_display()
+    
+    def log_chat(self, agent_name: str, message: str, username: str = ""):
+        """Log chat message to split-screen display and extract for chat room"""
+        # Always log to file
+        self.logger.info(f"💬 {agent_name}: {message}")
+        
+        # Add to chat room if split-screen is available
+        if self.use_split_screen and self.display:
+            self.display.add_chat(agent_name, message, username)
+            self.display.update_display()
+    
     def _setup_signal_handlers(self):
         """Setup signal handlers for graceful cleanup"""
         if self.cleanup_registered:
             return
             
         def signal_handler(signum, frame):
-            self.logger.info(f"🛑 Received signal {signum}, initiating cleanup...")
-            print(f"\n🛑 Interrupt received, cleaning up agents...")
+            self.log_message(f"🛑 Received signal {signum}, initiating cleanup...", color=2)
+            if not self.use_split_screen:
+                print(f"\n🛑 Interrupt received, cleaning up agents...")
             self._emergency_cleanup()
+            if self.display:
+                self.display.cleanup()
             sys.exit(0)
         
         # Register signal handlers
@@ -329,6 +578,31 @@ class TaskRunner:
         """Check if the response contains a chat action"""
         # Look for chat tool usage in the response
         return 'chat(' in response or 'Global chat message sent:' in response or '"name": "chat"' in response
+    
+    def _extract_chat_message(self, response: str) -> str:
+        """Extract the actual chat message content from agent response"""
+        import re
+        
+        # Try different patterns to extract the chat message
+        patterns = [
+            r'Global chat message sent: ([^\n]+)',  # Result pattern
+            r'\[TOOL_RESULT\] Global chat message sent: ([^\n]+)',  # Tool result pattern
+            r'message=([^,)]+)',  # Argument pattern
+            r'"message":\s*"([^"]+)"',  # JSON pattern
+        ]
+        
+        for pattern in patterns:
+            match = re.search(pattern, response, re.IGNORECASE)
+            if match:
+                message = match.group(1).strip()
+                # Clean up the message
+                if message.startswith('"') and message.endswith('"'):
+                    message = message[1:-1]
+                if message.startswith("'") and message.endswith("'"):
+                    message = message[1:-1]
+                return message
+        
+        return ""
     
     def _is_complete_action(self, response: str) -> bool:
         """Check if the response contains a complete action"""
@@ -771,9 +1045,9 @@ class TaskRunner:
             round_count += 1
             
             # Log round header with better formatting
-            self.logger.info("=" * 80)
-            self.logger.info(f"🔄 ROUND {round_count}")
-            self.logger.info("=" * 80)
+            self.log_message("=" * 80)
+            self.log_message(f"🔄 ROUND {round_count}", color=4)
+            self.log_message("=" * 80)
             
             # Track if any agent is still active this round
             any_agent_active = False
@@ -784,10 +1058,10 @@ class TaskRunner:
                 
                 # Skip agents that are already completed or failed
                 if agent_state.state in [AgentState.COMPLETED, AgentState.FAILED]:
-                    self.logger.info(f"  🤖 {agent_name} (skipped - {agent_state.state.value})")
+                    self.log_message(f"  🤖 {agent_name} (skipped - {agent_state.state.value})", color=3)
                     continue
                 
-                self.logger.info(f"  🤖 {agent_name} executing tool call...")
+                self.log_message(f"  🤖 {agent_name} executing tool call...", color=6)
                 
                 # Execute agent turn (exactly one tool call)
                 should_continue, response = self._execute_agent_turn(
@@ -797,21 +1071,55 @@ class TaskRunner:
                 # Extract and display detailed tool call information
                 if self._has_tool_execution(response) or self._is_chat_action(response) or self._is_complete_action(response):
                     tool_details = self._extract_tool_call_details(response)
-                    self.logger.info(f"    🔧 Tool called: {tool_details}")
+                    self.log_message(f"    🔧 Tool called: {tool_details}", color=1)
+                    
+                    # Extract chat message for chat room if this is a chat action
+                    if self._is_chat_action(response):
+                        chat_message = self._extract_chat_message(response)
+                        if chat_message:
+                            # Get username from agent state
+                            username = getattr(agent_state.console, 'username', '')
+                            self.log_chat(agent_name, chat_message, username)
                 else:
-                    self.logger.info(f"    💭 No tool call (thinking/planning)")
+                    self.log_message(f"    💭 No tool call (thinking/planning)", color=3)
                 
                 # Get detailed status information
                 detailed_status = self._get_agent_status_details(agent_state)
                 
                 # Log the agent's current state with detailed info
                 basic_state = f"State: {agent_state.state.value} | Actions: {agent_state.action_count} | Chats: {agent_state.chat_count}"
-                self.logger.info(f"    📊 {basic_state}")
-                self.logger.info(f"    {detailed_status}")
+                self.log_message(f"    📊 {basic_state}", color=4)
+                self.log_message(f"    {detailed_status}", color=4)
                 
-                # Show first part of response for context
-                response_preview = response[:150].replace('\n', ' ') + '...' if len(response) > 150 else response.replace('\n', ' ')
-                self.logger.info(f"    💬 Response: {response_preview}")
+                # Extract and display tool call info and result separately
+                tool_call_info = ""
+                tool_result = ""
+                
+                # Extract TOOL_CALL_INFO
+                import re
+                tool_call_match = re.search(r'\[TOOL_CALL_INFO\] ([^\n]+)', response)
+                if tool_call_match:
+                    tool_call_info = tool_call_match.group(1)
+                
+                # Extract TOOL_RESULT  
+                tool_result_match = re.search(r'\[TOOL_RESULT\] ([^\n]+)', response)
+                if tool_result_match:
+                    tool_result = tool_result_match.group(1)
+                
+                # Display tool call info and result on separate lines
+                if tool_call_info:
+                    self.log_message(f"    🔧 Tool call: {tool_call_info}", color=4)
+                if tool_result:
+                    self.log_message(f"    ✅ Result: {tool_result}", color=1)
+                
+                # Show other response content if available (excluding tool markers)
+                clean_response = re.sub(r'\[TOOL_CALL_INFO\].*?\n?', '', response)
+                clean_response = re.sub(r'\[TOOL_RESULT\].*?\n?', '', clean_response)
+                if clean_response.strip():
+                    response_preview = clean_response[:100].replace('\n', ' ').strip()
+                    if response_preview:
+                        response_preview = response_preview + '...' if len(clean_response) > 100 else response_preview
+                        self.log_message(f"    💭 Content: {response_preview}", color=0)
                 
                 # CRITICAL: After each agent executes ONE tool call, we move to the next agent
                 # regardless of whether they want to continue or not
@@ -1090,6 +1398,12 @@ Examples:
         help="Output directory for logs and results"
     )
     
+    parser.add_argument(
+        "--no-split-screen",
+        action="store_true",
+        help="Disable split-screen interface and use regular console output"
+    )
+    
     return parser.parse_args()
 
 
@@ -1112,7 +1426,8 @@ def main():
     
     try:
         # Create task runner
-        runner = TaskRunner(args.agent, args.output)
+        use_split_screen = not args.no_split_screen
+        runner = TaskRunner(args.agent, args.output, use_split_screen)
         
         # Execute tasks
         if args.task:
