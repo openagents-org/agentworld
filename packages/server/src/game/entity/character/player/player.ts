@@ -1958,6 +1958,9 @@ export default class Player extends Character {
 
         log.chat(`${this.username}: ${message}`);
 
+        // Store in chat history for AI agents
+        this.world.storeChatMessage(this.username, message, false);
+
         this.sendToRegions(packet);
     }
 

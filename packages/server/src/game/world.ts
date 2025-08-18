@@ -60,6 +60,15 @@ export default class World {
     public discord: Discord = new Discord(config.hubEnabled);
 
     private maxPlayers = config.maxPlayers;
+    
+    // Chat message storage for AI agents
+    private chatHistory: Array<{
+        timestamp: string;
+        source: string;
+        message: string;
+        global: boolean;
+    }> = [];
+    private maxChatHistory = 50; // Keep last 50 messages
 
     public allowConnections = true;
 
@@ -156,6 +165,43 @@ export default class World {
                 colour
             })
         });
+        
+        // Store in chat history for AI agents
+        this.storeChatMessage(source, message, true);
+    }
+
+    /**
+     * Stores a chat message in the history for AI agents to retrieve
+     * @param source Who sent the message
+     * @param message The message content
+     * @param global Whether this was a global message
+     */
+    public storeChatMessage(source: string, message: string, global: boolean): void {
+        this.chatHistory.push({
+            timestamp: new Date().toISOString(),
+            source,
+            message,
+            global
+        });
+
+        // Keep only the most recent messages
+        if (this.chatHistory.length > this.maxChatHistory) {
+            this.chatHistory.shift();
+        }
+    }
+
+    /**
+     * Gets recent chat messages for AI agents
+     * @param limit Maximum number of messages to return (default 20)
+     * @returns Array of recent chat messages
+     */
+    public getChatHistory(limit: number = 20): Array<{
+        timestamp: string;
+        source: string;
+        message: string;
+        global: boolean;
+    }> {
+        return this.chatHistory.slice(-limit);
     }
 
     /**

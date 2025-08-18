@@ -297,12 +297,21 @@ export default class API {
                     });
                 }
 
-                // Get recent chat messages from the world or player's chat history
-                // For now, return an empty array as a placeholder
-                // TODO: Implement actual chat message retrieval from game state
+                // Get recent chat messages from the world's chat history
+                const limit = parseInt(request.query.limit as string) || 20;
+                const chatHistory = this.world.getChatHistory(limit);
+                
+                // Format messages for the AI agent
+                const formattedMessages = chatHistory.map(msg => ({
+                    timestamp: msg.timestamp,
+                    player: msg.source,
+                    message: msg.message,
+                    global: msg.global
+                }));
+
                 response.json({
                     status: 'success',
-                    messages: []
+                    messages: formattedMessages
                 });
             } catch (error) {
                 log.error(`Error retrieving chat messages: ${error}`);

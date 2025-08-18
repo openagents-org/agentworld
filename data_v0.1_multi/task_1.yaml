@@ -8,14 +8,9 @@ task:
 objectives:
   primary: "Prepare warrior_agent with crafted heavy sword and protective equipment for dragon combat"
   secondary: # checkpoints
-    - "miner_agent: Gather iron bars and coal through mining"
-    - "miner_agent: Transfer materials to smith_agent via coordination"
-    - "smith_agent: Craft heavy sword using received materials"
-    - "smith_agent: Transfer crafted weapon to warrior_agent"
-    - "warrior_agent: Receive equipment and confirm combat readiness"
-    - "All agents: Use global chat for coordination throughout the process"
+    - "None"
 
-# Relevant game context
+# Relevant game context (Hint)
 relevant_game_context: |
   This is a cooperative multi-agent scenario where teamwork is essential.
   - miner_agent specializes in resource gathering (mining iron and coal)
