@@ -339,9 +339,10 @@ class SplitScreenDisplay:
 class TaskRunner:
     """Main task runner class"""
     
-    def __init__(self, agent_config_path: str, output_dir: str, use_split_screen: bool = True):
+    def __init__(self, agent_config_path: str, output_dir: str, use_split_screen: bool = True, dump_prompts: bool = False):
         """Initialize the task runner"""
         self.agent_config_path = agent_config_path
+        self.dump_prompts = dump_prompts
         
         # Create a unique run folder for this execution
         self.run_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -568,7 +569,8 @@ class TaskRunner:
             combat_levels=skill_levels,
             equipped_items=equipped_items,
             inventory_items=inventory_items,
-            new_character=agent_data.get('new_character', False)
+            new_character=agent_data.get('new_character', False),
+            dump_prompts=self.dump_prompts
         )
         
         # Override agent with configurable system prompt if provided
@@ -1410,6 +1412,12 @@ Examples:
         help="Disable split-screen interface and use regular console output"
     )
     
+    parser.add_argument(
+        "--dump-prompts",
+        action="store_true",
+        help="Dump prompt messages when calling LLM into /tmp/prompts folder"
+    )
+    
     return parser.parse_args()
 
 
@@ -1431,9 +1439,19 @@ def main():
         sys.exit(1)
     
     try:
+        # Clear /tmp/prompts folder if dump-prompts is enabled
+        if args.dump_prompts:
+            import shutil
+            prompts_dir = "/tmp/prompts"
+            if os.path.exists(prompts_dir):
+                shutil.rmtree(prompts_dir)
+                print(f"🗑️ Cleared existing prompts folder: {prompts_dir}")
+            os.makedirs(prompts_dir, exist_ok=True)
+            print(f"📁 Created prompts dump folder: {prompts_dir}")
+        
         # Create task runner
         use_split_screen = not args.no_split_screen
-        runner = TaskRunner(args.agent, args.output, use_split_screen)
+        runner = TaskRunner(args.agent, args.output, use_split_screen, args.dump_prompts)
         
         # Execute tasks
         if args.task:

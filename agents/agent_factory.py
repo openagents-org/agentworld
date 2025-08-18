@@ -29,7 +29,8 @@ class AgentFactory:
         model: Optional[str] = None,
         username: Optional[str] = None,
         password: Optional[str] = None,
-        base_url: Optional[str] = None
+        base_url: Optional[str] = None,
+        dump_prompts: bool = False
     ) -> BaseAgent:
         """
         Create an agent based on the specified provider
@@ -41,6 +42,7 @@ class AgentFactory:
             username: Game username (optional)
             password: Game password (optional)
             base_url: Game server base URL (optional, defaults to config value)
+            dump_prompts: Whether to dump prompts to /tmp/prompts folder (optional)
             
         Returns:
             BaseAgent: An instance of the appropriate agent class
@@ -55,25 +57,25 @@ class AgentFactory:
             raise ValueError(f"Unsupported provider: {provider}. Supported providers: {supported}")
         
         if provider == "qwen":
-            return QwenAgent(username=username, password=password, base_url=base_url)
+            return QwenAgent(username=username, password=password, base_url=base_url, dump_prompts=dump_prompts)
         
         elif provider == "openai":
             if not api_key:
                 raise ValueError("OpenAI API key is required for OpenAI provider")
             default_model = model or "gpt-4o"
-            return OpenAIAgent(api_key=api_key, model=default_model, username=username, password=password, base_url=base_url)
+            return OpenAIAgent(api_key=api_key, model=default_model, username=username, password=password, base_url=base_url, dump_prompts=dump_prompts)
         
         elif provider == "claude":
             if not api_key:
                 raise ValueError("Anthropic API key is required for Claude provider")
             default_model = model or "claude-3-5-sonnet-20241022"
-            return ClaudeAgent(api_key=api_key, model=default_model, username=username, password=password, base_url=base_url)
+            return ClaudeAgent(api_key=api_key, model=default_model, username=username, password=password, base_url=base_url, dump_prompts=dump_prompts)
         
         elif provider == "deepseek":
             if not api_key:
                 raise ValueError("DeepSeek API key is required for DeepSeek provider")
             default_model = model or "deepseek-chat"
-            return DeepSeekAgent(api_key=api_key, model=default_model, username=username, password=password, base_url=base_url)
+            return DeepSeekAgent(api_key=api_key, model=default_model, username=username, password=password, base_url=base_url, dump_prompts=dump_prompts)
         
         else:
             # This should never happen due to the earlier check

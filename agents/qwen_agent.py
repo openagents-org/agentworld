@@ -17,14 +17,15 @@ from base_agent import BaseAgent
 
 
 class QwenAgent(BaseAgent):
-    def __init__(self, username: Optional[str] = None, password: Optional[str] = None, base_url: Optional[str] = None):
+    def __init__(self, username: Optional[str] = None, password: Optional[str] = None, base_url: Optional[str] = None, dump_prompts: bool = False):
         # Initialize parent class
-        super().__init__(username or AGENT_USERNAME, password or AGENT_PASSWORD, base_url)
+        super().__init__(username or AGENT_USERNAME, password or AGENT_PASSWORD, base_url, dump_prompts)
         
         # Qwen-specific configuration
         self.api_key = DASHSCOPE_API_KEY
         self.model = QWEN_MODEL
         self.base_url = QWEN_BASE_URL
+        self.provider = "qwen"
         self.session = requests.Session()
         self.session.headers.update({
             "Authorization": f"Bearer {self.api_key}",

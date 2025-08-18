@@ -5,6 +5,10 @@ Defines the interface that all LLM provider agents must implement.
 
 from abc import ABC, abstractmethod
 from typing import Dict, List, Any, Optional
+import json
+import os
+import time
+from datetime import datetime
 from game_tools import KaetramGameTools
 from tool_definitions import get_tool_definitions
 
@@ -12,16 +16,47 @@ from tool_definitions import get_tool_definitions
 class BaseAgent(ABC):
     """Abstract base class for all LLM provider agents"""
     
-    def __init__(self, username: Optional[str] = None, password: Optional[str] = None, base_url: Optional[str] = None):
+    def __init__(self, username: Optional[str] = None, password: Optional[str] = None, base_url: Optional[str] = None, dump_prompts: bool = False):
         self.game_tools = KaetramGameTools(base_url=base_url)
         self.tools = get_tool_definitions()
         self.conversation_history = []
         self.username = username
         self.password = password
         self.tool_call_count = 0
+        self.dump_prompts = dump_prompts
         
         # Initialize with system prompt
         self._initialize_system_prompt()
+    
+    def _dump_prompts(self, messages: List[Dict[str, Any]], provider: str = "unknown"):
+        """Dump prompt messages to /tmp/prompts folder if enabled"""
+        if not self.dump_prompts:
+            return
+        
+        try:
+            # Create timestamp-based filename
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")[:-3]  # Include milliseconds
+            filename = f"prompt_{provider}_{timestamp}.json"
+            filepath = os.path.join("/tmp/prompts", filename)
+            
+            # Prepare dump data
+            dump_data = {
+                "timestamp": datetime.now().isoformat(),
+                "provider": provider,
+                "username": self.username,
+                "tool_call_count": self.tool_call_count,
+                "messages": messages,
+                "tools": self.tools
+            }
+            
+            # Write to file
+            with open(filepath, 'w', encoding='utf-8') as f:
+                json.dump(dump_data, f, indent=2, ensure_ascii=False)
+                
+            print(f"📝 Dumped prompt to: {filepath}")
+            
+        except Exception as e:
+            print(f"⚠️ Failed to dump prompt: {e}")
     
     def _initialize_system_prompt(self):
         """Initialize the conversation with system prompt"""
@@ -236,6 +271,9 @@ Always think strategically about your actions. Make decisions based on your curr
         # Regenerate system prompt with current environment observation
         self._update_system_prompt()
         
+        # Dump prompts if enabled (before making API call)
+        self._dump_prompts(self.conversation_history, getattr(self, 'provider', 'unknown'))
+        
         response = self._make_api_call(self.conversation_history)
         if "error" in response:
             return f"Error: {response['error']}"
@@ -331,6 +369,9 @@ Always think strategically about your actions. Make decisions based on your curr
 
             # Regenerate system prompt with current environment observation
             self._update_system_prompt()
+            
+            # Dump prompts if enabled (before making API call)
+            self._dump_prompts(self.conversation_history, getattr(self, 'provider', 'unknown'))
             
             response = self._make_api_call(self.conversation_history)
             if "error" in response:

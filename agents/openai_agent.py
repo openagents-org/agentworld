@@ -10,14 +10,15 @@ from base_agent import BaseAgent
 
 
 class OpenAIAgent(BaseAgent):
-    def __init__(self, api_key: str, model: str = "gpt-4o", username: Optional[str] = None, password: Optional[str] = None, base_url: Optional[str] = None):
+    def __init__(self, api_key: str, model: str = "gpt-4o", username: Optional[str] = None, password: Optional[str] = None, base_url: Optional[str] = None, dump_prompts: bool = False):
         # Initialize parent class
-        super().__init__(username, password, base_url)
+        super().__init__(username, password, base_url, dump_prompts)
         
         # OpenAI-specific configuration
         self.api_key = api_key
         self.model = model
         self.base_url = "https://api.openai.com/v1"
+        self.provider = "openai"
         self.session = requests.Session()
         self.session.headers.update({
             "Authorization": f"Bearer {self.api_key}",
