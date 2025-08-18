@@ -262,8 +262,16 @@ Always think strategically about your actions. Make decisions based on your curr
         This method is designed for synchronized multi-agent execution where
         each agent should execute exactly one tool call before the next agent.
         """
-        # Add user message to conversation if this is the first call for this input
-        if not self.conversation_history or self.conversation_history[-1].get("content") != user_input:
+        # Add user message to conversation only if this is truly new user input
+        # Check if we need to add a user message by looking for the last user message
+        last_user_message = None
+        for msg in reversed(self.conversation_history):
+            if msg.get("role") == "user":
+                last_user_message = msg
+                break
+        
+        # Only add user message if conversation is empty or the last user message has different content
+        if not self.conversation_history or not last_user_message or last_user_message.get("content") != user_input:
             self.conversation_history.append({
                 "role": "user", 
                 "content": user_input
