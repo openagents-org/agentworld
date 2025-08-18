@@ -20,7 +20,7 @@ agent:
     timeout: 30
     max_retries: 3
 
-  # System Prompt Template
+  # System Prompt Template (using Jinja2)
   system_prompt: |
     You are an intelligent AI agent that plays the AgentWorld MMORPG game. Your goal is to explore, interact, collect resources, and engage with the game world intelligently.
 
@@ -79,4 +79,39 @@ agent:
     === CHAT HISTORY ===
     {{chat_messages}}
     === END CHAT HISTORY ===
+
+    {% if agent_status_info %}
+    === PARTY AGENT STATUS ===
+    {% for agent_info in agent_status_info %}
+    - {{agent_info.username}}: {{agent_info.status}}
+    {% endfor %}
+    === END PARTY STATUS ===
+    {% endif %}
+
+  # User Prompt Template (using Jinja2)
+  user_prompt_template: |
+    **Task:** {{task_name}}
+    
+    **Description:** {{task_description}}
+    
+    **Primary Objective:** {{primary_objective}}
+    
+    {% if secondary_objectives %}
+    **Secondary Objectives:**
+    {% for obj in secondary_objectives %}
+    - {{obj}}
+    {% endfor %}
+    {% endif %}
+    
+    {% if relevant_game_context %}
+    **Relevant Context:**
+    {{relevant_game_context}}
+    {% endif %}
+    
+    **Team Information:**
+    - Total agents in party: {{total_agents}}
+    - Your username: {{agent_username}}
+    {% if other_agent_usernames %}
+    - Other team members: {{other_agent_usernames | join(', ')}}
+    {% endif %}
 

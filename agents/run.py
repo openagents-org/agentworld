@@ -26,6 +26,7 @@ from datetime import datetime
 from typing import Dict, List, Optional, Any, Tuple
 from dataclasses import dataclass
 from enum import Enum
+from jinja2 import Template, Environment, meta
 try:
     import curses
     CURSES_AVAILABLE = True
@@ -55,29 +56,38 @@ class ConfigurableAgent:
         original_build_method = self.base_agent._build_system_prompt
         
         def custom_build_system_prompt():
-            # Use custom system prompt template with placeholder replacement
+            # Use custom system prompt template with Jinja2 rendering
             base_prompt = self.custom_system_prompt
             
             # Get current environment observation and chat messages for the system prompt
             current_observation = self.base_agent._get_current_environment_observation()
             chat_messages = self.base_agent._get_current_chat_messages()
             
-            # Replace placeholders in the system prompt
-            if "{{observation}}" in base_prompt:
-                base_prompt = base_prompt.replace("{{observation}}", current_observation or "No observation data available")
-            else:
-                # Fallback: append observation if placeholder not found
-                if current_observation:
-                    base_prompt += f"\n\n=== CURRENT ENVIRONMENT OBSERVATION ===\n{current_observation}\n=== END OBSERVATION ==="
-            
-            if "{{chat_messages}}" in base_prompt:
-                base_prompt = base_prompt.replace("{{chat_messages}}", chat_messages or "No chat messages in current session")
-            else:
-                # Fallback: append chat messages if placeholder not found
-                if chat_messages:
-                    base_prompt += f"\n\n=== CHAT HISTORY ===\n{chat_messages}\n=== END CHAT HISTORY ==="
-            
-            return base_prompt
+            # Try to use Jinja2 template rendering
+            try:
+                template = Template(base_prompt)
+                template_vars = {
+                    'observation': current_observation or "No observation data available",
+                    'chat_messages': chat_messages or "No chat messages in current session"
+                }
+                return template.render(**template_vars)
+            except Exception:
+                # Fallback to simple string replacement for backward compatibility
+                if "{{observation}}" in base_prompt:
+                    base_prompt = base_prompt.replace("{{observation}}", current_observation or "No observation data available")
+                else:
+                    # Fallback: append observation if placeholder not found
+                    if current_observation:
+                        base_prompt += f"\n\n=== CURRENT ENVIRONMENT OBSERVATION ===\n{current_observation}\n=== END OBSERVATION ==="
+                
+                if "{{chat_messages}}" in base_prompt:
+                    base_prompt = base_prompt.replace("{{chat_messages}}", chat_messages or "No chat messages in current session")
+                else:
+                    # Fallback: append chat messages if placeholder not found
+                    if chat_messages:
+                        base_prompt += f"\n\n=== CHAT HISTORY ===\n{chat_messages}\n=== END CHAT HISTORY ==="
+                
+                return base_prompt
         
         # Replace the method
         self.base_agent._build_system_prompt = custom_build_system_prompt
@@ -107,6 +117,7 @@ class AgentConfig:
     llm: Dict[str, Any]
     game: Dict[str, Any]
     system_prompt: Optional[str] = None
+    user_prompt_template: Optional[str] = None
 
 
 class AgentState(Enum):
@@ -391,7 +402,8 @@ class TaskRunner:
                 provider=agent_data['provider'],
                 llm=agent_data['llm'],
                 game=agent_data['game'],
-                system_prompt=agent_data.get('system_prompt')
+                system_prompt=agent_data.get('system_prompt'),
+                user_prompt_template=agent_data.get('user_prompt_template')
             )
         except Exception as e:
             print(f"❌ Error loading agent config from {self.agent_config_path}: {e}")
@@ -1037,9 +1049,7 @@ class TaskRunner:
             self.logger.error("❌ No agents available for execution")
             return {"error": "All agents failed to initialize"}
         
-        # Build task prompt
-        task_prompt = self._build_task_prompt(task_config)
-        self.logger.info(f"📋 Task prompt: {task_prompt}")
+        # Note: Task prompts will be built per agent with team context
         
         # Execute synchronized tool-call-level execution
         self.logger.info(f"🔄 Starting synchronized tool-call-level execution...")
@@ -1071,9 +1081,12 @@ class TaskRunner:
                 
                 self.log_message(f"  🤖 {agent_name} executing tool call...", color=6)
                 
+                # Build agent-specific task prompt with team context
+                agent_task_prompt = self._build_task_prompt(task_config, agent_name, agent_states)
+                
                 # Execute agent turn (exactly one tool call)
                 should_continue, response = self._execute_agent_turn(
-                    agent_state, task_prompt, task_config.max_action_steps
+                    agent_state, agent_task_prompt, task_config.max_action_steps
                 )
                 
                 # Extract and display detailed tool call information
@@ -1289,35 +1302,91 @@ class TaskRunner:
         
         return all_results
     
-    def _build_task_prompt(self, task_config: TaskConfig) -> str:
-        """Build task prompt from configuration"""
-        prompt_parts = [
-            f"Task: {task_config.name}",
-            f"Description: {task_config.description}",
-            f"Primary Objective: {task_config.objectives['primary']}"
-        ]
-        
-        if 'secondary' in task_config.objectives:
-            prompt_parts.append("Secondary Objectives:")
-            for obj in task_config.objectives['secondary']:
-                prompt_parts.append(f"- {obj}")
-        
-        if task_config.relevant_game_context:
-            prompt_parts.extend([
-                "",
-                "Relevant Context:",
-                task_config.relevant_game_context
-            ])
-        
-        if task_config.success_criteria:
-            prompt_parts.extend([
-                "",
-                "Success Criteria:"
-            ])
-            for criteria in task_config.success_criteria:
-                prompt_parts.append(f"- {criteria}")
-        
-        return "\\n".join(prompt_parts)
+    def _build_task_prompt(self, task_config: TaskConfig, agent_name: str = None, agent_states: Dict[str, 'AgentExecutionState'] = None) -> str:
+        """Build task prompt from configuration using Jinja2 template if available"""
+        # Check if we have a user prompt template in the agent config
+        if hasattr(self, 'agent_config') and self.agent_config.user_prompt_template:
+            # Use Jinja2 template
+            template = Template(self.agent_config.user_prompt_template)
+            
+            # Prepare template variables
+            template_vars = {
+                'task_name': task_config.name,
+                'task_description': task_config.description,
+                'primary_objective': task_config.objectives['primary'],
+                'secondary_objectives': task_config.objectives.get('secondary', []),
+                'relevant_game_context': task_config.relevant_game_context,
+                'success_criteria': task_config.success_criteria,
+                'objectives': task_config.objectives  # Full objectives dict for backward compatibility
+            }
+            
+            # Add team information for multi-agent tasks
+            if agent_states and len(agent_states) > 1:
+                # Get actual usernames from agent states
+                current_agent_username = agent_states[agent_name].console.username if agent_name in agent_states else agent_name
+                other_usernames = []
+                
+                for name, state in agent_states.items():
+                    if name != agent_name:
+                        username = state.console.username if hasattr(state, 'console') and state.console else name
+                        other_usernames.append(username)
+                
+                template_vars.update({
+                    'total_agents': len(agent_states),
+                    'agent_username': current_agent_username,
+                    'other_agent_usernames': other_usernames
+                })
+                
+                # Add agent status information
+                if agent_states:
+                    agent_status_info = []
+                    for name, state in agent_states.items():
+                        username = state.console.username if hasattr(state, 'console') and state.console else name
+                        status_entry = {
+                            'username': username,
+                            'status': state.state.value if hasattr(state, 'state') else 'unknown'
+                        }
+                        if hasattr(state, 'last_response') and state.last_response:
+                            # Extract last action from response if available
+                            if 'Tool called:' in str(state.last_response):
+                                action_start = str(state.last_response).find('Tool called:') + 12
+                                action_end = str(state.last_response).find('\n', action_start)
+                                if action_end == -1:
+                                    action_end = action_start + 50
+                                status_entry['last_action'] = str(state.last_response)[action_start:action_end].strip()
+                        agent_status_info.append(status_entry)
+                    template_vars['agent_status_info'] = agent_status_info
+            
+            return template.render(**template_vars)
+        else:
+            # Fallback to original format if no template is defined
+            prompt_parts = [
+                f"Task: {task_config.name}",
+                f"Description: {task_config.description}",
+                f"Primary Objective: {task_config.objectives['primary']}"
+            ]
+            
+            if 'secondary' in task_config.objectives:
+                prompt_parts.append("Secondary Objectives:")
+                for obj in task_config.objectives['secondary']:
+                    prompt_parts.append(f"- {obj}")
+            
+            if task_config.relevant_game_context:
+                prompt_parts.extend([
+                    "",
+                    "Relevant Context:",
+                    task_config.relevant_game_context
+                ])
+            
+            if task_config.success_criteria:
+                prompt_parts.extend([
+                    "",
+                    "Success Criteria:"
+                ])
+                for criteria in task_config.success_criteria:
+                    prompt_parts.append(f"- {criteria}")
+            
+            return "\\n".join(prompt_parts)
     
     def _save_task_summary(self, task_config: TaskConfig, results: Dict[str, Any]):
         """Save task execution summary"""

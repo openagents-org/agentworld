@@ -9,6 +9,7 @@ import json
 import os
 import time
 from datetime import datetime
+from jinja2 import Template
 from game_tools import KaetramGameTools
 from tool_definitions import get_tool_definitions
 

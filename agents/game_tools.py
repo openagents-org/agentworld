@@ -1468,7 +1468,7 @@ class KaetramGameTools:
                 params={"token": self.token}
             )
             
-            if result.get("success"):
+            if result.get("status") == "success":
                 messages = result.get("messages", [])
                 if not messages:
                     return "No chat messages in current session"

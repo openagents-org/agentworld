@@ -276,6 +276,43 @@ export default class API {
             }
         });
 
+        // Get chat messages for the AI agent
+        router.get('/ai/chat', (request: Request, response: Response) => {
+            try {
+                const token = request.query.token as string;
+
+                if (!token) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Token is required'
+                    });
+                }
+
+                const player = this.aiAgents[token];
+
+                if (!player) {
+                    return response.status(404).json({
+                        status: 'error',
+                        message: 'Invalid token'
+                    });
+                }
+
+                // Get recent chat messages from the world or player's chat history
+                // For now, return an empty array as a placeholder
+                // TODO: Implement actual chat message retrieval from game state
+                response.json({
+                    status: 'success',
+                    messages: []
+                });
+            } catch (error) {
+                log.error(`Error retrieving chat messages: ${error}`);
+                response.status(500).json({
+                    status: 'error',
+                    message: 'Internal server error'
+                });
+            }
+        });
+
         // Get observations for the AI agent
         router.get('/ai/observe', (request: Request, response: Response) => {
             console.log('[API DEBUG] Observe endpoint called - NEW CODE ACTIVE');
