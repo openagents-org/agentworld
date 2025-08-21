@@ -381,6 +381,13 @@ class TaskRunner:
         self.logger.info(f"Run folder created: {self.output_dir}")
         self.logger.info(f"Run timestamp: {self.run_timestamp}")
         
+        # Set global logger for game tools detailed error reporting
+        from game_tools import KaetramGameTools
+        KaetramGameTools.set_global_logger(self.logger)
+        
+        # Log the error log file path for reference
+        self.logger.info(f"📝 API errors will be logged to: {self.error_log_file}")
+        
         # Initialize split-screen display if available
         if self.use_split_screen and self.display:
             if self.display.init_curses():
@@ -437,6 +444,7 @@ class TaskRunner:
     def _setup_logging(self):
         """Setup logging configuration"""
         log_file = self.output_dir / f"task_runner_{self.run_timestamp}.log"
+        error_log_file = self.output_dir / f"api_errors_{self.run_timestamp}.log"
         
         # Create logger
         self.logger = logging.getLogger('TaskRunner')
@@ -450,18 +458,34 @@ class TaskRunner:
         console_handler = logging.StreamHandler()
         console_handler.setLevel(logging.INFO)
         
+        # Create error file handler for API errors
+        error_handler = logging.FileHandler(error_log_file)
+        error_handler.setLevel(logging.ERROR)
+        
         # Create formatters - clean console, detailed file
         file_formatter = logging.Formatter(
             '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
         )
         console_formatter = logging.Formatter('%(message)s')  # Clean console output
+        error_formatter = logging.Formatter(
+            '%(asctime)s - %(levelname)s - %(message)s'
+        )
         
         file_handler.setFormatter(file_formatter)
         console_handler.setFormatter(console_formatter)
+        error_handler.setFormatter(error_formatter)
         
         # Add handlers
         self.logger.addHandler(file_handler)
         self.logger.addHandler(console_handler)
+        self.logger.addHandler(error_handler)
+        
+        # Create observation logs directory
+        self.observation_logs_dir = self.output_dir / "observation_logs"
+        self.observation_logs_dir.mkdir(exist_ok=True)
+        
+        # Store error log file path for game tools
+        self.error_log_file = error_log_file
     
     def log_message(self, message: str, color: int = 0):
         """Log message to both file logger and split-screen display"""
@@ -482,6 +506,30 @@ class TaskRunner:
         if self.use_split_screen and self.display:
             self.display.add_chat(agent_name, message, username)
             self.display.update_display()
+    
+    def log_agent_observation(self, agent_name: str, observation_data: dict, round_number: int = None):
+        """Log agent observation to separate file"""
+        try:
+            # Create observation log file for this agent
+            observation_file = self.observation_logs_dir / f"{agent_name}_observations_{self.run_timestamp}.jsonl"
+            
+            # Prepare observation record
+            observation_record = {
+                "timestamp": datetime.now().isoformat(),
+                "agent_name": agent_name,
+                "round_number": round_number,
+                "observation": observation_data
+            }
+            
+            # Write to JSONL file (one JSON object per line)
+            with open(observation_file, 'a', encoding='utf-8') as f:
+                f.write(json.dumps(observation_record, ensure_ascii=False) + '\n')
+            
+            # Also log to main log file
+            self.logger.info(f"📊 {agent_name} observation recorded (round {round_number})")
+            
+        except Exception as e:
+            self.logger.error(f"❌ Failed to log observation for {agent_name}: {e}")
     
     def _setup_signal_handlers(self):
         """Setup signal handlers for graceful cleanup"""
@@ -871,6 +919,21 @@ class TaskRunner:
                     last_response=""
                 )
                 
+                # Record initial observation for this agent ONLY if login was successful
+                if login_successful:
+                    try:
+                        if console.agent.game_tools and console.agent.game_tools.token:
+                            # Trigger an initial observation
+                            initial_observation = console.agent.game_tools.observe_environment({"radius": 64})
+                            observation_data = console.agent.game_tools.get_last_observation_data()
+                            if observation_data:
+                                self.log_agent_observation(agent_name, observation_data, 0)  # Round 0 for initial
+                                self.logger.info(f"📊 Initial observation recorded for {agent_name}")
+                    except Exception as e:
+                        self.logger.error(f"❌ Failed to record initial observation for {agent_name}: {e}")
+                else:
+                    self.logger.warning(f"⚠️ Skipping initial observation for {agent_name} due to login failure")
+                
                 self.logger.info(f"✅ Agent {agent_name} initialized successfully")
                 
             except Exception as e:
@@ -1055,7 +1118,7 @@ class TaskRunner:
         self.logger.info(f"🔄 Starting synchronized tool-call-level execution...")
         self.logger.info(f"   Each agent will execute exactly one tool call per turn")
         
-        max_rounds = 200  # Maximum number of rounds to prevent infinite loops
+        max_rounds = 30  # Maximum number of rounds to prevent infinite loops
         round_count = 0
         agent_order = list(agent_states.keys())  # Fixed order for round-robin
         
@@ -1141,6 +1204,15 @@ class TaskRunner:
                     if response_preview:
                         response_preview = response_preview + '...' if len(clean_response) > 100 else response_preview
                         self.log_message(f"    💭 Content: {response_preview}", color=0)
+                
+                # Record agent observation if available
+                try:
+                    if agent_state.console and agent_state.console.agent.game_tools:
+                        observation_data = agent_state.console.agent.game_tools.get_last_observation_data()
+                        if observation_data:
+                            self.log_agent_observation(agent_name, observation_data, round_count)
+                except Exception as e:
+                    self.logger.error(f"❌ Failed to record observation for {agent_name}: {e}")
                 
                 # CRITICAL: After each agent executes ONE tool call, we move to the next agent
                 # regardless of whether they want to continue or not
@@ -1538,6 +1610,9 @@ def main():
         if args.task:
             # Single task summary
             for agent_name, result in results.items():
+                # Skip metrics that aren't actual agent results
+                if agent_name == '_multi_agent_metrics':
+                    continue
                 status = "✅ SUCCESS" if result.get('success', False) else "❌ FAILED"
                 print(f"Agent {agent_name}: {status}")
                 if 'duration_seconds' in result:

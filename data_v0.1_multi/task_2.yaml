@@ -1,0 +1,290 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Cooperative Bow Crafting - Team Archer Preparation"
+  description: "Three agents work together to gather materials, craft components, and create a wooden bow for archery combat"
+
+# Task objectives
+objectives:
+  primary: "Prepare archer_agent with crafted wooden bow and arrows for ranged combat"
+  secondary: # checkpoints
+    - "Establish effective team communication through global chat"
+    - "Ensure safe material transfer between agents"
+    - "Complete all steps within 30 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent scenario where teamwork is essential.
+  
+  CRITICAL SUCCESS REQUIREMENTS:
+  1. gatherer_agent MUST find and cut trees to get logs (wood material)
+  2. forager_agent MUST find bluelily flowers and craft them into string
+  3. gatherer_agent MUST use chat to coordinate material transfer with archer_agent
+  4. forager_agent MUST transfer string to archer_agent via trade/inventory
+  5. archer_agent MUST wait for materials, then craft "woodenbow" (wooden bow)
+  6. archer_agent MUST equip the wooden bow
+  7. archer_agent MUST declare readiness for archery combat in global chat
+  
+  LOCATION STRATEGY:
+  - Look for trees (any forest area) for logs - wood cutting
+  - Look for bluelily flowers for foraging (need Foraging level 10+)
+  - Move directly to target coordinates for efficient navigation
+  - Communicate locations and progress through global chat
+  
+  DO NOT use complete() until ALL objectives are achieved by the team!
+  
+  CRAFTING RECIPES (CRITICAL KNOWLEDGE):
+  🪵 Lumberjacking - logs:
+    - harvest_resource on tree instances to get logs
+    - Level required: 1+ (Lumberjacking skill)
+  
+  🌸 Foraging Recipe - bluelily:
+    - harvest_resource on bluelily instances
+    - Level required: 10 (Foraging skill)
+    - Experience: 20 per harvest
+  
+  🧵 Crafting Recipe - string:
+    - craft_item skill=Crafting itemKey=string
+    - Materials: 1x bluelily → 1x string
+    - Level required: 1 (Crafting skill)
+  
+  🏹 Fletching Recipe - woodenbow:
+    - craft_item skill=Fletching itemKey=woodenbow
+    - Materials: 1x logs + 1x string → 1x woodenbow
+    - Level required: 5 (Fletching skill)
+
+# Limitations
+max_action_steps: 25  # Increased limit for successful completion
+
+# Agent configurations
+agent_1:
+  username: "gatherer_agent"
+  new_character: true
+  role: "Wood Gatherer"
+  
+  # Starting location - specific coordinates for tree cutting
+  location:
+    x: 126
+    y: 23
+  
+  # Skills focused on lumberjacking
+  skill_levels:
+    lumberjacking: 20
+    strength: 25
+    health: 25
+  
+  # Lumberjacking equipment and basic supplies
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+  
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+  
+  # Specific task instructions
+  task_instructions: |
+    YOUR ROLE: Wood gatherer responsible for cutting trees to get logs
+    
+    🪵 CRITICAL LUMBERJACKING MISSION - YOU ARE A LUMBERJACK!
+    
+    ABSOLUTE PRIORITIES:
+    1. Find trees in your environment using observe_environment
+    2. Look for tree instances like "Tree", "Oak", "Pine", or similar forest resources
+    3. Use harvest_resource on tree instances to get logs
+    4. Gather at least 2 logs (1 for bow, 1 backup)
+    5. Use global chat to report progress and coordinate with team
+    
+    LUMBERJACKING STRATEGY:
+    1. YOUR FIRST ACTION: observe_environment to find trees in current area
+    2. PRIORITY: Look for OAK TREES specifically (difficulty 10, level 1 requirement)
+       - Oak Tree instances produce regular "logs" needed for bow crafting
+       - AVOID Pine Trees (difficulty 80, produces icepinelogs - wrong type!)
+       - AVOID Willow Trees (difficulty 160, produces willowlogs - wrong type!)
+    3. If no oak trees visible, move to nearby forest areas and repeat observation:
+       - move_character(x=150, y=50) for potential forest area nearby
+       - move_character(x=100, y=70) for potential forest area nearby
+       - move_character(x=180, y=30) for potential forest area nearby
+    4. When you find OAK trees, harvest them immediately for logs
+    5. Check inventory regularly to confirm logs obtained
+    6. Use global chat every 2-3 actions to report progress
+    7. Once you have logs (minimum 1), use observe_environment to verify logs in inventory
+    8. Wait for archer_agent to request transfer and coordinate meetup location
+    9. Move to archer_agent's location or agreed meetup point
+    10. Use transfer_items to give logs to archer_agent safely
+    11. WAIT for archer_agent to confirm they received materials before completing
+    12. Do NOT use complete() until archer_agent successfully crafts and equips the bow
+    
+    MOVEMENT RULES:
+    - Move directly to forest coordinates - no distance limit!
+    - Focus on areas with vegetation and trees
+    - Don't get distracted by mining resources - focus on TREES!
+    
+    ERROR PREVENTION:
+    - Always verify targetInstance IDs exist in current environment
+    - Never repeat failed harvest attempts on same resource
+    - Use move_character directly to target coordinates
+    - REMEMBER: Trees give logs, logs are needed for wooden bow crafting!
+
+agent_2:
+  username: "forager_agent"
+  new_character: true
+  role: "Flower Forager"
+  
+  # Starting location - areas where flowers might grow
+  location:
+    x: 600
+    y: 400
+  
+  # Skills focused on foraging and crafting
+  skill_levels:
+    foraging: 15      # Required for bluelily (level 10)
+    crafting: 10      # Required for string crafting
+    strength: 20
+    health: 20
+  
+  # Foraging supplies
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 12
+  
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+  
+  # Specific task instructions
+  task_instructions: |
+    YOUR ROLE: Flower forager responsible for gathering bluelily and crafting string
+    
+    🌸 CRITICAL FORAGING MISSION - FIND BLUELILY FLOWERS!
+    
+    ABSOLUTE PRIORITIES:
+    1. Find bluelily flowers using observe_environment
+    2. Use harvest_resource on bluelily instances (requires Foraging level 10)
+    3. Craft bluelily into string using Crafting skill
+    4. Transfer string to archer_agent for bow crafting
+    
+    FORAGING STRATEGY:
+    1. YOUR FIRST ACTION: observe_environment to look for "bluelily" in current area
+    2. If no bluelily visible, move to different areas to find flower patches:
+       - move_character(x=550, y=350) for potential flower area
+       - move_character(x=650, y=450) for potential flower area
+       - move_character(x=500, y=500) for potential flower area
+    3. When you find bluelily, harvest it immediately
+       📋 HARVEST: harvest_resource(targetInstance="bluelily_instance_id")
+    4. Check inventory to confirm bluelily obtained
+    5. Once you have bluelily, craft it into string:
+       📋 RECIPE: craft_item skill=Crafting itemKey=string (1x bluelily → 1x string)
+    6. Use global chat to report foraging and crafting progress
+    7. Use observe_environment to verify string is in your inventory after crafting
+    8. Coordinate with archer_agent for string transfer and meetup location
+    9. Move to archer_agent's location for transfer
+    10. Use transfer_items to give string to archer_agent safely
+    11. WAIT for archer_agent to confirm they received string before completing
+    12. Do NOT use complete() until archer_agent successfully crafts and equips the bow
+    
+    MOVEMENT RULES:
+    - Move to areas with vegetation and flowers
+    - Look for open fields, gardens, or natural areas
+    - Focus on finding bluelily specifically - other flowers won't work!
+    
+    ERROR PREVENTION:
+    - Verify you have Foraging level 10+ before attempting bluelily harvest
+    - Always check targetInstance IDs exist in environment
+    - Confirm materials in inventory before crafting
+    - REMEMBER: bluelily → string via Crafting, string needed for bow!
+
+agent_3:
+  username: "archer_agent"
+  new_character: true
+  role: "Master Archer"
+  
+  # Starting location - central coordination area
+  location:
+    x: 300
+    y: 200
+  
+  # Skills focused on fletching and archery
+  skill_levels:
+    fletching: 10     # Required for woodenbow (level 5)
+    archery: 25
+    accuracy: 30
+    strength: 20
+    health: 25
+  
+  # Archery supplies and basic gear
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+  
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+  
+  # Specific task instructions
+  task_instructions: |
+    YOUR ROLE: Master archer waiting for materials to craft wooden bow
+    
+    🏹 PRIORITY ACTIONS:
+    1. Use global chat to announce readiness and location for material coordination
+    2. Wait actively for both gatherer_agent and forager_agent - respond to chat messages
+    3. Coordinate meetup locations for material transfers
+    4. Receive materials from both agents via transfer_items:
+       ✅ From gatherer_agent: need 1x logs
+       ✅ From forager_agent: need 1x string
+    
+    CRITICAL VERIFICATION STEPS (DO NOT SKIP!):
+    5. BEFORE claiming to have materials, use observe_environment to CHECK YOUR INVENTORY!
+    6. VERIFY you have BOTH 1x logs AND 1x string in your inventory before proceeding
+    7. ONLY AFTER verifying materials, use craft_item tool:
+       📋 RECIPE: craft_item skill=Fletching itemKey=woodenbow (1x logs + 1x string → 1x woodenbow)
+    8. WAIT for craft_item result - do NOT claim success until you see "Successfully crafted" message
+    9. Use observe_environment again to verify woodenbow is in your inventory
+    10. Use equip_item to equip the wooden bow
+    11. Use observe_environment to verify bow is equipped
+    12. ONLY THEN use global chat to declare "Ready for archery combat with wooden bow!"
+    13. Use complete() ONLY after ALL above steps are verified successful
+    
+    ⚠️ NEVER SAY YOU'VE DONE SOMETHING WITHOUT USING THE ACTUAL TOOL!
+    
+    MATERIAL REQUIREMENTS CHECKLIST:
+    ✅ 1x logs (from gatherer_agent)
+    ✅ 1x string (from forager_agent)
+    ✅ Fletching skill level 5+ (you have level 10)
+    
+    ERROR PREVENTION:
+    - Move directly to agents without distance concerns
+    - Check inventory before and after all transfers
+    - Verify materials present before attempting crafting
+    - Confirm equipment changes in observation after equipping bow
+    - Stay in communication range for coordination
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "gatherer_agent successfully gathers and transfers logs to archer_agent"
+  - "forager_agent successfully forages bluelily, crafts string, and transfers to archer_agent"
+  - "archer_agent receives both materials and crafts a wooden bow"
+  - "archer_agent successfully equips the wooden bow"
+  - "All agents use global chat for coordination throughout the process"
+  - "archer_agent declares readiness for archery combat"

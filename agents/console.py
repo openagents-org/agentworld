@@ -685,6 +685,11 @@ class GameConsole:
                 })
                 results.append(f"🗺️ Teleported to ({x}, {y}): {result}")
                 self.log_message("INIT", f"Initial teleport to ({x}, {y}): {result}")
+                
+                # Add small delay to allow server position sync
+                import time
+                time.sleep(0.5)
+                self.log_message("INIT", f"Position sync delay applied after teleport")
             except Exception as e:
                 results.append(f"❌ Initial teleport failed: {str(e)}")
                 self.log_message("INIT", f"Initial teleport failed: {str(e)}")

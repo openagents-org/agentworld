@@ -1308,7 +1308,7 @@ export default class API {
         // Set player inventory
         router.post('/ai/setInventory', (request: Request, response: Response) => {
             try {
-                const { token, items, clearFirst = true } = request.body;
+                const { token, items, clearFirst = true, targetPlayer } = request.body;
 
                 if (!token) {
                     return response.status(400).json({
@@ -1324,7 +1324,21 @@ export default class API {
                     });
                 }
 
-                const player = this.aiAgents[token];
+                let player = this.aiAgents[token];
+
+                // If targetPlayer is specified, try to find that player
+                if (targetPlayer && targetPlayer !== player?.username) {
+                    // Find the target player by username
+                    const targetPlayerInstance = this.world.getPlayerByName(targetPlayer);
+                    if (targetPlayerInstance) {
+                        player = targetPlayerInstance;
+                    } else {
+                        return response.status(404).json({
+                            status: 'error',
+                            message: `Target player '${targetPlayer}' not found`
+                        });
+                    }
+                }
 
                 if (!player) {
                     return response.status(401).json({

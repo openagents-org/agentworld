@@ -8,7 +8,7 @@ GAME_TOOLS = [
         "type": "function",
         "function": {
             "name": "move_character",
-            "description": "Move the character to specific coordinates on the game map. Useful for exploration and navigation. IMPORTANT: Movement is limited to a maximum distance of 32 tiles per tool call to prevent unrealistic teleportation. If you need to travel farther, make multiple shorter movements.",
+            "description": "Move the character to specific coordinates on the game map. Useful for exploration and navigation across any distance.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -98,7 +98,7 @@ GAME_TOOLS = [
                 "properties": {
                     "targetInstance": {
                         "type": "string",
-                        "description": "The instance ID of the resource to harvest. This MUST be an exact instance ID from the 'trees', 'rocks', 'fishSpots', or 'foraging' sections in your current environment observation (e.g., '10-12345'). Do not use made-up or guessed IDs."
+                        "description": "The instance ID of the resource to harvest. This MUST be an exact instance ID from the 'trees', 'rocks', 'fishSpots', or 'foraging' sections in your current environment observation (e.g., '61889701'). Instance IDs are pure numbers without any prefix. Do not use made-up or guessed IDs."
                     }
                 },
                 "required": ["targetInstance"]
@@ -132,7 +132,7 @@ GAME_TOOLS = [
                 "properties": {
                     "targetInstance": {
                         "type": "string",
-                        "description": "The instance ID of the entity to attack. This MUST be an exact instance ID from the 'entities' or 'mobs' section in your current environment observation (e.g., '3995661692'). Do not use made-up or guessed IDs. Make sure you are close to the target before attacking."
+                        "description": "The instance ID of the entity to attack. This MUST be an exact instance ID from the 'entities' or 'mobs' section in your current environment observation (e.g., '3995661692'). Instance IDs are pure numbers without any prefix. Do not use made-up or guessed IDs. Make sure you are close to the target before attacking."
                     }
                 },
                 "required": ["targetInstance"]
@@ -239,6 +239,43 @@ GAME_TOOLS = [
                     }
                 },
                 "required": ["targetPlayer", "itemKey", "count"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "observe_environment",
+            "description": "Observe the surrounding environment to get information about nearby resources, entities, and your current inventory. This is essential for understanding what's available in your current location and checking your inventory status.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "radius": {
+                        "type": "integer",
+                        "description": "Observation radius in tiles (1-200). Default is 64. Use smaller radius for focused observation, larger for broader area scan.",
+                        "minimum": 1,
+                        "maximum": 200
+                    }
+                },
+                "required": []
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "verify_inventory",
+            "description": "Verify that specific items are in your inventory before proceeding with crafting or other actions. This helps prevent claiming to have materials you don't actually possess.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "required_items": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "List of item keys that must be present in inventory (e.g., ['logs', 'string'])"
+                    }
+                },
+                "required": ["required_items"]
             }
         }
     }

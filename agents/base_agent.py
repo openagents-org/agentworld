@@ -137,11 +137,9 @@ IMPORTANT TOOL USAGE GUIDELINES:
 - Sleep should be used sparingly and only when waiting serves a purpose
 - Complete does not terminate the session - it just finishes the current task
 
-MOVEMENT LIMITATIONS:
-- Each move_character tool call is limited to a maximum distance of 32 tiles
-- If you need to travel farther distances, plan multiple shorter movements
-- The system will reject movements that exceed this distance limit and inform you of your current position
-- This prevents unrealistic teleportation and encourages more realistic navigation
+MOVEMENT GUIDELINES:
+- Use move_character to navigate efficiently across the game world
+- Check your current position in environment observations for accurate navigation
 
 CRITICAL COMBAT GUIDELINES:
 - Check your equipped weapons in the environment observation - make sure weapon and ammunition match
@@ -236,7 +234,9 @@ Always think strategically about your actions. Make decisions based on your curr
             "sleep": self.game_tools.sleep,
             "complete": self.game_tools.complete,
             "chat": self.game_tools.chat,
-            "transfer_items": self.game_tools.transfer_items
+            "transfer_items": self.game_tools.transfer_items,
+            "observe_environment": self.game_tools.observe_environment,
+            "verify_inventory": self.game_tools.verify_inventory
         }
         
         if function_name in tool_mapping:

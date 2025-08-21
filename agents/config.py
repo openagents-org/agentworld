@@ -50,7 +50,8 @@ AGENTWORLD_API_ENDPOINTS = {
     "collect": "/ai/collect",
     "craft": "/ai/craft",
     "attack": "/ai/attack",
-    "teleport": "/ai/teleport"
+    "teleport": "/ai/teleport",
+    "setInventory": "/ai/setInventory"
 }
 
 # Agent Configuration
@@ -66,7 +67,7 @@ OBSERVATION_RADIUS = 64
 
 # Spawn Position Configuration
 SPAWN_POSITION = {
-    "enabled": True,  # Set to False to disable auto teleport on login
+    "enabled": False,  # Set to False to disable auto teleport on login
     "x": 250,         # X coordinate for spawn position
     "y": 180,         # Y coordinate for spawn position
     "withAnimation": False  # Whether to show teleport animation

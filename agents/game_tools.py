@@ -16,15 +16,45 @@ from config import (
 
 
 class KaetramGameTools:
-    def __init__(self, base_url: Optional[str] = None):
+    # Class variable to store logger for detailed error reporting
+    _global_logger = None
+    
+    def __init__(self, base_url: Optional[str] = None, logger=None):
         self.base_url = base_url or AGENTWORLD_BASE_URL
         self.token = None
         self.session = requests.Session()
         self.session.timeout = REQUEST_TIMEOUT
+        self.logger = logger  # Store logger for detailed error reporting
+        self._last_observation_data = None  # Initialize observation data storage
+        
+    @classmethod
+    def set_global_logger(cls, logger):
+        """Set a global logger for all instances"""
+        cls._global_logger = logger
+        
+    def _log_message(self, message: str, level: str = "info"):
+        """Log message using available logger"""
+        logger = self.logger or self._global_logger
+        if logger:
+            if level == "error":
+                logger.error(message)
+            else:
+                logger.info(message)
+    
+    def get_last_observation_data(self) -> Optional[Dict[str, Any]]:
+        """Get the last observation data for logging purposes"""
+        return getattr(self, '_last_observation_data', None)
     
     def _make_request(self, method: str, endpoint: str, data: Optional[Dict] = None, params: Optional[Dict] = None) -> Dict[str, Any]:
-        """Make HTTP request to Kaetram API with retry logic"""
+        """Make HTTP request to Kaetram API with retry logic and detailed error logging"""
         url = f"{self.base_url}{endpoint}"
+        
+        # Enhanced logging for all API calls
+        self._log_message(f"🌐 [API REQUEST] {method} {endpoint}", "info")
+        if data:
+            self._log_message(f"   📤 Request Data: {json.dumps(data, ensure_ascii=False)}", "info")
+        if params:
+            self._log_message(f"   📤 Request Params: {json.dumps(params, ensure_ascii=False)}", "info")
         
         for attempt in range(MAX_RETRIES):
             try:
@@ -35,10 +65,124 @@ class KaetramGameTools:
                 else:
                     raise ValueError(f"Unsupported HTTP method: {method}")
                 
+                # Log response details for all calls
+                self._log_message(f"🌐 [API RESPONSE] Status: {response.status_code} for {endpoint}", "info")
+                
+                # If response is not successful, log detailed error information
+                if not response.ok:
+                    error_details = {
+                        "status_code": response.status_code,
+                        "response_text": response.text,
+                        "response_headers": dict(response.headers),
+                        "url": url,
+                        "method": method,
+                        "endpoint": endpoint,
+                        "attempt": attempt + 1,
+                        "request_data": data,
+                        "request_params": params
+                    }
+                    
+                    # Try to parse JSON response for better error details
+                    try:
+                        response_json = response.json()
+                        error_details["response_json"] = response_json
+                        error_message = response_json.get("message", "No error message provided")
+                    except:
+                        error_message = response.text[:200] if response.text else "No response text"
+                    
+                    # Log detailed error information
+                    error_lines = [
+                        f"❌ [HTTP ERROR] {method} {endpoint} - Attempt {attempt + 1}/{MAX_RETRIES}",
+                        f"   📍 URL: {url}",
+                        f"   📊 Status Code: {response.status_code}",
+                        f"   💬 Error Message: {error_message}",
+                        f"   📤 Request Data: {json.dumps(data, ensure_ascii=False) if data else 'None'}",
+                        f"   📤 Request Params: {json.dumps(params, ensure_ascii=False) if params else 'None'}",
+                        f"   📥 Response Headers: {json.dumps(dict(response.headers), ensure_ascii=False)}",
+                        f"   📥 Full Response: {response.text[:1000]}"
+                    ]
+                    
+                    for line in error_lines:
+                        self._log_message(line, "error")
+                    
+                    # For 400 errors, also print to console for immediate visibility
+                    if response.status_code == 400:
+                        print(f"\n🚨 CRITICAL 400 ERROR for {endpoint}:")
+                        print(f"   URL: {url}")
+                        print(f"   Request Data: {data}")
+                        print(f"   Error Message: {error_message}")
+                        print(f"   Full Response: {response.text[:500]}")
+                        print()
+                
                 response.raise_for_status()
                 return response.json()
                 
+            except requests.exceptions.HTTPError as e:
+                error_details = {
+                    "status_code": getattr(e.response, 'status_code', 'Unknown'),
+                    "response_text": getattr(e.response, 'text', 'No response text'),
+                    "url": url,
+                    "method": method,
+                    "endpoint": endpoint,
+                    "attempt": attempt + 1,
+                    "request_data": data,
+                    "request_params": params
+                }
+                
+                # Try to parse JSON response for better error details
+                try:
+                    response_json = e.response.json()
+                    error_details["response_json"] = response_json
+                    error_message = response_json.get("message", "No error message provided")
+                except:
+                    error_message = e.response.text[:200] if e.response.text else "No response text"
+                
+                # Log detailed error information
+                error_lines = [
+                    f"❌ [HTTP ERROR] {method} {endpoint} - Attempt {attempt + 1}/{MAX_RETRIES}",
+                    f"   📍 URL: {url}",
+                    f"   📊 Status Code: {error_details['status_code']}",
+                    f"   💬 Error Message: {error_message}",
+                    f"   📤 Request Data: {json.dumps(data, ensure_ascii=False) if data else 'None'}",
+                    f"   📤 Request Params: {json.dumps(params, ensure_ascii=False) if params else 'None'}",
+                    f"   📥 Response Headers: {json.dumps(dict(e.response.headers), ensure_ascii=False)}",
+                    f"   📥 Full Response: {e.response.text[:1000]}"
+                ]
+                
+                for line in error_lines:
+                    self._log_message(line, "error")
+                
+                # For 400 errors, also print to console for immediate visibility
+                if error_details['status_code'] == 400:
+                    print(f"\n🚨 CRITICAL 400 ERROR for {endpoint}:")
+                    print(f"   URL: {url}")
+                    print(f"   Request Data: {data}")
+                    print(f"   Error Message: {error_message}")
+                    print(f"   Full Response: {e.response.text[:500]}")
+                    print()
+                
+                if attempt == MAX_RETRIES - 1:
+                    final_error = f"HTTP {error_details['status_code']} error after {MAX_RETRIES} attempts: {str(e)}"
+                    self._log_message(f"❌ FINAL HTTP ERROR: {final_error}", "error")
+                    return {
+                        "status": "error", 
+                        "message": final_error,
+                        "details": error_details
+                    }
+                time.sleep(1)
+                
             except requests.exceptions.RequestException as e:
+                error_lines = [
+                    f"❌ [REQUEST ERROR] {method} {endpoint} - Attempt {attempt + 1}/{MAX_RETRIES}",
+                    f"   📍 URL: {url}",
+                    f"   💬 Error: {str(e)}",
+                    f"   📤 Request Data: {json.dumps(data, ensure_ascii=False) if data else 'None'}",
+                    f"   📤 Request Params: {json.dumps(params, ensure_ascii=False) if params else 'None'}"
+                ]
+                
+                for line in error_lines:
+                    self._log_message(line, "error")
+                
                 if attempt == MAX_RETRIES - 1:
                     return {"status": "error", "message": f"Request failed after {MAX_RETRIES} attempts: {str(e)}"}
                 time.sleep(1)
@@ -123,12 +267,9 @@ class KaetramGameTools:
         if current_x is None or current_y is None:
             return "Error: Could not determine current player position."
         
-        # Calculate distance using Chebyshev distance (max of x_diff, y_diff)
-        distance = max(abs(target_x - current_x), abs(target_y - current_y))
-        max_distance = 32  # Maximum distance per movement tool call
-        
-        if distance > max_distance:
-            return f"Error: Movement distance ({distance} tiles) exceeds maximum allowed distance ({max_distance} tiles) per tool call. Current position: ({current_x}, {current_y}), Target: ({target_x}, {target_y}). Please choose a closer destination or make multiple shorter movements."
+        # Calculate distance using Manhattan distance (same as server)
+        distance = abs(target_x - current_x) + abs(target_y - current_y)
+        # Distance limit removed - allow long-distance movement for multi-agent coordination
         
         data = {
             "token": self.token,
@@ -285,6 +426,9 @@ class KaetramGameTools:
             if "resources" in enhanced_result:
                 del enhanced_result["resources"]
             
+            # Store the raw observation data for logging
+            self._last_observation_data = enhanced_result
+            
             return f"Environment observation (radius {radius}): {json.dumps(enhanced_result, indent=2)}"
         else:
             return f"Failed to observe environment: {result.get('message', 'Unknown error')}"
@@ -386,6 +530,19 @@ class KaetramGameTools:
         if observe_result.get("status") != "success":
             return f"Error: Could not observe environment to locate resource: {observe_result.get('message', 'Unknown error')}"
         
+        # Log environment details for debugging
+        env_info = [
+            f"🌍 [ENVIRONMENT] Current environment observation:",
+            f"   - Player location: {observe_result.get('location', {})}",
+            f"   - Resources count: {len(observe_result.get('resources', []))}",
+            f"   - Looking for instance: {target_instance}"
+        ]
+        
+        # Print to console and log to file
+        for line in env_info:
+            print(line)
+            self._log_message(line)
+        
         # Find the resource in the raw resources array (our fixed API now returns resources here)
         resource_entity = None
         resource_type = None
@@ -408,7 +565,23 @@ class KaetramGameTools:
                 break
         
         if not resource_entity:
-            return f"Error: Resource with instance {target_instance} not found in current environment."
+            error_lines = [
+                f"❌ [RESOURCE ERROR] Resource with instance {target_instance} not found!",
+                f"   - Available resources in environment:"
+            ]
+            for i, resource in enumerate(resources):
+                error_lines.append(f"     [{i}] Instance: {resource.get('instance', 'N/A')}, Name: {resource.get('name', 'N/A')}, Position: ({resource.get('x', 'N/A')}, {resource.get('y', 'N/A')})")
+            error_lines.extend([
+                f"   - Total resources found: {len(resources)}",
+                f"   - Requested instance: {target_instance}"
+            ])
+            
+            # Print to console and log to file
+            for line in error_lines:
+                print(line)
+                self._log_message(line, "error")
+            
+            return f"Error: Resource with instance {target_instance} not found in current environment. Found {len(resources)} resources total."
         
         resource_name = resource_entity.get("name", "Unknown")
         resource_x = resource_entity.get("x")
@@ -422,16 +595,31 @@ class KaetramGameTools:
         if player_x is None or player_y is None:
             return "Error: Could not determine player position."
         
-        # Calculate distance to resource
+        # Calculate distance to resource using Manhattan distance (same as server)
         if resource_x is not None and resource_y is not None:
-            distance = max(abs(resource_x - player_x), abs(resource_y - player_y))
+            distance = abs(resource_x - player_x) + abs(resource_y - player_y)
             
             # Move closer if too far (resources typically need to be within 2 tiles)
             if distance > 2:
+                # Move to an adjacent position, not the exact resource location to avoid overlap
+                if resource_x > player_x:
+                    target_x = resource_x - 1  # Move one tile to the left of resource
+                elif resource_x < player_x:
+                    target_x = resource_x + 1  # Move one tile to the right of resource
+                else:
+                    target_x = resource_x
+                    
+                if resource_y > player_y:
+                    target_y = resource_y - 1  # Move one tile above resource
+                elif resource_y < player_y:
+                    target_y = resource_y + 1  # Move one tile below resource
+                else:
+                    target_y = resource_y
+                
                 move_data = {
                     "token": self.token,
-                    "x": resource_x,
-                    "y": resource_y
+                    "x": target_x,
+                    "y": target_y
                 }
                 
                 move_result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["move"], move_data)
@@ -441,7 +629,7 @@ class KaetramGameTools:
                 
                 # Wait briefly for position sync
                 time.sleep(1)
-                movement_info = f"Moved closer to {resource_name} at ({resource_x}, {resource_y}). "
+                movement_info = f"Moved closer to {resource_name} at ({resource_x}, {resource_y}) from position ({target_x}, {target_y}). "
             else:
                 movement_info = f"Already near {resource_name}. "
         else:
@@ -471,11 +659,47 @@ class KaetramGameTools:
                 if key:
                     initial_inventory[key] = initial_inventory.get(key, 0) + count
         
-        # Start the harvesting process
+        # Start the harvesting process with detailed logging
+        debug_info = [
+            f"🔍 [DEBUG] Attempting to harvest resource:",
+            f"   - Resource Name: {resource_name}",
+            f"   - Resource Type: {resource_type}",
+            f"   - Target Instance: {target_instance}",
+            f"   - Resource Position: ({resource_x}, {resource_y})",
+            f"   - Player Position: ({player_x}, {player_y})",
+            f"   - Distance: {distance if 'distance' in locals() else 'N/A'}",
+            f"   - Action: {action}",
+            f"   - API Endpoint: {AGENTWORLD_API_ENDPOINTS['collect']}",
+            f"   - Request Data: {data}"
+        ]
+        
+        # Print to console and log to file
+        for line in debug_info:
+            print(line)
+            self._log_message(line)
+        
         result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["collect"], data)
         
+        response_info = [
+            f"🔍 [DEBUG] Harvest API Response:",
+            f"   - Status: {result.get('status', 'Unknown')}",
+            f"   - Message: {result.get('message', 'No message')}",
+            f"   - Full Response: {result}"
+        ]
+        
+        # Print to console and log to file
+        for line in response_info:
+            print(line)
+            self._log_message(line)
+        
         if result.get("status") != "success":
-            return f"{movement_info}Failed to start {action} {resource_name}: {result.get('message', 'Unknown error')}"
+            error_detail = f"API returned status '{result.get('status')}' with message: {result.get('message', 'Unknown error')}"
+            error_msg = f"{movement_info}Failed to start {action} {resource_name}: {error_detail}"
+            
+            # Log the error to file as well
+            self._log_message(f"❌ HARVEST ERROR: {error_msg}", "error")
+            
+            return error_msg
         
         # ENHANCED MODE: Monitor the harvesting process until completion
         max_wait_time = 30  # Maximum wait time in seconds
@@ -604,6 +828,16 @@ class KaetramGameTools:
         if count not in [1, 5, 10]:
             return "Error: Count must be 1, 5, or 10."
         
+        # Get current inventory before crafting for debugging
+        observe_result = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], params={"token": self.token, "radius": 5})
+        current_inventory = {}
+        if observe_result.get("status") == "success":
+            for item in observe_result.get("inventory", {}).get("items", []):
+                key = item.get("key", "")
+                count_inv = item.get("count", 0)
+                if key:
+                    current_inventory[key] = count_inv
+        
         data = {
             "token": self.token,
             "type": skill,
@@ -611,7 +845,36 @@ class KaetramGameTools:
             "count": count
         }
         
+        # Debug information
+        debug_info = [
+            f"🔧 [CRAFT DEBUG] Attempting to craft item:",
+            f"   - Skill: {skill}",
+            f"   - Item Key: {item_key}",
+            f"   - Count: {count}",
+            f"   - Current Inventory: {current_inventory}",
+            f"   - API Endpoint: {AGENTWORLD_API_ENDPOINTS['craft']}",
+            f"   - Request Data: {data}"
+        ]
+        
+        # Print to console and log to file
+        for line in debug_info:
+            print(line)
+            self._log_message(line)
+        
         result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["craft"], data)
+        
+        # Debug response information
+        response_info = [
+            f"🔧 [CRAFT DEBUG] API Response:",
+            f"   - Status: {result.get('status', 'Unknown')}",
+            f"   - Message: {result.get('message', 'No message')}",
+            f"   - Full Response: {result}"
+        ]
+        
+        # Print to console and log to file
+        for line in response_info:
+            print(line)
+            self._log_message(line)
         
         if result.get("status") == "success":
             item_info = result.get("item", {})
@@ -620,6 +883,8 @@ class KaetramGameTools:
             # Handle missing materials error with detailed information
             missing_materials = result.get("missingMaterials", [])
             requirements = result.get("requirements", [])
+            required_level = result.get("requiredLevel")
+            current_level = result.get("currentLevel")
             
             if missing_materials:
                 missing_list = []
@@ -633,6 +898,8 @@ class KaetramGameTools:
                 return (f"Failed to craft {item_key}: Missing materials!\n"
                        f"Required materials: {', '.join(requirements_list)}\n"
                        f"Missing: {', '.join(missing_list)}")
+            elif required_level and current_level:
+                return f"Failed to craft {item_key}: Level requirement not met! Need level {required_level} {skill}, but current level is {current_level}"
             else:
                 return f"Failed to craft {item_key}: {result.get('message', 'Unknown error')}"
 
@@ -1259,9 +1526,59 @@ class KaetramGameTools:
                 
             time.sleep(seconds)
             return f"Slept for {seconds} second(s)."
-            
-        except (ValueError, TypeError):
-            return "Error: Invalid seconds value. Must be an integer between 1 and 60."
+        except Exception as e:
+            return f"Error: Could not sleep: {str(e)}"
+
+    def verify_inventory(self, arguments: Dict[str, Any]) -> str:
+        """Verify that specific items are in inventory before proceeding"""
+        if not self.token:
+            return "Error: No token available. Please login first."
+        
+        required_items = arguments.get("required_items", [])
+        
+        if not required_items:
+            return "Error: No required items specified for verification."
+        
+        # Get current inventory
+        observe_result = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], 
+                                          params={"token": self.token, "radius": 5})
+        
+        if observe_result.get("status") != "success":
+            return f"Error: Could not observe inventory: {observe_result.get('message', 'Unknown error')}"
+        
+        inventory = observe_result.get("inventory", {}).get("items", [])
+        
+        # Check each required item
+        inventory_counts = {}
+        for item in inventory:
+            key = item.get("key", "")
+            count = item.get("count", 0)
+            if key:
+                inventory_counts[key] = inventory_counts.get(key, 0) + count
+        
+        missing_items = []
+        present_items = []
+        
+        for required_item in required_items:
+            if required_item in inventory_counts and inventory_counts[required_item] > 0:
+                present_items.append(f"{required_item} ({inventory_counts[required_item]}x)")
+            else:
+                missing_items.append(required_item)
+        
+        # Prepare verification result
+        result_lines = ["📋 INVENTORY VERIFICATION:"]
+        
+        if present_items:
+            result_lines.append(f"✅ Present: {', '.join(present_items)}")
+        
+        if missing_items:
+            result_lines.append(f"❌ Missing: {', '.join(missing_items)}")
+            result_lines.append("⚠️ Cannot proceed with crafting until all materials are obtained!")
+            return "\n".join(result_lines)
+        else:
+            result_lines.append("✅ All required materials are present in inventory!")
+            result_lines.append("🔨 Ready to proceed with crafting!")
+            return "\n".join(result_lines)
 
     def complete(self, arguments: Dict[str, Any]) -> str:
         """Complete the current task with a final response"""
@@ -1306,15 +1623,16 @@ class KaetramGameTools:
         
         skill_proper = skill_mapping.get(skill.lower(), skill)
         
-        # Use the existing setCombatLevel endpoint for individual skills by setting specific skill
-        # For now, we'll use setPlayerStatus to try to modify levels
+        # Log the skill setting attempt for debugging
+        self._log_message(f"🔧 Setting skill {skill_proper} to level {level}", "info")
+        
         data = {
             "token": self.token,
             "skill": skill_proper,
             "level": int(level)
         }
         
-        # Try a direct skill setting approach (this may not exist in the API)
+        # Try a direct skill setting approach
         result = self._make_request("POST", "/ai/setSkillLevel", data)
         
         if result.get("status") == "success":
@@ -1489,7 +1807,7 @@ class KaetramGameTools:
             return f"Error retrieving chat messages: {str(e)}"
 
     def transfer_items(self, arguments: Dict[str, Any]) -> str:
-        """Transfer items from current player's inventory to another player"""
+        """Transfer items from current player's inventory to another player using direct inventory manipulation"""
         if not self.token:
             return "Error: No token available. Please login first."
         
@@ -1509,6 +1827,9 @@ class KaetramGameTools:
                 return "Error: Count must be at least 1."
         except (ValueError, TypeError):
             return "Error: Count must be a valid integer."
+        
+        # Log the transfer attempt for debugging
+        self._log_message(f"🔄 Transferring {count}x {item_key} to {target_player}", "info")
         
         # First check if we have the item in inventory
         observe_result = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], 
@@ -1532,48 +1853,66 @@ class KaetramGameTools:
         if available_count < count:
             return f"Error: Not enough {item_name} in inventory. Have {available_count}, need {count}."
         
-        # Since the game doesn't have a direct transfer API, we'll use a combination approach:
-        # 1. Find the target player's position (if online)
-        # 2. Move close to them if possible
-        # 3. Drop the items and notify them via chat
+        # Get current inventory as a dictionary for easier manipulation
+        current_inventory = {}
+        for item in items:
+            key = item.get("key")
+            item_count = item.get("count", 0)
+            if key:
+                current_inventory[key] = current_inventory.get(key, 0) + item_count
         
-        # First, try to get list of online players to see if target exists
-        # We'll use the existing chat system to coordinate the transfer
+        # Remove items from current player's inventory
+        current_inventory[item_key] = current_inventory.get(item_key, 0) - count
+        if current_inventory[item_key] <= 0:
+            del current_inventory[item_key]
         
-        # Step 1: Remove items from our inventory (simulate giving them away)
-        # We'll use a creative approach - craft or use items if possible, or drop them
+        # Convert back to list format for setInventory API
+        current_items = []
+        for key, amount in current_inventory.items():
+            if amount > 0:
+                current_items.append({"key": key, "count": amount})
         
-        # For now, implement a basic version that uses chat to coordinate
-        transfer_message = f"@{target_player} I want to transfer {count}x {item_name} to you. Please come to my location to receive the items."
+        # Update current player's inventory (remove transferred items)
+        remove_data = {
+            "token": self.token,
+            "items": current_items,
+            "clearFirst": True
+        }
         
+        remove_response = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["setInventory"], remove_data)
+        
+        if remove_response.get("status") != "success":
+            return f"Error: Failed to remove items from inventory: {remove_response.get('message', 'Unknown error')}"
+        
+        # For target player inventory, we'll assume they start with empty inventory
+        # and just add the transferred items directly
+        # This is a simplification since we can't easily get their current inventory
+        target_items_list = [{"key": item_key, "count": count}]
+        
+        # Update target player's inventory (add transferred items)
+        add_data = {
+            "token": self.token,
+            "targetPlayer": target_player,
+            "items": target_items_list,
+            "clearFirst": False  # Don't clear their inventory, just add items
+        }
+        
+        add_response = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["setInventory"], add_data)
+        
+        if add_response.get("status") != "success":
+            return f"Error: Failed to add items to target player inventory: {add_response.get('message', 'Unknown error')}"
+        
+        # Get current player username from observation
+        current_player = observe_result.get("playerStatus", {}).get("username", "Unknown")
+        
+        # Send chat message to notify the transfer
+        chat_message = f"Successfully transferred {count}x {item_name} to {target_player}"
         chat_data = {
             "token": self.token,
-            "message": transfer_message,
+            "message": chat_message,
             "global": True
         }
         
         chat_result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["chat"], chat_data)
         
-        if chat_result.get("status") == "success":
-            # Get current location to include in the message
-            location = observe_result.get("location", {})
-            current_x = location.get("x", "unknown")
-            current_y = location.get("y", "unknown")
-            
-            # Send location info
-            location_message = f"@{target_player} My current location is ({current_x}, {current_y}). Items ready for transfer: {count}x {item_name}"
-            
-            location_data = {
-                "token": self.token,
-                "message": location_message,
-                "global": True
-            }
-            
-            location_result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["chat"], location_data)
-            
-            return (f"Transfer initiated for {count}x {item_name} to {target_player}. "
-                   f"Sent coordination messages in global chat. "
-                   f"Current location: ({current_x}, {current_y}). "
-                   f"Note: Manual coordination required - target player should come to your location to complete transfer.")
-        else:
-            return f"Failed to initiate transfer: {chat_result.get('message', 'Unknown error')}" 
+        return f"Transfer completed: {count}x {item_name} transferred from {current_player} to {target_player}" 
