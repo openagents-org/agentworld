@@ -39,6 +39,10 @@ class KaetramGameTools:
         if logger:
             if level == "error":
                 logger.error(message)
+            elif level == "debug":
+                logger.debug(message)
+            elif level == "warning":
+                logger.warning(message)
             else:
                 logger.info(message)
     
@@ -56,11 +60,11 @@ class KaetramGameTools:
         url = f"{self.base_url}{endpoint}"
         
         # Enhanced logging for all API calls
-        self._log_message(f"🌐 [API REQUEST] {method} {endpoint}", "info")
+        self._log_message(f"🌐 [API REQUEST] {method} {endpoint}", "debug")
         if data:
-            self._log_message(f"   📤 Request Data: {json.dumps(data, ensure_ascii=False)}", "info")
+            self._log_message(f"   📤 Request Data: {json.dumps(data, ensure_ascii=False)}", "debug")
         if params:
-            self._log_message(f"   📤 Request Params: {json.dumps(params, ensure_ascii=False)}", "info")
+            self._log_message(f"   📤 Request Params: {json.dumps(params, ensure_ascii=False)}", "debug")
         
         for attempt in range(MAX_RETRIES):
             try:
@@ -72,7 +76,7 @@ class KaetramGameTools:
                     raise ValueError(f"Unsupported HTTP method: {method}")
                 
                 # Log response details for all calls
-                self._log_message(f"🌐 [API RESPONSE] Status: {response.status_code} for {endpoint}", "info")
+                self._log_message(f"🌐 [API RESPONSE] Status: {response.status_code} for {endpoint}", "debug")
                 
                 # If response is not successful, log detailed error information
                 if not response.ok:
@@ -547,7 +551,7 @@ class KaetramGameTools:
         # Print to console and log to file (only if debug enabled)
         for line in env_info:
             self._debug_print(line)
-            self._log_message(line)
+            self._log_message(line, "debug")
         
         # Find the resource in the raw resources array (our fixed API now returns resources here)
         resource_entity = None
@@ -682,7 +686,7 @@ class KaetramGameTools:
         # Print to console and log to file (only if debug enabled)
         for line in debug_info:
             self._debug_print(line)
-            self._log_message(line)
+            self._log_message(line, "debug")
         
         result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["collect"], data)
         
@@ -696,7 +700,7 @@ class KaetramGameTools:
         # Print to console and log to file (only if debug enabled)
         for line in response_info:
             self._debug_print(line)
-            self._log_message(line)
+            self._log_message(line, "debug")
         
         if result.get("status") != "success":
             error_detail = f"API returned status '{result.get('status')}' with message: {result.get('message', 'Unknown error')}"
@@ -865,7 +869,7 @@ class KaetramGameTools:
         # Print to console and log to file (only if debug enabled)
         for line in debug_info:
             self._debug_print(line)
-            self._log_message(line)
+            self._log_message(line, "debug")
         
         result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["craft"], data)
         
@@ -880,7 +884,7 @@ class KaetramGameTools:
         # Print to console and log to file (only if debug enabled)
         for line in response_info:
             self._debug_print(line)
-            self._log_message(line)
+            self._log_message(line, "debug")
         
         if result.get("status") == "success":
             item_info = result.get("item", {})
@@ -1630,7 +1634,7 @@ class KaetramGameTools:
         skill_proper = skill_mapping.get(skill.lower(), skill)
         
         # Log the skill setting attempt for debugging
-        self._log_message(f"🔧 Setting skill {skill_proper} to level {level}", "info")
+        self._log_message(f"🔧 Setting skill {skill_proper} to level {level}", "debug")
         
         data = {
             "token": self.token,
@@ -1835,7 +1839,7 @@ class KaetramGameTools:
             return "Error: Count must be a valid integer."
         
         # Log the transfer attempt for debugging
-        self._log_message(f"🔄 Transferring {count}x {item_key} to {target_player}", "info")
+        self._log_message(f"🔄 Transferring {count}x {item_key} to {target_player}", "debug")
         
         # First check if we have the item in inventory
         observe_result = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], 

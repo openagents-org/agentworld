@@ -448,8 +448,17 @@ class TaskRunner:
         
         # Create logger
         self.logger = logging.getLogger('TaskRunner')
-        self.logger.setLevel(logging.ERROR)  # Default to ERROR level (hide info/debug)
-        # To re-enable verbose logging, change above to: self.logger.setLevel(logging.INFO)
+        
+        # Set log level from environment variable or default to INFO
+        log_level = os.getenv('LOG_LEVEL', 'INFO').upper()
+        level_map = {
+            'DEBUG': logging.DEBUG,
+            'INFO': logging.INFO, 
+            'WARNING': logging.WARNING,
+            'ERROR': logging.ERROR,
+            'CRITICAL': logging.CRITICAL
+        }
+        self.logger.setLevel(level_map.get(log_level, logging.INFO))
         
         # Create file handler
         file_handler = logging.FileHandler(log_file)
@@ -457,8 +466,7 @@ class TaskRunner:
         
         # Create console handler
         console_handler = logging.StreamHandler()
-        console_handler.setLevel(logging.ERROR)  # Only show errors on console by default
-        # To re-enable verbose console output, change above to: console_handler.setLevel(logging.INFO)
+        console_handler.setLevel(level_map.get(log_level, logging.INFO))  # Use same level as main logger
         
         # Create error file handler for API errors
         error_handler = logging.FileHandler(error_log_file)
