@@ -245,25 +245,6 @@ GAME_TOOLS = [
     {
         "type": "function",
         "function": {
-            "name": "observe_environment",
-            "description": "Observe the surrounding environment to get information about nearby resources, entities, and your current inventory. This is essential for understanding what's available in your current location and checking your inventory status.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "radius": {
-                        "type": "integer",
-                        "description": "Observation radius in tiles (1-200). Default is 64. Use smaller radius for focused observation, larger for broader area scan.",
-                        "minimum": 1,
-                        "maximum": 200
-                    }
-                },
-                "required": []
-            }
-        }
-    },
-    {
-        "type": "function",
-        "function": {
             "name": "verify_inventory",
             "description": "Verify that specific items are in your inventory before proceeding with crafting or other actions. This helps prevent claiming to have materials you don't actually possess.",
             "parameters": {

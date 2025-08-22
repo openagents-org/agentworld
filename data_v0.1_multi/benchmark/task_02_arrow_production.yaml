@@ -16,7 +16,7 @@ objectives:
 relevant_game_context: |
   This is a cooperative multi-agent production scenario requiring specialized roles.
   
-  CRITICAL SUCCESS REQUIREMENTS:
+  HINT:
   1. lumberjack_agent MUST find and cut oak trees to get logs
   2. lumberjack_agent MUST craft logs into sticks (1x logs → 4x stick)
   3. hunter_agent MUST find and collect feathers from the environment
@@ -54,7 +54,6 @@ max_action_steps: 25
 agent_1:
   username: "lumberjack_agent"
   new_character: true
-  role: "Stick Producer"
   
   location:
     x: 126
@@ -83,39 +82,9 @@ agent_1:
       count: 1
       enchant: 0
   
-  task_instructions: |
-    YOUR ROLE: Stick producer responsible for creating arrow shafts
-    
-    🪵 CRITICAL MISSION - PRODUCE ARROW SHAFTS!
-    
-    ABSOLUTE PRIORITIES:
-    1. Find and harvest oak trees to get logs
-    2. Craft logs into sticks for arrow production
-    3. Produce at least 10 sticks for arrow crafting
-    4. Transfer sticks to fletcher_agent
-    
-    PRODUCTION STRATEGY:
-    1. observe_environment to find oak trees
-    2. harvest_resource on oak tree instances to get logs
-    3. Collect at least 3 logs (for 12 sticks total)
-    4. craft_item skill=Fletching itemKey=stick to convert logs to sticks
-    5. Use global chat to report production progress
-    6. Coordinate with fletcher_agent for stick transfer
-    7. Move to agreed meetup location
-    8. transfer_items to give sticks to fletcher_agent
-    9. Wait for fletcher_agent to confirm receipt
-    10. Support team until arrow production is complete
-    
-    QUALITY CONTROL:
-    - Verify each crafting operation success
-    - Check inventory after each action
-    - Ensure minimum 10 sticks produced
-    - Communicate any production issues immediately
-
 agent_2:
   username: "hunter_agent"
   new_character: true
-  role: "Feather Collector"
   
   location:
     x: 229
@@ -141,43 +110,9 @@ agent_2:
       count: 1
       enchant: 0
   
-  task_instructions: |
-    YOUR ROLE: Feather collector responsible for gathering arrow fletching materials
-    
-    🪶 CRITICAL MISSION - COLLECT FEATHERS!
-    
-    ABSOLUTE PRIORITIES:
-    1. Search environment for feathers or feather sources
-    2. Collect at least 10 feathers for arrow production
-    3. Use any available methods to obtain feathers
-    4. Transfer feathers to fletcher_agent
-    
-    COLLECTION STRATEGY:
-    1. observe_environment to search for feathers in current area
-    2. Look for any birds, chickens, or feather drops
-    3. If feathers not visible, move to different areas:
-       - move_character(x=450, y=250) for hunting grounds
-       - move_character(x=550, y=350) for bird areas
-       - move_character(x=600, y=200) for farm areas
-    4. Use any applicable skills to collect feathers
-    5. Check inventory regularly to confirm feather count
-    6. Use global chat to report collection progress
-    7. Once you have 10+ feathers, coordinate with fletcher_agent
-    8. Move to agreed meetup location for transfer
-    9. transfer_items to give feathers to fletcher_agent
-    10. Wait for fletcher_agent to confirm receipt
-    11. Support team until arrow production is complete
-    
-    BACKUP STRATEGIES:
-    - If no feathers found, report to team for alternative plans
-    - Check if feathers are available for purchase
-    - Look for any NPCs or traders who might have feathers
-    - Communicate all findings to the team
-
 agent_3:
   username: "fletcher_agent"
   new_character: true
-  role: "Master Fletcher"
   
   location:
     x: 228
@@ -204,44 +139,6 @@ agent_3:
       count: 1
       enchant: 0
   
-  task_instructions: |
-    YOUR ROLE: Master fletcher responsible for arrow production
-    
-    🏹 PRIORITY ACTIONS:
-    1. Coordinate with both lumberjack_agent and hunter_agent
-    2. Collect materials from both agents
-    3. Craft arrows using collected materials
-    4. Quality control and final production
-    
-    PRODUCTION COORDINATION:
-    1. send global chat message announcing production coordination role
-    2. Monitor progress reports from lumberjack_agent and hunter_agent
-    3. Coordinate material collection meetups
-    4. First collect sticks from lumberjack_agent
-    5. Then collect feathers from hunter_agent
-    6. Verify material requirements before crafting
-    
-    CRITICAL VERIFICATION STEPS:
-    7. use observe_environment to CHECK YOUR INVENTORY before crafting
-    8. VERIFY you have BOTH 10x stick AND 10x feather
-    9. ONLY AFTER verifying materials, use craft_item:
-       📋 RECIPE: craft_item skill=Fletching itemKey=arrow (10x stick + 10x feather → 10x arrow)
-    10. WAIT for craft_item result - confirm "Successfully crafted" message
-    11. use observe_environment to verify 10x arrow in inventory
-    12. Announce successful arrow production in global chat
-    13. use complete() ONLY after successful arrow production
-    
-    MATERIAL REQUIREMENTS:
-    ✅ 10x stick (from lumberjack_agent)
-    ✅ 10x feather (from hunter_agent)
-    ✅ Fletching skill level 1+ (you have level 25)
-    
-    ERROR PREVENTION:
-    - Coordinate efficient meetup locations
-    - Verify all transfers completed successfully
-    - Check inventory before attempting crafting
-    - Confirm production success before declaring completion
-
 # Success criteria for multi-agent task
 success_criteria:
   - "lumberjack_agent successfully produces and transfers sticks"

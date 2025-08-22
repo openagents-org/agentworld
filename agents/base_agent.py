@@ -17,17 +17,23 @@ from tool_definitions import get_tool_definitions
 class BaseAgent(ABC):
     """Abstract base class for all LLM provider agents"""
     
-    def __init__(self, username: Optional[str] = None, password: Optional[str] = None, base_url: Optional[str] = None, dump_prompts: bool = False):
-        self.game_tools = KaetramGameTools(base_url=base_url)
+    def __init__(self, username: Optional[str] = None, password: Optional[str] = None, base_url: Optional[str] = None, dump_prompts: bool = False, debug_prints: bool = False):
+        self.game_tools = KaetramGameTools(base_url=base_url, debug_prints=debug_prints)
         self.tools = get_tool_definitions()
         self.conversation_history = []
         self.username = username
         self.password = password
         self.tool_call_count = 0
         self.dump_prompts = dump_prompts
+        self.debug_prints = debug_prints
         
         # Initialize with system prompt
         self._initialize_system_prompt()
+    
+    def _debug_print(self, message: str):
+        """Print debug message only if debug_prints is enabled"""
+        if self.debug_prints:
+            print(message)
     
     def _dump_prompts(self, messages: List[Dict[str, Any]], provider: str = "unknown"):
         """Dump prompt messages to /tmp/prompts folder if enabled"""
@@ -235,7 +241,6 @@ Always think strategically about your actions. Make decisions based on your curr
             "complete": self.game_tools.complete,
             "chat": self.game_tools.chat,
             "transfer_items": self.game_tools.transfer_items,
-            "observe_environment": self.game_tools.observe_environment,
             "verify_inventory": self.game_tools.verify_inventory
         }
         
@@ -296,9 +301,9 @@ Always think strategically about your actions. Make decisions based on your curr
         tool_calls = self._extract_tool_calls(assistant_message)
 
         if tool_calls:
-            print(f"\033[90m[ASSISTANT] Response with {len(tool_calls)} tool call(s): {content[:100]}{'...' if len(content) > 100 else ''}\033[0m")
+            self._debug_print(f"\033[90m[ASSISTANT] Response with {len(tool_calls)} tool call(s): {content[:100]}{'...' if len(content) > 100 else ''}\033[0m")
         else:
-            print(f"\033[92m[ASSISTANT] Final response: {content[:200]}{'...' if len(content) > 200 else ''}\033[0m")
+            self._debug_print(f"\033[92m[ASSISTANT] Final response: {content[:200]}{'...' if len(content) > 200 else ''}\033[0m")
 
         # Add assistant message (include original tool_calls if present)
         assistant_msg: Dict[str, Any] = {
@@ -322,7 +327,7 @@ Always think strategically about your actions. Make decisions based on your curr
                 "content": tool_result
             })
             
-            print(f"\033[94m[TOOL EXECUTION] Round 1 completed, continuing...\033[0m")
+            self._debug_print(f"\033[94m[TOOL EXECUTION] Round 1 completed, continuing...\033[0m")
             
             # Include tool call information in the response for better debugging
             # The tool call structure is: {'name': 'tool_name', 'arguments': {...}, 'id': '...', 'type': 'function'}
@@ -395,9 +400,9 @@ Always think strategically about your actions. Make decisions based on your curr
             tool_calls = self._extract_tool_calls(assistant_message)
 
             if tool_calls:
-                print(f"\033[90m[ASSISTANT] Response with {len(tool_calls)} tool call(s): {content[:100]}{'...' if len(content) > 100 else ''}\033[0m")
+                self._debug_print(f"\033[90m[ASSISTANT] Response with {len(tool_calls)} tool call(s): {content[:100]}{'...' if len(content) > 100 else ''}\033[0m")
             else:
-                print(f"\033[92m[ASSISTANT] Final response: {content[:200]}{'...' if len(content) > 200 else ''}\033[0m")
+                self._debug_print(f"\033[92m[ASSISTANT] Final response: {content[:200]}{'...' if len(content) > 200 else ''}\033[0m")
 
             # Add assistant message (include original tool_calls if present)
             assistant_msg: Dict[str, Any] = {
@@ -414,16 +419,16 @@ Always think strategically about your actions. Make decisions based on your curr
                 break
 
             # Execute tool calls and append tool result messages
-            print(f"\n\033[90m[TOOL CALLS] Executing {len(tool_calls)} tool call(s):\033[0m")
+            self._debug_print(f"\n\033[90m[TOOL CALLS] Executing {len(tool_calls)} tool call(s):\033[0m")
             for index, tool_call in enumerate(tool_calls, 1):
                 self.tool_call_count += 1
                 function_name = tool_call.get("name", "unknown")
                 arguments = tool_call.get("arguments", {})
-                print(f"\033[90m  [{index}] Calling {function_name} with args: {arguments}\033[0m")
+                self._debug_print(f"\033[90m  [{index}] Calling {function_name} with args: {arguments}\033[0m")
 
                 result = self._execute_tool_call(tool_call)
                 preview = (result or "")
-                print(f"\033[90m  [{index}] Result: {preview[:150]}{'...' if len(preview) > 150 else ''}\033[0m")
+                self._debug_print(f"\033[90m  [{index}] Result: {preview[:150]}{'...' if len(preview) > 150 else ''}\033[0m")
 
                 self.conversation_history.append({
                     "role": "tool",
@@ -434,18 +439,18 @@ Always think strategically about your actions. Make decisions based on your curr
                 # Check if complete tool was called
                 if function_name == "complete" and result.startswith("TASK_COMPLETE:"):
                     final_content = result[len("TASK_COMPLETE:"):].strip()
-                    print(f"\033[92m[TASK COMPLETED] {final_content}\033[0m")
+                    self._debug_print(f"\033[92m[TASK COMPLETED] {final_content}\033[0m")
                     return final_content
 
             # Continue loop to let the model consume tool results and decide next step
-            print(f"\033[90m[TOOL EXECUTION] Round {rounds} completed, continuing...\033[0m")
+            self._debug_print(f"\033[90m[TOOL EXECUTION] Round {rounds} completed, continuing...\033[0m")
 
         if rounds >= max_rounds:
             warning_msg = f"Stopped after {max_rounds} rounds to avoid infinite loop."
-            print(f"\033[91m⚠️  {warning_msg}\033[0m")
+            self._debug_print(f"\033[91m⚠️  {warning_msg}\033[0m")
             return warning_msg
 
-        print(f"\033[90m[TOOL EXECUTION] Completed after {rounds} round(s)\033[0m")
+        self._debug_print(f"\033[90m[TOOL EXECUTION] Completed after {rounds} round(s)\033[0m")
         return final_content
     
     def start_game_session(self, username: Optional[str] = None, password: Optional[str] = None) -> str:

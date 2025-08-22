@@ -19,13 +19,14 @@ class KaetramGameTools:
     # Class variable to store logger for detailed error reporting
     _global_logger = None
     
-    def __init__(self, base_url: Optional[str] = None, logger=None):
+    def __init__(self, base_url: Optional[str] = None, logger=None, debug_prints: bool = False):
         self.base_url = base_url or AGENTWORLD_BASE_URL
         self.token = None
         self.session = requests.Session()
         self.session.timeout = REQUEST_TIMEOUT
         self.logger = logger  # Store logger for detailed error reporting
         self._last_observation_data = None  # Initialize observation data storage
+        self.debug_prints = debug_prints  # Control debug print statements
         
     @classmethod
     def set_global_logger(cls, logger):
@@ -40,6 +41,11 @@ class KaetramGameTools:
                 logger.error(message)
             else:
                 logger.info(message)
+    
+    def _debug_print(self, message: str):
+        """Print debug message only if debug_prints is enabled"""
+        if self.debug_prints:
+            print(message)
     
     def get_last_observation_data(self) -> Optional[Dict[str, Any]]:
         """Get the last observation data for logging purposes"""
@@ -105,14 +111,14 @@ class KaetramGameTools:
                     for line in error_lines:
                         self._log_message(line, "error")
                     
-                    # For 400 errors, also print to console for immediate visibility
+                    # For 400 errors, also print to console for immediate visibility (only if debug enabled)
                     if response.status_code == 400:
-                        print(f"\n🚨 CRITICAL 400 ERROR for {endpoint}:")
-                        print(f"   URL: {url}")
-                        print(f"   Request Data: {data}")
-                        print(f"   Error Message: {error_message}")
-                        print(f"   Full Response: {response.text[:500]}")
-                        print()
+                        self._debug_print(f"\n🚨 CRITICAL 400 ERROR for {endpoint}:")
+                        self._debug_print(f"   URL: {url}")
+                        self._debug_print(f"   Request Data: {data}")
+                        self._debug_print(f"   Error Message: {error_message}")
+                        self._debug_print(f"   Full Response: {response.text[:500]}")
+                        self._debug_print("")
                 
                 response.raise_for_status()
                 return response.json()
@@ -152,14 +158,14 @@ class KaetramGameTools:
                 for line in error_lines:
                     self._log_message(line, "error")
                 
-                # For 400 errors, also print to console for immediate visibility
+                # For 400 errors, also print to console for immediate visibility (only if debug enabled)
                 if error_details['status_code'] == 400:
-                    print(f"\n🚨 CRITICAL 400 ERROR for {endpoint}:")
-                    print(f"   URL: {url}")
-                    print(f"   Request Data: {data}")
-                    print(f"   Error Message: {error_message}")
-                    print(f"   Full Response: {e.response.text[:500]}")
-                    print()
+                    self._debug_print(f"\n🚨 CRITICAL 400 ERROR for {endpoint}:")
+                    self._debug_print(f"   URL: {url}")
+                    self._debug_print(f"   Request Data: {data}")
+                    self._debug_print(f"   Error Message: {error_message}")
+                    self._debug_print(f"   Full Response: {e.response.text[:500]}")
+                    self._debug_print("")
                 
                 if attempt == MAX_RETRIES - 1:
                     final_error = f"HTTP {error_details['status_code']} error after {MAX_RETRIES} attempts: {str(e)}"
@@ -538,9 +544,9 @@ class KaetramGameTools:
             f"   - Looking for instance: {target_instance}"
         ]
         
-        # Print to console and log to file
+        # Print to console and log to file (only if debug enabled)
         for line in env_info:
-            print(line)
+            self._debug_print(line)
             self._log_message(line)
         
         # Find the resource in the raw resources array (our fixed API now returns resources here)
@@ -576,9 +582,9 @@ class KaetramGameTools:
                 f"   - Requested instance: {target_instance}"
             ])
             
-            # Print to console and log to file
+            # Print to console and log to file (only if debug enabled)
             for line in error_lines:
-                print(line)
+                self._debug_print(line)
                 self._log_message(line, "error")
             
             return f"Error: Resource with instance {target_instance} not found in current environment. Found {len(resources)} resources total."
@@ -673,9 +679,9 @@ class KaetramGameTools:
             f"   - Request Data: {data}"
         ]
         
-        # Print to console and log to file
+        # Print to console and log to file (only if debug enabled)
         for line in debug_info:
-            print(line)
+            self._debug_print(line)
             self._log_message(line)
         
         result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["collect"], data)
@@ -687,9 +693,9 @@ class KaetramGameTools:
             f"   - Full Response: {result}"
         ]
         
-        # Print to console and log to file
+        # Print to console and log to file (only if debug enabled)
         for line in response_info:
-            print(line)
+            self._debug_print(line)
             self._log_message(line)
         
         if result.get("status") != "success":
@@ -856,9 +862,9 @@ class KaetramGameTools:
             f"   - Request Data: {data}"
         ]
         
-        # Print to console and log to file
+        # Print to console and log to file (only if debug enabled)
         for line in debug_info:
-            print(line)
+            self._debug_print(line)
             self._log_message(line)
         
         result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["craft"], data)
@@ -871,9 +877,9 @@ class KaetramGameTools:
             f"   - Full Response: {result}"
         ]
         
-        # Print to console and log to file
+        # Print to console and log to file (only if debug enabled)
         for line in response_info:
-            print(line)
+            self._debug_print(line)
             self._log_message(line)
         
         if result.get("status") == "success":
