@@ -16,17 +16,20 @@ objectives:
 relevant_game_context: |
   This is a cooperative multi-agent luxury jewelry scenario requiring precious materials.
   
-  HINT:
-  1. gem_miner_agent MUST find and mine topaz deposits (moderate-level mining)
-  2. gold_smith_agent MUST create gold ring base from gold materials
-  3. luxury_jeweler_agent MUST combine topaz + gold ring into topaz ring
-  4. luxury_jeweler_agent MUST equip the ring and declare completion
+  OBJECTIVE: Create a topaz ring by combining precious topaz gem with luxury gold ring base.
   
-  LOCATION STRATEGY:
-  - Look for topaz deposits in mid-level mining areas
-  - Find gold ore for luxury ring base creation
-  - Premium jewelry crafting location for final assembly
-  - Communicate precious resource locations through global chat
+  TEAM COORDINATION:
+  - Use global chat to share locations of precious and valuable resources
+  - Coordinate specialized gem mining and gold metallurgy operations
+  - Handle valuable materials with appropriate care during transfers
+  - Work together to complete premium luxury jewelry crafting
+  
+  GENERAL STRATEGY:
+  - The team needs to locate and extract precious gemstones and gold materials
+  - Someone needs to process gold ore into luxury ring base components
+  - Final jewelry assembly requires combining precious materials with expertise
+  - Coordinate timing and resource management for high-value materials
+  - Each agent has specialized skills for different aspects of luxury crafting
   
   DO NOT use complete() until ALL objectives are achieved by the team!
   
@@ -72,6 +75,12 @@ agent_1:
       count: 10
     - item: "apple"
       count: 15
+    - item: "goldnugget"
+      count: 2
+    - item: "coal"
+      count: 2
+    - item: "topaz"
+      count: 1
   
   equipped_items:
     - item: "pickaxe"

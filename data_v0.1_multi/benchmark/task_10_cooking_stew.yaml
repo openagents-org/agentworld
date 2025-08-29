@@ -16,17 +16,20 @@ objectives:
 relevant_game_context: |
   This is a cooperative multi-agent culinary scenario requiring food preparation expertise.
   
-  HINT:
-  1. container_crafter_agent MUST create cooking bowl from wood materials
-  2. ingredient_gatherer_agent MUST collect mushrooms and vegetables
-  3. chef_agent MUST combine ingredients in bowl to cook stew
-  4. chef_agent MUST consume or display the stew and declare completion
+  OBJECTIVE: Prepare a delicious stew through coordinated container crafting, ingredient gathering, and cooking.
   
-  LOCATION STRATEGY:
-  - Forest areas for wood collection and bowl crafting
-  - Foraging areas for mushrooms and vegetables
-  - Central cooking location for stew preparation
-  - Communicate ingredient locations through global chat
+  TEAM COORDINATION:
+  - Use global chat to share locations of ingredients and crafting materials
+  - Coordinate between container creation and ingredient collection activities
+  - Share materials and components for food preparation
+  - Work together to complete culinary production chain
+  
+  GENERAL STRATEGY:
+  - The team needs to create cooking containers from wood materials
+  - Someone needs to gather food ingredients from foraging areas
+  - Final cooking requires combining container, ingredients, and cooking expertise
+  - Coordinate material gathering, container crafting, and food preparation
+  - Each agent contributes different skills to the culinary process
   
   DO NOT use complete() until ALL objectives are achieved by the team!
   

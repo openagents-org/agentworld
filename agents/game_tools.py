@@ -637,9 +637,36 @@ class KaetramGameTools:
                 if move_result.get("status") != "success":
                     return f"Error: Failed to move closer to {resource_name}: {move_result.get('message', 'Unknown error')}"
                 
-                # Wait briefly for position sync
-                time.sleep(1)
-                movement_info = f"Moved closer to {resource_name} at ({resource_x}, {resource_y}) from position ({target_x}, {target_y}). "
+                # Wait longer for position sync and verify position
+                time.sleep(2)  # Increased wait time
+                
+                # Verify the position update by checking current location
+                current_observe = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], params={"token": self.token, "radius": 1})
+                if current_observe.get("status") == "success":
+                    current_data = current_observe.get("data", {})
+                    actual_x = current_data.get("location", {}).get("x")
+                    actual_y = current_data.get("location", {}).get("y")
+                    
+                    if actual_x is not None and actual_y is not None:
+                        # Recalculate distance with actual position
+                        actual_distance = abs(resource_x - actual_x) + abs(resource_y - actual_y)
+                        
+                        # If still too far, try moving to exact resource location
+                        if actual_distance > 2:
+                            exact_move_data = {
+                                "token": self.token,
+                                "x": resource_x,
+                                "y": resource_y
+                            }
+                            exact_move_result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["move"], exact_move_data)
+                            time.sleep(1)  # Additional wait after exact move
+                            movement_info = f"Moved to exact resource location {resource_name} at ({resource_x}, {resource_y}). Previous attempt to ({target_x}, {target_y}) was insufficient (distance was {actual_distance}). "
+                        else:
+                            movement_info = f"Moved closer to {resource_name} at ({resource_x}, {resource_y}) from position ({actual_x}, {actual_y}) (distance: {actual_distance}). "
+                    else:
+                        movement_info = f"Moved closer to {resource_name} at ({resource_x}, {resource_y}) from position ({target_x}, {target_y}). "
+                else:
+                    movement_info = f"Moved closer to {resource_name} at ({resource_x}, {resource_y}) from position ({target_x}, {target_y}). "
             else:
                 movement_info = f"Already near {resource_name}. "
         else:
@@ -668,6 +695,21 @@ class KaetramGameTools:
                 count = item.get("count", 0)
                 if key:
                     initial_inventory[key] = initial_inventory.get(key, 0) + count
+        
+        # Final position verification before harvest
+        final_observe = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], params={"token": self.token, "radius": 1})
+        final_position_info = ""
+        if final_observe.get("status") == "success":
+            final_data = final_observe.get("data", {})
+            final_x = final_data.get("location", {}).get("x")
+            final_y = final_data.get("location", {}).get("y")
+            if final_x is not None and final_y is not None and resource_x is not None and resource_y is not None:
+                final_distance = abs(resource_x - final_x) + abs(resource_y - final_y)
+                final_position_info = f"Final position verification: Player at ({final_x}, {final_y}), Resource at ({resource_x}, {resource_y}), Distance: {final_distance}. "
+                
+                # If still too far, abort with detailed error
+                if final_distance > 2:
+                    return f"Error: {movement_info}{final_position_info}Cannot harvest - distance {final_distance} exceeds maximum allowed distance of 2. This may indicate a server synchronization issue."
         
         # Start the harvesting process with detailed logging
         debug_info = [
@@ -704,7 +746,7 @@ class KaetramGameTools:
         
         if result.get("status") != "success":
             error_detail = f"API returned status '{result.get('status')}' with message: {result.get('message', 'Unknown error')}"
-            error_msg = f"{movement_info}Failed to start {action} {resource_name}: {error_detail}"
+            error_msg = f"{movement_info}{final_position_info}Failed to start {action} {resource_name}: {error_detail}"
             
             # Log the error to file as well
             self._log_message(f"❌ HARVEST ERROR: {error_msg}", "error")
@@ -1539,6 +1581,44 @@ class KaetramGameTools:
         except Exception as e:
             return f"Error: Could not sleep: {str(e)}"
 
+    def check_inventory_status(self, arguments: Dict[str, Any]) -> str:
+        """Check current inventory status without any requirements - use this before making any inventory claims"""
+        if not self.token:
+            return "Error: No token available. Please login first."
+        
+        # Get current inventory with double verification
+        observe_result = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], 
+                                          params={"token": self.token, "radius": 5})
+        time.sleep(0.3)
+        verify_result = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], 
+                                         params={"token": self.token, "radius": 5})
+        
+        if observe_result.get("status") != "success":
+            return f"Error: Could not observe inventory: {observe_result.get('message', 'Unknown error')}"
+        
+        # Use the second verification result for reliability
+        if verify_result.get("status") == "success":
+            inventory = verify_result.get("inventory", {}).get("items", [])
+        else:
+            inventory = observe_result.get("inventory", {}).get("items", [])
+        
+        # Count all items in inventory
+        inventory_counts = {}
+        for item in inventory:
+            key = item.get("key", "")
+            count = item.get("count", 0)
+            if key and count > 0:
+                inventory_counts[key] = inventory_counts.get(key, 0) + count
+        
+        # Format inventory status
+        if inventory_counts:
+            items_list = []
+            for key, count in inventory_counts.items():
+                items_list.append(f"{key} ({count}x)")
+            return f"🎒 CURRENT INVENTORY: {', '.join(items_list)}"
+        else:
+            return "🎒 CURRENT INVENTORY: EMPTY - No items in inventory"
+
     def verify_inventory(self, arguments: Dict[str, Any]) -> str:
         """Verify that specific items are in inventory before proceeding"""
         if not self.token:
@@ -1549,14 +1629,23 @@ class KaetramGameTools:
         if not required_items:
             return "Error: No required items specified for verification."
         
-        # Get current inventory
+        # Get current inventory with increased reliability
         observe_result = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], 
                                           params={"token": self.token, "radius": 5})
+        
+        # Add a second verification call to ensure consistency
+        time.sleep(0.5)  # Brief delay for server sync
+        verify_result = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], 
+                                         params={"token": self.token, "radius": 5})
         
         if observe_result.get("status") != "success":
             return f"Error: Could not observe inventory: {observe_result.get('message', 'Unknown error')}"
         
-        inventory = observe_result.get("inventory", {}).get("items", [])
+        # Use the second verification result for consistency check
+        if verify_result.get("status") == "success":
+            inventory = verify_result.get("inventory", {}).get("items", [])
+        else:
+            inventory = observe_result.get("inventory", {}).get("items", [])
         
         # Check each required item
         inventory_counts = {}
@@ -1575,8 +1664,14 @@ class KaetramGameTools:
             else:
                 missing_items.append(required_item)
         
+        # Show complete inventory for transparency
+        all_items = []
+        for key, count in inventory_counts.items():
+            all_items.append(f"{key} ({count}x)")
+        
         # Prepare verification result
         result_lines = ["📋 INVENTORY VERIFICATION:"]
+        result_lines.append(f"🎒 Complete Inventory: {', '.join(all_items) if all_items else 'EMPTY'}")
         
         if present_items:
             result_lines.append(f"✅ Present: {', '.join(present_items)}")
@@ -1913,7 +2008,8 @@ class KaetramGameTools:
             return f"Error: Failed to add items to target player inventory: {add_response.get('message', 'Unknown error')}"
         
         # Get current player username from observation
-        current_player = observe_result.get("playerStatus", {}).get("username", "Unknown")
+        player_status = observe_result.get("playerStatus", {})
+        current_player = player_status.get("name") or player_status.get("username") or "Current Player"
         
         # Send chat message to notify the transfer
         chat_message = f"Successfully transferred {count}x {item_name} to {target_player}"

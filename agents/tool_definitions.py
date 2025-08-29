@@ -243,6 +243,18 @@ GAME_TOOLS = [
         }
     },
     {
+        "type": "function", 
+        "function": {
+            "name": "check_inventory_status",
+            "description": "Check current inventory status without any requirements. Use this before making any claims about what items you have. Always use this tool first when discussing your inventory contents.",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        }
+    },
+    {
         "type": "function",
         "function": {
             "name": "verify_inventory",

@@ -16,17 +16,20 @@ objectives:
 relevant_game_context: |
   This is a cooperative multi-agent weapon crafting scenario requiring advanced metallurgy and smithing.
   
-  HINT:
-  1. miner_agent MUST mine iron ore and coal for smelting operations
-  2. smelter_agent MUST create iron bars and forge sword hilt component
-  3. weapon_smith_agent MUST assemble heavy sword from iron bars and hilt
-  4. weapon_smith_agent MUST equip the heavy sword and declare completion
+  OBJECTIVE: Forge a heavy sword through coordinated material processing and advanced weapon smithing.
   
-  LOCATION STRATEGY:
-  - Find iron and coal deposits for smelting materials
-  - Coordinate smelting operations for iron bar production
-  - Central smithing facility for weapon assembly
-  - Communicate metallurgy progress through global chat
+  TEAM COORDINATION:
+  - Use global chat to coordinate complex multi-step metallurgy operations
+  - Share materials and intermediate products between processing stages
+  - Coordinate timing for efficient smelting and smithing workflow
+  - Work together to complete advanced weapon crafting chain
+  
+  GENERAL STRATEGY:
+  - The team needs to extract raw materials for advanced metallurgy
+  - Materials must be processed through smelting operations into refined components
+  - Multiple intermediate components must be crafted and assembled
+  - Final weapon assembly requires advanced smithing expertise
+  - Coordinate complex material flow and processing timing
   
   DO NOT use complete() until ALL objectives are achieved by the team!
   
@@ -73,6 +76,10 @@ agent_1:
       count: 10
     - item: "apple"
       count: 15
+    - item: "ironore"
+      count: 2
+    - item: "coal"
+      count: 3
   
   equipped_items:
     - item: "pickaxe"
@@ -106,6 +113,8 @@ agent_2:
       count: 8
     - item: "apple"
       count: 12
+    - item: "ironore"
+      count: 1
   
   equipped_items:
     - item: "leatherarmor"

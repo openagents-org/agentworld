@@ -16,17 +16,20 @@ objectives:
 relevant_game_context: |
   This is a cooperative multi-agent premium metallurgy scenario requiring gold materials.
   
-  HINT:
-  1. gold_miner_agent MUST find and mine gold ore deposits (high-level mining)
-  2. coal_supplier_agent MUST collect coal for gold smelting fuel
-  3. gold_smith_agent MUST smelt gold ore into gold bars and forge gold ring
-  4. gold_smith_agent MUST equip the gold ring and declare completion
+  OBJECTIVE: Create a gold ring through coordinated precious metal extraction and premium metallurgy.
   
-  LOCATION STRATEGY:
-  - High-level mining areas for gold ore extraction
-  - Coal deposits for smelting fuel
-  - Premium smithing facility for gold ring creation
-  - Communicate precious metal locations through global chat
+  TEAM COORDINATION:
+  - Use global chat to share locations of precious metals and smelting materials
+  - Coordinate high-level mining operations and premium metallurgy
+  - Handle valuable materials with extreme care during transfers
+  - Work together to complete challenging gold metallurgy processes
+  
+  GENERAL STRATEGY:
+  - The team needs to extract precious gold ore (requires high-level mining skills)
+  - Someone needs to gather smelting fuel for gold processing
+  - Gold processing has very challenging success rates requiring skill and preparation
+  - Final ring creation requires premium smithing expertise
+  - Coordinate high-level mining with advanced metallurgy operations
   
   DO NOT use complete() until ALL objectives are achieved by the team!
   
@@ -72,6 +75,10 @@ agent_1:
       count: 15
     - item: "apple"
       count: 20
+    - item: "goldnugget"
+      count: 2
+    - item: "coal"
+      count: 2
   
   equipped_items:
     - item: "pickaxe"

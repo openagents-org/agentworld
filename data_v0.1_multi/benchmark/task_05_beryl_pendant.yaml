@@ -16,18 +16,20 @@ objectives:
 relevant_game_context: |
   This is a cooperative multi-agent jewelry crafting scenario requiring both foraging and mining skills.
   
-  HINT:
-  1. forager_agent MUST find and collect blue lily flowers for string
-  2. gem_miner_agent MUST find and mine beryl deposits
-  3. jeweler_agent MUST craft string from blue lily
-  4. jeweler_agent MUST combine beryl + string into beryl pendant
-  5. jeweler_agent MUST equip the pendant and declare completion
+  OBJECTIVE: Create a beryl pendant by combining beryl gem with crafted string from natural materials.
   
-  LOCATION STRATEGY:
-  - Look for blue lily flowers in foraging areas
-  - Find beryl deposits in basic mining areas
-  - Central crafting location for jewelry assembly
-  - Communicate resource locations through global chat
+  TEAM COORDINATION:
+  - Use global chat to share locations of foraging and mining resources
+  - Coordinate between plant gathering and gem mining operations
+  - Share materials for intermediate crafting steps
+  - Work together to complete elegant jewelry crafting
+  
+  GENERAL STRATEGY:
+  - The team needs to gather plant materials for string crafting
+  - Someone needs to locate and collect specific flowers for string crafting
+  - Beryl gem is already provided in gem_miner_agent's inventory
+  - Materials must be processed into components and assembled into jewelry
+  - Focus on foraging and crafting activities for efficient completion
   
   DO NOT use complete() until ALL objectives are achieved by the team!
   
@@ -36,9 +38,9 @@ relevant_game_context: |
     - harvest_resource on bluelily instances to get bluelily
     - Level required: 10+ (Foraging skill)
   
-  💎 Mining - beryl:
-    - harvest_resource on beryl deposits to get beryl
-    - Level required: 1+ (Mining skill)
+  💎 Beryl gem:
+    - Already provided in gem_miner_agent's initial inventory
+    - No mining required for this task
   
   🧵 Crafting Recipe - string:
     - craft_item skill=Crafting itemKey=string
@@ -99,6 +101,8 @@ agent_2:
       count: 10
     - item: "apple"
       count: 15
+    - item: "beryl"
+      count: 1
   
   equipped_items:
     - item: "pickaxe"
@@ -143,7 +147,7 @@ agent_3:
 # Success criteria for multi-agent task
 success_criteria:
   - "forager_agent successfully collects and transfers blue lily"
-  - "gem_miner_agent successfully mines and transfers beryl"
+  - "gem_miner_agent successfully transfers beryl to jeweler"
   - "jeweler_agent receives materials and crafts string"
   - "jeweler_agent successfully crafts and equips beryl pendant"
   - "All agents coordinate material gathering and crafting efficiently"

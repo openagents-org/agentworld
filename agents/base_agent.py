@@ -241,6 +241,7 @@ Always think strategically about your actions. Make decisions based on your curr
             "complete": self.game_tools.complete,
             "chat": self.game_tools.chat,
             "transfer_items": self.game_tools.transfer_items,
+            "check_inventory_status": self.game_tools.check_inventory_status,
             "verify_inventory": self.game_tools.verify_inventory
         }
         

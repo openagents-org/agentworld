@@ -16,18 +16,20 @@ objectives:
 relevant_game_context: |
   This is a cooperative multi-agent tool crafting scenario requiring extensive metallurgy operations.
   
-  HINT:
-  1. miner_agent MUST extract large quantities of iron ore and coal
-  2. miner_agent MUST also gather logs for tool handle
-  3. smelter_agent MUST produce 5x iron bars from materials
-  4. tool_smith_agent MUST forge pickaxe from 5x iron bars + 1x logs
-  5. tool_smith_agent MUST equip the pickaxe and declare completion
+  OBJECTIVE: Forge a high-quality pickaxe through coordinated large-scale material extraction and advanced tool smithing.
   
-  LOCATION STRATEGY:
-  - Large-scale mining operations for iron and coal
-  - Forest area for tool handle logs
-  - High-capacity smelting for multiple iron bars
-  - Advanced smithing facility for tool assembly
+  TEAM COORDINATION:
+  - Use global chat to coordinate large-scale industrial operations
+  - Share materials efficiently between extraction, processing, and crafting stages
+  - Coordinate timing for high-volume material flow and processing
+  - Work together to complete advanced tool production chain
+  
+  GENERAL STRATEGY:
+  - The team needs to extract large quantities of raw materials for tool crafting
+  - Materials must be processed through intensive smelting operations
+  - Multiple refined components are required for advanced tool assembly
+  - Final tool assembly requires specialized smithing expertise
+  - Coordinate extensive material gathering and processing operations
   
   DO NOT use complete() until ALL objectives are achieved by the team!
   
@@ -70,6 +72,10 @@ agent_1:
       count: 15
     - item: "apple"
       count: 20
+    - item: "ironore"
+      count: 3
+    - item: "coal"
+      count: 3
   
   equipped_items:
     - item: "pickaxe"
@@ -104,6 +110,10 @@ agent_2:
       count: 10
     - item: "apple"
       count: 15
+    - item: "ironore"
+      count: 2
+    - item: "coal"
+      count: 2
   
   equipped_items:
     - item: "leatherarmor"

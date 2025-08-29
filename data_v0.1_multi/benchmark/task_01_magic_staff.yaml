@@ -16,36 +16,42 @@ objectives:
 relevant_game_context: |
   This is a cooperative multi-agent scenario where teamwork is essential.
   
-  HINT:
-  1. lumberjack_agent MUST find and cut oak trees to get logs (wood material)
-  2. woodworker_agent MUST craft logs into sticks (4x stick from 1x logs)
-  3. woodworker_agent MUST transfer sticks to wizard_agent via trade/inventory
-  4. wizard_agent MUST wait for materials, then craft "staff" (magic staff)
-  5. wizard_agent MUST equip the magic staff
-  6. wizard_agent MUST declare readiness for magical combat in global chat
+  OBJECTIVE: Work together to create a magic staff for the wizard_agent to prepare for magical combat.
   
-  LOCATION STRATEGY:
-  - Look for oak trees (any forest area) for logs - wood cutting
-  - Look for magic beads if available for enhanced staff crafting
-  - Move directly to target coordinates for efficient navigation
-  - Communicate locations and progress through global chat
+  TEAM COORDINATION:
+  - Use global chat to communicate and coordinate your actions
+  - Share resources and materials between team members as needed
+  - Leverage each agent's specialized skills effectively
+  - Stay within reasonable distance for successful item transfers
+  - Complete the objective within the time limit
+  
+  GENERAL STRATEGY:
+  - The team needs to gather wood materials and craft components in sequence
+  - Coordinate locations to enable successful material transfers between agents
+  - Someone needs to collect logs, someone needs to craft sticks, someone assembles the staff
+  - Work together to determine who does what based on your skills and current situation
+  - Stay close enough for transfers - use coordination and positioning wisely
   
   DO NOT use complete() until ALL objectives are achieved by the team!
   
   CRAFTING RECIPES (CRITICAL KNOWLEDGE):
   🪵 Lumberjacking - logs:
-    - harvest_resource on oak tree instances to get logs
+    - harvest_resource on OAK TREE instances to get logs (NOT Willow trees!)
     - Level required: 1+ (Lumberjacking skill)
+    - IMPORTANT: Look for "Oak", "Oak2", "Oak3", "Oak4", or "Oak5" tree types
+    - AVOID: Willow trees (Level 30, produces willowlogs), Pine trees, etc.
   
   🪄 Fletching Recipe - stick:
     - craft_item skill=Fletching itemKey=stick
     - Materials: 1x logs → 4x stick
     - Level required: 1 (Fletching skill)
+    - IMPORTANT: Need minimum 2x logs to get enough sticks for the staff!
   
   ⚡ Crafting Recipe - staff:
     - craft_item skill=Crafting itemKey=staff
     - Materials: 5x stick + 1x bead → 1x staff
     - Level required: 1 (Crafting skill)
+    - CRITICAL: Requires exactly 5x stick (from 2x logs) + magic bead!
 
 # Limitations
 max_action_steps: 25
@@ -57,8 +63,8 @@ agent_1:
   
   # Starting location - forest area for tree cutting
   location:
-    x: 126
-    y: 23
+    x: 388
+    y: 3
   
   # Skills focused on lumberjacking
   skill_levels:
@@ -91,8 +97,8 @@ agent_2:
   
   # Starting location - central area for coordination
   location:
-    x: 183
-    y: 312
+    x: 390
+    y: 3
   
   # Skills focused on fletching and crafting
   skill_levels:
@@ -123,8 +129,8 @@ agent_3:
   
   # Starting location - magical area
   location:
-    x: 242
-    y: 336
+    x: 392
+    y: 3
   
   # Skills focused on crafting and magic
   skill_levels:

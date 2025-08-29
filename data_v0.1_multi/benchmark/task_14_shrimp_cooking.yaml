@@ -16,17 +16,20 @@ objectives:
 relevant_game_context: |
   This is a cooperative multi-agent seafood cooking scenario requiring fishing and cooking expertise.
   
-  HINT:
-  1. fisherman_agent MUST find fishing spots and catch raw shrimp
-  2. fuel_gatherer_agent MUST collect materials for cooking fuel
-  3. seafood_chef_agent MUST cook raw shrimp into cooked shrimp
-  4. seafood_chef_agent MUST display the cooked shrimp and declare completion
+  OBJECTIVE: Prepare cooked shrimp through coordinated fishing operations and seafood culinary preparation.
   
-  LOCATION STRATEGY:
-  - Waterside areas for fishing operations
-  - Resource areas for cooking fuel materials
-  - Central cooking facility for seafood preparation
-  - Communicate fishing and cooking progress through global chat
+  TEAM COORDINATION:
+  - Use global chat to share fishing locations and cooking preparation progress
+  - Coordinate between fishing operations and cooking fuel gathering
+  - Share fresh seafood and cooking materials for culinary preparation
+  - Work together to complete fresh seafood cooking chain
+  
+  GENERAL STRATEGY:
+  - The team needs to catch fresh seafood from fishing locations
+  - Someone needs to gather materials for cooking operations
+  - Fresh seafood cooking requires proper fuel and cooking expertise
+  - Coordinate fishing timing with cooking preparation for freshness
+  - Balance fishing operations with cooking support activities
   
   DO NOT use complete() until ALL objectives are achieved by the team!
   

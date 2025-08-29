@@ -16,17 +16,20 @@ objectives:
 relevant_game_context: |
   This is a cooperative multi-agent exotic beverage creation scenario requiring advanced skills.
   
-  HINT:
-  1. marine_fisher_agent MUST find fishing spots and catch jellyfish (level 5+ fishing)
-  2. container_maker_agent MUST craft small bowl for beverage container
-  3. beverage_specialist_agent MUST combine jellyfish + bowl into smoothie
-  4. beverage_specialist_agent MUST display the smoothie and declare completion
+  OBJECTIVE: Create a jellyfish smoothie through coordinated exotic fishing and specialty beverage preparation.
   
-  LOCATION STRATEGY:
-  - Advanced fishing areas for exotic marine creatures
-  - Wood processing for container crafting
-  - Specialty beverage preparation facility
-  - Communicate exotic ingredient progress through global chat
+  TEAM COORDINATION:
+  - Use global chat to share locations of exotic marine life and crafting materials
+  - Coordinate between advanced fishing and specialized container crafting
+  - Share exotic ingredients and beverage components for preparation
+  - Work together to complete challenging exotic beverage creation
+  
+  GENERAL STRATEGY:
+  - The team needs to catch exotic marine creatures (requires advanced fishing skills)
+  - Someone needs to craft specialized containers for beverage preparation
+  - Exotic beverage creation requires advanced cooking skills and unique ingredients
+  - Coordinate advanced fishing with specialized crafting and cooking expertise
+  - Balance exotic ingredient gathering with container preparation and beverage crafting
   
   DO NOT use complete() until ALL objectives are achieved by the team!
   

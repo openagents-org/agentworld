@@ -16,18 +16,20 @@ objectives:
 relevant_game_context: |
   This is a cooperative multi-agent metallurgy scenario requiring mining and smithing expertise.
   
-  HINT:
-  1. miner_agent MUST find and mine iron rocks to get iron ore
-  2. miner_agent MUST also collect coal for smelting fuel
-  3. smelter_agent MUST smelt iron ore + coal into iron bars
-  4. smith_agent MUST receive iron bars and forge them into a silver ring
-  5. smith_agent MUST equip the silver ring and declare completion
+  OBJECTIVE: Work together to create a silver ring through coordinated resource gathering and metalworking.
   
-  LOCATION STRATEGY:
-  - Look for iron rocks and coal deposits in mining areas
-  - Find smelting facilities or use portable smelting
-  - Central smithing location for final forging
-  - Communicate resource locations through global chat
+  TEAM COORDINATION NOTES:
+  - Each agent starts with some materials already in inventory
+  - Team success requires sharing and coordinating resources effectively
+  - Use global chat to communicate and coordinate with teammates
+  - Consider using transfer_items to move materials between agents when needed
+  - Each agent has specialized skills that complement the others
+  - Work together to complete the metallurgy and jewelry crafting chain
+  
+  IMPORTANT CONSIDERATIONS:
+  - Check your current inventory and understand what materials the team has available
+  - Coordinate the metallurgy process between team members as needed
+  - Materials may need to be shared or transferred for efficient production
   
   DO NOT use complete() until ALL objectives are achieved by the team!
   
@@ -49,6 +51,7 @@ relevant_game_context: |
     - craft_item skill=Smithing itemKey=silverring
     - Materials: 2x ironbar → 1x silverring
     - Level required: 1 (Smithing skill)
+    - CRITICAL: Smith must receive ironbars from smelter via transfer_items
 
 # Limitations
 max_action_steps: 25
@@ -72,6 +75,10 @@ agent_1:
       count: 10
     - item: "apple"
       count: 15
+    - item: "ironore"
+      count: 1
+    - item: "coal"
+      count: 2
   
   equipped_items:
     - item: "pickaxe"
@@ -103,6 +110,8 @@ agent_2:
       count: 8
     - item: "apple"
       count: 12
+    - item: "ironore"
+      count: 1
   
   equipped_items:
     - item: "leatherarmor"
@@ -142,9 +151,8 @@ agent_3:
   
 # Success criteria for multi-agent task
 success_criteria:
-  - "miner_agent successfully mines and transfers iron ore and coal"
-  - "smelter_agent successfully smelts iron bars and transfers to smith"
-  - "smith_agent receives iron bars and forges silver ring"
-  - "smith_agent successfully equips the silver ring"
-  - "All agents coordinate effectively through global chat"
-  - "Metallurgy chain operates smoothly within time limit"
+  - "Team successfully creates a silver ring through effective coordination"
+  - "Agents collaborate and share resources as needed for production"
+  - "Materials flow efficiently between team members to complete the task"
+  - "All agents work together using their specialized skills"
+  - "Metallurgy chain operates successfully within time limit"

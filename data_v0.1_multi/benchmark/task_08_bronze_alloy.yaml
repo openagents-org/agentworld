@@ -16,17 +16,20 @@ objectives:
 relevant_game_context: |
   This is a cooperative multi-agent advanced metallurgy scenario requiring specialized ore mining.
   
-  HINT:
-  1. copper_miner_agent MUST find and mine copper ore deposits
-  2. tin_miner_agent MUST find and mine tin ore deposits
-  3. alloy_smith_agent MUST combine copper and tin ores into bronze bars
-  4. alloy_smith_agent MUST demonstrate bronze bar creation success
+  OBJECTIVE: Create bronze bars through coordinated extraction of different ore types and advanced alloy smelting.
   
-  LOCATION STRATEGY:
-  - Search for copper ore deposits in mining areas
-  - Find tin ore deposits in different mining locations
-  - Central alloy smelting facility for bronze production
-  - Communicate specialized ore locations through global chat
+  TEAM COORDINATION:
+  - Use global chat to share locations of different specialized ore deposits
+  - Coordinate between different mining operations for complementary materials
+  - Share extracted ores for advanced alloy metallurgy
+  - Work together to complete challenging bronze alloy production
+  
+  GENERAL STRATEGY:
+  - The team needs to locate and extract two different types of specialized ores
+  - Different agents may focus on different ore types for efficiency
+  - Materials must be combined through advanced alloy smelting techniques
+  - Alloy production has challenging success rates requiring skill
+  - Coordinate specialized mining and metallurgy expertise
   
   DO NOT use complete() until ALL objectives are achieved by the team!
   
@@ -67,6 +70,10 @@ agent_1:
       count: 10
     - item: "apple"
       count: 15
+    - item: "copperore"
+      count: 1
+    - item: "tinore"
+      count: 1
   
   equipped_items:
     - item: "pickaxe"

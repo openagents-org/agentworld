@@ -16,17 +16,20 @@ objectives:
 relevant_game_context: |
   This is a cooperative multi-agent advanced magic crafting scenario requiring elemental materials.
   
-  HINT:
-  1. staff_crafter_agent MUST create basic magic staff from sticks and bead
-  2. elemental_gatherer_agent MUST find lightning bead for enhancement
-  3. magic_enhancer_agent MUST upgrade basic staff to lightning staff
-  4. magic_enhancer_agent MUST equip the lightning staff and declare completion
+  OBJECTIVE: Create a lightning staff through coordinated basic magic staff creation and advanced elemental enhancement.
   
-  LOCATION STRATEGY:
-  - Forest areas for staff base materials
-  - Magical areas for elemental lightning beads
-  - Advanced enchantment facility for staff enhancement
-  - Communicate magical resource locations through global chat
+  TEAM COORDINATION:
+  - Use global chat to share locations of magical and elemental resources
+  - Coordinate between basic crafting and advanced magical enhancement
+  - Share materials and magical components for weapon enhancement
+  - Work together to complete high-level magic weapon crafting
+  
+  GENERAL STRATEGY:
+  - The team needs to create a basic magic staff foundation
+  - Someone needs to gather rare elemental materials for enhancement
+  - Advanced magical enhancement requires combining basic staff with elemental components
+  - Final enhancement requires advanced crafting expertise and magical knowledge
+  - Coordinate basic crafting with specialized magical enhancement operations
   
   DO NOT use complete() until ALL objectives are achieved by the team!
   
