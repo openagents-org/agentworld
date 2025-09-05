@@ -1,0 +1,205 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Sky Tower Ascension - Aerial Platform Challenge and Wind Elemental Combat"
+  description: "Three agents work together to climb a dangerous sky tower, defeat Wind Elementals, and claim aerial mastery rewards"
+
+# Task objectives
+objectives:
+  primary: "Successfully ascend the Sky Tower, defeat Wind Elementals at multiple levels, and claim the aerial mastery crystal"
+  secondary: # checkpoints
+    - "Establish vertical climbing coordination and aerial platform navigation"
+    - "Execute coordinated Wind Elemental combat at tower levels"
+    - "Complete Sky Tower ascension within 33 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent vertical climbing challenge requiring aerial combat and platform navigation.
+  
+  OBJECTIVE: Ascend the dangerous Sky Tower, defeat Wind Elementals, and claim aerial mastery rewards.
+  
+  MISSION REQUIREMENTS:
+  - Navigate to Sky Tower region (Region 4-3: coordinates 600-650, 100-150)
+  - Ascend multiple tower levels while managing aerial hazards
+  - Defeat Wind Elementals (Level 33) at tower platforms
+  - Reach the tower summit and claim the aerial mastery crystal
+  
+  TEAM COORDINATION:
+  - Use global chat to coordinate climbing sequences and platform positions
+  - Coordinate between vertical navigation, aerial combat, and hazard management
+  - Share climbing equipment and provide aerial support during combat
+  - Work together to handle wind-based attacks and platform instability
+  
+  GENERAL STRATEGY:
+  - The team needs to coordinate complex vertical climbing with combat encounters
+  - Wind Elementals (Level 33) require coordinated aerial combat techniques
+  - Tower platforms are unstable and affected by wind conditions
+  - Aerial hazards include wind gusts, lightning strikes, and platform collapse
+  - Balance climbing speed with combat preparation and platform safety
+  
+  DO NOT use complete() until ALL objectives are achieved by the team!
+  
+  SKY TOWER ASCENSION (CRITICAL KNOWLEDGE):
+  🌪️ Environmental Hazards:
+    - Wind overlay type causes movement disruption and accuracy penalties
+    - Platform instability requires careful positioning and timing
+    - Lightning strikes occur randomly during storms at higher elevations
+    - Coordinate movement to avoid wind gusts that can knock agents off platforms
+  
+  ⚡ Combat - Wind Elementals:
+    - Use observe_environment to locate Wind Elementals at tower levels (625,110) and (635,125)
+    - Level 33 creatures with aerial mobility and wind-based attacks
+    - Expect tornado attacks, wind blasts, and aerial charge abilities
+    - Use earth-based magic and heavy weapons to counter wind mobility
+    - Coordinate grounding attacks to prevent elemental aerial advantages
+  
+  🧗 Tower Climbing:
+    - Navigate between platform levels using climbing and jumping mechanics
+    - Coordinate climbing sequence to maintain team cohesion
+    - Use magical assistance for difficult vertical sections
+    - Plan rest stops at stable platforms for healing and preparation
+  
+  💎 Aerial Mastery Crystal:
+    - Located at tower summit coordinates (640,140)
+    - Requires defeating all Wind Elementals before crystal access
+    - Crystal provides aerial mastery abilities and tower completion proof
+    - Coordinate crystal claiming ceremony for team achievement
+  
+  ⚔️ Aerial Combat Strategy:
+    - Use ranged attacks to engage elementals safely from platforms
+    - Coordinate positioning to avoid being knocked off by wind attacks
+    - Focus on grounding elementals to reduce their aerial advantages
+    - Use earth and lightning magic for elemental weakness exploitation
+
+# Limitations
+max_action_steps: 33
+
+# Agent configurations
+agent_1:
+  username: "tower_climber_agent"
+  new_character: true
+  
+  location:
+    x: 620
+    y: 105
+  
+  skill_levels:
+    strength: 42      # Climbing and combat capability
+    accuracy: 38      # Precision in aerial combat conditions
+    health: 48        # High-altitude survival
+    defense: 35       # Protection against wind attacks
+    magic: 25         # Magical climbing assistance
+  
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "healthpotion"
+      count: 15
+    - item: "manapotion"
+      count: 10
+  
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "wind_mage_agent"
+  new_character: true
+  
+  location:
+    x: 630
+    y: 115
+  
+  skill_levels:
+    magic: 45         # Advanced aerial magic for elemental combat
+    health: 42        # High-altitude magical endurance
+    accuracy: 35      # Magical precision in wind conditions
+    defense: 30       # Protection against elemental attacks
+    strength: 25      # Physical climbing support
+  
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+    - item: "manapotion"
+      count: 18
+    - item: "healthpotion"
+      count: 12
+  
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "aerial_guardian_agent"
+  new_character: true
+  
+  location:
+    x: 610
+    y: 125
+  
+  skill_levels:
+    defense: 40       # Maximum protection against aerial attacks
+    health: 50        # High-altitude combat survivability
+    strength: 38      # Combat power for Wind Elementals
+    accuracy: 32      # Combat precision on unstable platforms
+    magic: 28         # Protective and support magic
+  
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 32
+    - item: "healthpotion"
+      count: 18
+    - item: "manapotion"
+      count: 12
+  
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "tower_climber_agent successfully navigates to Sky Tower and begins ascension"
+  - "tower_climber_agent successfully climbs to first tower platform level"
+  - "Team successfully defeats first Wind Elemental at (625,110)"
+  - "wind_mage_agent provides effective magical support against Wind Elementals"
+  - "Team successfully defeats second Wind Elemental at (635,125)"
+  - "aerial_guardian_agent provides protection during platform navigation"
+  - "Team successfully reaches tower summit and claims aerial mastery crystal"
+  - "Sky Tower ascension completed within time limit with crystal obtained"
+

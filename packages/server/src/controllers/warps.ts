@@ -95,30 +95,10 @@ export default class Warp {
      */
 
     private hasRequirement(player: Player, warp: ProcessedArea): boolean {
-        // Check if the warp has a level requirement.
-        if (warp.level && player.level < warp.level) {
-            player.notify(`You must be level ${warp.level} to warp to ${warp.name}.`);
-            return false;
-        }
-
-        // Check if the warp has a quest requirement.
-        if (warp.quest && !player.quests.get(warp.quest)?.isFinished()) {
-            let quest = player.quests.get(warp.quest);
-
-            if (!quest?.isFinished()) {
-                player.notify(
-                    `You must complete ${quest.name} to warp to ${Utils.formatName(warp.name)}.`
-                );
-                return false;
-            }
-        }
-
-        // Check if the warp has an achievement requirement.
-        if (warp.achievement && !player.achievements.get(warp.achievement)?.isFinished()) {
-            player.notify(`This warp requires an achievement to be finished before use.`);
-            return false;
-        }
-
+        // RESTRICTIONS REMOVED: All warp restrictions have been disabled for easier access
+        // Previously checked: level, quest, achievement requirements
+        
+        // Always return true - all warps are now accessible regardless of requirements
         return true;
     }
 

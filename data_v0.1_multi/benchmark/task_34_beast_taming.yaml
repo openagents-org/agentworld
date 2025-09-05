@@ -1,0 +1,202 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Beast Taming Expedition - Wild Creature Domestication and Training"
+  description: "Three agents work together to locate, tame, and train wild creatures for combat and utility purposes"
+
+# Task objectives
+objectives:
+  primary: "Successfully locate wild creatures, execute taming procedures, and train domesticated animals for team support"
+  secondary: # checkpoints
+    - "Establish creature tracking coordination and taming preparation"
+    - "Execute safe wild creature taming and basic training procedures"
+    - "Complete beast taming expedition within 28 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent creature taming scenario requiring patience, coordination, and animal handling skills.
+  
+  OBJECTIVE: Locate wild creatures, successfully tame them, and train them for combat and utility support.
+  
+  MISSION REQUIREMENTS:
+  - Locate wild Wolf (Level 15) in Forest region (coordinates 200-250, 100-150)
+  - Locate wild Bear (Level 22) in Mountain region (coordinates 300-350, 200-250)
+  - Successfully tame at least one creature using proper taming procedures
+  - Train tamed creatures for basic combat commands and utility functions
+  
+  TEAM COORDINATION:
+  - Use global chat to share creature locations and taming status updates
+  - Coordinate between creature tracking, taming preparation, and training
+  - Share taming supplies and provide protection during vulnerable taming periods
+  - Work together to handle aggressive wild creatures safely
+  
+  GENERAL STRATEGY:
+  - The team needs to locate specific wild creatures in their natural habitats
+  - Taming requires patience, proper supplies, and non-aggressive approach
+  - Different creatures have different taming requirements and training potential
+  - Coordinate protection during taming as the process leaves agents vulnerable
+  - Balance creature approach with safety and taming success probability
+  
+  DO NOT use complete() until ALL objectives are achieved by the team!
+  
+  BEAST TAMING PROCEDURES (CRITICAL KNOWLEDGE):
+  🐺 Creature Tracking:
+    - Use observe_environment to locate Wolf at forest coordinates (225,125)
+    - Use observe_environment to locate Bear at mountain coordinates (325,225)
+    - Approach creatures slowly to avoid triggering aggressive behavior
+    - Coordinate team positioning for safe taming attempts
+  
+  🥩 Taming Preparation:
+    - Gather meat and food items to use as taming bait
+    - Ensure high health levels before attempting taming procedures
+    - Prepare healing items in case taming attempts fail and combat ensues
+    - Coordinate taming attempts when creatures are in calm states
+  
+  🤝 Taming Process:
+    - Use "tame_creature" action on target wild creatures
+    - Requires specific food items and patience during taming process
+    - Success depends on creature level, agent skills, and preparation
+    - Failed taming may result in creature becoming aggressive
+  
+  🎓 Creature Training:
+    - Use "train_creature" commands to teach basic behaviors
+    - Train creatures for combat support, resource gathering, or transportation
+    - Different creatures have different training potential and specializations
+    - Coordinate training focus based on team needs and creature abilities
+  
+  ⚔️ Safety Protocols:
+    - Maintain combat readiness in case taming fails
+    - Use defensive positioning during taming attempts
+    - Coordinate retreat procedures if creatures become hostile
+    - Balance taming attempts with team safety priorities
+
+# Limitations
+max_action_steps: 28
+
+# Agent configurations
+agent_1:
+  username: "beast_tracker_agent"
+  new_character: true
+  
+  location:
+    x: 220
+    y: 120
+  
+  skill_levels:
+    accuracy: 35      # Creature tracking and observation
+    health: 40        # Wilderness survival
+    strength: 30      # Creature handling
+    defense: 28       # Protection against wild creatures
+    magic: 15         # Animal communication magic
+  
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 25
+    - item: "meat"
+      count: 15       # Taming bait
+    - item: "healthpotion"
+      count: 10
+  
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "animal_trainer_agent"
+  new_character: true
+  
+  location:
+    x: 230
+    y: 130
+  
+  skill_levels:
+    health: 42        # Animal handling endurance
+    strength: 32      # Physical creature management
+    defense: 30       # Protection during training
+    accuracy: 28      # Precision in animal handling
+    magic: 20         # Animal communication and bonding
+  
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 20
+    - item: "meat"
+      count: 12
+    - item: "healthpotion"
+      count: 8
+    - item: "manapotion"
+      count: 6
+  
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "wilderness_guardian_agent"
+  new_character: true
+  
+  location:
+    x: 210
+    y: 140
+  
+  skill_levels:
+    strength: 38      # Combat protection for team
+    defense: 35       # Protection against aggressive creatures
+    health: 45        # Wilderness combat survivability
+    accuracy: 30      # Combat precision
+    magic: 18         # Protective and healing magic
+  
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 25
+    - item: "healthpotion"
+      count: 12
+    - item: "manapotion"
+      count: 8
+    - item: "meat"
+      count: 10
+  
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "beast_tracker_agent successfully locates and tracks wild Wolf in forest region"
+  - "beast_tracker_agent successfully locates wild Bear in mountain region"
+  - "animal_trainer_agent successfully tames at least one wild creature"
+  - "animal_trainer_agent demonstrates basic creature training commands"
+  - "wilderness_guardian_agent provides effective protection during taming operations"
+  - "Team successfully manages taming process without casualties"
+  - "At least one tamed creature responds to basic training commands"
+  - "Beast taming expedition completed within time limit with successful domestication"
+

@@ -1,0 +1,186 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Magical Academy Defense - Elemental Staff Creation & Boss Battle"
+  description: "Three agents work together to craft a powerful lightning staff and defend against a dangerous Ice Wizard threat"
+
+# Task objectives
+objectives:
+  primary: "Craft a Lightning Staff and successfully defeat an Ice Wizard in coordinated magical combat"
+  secondary: # checkpoints
+    - "Establish magical team coordination and resource gathering"
+    - "Execute advanced magical crafting with gem enhancement"
+    - "Complete boss battle victory within 35 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent magical defense scenario requiring advanced magical coordination.
+  
+  OBJECTIVE: Create powerful magical equipment and defeat a dangerous Ice Wizard boss through team coordination.
+  
+  MISSION REQUIREMENTS:
+  - Craft a Lightning Staff using advanced magical components
+  - Locate and engage an Ice Wizard boss enemy for combat
+  - Defeat the Ice Wizard using coordinated magical and physical attacks
+  - Ensure all team members survive the dangerous boss encounter
+  
+  TEAM COORDINATION:
+  - Use global chat to share locations of magical components and enemy sightings
+  - Coordinate between resource gathering, crafting, and combat preparation
+  - Share magical materials and provide combat support during boss fight
+  - Work together to balance magical offense with tactical positioning
+  
+  GENERAL STRATEGY:
+  - The team needs to gather rare magical gems (Beryl for lightning enchantment)
+  - Someone needs to craft the magical staff using advanced fletching skills
+  - Combat coordination essential for surviving high-level magical boss
+  - Coordinate crafting completion with boss location and engagement timing
+  - Balance magical preparation with combat readiness and positioning
+  
+  DO NOT use complete() until ALL objectives are achieved by the team!
+  
+  MAGICAL CRAFTING & COMBAT (CRITICAL KNOWLEDGE):
+  🌳 Lumberjacking - logs:
+    - harvest_resource on Oak Tree instances to get logs
+    - Level required: 1+ (Lumberjacking skill)
+    - IMPORTANT: Look for "Oak", "Oak2", "Oak3" tree types, NOT Willow trees!
+  
+  🪄 Fletching Recipe - stick:
+    - craft_item skill=Fletching itemKey=stick
+    - Materials: 1x logs → 4x stick
+    - Level required: 1 (Fletching skill)
+  
+  💎 Mining - Beryl (RARE GEMS):
+    - harvest_resource on Beryl Rock instances to get beryl
+    - Level required: 25+ (Mining skill) - ADVANCED MINING!
+    - Tool required: High-level pickaxe
+    - RARE: Beryl rocks are very scarce, search carefully!
+  
+  ⚡ Fletching Recipe - lightningstaff:
+    - craft_item skill=Fletching itemKey=lightningstaff
+    - Materials: 4x stick + 1x beryl → 1x lightningstaff
+    - Level required: 35 (Fletching skill) - EXPERT CRAFTING!
+  
+  🧙‍♂️ Combat - Ice Wizard:
+    - Use observe_environment to locate Ice Wizard enemies
+    - Ice Wizards are high-level magical bosses with ranged attacks
+    - Coordinate attacks: magic vs magic, physical flanking
+    - Use terrain and positioning to avoid ice projectiles
+    - Expect 150+ HP and powerful freezing attacks
+
+# Limitations
+max_action_steps: 35
+
+# Agent configurations
+agent_1:
+  username: "gem_hunter_agent"
+  new_character: true
+  
+  location:
+    x: 400
+    y: 300
+  
+  skill_levels:
+    mining: 30        # Required for beryl extraction (level 25+)
+    lumberjacking: 25 # For magical wood gathering
+    strength: 35
+    health: 45
+    defense: 30
+  
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+  
+  equipped_items:
+    - item: "goldaxe"
+      count: 1
+      enchant: 0
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "staff_crafter_agent"
+  new_character: true
+  
+  location:
+    x: 380
+    y: 280
+  
+  skill_levels:
+    fletching: 40     # Required for lightning staff crafting (level 35+)
+    lumberjacking: 30 # For quality magical wood
+    crafting: 25      # General crafting expertise
+    strength: 30
+    health: 40
+  
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+  
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "battle_mage_agent"
+  new_character: true
+  
+  location:
+    x: 420
+    y: 320
+  
+  skill_levels:
+    magic: 45         # High magic for boss combat
+    strength: 35      # Physical backup attacks
+    defense: 40       # Survivability against boss
+    health: 50        # High HP for boss fight
+    accuracy: 30      # Combat precision
+  
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "manapotion"
+      count: 10
+  
+  equipped_items:
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "gem_hunter_agent successfully locates and extracts Beryl gems"
+  - "staff_crafter_agent successfully crafts Lightning Staff"
+  - "battle_mage_agent receives Lightning Staff and equips it"
+  - "Team successfully locates and engages Ice Wizard boss"
+  - "Ice Wizard is defeated through coordinated team combat"
+  - "All agents survive the boss encounter"
+  - "Magical defense mission completed within time limit"
+
+

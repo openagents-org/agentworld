@@ -220,70 +220,16 @@ export default class Handler {
         // Reset talking index when passing through any door.
         this.player.talkIndex = 0;
 
-        /**
-         * Handles entering through a door that requires a level. If no skill is specified
-         * then we use the player's combat level, otherwise we use the level of the skill
-         * that was specified.
-         */
-
-        if (door.level) {
-            let level = door.skill
-                    ? this.player.skills.get(Utils.getSkill(door.skill)!).level
-                    : this.player.level,
-                message = door.skill
-                    ? `Your ${door.skill} level needs to be at least ${door.level} to enter.`
-                    : `Your combat level must be at least ${door.level} to enter.`;
-
-            if (level < door.level) return this.player.notify(message);
-        }
-
-        // If a door has a quest, redirect to the quest handler's door callback.
-        if (door.quest) {
-            let quest = this.player.quests.get(door.quest);
-
-            return quest.doorCallback?.(door, this.player);
-        }
-
-        // If the door has an achievement associated with it, it gets completed here.
+        // RESTRICTIONS REMOVED: All door restrictions have been disabled for easier access
+        // Previously checked: level, skill, quest, achievement, reqAchievement, reqQuest, reqItem
+        
+        // If the door has an achievement associated with it, it gets completed here (but no longer blocks access).
         if (door.achievement) this.player.achievements.get(door.achievement)?.finish();
 
-        // Some doors may require players to complete achievements before they can pass through.
-        if (door.reqAchievement) {
-            let achievement = this.player.achievements.get(door.reqAchievement);
-
-            if (!achievement?.isFinished())
-                return this.player.notify(
-                    `You need to complete the achievement ${achievement?.name} to pass through this door.`
-                );
-        }
-
-        // Ensure quest requirement is fullfilled before passing through the door.
-        if (door.reqQuest) {
-            let quest = this.player.quests.get(door.reqQuest);
-
-            if (!quest?.isFinished())
-                return this.player.notify(
-                    `You need to complete the quest ${quest?.name} to pass through this door.`
-                );
-        }
-
-        // Handle door requiring an item to proceed (and remove the item from the player's inventory).
-        if (door.reqItem) {
-            let count = door.reqItemCount || 1;
-
-            if (!this.player.inventory.hasItem(door.reqItem, count))
-                return this.player.notify(
-                    'You do not have the required key to pass through this door.'
-                );
-
-            this.player.inventory.removeItem(door.reqItem, count);
-
-            this.player.notify(`The key crumbles to dust as you pass through the door.`);
-        }
-
+        // Directly teleport the player without any restrictions
         this.player.teleport(door.x, door.y);
 
-        log.debug(`[${this.player.username}] Going through door: ${door.x} - ${door.y}`);
+        log.debug(`[${this.player.username}] Going through door: ${door.x} - ${door.y} (restrictions removed)`);
     }
 
     /**

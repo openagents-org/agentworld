@@ -1,0 +1,191 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Crystal Forge Operations - Advanced Magical Equipment Creation"
+  description: "Three agents work together to establish a crystal forge operation, mine rare gems, and create enchanted magical equipment"
+
+# Task objectives
+objectives:
+  primary: "Establish crystal forge operations and create enchanted magical equipment through coordinated gem mining and advanced crafting"
+  secondary: # checkpoints
+    - "Execute coordinated gem mining operations in dangerous underground regions"
+    - "Establish advanced magical crafting coordination and enchantment procedures"
+    - "Complete crystal forge operations within 30 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent advanced crafting scenario requiring gem mining and magical enhancement.
+  
+  OBJECTIVE: Create enchanted magical equipment through coordinated gem mining and advanced magical crafting.
+  
+  MISSION REQUIREMENTS:
+  - Mine rare gems from dangerous underground regions
+  - Craft advanced magical components and enchantment materials
+  - Create multiple pieces of enchanted equipment for the team
+  - Coordinate between mining, crafting, and magical enhancement
+  
+  TEAM COORDINATION:
+  - Use global chat to share gem vein locations and mining progress
+  - Coordinate between dangerous mining operations and magical crafting
+  - Share rare materials and provide magical support for enchantment
+  - Work together to handle underground hazards and resource scarcity
+  
+  GENERAL STRATEGY:
+  - The team needs to locate and mine rare gem deposits safely
+  - Advanced magical crafting requires specific rare materials and high skill levels
+  - Enchantment processes require magical expertise and rare components
+  - Balance mining efficiency with safety in dangerous underground areas
+  - Coordinate magical enhancement with equipment distribution
+  
+  DO NOT use complete() until ALL objectives are achieved by the team!
+  
+  CRYSTAL FORGE CRAFTING (CRITICAL KNOWLEDGE):
+  💎 Mining - gems:
+    - harvest_resource on gem deposit instances to get various gems
+    - Level required: 15+ (Mining skill)
+    - Tool required: Pickaxe (preferably enchanted for efficiency)
+    - Look for "Ruby", "Sapphire", "Emerald", or "Diamond" deposits
+  
+  🔮 Crafting Recipe - crystal:
+    - craft_item skill=Crafting itemKey=crystal
+    - Materials: 2x gems → 1x crystal
+    - Level required: 20 (Crafting skill)
+    - IMPORTANT: Crystals are base components for enchantment
+  
+  ⚡ Enchanting - weapon enhancement:
+    - enchant_item on weapons using crystals and magical energy
+    - Level required: 25+ (Magic skill)
+    - Materials: weapon + crystal + magical energy
+    - CRITICAL: Enchanted weapons have significantly improved combat effectiveness
+  
+  🛡️ Advanced Equipment Creation:
+    - Create multiple enchanted items for team equipment upgrade
+    - Coordinate enchantment types based on team combat roles
+    - Balance resource investment with strategic equipment needs
+
+# Limitations
+max_action_steps: 30
+
+# Agent configurations
+agent_1:
+  username: "gem_miner_agent"
+  new_character: true
+  
+  location:
+    x: 300
+    y: 200
+  
+  skill_levels:
+    mining: 35        # Advanced gem mining capability
+    strength: 40      # Underground hazard survival
+    health: 45        # Dangerous mining survivability
+    defense: 35       # Protection against underground creatures
+    accuracy: 25      # Combat support in mines
+  
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "healthpotion"
+      count: 12
+  
+  equipped_items:
+    - item: "goldpickaxe"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "crystal_crafter_agent"
+  new_character: true
+  
+  location:
+    x: 310
+    y: 210
+  
+  skill_levels:
+    crafting: 35      # Advanced crystal crafting
+    magic: 30         # Magical component understanding
+    strength: 30      # Material handling
+    health: 40        # Workshop survivability
+    defense: 25       # Basic protection
+  
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "healthpotion"
+      count: 10
+    - item: "manapotion"
+      count: 8
+  
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "enchantment_mage_agent"
+  new_character: true
+  
+  location:
+    x: 320
+    y: 220
+  
+  skill_levels:
+    magic: 40         # Advanced enchantment capability
+    crafting: 25      # Equipment modification skills
+    health: 40        # Magical energy survivability
+    defense: 30       # Magical protection
+    strength: 25      # Equipment handling
+  
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "manapotion"
+      count: 15
+    - item: "healthpotion"
+      count: 10
+  
+  equipped_items:
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "gem_miner_agent successfully mines and transfers rare gems to crystal_crafter_agent"
+  - "crystal_crafter_agent successfully creates crystals from gems"
+  - "enchantment_mage_agent receives crystals and successfully enchants team equipment"
+  - "Team creates at least 2 enchanted weapons or armor pieces"
+  - "All agents survive dangerous underground mining operations"
+  - "Crystal forge operations demonstrate advanced magical crafting coordination"
+  - "Advanced magical equipment creation completed within time limit"
+

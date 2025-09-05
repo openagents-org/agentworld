@@ -1,0 +1,201 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Ice Cavern Challenge - Frozen Tundra Survival"
+  description: "Three agents work together to survive harsh ice caverns, defeat ice guardians, and harvest rare frozen resources"
+
+# Task objectives
+objectives:
+  primary: "Successfully explore ice caverns, defeat Ice Guardians, and harvest rare Ice Oak lumber for cold-weather equipment"
+  secondary: # checkpoints
+    - "Establish cold-weather survival coordination and ice cavern navigation"
+    - "Execute safe ice guardian combat and frozen resource harvesting"
+    - "Complete frozen tundra expedition within 33 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent cold-weather survival expedition requiring environmental adaptation.
+  
+  OBJECTIVE: Survive dangerous ice caverns, defeat powerful ice guardians, and harvest rare frozen materials.
+  
+  MISSION REQUIREMENTS:
+  - Navigate to Frozen/Ice region (Region 2-1: coordinates 228-260, 151-156)
+  - Defeat multiple Ice Guardians (Level 35) in coordinated combat
+  - Harvest rare Ice Oak trees for specialized cold-weather lumber
+  - Survive freezing environmental damage and ice-based attacks
+  
+  TEAM COORDINATION:
+  - Use global chat to share ice cavern entrance locations and guardian positions
+  - Coordinate between cold-weather survival, combat, and resource harvesting
+  - Share warming items and provide mutual protection against freezing damage
+  - Work together to navigate treacherous ice cavern terrain safely
+  
+  GENERAL STRATEGY:
+  - The team needs to reach northern mountain ice regions quickly
+  - Multiple Ice Guardians (Level 35) require coordinated high-level combat
+  - Ice Oak trees are rare and found only in frozen biomes
+  - Environmental freezing damage requires constant health management
+  - Balance combat engagement with resource harvesting and survival needs
+  
+  DO NOT use complete() until ALL objectives are achieved by the team!
+  
+  ICE CAVERN SURVIVAL & COMBAT (CRITICAL KNOWLEDGE):
+  🧊 Environmental Hazards:
+    - Freezing overlay type causes continuous cold damage
+    - Use healing items frequently to counter environmental damage
+    - Ice caverns have reduced visibility and slippery movement
+    - Coordinate movement carefully to avoid ice hazards
+  
+  ❄️ Combat - Ice Guardians:
+    - Use observe_environment to locate Ice Guardians at (259,151) and (260,156)
+    - Level 35 creatures with ice-based attacks and high defense
+    - Expect freezing attacks that slow movement and reduce accuracy
+    - Use fire-based weapons/magic for elemental advantage
+    - Coordinate flanking attacks to avoid ice projectiles
+  
+  🌲 Lumberjacking - Ice Oak:
+    - harvest_resource on Ice Oak Tree instances to get iceoaklogs
+    - Level required: 20+ (Lumberjacking skill)
+    - Tool required: Axe (preferably enchanted for cold resistance)
+    - RARE: Ice Oak trees only found in frozen biomes
+  
+  🔥 Cold Weather Survival:
+    - Maintain high health levels to counter freezing damage
+    - Use fire-based equipment for warmth and combat advantage
+    - Stay close to teammates for mutual warming effects
+    - Plan efficient routes to minimize exposure time
+  
+  🧪 Combat Strategy:
+    - Use ranged attacks when possible to avoid ice melee damage
+    - Coordinate healing rotations to maintain team health
+    - Focus fire on one guardian at a time for efficient elimination
+
+# Limitations
+max_action_steps: 33
+
+# Agent configurations
+agent_1:
+  username: "ice_warrior_agent"
+  new_character: true
+  
+  location:
+    x: 240
+    y: 150
+  
+  skill_levels:
+    strength: 45      # High combat power for Level 35 guardians
+    defense: 40       # Protection against ice attacks
+    health: 55        # High survivability against freezing damage
+    accuracy: 35      # Combat precision in ice conditions
+    magic: 25         # Fire magic for elemental advantage
+  
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "healthpotion"
+      count: 15
+    - item: "manapotion"
+      count: 8
+  
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "frost_lumberjack_agent"
+  new_character: true
+  
+  location:
+    x: 250
+    y: 155
+  
+  skill_levels:
+    lumberjacking: 30  # Required for Ice Oak harvesting
+    strength: 40       # Combat and resource gathering
+    health: 50         # Cold weather survivability
+    defense: 35        # Protection in dangerous ice areas
+    accuracy: 25       # Combat support capability
+  
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "healthpotion"
+      count: 12
+  
+  equipped_items:
+    - item: "goldaxe"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "ice_guardian_agent"
+  new_character: true
+  
+  location:
+    x: 235
+    y: 160
+  
+  skill_levels:
+    magic: 40          # Fire magic for ice combat advantage
+    health: 50         # Freezing damage resistance
+    defense: 35        # Ice attack protection
+    strength: 35       # Physical combat backup
+    accuracy: 30       # Magical combat precision
+  
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "healthpotion"
+      count: 15
+    - item: "manapotion"
+      count: 12
+  
+  equipped_items:
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "ice_warrior_agent successfully navigates to frozen ice cavern region"
+  - "ice_warrior_agent successfully defeats first Ice Guardian at (259,151)"
+  - "Team successfully defeats second Ice Guardian at (260,156)"
+  - "frost_lumberjack_agent successfully harvests Ice Oak logs from frozen trees"
+  - "frost_lumberjack_agent has iceoaklogs in inventory"
+  - "All agents survive the freezing environmental damage"
+  - "Team successfully handles multiple Level 35 ice guardian encounters"
+  - "Frozen tundra survival expedition completed within time limit"

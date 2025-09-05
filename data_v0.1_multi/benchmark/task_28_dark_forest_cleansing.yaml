@@ -1,0 +1,204 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Dark Forest Cleansing - Shadow Realm Purification"
+  description: "Three agents work together to cleanse a corrupted dark forest, defeat the Dark Wolf boss, and restore natural balance to the shadow realm"
+
+# Task objectives
+objectives:
+  primary: "Successfully cleanse the dark forest by defeating the Dark Wolf and purifying corrupted forest areas"
+  secondary: # checkpoints
+    - "Establish dark forest coordination and shadow creature threat assessment"
+    - "Execute safe forest purification and boss combat operations"
+    - "Complete shadow realm cleansing within 34 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent forest purification mission requiring coordinated boss combat and area cleansing.
+  
+  OBJECTIVE: Cleanse corrupted dark forest areas and defeat the powerful Dark Wolf boss to restore natural balance.
+  
+  MISSION REQUIREMENTS:
+  - Navigate to Dark Forest region (Region 10-6: coordinates 1016, 682)
+  - Defeat the Dark Wolf boss (Level 0 but likely with special dark abilities)
+  - Cleanse corrupted forest areas and restore natural forest growth
+  - Handle shadow creatures and dark environmental effects
+  
+  TEAM COORDINATION:
+  - Use global chat to share dark forest entrance locations and corruption sightings
+  - Coordinate between forest exploration, boss combat, and purification operations
+  - Share light sources and provide mutual protection against darkness effects
+  - Work together to navigate confusing dark forest terrain and shadow illusions
+  
+  GENERAL STRATEGY:
+  - The team needs to reach far eastern dark forest region efficiently
+  - Dark Wolf boss may have unique shadow abilities despite low level rating
+  - Dark forest areas may have reduced visibility and disorienting effects
+  - Forest purification may require specific actions or environmental interactions
+  - Balance boss combat with thorough area cleansing for complete mission success
+  
+  DO NOT use complete() until ALL objectives are achieved by the team!
+  
+  DARK FOREST COMBAT & PURIFICATION (CRITICAL KNOWLEDGE):
+  🌑 Environmental Hazards:
+    - Dark forest regions have darkness overlay reducing visibility
+    - Shadow effects may cause confusion or disorientation
+    - Corrupted areas may drain health or cause negative status effects
+    - Use light sources and magical illumination to counter darkness
+  
+  🐺 Boss Combat - Dark Wolf:
+    - Use observe_environment to locate Dark Wolf at coordinates (1016, 682)
+    - Despite Level 0 rating, expect unique shadow-based abilities
+    - Dark Wolf may have pack tactics, summoning, or stealth capabilities
+    - Use coordinated attacks and light-based magic for effectiveness
+    - Expect high mobility and hit-and-run shadow attacks
+  
+  🌲 Forest Purification:
+    - Use observe_environment to identify corrupted forest areas
+    - Purification may require specific environmental interactions
+    - Look for dark or withered trees that need restoration
+    - Forest cleansing may involve planting, healing, or magical restoration
+  
+  🔦 Darkness Combat Strategy:
+    - Maintain close formation to avoid separation in darkness
+    - Use area-effect attacks to handle multiple shadow creatures
+    - Coordinate light sources for maximum visibility
+    - Focus on boss elimination first, then area purification
+  
+  🧙‍♂️ Shadow Creature Combat:
+    - Expect various dark forest creatures with shadow abilities
+    - Use holy/light magic if available for elemental advantage
+    - Physical attacks may be less effective against shadow creatures
+    - Coordinate magical and physical attacks for maximum effectiveness
+
+# Limitations
+max_action_steps: 34
+
+# Agent configurations
+agent_1:
+  username: "shadow_hunter_agent"
+  new_character: true
+  
+  location:
+    x: 1000
+    y: 680
+  
+  skill_levels:
+    strength: 45      # High combat power for boss encounter
+    accuracy: 40      # Precision in low visibility conditions
+    magic: 35         # Light magic for darkness counter
+    health: 50        # Survivability against dark effects
+    defense: 35       # Protection against shadow attacks
+  
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "healthpotion"
+      count: 15
+    - item: "manapotion"
+      count: 12
+  
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "firestaff"      # Light source and magical combat
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "forest_guardian_agent"
+  new_character: true
+  
+  location:
+    x: 1020
+    y: 690
+  
+  skill_levels:
+    magic: 45         # Advanced light/nature magic for purification
+    lumberjacking: 25 # Forest knowledge and tree restoration
+    health: 45        # Dark effect resistance
+    strength: 30      # Combat support capability
+    defense: 30       # Shadow creature protection
+  
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "healthpotion"
+      count: 12
+    - item: "manapotion"
+      count: 15
+  
+  equipped_items:
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "light_bringer_agent"
+  new_character: true
+  
+  location:
+    x: 1010
+    y: 670
+  
+  skill_levels:
+    magic: 50         # Master-level light magic for darkness combat
+    accuracy: 35      # Magical combat precision
+    health: 45        # Dark forest survival
+    strength: 25      # Basic physical combat
+    defense: 35       # Shadow attack protection
+  
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "healthpotion"
+      count: 15
+    - item: "manapotion"
+      count: 20
+  
+  equipped_items:
+    - item: "lightningstaff"  # Powerful magical weapon for darkness
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "shadow_hunter_agent successfully navigates to dark forest region"
+  - "Team successfully locates and engages Dark Wolf boss at (1016, 682)"
+  - "shadow_hunter_agent successfully defeats Dark Wolf boss"
+  - "forest_guardian_agent successfully identifies and purifies corrupted forest areas"
+  - "light_bringer_agent successfully provides magical support for forest restoration"
+  - "Team successfully cleanses dark forest corruption and restores natural balance"
+  - "All agents survive the dangerous dark forest encounters"
+  - "Dark forest purification mission completed within time limit"

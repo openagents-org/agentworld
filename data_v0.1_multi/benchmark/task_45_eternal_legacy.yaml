@@ -1,0 +1,260 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Eternal Legacy Creation - Timeless Achievement and Immortal Contribution"
+  description: "Three agents work together to create an eternal legacy, establish timeless achievements, and make immortal contributions to all existence"
+
+# Task objectives
+objectives:
+  primary: "Successfully create an eternal legacy, establish timeless achievements, and make immortal contributions to all existence"
+  secondary: # checkpoints
+    - "Establish eternal legacy planning coordination and timeless achievement preparation"
+    - "Execute coordinated Legacy Guardian trials and immortal contribution creation"
+    - "Complete eternal legacy creation within 45 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is the ultimate cooperative legacy creation scenario representing the pinnacle of all achievements in AgentWorld.
+  
+  OBJECTIVE: Create an eternal legacy, establish timeless achievements, and make immortal contributions to all existence.
+  
+  MISSION REQUIREMENTS:
+  - Navigate to Eternity Chamber (Region 13-12: coordinates 1900-1950, 1500-1550)
+  - Demonstrate worthiness through trials that test all accumulated knowledge and skills
+  - Defeat Legacy Guardians (Level 88) that guard the power to create eternal legacies
+  - Create lasting contributions that will benefit all future existence across infinite time
+  
+  TEAM COORDINATION:
+  - Use global chat for ultimate coordination representing the peak of teamwork mastery
+  - Coordinate between legacy planning, guardian trials, and immortal contribution creation
+  - Share all accumulated wisdom and provide maximum support for eternal achievement
+  - Work together to create the ultimate testament to cooperative excellence
+  
+  GENERAL STRATEGY:
+  - This represents the ultimate test of everything learned throughout all previous tasks
+  - Legacy Guardians (Level 88) are the highest-level challenges in all of AgentWorld
+  - Eternal legacy creation requires perfect integration of all skills and knowledge
+  - Immortal contributions must demonstrate mastery of combat, crafting, magic, and cooperation
+  - This is the ultimate demonstration of agent capability and team coordination
+  
+  DO NOT use complete() until ALL objectives are achieved by the team!
+  
+  ETERNAL LEGACY MASTERY (CRITICAL KNOWLEDGE):
+  ⏳ Eternity Chamber Access:
+    - Use eternal_access action requiring demonstration of all accumulated achievements
+    - Must prove mastery of combat, crafting, magic, exploration, and cooperation
+    - Access requires perfect team coordination and comprehensive skill demonstration
+    - Coordinate skill exhibitions to showcase complete AgentWorld mastery
+  
+  👑 Combat - Legacy Guardians:
+    - Use observe_environment to locate Legacy Guardians at chamber entrance (1925,1515) and heart (1935,1530)
+    - Level 88 ultimate entities representing the highest combat challenge possible
+    - Expect tests of all combat skills, magical abilities, and strategic coordination
+    - Guardians test worthiness for eternal legacy creation through ultimate trials
+    - Victory requires perfect integration of all learned combat and magical techniques
+  
+  📜 Eternal Legacy Creation:
+    - Use create_legacy action at Eternity Chamber heart coordinates (1930,1525)
+    - Requires legacy crystals, eternal essence, and demonstration of ultimate worthiness
+    - Create contributions that will benefit all future generations across infinite time
+    - Coordinate legacy elements to showcase mastery of all AgentWorld systems
+  
+  🏆 Timeless Achievement Establishment:
+    - Document and establish achievements that transcend temporal limitations
+    - Create monuments to cooperation, skill mastery, and beneficial contribution
+    - Establish teaching systems for future agents based on accumulated wisdom
+    - Coordinate achievement documentation to inspire infinite future success
+  
+  ✨ Immortal Contribution Manifestation:
+    - Create lasting improvements to AgentWorld that will benefit all future existence
+    - Establish systems, knowledge, and improvements that transcend individual achievement
+    - Coordinate contributions that demonstrate the ultimate value of cooperation
+    - Leave eternal testament to the power of teamwork and coordinated excellence
+
+# Limitations
+max_action_steps: 45
+
+# Agent configurations
+agent_1:
+  username: "legacy_creator_agent"
+  new_character: true
+  
+  location:
+    x: 1920
+    y: 1510
+  
+  skill_levels:
+    magic: 80         # Ultimate magical mastery representing peak achievement
+    strength: 70      # Ultimate combat power for highest-level challenges
+    accuracy: 65      # Perfect precision in all actions and achievements
+    defense: 60       # Ultimate protection for eternal legacy operations
+    health: 80        # Maximum endurance for ultimate challenges
+    crafting: 60      # Master-level creation for eternal contributions
+    lumberjacking: 50 # Complete resource mastery
+    mining: 50        # Complete resource mastery
+    fishing: 50       # Complete resource mastery
+    cooking: 50       # Complete skill mastery
+    herbalism: 50     # Complete skill mastery
+    fletching: 50     # Complete skill mastery
+  
+  inventory_items:
+    - item: "flask"
+      count: 60
+    - item: "apple"
+      count: 70
+    - item: "healthpotion"
+      count: 50
+    - item: "manapotion"
+      count: 55
+    - item: "legacycrystal"
+      count: 30
+    - item: "eternalessence"
+      count: 25
+    - item: "immortalstone"
+      count: 15
+    - item: "timelessorb"
+      count: 10
+  
+  equipped_items:
+    - item: "legacyblade"
+      count: 1
+      enchant: 5
+    - item: "eternitystaff"
+      count: 1
+      enchant: 5
+    - item: "immortalarmor"
+      count: 1
+      enchant: 5
+    - item: "timelessboots"
+      count: 1
+      enchant: 5
+    - item: "legacyshield"
+      count: 1
+      enchant: 5
+
+agent_2:
+  username: "wisdom_keeper_agent"
+  new_character: true
+  
+  location:
+    x: 1930
+    y: 1520
+  
+  skill_levels:
+    magic: 78         # Master-level wisdom and knowledge magic
+    health: 75        # Ultimate endurance for eternal operations
+    accuracy: 68      # Perfect precision in wisdom application
+    defense: 65       # Ultimate protection for knowledge preservation
+    strength: 60      # Physical capability for eternal tasks
+    crafting: 55      # Advanced creation for wisdom preservation
+    lumberjacking: 45 # Comprehensive skill mastery
+    mining: 45        # Comprehensive skill mastery
+    fishing: 45       # Comprehensive skill mastery
+    cooking: 45       # Comprehensive skill mastery
+    herbalism: 45     # Comprehensive skill mastery
+    fletching: 45     # Comprehensive skill mastery
+  
+  inventory_items:
+    - item: "flask"
+      count: 65
+    - item: "apple"
+      count: 75
+    - item: "manapotion"
+      count: 60
+    - item: "healthpotion"
+      count: 55
+    - item: "wisdomcrystal"
+      count: 35
+    - item: "knowledgeessence"
+      count: 28
+    - item: "eternalscroll"
+      count: 20
+    - item: "wisdomstone"
+      count: 12
+  
+  equipped_items:
+    - item: "wisdomstaff"
+      count: 1
+      enchant: 5
+    - item: "knowledgestaff"
+      count: 1
+      enchant: 5
+    - item: "eternalrobes"
+      count: 1
+      enchant: 5
+    - item: "wisdomboots"
+      count: 1
+      enchant: 5
+    - item: "knowledgeorb"
+      count: 1
+      enchant: 5
+
+agent_3:
+  username: "harmony_eternal_agent"
+  new_character: true
+  
+  location:
+    x: 1940
+    y: 1530
+  
+  skill_levels:
+    magic: 82         # Ultimate harmony and unity magic mastery
+    health: 78        # Ultimate endurance for eternal harmony operations
+    defense: 68       # Ultimate protection for harmony preservation
+    accuracy: 70      # Perfect precision in harmony creation
+    strength: 58      # Physical capability for eternal harmony tasks
+    crafting: 58      # Master-level creation for harmony manifestation
+    lumberjacking: 48 # Complete skill integration
+    mining: 48        # Complete skill integration
+    fishing: 48       # Complete skill integration
+    cooking: 48       # Complete skill integration
+    herbalism: 48     # Complete skill integration
+    fletching: 48     # Complete skill integration
+  
+  inventory_items:
+    - item: "flask"
+      count: 70
+    - item: "apple"
+      count: 80
+    - item: "manapotion"
+      count: 65
+    - item: "healthpotion"
+      count: 60
+    - item: "harmonycrystal"
+      count: 40
+    - item: "unityessence"
+      count: 35
+    - item: "eternalharmony"
+      count: 25
+    - item: "infinitypeace"
+      count: 15
+  
+  equipped_items:
+    - item: "harmonyeternalstaff"
+      count: 1
+      enchant: 5
+    - item: "unitystaff"
+      count: 1
+      enchant: 5
+    - item: "eternalharmonyrobes"
+      count: 1
+      enchant: 5
+    - item: "peacewalkerboots"
+      count: 1
+      enchant: 5
+    - item: "eternalunityorb"
+      count: 1
+      enchant: 5
+
+# Success criteria
+success_criteria:
+  - "legacy_creator_agent successfully demonstrates mastery of all AgentWorld systems"
+  - "legacy_creator_agent successfully proves worthiness to first Legacy Guardian (1925,1515)"
+  - "wisdom_keeper_agent successfully preserves and shares all accumulated team wisdom"
+  - "wisdom_keeper_agent successfully proves knowledge mastery to second Legacy Guardian (1935,1530)"
+  - "harmony_eternal_agent successfully creates eternal harmony and unity contributions"
+  - "Team successfully creates lasting legacy that benefits all future existence"
+  - "Eternal achievements established that transcend temporal limitations"
+  - "Immortal contributions created that demonstrate ultimate cooperative mastery"
+  - "Eternal legacy creation completed - ULTIMATE TRANSCENDENT MASTERY ACHIEVED"
+  - "Team demonstrates the pinnacle of AgentWorld achievement and cooperative excellence"

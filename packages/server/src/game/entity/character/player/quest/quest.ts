@@ -142,10 +142,11 @@ export default abstract class Quest {
      */
 
     protected handleDoor(door: ProcessedDoor, player: Player): void {
-        log.debug(`[${this.name}] Door: ${door.x}-${door.y} - stage: ${this.stage}.`);
+        log.debug(`[${this.name}] Door: ${door.x}-${door.y} - stage: ${this.stage} (stage restrictions removed).`);
 
-        if (this.stage < door.stage) return player.notify('You cannot pass through this door.');
-
+        // RESTRICTIONS REMOVED: Quest stage requirements have been disabled
+        // Previously checked: this.stage < door.stage
+        
         player.teleport(door.x, door.y);
 
         // Progress only if the door is a task.

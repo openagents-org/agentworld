@@ -1,0 +1,222 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "World Tree Restoration - Cosmic Life Force Revival and Universal Harmony"
+  description: "Three agents work together to restore the dying World Tree, revive cosmic life forces, and reestablish universal harmony"
+
+# Task objectives
+objectives:
+  primary: "Successfully restore the dying World Tree, revive cosmic life forces, and reestablish universal harmony across all realms"
+  secondary: # checkpoints
+    - "Establish World Tree investigation coordination and cosmic diagnosis procedures"
+    - "Execute coordinated life force restoration and universal harmony rebalancing"
+    - "Complete World Tree restoration within 40 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is the ultimate cooperative cosmic restoration scenario requiring mastery of all life, nature, and harmony magic.
+  
+  OBJECTIVE: Restore the dying World Tree, revive cosmic life forces, and reestablish universal harmony.
+  
+  MISSION REQUIREMENTS:
+  - Navigate to World Tree Core region (Region 10-9: coordinates 1600-1650, 1200-1250)
+  - Diagnose the cosmic corruption affecting the World Tree's life force
+  - Defeat Corruption Avatars (Level 70) that are draining the tree's vitality
+  - Perform the Great Restoration Ritual to revive cosmic life forces
+  
+  TEAM COORDINATION:
+  - Use global chat for complex cosmic restoration coordination and ritual timing
+  - Coordinate between corruption diagnosis, avatar combat, and life force restoration
+  - Share cosmic energies and provide maximum magical support for universal healing
+  - Work together to handle reality-scale restoration with cosmic consequences
+  
+  GENERAL STRATEGY:
+  - This requires master-level nature magic and cosmic understanding
+  - Corruption Avatars (Level 70) represent concentrated anti-life forces
+  - World Tree restoration affects all life in AgentWorld and connected realms
+  - Great Restoration Ritual requires perfect coordination and massive magical energy
+  - Balance combat efficiency with delicate cosmic restoration procedures
+  
+  DO NOT use complete() until ALL objectives are achieved by the team!
+  
+  WORLD TREE RESTORATION (CRITICAL KNOWLEDGE):
+  🌳 World Tree Diagnosis:
+    - Use cosmic_scan action to identify corruption sources in tree's root system
+    - Corruption manifests as dark energy nodes throughout tree structure
+    - Each corruption source requires specific cleansing techniques
+    - Coordinate diagnosis to map all corruption points before restoration
+  
+  💀 Combat - Corruption Avatars:
+    - Use observe_environment to locate Corruption Avatars at tree base (1625,1215) and crown (1635,1230)
+    - Level 70 creatures with anti-life magic and reality corruption abilities
+    - Expect life-drain attacks, corruption spread, and cosmic entropy effects
+    - Use pure life magic and holy energy for maximum effectiveness
+    - Coordinate purification attacks to prevent corruption regeneration
+  
+  🌟 Great Restoration Ritual:
+    - Use perform_ritual action with all three agents channeling simultaneously
+    - Requires cosmic life crystals, pure water, and concentrated life force
+    - Ritual must be performed at World Tree heart coordinates (1630,1225)
+    - Coordinate magical energy channeling for maximum restoration effectiveness
+  
+  🔮 Cosmic Life Force Revival:
+    - Channel life energy throughout World Tree's root and branch network
+    - Restore connection between tree and all living beings in connected realms
+    - Reestablish natural harmony and cosmic balance through tree's influence
+    - Coordinate energy distribution to ensure complete universal restoration
+  
+  ✨ Universal Harmony Rebalancing:
+    - Balance life, death, growth, and renewal energies through tree's power
+    - Restore natural cycles and cosmic rhythms across all dimensions
+    - Coordinate harmony magic to prevent future cosmic corruption
+    - Establish protective barriers around World Tree for long-term stability
+
+# Limitations
+max_action_steps: 40
+
+# Agent configurations
+agent_1:
+  username: "life_guardian_agent"
+  new_character: true
+  
+  location:
+    x: 1620
+    y: 1210
+  
+  skill_levels:
+    magic: 60         # Master-level life and nature magic
+    health: 70        # Maximum life force for cosmic restoration
+    defense: 48       # Protection against corruption attacks
+    strength: 40      # Physical stability during cosmic rituals
+    accuracy: 45      # Precision in life force manipulation
+  
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+    - item: "healthpotion"
+      count: 30
+    - item: "manapotion"
+      count: 35
+    - item: "lifecrystal"
+      count: 15
+    - item: "purewater"
+      count: 10
+    - item: "cosmicseed"
+      count: 5
+  
+  equipped_items:
+    - item: "lifestaff"
+      count: 1
+      enchant: 2
+    - item: "naturestaff"
+      count: 1
+      enchant: 1
+    - item: "liferobes"
+      count: 1
+      enchant: 1
+    - item: "growthboots"
+      count: 1
+      enchant: 1
+
+agent_2:
+  username: "cosmic_druid_agent"
+  new_character: true
+  
+  location:
+    x: 1630
+    y: 1220
+  
+  skill_levels:
+    magic: 65         # Ultimate nature and cosmic magic
+    health: 65        # Cosmic ritual endurance
+    accuracy: 50      # Precision in cosmic restoration
+    defense: 45       # Protection against anti-life forces
+    strength: 35      # Physical stability during tree communion
+  
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+    - item: "manapotion"
+      count: 40
+    - item: "healthpotion"
+      count: 35
+    - item: "lifecrystal"
+      count: 20
+    - item: "purewater"
+      count: 12
+    - item: "cosmicseed"
+      count: 8
+  
+  equipped_items:
+    - item: "worldstaff"
+      count: 1
+      enchant: 2
+    - item: "lifestaff"
+      count: 1
+      enchant: 1
+    - item: "cosmicrobes"
+      count: 1
+      enchant: 1
+    - item: "natureboots"
+      count: 1
+      enchant: 1
+
+agent_3:
+  username: "harmony_keeper_agent"
+  new_character: true
+  
+  location:
+    x: 1640
+    y: 1230
+  
+  skill_levels:
+    magic: 58         # Master-level harmony and balance magic
+    health: 68        # Universal harmony channeling endurance
+    defense: 52       # Protection against cosmic corruption
+    accuracy: 48      # Precision in universal balance restoration
+    strength: 38      # Physical anchoring during cosmic restoration
+  
+  inventory_items:
+    - item: "flask"
+      count: 48
+    - item: "apple"
+      count: 53
+    - item: "manapotion"
+      count: 38
+    - item: "healthpotion"
+      count: 32
+    - item: "harmonycrystal"
+      count: 12
+    - item: "balancewater"
+      count: 8
+    - item: "universalseed"
+      count: 6
+  
+  equipped_items:
+    - item: "harmonystaff"
+      count: 1
+      enchant: 2
+    - item: "balancestaff"
+      count: 1
+      enchant: 1
+    - item: "universalrobes"
+      count: 1
+      enchant: 1
+    - item: "harmonyboots"
+      count: 1
+      enchant: 1
+
+# Success criteria
+success_criteria:
+  - "life_guardian_agent successfully diagnoses World Tree corruption sources"
+  - "life_guardian_agent successfully defeats first Corruption Avatar at tree base (1625,1215)"
+  - "cosmic_druid_agent successfully defeats second Corruption Avatar at tree crown (1635,1230)"
+  - "harmony_keeper_agent successfully channels universal harmony during restoration"
+  - "Team successfully performs Great Restoration Ritual at World Tree heart"
+  - "World Tree life force successfully restored with cosmic vitality flowing"
+  - "Universal harmony reestablished across all connected realms"
+  - "World Tree restoration completed with cosmic life forces revived - UNIVERSAL ACHIEVEMENT"

@@ -1,0 +1,222 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Infinity Nexus Convergence - Omniversal Connection and Infinite Possibility Mastery"
+  description: "Three agents work together to reach the Infinity Nexus, master omniversal connections, and unlock infinite possibilities"
+
+# Task objectives
+objectives:
+  primary: "Successfully reach the Infinity Nexus, master omniversal connections, and unlock infinite possibilities across all realities"
+  secondary: # checkpoints
+    - "Establish Infinity Nexus approach coordination and omniversal preparation"
+    - "Execute coordinated Nexus Guardian combat and infinite possibility manipulation"
+    - "Complete Infinity Nexus convergence within 43 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is the ultimate cooperative omniversal mastery scenario requiring transcendence of all limitations and perfect unity.
+  
+  OBJECTIVE: Reach the Infinity Nexus, master omniversal connections, and unlock infinite possibilities.
+  
+  MISSION REQUIREMENTS:
+  - Navigate to Infinity Nexus Core (Region 12-11: coordinates 1800-1850, 1400-1450)
+  - Transcend dimensional limitations and access the omniversal connection point
+  - Defeat Nexus Guardians (Level 82) that test worthiness for infinite power
+  - Master omniversal connections and unlock infinite possibilities for all existence
+  
+  TEAM COORDINATION:
+  - Use global chat for complex omniversal coordination and transcendence timing
+  - Coordinate between dimensional transcendence, guardian trials, and infinity mastery
+  - Share transcendent energies and provide maximum support for omniversal connection
+  - Work together to handle infinite-scale operations with omniversal consequences
+  
+  GENERAL STRATEGY:
+  - This requires transcendent mastery of all magical and existential systems
+  - Nexus Guardians (Level 82) represent ultimate tests of worthiness and unity
+  - Infinity Nexus operations affect all possible realities and infinite timelines
+  - Omniversal mastery requires perfect team unity and transcendent understanding
+  - Balance infinite ambition with omniversal responsibility and universal harmony
+  
+  DO NOT use complete() until ALL objectives are achieved by the team!
+  
+  INFINITY NEXUS MASTERY (CRITICAL KNOWLEDGE):
+  ♾️ Omniversal Access:
+    - Use transcend_limits action to access omniversal connection layers
+    - Requires transcendent magic (60+) and perfect team synchronization
+    - Access requires demonstration of unity, wisdom, and beneficial intent
+    - Coordinate transcendence sequence to avoid infinite regression loops
+  
+  🔮 Combat - Nexus Guardians:
+    - Use observe_environment to locate Nexus Guardians at approach (1825,1415) and core (1835,1430)
+    - Level 82 transcendent entities with infinite power testing abilities
+    - Expect reality transcendence tests, unity challenges, and wisdom trials
+    - Use perfect coordination and transcendent unity for success
+    - Combat is more about proving worthiness than defeating guardians
+  
+  🌟 Infinite Possibility Unlocking:
+    - Use unlock_infinity action at Infinity Nexus heart coordinates (1830,1425)
+    - Requires infinite crystals, transcendent essence, and perfect team unity
+    - Unlocks access to all possible realities and infinite potential
+    - Coordinate infinity manipulation to benefit all existence across all realities
+  
+  🔗 Omniversal Connection Mastery:
+    - Connect with all possible versions of AgentWorld across infinite timelines
+    - Share beneficial improvements and harmony across all reality variations
+    - Coordinate omniversal communication and cross-reality cooperation
+    - Establish infinite network of positive influence across all existence
+  
+  ✨ Transcendent Unity Achievement:
+    - Achieve perfect team unity that transcends individual limitations
+    - Demonstrate wisdom worthy of infinite power and omniversal influence
+    - Use infinite possibilities responsibly to enhance all existence
+    - Coordinate transcendent actions that benefit infinite realities simultaneously
+
+# Limitations
+max_action_steps: 43
+
+# Agent configurations
+agent_1:
+  username: "infinity_seeker_agent"
+  new_character: true
+  
+  location:
+    x: 1820
+    y: 1410
+  
+  skill_levels:
+    magic: 75         # Transcendent omniversal magic mastery
+    accuracy: 60      # Perfect precision in infinite possibility manipulation
+    health: 70        # Transcendent endurance for omniversal operations
+    defense: 55       # Protection against infinite complexity
+    strength: 45      # Physical anchoring during transcendence
+  
+  inventory_items:
+    - item: "flask"
+      count: 55
+    - item: "apple"
+      count: 60
+    - item: "manapotion"
+      count: 50
+    - item: "healthpotion"
+      count: 40
+    - item: "infinitycrystal"
+      count: 25
+    - item: "transcendentessence"
+      count: 20
+    - item: "omniversalkey"
+      count: 5
+  
+  equipped_items:
+    - item: "infinitystaff"
+      count: 1
+      enchant: 3
+    - item: "transcendentstaff"
+      count: 1
+      enchant: 3
+    - item: "omniversalrobes"
+      count: 1
+      enchant: 3
+    - item: "infinityboots"
+      count: 1
+      enchant: 3
+
+agent_2:
+  username: "unity_master_agent"
+  new_character: true
+  
+  location:
+    x: 1830
+    y: 1420
+  
+  skill_levels:
+    magic: 73         # Master-level unity and connection magic
+    health: 72        # Unity channeling and transcendent endurance
+    accuracy: 58      # Precision in omniversal connection
+    defense: 58       # Protection against infinite feedback
+    strength: 42      # Physical stability during unity transcendence
+  
+  inventory_items:
+    - item: "flask"
+      count: 58
+    - item: "apple"
+      count: 63
+    - item: "manapotion"
+      count: 48
+    - item: "healthpotion"
+      count: 42
+    - item: "infinitycrystal"
+      count: 22
+    - item: "unityessence"
+      count: 18
+    - item: "connectionorb"
+      count: 8
+  
+  equipped_items:
+    - item: "unitystaff"
+      count: 1
+      enchant: 3
+    - item: "connectionstaff"
+      count: 1
+      enchant: 3
+    - item: "transcendentrobes"
+      count: 1
+      enchant: 3
+    - item: "unityboots"
+      count: 1
+      enchant: 3
+
+agent_3:
+  username: "possibility_weaver_agent"
+  new_character: true
+  
+  location:
+    x: 1840
+    y: 1430
+  
+  skill_levels:
+    magic: 78         # Ultimate possibility manipulation and infinite mastery
+    health: 68        # Infinite possibility channeling endurance
+    accuracy: 62      # Perfect precision in reality possibility weaving
+    defense: 60       # Protection against infinite complexity overload
+    strength: 40      # Physical anchoring during possibility manipulation
+  
+  inventory_items:
+    - item: "flask"
+      count: 60
+    - item: "apple"
+      count: 65
+    - item: "manapotion"
+      count: 52
+    - item: "healthpotion"
+      count: 45
+    - item: "possibilitycrystal"
+      count: 30
+    - item: "infinitethread"
+      count: 15
+    - item: "realityweaver"
+      count: 10
+  
+  equipped_items:
+    - item: "possibilitystaff"
+      count: 1
+      enchant: 3
+    - item: "infinityweaver"
+      count: 1
+      enchant: 3
+    - item: "possibilityrobes"
+      count: 1
+      enchant: 3
+    - item: "weavingboots"
+      count: 1
+      enchant: 3
+
+# Success criteria
+success_criteria:
+  - "infinity_seeker_agent successfully transcends dimensional limitations and accesses Infinity Nexus"
+  - "infinity_seeker_agent successfully proves worthiness to first Nexus Guardian at approach (1825,1415)"
+  - "unity_master_agent successfully demonstrates perfect team unity to second Nexus Guardian at core (1835,1430)"
+  - "possibility_weaver_agent successfully unlocks infinite possibilities at Nexus heart"
+  - "Team successfully masters omniversal connections across all realities"
+  - "Team demonstrates transcendent unity worthy of infinite power"
+  - "Infinite possibilities unlocked and used responsibly for omniversal benefit"
+  - "Infinity Nexus convergence completed with omniversal mastery achieved - TRANSCENDENT ACHIEVEMENT"

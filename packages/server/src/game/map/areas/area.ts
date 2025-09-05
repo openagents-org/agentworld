@@ -124,10 +124,11 @@ export default class Area {
      */
 
     public fulfillsRequirement(player: Player): boolean {
-        if (this.quest) return player.quests.get(this.quest)?.isFinished();
-        if (this.achievement) return player.achievements.get(this.achievement)?.isFinished();
-
-        return false;
+        // RESTRICTIONS REMOVED: All area requirements have been disabled for easier access
+        // Previously checked: quest completion, achievement completion
+        
+        // Always return true - all dynamic areas are now accessible regardless of requirements
+        return true;
     }
 
     /**

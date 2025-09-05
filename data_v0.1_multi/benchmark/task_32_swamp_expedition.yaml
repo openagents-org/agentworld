@@ -1,0 +1,206 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Swamp Expedition - Toxic Marsh Survival and Rare Herb Collection"
+  description: "Three agents work together to survive dangerous toxic swamps, defeat marsh creatures, and collect rare alchemical herbs"
+
+# Task objectives
+objectives:
+  primary: "Successfully navigate toxic swamplands, defeat Swamp Trolls, and harvest rare poisonous herbs for advanced alchemy"
+  secondary: # checkpoints
+    - "Establish toxic environment survival coordination and marsh navigation"
+    - "Execute safe swamp creature combat and rare herb harvesting"
+    - "Complete toxic marsh expedition within 32 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent toxic environment survival expedition requiring environmental resistance.
+  
+  OBJECTIVE: Survive dangerous toxic swamps, defeat powerful marsh creatures, and harvest rare alchemical materials.
+  
+  MISSION REQUIREMENTS:
+  - Navigate to Swamp/Marsh region (Region 3-2: coordinates 400-450, 600-650)
+  - Defeat multiple Swamp Trolls (Level 28) in coordinated combat
+  - Harvest rare Poisonous Mushrooms and Swamp Herbs for alchemy
+  - Survive continuous poison damage and toxic environmental effects
+  
+  TEAM COORDINATION:
+  - Use global chat to share safe paths and creature locations in the marsh
+  - Coordinate between poison resistance, combat, and resource harvesting
+  - Share antidotes and provide mutual protection against toxic effects
+  - Work together to navigate treacherous swamp terrain safely
+  
+  GENERAL STRATEGY:
+  - The team needs to reach southern swamp regions while managing poison damage
+  - Multiple Swamp Trolls (Level 28) require coordinated medium-level combat
+  - Rare herbs are found only in the most toxic areas of the swamp
+  - Toxic damage requires constant health management and antidote usage
+  - Balance combat engagement with herb harvesting and poison survival
+  
+  DO NOT use complete() until ALL objectives are achieved by the team!
+  
+  SWAMP SURVIVAL & COMBAT (CRITICAL KNOWLEDGE):
+  ☠️ Environmental Hazards:
+    - Poison overlay type causes continuous toxic damage
+    - Use healing items and antidotes frequently to counter poison effects
+    - Swamps have reduced movement speed and visibility
+    - Coordinate movement carefully to avoid toxic pools
+  
+  🧌 Combat - Swamp Trolls:
+    - Use observe_environment to locate Swamp Trolls at (425,625) and (435,640)
+    - Level 28 creatures with poison attacks and regeneration abilities
+    - Expect toxic breath attacks that cause lingering poison damage
+    - Use fire-based weapons/magic to prevent regeneration
+    - Coordinate burst damage to overcome troll healing
+  
+  🍄 Herbalism - Poisonous Materials:
+    - harvest_resource on Poisonous Mushroom instances to get poisonmushroom
+    - harvest_resource on Swamp Herb instances to get swampherb
+    - Level required: 15+ (Herbalism skill)
+    - RARE: Toxic plants only found in most dangerous swamp areas
+  
+  🧪 Poison Resistance:
+    - Maintain high health levels to counter toxic damage
+    - Use antidotes and healing potions regularly
+    - Stay close to teammates for mutual support
+    - Plan efficient routes to minimize poison exposure time
+  
+  ⚔️ Combat Strategy:
+    - Use ranged attacks when possible to avoid poison melee damage
+    - Coordinate healing rotations to maintain team health
+    - Focus fire on one troll at a time to prevent regeneration
+    - Use fire magic to counter troll healing abilities
+
+# Limitations
+max_action_steps: 32
+
+# Agent configurations
+agent_1:
+  username: "swamp_warrior_agent"
+  new_character: true
+  
+  location:
+    x: 420
+    y: 620
+  
+  skill_levels:
+    strength: 40      # Combat power for Level 28 trolls
+    defense: 38       # Protection against poison attacks
+    health: 50        # High survivability against toxic damage
+    accuracy: 30      # Combat precision in swamp conditions
+    magic: 22         # Fire magic for troll combat
+  
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+    - item: "healthpotion"
+      count: 15
+    - item: "antidote"
+      count: 8
+    - item: "manapotion"
+      count: 6
+  
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "marsh_herbalist_agent"
+  new_character: true
+  
+  location:
+    x: 430
+    y: 630
+  
+  skill_levels:
+    herbalism: 25     # Required for rare herb harvesting
+    strength: 35      # Combat and resource gathering
+    health: 45        # Toxic environment survivability
+    defense: 32       # Protection in dangerous swamp areas
+    accuracy: 28      # Combat support capability
+  
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "healthpotion"
+      count: 12
+    - item: "antidote"
+      count: 10
+  
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "toxic_mage_agent"
+  new_character: true
+  
+  location:
+    x: 410
+    y: 635
+  
+  skill_levels:
+    magic: 35         # Fire magic for swamp combat advantage
+    health: 48        # Toxic damage resistance
+    defense: 30       # Poison attack protection
+    strength: 30      # Physical combat backup
+    accuracy: 28      # Magical combat precision
+  
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "healthpotion"
+      count: 15
+    - item: "manapotion"
+      count: 12
+    - item: "antidote"
+      count: 8
+  
+  equipped_items:
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "swamp_warrior_agent successfully navigates to toxic swamp region"
+  - "swamp_warrior_agent successfully defeats first Swamp Troll at (425,625)"
+  - "Team successfully defeats second Swamp Troll at (435,640)"
+  - "marsh_herbalist_agent successfully harvests poisonous mushrooms and swamp herbs"
+  - "marsh_herbalist_agent has poisonmushroom and swampherb in inventory"
+  - "All agents survive the toxic environmental damage"
+  - "Team successfully handles multiple Level 28 swamp troll encounters"
+  - "Toxic marsh survival expedition completed within time limit"
+
