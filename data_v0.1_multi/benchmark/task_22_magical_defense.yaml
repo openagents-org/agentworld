@@ -62,11 +62,12 @@ relevant_game_context: |
     - Level required: 35 (Fletching skill) - EXPERT CRAFTING!
   
   🧙‍♂️ Combat - Ice Wizard:
-    - Use observe_environment to locate Ice Wizard enemies
+    - Search for Ice Wizard enemies in magical regions and forest areas
     - Ice Wizards are high-level magical bosses with ranged attacks
     - Coordinate attacks: magic vs magic, physical flanking
     - Use terrain and positioning to avoid ice projectiles
     - Expect 150+ HP and powerful freezing attacks
+    - Ice Wizards typically found near magical areas around coordinates (400-420, 300-320)
 
 # Limitations
 max_action_steps: 35
@@ -77,8 +78,8 @@ agent_1:
   new_character: true
   
   location:
-    x: 400
-    y: 300
+    x: 390
+    y: 310
   
   skill_levels:
     mining: 30        # Required for beryl extraction (level 25+)
@@ -112,8 +113,8 @@ agent_2:
   new_character: true
   
   location:
-    x: 380
-    y: 280
+    x: 392
+    y: 312
   
   skill_levels:
     fletching: 40     # Required for lightning staff crafting (level 35+)
@@ -144,8 +145,8 @@ agent_3:
   new_character: true
   
   location:
-    x: 420
-    y: 320
+    x: 394
+    y: 314
   
   skill_levels:
     magic: 45         # High magic for boss combat

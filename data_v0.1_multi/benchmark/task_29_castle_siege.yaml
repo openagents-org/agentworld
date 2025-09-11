@@ -19,7 +19,8 @@ relevant_game_context: |
   OBJECTIVE: Conduct strategic siege operations against a fortified castle and defeat the commanding Ice Knight.
   
   MISSION REQUIREMENTS:
-  - Navigate to Castle/Fortress region (Region 7-7: coordinates 712, 717)
+  - Navigate to Castle/Fortress region (coordinates around 712, 717)
+  - Approach from nearby safe locations to ensure viable combat path
   - Conduct reconnaissance of fortress defenses and strategic positions
   - Defeat the Ice Knight commander (Level 62) in fortress combat
   - Secure strategic control of castle stronghold and surrounding areas
@@ -41,13 +42,13 @@ relevant_game_context: |
   
   SIEGE WARFARE & FORTRESS COMBAT (CRITICAL KNOWLEDGE):
   🏰 Fortress Reconnaissance:
-    - Use observe_environment to assess castle layout and defensive positions
+    - Assess castle layout and defensive positions through careful exploration
     - Identify fortress entrances, defensive chokepoints, and strategic positions
     - Look for siege equipment opportunities or environmental advantages
     - Plan assault routes and coordinate team positioning
   
   ⚔️ Boss Combat - Ice Knight:
-    - Use observe_environment to locate Ice Knight at coordinates (712, 717)
+    - Locate Ice Knight at coordinates (712, 717) in the castle region
     - Level 62 elite commander with advanced combat abilities
     - Expect heavy armor, ice-based attacks, and tactical combat skills
     - Ice Knight may have fortress defender bonuses and terrain advantages
@@ -79,8 +80,8 @@ agent_1:
   new_character: true
   
   location:
-    x: 700
-    y: 710
+    x: 710
+    y: 715
   
   skill_levels:
     strength: 50      # High combat power for fortress assault
@@ -118,8 +119,8 @@ agent_2:
   new_character: true
   
   location:
-    x: 720
-    y: 720
+    x: 714
+    y: 719
   
   skill_levels:
     strength: 55      # Maximum physical assault capability
@@ -157,8 +158,8 @@ agent_3:
   new_character: true
   
   location:
-    x: 705
-    y: 725
+    x: 716
+    y: 721
   
   skill_levels:
     magic: 50         # Advanced magical assault for fortress combat

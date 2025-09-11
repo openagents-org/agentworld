@@ -18,6 +18,13 @@ relevant_game_context: |
   
   OBJECTIVE: Explore dangerous underwater regions to recover ancient treasures and marine resources.
   
+  COMMON FAILURE REASONS TO AVOID:
+  - Starting too far from underwater areas (agents should start near coastal regions around coordinates 200-220, 700-720)
+  - Not having proper fishing equipment (fishing rod required for marine harvesting)
+  - Inadequate swimming skills for deep sea navigation
+  - Insufficient health/healing supplies for underwater survival
+  - Poor coordination when navigating complex underwater cave systems
+  
   MISSION REQUIREMENTS:
   - Navigate to coastal regions and locate underwater entrances
   - Explore underwater caves and deep sea areas safely
@@ -58,10 +65,11 @@ relevant_game_context: |
     - Location: Deep underwater areas
   
   🔱 Treasure Recovery - Trident:
-    - Use observe_environment to locate underwater treasure chests
+    - Search for underwater treasure chests in deep sea areas
     - Look for achievement-based treasure locations: "underwatertreasure"
     - Trident is found in specific underwater treasure chests
     - Coordinates around (209, 713) area - underwater treasure zone
+    - Navigate carefully through underwater cave systems to locate treasure
   
   🏊‍♂️ Underwater Combat:
     - Expect Water Guardian (Level 36) and sea creatures
@@ -77,8 +85,8 @@ agent_1:
   new_character: true
   
   location:
-    x: 900
-    y: 400
+    x: 200
+    y: 700
   
   skill_levels:
     fishing: 15       # Required for marine resource harvesting
@@ -112,8 +120,8 @@ agent_2:
   new_character: true
   
   location:
-    x: 880
-    y: 420
+    x: 202
+    y: 702
   
   skill_levels:
     fishing: 20       # Advanced marine resource gathering
@@ -143,8 +151,8 @@ agent_3:
   new_character: true
   
   location:
-    x: 920
-    y: 380
+    x: 204
+    y: 704
   
   skill_levels:
     swimming: 30      # Expert underwater navigation

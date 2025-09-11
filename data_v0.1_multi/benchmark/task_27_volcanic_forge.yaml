@@ -19,7 +19,7 @@ relevant_game_context: |
   OBJECTIVE: Master dangerous volcanic environments to create legendary fire-enchanted equipment using natural volcanic forges.
   
   MISSION REQUIREMENTS:
-  - Navigate to Volcanic/Lava region (coordinates ≈0-300, 500-768, typical ~150, 650)
+  - Navigate to Volcanic/Lava region (coordinates ≈150-250, 580-650, typical ~200, 600)
   - Survive extreme heat environmental damage and lava hazards
   - Harvest rare volcanic materials and fire-resistant resources
   - Utilize volcanic forges for legendary equipment crafting
@@ -79,8 +79,8 @@ agent_1:
   new_character: true
   
   location:
-    x: 150
-    y: 650
+    x: 200
+    y: 600
   
   skill_levels:
     health: 60        # Maximum survivability for extreme heat
@@ -118,8 +118,8 @@ agent_2:
   new_character: true
   
   location:
-    x: 130
-    y: 630
+    x: 202
+    y: 602
   
   skill_levels:
     mining: 45        # Advanced mining for rare volcanic materials
@@ -155,8 +155,8 @@ agent_3:
   new_character: true
   
   location:
-    x: 170
-    y: 670
+    x: 204
+    y: 604
   
   skill_levels:
     smithing: 50      # Master-level volcanic forge crafting

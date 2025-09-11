@@ -19,10 +19,11 @@ relevant_game_context: |
   OBJECTIVE: Defeat multiple legendary bosses across different regions to prove ultimate mastery of AgentWorld.
   
   MISSION REQUIREMENTS:
+  - Start near Coastal/Ocean region for efficient access to first boss
   - Defeat Mermaid (Level 55) in Coastal/Ocean region (580, 755)
-  - Defeat Ice Knight (Level 62) in Castle/Fortress region (712, 717)
-  - Defeat multiple high-level Mimic creatures (Level 84) in Wilderness regions
-  - Navigate between multiple dangerous regions efficiently and safely
+  - Travel to Castle/Fortress region and defeat Ice Knight (Level 62) at (712, 717)
+  - Navigate to Wilderness regions and defeat high-level Mimic creatures (Level 84)
+  - Plan efficient routes between regions to ensure viable combat paths
   
   TEAM COORDINATION:
   - Use global chat for complex multi-region coordination and boss status updates
@@ -60,9 +61,11 @@ relevant_game_context: |
   
   🌍 Multi-Region Navigation:
     - Plan efficient routes between distant boss locations
+    - Start near coastal region (580, 755) for immediate Mermaid access
+    - Travel to castle region (712, 717) for Ice Knight encounter
+    - Navigate to wilderness areas for Mimic creature locations
     - Manage resources for extended multi-region expedition
-    - Use warps and fast travel when available
-    - Coordinate timing for simultaneous boss engagements
+    - Coordinate timing for sequential boss engagements
   
   ⚔️ Ultimate Combat Strategy:
     - Each agent specializes in different aspects of multi-boss combat
@@ -79,8 +82,8 @@ agent_1:
   new_character: true
   
   location:
-    x: 600
-    y: 400
+    x: 580
+    y: 750
   
   skill_levels:
     strength: 60      # Maximum combat power for legendary encounters
@@ -118,8 +121,8 @@ agent_2:
   new_character: true
   
   location:
-    x: 580
-    y: 420
+    x: 582
+    y: 752
   
   skill_levels:
     magic: 60         # Master-level magical combat for all boss types
@@ -157,8 +160,8 @@ agent_3:
   new_character: true
   
   location:
-    x: 620
-    y: 380
+    x: 584
+    y: 754
   
   skill_levels:
     strength: 55      # Elite physical combat capability

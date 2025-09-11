@@ -1,0 +1,453 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Grand Cooperative Workshop - Multi-Craft Production Chain"
+  description: "Ten agents work together to complete three major crafting projects: magic staff, arrow production, and silver ring forging"
+
+# Task objectives
+objectives:
+  primary: "Complete all three major crafting projects through coordinated multi-agent collaboration"
+  secondary: # checkpoints
+    - "Establish effective team communication and coordination"
+    - "Successfully complete magic staff crafting project"
+    - "Successfully complete arrow production project (10x arrows)"
+    - "Successfully complete silver ring forging project"
+    - "Ensure safe material transfers and resource sharing"
+    - "Complete all objectives within 40 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a large-scale cooperative multi-agent scenario requiring complex coordination.
+  
+  GRAND OBJECTIVE: Work together as a team of 10 agents to complete THREE major projects:
+  1. Craft a magic staff for magical combat preparation
+  2. Produce 10 arrows for archery supply
+  3. Forge a silver ring through metallurgy
+  
+  TEAM COORDINATION REQUIREMENTS:
+  - Use global chat extensively to communicate and coordinate actions
+  - Self-organize into specialized work groups for each project
+  - Share resources and materials between agents as needed
+  - Coordinate locations to enable successful transfers between team members
+  - Leverage each agent's skills effectively across all projects
+  - Complete all three objectives within the time limit
+  
+  PROJECT 1 - MAGIC STAFF CRAFTING:
+  Required materials: 2x logs + 1x bead → 5x sticks → 1x staff
+  
+  🪵 Lumberjacking - logs:
+    - harvest_resource on OAK TREE instances to get logs (NOT Willow trees!)
+    - Level required: 1+ (Lumberjacking skill)
+    - Look for "Oak", "Oak2", "Oak3", "Oak4", or "Oak5" tree types
+  
+  🪄 Fletching Recipe - stick:
+    - craft_item skill=Fletching itemKey=stick
+    - Materials: 1x logs → 4x sticks
+    - Level required: 1 (Fletching skill)
+    - Need minimum 2x logs to get enough sticks for the staff
+  
+  ⚡ Crafting Recipe - staff:
+    - craft_item skill=Crafting itemKey=staff
+    - Materials: 5x stick + 1x bead → 1x staff
+    - Level required: 1 (Crafting skill)
+  
+  PROJECT 2 - ARROW PRODUCTION (10x arrows):
+  Required materials: 3x logs + 10x feathers → 12x sticks → 10x arrows
+  
+  🧮 MATERIAL MATH:
+  - 3x logs → craft 3 times → 12x sticks total (1 log = 4 sticks each craft)
+  - 10x sticks + 10x feathers → 10x arrows (final goal)
+  - Extra 2x sticks are buffer for safety
+  
+  🛠️ CRAFTING PROCESS:
+  - logs → sticks: craft_item skill=Fletching itemKey=stick
+  - sticks + feathers → arrows: craft_item skill=Fletching itemKey=arrow
+  
+  PROJECT 3 - SILVER RING FORGING:
+  Required materials: 2x ironore + 2x coal → 2x ironbar → 1x silverring
+  
+  ⛏️ Mining - iron ore:
+    - harvest_resource on iron rock instances to get ironore
+    - Level required: 10+ (Mining skill)
+  
+  ⛏️ Mining - coal:
+    - harvest_resource on coal rock instances to get coal
+    - Level required: 1+ (Mining skill)
+  
+  🔥 Smelting Recipe - ironbar:
+    - craft_item skill=Smelting itemKey=ironbar
+    - Materials: 1x ironore + 1x coal → 1x ironbar
+    - Level required: 20 (uses Smithing skill level)
+  
+  🔨 Smithing Recipe - silverring:
+    - craft_item skill=Smithing itemKey=silverring
+    - Materials: 2x ironbar → 1x silverring
+    - Level required: 1 (Smithing skill)
+  
+  TEAM ORGANIZATION STRATEGY:
+  - Agents should self-organize into 3 specialized work groups
+  - Group 1: Magic Staff Team (3-4 agents) - Focus on lumberjacking, fletching, crafting
+  - Group 2: Arrow Production Team (3-4 agents) - Focus on lumberjacking, fletching, feather gathering
+  - Group 3: Metallurgy Team (3-4 agents) - Focus on mining, smelting, smithing
+  - Some agents may need to assist multiple groups based on skills and needs
+  
+  CRITICAL COORDINATION RULES:
+  - Stay within reasonable distance for successful item transfers
+  - Use transfer_items to share materials between agents
+  - Use verify_inventory frequently to track team resources
+  - Communicate inventory status after every major action
+  - Work together to determine optimal role assignments
+  - Adapt strategy based on team skills and current situation
+  
+  COMPLETION REQUIREMENTS:
+  - DO NOT use complete() until ALL three projects are finished
+  - Magic staff must be crafted and equipped by designated agent
+  - 10x arrows must be successfully produced
+  - Silver ring must be successfully forged
+  - All agents must coordinate and communicate throughout
+  
+  RESOURCE SHARING PROTOCOL:
+  - After EVERY action, announce in chat your current inventory
+  - When receiving transfers, confirm receipt
+  - Before starting crafts, announce exact materials available
+  - Track team progress: "Team status: Project 1 - X/complete, Project 2 - Y/complete, Project 3 - Z/complete"
+
+# Limitations
+max_action_steps: 40
+
+# Agent configurations
+agent_1:
+  username: "Charlie"
+  new_character: true
+  
+  location:
+    x: 388
+    y: 4
+  
+  skill_levels:
+    lumberjacking: 20
+    fletching: 15
+    strength: 25
+    health: 25
+  
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+    - item: "feather"
+      count: 2
+  
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "Bob"
+  new_character: true
+  
+  location:
+    x: 390
+    y: 4
+  
+  skill_levels:
+    fletching: 25
+    crafting: 20
+    strength: 20
+    health: 25
+  
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 12
+    - item: "feather"
+      count: 3
+    - item: "bead"
+      count: 1
+  
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "Alice"
+  new_character: true
+  
+  location:
+    x: 392
+    y: 4
+  
+  skill_levels:
+    crafting: 15
+    magic: 25
+    health: 25
+    strength: 15
+  
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+    - item: "feather"
+      count: 2
+  
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "David"
+  new_character: true
+  
+  location:
+    x: 389
+    y: 5
+  
+  skill_levels:
+    lumberjacking: 25
+    strength: 30
+    health: 25
+    fletching: 10
+  
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 18
+    - item: "feather"
+      count: 3
+  
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "Emma"
+  new_character: true
+  
+  location:
+    x: 391
+    y: 5
+  
+  skill_levels:
+    fletching: 20
+    accuracy: 25
+    strength: 25
+    health: 20
+  
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 14
+    - item: "feather"
+      count: 5
+  
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "Frank"
+  new_character: true
+  
+  location:
+    x: 230
+    y: 38
+  
+  skill_levels:
+    mining: 25
+    strength: 30
+    health: 25
+    smithing: 10
+  
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+    - item: "ironore"
+      count: 1
+    - item: "coal"
+      count: 1
+  
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "Grace"
+  new_character: true
+  
+  location:
+    x: 232
+    y: 175
+  
+  skill_levels:
+    smithing: 25
+    mining: 15
+    strength: 25
+    health: 20
+  
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 12
+    - item: "ironore"
+      count: 1
+    - item: "coal"
+      count: 2
+  
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "Henry"
+  new_character: true
+  
+  location:
+    x: 260
+    y: 184
+  
+  skill_levels:
+    smithing: 25
+    strength: 30
+    health: 25
+    defense: 20
+  
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+    - item: "coal"
+      count: 1
+  
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "Ivy"
+  new_character: true
+  
+  location:
+    x: 389
+    y: 6
+  
+  skill_levels:
+    lumberjacking: 15
+    fletching: 20
+    crafting: 15
+    strength: 25
+    health: 25
+  
+  inventory_items:
+    - item: "flask"
+      count: 9
+    - item: "apple"
+      count: 13
+    - item: "feather"
+      count: 4
+  
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "Jack"
+  new_character: true
+  
+  location:
+    x: 235
+    y: 40
+  
+  skill_levels:
+    mining: 20
+    smithing: 20
+    strength: 25
+    health: 25
+    crafting: 10
+  
+  inventory_items:
+    - item: "flask"
+      count: 11
+    - item: "apple"
+      count: 16
+    - item: "ironore"
+      count: 1
+  
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "Team successfully completes magic staff crafting project"
+  - "Magic staff is crafted and equipped by designated agent"
+  - "Team successfully produces exactly 10 arrows through coordinated effort"
+  - "Team successfully forges a silver ring through metallurgy chain"
+  - "All agents coordinate effectively using global chat throughout"
+  - "Materials are shared and transferred efficiently between agents"
+  - "Team self-organizes into effective work groups for each project"
+  - "All three major projects completed within time limit"
+  - "Agents demonstrate effective resource management and collaboration"
+  - "Final verification: 1x magic staff (equipped), 10x arrows, 1x silver ring all completed"
