@@ -1,0 +1,190 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Wilderness Expedition - Survival and Resource Collection"
+  description: "Three agents work together to survive dangerous wilderness areas, defeat wild creatures, and collect available resources"
+
+# Task objectives
+objectives:
+  primary: "Successfully navigate wilderness areas, defeat wild creatures, and gather available resources through team coordination"
+  secondary: # checkpoints
+    - "Establish wilderness survival coordination and area navigation"
+    - "Execute safe combat against wild creatures and resource gathering"
+    - "Complete wilderness expedition within 32 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent wilderness survival expedition requiring teamwork and coordination.
+  
+  OBJECTIVE: Survive wilderness areas, defeat wild creatures, and gather available resources through teamwork.
+  
+  MISSION REQUIREMENTS:
+  - Navigate wilderness areas and explore available locations
+  - Defeat wild creatures like Wolves and Worker Ants in coordinated combat
+  - Gather available resources using foraging and resource collection
+  - Survive combat encounters and environmental challenges
+  
+  TEAM COORDINATION:
+  - Use global chat to share creature locations and resource discoveries
+  - Coordinate between combat, exploration, and resource gathering
+  - Share resources and provide mutual support during encounters
+  - Work together to navigate terrain and handle challenges safely
+  
+  GENERAL STRATEGY:
+  - The team needs to explore areas and locate actual creatures and resources
+  - Wild creatures like Wolves and Worker Ants require coordinated combat
+  - Resources are gathered through foraging and harvest mechanics
+  - Health management is important during extended expeditions
+  - Balance combat engagement with resource gathering and exploration
+  
+  DO NOT use complete() until ALL objectives are achieved by the team!
+  
+  WILDERNESS SURVIVAL & COMBAT (CRITICAL KNOWLEDGE):
+  🌲 Environmental Navigation:
+    - Use observe_environment to scout areas and locate creatures/resources
+    - Move carefully between regions to find optimal locations
+    - Coordinate movement to maintain team formation
+    - Plan routes efficiently to cover more ground
+  
+  🐺 Combat - Wild Creatures:
+    - Use observe_environment to locate Wolves and Worker Ants in the area
+    - Wolves are typically Level 55 creatures requiring coordinated combat
+    - Worker Ants are Level 46 creatures, easier to defeat
+    - Use appropriate weapons and magic for effective combat
+    - Coordinate attacks to handle multiple creatures safely
+  
+  🍄 Foraging - Resource Materials:
+    - harvest_resource on available resource instances in the area
+    - Use available foraging mechanics to gather materials
+    - Level required: 15+ (Foraging skill)
+    - Focus on resources that actually exist in the game world
+  
+  💚 Health Management:
+    - Maintain high health levels during expeditions
+    - Use available food items (flask, apple) for sustenance
+    - Stay close to teammates for mutual support
+    - Plan rest periods between combat encounters
+  
+  ⚔️ Combat Strategy:
+    - Use appropriate weapons and magic for creature types
+    - Coordinate attacks to handle multiple enemies
+    - Focus fire on one creature at a time for efficiency
+    - Use fire magic and other abilities strategically
+
+# Limitations
+max_action_steps: 32
+
+# Agent configurations
+agent_1:
+  username: "wilderness_warrior_agent"
+  new_character: true
+  
+  location:
+    x: 280
+    y: 200
+  
+  skill_levels:
+    strength: 40      # Combat power for wild creatures
+    defense: 38       # Protection against creature attacks
+    health: 50        # High survivability during expeditions
+    accuracy: 30      # Combat precision
+    magic: 22         # Magic for combat support
+  
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+  
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "wilderness_forager_agent"
+  new_character: true
+  
+  location:
+    x: 290
+    y: 210
+  
+  skill_levels:
+    foraging: 25      # Required for resource gathering (closest to herbalism)
+    strength: 35      # Combat and resource gathering
+    health: 45        # Wilderness survivability
+    defense: 32       # Protection in dangerous areas
+    accuracy: 28      # Combat support capability
+  
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+  
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "wilderness_mage_agent"
+  new_character: true
+  
+  location:
+    x: 300
+    y: 220
+  
+  skill_levels:
+    magic: 35         # Magic for combat advantage
+    health: 48        # Wilderness survivability
+    defense: 30       # Protection against attacks
+    strength: 30      # Physical combat backup
+    accuracy: 28      # Combat precision
+  
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+  
+  equipped_items:
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "wilderness_warrior_agent successfully explores wilderness areas"
+  - "wilderness_warrior_agent successfully defeats wild creatures (Wolves or Worker Ants)"
+  - "Team successfully coordinates combat against multiple wild creatures"
+  - "wilderness_forager_agent successfully gathers available resources using foraging"
+  - "wilderness_forager_agent has collected resources in inventory"
+  - "All agents survive the wilderness expedition challenges"
+  - "Team successfully handles multiple wild creature encounters"
+  - "Wilderness survival expedition completed within time limit"
+

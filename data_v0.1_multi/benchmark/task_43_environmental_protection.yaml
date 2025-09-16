@@ -1,0 +1,191 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Environmental Protection - Ecosystem Conservation and Habitat Restoration"
+  description: "Three agents work together to establish environmental protection programs, conserve ecosystems, and restore natural habitats"
+
+# Task objectives
+objectives:
+  primary: "Successfully establish environmental protection programs, conserve ecosystems effectively, and restore natural habitats"
+  secondary: # checkpoints
+    - "Establish environmental coordination and ecosystem conservation preparation"
+    - "Execute coordinated habitat restoration and environmental protection operations"
+    - "Complete environmental protection program within 41 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent environmental protection scenario requiring ecosystem conservation and habitat restoration coordination.
+  
+  OBJECTIVE: Establish environmental protection programs, conserve ecosystems effectively, and restore natural habitats.
+  
+  MISSION REQUIREMENTS:
+  - Establish environmental operations in suitable areas for ecosystem conservation and habitat protection
+  - Coordinate conservation programs and habitat restoration services for environmental preservation
+  - Provide environmental assistance and ecosystem protection using available resources and conservation methods
+  - Develop sustainable environmental systems for ongoing ecosystem preservation
+  
+  TEAM COORDINATION:
+  - Use global chat for complex environmental coordination and conservation program management
+  - Coordinate between ecosystem conservation, habitat restoration, and environmental protection delivery
+  - Share environmental knowledge and provide support during conservation operations
+  - Work together to handle complex environmental challenges and coordinate ecosystem protection
+  
+  GENERAL STRATEGY:
+  - This requires environmental coordination skills and conservation management expertise
+  - Conservation programs need efficient resource utilization and coordinated environmental action
+  - Environmental services require coordinated protection and mutual ecosystem support
+  - Habitat restoration needs strategic planning and environmental coordination
+  - Balance immediate conservation needs with long-term environmental sustainability
+  
+  DO NOT use complete() until ALL objectives are achieved by the team!
+  
+  ENVIRONMENTAL PROTECTION OPERATIONS (CRITICAL KNOWLEDGE):
+  🌱 Environmental Conservation Planning:
+    - Use observe_environment to scout areas suitable for environmental operations and ecosystem conservation
+    - Establish conservation coordination positions for environmental service delivery and habitat management
+    - Navigate conservation areas while maintaining team safety and environmental effectiveness
+    - Coordinate environmental activities to optimize conservation effectiveness and ecosystem protection
+  
+  🌳 Ecosystem Conservation Coordination:
+    - Use available resources for environmental programs and habitat restoration projects
+    - Focus on efficient resource utilization for conservation operations and environmental service delivery
+    - Coordinate conservation activities to maximize environmental effectiveness and ecosystem preservation success
+    - Practice conservation techniques and environmental coordination methods
+  
+  🦋 Habitat Restoration Management:
+    - Use available skills for environmental coordination and conservation assistance
+    - Coordinate environmental resource sharing and distribution among team members
+    - Focus on sustainable conservation practices and environmental resource conservation
+    - Balance immediate conservation needs with long-term environmental planning
+  
+  🌿 Environmental Protection Operations:
+    - Use observe_environment to identify conservation needs and environmental opportunities
+    - Coordinate habitat restoration assistance and environmental program management
+    - Practice team conservation strategies using available resources and environmental skills
+    - Execute coordinated environmental operations and provide mutual conservation support
+  
+  🌍 Environmental Coordination Strategy:
+    - Use coordinated conservation techniques for effective ecosystem protection
+    - Practice efficient environmental management and conservation resource coordination
+    - Focus on developing conservation capabilities through team coordination
+    - Use sustainable approaches during environmental and conservation operations
+
+# Limitations
+max_action_steps: 41
+
+# Agent configurations
+agent_1:
+  username: "environmental_coordinator_agent"
+  new_character: true
+  
+  location:
+    x: 280
+    y: 190
+  
+  skill_levels:
+    foraging: 50      # Advanced foraging for environmental resource collection
+    lumberjacking: 45 # Resource gathering for conservation materials
+    accuracy: 45      # Precision in environmental planning and coordination
+    health: 55        # Endurance for extended environmental operations
+    strength: 40      # Physical capability for environmental activities
+  
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+  
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 1
+    - item: "sword"
+      count: 1
+      enchant: 1
+    - item: "leatherarmor"
+      count: 1
+      enchant: 1
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "conservation_specialist_agent"
+  new_character: true
+  
+  location:
+    x: 290
+    y: 200
+  
+  skill_levels:
+    magic: 50         # Magical abilities for conservation support and environmental assistance
+    crafting: 45      # Advanced crafting for conservation tools and environmental equipment
+    accuracy: 45      # Precision in conservation delivery and ecosystem management
+    health: 50        # Endurance for extended conservation operations
+    strength: 35      # Physical capability for conservation activities
+  
+  inventory_items:
+    - item: "flask"
+      count: 48
+    - item: "apple"
+      count: 52
+  
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 1
+    - item: "firestaff"
+      count: 1
+      enchant: 1
+    - item: "platearmor"
+      count: 1
+      enchant: 1
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "habitat_restoration_agent"
+  new_character: true
+  
+  location:
+    x: 300
+    y: 210
+  
+  skill_levels:
+    mining: 40        # Resource extraction for habitat restoration materials
+    foraging: 45      # Resource collection for environmental restoration supplies
+    accuracy: 40      # Precision in habitat management and resource coordination
+    health: 50        # Endurance for extended habitat restoration operations
+    strength: 40      # Physical capability for restoration work
+  
+  inventory_items:
+    - item: "flask"
+      count: 52
+    - item: "apple"
+      count: 58
+  
+  equipped_items:
+    - item: "goldpickaxe"
+      count: 1
+      enchant: 1
+    - item: "bluesword"
+      count: 1
+      enchant: 1
+    - item: "leatherarmor"
+      count: 1
+      enchant: 1
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "environmental_coordinator_agent successfully establishes environmental coordination and conservation program management"
+  - "environmental_coordinator_agent demonstrates effective environmental planning and conservation coordination"
+  - "conservation_specialist_agent successfully provides conservation services and ecosystem protection programs"
+  - "conservation_specialist_agent demonstrates effective conservation delivery and environmental support"
+  - "habitat_restoration_agent successfully manages habitat restoration and environmental resource systems"
+  - "Team successfully develops comprehensive environmental programs and conservation services"
+  - "Environmental operations provide effective ecosystem protection and habitat restoration"
+  - "Environmental protection program completed with comprehensive conservation achieved"
