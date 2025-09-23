@@ -1977,6 +1977,12 @@ class KaetramGameTools:
             if amount > 0:
                 current_items.append({"key": key, "count": amount})
         
+        # Store original inventory for potential rollback
+        original_items = []
+        for key, amount in current_inventory.items():
+            if amount > 0:
+                original_items.append({"key": key, "count": amount})
+        
         # Update current player's inventory (remove transferred items)
         remove_data = {
             "token": self.token,
@@ -1989,30 +1995,49 @@ class KaetramGameTools:
         if remove_response.get("status") != "success":
             return f"Error: Failed to remove items from inventory: {remove_response.get('message', 'Unknown error')}"
         
-        # For target player inventory, we'll assume they start with empty inventory
-        # and just add the transferred items directly
-        # This is a simplification since we can't easily get their current inventory
+        # Use setInventory API with targetPlayer parameter to add items to target player
         target_items_list = [{"key": item_key, "count": count}]
-        
-        # Update target player's inventory (add transferred items)
         add_data = {
             "token": self.token,
             "targetPlayer": target_player,
             "items": target_items_list,
-            "clearFirst": False  # Don't clear their inventory, just add items
+            "clearFirst": False  # Don't clear target player's inventory, just add items
         }
+        
+        self._log_message(f"🔄 Attempting to add {count}x {item_key} to {target_player}'s inventory", "debug")
         
         add_response = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["setInventory"], add_data)
         
-        if add_response.get("status") != "success":
-            return f"Error: Failed to add items to target player inventory: {add_response.get('message', 'Unknown error')}"
+        if add_response.get("status") == "success":
+            transfer_success = True
+            transfer_method = "setInventory_with_target"
+            self._log_message(f"✅ Transfer successful: items added to {target_player}'s inventory", "debug")
+        else:
+            # Transfer failed - rollback the inventory change
+            self._log_message(f"❌ Transfer failed: {add_response.get('message', 'Unknown error')}. Rolling back inventory changes.", "warning")
+            
+            # Rollback: restore original inventory
+            rollback_data = {
+                "token": self.token,
+                "items": original_items,
+                "clearFirst": True
+            }
+            rollback_result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["setInventory"], rollback_data)
+            
+            if rollback_result.get("status") == "success":
+                return f"Error: Transfer failed - {add_response.get('message', 'Unknown error')}. Inventory restored to original state."
+            else:
+                return f"Critical Error: Transfer failed AND inventory rollback failed. Items may be lost: {rollback_result.get('message', 'Unknown error')}"
         
         # Get current player username from observation
         player_status = observe_result.get("playerStatus", {})
         current_player = player_status.get("name") or player_status.get("username") or "Current Player"
         
-        # Send chat message to notify the transfer
+        # Create success message
+        success_message = f"✅ Transfer completed: {count}x {item_name} transferred from {current_player} to {target_player}"
         chat_message = f"Successfully transferred {count}x {item_name} to {target_player}"
+        
+        # Send chat message to notify the transfer attempt
         chat_data = {
             "token": self.token,
             "message": chat_message,
@@ -2021,4 +2046,4 @@ class KaetramGameTools:
         
         chat_result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["chat"], chat_data)
         
-        return f"Transfer completed: {count}x {item_name} transferred from {current_player} to {target_player}" 
+        return success_message 

@@ -396,6 +396,15 @@ class TaskRunner:
                 self.use_split_screen = False
                 self.display = None
                 self.logger.warning("Failed to initialize split-screen display, falling back to regular output")
+        
+        # Initialize trajectory tracking
+        self.trajectory_data = {
+            'task_id': None,
+            'timestamp': None,
+            'task_definition': None,
+            'rounds': [],
+            'metrics': {}
+        }
     
     def _load_agent_config(self) -> AgentConfig:
         """Load agent configuration from YAML file"""
@@ -739,7 +748,7 @@ class TaskRunner:
                     return "tool_execution(detected)"
                 # Handle specific result patterns
                 elif 'Global chat message sent:' in pattern:
-                    message = match.group(1)[:50] + '...' if len(match.group(1)) > 50 else match.group(1)
+                    message = match.group(1)
                     return f"chat(message='{message}')"
                 elif 'Character moved' in pattern:
                     distance = match.group(1)
@@ -978,6 +987,9 @@ class TaskRunner:
         # Load task configuration
         task_config = self._load_task_config(task_path)
         
+        # Initialize trajectory data
+        self._init_trajectory(task_path, task_config)
+        
         self.logger.info(f"Task: {task_config.name}")
         self.logger.info(f"Description: {task_config.description}")
         self.logger.info(f"Primary objective: {task_config.objectives['primary']}")
@@ -1140,6 +1152,12 @@ class TaskRunner:
             self.log_message(f"🔄 ROUND {round_count}", color=4)
             self.log_message("=" * 80)
             
+            # Initialize round data for trajectory
+            round_data = {
+                'round': round_count,
+                'actions': []
+            }
+            
             # Track if any agent is still active this round
             any_agent_active = False
             
@@ -1161,6 +1179,10 @@ class TaskRunner:
                 should_continue, response = self._execute_agent_turn(
                     agent_state, agent_task_prompt, task_config.max_action_steps
                 )
+                
+                # Collect trajectory data for this agent action
+                action_data = self._collect_action_data(agent_name, agent_state, response)
+                round_data['actions'].append(action_data)
                 
                 # Extract and display detailed tool call information
                 if self._has_tool_execution(response) or self._is_chat_action(response) or self._is_complete_action(response):
@@ -1241,6 +1263,9 @@ class TaskRunner:
             
             self.logger.info(f"📊 Round {round_count} Summary: Active={len(active_agents)}, Completed={len(completed_agents)}, Failed={len(failed_agents)}")
             print(f"📊 Round {round_count} Summary: Active={len(active_agents)}, Completed={len(completed_agents)}, Failed={len(failed_agents)}")
+            
+            # Add this round's data to trajectory
+            self.trajectory_data['rounds'].append(round_data)
             
             if not active_agents:
                 self.logger.info(f"✅ All agents completed or failed after {round_count} rounds")
@@ -1470,6 +1495,24 @@ class TaskRunner:
             
             return "\\n".join(prompt_parts)
     
+    def _init_trajectory(self, task_path: str, task_config: TaskConfig):
+        """Initialize trajectory data structure"""
+        # Extract task number from path
+        task_filename = Path(task_path).stem
+        task_number = task_filename.split('_')[1] if '_' in task_filename else task_filename
+        
+        # Load the complete task definition from file
+        with open(task_path, 'r') as f:
+            task_definition = yaml.safe_load(f)
+        
+        self.trajectory_data = {
+            'task_id': f"task_{task_number}",
+            'timestamp': datetime.now().isoformat(),
+            'task_definition': task_definition,
+            'rounds': [],
+            'metrics': {}
+        }
+
     def _save_task_summary(self, task_config: TaskConfig, results: Dict[str, Any]):
         """Save task execution summary"""
         summary_file = self.output_dir / f"task_summary_{self.run_timestamp}.json"
@@ -1492,6 +1535,63 @@ class TaskRunner:
             json.dump(summary, f, indent=2)
         
         self.logger.info(f"📄 Task summary saved to: {summary_file}")
+        
+        # Save trajectory file
+        self._save_trajectory(task_config, results)
+
+    def _collect_action_data(self, agent_name: str, agent_state: AgentExecutionState, response: str) -> Dict[str, Any]:
+        """Collect trajectory data for a single agent action"""
+        import re
+        
+        # Get agent status
+        status = self._get_agent_status_details(agent_state)
+        
+        # Extract tool call information
+        tool_call_info = ""
+        tool_result = ""
+        
+        # Extract TOOL_CALL_INFO
+        tool_call_match = re.search(r'\[TOOL_CALL_INFO\] ([^\n]+)', response)
+        if tool_call_match:
+            tool_call_info = tool_call_match.group(1)
+        
+        # Extract TOOL_RESULT  
+        tool_result_match = re.search(r'\[TOOL_RESULT\] ([^\n]+)', response)
+        if tool_result_match:
+            tool_result = tool_result_match.group(1)
+        
+        # Get observation data if available
+        observation = ""
+        try:
+            if agent_state.console and agent_state.console.agent.game_tools:
+                observation_data = agent_state.console.agent.game_tools.get_last_observation_data()
+                if observation_data:
+                    observation = json.dumps(observation_data, ensure_ascii=False)
+        except Exception as e:
+            self.logger.debug(f"Failed to get observation for {agent_name}: {e}")
+        
+        return {
+            'agent_name': agent_name,
+            'status': status,
+            'action': tool_call_info,
+            'observation': observation_data if observation_data else '',
+            'thinking': '',
+        }
+
+    def _save_trajectory(self, task_config: TaskConfig, results: Dict[str, Any]):
+        """Save trajectory data to JSON file"""
+        # Extract task number from task_id
+        task_number = self.trajectory_data['task_id'].split('_')[1] if '_' in self.trajectory_data['task_id'] else self.trajectory_data['task_id']
+        trajectory_file = self.output_dir / f"task_{task_number}_trajectory.json"
+        
+        # Update metrics from results
+        if '_multi_agent_metrics' in results:
+            self.trajectory_data['metrics'] = results['_multi_agent_metrics']
+        
+        with open(trajectory_file, 'w') as f:
+            json.dump(self.trajectory_data, f, indent=2, ensure_ascii=False)
+        
+        self.logger.info(f"📊 Trajectory saved to: {trajectory_file}")
     
     def _save_folder_summary(self, folder_path: str, all_results: Dict[str, Any]):
         """Save folder execution summary"""
