@@ -1,0 +1,20 @@
+[23:05:16] SYSTEM: 🔑 Creating/accessing character with master password...
+[23:05:16] SYSTEM: 🔐 Using master password: agentworld-benchmark
+[23:05:16] SYSTEM: ✅ Master password login successful: Character lumberjack_agent logged in successfully. Token obtained.
+[23:05:16] SYSTEM: 🔄 Performing comprehensive character reset...
+[23:05:17] SYSTEM: Cleared all equipment
+[23:05:17] SYSTEM: Cleared inventory
+[23:05:17] SYSTEM: Reset combat skills to level 1
+[23:05:17] SYSTEM: Reset health and mana
+[23:05:17] SYSTEM: Reset position to spawn
+[23:05:17] SYSTEM: ✅ Character completely reset to fresh state
+[23:05:17] INIT: Initial teleport to (388, 3): Character teleported from (250, 180) to (388, 3) without animation
+[23:05:17] INIT: Position sync delay applied after teleport
+[23:05:17] INIT: Set lumberjacking to level 25: Successfully set Lumberjacking to level 25
+[23:05:17] INIT: Set fletching to level 15: Successfully set Fletching to level 15
+[23:05:17] INIT: Set strength to level 25: Successfully set Strength to level 25
+[23:05:17] INIT: Set health to level 25: Successfully set Health to level 25
+[23:05:17] INIT: HP/MP restoration: Successfully restored HP to 789 and MP to 68
+[23:05:17] INIT: Equipped axe: Successfully equipped 1x axe
+[23:05:17] INIT: Equipped leatherarmor: Successfully equipped 1x leatherarmor
+[23:05:17] INIT: Equipped leatherboots: Successfully equipped 1x leatherboots

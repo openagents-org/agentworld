@@ -1,0 +1,23 @@
+[16:28:15] SYSTEM: 🔑 Creating/accessing character with master password...
+[16:28:15] SYSTEM: 🔐 Using master password: agentworld-benchmark
+[16:28:15] SYSTEM: ✅ Master password login successful: Character MasterSmelterGamma logged in successfully. Token obtained.
+[16:28:15] SYSTEM: 🔄 Performing comprehensive character reset...
+[16:28:15] SYSTEM: Cleared all equipment
+[16:28:15] SYSTEM: Cleared inventory
+[16:28:15] SYSTEM: Reset combat skills to level 1
+[16:28:15] SYSTEM: Reset health and mana
+[16:28:15] SYSTEM: Reset position to spawn
+[16:28:15] SYSTEM: ✅ Character completely reset to fresh state
+[16:28:16] INIT: Initial teleport to (235, 42): Character teleported from (250, 180) to (235, 42) without animation
+[16:28:16] INIT: Position sync delay applied after teleport
+[16:28:16] INIT: Set smithing to level 30: Successfully set Smithing to level 30
+[16:28:16] INIT: Set mining to level 15: Successfully set Mining to level 15
+[16:28:16] INIT: Set lumberjacking to level 10: Successfully set Lumberjacking to level 10
+[16:28:16] INIT: Set strength to level 30: Successfully set Strength to level 30
+[16:28:16] INIT: Set health to level 30: Successfully set Health to level 30
+[16:28:16] INIT: HP/MP restoration: Successfully restored HP to 939 and MP to 68
+[16:28:16] INIT: Equipped pickaxe: Successfully equipped 1x pickaxe
+[16:28:16] INIT: Equipped axe: Successfully equipped 1x axe
+[16:28:16] INIT: Equipped leatherarmor: Successfully equipped 1x leatherarmor
+[16:28:16] INIT: Equipped leatherboots: Successfully equipped 1x leatherboots
+[16:28:16] INIT: Inventory setup: Successfully added 4/4 items to inventory

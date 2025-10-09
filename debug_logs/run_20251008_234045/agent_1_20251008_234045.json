@@ -1,0 +1,22 @@
+[23:40:46] SYSTEM: 🔑 Creating/accessing character with master password...
+[23:40:46] SYSTEM: 🔐 Using master password: agentworld-benchmark
+[23:40:46] SYSTEM: ✅ Master password login successful: Character IronMinerAlpha logged in successfully. Token obtained.
+[23:40:46] SYSTEM: 🔄 Performing comprehensive character reset...
+[23:40:46] SYSTEM: Cleared all equipment
+[23:40:46] SYSTEM: Cleared inventory
+[23:40:46] SYSTEM: Reset combat skills to level 1
+[23:40:46] SYSTEM: Reset health and mana
+[23:40:46] SYSTEM: Reset position to spawn
+[23:40:46] SYSTEM: ✅ Character completely reset to fresh state
+[23:40:46] INIT: Initial teleport to (230, 38): Character teleported from (250, 180) to (230, 38) without animation
+[23:40:47] INIT: Position sync delay applied after teleport
+[23:40:47] INIT: Set mining to level 25: Successfully set Mining to level 25
+[23:40:47] INIT: Set strength to level 35: Successfully set Strength to level 35
+[23:40:47] INIT: Set health to level 30: Successfully set Health to level 30
+[23:40:47] INIT: Set defense to level 25: Successfully set Defense to level 25
+[23:40:47] INIT: HP/MP restoration: Successfully restored HP to 939 and MP to 68
+[23:40:47] INIT: Equipped pickaxe: Successfully equipped 1x pickaxe
+[23:40:47] INIT: Equipped axe: Successfully equipped 1x axe
+[23:40:47] INIT: Equipped leatherarmor: Successfully equipped 1x leatherarmor
+[23:40:47] INIT: Equipped leatherboots: Successfully equipped 1x leatherboots
+[23:41:10] INIT: Inventory setup: Successfully added 4/4 items to inventory

@@ -1,0 +1,21 @@
+[16:28:16] SYSTEM: 🔑 Creating/accessing character with master password...
+[16:28:16] SYSTEM: 🔐 Using master password: agentworld-benchmark
+[16:28:16] SYSTEM: ✅ Master password login successful: Character EquipmentCrafterDelta logged in successfully. Token obtained.
+[16:28:16] SYSTEM: 🔄 Performing comprehensive character reset...
+[16:28:16] SYSTEM: Cleared all equipment
+[16:28:16] SYSTEM: Cleared inventory
+[16:28:16] SYSTEM: Reset combat skills to level 1
+[16:28:16] SYSTEM: Reset health and mana
+[16:28:17] SYSTEM: Reset position to spawn
+[16:28:17] SYSTEM: ✅ Character completely reset to fresh state
+[16:28:17] INIT: Initial teleport to (237, 44): Character teleported from (250, 180) to (237, 44) without animation
+[16:28:17] INIT: Position sync delay applied after teleport
+[16:28:17] INIT: Set smithing to level 25: Successfully set Smithing to level 25
+[16:28:17] INIT: Set crafting to level 20: Successfully set Crafting to level 20
+[16:28:17] INIT: Set strength to level 25: Successfully set Strength to level 25
+[16:28:17] INIT: Set health to level 30: Successfully set Health to level 30
+[16:28:17] INIT: HP/MP restoration: Successfully restored HP to 939 and MP to 68
+[16:28:17] INIT: Equipped smithinghammer: Successfully added 1x smithinghammer to inventory
+[16:28:17] INIT: Equipped leatherarmor: Successfully equipped 1x leatherarmor
+[16:28:17] INIT: Equipped leatherboots: Successfully equipped 1x leatherboots
+[16:28:17] INIT: Inventory setup: Successfully added 3/3 items to inventory

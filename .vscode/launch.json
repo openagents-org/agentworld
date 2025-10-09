@@ -1,0 +1,42 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "task_02_arrow_production",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "agents/run.py",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "env": {
+                "DASHSCOPE_API_KEY": "sk-b7b7b20bcba1477c9531c0dda057b976"
+            },
+            "args": [
+                "--task", "data_v0.1_multi/benchmark/task_02_arrow_production.yaml",
+                "--agent", "agents/configs/qwen_agent.yaml",
+                "--output", "debug_logs/",
+                "--no-split-screen"
+            ]
+        },
+        {
+            "name": "task_46_grand_mining_expedition",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "agents/run.py",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "env": {
+                "DASHSCOPE_API_KEY": "sk-b7b7b20bcba1477c9531c0dda057b976"
+            },
+            "args": [
+                "--task", "data_v0.1_multi/benchmark/task_46_grand_mining_expedition.yaml",
+                "--agent", "agents/configs/qwen_agent.yaml",
+                "--output", "debug_logs/",
+                "--no-split-screen"
+            ]
+        }
+    ]
+}

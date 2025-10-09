@@ -1,0 +1,23 @@
+[15:09:54] SYSTEM: 🔑 Creating/accessing character with master password...
+[15:09:54] SYSTEM: 🔐 Using master password: agentworld-benchmark
+[15:09:54] SYSTEM: ✅ Master password login successful: Character LogisticsCoordinatorEpsilon logged in successfully. Token obtained.
+[15:09:54] SYSTEM: 🔄 Performing comprehensive character reset...
+[15:09:54] SYSTEM: Cleared all equipment
+[15:09:54] SYSTEM: Cleared inventory
+[15:09:54] SYSTEM: Reset combat skills to level 1
+[15:09:54] SYSTEM: Reset health and mana
+[15:09:55] SYSTEM: Reset position to spawn
+[15:09:55] SYSTEM: ✅ Character completely reset to fresh state
+[15:09:55] INIT: Initial teleport to (240, 35): Character teleported from (250, 180) to (240, 35) without animation
+[15:09:55] INIT: Position sync delay applied after teleport
+[15:09:55] INIT: Set lumberjacking to level 25: Successfully set Lumberjacking to level 25
+[15:09:55] INIT: Set strength to level 30: Successfully set Strength to level 30
+[15:09:55] INIT: Set health to level 30: Successfully set Health to level 30
+[15:09:55] INIT: Set defense to level 20: Successfully set Defense to level 20
+[15:09:55] INIT: Set mining to level 10: Successfully set Mining to level 10
+[15:09:55] INIT: HP/MP restoration: Successfully restored HP to 939 and MP to 68
+[15:09:55] INIT: Equipped axe: Successfully equipped 1x axe
+[15:09:55] INIT: Equipped pickaxe: Successfully equipped 1x pickaxe
+[15:09:55] INIT: Equipped leatherarmor: Successfully equipped 1x leatherarmor
+[15:09:55] INIT: Equipped leatherboots: Successfully equipped 1x leatherboots
+[15:09:55] INIT: Inventory setup: Successfully added 2/2 items to inventory

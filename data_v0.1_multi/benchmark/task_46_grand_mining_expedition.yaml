@@ -1,0 +1,312 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Grand Mining Expedition - Five-Team Advanced Ore Processing"
+  description: "Five agents work together to establish a complete mining and smelting operation, producing advanced metal equipment through coordinated resource gathering and crafting"
+
+# Task objectives
+objectives:
+  primary: "Establish a complete mining-to-crafting pipeline with five specialized agents to produce advanced metal equipment"
+  secondary: # checkpoints
+    - "Coordinate five-agent mining expedition across multiple ore types"
+    - "Execute advanced smelting operations with proper fuel management"
+    - "Complete coordinated crafting of multiple equipment pieces"
+    - "Achieve all objectives within 50 rounds with five-agent coordination"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a large-scale cooperative multi-agent mining and crafting scenario requiring complex five-agent coordination.
+  
+  GRAND OBJECTIVE: Work together as a team of 5 agents to establish a complete mining operation:
+  1. Mine iron ore and coal from different locations
+  2. Smelt iron bars through coordinated fuel management
+  3. Craft multiple equipment pieces (pickaxe, axe, heavy sword)
+  4. Distribute equipment among team members for enhanced capabilities
+  
+  FIVE-AGENT COORDINATION REQUIREMENTS:
+  - Use global chat extensively to communicate mining progress and locations
+  - Self-organize into specialized roles: iron miners, coal miners, smelters, crafters, and logistics
+  - Share resources efficiently between all five agents
+  - Coordinate locations to enable successful transfers between all team members
+  - Leverage each agent's mining and crafting skills across all projects
+  - Complete all objectives within the time limit through perfect coordination
+  
+  MINING OPERATIONS:
+  ⛏️ Mining - Iron Ore:
+    - harvest_resource on Iron Rock instances to get ironore
+    - Level required: 10+ (Mining skill)
+    - Tool required: Pickaxe (MUST be equipped)
+    - Iron rocks found in mountain regions - look for "Iron Rock" in your observations
+    - NOTE: Nisoc Rocks produce nisocore, NOT ironore - find the correct rock type
+    - If no Iron Rocks visible at starting location, explore nearby mountain areas
+  
+  ⛏️ Mining - Coal:
+    - harvest_resource on Coal Rock instances to get coal
+    - Level required: 1+ (Mining skill)
+    - Tool required: Pickaxe (MUST be equipped)
+    - Coal rocks commonly found in mountain regions
+    - Multiple pieces needed for smelting all iron ore
+  
+  SMELTING OPERATIONS:
+  🔥 Smelting Recipe - ironbar:
+    - craft_item skill=Smelting itemKey=ironbar
+    - Materials: 1x ironore + 1x coal → 1x ironbar
+    - Level required: 20 (uses Smithing skill level)
+    - Need to produce multiple iron bars for all equipment
+  
+  CRAFTING OPERATIONS:
+  🔨 Smithing Recipe - pickaxe:
+    - craft_item skill=Smithing itemKey=pickaxe
+    - Materials: 5x ironbar + 1x logs → 1x pickaxe
+    - Level required: 5 (Smithing skill)
+  
+  🔨 Smithing Recipe - axe:
+    - craft_item skill=Smithing itemKey=axe
+    - Materials: 3x ironbar + 1x logs → 1x axe
+    - Level required: 3 (Smithing skill)
+  
+  🔨 Smithing Recipe - sword2 (Heavy Sword):
+    - craft_item skill=Smithing itemKey=sword2
+    - Materials: 2x ironbar + 1x hilt2 → 1x heavy sword
+    - Level required: 1 (Smithing skill)
+  
+  🪵 Lumberjacking - logs:
+    - harvest_resource on Oak Tree or Oak2 Tree instances to get logs
+    - Level required: 1+ (Lumberjacking skill)
+    - Tool required: Axe (MUST be equipped)
+    - After calling harvest_resource, the process may take a few seconds to complete
+    - Check your inventory after harvest to confirm logs were collected
+    - Need logs for tool handles (pickaxe and axe crafting)
+  
+  FIVE-AGENT TEAM ORGANIZATION:
+  - Agent 1: Primary Iron Miner - Focus on iron ore extraction
+  - Agent 2: Coal Miner & Fuel Specialist - Ensure adequate coal supply
+  - Agent 3: Master Smelter - Convert ore to bars efficiently
+  - Agent 4: Equipment Crafter - Produce all equipment pieces
+  - Agent 5: Logistics & Wood Gatherer - Collect logs and coordinate transfers
+  
+  CRITICAL COORDINATION RULES:
+  - Announce inventory status after every major action in global chat
+  - Coordinate meeting points for efficient item transfers between all agents
+  - Track team progress: Iron ore collected, coal collected, bars smelted, equipment crafted
+  - Use verify_inventory frequently to ensure accurate resource tracking
+  - If repeated harvest attempts yield no logs, move to a new tree or confirm with teammates whether the current tree is depleted, and keep a record of exhausted trees to avoid looping
+  - Work together to optimize the production pipeline
+  
+  RESOURCE REQUIREMENTS (TOTAL):
+  - Iron ore: 10+ pieces (for smelting into bars)
+  - Coal: 10+ pieces (for smelting fuel)
+  - Logs: 3+ pieces (for tool handles)
+  - Iron bars: 10+ pieces (5 for pickaxe, 3 for axe, 2 for sword)
+  
+  COMPLETION REQUIREMENTS:
+  - DO NOT use complete() until ALL equipment is crafted
+  - 1x pickaxe must be successfully crafted
+  - 1x axe must be successfully crafted
+  - 1x heavy sword must be successfully crafted
+  - All five agents must coordinate effectively throughout
+  - Equipment should be distributed to appropriate team members
+
+# Limitations
+max_action_steps: 50  # Increased from 35 to allow more time for coordination and resource gathering
+
+# Agent configurations
+agent_1:
+  username: "IronMinerAlpha"
+  new_character: true
+  
+  location:
+    x: 230
+    y: 38
+  
+  skill_levels:
+    mining: 25       # Primary iron mining capability
+    strength: 35     # Heavy ore extraction
+    health: 30
+    defense: 25
+  
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "ironore"
+      count: 3
+    - item: "coal"
+      count: 2
+  
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "CoalMinerBeta"
+  new_character: true
+  
+  location:
+    x: 232
+    y: 40
+  
+  skill_levels:
+    mining: 20       # Coal mining capability
+    lumberjacking: 15  # Added lumberjacking skill
+    strength: 30     # Resource gathering
+    health: 30
+    defense: 20
+  
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "coal"
+      count: 5
+    - item: "logs"
+      count: 1
+  
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "MasterSmelterGamma"
+  new_character: true
+  
+  location:
+    x: 235
+    y: 42
+  
+  skill_levels:
+    smithing: 30     # High smithing for smelting
+    mining: 15       # Backup mining capability
+    lumberjacking: 10  # Added lumberjacking skill
+    strength: 30
+    health: 30
+  
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "ironore"
+      count: 3
+    - item: "coal"
+      count: 3
+  
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "EquipmentCrafterDelta"
+  new_character: true
+  
+  location:
+    x: 237
+    y: 44
+  
+  skill_levels:
+    smithing: 25     # Equipment crafting expertise
+    crafting: 20     # General crafting skills
+    strength: 25
+    health: 30
+  
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "hilt2"
+      count: 1
+  
+  equipped_items:
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "LogisticsCoordinatorEpsilon"
+  new_character: true
+  
+  location:
+    x: 240
+    y: 35
+  
+  skill_levels:
+    lumberjacking: 25  # Wood gathering for tool handles
+    strength: 30       # Resource transport
+    health: 30
+    defense: 20
+    mining: 10         # Backup mining
+  
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+  
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "IronMinerAlpha successfully mines iron ore and shares with team"
+  - "CoalMinerBeta successfully mines coal and distributes for smelting"
+  - "MasterSmelterGamma successfully smelts iron bars from ore and coal"
+  - "EquipmentCrafterDelta successfully crafts pickaxe, axe, and heavy sword"
+  - "LogisticsCoordinatorEpsilon successfully gathers logs and coordinates transfers"
+  - "Team produces 1x pickaxe through coordinated effort"
+  - "Team produces 1x axe through coordinated effort"
+  - "Team produces 1x heavy sword through coordinated effort"
+  - "All five agents coordinate effectively using global chat"
+  - "Resources are shared efficiently among all team members"
+  - "Team completes entire mining-to-crafting pipeline within time limit"
+  - "All agents demonstrate effective five-agent coordination throughout operation"
+
