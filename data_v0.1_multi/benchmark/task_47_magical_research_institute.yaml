@@ -1,0 +1,371 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Magical Research Institute - Five-Mage Elemental Staff Workshop"
+  description: "Five magical specialists work together to create multiple elemental staffs through coordinated resource gathering, component crafting, and magical enhancement"
+
+# Task objectives
+objectives:
+  primary: "Establish a magical research institute with five mages to produce multiple elemental staffs and magical equipment"
+  secondary: # checkpoints
+    - "Coordinate five-mage resource gathering across magical materials"
+    - "Execute multi-stage magical crafting pipeline"
+    - "Produce multiple elemental staffs through team coordination"
+    - "Complete magical research objectives within 35 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is an advanced cooperative multi-agent magical crafting scenario requiring complex five-mage coordination.
+  
+  GRAND OBJECTIVE: Work together as a team of 5 magical specialists to:
+  1. Gather magical materials (logs, beads, gems) from various sources
+  2. Craft base components (sticks, base staffs)
+  3. Create multiple elemental staffs (Magic Staff, Lightning Staff, Nature Staff)
+  4. Enhance magical equipment through coordinated enchantment
+  
+  🚨 CRITICAL AWARENESS: Check your actual inventory state before making claims!
+  - Use verify_inventory to see what you really have in your inventory
+  - Use check_inventory_status frequently to track your current materials
+  - DO NOT assume you have materials that aren't verified
+  - DO NOT claim transfers happened without actually using transfer_items tool
+  - DO NOT just talk about helping - USE THE ACTUAL TOOLS to help!
+  
+  📋 REQUIRED MATERIALS FOR SUCCESS:
+  - EXACTLY 4x logs needed (harvest from Oak Trees near your spawn location)
+  - EXACTLY 15x sticks needed (craft from logs: 4 logs → 16 sticks total)
+  - EXACTLY 3x base magic staffs needed (craft from 5 sticks + 1 bead each)
+  - Team starts with 5x beads total: Agent1(1x), Agent2(1x), Agent3(2x), Agent5(1x)
+  - Team starts with 1x lightningbead (Agent4) and 1x naturebead (Agent5)
+  
+  🧮 MATERIAL MATH (CRITICAL - READ CAREFULLY):
+  For 3 base staffs + 1 lightning staff + 1 nature staff, you need:
+  - 4x logs → craft 4 times → 16x sticks (1 log = 4 sticks per craft)
+  - 15x sticks + 3x beads → 3x base staffs (5 sticks + 1 bead per staff)
+  - 1x base staff + 1x lightningbead → 1x lightningstaff
+  - 1x base staff + 1x naturebead → 1x naturestaff
+  - Final result: 1x base staff + 1x lightningstaff + 1x naturestaff
+  
+  FIVE-MAGE COORDINATION REQUIREMENTS:
+  - 📍 STAY CLOSE: Work within 10 tiles of each other for easy transfers
+  - 💬 Use global chat (NOT local send_chat_message) to coordinate with ALL team members
+  - 🔧 USE TOOLS, NOT JUST WORDS: When someone needs items, USE transfer_items immediately
+  - ✅ Verify inventory before and after every transfer with verify_inventory
+  - 🎯 Be flexible: adapt roles and help wherever needed
+  - 🤝 Team must actively transfer items, not just talk about it
+  
+  MAGICAL MATERIAL GATHERING:
+  🌲 Lumberjacking - logs:
+    - harvest_resource on Oak Tree instances to get logs
+    - Level required: 1+ (Lumberjacking skill)
+    - Need 4x logs for stick production (each craft makes 4 sticks)
+    - Look for "Oak", "Oak2", "Oak3", "Oak5" tree types near spawn
+    - If one tree doesn't drop logs, try a different tree nearby
+  
+  💎 Starting magical beads (CHECK YOUR INVENTORY):
+    - ForestArcanist (Agent1): 1x bead
+    - ComponentSpecialist (Agent2): 1x bead  
+    - StaffAssembler (Agent3): 2x beads
+    - LightningEnchanter (Agent4): 1x lightningbead
+    - MasterCoordinator (Agent5): 1x bead + 1x naturebead
+    - Total: 5x regular beads + 1x lightningbead + 1x naturebead
+  
+  COMPONENT CRAFTING:
+  🪄 Fletching Recipe - stick:
+    - craft_item skill=Fletching itemKey=stick (NO count parameter!)
+    - Materials: 1x logs → 4x sticks (automatically makes 4)
+    - Level required: 1 (Fletching skill)
+    - Need to craft 4 times total to get 16 sticks
+    - Craft syntax: craft_item(skill="Fletching", itemKey="stick")
+  
+  STAFF CRAFTING OPERATIONS:
+  ⚡ Crafting Recipe - staff (Base Magic Staff):
+    - craft_item skill=Crafting itemKey=staff (NO count parameter!)
+    - Materials: 5x stick + 1x bead → 1x staff (automatically)
+    - Level required: 1 (Crafting skill)
+    - Foundation for all advanced staffs
+    - Craft syntax: craft_item(skill="Crafting", itemKey="staff")
+  
+  ⚡ Crafting Recipe - lightningstaff:
+    - craft_item skill=Crafting itemKey=lightningstaff (NO count parameter!)
+    - Materials: 1x staff + 1x lightningbead → 1x lightningstaff (automatically)
+    - Level required: 10 (Crafting skill)
+    - Powerful lightning-elemental weapon
+    - Craft syntax: craft_item(skill="Crafting", itemKey="lightningstaff")
+  
+  🌿 Crafting Recipe - naturestaff:
+    - craft_item skill=Crafting itemKey=naturestaff (NO count parameter!)
+    - Materials: 1x staff + 1x naturebead → 1x naturestaff (automatically)
+    - Level required: 20 (Crafting skill)
+    - Nature-elemental weapon for balanced combat
+    - Craft syntax: craft_item(skill="Crafting", itemKey="naturestaff")
+  
+  🚨 CRITICAL CRAFT SYNTAX:
+  - DO NOT use count parameter in any craft_item calls!
+  - Recipes automatically produce the correct amount
+  - Wrong: craft_item(skill="Fletching", itemKey="stick", count=4)
+  - Right: craft_item(skill="Fletching", itemKey="stick")
+  
+  FIVE-MAGE TEAM ORGANIZATION (Suggested Roles - Be Flexible!):
+  - Mage 1 (ForestArcanist): Gather logs, craft some sticks, transfer to others
+  - Mage 2 (ComponentSpecialist): Help gather logs, craft sticks, support team
+  - Mage 3 (StaffAssembler): Collect sticks+beads, craft base staffs, distribute staffs
+  - Mage 4 (LightningEnchanter): Receive base staff from Agent3, craft lightningstaff
+  - Mage 5 (MasterCoordinator): Transfer bead to Agent3, receive staff, craft naturestaff
+  
+  🚨 KEY INSIGHT: You don't need to make ALL staffs before enhancing!
+  - Strategy: Make base staffs gradually and enhance them as you go
+  - As soon as Agent3 makes 1 base staff → transfer to Agent4 → Agent4 crafts lightningstaff
+  - Continue making more base staffs while Agent4 works on enhancement
+  - Parallel work = faster completion!
+  
+  🤝 AFTER YOU FINISH YOUR PERSONAL TASK:
+  - DON'T just sit idle or call complete()!
+  - Help your teammates: gather more resources, craft more items, transfer materials
+  - Example: After Agent4 makes lightningstaff, help Agent1 gather logs or help Agent3 get sticks
+  - Example: After Agent3 makes first staff, keep making more base staffs for Agent5
+  - Team wins together - no one succeeds alone!
+  
+  🤝 CRITICAL MAGICAL COORDINATION & ITEM TRANSFERS:
+  - 📦 USE transfer_items TOOL to actually move items between mages!
+    * Syntax: transfer_items(targetPlayer="StaffAssembler", itemKey="stick", count=5)
+    * Transfer TO the player who NEEDS the items, not FROM
+    * Example: If Agent3 needs bead, Agent5 should call transfer_items to Agent3
+  - 💬 Announce in global chat AFTER every action: "I now have: X logs, Y sticks, Z staffs"
+  - 📍 Move close to each other (within 10 tiles) before transferring items
+  - ✅ Always verify_inventory before claiming to have or need items
+  - 🔄 Confirm transfers: "Received 5x stick from ForestArcanist - confirmed!"
+  - 🎯 TRACK TEAM PROGRESS: Regularly check what's been completed:
+    * "Team status: Base staff ✓, Lightning staff ✓, Nature staff ✗ (in progress)"
+    * Share this status in chat so everyone knows what's left to do
+  
+  ⚠️ REALITY CHECK RULES - EXTREMELY IMPORTANT:
+  - ALWAYS use verify_inventory before claiming to have items
+  - NEVER claim to have done something without actually using the tool
+  - NEVER assume other mages sent you items unless you verify your inventory
+  - If someone needs items and you have them: USE transfer_items immediately, don't just talk!
+  - Use actual game tools (harvest_resource, transfer_items, craft_item) instead of just chatting
+  - ACTIONS > WORDS: One transfer_items call is worth 100 chat messages!
+  
+  🔄 STATUS SHARING PROTOCOL:
+  - After EVERY action, announce in chat: "I now have: X logs, Y sticks, Z beads, W staffs"
+  - When sending transfers, announce: "Transferring 5x stick to StaffAssembler now"
+  - When receiving transfers, confirm: "Confirmed received: 5x stick from ForestArcanist"
+  - Before crafting, announce: "Ready to craft staff, I have: 5 sticks + 1 bead"
+  - Track team totals: "Team status: 3/4 logs gathered, 12/15 sticks ready"
+  
+  MAGICAL RESOURCE REQUIREMENTS:
+  - Logs: 4x pieces (for stick production: 4 logs → 16 sticks)
+  - Sticks: 15x pieces minimum (5 per base staff × 3 staffs)
+  - Magic beads: 3x pieces (1 per base staff, team already HAS these!)
+  - Lightning beads: 1x piece (Agent4 already HAS this!)
+  - Nature beads: 1x piece (Agent5 already HAS this!)
+  
+  🚨 COMPLETION REQUIREMENTS:
+  - DO NOT use complete() until you verify ALL required staffs exist
+  - Required final staffs (minimum):
+    * 1x base staff (Magic Staff) - kept by anyone
+    * 1x lightningstaff - must be crafted by Agent4
+    * 1x naturestaff - must be crafted by Agent5
+  - DO NOT complete if crafting fails - troubleshoot and retry together
+  - DO NOT complete if team is scattered - coordinate first
+  - Only complete when verified: team has produced all required magical staffs
+  - If you encounter errors or obstacles, work together to solve them!
+  
+  💡 WORKFLOW EXAMPLE (Follow This Pattern!):
+  1. Agent1 & Agent2: Harvest 4x logs from Oak Trees
+  2. Agent1: Craft logs → sticks (repeat 4 times for 16 sticks)
+  3. Agent1: transfer_items to Agent3 (send 15x sticks)
+  4. Agent5: transfer_items to Agent3 (send 1x bead, keep 1x naturebead)
+  5. Agent3: Craft first base staff (5 sticks + 1 bead)
+  6. Agent3: transfer_items to Agent4 (send 1x staff)
+  7. Agent4: Craft lightningstaff (1 staff + 1 lightningbead) ✅
+  8. Agent3: Craft second base staff (5 sticks + 1 bead)
+  9. Agent3: transfer_items to Agent5 (send 1x staff)
+  10. Agent5: Craft naturestaff (1 staff + 1 naturebead) ✅
+  11. Agent3: Craft third base staff (5 sticks + 1 bead) ✅
+  12. SUCCESS! Team has: 1 base staff + 1 lightningstaff + 1 naturestaff
+  
+  Remember: Adapt this workflow as needed, but ALWAYS use the actual tools!
+
+# Limitations
+max_action_steps: 35
+
+# Agent configurations
+agent_1:
+  username: "ForestArcanist"
+  new_character: true
+  
+  location:
+    x: 0
+    y: 100
+  
+  skill_levels:
+    lumberjacking: 30  # Expert wood gathering
+    magic: 25          # Magical capability
+    crafting: 15       # Component crafting support
+    health: 30
+    strength: 25
+  
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+    - item: "bead"
+      count: 1
+  
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "ComponentSpecialist"
+  new_character: true
+  
+  location:
+    x: 2
+    y: 100
+  
+  skill_levels:
+    fletching: 30      # Expert stick crafting
+    crafting: 20       # General crafting capability
+    magic: 20          # Magical knowledge
+    health: 30
+    strength: 20
+  
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+    - item: "bead"
+      count: 1
+  
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "StaffAssembler"
+  new_character: true
+  
+  location:
+    x: 0
+    y: 98
+  
+  skill_levels:
+    crafting: 30       # Expert staff assembly
+    magic: 30          # Strong magical foundation
+    fletching: 15      # Backup component crafting
+    health: 30
+    strength: 20
+  
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+    - item: "bead"
+      count: 2
+  
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "LightningEnchanter"
+  new_character: true
+  
+  location:
+    x: 2
+    y: 98
+  
+  skill_levels:
+    crafting: 25       # Staff enhancement capability
+    magic: 35          # Expert lightning magic
+    accuracy: 25       # Magical precision
+    health: 30
+    strength: 20
+  
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+    - item: "lightningbead"
+      count: 1
+  
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "MasterCoordinator"
+  new_character: true
+  
+  location:
+    x: 2
+    y: 102
+  
+  skill_levels:
+    crafting: 30       # Advanced crafting for nature staff
+    magic: 35          # Expert magical coordination
+    fletching: 20      # Backup component support
+    health: 35
+    strength: 25
+  
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+    - item: "naturebead"
+      count: 1
+    - item: "bead"
+      count: 1
+  
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "ForestArcanist successfully gathers logs and shares with team"
+  - "ComponentSpecialist successfully crafts sticks from logs"
+  - "StaffAssembler successfully creates base magic staffs"
+  - "LightningEnchanter successfully enhances staff to Lightning Staff"
+  - "MasterCoordinator successfully creates Nature Staff and oversees production"
+  - "Team produces 1x Magic Staff through coordinated effort"
+  - "Team produces 1x Lightning Staff through coordinated enhancement"
+  - "Team produces 1x Nature Staff through coordinated enhancement"
+  - "All five mages coordinate effectively using global chat"
+  - "Magical components are shared efficiently among all team members"
+  - "Team completes entire magical research pipeline within time limit"
+  - "Magical Research Institute demonstrates mastery of five-mage coordination"
+
