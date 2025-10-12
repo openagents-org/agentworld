@@ -1,0 +1,333 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Epic Boss Raid Campaign - Extended Multi-Boss Conquest Journey"
+  description: "Three elite warriors embark on an extended boss raid campaign, defeating multiple bosses across regions with preparation phases between encounters"
+
+# Task objectives
+objectives:
+  primary: "Complete an epic extended boss raid campaign defeating multiple high-level bosses with preparation phases"
+  secondary: # checkpoints
+    - "Execute Phase 1: Preparation and equipment gathering"
+    - "Execute Phase 2: First boss encounter (Goblin)"
+    - "Execute Phase 3: Recovery and advancement preparation"
+    - "Execute Phase 4: Second boss encounter (Ogre)"
+    - "Execute Phase 5: Final boss encounter (Spectre or Ice Wizard)"
+    - "Complete entire raid campaign within 50 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is an epic extended cooperative multi-agent boss raid requiring long-term planning and multiple boss encounters.
+  
+  🚨 CRITICAL AWARENESS - BOSS RAID CAMPAIGN:
+  - ALWAYS use verify_inventory to check HP/MP before combat
+  - ALWAYS use chat to coordinate boss attacks
+  - Use observe_environment radius=64 to find bosses
+  - Use attack_mob for boss combat (system handles entire battle)
+  - NEVER engage boss if HP < 80% - use healing items first
+  - Team must attack SAME boss simultaneously for coordinated assault
+  - This is COMBAT-FOCUSED - prioritize staying alive over perfect execution
+  
+  📍 STARTING LOCATION: (350-354, 300-304) - Central combat zone
+  
+  ⚠️ REALISTIC BOSS RAID EXPECTATIONS:
+  - Boss locations are approximate - may need to search
+  - Some bosses may not spawn or may be too high level
+  - If a boss is not found, search nearby or try different boss type
+  - If team is low on HP, SKIP a boss phase and focus on final boss
+  - Survival more important than defeating ALL bosses
+  - Minimum requirement: Defeat at least 1-2 bosses total
+  
+  EPIC OBJECTIVE: Complete a multi-phase boss raid campaign:
+  1. Phase 1 (Rounds 1-12): Gather resources and prepare equipment
+  2. Phase 2 (Rounds 13-20): Defeat first boss (Goblin Level 7-15)
+  3. Phase 3 (Rounds 21-32): Recover, upgrade equipment, prepare for harder boss
+  4. Phase 4 (Rounds 33-42): Defeat second boss (Ogre Level 20+)
+  5. Phase 5 (Rounds 43-50): Defeat final boss (Spectre Level 35+ or Ice Wizard)
+  
+  EXTENDED RAID CAMPAIGN STRUCTURE:
+  
+  PHASE 1 - PREPARATION & EQUIPMENT (Rounds 1-12):
+  🎯 Objectives:
+    - Gather healing supplies (apples, flasks)
+    - Craft or upgrade weapons if possible
+    - Scout boss locations
+    - Establish team coordination protocols
+    - Prepare for first boss encounter
+  
+  🛠️ HOW TO PREPARE FOR BOSS RAID:
+    1. Team already well-equipped:
+       - RaidTank: heavysword, platearmor, 35 flask, 40 apple
+       - RaidDPS: bluesword, platearmor, 30 flask, 35 apple
+       - RaidSupport: lightningstaff, firestaff, 35 flask, 40 apple, 20 manaflask
+    2. Use verify_inventory to check current HP/MP
+    3. Use chat to share status: "HP: X/Y, MP: A/B, Flasks: C"
+    4. Move as group toward boss areas
+    5. Use observe_environment to scout for enemies and terrain
+  
+  PHASE 2 - FIRST BOSS: GOBLIN (Rounds 13-20):
+  🎯 Objectives:
+    - Locate Goblin boss (Level 7-15)
+    - Execute coordinated attack
+    - Defeat Goblin using team tactics
+    - Collect any loot drops
+  
+  👺 HOW TO FIGHT GOBLIN BOSS:
+    1. Travel to approximate location (350, 250) - forest/mountain area
+    2. Use observe_environment radius=64 to search for goblin
+    3. Look in mobs array for "goblin" with level 7-15
+    4. Before engaging:
+       - All agents use chat: "Ready to engage? HP: X/Y"
+       - Ensure all HP > 80%
+       - Position near each other (within 10 tiles)
+    5. RaidTank attacks first: attack_mob targetInstance=<goblin_instance>
+    6. RaidDPS immediately follows: attack_mob targetInstance=<same_instance>
+    7. RaidSupport joins: attack_mob targetInstance=<same_instance>
+    8. System handles entire battle - wait for "VICTORY" message
+    9. Check loot drops with verify_inventory
+    10. Use chat: "Goblin defeated! HP remaining: X/Y"
+  
+  ⚠️ If Goblin not found at (350, 250):
+    - Search nearby coordinates (340-360, 240-260)
+    - Try observing at different elevations
+    - Check for skeleton or other Level 10-15 boss as alternative
+  
+  PHASE 3 - RECOVERY & ADVANCEMENT (Rounds 21-32):
+  🎯 Objectives:
+    - Recover from first boss encounter
+    - Gather additional resources if needed
+    - Upgrade equipment through crafting
+    - Scout for second boss location
+    - Prepare for harder encounter
+  
+  🔧 HOW TO RECOVER BETWEEN BOSSES:
+    1. Check team HP status: use chat to share "HP: X/Y"
+    2. If HP < 100%, consume healing items:
+       - Use apple (heals ~50 HP each)
+       - Use flask for major healing
+    3. Gather more healing items if needed:
+       - Forage plants for food
+       - Hunt low-level creatures for meat/drops
+    4. Stay together as group for safety
+    5. Plan next boss location
+    6. SKIP crafting unless time permits - focus on survival
+  
+  PHASE 4 - SECOND BOSS: OGRE (Rounds 33-42):
+  🎯 Objectives:
+    - Locate Ogre boss (Level 20+)
+    - Execute advanced coordinated assault
+    - Defeat Ogre using improved tactics
+    - Manage high-damage encounters
+  
+  👹 HOW TO FIGHT OGRE BOSS:
+    1. Travel to mountain region around (238, 48) - known Ogre location
+    2. Alternatively try (300, 150) - cave/mountain area
+    3. Use observe_environment radius=64 to search for ogre
+    4. Look for "ogre" with level 20-30 (Level 25 Iron Ogre at 238,48)
+    5. Before engaging:
+       - CRITICAL: All agents must have HP > 80%
+       - Use healing items if needed
+       - Chat: "Ready for Ogre? HP: X/Y. Position: (A,B)"
+    6. RaidTank attacks first: attack_mob targetInstance=<ogre_instance>
+    7. RaidDPS follows: attack_mob targetInstance=<same_instance>
+    8. RaidSupport joins: attack_mob targetInstance=<same_instance>
+    9. Battle may take longer - Ogre has high HP
+    10. After victory, check status: "Ogre defeated! HP: X/Y"
+  
+  ⚠️ If team HP drops too low (< 50% for any member):
+    - Consider skipping Ogre and proceeding to Phase 5
+    - Better to be healthy for final boss
+  
+  PHASE 5 - FINAL BOSS (Rounds 43-50):
+  🎯 Objectives:
+    - Locate final boss (Spectre Level 35+ OR Ice Wizard)
+    - Execute perfect team coordination
+    - Defeat final boss as ultimate challenge
+    - Complete epic raid campaign
+  
+  👻 HOW TO FIGHT FINAL BOSS (SPECTRE OR ICE WIZARD):
+    1. Search multiple potential locations:
+       - Spectre: Dark areas, Level 35+ undead
+       - Ice Wizard: Frozen regions around (259, 151) - Level 35+ Ice Guardian
+       - Ice Knight: Castle at (712, 717) - Level 62 (very hard!)
+    2. Use observe_environment radius=64 at each location
+    3. Choose EASIEST boss found (lowest level)
+    4. Before engaging:
+       - MANDATORY: All agents HP > 90%
+       - Use ALL remaining healing items to prepare
+       - Chat: "Final boss found! Type: X, Level: Y, HP status: Z"
+       - Confirm all 3 agents ready
+    5. Attack sequence:
+       - RaidTank: attack_mob targetInstance=<boss_instance>
+       - RaidDPS: attack_mob targetInstance=<same_instance>
+       - RaidSupport: attack_mob targetInstance=<same_instance>
+    6. Battle may be long and difficult
+    7. After victory: "FINAL BOSS DEFEATED! Campaign complete!"
+  
+  ⚠️ ADAPTIVE STRATEGY:
+    - If Level 35+ bosses too hard, find Level 25-30 alternative
+    - Skeleton, Ogre variants, or other mid-level bosses acceptable
+    - Survival and ANY boss victory > dying to impossible boss
+    - Team must make smart choices based on actual game state
+  
+  EXTENDED RAID COORDINATION:
+  - Use global chat constantly throughout all 50 rounds
+  - Track boss defeats and preparation status
+  - Coordinate healing resource management
+  - Plan travel routes between boss locations
+  - Balance combat with recovery phases
+  - Adapt strategies based on boss encounters
+  
+  BOSS PROGRESSION:
+  - Boss 1 (Goblin): Training encounter, establish teamwork
+  - Boss 2 (Ogre): Intermediate challenge, test advanced tactics
+  - Boss 3 (Spectre/Ice Wizard): Ultimate challenge, perfect execution required
+  
+  🚨 COMPLETION REQUIREMENTS (FLEXIBLE FOR SURVIVAL):
+  
+  DO NOT use complete() until MINIMUM requirements met:
+  
+  MINIMUM REQUIRED (Must Complete):
+  ✓ At least 2 bosses defeated (any combination)
+  ✓ All 3 warriors survive with HP > 0
+  ✓ Team demonstrated coordinated boss combat
+  
+  IDEAL COMPLETION (Full Success):
+  ✓ Goblin/Skeleton boss defeated (Phase 2)
+  ✓ Ogre boss defeated (Phase 4)
+  ✓ Final boss defeated (Phase 5) - Spectre, Ice Wizard, or alternative
+  ✓ All phases completed in sequence
+  
+  ADAPTIVE COMPLETION (If Difficulties Arise):
+  ✓ If specific boss not found, defeated alternative boss of similar level
+  ✓ If team HP low, skipped middle boss and focused on final boss
+  ✓ Prioritized survival over perfect execution
+  
+  VERIFICATION PROCESS:
+  ✓ All agents use chat to list defeated bosses: "Bosses defeated: [list]"
+  ✓ All agents confirm survival: "HP: X/Y, Status: Alive"
+  ✓ Team confirms: "Raid campaign complete - [X] bosses defeated"
+  
+  THEN call complete() with summary: "Defeated [X] bosses: [names]. All warriors survived."
+
+# Limitations
+max_action_steps: 50
+
+# Agent configurations
+agent_1:
+  username: "RaidTank"
+  new_character: true
+  
+  location:
+    x: 350
+    y: 300
+  
+  skill_levels:
+    defense: 45        # Maximum tanking capability
+    strength: 40       # Strong attacks
+    health: 55         # Maximum survivability
+    accuracy: 30       # Combat precision
+  
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+  
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "RaidDPS"
+  new_character: true
+  
+  location:
+    x: 352
+    y: 302
+  
+  skill_levels:
+    strength: 50       # Maximum damage output
+    accuracy: 45       # High precision
+    health: 45         # Good survivability
+    defense: 35        # Moderate protection
+  
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+  
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "RaidSupport"
+  new_character: true
+  
+  location:
+    x: 354
+    y: 304
+  
+  skill_levels:
+    magic: 45          # Magical support and damage
+    accuracy: 40       # Magical precision
+    health: 45         # Support survivability
+    defense: 35        # Protection
+    strength: 30       # Backup physical combat
+  
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+    - item: "manaflask"
+      count: 20
+  
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "RaidTank successfully leads all boss encounters"
+  - "Team successfully completes Phase 1: Preparation & Equipment"
+  - "Team successfully locates and engages Goblin boss"
+  - "RaidDPS maximizes damage output in all encounters"
+  - "Team successfully defeats Goblin boss (Phase 2)"
+  - "Team successfully completes Phase 3: Recovery & Advancement"
+  - "Team successfully locates and engages Ogre boss"
+  - "Team successfully defeats Ogre boss (Phase 4)"
+  - "RaidSupport provides effective magical support throughout campaign"
+  - "Team successfully locates final boss (Spectre or Ice Wizard)"
+  - "Team successfully defeats final boss (Phase 5)"
+  - "All three bosses are defeated in sequence"
+  - "All three warriors survive entire 50-round campaign"
+  - "Team demonstrates mastery of extended multi-boss coordination"
+  - "Epic boss raid campaign completed within 50-round timeframe"
+
