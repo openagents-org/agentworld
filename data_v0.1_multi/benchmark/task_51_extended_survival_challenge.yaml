@@ -1,0 +1,318 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Extended Survival Challenge - Multi-Phase Resource Management and Combat"
+  description: "Three agents undertake an extended survival challenge requiring resource gathering, equipment crafting, combat encounters, and long-term coordination over 50 rounds"
+
+# Task objectives
+objectives:
+  primary: "Complete an extended survival challenge with multiple phases of resource gathering, crafting, and combat over 50 rounds"
+  secondary: # checkpoints
+    - "Execute Phase 1: Initial resource gathering and base equipment"
+    - "Execute Phase 2: Advanced resource acquisition and tool upgrades"
+    - "Execute Phase 3: Combat preparation and enemy encounters"
+    - "Execute Phase 4: Final equipment enhancement and boss challenge"
+    - "Complete all survival phases within 50 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is an extended cooperative multi-agent survival scenario requiring long-term planning and resource management.
+  
+  🚨 CRITICAL AWARENESS: This is a 50-round challenge - ALWAYS verify inventory before making claims!
+  - Use verify_inventory to check actual materials in your inventory
+  - Use observe_environment to find resources and enemies
+  - Do NOT assume materials exist without verification
+  - Use transfer_items for ALL material transfers between agents
+  - Use chat to coordinate and share status after EVERY major action
+  
+  EXTENDED OBJECTIVE: Survive and thrive through multiple challenge phases:
+  1. Phase 1 (Rounds 1-12): Basic survival - Gather initial resources and craft basic tools
+  2. Phase 2 (Rounds 13-25): Resource expansion - Upgrade tools and gather advanced materials
+  3. Phase 3 (Rounds 26-38): Combat readiness - Prepare equipment and engage enemies
+  4. Phase 4 (Rounds 39-50): Final challenge - Enhance equipment and defeat boss enemy
+  
+  📍 COORDINATION BASE: Start location around (388-392, 4) - Stay within 10 tiles for transfers!
+  
+  SURVIVAL CHALLENGE PHASES:
+  
+  PHASE 1 - BASIC SURVIVAL (Rounds 1-12):
+  🎯 Objectives:
+    - Gather logs from Oak trees (need 4+ logs)
+    - Craft sticks from logs using Fletching
+    - Craft basic Magic Staff (5 sticks + 1 bead)
+    - Gather initial food supplies
+    - Establish team coordination
+  
+  🌲 HOW TO GATHER LOGS:
+    1. Use observe_environment radius=32 to find Oak Tree instances
+    2. Note the "instance" ID from observation results
+    3. Use harvest_resource targetInstance=<instance_id>
+    4. System will auto-move you closer if needed and complete harvesting
+    5. Use verify_inventory to confirm logs received
+    6. Level required: 1+ (Lumberjacking skill)
+  
+  🪄 HOW TO CRAFT STICKS:
+    - Function: craft_item skill=Fletching itemKey=stick
+    - Materials: 1x logs → 4x sticks (automatic conversion)
+    - DO NOT add count parameter - system crafts 1 batch per call
+    - Use verify_inventory before crafting to confirm you have logs
+    - Call this 4+ times to get enough sticks (need 20+ total)
+  
+  ⚡ HOW TO CRAFT MAGIC STAFF:
+    - Function: craft_item skill=Crafting itemKey=staff
+    - Materials: 5x stick + 1x bead → 1x Magic Staff
+    - SurvivalLeader already has 1x bead in starting inventory
+    - Consolidate 5x sticks + 1x bead with ONE agent using transfer_items
+    - Use verify_inventory to confirm materials before crafting
+  
+  PHASE 2 - RESOURCE EXPANSION (Rounds 13-25):
+  🎯 Objectives:
+    - Mine iron ore from mountain regions (need 8+ pieces)
+    - Mine coal for smelting (need 8+ pieces)
+    - Smelt iron bars (need 8+ bars)
+    - Craft improved tools: pickaxe and axe
+    - Upgrade team equipment capabilities
+  
+  ⛏️ HOW TO MINE IRON ORE:
+    1. Team must travel to mountain region around (230, 38) for iron deposits
+    2. Use observe_environment radius=32 to find iron rock instances
+    3. Use harvest_resource targetInstance=<instance_id>
+    4. Need to mine 10+ iron ore total (team effort)
+    5. Level required: 10+ Mining (SurvivalLeader has 20 Mining)
+  
+  ⛏️ HOW TO MINE COAL:
+    1. Coal rocks usually near iron deposits in same mountain area
+    2. Use observe_environment to locate coal rock instances
+    3. Use harvest_resource targetInstance=<instance_id>
+    4. Need 10+ coal total for all smelting operations
+    5. Level required: 1+ Mining (all agents can do this)
+  
+  🔥 HOW TO SMELT IRON BARS:
+    - Function: craft_item skill=Smelting itemKey=ironbar
+    - Materials: 1x ironore + 1x coal → 1x ironbar
+    - CraftingExpert has Smithing 25 (can smelt)
+    - Call 10+ times to create enough bars
+    - Use transfer_items to consolidate ore+coal with CraftingExpert
+  
+  🔨 HOW TO CRAFT PICKAXE:
+    - Function: craft_item skill=Smithing itemKey=pickaxe
+    - Materials: 5x ironbar + 1x logs → 1x pickaxe
+    - CraftingExpert crafts this (Smithing 25)
+    - Need to gather 1 more log from Oak trees
+  
+  🔨 HOW TO CRAFT AXE:
+    - Function: craft_item skill=Smithing itemKey=axe
+    - Materials: 3x ironbar + 1x logs → 1x axe
+    - CraftingExpert crafts this (Smithing 25)
+    - Need to gather 1 more log from Oak trees
+  
+  PHASE 3 - COMBAT READINESS (Rounds 26-38):
+  🎯 Objectives:
+    - Engage and defeat basic enemies (Rats, Bats, Crabs)
+    - Craft combat weapons: Heavy Sword
+    - Gather combat supplies and healing items
+    - Practice coordinated combat tactics
+    - Scout for boss enemy location
+  
+  🔨 HOW TO CRAFT HEAVY SWORD:
+    - Function: craft_item skill=Smithing itemKey=sword2
+    - Materials: 2x ironbar + 1x hilt2 → 1x Heavy Sword
+    - CraftingExpert already has 1x hilt2 in starting inventory
+    - Transfer 2x ironbar to CraftingExpert using transfer_items
+    - Level required: 1 Smithing (all agents can craft)
+  
+  ⚔️ HOW TO ENGAGE IN COMBAT:
+    1. Use observe_environment radius=32 to locate enemies (rats, bats, crabs)
+    2. Note the enemy "instance" ID from mobs array
+    3. Use attack_mob targetInstance=<instance_id>
+    4. System auto-moves you to attack position and completes entire battle
+    5. After victory, items are auto-collected
+    6. Practice on low-level enemies (Level 1-5) before boss
+    7. Use chat to coordinate if multiple agents attack same enemy
+  
+  PHASE 4 - FINAL CHALLENGE (Rounds 39-50):
+  🎯 Objectives:
+    - Enhance equipment through additional crafting
+    - Locate and engage boss enemy (Goblin, Skeleton, or Ogre)
+    - Execute coordinated boss combat
+    - Defeat boss through team coordination
+    - Complete survival challenge successfully
+  
+  👹 HOW TO FIGHT BOSS:
+    1. Scout for boss location using observe_environment radius=64
+    2. Look for Goblin (Level 7-15), Skeleton (Level 10+), or Ogre (Level 20+)
+    3. Ensure all agents have HP > 80% before engaging
+    4. CombatSpecialist leads attack: attack_mob targetInstance=<boss_instance>
+    5. Other agents join: attack_mob targetInstance=<same_boss_instance>
+    6. System handles entire battle - wait for completion
+    7. Boss locations: Goblins near (350, 250), Skeletons in dungeons, Ogres at (238, 48)
+    8. Use chat to announce boss found and coordinate simultaneous attacks
+  
+  📋 STATUS SHARING PROTOCOL (CRITICAL FOR 50 ROUNDS):
+  - After EVERY phase completion: "Phase X complete! I have: [list all items]"
+  - After gathering resources: "Gathered X ore/logs. Current inventory: [items]"
+  - Before crafting: "Ready to craft X. I have: [exact materials]"
+  - After transfers: "Sent X to Y" and recipient confirms "Received X from Y"
+  - Before boss fight: "Boss located at (X,Y). HP: X/X. Equipment: [list]"
+  - Use global chat constantly - coordination is survival!
+  
+  🤝 COORDINATION REQUIREMENTS:
+  - Stay within 10 tiles during crafting/transfer phases
+  - Use transfer_items for ALL material exchanges
+  - Use verify_inventory before and after EVERY transfer
+  - Never assume materials exist - always verify first
+  - Travel together when moving to new regions (safety in numbers)
+  
+  RESOURCE MANAGEMENT ACROSS 50 ROUNDS:
+  - Logs: 6+ pieces (tools, weapons, sticks)
+  - Iron ore: 10+ pieces (bars for equipment)
+  - Coal: 10+ pieces (smelting fuel)
+  - Magic beads: 1+ piece (staff crafting)
+  - Hilt: 1+ piece (sword crafting)
+  - Healing items: Managed throughout (flasks, apples)
+  
+  EXTENDED CHALLENGE REQUIREMENTS:
+  - Phase 1: Complete basic survival setup
+  - Phase 2: Successfully upgrade to advanced tools
+  - Phase 3: Engage in combat and craft weapons
+  - Phase 4: Defeat boss enemy as final challenge
+  - All agents must survive entire 50-round challenge
+  - Team must demonstrate long-term coordination mastery
+  
+  🚨 COMPLETION REQUIREMENTS (DO NOT SKIP):
+  - DO NOT use complete() until ALL conditions verified:
+    ✓ Phase 1: Magic Staff crafted (use verify_inventory to confirm)
+    ✓ Phase 2: Pickaxe AND Axe both crafted (verify with team)
+    ✓ Phase 3: Heavy Sword crafted (verify inventory)
+    ✓ Phase 4: Boss defeated (combat_mob shows "VICTORY" message)
+    ✓ All agents alive (HP > 0)
+  - Use verify_inventory before calling complete()
+  - Use chat to confirm all agents agree task is done
+  - Only call complete() when ALL objectives verified by ALL agents
+
+# Limitations
+max_action_steps: 50
+
+# Agent configurations
+agent_1:
+  username: "SurvivalLeader"
+  new_character: true
+  
+  location:
+    x: 388
+    y: 4
+  
+  skill_levels:
+    lumberjacking: 25  # Resource gathering
+    mining: 20         # Ore extraction
+    strength: 35       # Combat and resource gathering
+    health: 40         # Long-term survivability
+    defense: 30        # Protection during challenge
+  
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "bead"
+      count: 1
+  
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "CraftingExpert"
+  new_character: true
+  
+  location:
+    x: 390
+    y: 4
+  
+  skill_levels:
+    crafting: 30       # All crafting operations
+    smithing: 25       # Metal working and smelting
+    fletching: 25      # Component crafting
+    strength: 30       # Material handling
+    health: 40         # Endurance
+  
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "hilt2"
+      count: 1
+  
+  equipped_items:
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "CombatSpecialist"
+  new_character: true
+  
+  location:
+    x: 392
+    y: 4
+  
+  skill_levels:
+    strength: 40       # Maximum combat effectiveness
+    accuracy: 35       # Combat precision
+    defense: 35        # Protection in combat
+    health: 45         # Maximum survivability
+    magic: 25          # Backup magical support
+  
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+  
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "SurvivalLeader successfully coordinates all survival phases"
+  - "Team successfully completes Phase 1: Basic Survival (Rounds 1-12)"
+  - "Magic Staff is crafted during Phase 1"
+  - "Team successfully completes Phase 2: Resource Expansion (Rounds 13-25)"
+  - "Pickaxe and Axe are crafted during Phase 2"
+  - "CraftingExpert successfully produces all required equipment"
+  - "Team successfully completes Phase 3: Combat Readiness (Rounds 26-38)"
+  - "Heavy Sword is crafted during Phase 3"
+  - "Team engages and practices with basic enemies during Phase 3"
+  - "CombatSpecialist leads combat operations effectively"
+  - "Team successfully completes Phase 4: Final Challenge (Rounds 39-50)"
+  - "Boss enemy is located and engaged during Phase 4"
+  - "Boss enemy is defeated through coordinated team combat"
+  - "All three agents survive entire 50-round extended challenge"
+  - "Team demonstrates mastery of long-term survival coordination"
+  - "All phase objectives are completed in sequence within 50 rounds"
+
