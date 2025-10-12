@@ -46,10 +46,10 @@ relevant_game_context: |
   - Final result: 1x base staff + 1x lightningstaff + 1x naturestaff
   
   FIVE-MAGE COORDINATION REQUIREMENTS:
-  - 📍 STAY CLOSE: Work within 10 tiles of each other for easy transfers
+  - 📍 STAY CLOSE: Work within reasonable distance for coordination
   - 💬 Use global chat (NOT local send_chat_message) to coordinate with ALL team members
   - 🔧 USE TOOLS, NOT JUST WORDS: When someone needs items, USE transfer_items immediately
-  - ✅ Verify inventory before and after every transfer with verify_inventory
+  - ✅ transfer_items automatically: checks inventory, transfers items, sends chat notification
   - 🎯 Be flexible: adapt roles and help wherever needed
   - 🤝 Team must actively transfer items, not just talk about it
   
@@ -59,7 +59,8 @@ relevant_game_context: |
     - Level required: 1+ (Lumberjacking skill)
     - Need 4x logs for stick production (each craft makes 4 sticks)
     - Look for "Oak", "Oak2", "Oak3", "Oak5" tree types near spawn
-    - If one tree doesn't drop logs, try a different tree nearby
+    - harvest_resource automatically: moves closer if needed, completes entire harvesting process, collects items
+    - Tool provides detailed report of items collected
   
   💎 Starting magical beads (CHECK YOUR INVENTORY):
     - ForestArcanist (Agent1): 1x bead
@@ -130,10 +131,10 @@ relevant_game_context: |
     * Syntax: transfer_items(targetPlayer="StaffAssembler", itemKey="stick", count=5)
     * Transfer TO the player who NEEDS the items, not FROM
     * Example: If Agent3 needs bead, Agent5 should call transfer_items to Agent3
+    * transfer_items automatically: checks inventory, removes from sender, adds to receiver, sends chat notification
   - 💬 Announce in global chat AFTER every action: "I now have: X logs, Y sticks, Z staffs"
-  - 📍 Move close to each other (within 10 tiles) before transferring items
   - ✅ Always verify_inventory before claiming to have or need items
-  - 🔄 Confirm transfers: "Received 5x stick from ForestArcanist - confirmed!"
+  - 🔄 Receiver confirms receipt: "Confirmed received: 5x stick - inventory verified"
   - 🎯 TRACK TEAM PROGRESS: Regularly check what's been completed:
     * "Team status: Base staff ✓, Lightning staff ✓, Nature staff ✗ (in progress)"
     * Share this status in chat so everyone knows what's left to do
@@ -144,12 +145,15 @@ relevant_game_context: |
   - NEVER assume other mages sent you items unless you verify your inventory
   - If someone needs items and you have them: USE transfer_items immediately, don't just talk!
   - Use actual game tools (harvest_resource, transfer_items, craft_item) instead of just chatting
+  - harvest_resource: Automatically completes entire harvesting process and collects items
+  - transfer_items: Automatically handles inventory checks, transfer, and chat notification
+  - craft_item: Automatically validates materials and provides detailed error messages
   - ACTIONS > WORDS: One transfer_items call is worth 100 chat messages!
   
   🔄 STATUS SHARING PROTOCOL:
   - After EVERY action, announce in chat: "I now have: X logs, Y sticks, Z beads, W staffs"
-  - When sending transfers, announce: "Transferring 5x stick to StaffAssembler now"
-  - When receiving transfers, confirm: "Confirmed received: 5x stick from ForestArcanist"
+  - transfer_items automatically notifies via chat - receiver should verify and confirm
+  - When receiving transfers, confirm: "Confirmed received: 5x stick - inventory verified"
   - Before crafting, announce: "Ready to craft staff, I have: 5 sticks + 1 bead"
   - Track team totals: "Team status: 3/4 logs gathered, 12/15 sticks ready"
   
