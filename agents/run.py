@@ -1140,7 +1140,7 @@ class TaskRunner:
         self.logger.info(f"🔄 Starting synchronized tool-call-level execution...")
         self.logger.info(f"   Each agent will execute exactly one tool call per turn")
         
-        max_rounds = 30  # Maximum number of rounds to prevent infinite loops
+        max_rounds = 55  # Maximum number of rounds to prevent infinite loops
         round_count = 0
         agent_order = list(agent_states.keys())  # Fixed order for round-robin
         
