@@ -1238,9 +1238,16 @@ class TaskRunner:
                         self.log_message(f"    💭 Content: {response_preview}", color=0)
                 
                 # Record agent observation if available
+                # IMPORTANT: Take a fresh observation AFTER the action is executed
                 try:
                     if agent_state.console and agent_state.console.agent.game_tools:
+                        # Add a small delay to ensure the game server has processed the action
+                        time.sleep(0.5)
+                        
+                        # Take a fresh observation to capture the state AFTER the action
+                        agent_state.console.agent.game_tools.observe_environment({"radius": 64})
                         observation_data = agent_state.console.agent.game_tools.get_last_observation_data()
+                        
                         if observation_data:
                             self.log_agent_observation(agent_name, observation_data, round_count)
                 except Exception as e:

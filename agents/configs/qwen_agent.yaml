@@ -8,9 +8,9 @@ agent:
   
   # LLM Configuration
   llm:
-    model: "deepseek-v3"
-    api_key: null  # Will use DASHSCOPE_API_KEY environment variable
-    base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+    model: "gpt-5-mini"
+    api_key: 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  # Will use DASHSCOPE_API_KEY environment variable
+    base_url: "https://api.openai.com/v1"
     max_tokens: 4096
     temperature: 0.7
     

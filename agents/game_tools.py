@@ -637,36 +637,73 @@ class KaetramGameTools:
                 if move_result.get("status") != "success":
                     return f"Error: Failed to move closer to {resource_name}: {move_result.get('message', 'Unknown error')}"
                 
-                # Wait longer for position sync and verify position
-                time.sleep(2)  # Increased wait time
+                # IMPROVED POSITION SYNCHRONIZATION: Wait and verify position multiple times
+                max_position_attempts = 5
+                position_verified = False
                 
-                # Verify the position update by checking current location
-                current_observe = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], params={"token": self.token, "radius": 1})
-                if current_observe.get("status") == "success":
-                    current_data = current_observe.get("data", {})
-                    actual_x = current_data.get("location", {}).get("x")
-                    actual_y = current_data.get("location", {}).get("y")
+                for attempt in range(max_position_attempts):
+                    # Progressive wait time: 2s, 3s, 4s, 5s, 6s
+                    wait_time = 2 + attempt
+                    time.sleep(wait_time)
                     
-                    if actual_x is not None and actual_y is not None:
-                        # Recalculate distance with actual position
-                        actual_distance = abs(resource_x - actual_x) + abs(resource_y - actual_y)
+                    # Verify the position update by checking current location
+                    current_observe = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], params={"token": self.token, "radius": 1})
+                    if current_observe.get("status") == "success":
+                        current_data = current_observe.get("data", {})
+                        actual_x = current_data.get("location", {}).get("x")
+                        actual_y = current_data.get("location", {}).get("y")
                         
-                        # If still too far, try moving to exact resource location
-                        if actual_distance > 2:
-                            exact_move_data = {
-                                "token": self.token,
-                                "x": resource_x,
-                                "y": resource_y
-                            }
-                            exact_move_result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["move"], exact_move_data)
-                            time.sleep(1)  # Additional wait after exact move
-                            movement_info = f"Moved to exact resource location {resource_name} at ({resource_x}, {resource_y}). Previous attempt to ({target_x}, {target_y}) was insufficient (distance was {actual_distance}). "
+                        if actual_x is not None and actual_y is not None:
+                            # Recalculate distance with actual position
+                            actual_distance = abs(resource_x - actual_x) + abs(resource_y - actual_y)
+                            
+                            # Position is good enough for harvesting
+                            if actual_distance <= 2:
+                                position_verified = True
+                                movement_info = f"Moved closer to {resource_name} at ({resource_x}, {resource_y}) from position ({actual_x}, {actual_y}) (distance: {actual_distance}, attempt {attempt + 1}). "
+                                break
+                            
+                            # If still too far on the last attempt, try moving to exact resource location
+                            elif attempt == max_position_attempts - 1:
+                                exact_move_data = {
+                                    "token": self.token,
+                                    "x": resource_x,
+                                    "y": resource_y
+                                }
+                                exact_move_result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["move"], exact_move_data)
+                                
+                                # Final wait for exact position
+                                time.sleep(3)
+                                
+                                # Final position check
+                                final_check = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], params={"token": self.token, "radius": 1})
+                                if final_check.get("status") == "success":
+                                    final_data = final_check.get("data", {})
+                                    final_x = final_data.get("location", {}).get("x")
+                                    final_y = final_data.get("location", {}).get("y")
+                                    if final_x is not None and final_y is not None:
+                                        final_distance = abs(resource_x - final_x) + abs(resource_y - final_y)
+                                        if final_distance <= 2:
+                                            position_verified = True
+                                            movement_info = f"Moved to exact resource location {resource_name} at ({resource_x}, {resource_y}). Final position ({final_x}, {final_y}), distance: {final_distance}. "
+                                        else:
+                                            movement_info = f"Failed to get close enough to {resource_name}. Final distance: {final_distance}. "
+                                    else:
+                                        movement_info = f"Could not verify final position for {resource_name}. "
+                                else:
+                                    movement_info = f"Position verification failed for {resource_name}. "
+                            else:
+                                # Continue trying on intermediate attempts
+                                self._debug_print(f"Position sync attempt {attempt + 1}: distance {actual_distance}, retrying...")
+                                continue
                         else:
-                            movement_info = f"Moved closer to {resource_name} at ({resource_x}, {resource_y}) from position ({actual_x}, {actual_y}) (distance: {actual_distance}). "
+                            movement_info = f"Could not get position data on attempt {attempt + 1}. "
                     else:
-                        movement_info = f"Moved closer to {resource_name} at ({resource_x}, {resource_y}) from position ({target_x}, {target_y}). "
-                else:
-                    movement_info = f"Moved closer to {resource_name} at ({resource_x}, {resource_y}) from position ({target_x}, {target_y}). "
+                        movement_info = f"Observation failed on attempt {attempt + 1}. "
+                
+                # If position was never verified, return error
+                if not position_verified:
+                    return f"Error: {movement_info}Failed to synchronize position after {max_position_attempts} attempts. Cannot proceed with harvest."
             else:
                 movement_info = f"Already near {resource_name}. "
         else:
@@ -696,20 +733,74 @@ class KaetramGameTools:
                 if key:
                     initial_inventory[key] = initial_inventory.get(key, 0) + count
         
-        # Final position verification before harvest
-        final_observe = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], params={"token": self.token, "radius": 1})
+        # CRITICAL: Additional wait before starting skill to ensure movement has fully stopped
+        # This prevents the skill from being interrupted by lingering movement effects
+        time.sleep(2)  # Skill cooldown period
+        
+        # Final position verification before harvest - but only if we moved
+        final_position_verified = False
         final_position_info = ""
-        if final_observe.get("status") == "success":
-            final_data = final_observe.get("data", {})
-            final_x = final_data.get("location", {}).get("x")
-            final_y = final_data.get("location", {}).get("y")
-            if final_x is not None and final_y is not None and resource_x is not None and resource_y is not None:
-                final_distance = abs(resource_x - final_x) + abs(resource_y - final_y)
-                final_position_info = f"Final position verification: Player at ({final_x}, {final_y}), Resource at ({resource_x}, {resource_y}), Distance: {final_distance}. "
+        
+        # If we didn't move (already near resource), skip strict verification
+        if "Already near" in movement_info:
+            # For already-near cases, do a simple verification with fallback
+            simple_observe = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], params={"token": self.token, "radius": 1})
+            if simple_observe.get("status") == "success":
+                simple_data = simple_observe.get("data", {})
+                simple_x = simple_data.get("location", {}).get("x")
+                simple_y = simple_data.get("location", {}).get("y")
                 
-                # If still too far, abort with detailed error
-                if final_distance > 2:
-                    return f"Error: {movement_info}{final_position_info}Cannot harvest - distance {final_distance} exceeds maximum allowed distance of 2. This may indicate a server synchronization issue."
+                if simple_x is not None and simple_y is not None and resource_x is not None and resource_y is not None:
+                    simple_distance = abs(resource_x - simple_x) + abs(resource_y - simple_y)
+                    final_position_info = f"Position check: Player at ({simple_x}, {simple_y}), Resource at ({resource_x}, {resource_y}), Distance: {simple_distance}. "
+                    final_position_verified = True
+                else:
+                    # If coordinates are unavailable but we were already near, proceed anyway
+                    final_position_info = f"Position coordinates unavailable, but agent was already near resource. Proceeding with harvest. "
+                    final_position_verified = True
+            else:
+                # If observe fails but we were already near, proceed anyway
+                final_position_info = f"Position verification unavailable, but agent was already near resource. Proceeding with harvest. "
+                final_position_verified = True
+        else:
+            # For cases where we moved, do strict verification with retry mechanism
+            for final_attempt in range(3):  # Try up to 3 times
+                final_observe = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], params={"token": self.token, "radius": 1})
+                
+                if final_observe.get("status") == "success":
+                    final_data = final_observe.get("data", {})
+                    final_x = final_data.get("location", {}).get("x")
+                    final_y = final_data.get("location", {}).get("y")
+                    
+                    if final_x is not None and final_y is not None and resource_x is not None and resource_y is not None:
+                        final_distance = abs(resource_x - final_x) + abs(resource_y - final_y)
+                        final_position_info = f"Final position verification (attempt {final_attempt + 1}): Player at ({final_x}, {final_y}), Resource at ({resource_x}, {resource_y}), Distance: {final_distance}. "
+                        
+                        # Position is acceptable for harvesting
+                        if final_distance <= 2:
+                            final_position_verified = True
+                            break
+                        else:
+                            # If not the last attempt, wait and try again
+                            if final_attempt < 2:
+                                time.sleep(1)
+                                continue
+                            else:
+                                return f"Error: {movement_info}{final_position_info}Cannot harvest - distance {final_distance} exceeds maximum allowed distance of 2 after {final_attempt + 1} verification attempts. This indicates a persistent server synchronization issue."
+                    else:
+                        final_position_info = f"Final position verification failed - could not get coordinates (attempt {final_attempt + 1}). "
+                        if final_attempt < 2:
+                            time.sleep(1)
+                            continue
+                else:
+                    final_position_info = f"Final observation failed (attempt {final_attempt + 1}). "
+                    if final_attempt < 2:
+                        time.sleep(1)
+                        continue
+            
+            # If we couldn't verify position after all attempts, abort
+            if not final_position_verified:
+                return f"Error: {movement_info}{final_position_info}Failed to verify position for harvest after multiple attempts."
         
         # Start the harvesting process with detailed logging
         debug_info = [
@@ -840,15 +931,25 @@ class KaetramGameTools:
                 f"⚡ Process: Resource depleted and items automatically added to inventory\n"
                 f"🎯 Status: Ready for next action"
             )
+            
+            # POST-HARVEST COOLDOWN: Wait to ensure skill completion is fully processed
+            time.sleep(1.5)  # Brief cooldown after successful harvest
+            
             return result_message
             
         elif total_wait >= max_wait_time:
+            # POST-HARVEST COOLDOWN: Even for incomplete harvests
+            time.sleep(1.5)
+            
             return (
                 f"{movement_info}⏳ HARVEST IN PROGRESS: {action.title()} {resource_name} at ({resource_x}, {resource_y})\n"
                 f"📋 Status: Harvesting process started but may take additional time to complete\n"
                 f"💡 Note: Check inventory periodically for collected items"
             )
         else:
+            # POST-HARVEST COOLDOWN: For completed harvests without detected items
+            time.sleep(1.5)
+            
             return (
                 f"{movement_info}✅ HARVEST COMPLETE: {action.title()} {resource_name} at ({resource_x}, {resource_y})\n"
                 f"📦 Items Collected: Resource depleted (no items detected in inventory change)\n"
@@ -1912,7 +2013,15 @@ class KaetramGameTools:
             return f"Error retrieving chat messages: {str(e)}"
 
     def transfer_items(self, arguments: Dict[str, Any]) -> str:
-        """Transfer items from current player's inventory to another player using direct inventory manipulation"""
+        """Transfer items from current player's inventory to another player.
+        
+        This function implements a proper transfer mechanism:
+        1. Verifies we have the required items in inventory
+        2. Removes items from our inventory using setInventory API
+        3. Adds items to target player's inventory using setInventory API with targetPlayer
+        4. Provides proper rollback if the transfer fails
+        5. Sends chat notification of the transfer
+        """
         if not self.token:
             return "Error: No token available. Please login first."
         
@@ -1966,6 +2075,12 @@ class KaetramGameTools:
             if key:
                 current_inventory[key] = current_inventory.get(key, 0) + item_count
         
+        # Store original inventory for potential rollback BEFORE modifying it
+        original_items = []
+        for key, amount in current_inventory.items():
+            if amount > 0:
+                original_items.append({"key": key, "count": amount})
+        
         # Remove items from current player's inventory
         current_inventory[item_key] = current_inventory.get(item_key, 0) - count
         if current_inventory[item_key] <= 0:
@@ -1976,12 +2091,6 @@ class KaetramGameTools:
         for key, amount in current_inventory.items():
             if amount > 0:
                 current_items.append({"key": key, "count": amount})
-        
-        # Store original inventory for potential rollback
-        original_items = []
-        for key, amount in current_inventory.items():
-            if amount > 0:
-                original_items.append({"key": key, "count": amount})
         
         # Update current player's inventory (remove transferred items)
         remove_data = {
@@ -1995,8 +2104,9 @@ class KaetramGameTools:
         if remove_response.get("status") != "success":
             return f"Error: Failed to remove items from inventory: {remove_response.get('message', 'Unknown error')}"
         
-        # Use setInventory API with targetPlayer parameter to add items to target player
+        # Add items to target player using setInventory with targetPlayer parameter
         target_items_list = [{"key": item_key, "count": count}]
+        
         add_data = {
             "token": self.token,
             "targetPlayer": target_player,
@@ -2004,17 +2114,42 @@ class KaetramGameTools:
             "clearFirst": False  # Don't clear target player's inventory, just add items
         }
         
-        self._log_message(f"🔄 Attempting to add {count}x {item_key} to {target_player}'s inventory", "debug")
-        
+        self._log_message(f"🔄 Adding {count}x {item_key} to {target_player}'s inventory", "debug")
         add_response = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["setInventory"], add_data)
+        
+        transfer_success = False
+        transfer_method = "setInventory_with_targetPlayer"
         
         if add_response.get("status") == "success":
             transfer_success = True
-            transfer_method = "setInventory_with_target"
-            self._log_message(f"✅ Transfer successful: items added to {target_player}'s inventory", "debug")
+            results = add_response.get("results", {})
+            added_items = results.get("addedItems", [])
+            failed_items = results.get("failedItems", [])
+            
+            # Verify that the items were actually added
+            if added_items and len(added_items) > 0:
+                actual_added = sum(item.get("count", 0) for item in added_items if item.get("key") == item_key)
+                if actual_added >= count:
+                    self._log_message(f"✅ Transfer successful: {actual_added}x {item_key} added to {target_player}'s inventory", "debug")
+                else:
+                    transfer_success = False
+                    self._log_message(f"❌ Partial transfer: only {actual_added}/{count}x {item_key} added", "warning")
+            else:
+                transfer_success = False
+                self._log_message(f"❌ No items were added. Failed items: {failed_items}", "warning")
         else:
+            error_msg = add_response.get("message", "Unknown error")
+            self._log_message(f"❌ Transfer failed: {error_msg}", "debug")
+            
+            # Check for specific error messages to provide better feedback
+            if "not found" in error_msg.lower():
+                error_msg = f"Target player '{target_player}' is not online or does not exist"
+            elif "invalid token" in error_msg.lower():
+                error_msg = "Authentication failed - invalid token"
+        
+        if not transfer_success:
             # Transfer failed - rollback the inventory change
-            self._log_message(f"❌ Transfer failed: {add_response.get('message', 'Unknown error')}. Rolling back inventory changes.", "warning")
+            self._log_message(f"❌ Transfer failed. Rolling back inventory changes.", "warning")
             
             # Rollback: restore original inventory
             rollback_data = {
@@ -2025,7 +2160,7 @@ class KaetramGameTools:
             rollback_result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["setInventory"], rollback_data)
             
             if rollback_result.get("status") == "success":
-                return f"Error: Transfer failed - {add_response.get('message', 'Unknown error')}. Inventory restored to original state."
+                return f"Error: Transfer failed - {error_msg}. Inventory restored to original state."
             else:
                 return f"Critical Error: Transfer failed AND inventory rollback failed. Items may be lost: {rollback_result.get('message', 'Unknown error')}"
         
@@ -2034,10 +2169,10 @@ class KaetramGameTools:
         current_player = player_status.get("name") or player_status.get("username") or "Current Player"
         
         # Create success message
-        success_message = f"✅ Transfer completed: {count}x {item_name} transferred from {current_player} to {target_player}"
+        success_message = f"✅ Transfer completed: {count}x {item_name} transferred from {current_player} to {target_player} (method: {transfer_method})"
         chat_message = f"Successfully transferred {count}x {item_name} to {target_player}"
         
-        # Send chat message to notify the transfer attempt
+        # Send chat message to notify the transfer
         chat_data = {
             "token": self.token,
             "message": chat_message,
@@ -2045,5 +2180,7 @@ class KaetramGameTools:
         }
         
         chat_result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["chat"], chat_data)
+        
+        self._log_message(f"📋 Transfer completed: {success_message}", "info")
         
         return success_message 
