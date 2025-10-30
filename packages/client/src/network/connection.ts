@@ -1,5 +1,6 @@
 import { inflate } from 'pako';
 import { Packets, Opcodes, Modules } from '@kaetram/common/network';
+import log from '../lib/log';
 
 import type Player from '../entity/character/player/player';
 import type App from '../app';
@@ -172,6 +173,9 @@ export default class Connection {
         this.game.player.instance = data.instance!;
         this.game.player.serverId = data.serverId!;
 
+        // Set the map file if specified by server (for social mode)
+        if (data.mapFile) this.map.setMapFile(data.mapFile);
+
         // Guest login doesn't require any credentials, send the packet right away.
         if (this.app.isGuest())
             return this.socket.send(Packets.Login, { opcode: Opcodes.Login.Guest });
@@ -232,9 +236,6 @@ export default class Connection {
             regions = JSON.parse(inflatedString);
 
         this.map.loadRegions(regions);
-
-        // Used if the client uses low-power mode, forces redrawing of trees.
-        this.renderer.forceRendering = true;
 
         // Update the animated tiles when we receive new map data.
         this.renderer.updateAnimatedTiles();

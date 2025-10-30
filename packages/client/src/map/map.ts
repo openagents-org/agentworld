@@ -1,4 +1,5 @@
-import mapData from '../../data/maps/map.json';
+import defaultMapData from '../../data/maps/map.json';
+import socialMapData from '../../data/maps/social_map.json';
 import log from '../lib/log';
 import Utils, { isInt } from '../utils/util';
 
@@ -27,22 +28,25 @@ interface TilesetInfo extends HTMLImageElement {
 }
 
 export default class Map {
-    public width = mapData.width;
-    public height = mapData.height;
-    public tileSize = mapData.tileSize;
+    // Will be set dynamically based on server's mapFile in handshake
+    private mapData = defaultMapData;
+    
+    public width = this.mapData.width;
+    public height = this.mapData.height;
+    public tileSize = this.mapData.tileSize;
 
     // Map data
     public data: RegionTile[] = [];
     public grid: number[][] = []; // Two dimensional grid array for collisions/pathing
 
-    private high: number[] = mapData.high;
+    private high: number[] = this.mapData.high || [];
     private objects: number[] = [];
     private lights: number[] = [];
 
     public tilesets: TilesetInfo[] = [];
-    private rawTilesets: ProcessedTileset[] = mapData.tilesets; // Key is tileset id, value is the firstGID
+    private rawTilesets: ProcessedTileset[] = this.mapData.tilesets; // Key is tileset id, value is the firstGID
     private cursorTiles: CursorTiles = {};
-    private animatedTiles: { [tileId: number]: ProcessedAnimation[] } = mapData.animations;
+    private animatedTiles: { [tileId: number]: ProcessedAnimation[] } = this.mapData.animations;
 
     public mapLoaded = false;
     public regionsLoaded = 0;
@@ -52,6 +56,64 @@ export default class Map {
 
     public constructor(private game: Game) {
         this.load();
+    }
+
+    /**
+     * Set which map metadata to use (called from handshake)
+     * @param mapFile The map file name ('map' or 'social_map')
+     */
+    public setMapFile(mapFile: string): void {
+        // Select the appropriate map data
+        this.mapData = mapFile === 'social_map' ? socialMapData : defaultMapData;
+        
+        // Update all properties from new mapData
+        this.width = this.mapData.width;
+        this.height = this.mapData.height;
+        this.tileSize = this.mapData.tileSize;
+        this.high = this.mapData.high || [];
+        this.rawTilesets = this.mapData.tilesets;
+        this.animatedTiles = this.mapData.animations;
+        
+        // Update utils with new tile size
+        Utils.tileSize = this.tileSize;
+        Utils.sideLength = this.width / Modules.Constants.MAP_DIVISION_SIZE;
+        Utils.thirdTile = this.tileSize / 3;
+        Utils.tileAndAQuarter = this.tileSize * 1.25;
+        
+        // CRITICAL: Recreate data/grid with correct size for new map dimensions
+        // The original map is 1056×768, social map is 48×48
+        // coordToIndex(x,y) = y*width+x, so array size must match new dimensions
+        this.tilesetsLoaded = false;
+        this.tilesets = [];
+        this.mapLoaded = false;
+        
+        // Create new empty arrays with correct size
+        let newSize = this.width * this.height;
+        
+        this.data = new Array(newSize).fill(0);
+        this.grid = [];
+        for (let y = 0; y < this.height; y++) {
+            this.grid[y] = new Array(this.width).fill(0);
+        }
+        
+        this.mapLoaded = true;
+        
+        // Update camera dimensions immediately
+        if (this.game.camera) {
+            this.game.camera.gridWidth = this.width;
+            this.game.camera.gridHeight = this.height;
+        }
+        
+        // Resize renderer to match new map
+        if (this.game.renderer) {
+            this.game.renderer.tileSize = this.tileSize;
+            this.game.renderer.actualTileSize = this.tileSize;
+            this.game.renderer.resize();
+        }
+        
+        // Reload tilesets from the new map data
+        log.info(`Reloading tilesets for ${mapFile}`);
+        this.loadTilesets();
     }
 
     /**
@@ -106,7 +168,8 @@ export default class Map {
      */
 
     public loadRegions(regionData: RegionData): void {
-        for (let region in regionData) this.loadRegion(regionData[region], parseInt(region));
+        for (let region in regionData)
+            this.loadRegion(regionData[region], parseInt(region));
 
         // Save data after we finish parsing it.
         this.saveMapData();
@@ -126,6 +189,11 @@ export default class Map {
         for (let tile of data) {
             let index = this.coordToIndex(tile.x, tile.y),
                 objectIndex = this.objects.indexOf(index);
+
+            // Debug: log first few tiles
+            if (tile.x < 30 && tile.y < 15) {
+                log.info(`Tile (${tile.x},${tile.y}) → index=${index}, data=${JSON.stringify(tile.data).substring(0,50)}`);
+            }
 
             // Store the tile data so that we can render it later.
             this.data[index] = tile.data;

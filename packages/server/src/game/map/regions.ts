@@ -81,7 +81,7 @@ export default class Regions {
          * with this error present WILL cause the game to crash sooner or later.
          */
 
-        if (this.map.width % this.divisionSize !== 0) {
+        if (this.map.width % this.divisionSize !== 0 || this.map.height % this.divisionSize !== 0) {
             log.error(`Corrupted map regions. Unable to evenly divide into sections.`);
             log.error(
                 `Map: ${this.map.width}x${this.map.height} - divisions: ${this.divisionSize}.`
@@ -89,15 +89,20 @@ export default class Regions {
             return;
         }
 
+        log.info(`Building regions for ${this.map.width}x${this.map.height} map with division=${this.divisionSize}`);
+
         for (let y = 0; y < this.map.height; y += this.divisionSize)
             for (let x = 0; x < this.map.width; x += this.divisionSize)
                 this.regions.push(new Region(x, y, this.divisionSize, this.divisionSize));
+
+        log.info(`Built ${this.regions.length} regions successfully`);
 
         // Number of regions per side.
         this.sideLength = this.map.width / this.divisionSize;
 
         // Begin the region cache loading if the config allows it.
-        if (config.regionCache) this.loadRegionCache();
+        // Disable region cache in social mode as it's a different map
+        if (config.regionCache && !config.socialMode) this.loadRegionCache();
     }
 
     /**
@@ -290,16 +295,17 @@ export default class Regions {
         if (!entity) return newRegions;
 
         this.forEachSurroundingRegion(region, (surroundingRegion: number) => {
-            let region = this.regions[surroundingRegion];
+            let regionObj = this.regions[surroundingRegion];
 
-            region.addEntity(entity);
-
-            newRegions.push(surroundingRegion);
+            if (regionObj) {
+                regionObj.addEntity(entity);
+                newRegions.push(surroundingRegion);
+            }
         });
 
         entity.setRegion(region);
 
-        if (entity.isPlayer()) this.regions[region].addPlayer(entity);
+        if (entity.isPlayer() && this.regions[region]) this.regions[region].addPlayer(entity);
 
         this.enterCallback?.(entity, region);
 
@@ -406,7 +412,7 @@ export default class Regions {
         this.forEachSurroundingRegion(entity.region, (surroundingRegion: number) => {
             let region = this.regions[surroundingRegion];
 
-            if (!region.hasEntity(entity)) return;
+            if (!region || !region.hasEntity(entity)) return;
 
             region.removeEntity(entity);
 
@@ -441,8 +447,8 @@ export default class Regions {
      * @param player The player character that we are sending the region to.
      */
 
-    public sendRegion(player: Player): void {
-        player.send(new MapPacket(this.getRegionData(player)));
+    public sendRegion(player: Player, force = false): void {
+        player.send(new MapPacket(this.getRegionData(player, force)));
     }
 
     /**
@@ -502,37 +508,46 @@ export default class Regions {
             region = this.getRegion(player.x, player.y);
 
         this.forEachSurroundingRegion(region, (surroundingRegion: number) => {
-            let region = this.regions[surroundingRegion];
+            let regionObj = this.regions[surroundingRegion];
+
+            if (!regionObj) {
+                log.warning(`Region ${surroundingRegion} not found in regions array!`);
+                return;
+            }
 
             // Initialize empty array for the region tile data.
             data[surroundingRegion] = [];
 
             // Parse and send resource data.
-            if (region.hasResources())
+            if (regionObj.hasResources())
                 data[surroundingRegion] = [
                     ...data[surroundingRegion],
-                    ...this.getRegionResourceData(region, player)
+                    ...this.getRegionResourceData(regionObj, player)
                 ];
 
             // Parse and send dynamic areas.
-            if (region.hasDynamicAreas())
+            if (regionObj.hasDynamicAreas())
                 data[surroundingRegion] = [
                     ...data[surroundingRegion],
-                    ...this.getRegionTileData(region, true, player)
+                    ...this.getRegionTileData(regionObj, true, player)
                 ];
 
             // We skip if the region is loaded and we are not forcing static data.
             if (!player.hasLoadedRegion(surroundingRegion) || force) {
+                // In social mode, always use dynamic tile generation (disable region cache)
+                let useCache = config.regionCache && !config.socialMode;
+                let tileData = useCache ? regionObj.data : this.getRegionTileData(regionObj);
                 data[surroundingRegion] = [
                     ...data[surroundingRegion],
-                    ...(config.regionCache ? region.data : this.getRegionTileData(region))
+                    ...tileData
                 ];
 
                 player.loadRegion(surroundingRegion);
             }
 
             // Remove data to prevent client from parsing unnecessarily.
-            if (data[surroundingRegion].length === 0) delete data[surroundingRegion];
+            if (data[surroundingRegion].length === 0)
+                delete data[surroundingRegion];
         });
 
         return data;
@@ -550,6 +565,7 @@ export default class Regions {
 
     private getRegionTileData(region: Region, dynamic = false, player?: Player): RegionTileData[] {
         let tileData: RegionTileData[] = [];
+        let skipped = 0, processed = 0;
 
         if (dynamic)
             region.forEachDynamicTile((x: number, y: number, area: Area) =>
@@ -562,11 +578,18 @@ export default class Regions {
                 /**
                  * Empty static tile data should be ignored. Otherwise this
                  * will cause issues when trying to send resource data.
+                 * Note: Arrays (layered tiles) are always included.
                  */
 
-                if ((tile.data as number) < 1) return;
-
-                tileData.push(tile);
+                if (Array.isArray(tile.data)) {
+                    tileData.push(tile);
+                    processed++;
+                } else if ((tile.data as number) > 0) {
+                    tileData.push(tile);
+                    processed++;
+                } else {
+                    skipped++;
+                }
             });
 
         return tileData;
@@ -720,7 +743,10 @@ export default class Regions {
      */
 
     public forEachSurroundingRegion(region: number, callback: RegionCallback): void {
-        for (let surrounding of this.getSurroundingRegions(region)) callback(surrounding);
+        for (let surrounding of this.getSurroundingRegions(region)) {
+            // Safety check: ensure region exists before calling callback
+            if (this.regions[surrounding]) callback(surrounding);
+        }
     }
 
     /**

@@ -567,6 +567,7 @@ export const Constants = {
     STORE_UPDATE_FREQUENCY: 20_000, // update store every 20 seconds
     MAP_DIVISION_SIZE: 48, // The size of a region the map is split into.
     SPAWN_POINT: '405,27', // Default starting point outside the tutorial
+    SOCIAL_SPAWN_POINT: '26,10', // Social mode spawn point (world 458,58 → local 26,10 inside house)
     TUTORIAL_QUEST_KEY: 'tutorial', // key of the tutorial quest
     TUTORIAL_SPAWN_POINT: '579,7', // 'x,y' values
     RESOURCE_RESPAWN: 30_000,

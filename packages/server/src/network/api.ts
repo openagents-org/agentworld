@@ -158,7 +158,8 @@ export default class API {
                 }
 
                 // Check if player is already logged in
-                if (this.world.isOnline(username)) {
+                // In social mode with monitoring, allow multiple connections
+                if (this.world.isOnline(username) && !(config.socialMode && config.socialModeAllowMonitor)) {
                     return response.status(400).json({
                         status: 'error',
                         message: 'Player is already logged in'
@@ -324,7 +325,6 @@ export default class API {
 
         // Get observations for the AI agent
         router.get('/ai/observe', (request: Request, response: Response) => {
-            console.log('[API DEBUG] Observe endpoint called - NEW CODE ACTIVE');
             try {
                 const token = request.query.token as string;
 

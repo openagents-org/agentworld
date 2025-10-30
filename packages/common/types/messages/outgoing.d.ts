@@ -23,6 +23,7 @@ export interface HandshakePacket {
     // Client-server related handshake data.
     instance?: string; // Player's instance.
     serverId?: number;
+    mapFile?: string; // Map metadata file to use (e.g., 'map', 'social_map')
 }
 
 export type HandshakeCallback = (data: HandshakePacket) => void;

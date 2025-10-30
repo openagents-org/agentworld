@@ -28,6 +28,7 @@ import {
     Chat,
     Guild,
     Heal,
+    Map as MapPacket,
     Movement,
     Music,
     Network,
@@ -181,6 +182,12 @@ export default class Player extends Character {
     public recentRegionsCallback?: RecentRegionsCallback;
 
     private cheatScoreCallback?: () => void;
+
+    // Observer connections for monitoring (Web UI while AI controls via API)
+    private observers: Connection[] = [];
+    
+    // Flag to mark this player instance as an observer-only connection (should not be added to world)
+    private isObserverOnly: boolean = false;
 
     public constructor(world: World, public database: MongoDB, public connection: Connection) {
         super(connection.instance, world, '', -1, -1);
@@ -388,6 +395,12 @@ export default class Player extends Character {
      */
 
     public intro(): void {
+        // If this is an observer-only connection, don't add to world
+        if (this.isObserverOnly) {
+            log.debug(`Skipping intro for observer-only connection: ${this.username}`);
+            return;
+        }
+
         if (this.ban > Date.now()) return this.connection.reject('ban');
 
         if (this.hitPoints.getHitPoints() < 0)
@@ -519,8 +532,8 @@ export default class Player extends Character {
      * Updates the region that the player is currently in.
      */
 
-    public updateRegion(): void {
-        this.regions.sendRegion(this);
+    public updateRegion(force = false): void {
+        this.regions.sendRegion(this, force);
     }
 
     /**
@@ -1552,6 +1565,10 @@ export default class Player extends Character {
      */
 
     public getSpawn(): Position {
+        // Social mode spawn point
+        if (config.socialMode)
+            return Utils.getPositionFromString(Modules.Constants.SOCIAL_SPAWN_POINT);
+
         if (!this.quests.isTutorialFinished())
             return Utils.getPositionFromString(Modules.Constants.TUTORIAL_SPAWN_POINT);
 
@@ -1815,6 +1832,96 @@ export default class Player extends Character {
             packet,
             player: this
         });
+
+        // Also send to all observer connections (Web UI monitoring)
+        this.broadcastToObservers(packet);
+    }
+
+    /**
+     * Override sendToRegions to also broadcast to observers
+     * @param packet Packet to send
+     * @param ignore Whether to ignore the player's main connection
+     */
+    public override sendToRegions(packet: Packet, ignore?: boolean): void {
+        // Call parent implementation to send to regions
+        super.sendToRegions(packet, ignore);
+        
+        // Also broadcast to all observer connections
+        this.broadcastToObservers(packet);
+    }
+
+    /**
+     * Broadcast a packet to all observer connections
+     * @param packet Packet to broadcast
+     */
+
+    private broadcastToObservers(packet: Packet): void {
+        for (let observer of this.observers) {
+            // connection.send() expects serialized data wrapped in array
+            // Client expects format: [[opcode, data]] for single packet
+            observer.send([packet.serialize()]);
+        }
+    }
+
+    /**
+     * Add an observer connection (Web UI) to this player
+     * @param connection Observer connection to add
+     */
+
+    public addObserver(connection: Connection): void {
+        if (!this.observers.includes(connection)) {
+            this.observers.push(connection);
+            log.info(`Observer added for player: ${this.username}`);
+            
+            try {
+                // Send initial state to observer (Welcome packet only)
+                // Map and other data will be sent when client sends Ready packet
+                let serializedData = this.serialize(false, true, true);
+                let welcomePacket = new Welcome(serializedData);
+                
+                log.info(`Sending Welcome packet to observer for ${this.username}`);
+                log.info(`Welcome data preview: instance=${serializedData.instance}, name=${serializedData.name}, x=${serializedData.x}, y=${serializedData.y}`);
+                
+                // connection.send() expects serialized data wrapped in array
+                // Client expects format: [[opcode, data]] for single packet
+                connection.send([welcomePacket.serialize()]);
+                
+                log.info(`✅ Observer initialized with Welcome packet, waiting for Ready: ${this.username}`);
+            } catch (error) {
+                log.error(`❌ Error sending Welcome packet to observer: ${error}`);
+                log.error(error);
+            }
+        }
+    }
+
+    /**
+     * Remove an observer connection
+     * @param connection Observer connection to remove
+     */
+
+    public removeObserver(connection: Connection): void {
+        let index = this.observers.indexOf(connection);
+        if (index !== -1) {
+            this.observers.splice(index, 1);
+            log.info(`Observer removed for player: ${this.username}`);
+        }
+    }
+
+    /**
+     * Check if this player has any observers
+     */
+
+    public hasObservers(): boolean {
+        return this.observers.length > 0;
+    }
+
+    /**
+     * Mark this player instance as observer-only (should not be added to world)
+     */
+
+    public markAsObserverOnly(): void {
+        this.isObserverOnly = true;
+        log.debug(`Player ${this.username} marked as observer-only`);
     }
 
     /**

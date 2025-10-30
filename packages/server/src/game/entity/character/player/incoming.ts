@@ -6,7 +6,7 @@ import log from '@kaetram/common/util/log';
 import Utils from '@kaetram/common/util/utils';
 import Filter from '@kaetram/common/util/filter';
 import Creator from '@kaetram/common/database/mongodb/creator';
-import { Spawn, Friends, Handshake } from '@kaetram/common/network/impl';
+import { Spawn, Friends, Handshake, Movement } from '@kaetram/common/network/impl';
 import { Modules, Opcodes, Packets } from '@kaetram/common/network';
 
 import type MongoDB from '@kaetram/common/database/mongodb/mongodb';
@@ -152,9 +152,11 @@ export default class Incoming {
         log.debug(`Sending handshake response to client with instance: ${this.player.instance}, serverId: ${config.serverId}`);
         
         // Send handshake response back to client with server info
+        // In social mode, tell client to use social_map.json for tilesets/animations
         this.player.send(new Handshake({
             instance: this.player.instance,
-            serverId: config.serverId
+            serverId: config.serverId,
+            mapFile: config.socialMode ? 'social_map' : 'map'
         }));
     }
 
@@ -176,8 +178,202 @@ export default class Incoming {
             if (email) this.player.email = email;
 
             // Reject connection if player is already logged in.
-            if (this.world.isOnline(this.player.username))
+            // In social mode with monitoring, allow Web UI to observe API-controlled players
+            if (this.world.isOnline(this.player.username)) {
+                log.debug(`Player ${this.player.username} is already online. SocialMode: ${config.socialMode}, AllowMonitor: ${config.socialModeAllowMonitor}`);
+                
+                // If monitoring is enabled in social mode, treat this as an observer connection
+                if (config.socialMode && config.socialModeAllowMonitor) {
+                    let existingPlayer = this.world.getPlayerByName(this.player.username);
+                    if (existingPlayer) {
+                        // Add this connection as an observer to the existing player
+                        existingPlayer.addObserver(this.connection);
+                        
+                        // Track last movement request to prevent ping-pong loops
+                        let lastMoveRequest = { x: -1, y: -1, time: 0 };
+                        
+                        // Set up message handling for observer (allows Web UI control)
+                        this.connection.onMessage(([packet, message, ...rest]) => {
+                            if (!Utils.validPacket(packet)) {
+                                log.error(`Non-existent packet received from observer: ${packet}`);
+                                return;
+                            }
+                            
+                            existingPlayer.connection.refreshTimeout();
+                            
+                            // Forward input packets to the existing player
+                            try {
+                                switch (packet) {
+                                    case Packets.Movement: {
+                                        let msg = message as any;
+                                        
+                                        // ⚠️ CRITICAL: Only forward Movement.Request (opcode=0) from observers
+                                        // Started/Step/Stop are server broadcasts that should NOT be echoed back
+                                        if (msg.opcode !== 0) { // Not Movement.Request
+                                            // Silently ignore server broadcast echoes (Started=1, Step=2, Stop=3)
+                                            return;
+                                        }
+                                        
+                                        // Anti-ping-pong: Ignore Movement.Request if it's rapidly alternating between adjacent tiles
+                                        let now = Date.now();
+                                        let dx = Math.abs(msg.requestX - lastMoveRequest.x);
+                                        let dy = Math.abs(msg.requestY - lastMoveRequest.y);
+                                        let timeDiff = now - lastMoveRequest.time;
+                                        
+                                        // If requesting to move back to previous position within 2 seconds, ignore it
+                                        if (dx <= 1 && dy <= 1 && dx + dy > 0 && timeDiff < 2000) {
+                                            return;
+                                        }
+                                        
+                                        lastMoveRequest = { x: msg.requestX, y: msg.requestY, time: now };
+                                        
+                                        // For observers (Web UI), use server-side movement to ensure position sync with Python API
+                                        // Update server-side position (like NPC movement)
+                                        existingPlayer.move(msg.requestX, msg.requestY);
+                                        
+                                        // Send Movement packet to all observers and nearby players for smooth animation
+                                        // The client will interpolate movement from current position to target position
+                                        existingPlayer.sendToRegions(new Movement(Opcodes.Movement.Move, {
+                                            instance: existingPlayer.instance,
+                                            x: msg.requestX,
+                                            y: msg.requestY,
+                                            movementSpeed: existingPlayer.movementSpeed
+                                        }));
+                                        
+                                        return;
+                                    }
+                                    case Packets.Target: {
+                                        return existingPlayer.incoming['handleTarget'](message);
+                                    }
+                                    case Packets.Network: {
+                                        return existingPlayer.incoming['handleNetwork'](message);
+                                    }
+                                    case Packets.Container: {
+                                        return existingPlayer.incoming['handleContainer'](message);
+                                    }
+                                    case Packets.Command: {
+                                        return existingPlayer.incoming['handleCommand'](message);
+                                    }
+                                    case Packets.Chat: {
+                                        return existingPlayer.incoming['handleChat'](message);
+                                    }
+                                    case Packets.List: {
+                                        return existingPlayer.updateEntityList();
+                                    }
+                                    case Packets.Who: {
+                                        return existingPlayer.incoming['handleWho'](message);
+                                    }
+                                    case Packets.Equipment: {
+                                        return existingPlayer.incoming['handleEquipment'](message);
+                                    }
+                                    case Packets.Ability: {
+                                        return existingPlayer.incoming['handleAbility'](message);
+                                    }
+                                    case Packets.Respawn: {
+                                        return existingPlayer.respawn();
+                                    }
+                                    case Packets.Trade: {
+                                        return existingPlayer.incoming['handleTrade'](message);
+                                    }
+                                    case Packets.Guild: {
+                                        return existingPlayer.incoming['handleGuild'](message);
+                                    }
+                                    case Packets.Warp: {
+                                        return existingPlayer.incoming['handleWarp'](message);
+                                    }
+                                    case Packets.Store: {
+                                        return existingPlayer.incoming['handleStore'](message);
+                                    }
+                                    case Packets.Friends: {
+                                        return existingPlayer.incoming['handleFriends'](message);
+                                    }
+                                    case Packets.Focus: {
+                                        return existingPlayer.updateEntityPositions();
+                                    }
+                                    case Packets.Examine: {
+                                        return existingPlayer.incoming['handleExamine'](message);
+                                    }
+                                    case Packets.Crafting: {
+                                        return existingPlayer.incoming['handleCrafting'](message);
+                                    }
+                                    case Packets.Enchant: {
+                                        return existingPlayer.incoming['handleEnchant'](message);
+                                    }
+                        case Packets.Ready: {
+                            // Observer needs full initialization like handleReady
+                            log.info(`📦 Observer received Ready packet for player: ${existingPlayer.username}`);
+                            
+                            try {
+                                // Send full game state to observer (force=true to resend region data)
+                                existingPlayer.updateRegion(true);
+                                existingPlayer.updateEntities();
+                                existingPlayer.updateEntityList();
+                                            
+                                            // Send all initialization data that would normally be sent via onLoaded callbacks
+                                            // Since the player is already loaded, these callbacks won't be triggered for observers
+                                            log.info(`📤 Sending initialization data to observer for: ${existingPlayer.username}`);
+                                            
+                                            // Send Skills data
+                                            if (existingPlayer.skills) {
+                                                existingPlayer.handler['handleSkills']();
+                                            }
+                                            
+                                            // Send Abilities data
+                                            if (existingPlayer.abilities) {
+                                                existingPlayer.handler['handleAbilities']();
+                                            }
+                                            
+                                            // Send Equipment data
+                                            if (existingPlayer.equipment) {
+                                                existingPlayer.handler['handleEquipment']();
+                                            }
+                                            
+                                            // Send Inventory data
+                                            if (existingPlayer.inventory) {
+                                                existingPlayer.handler['handleInventory']();
+                                            }
+                                            
+                                            // Send Quests data
+                                            if (existingPlayer.quests) {
+                                                existingPlayer.handler['handleQuests']();
+                                            }
+                                            
+                                            // Send Achievements data
+                                            if (existingPlayer.achievements) {
+                                                existingPlayer.handler['handleAchievements']();
+                                            }
+                                        } catch (error) {
+                                            log.error(`Error processing observer Ready: ${error}`);
+                                        }
+                                        
+                                        return;
+                                    }
+                                    // Read-only packets that don't need handling
+                                    case Packets.Effect:
+                                    case Packets.Handshake:
+                                    case Packets.Login:
+                                        // Silently ignore these for observers
+                                        return;
+                                    default: {
+                                        log.debug(`Observer sent unhandled packet: ${packet}`);
+                                    }
+                                }
+                            } catch (error) {
+                                log.error(`Error handling observer packet: ${error}`);
+                            }
+                        });
+                        
+                        // Clean up observer when connection closes
+                        this.connection.onClose(() => {
+                            existingPlayer.removeObserver(this.connection);
+                        });
+                        
+                        return; // Complete observer setup, don't proceed with login
+                    }
+                }
+                log.info(`Rejecting login for ${this.player.username} - already logged in`);
                 return this.connection.reject('loggedin');
+            }
 
             // Proceed directly to login with default player data if skip database is present.
             if (config.skipDatabase) {
@@ -307,8 +503,8 @@ export default class Incoming {
         switch (opcode) {
             case Opcodes.Movement.Request: {
                 return this.player.handleMovementRequest(
-                    playerX!,
-                    playerY!,
+                    requestX!,
+                    requestY!,
                     targetInstance!,
                     following!
                 );
@@ -324,16 +520,18 @@ export default class Incoming {
             }
 
             case Opcodes.Movement.Step: {
-                return this.player.handleMovementStep(playerX!, playerY!, timestamp);
+                this.player.handleMovementStep(playerX!, playerY!, timestamp);
+                return;
             }
 
             case Opcodes.Movement.Stop: {
-                return this.player.handleMovementStop(
+                this.player.handleMovementStop(
                     playerX!,
                     playerY!,
                     targetInstance!,
                     orientation!
                 );
+                return;
             }
 
             case Opcodes.Movement.Entity: {

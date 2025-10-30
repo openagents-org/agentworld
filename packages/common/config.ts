@@ -42,6 +42,8 @@ export interface Config {
     mongodbAuthSource: string;
     aggregateThreshold: number;
 
+    socialMode: boolean;
+    socialModeAllowMonitor: boolean;
     tutorialEnabled: boolean;
     overrideAuth: boolean;
     maxPlayers: number;

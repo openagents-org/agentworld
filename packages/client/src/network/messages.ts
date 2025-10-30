@@ -241,6 +241,12 @@ export default class Messages {
                 break;
             }
 
+            case 'ban':
+            case 'banned': {
+                this.app.sendError('You have been banned from the server.');
+                break;
+            }
+
             case 'toofast': {
                 this.app.sendError('You are trying to log in too fast from the same connection.');
                 break;

@@ -2,7 +2,10 @@ import AreasIndex from './areas';
 import Grids from './grids';
 import Regions from './regions';
 
-import mapData from '../../../data/map/world.json';
+import worldMapData from '../../../data/map/world.json';
+import socialWorldMapData from '../../../data/map/social_world.json';
+
+import config from '@kaetram/common/config';
 
 import { Modules } from '@kaetram/common/network';
 
@@ -20,7 +23,8 @@ import type Player from '../entity/character/player/player';
 import type World from '../world';
 import type Areas from './areas/areas';
 
-let map = mapData as ProcessedMap;
+// Load the appropriate map based on social mode configuration
+let map = (config.socialMode ? socialWorldMapData : worldMapData) as ProcessedMap;
 
 export default class Map {
     // Map versioning and information
@@ -212,12 +216,13 @@ export default class Map {
          * nest will exit and check collisions against the static map.
          */
 
-        // Verify dynamic tile collision if player is provided as a parameter.
-        if (player) {
+        // Skip region/dynamic area checks in social mode (simple collision only)
+        if (!config.socialMode && player) {
+            // Verify dynamic tile collision if player is provided as a parameter.
             let region = this.regions.get(this.regions.getRegion(x, y));
 
             // Skip if there are no dynamic areas in the region.
-            if (region.hasDynamicAreas()) {
+            if (region && region.hasDynamicAreas()) {
                 let dynamicArea = region.getDynamicArea(x, y);
 
                 // Skip if no dynamic area is found or it doesn't fulfill requirements.
@@ -231,6 +236,11 @@ export default class Map {
         }
 
         let index = this.coordToIndex(x, y);
+
+        // In social mode, only use explicit collision list (tile value 0 is not auto-collision)
+        if (config.socialMode) {
+            return this.isCollisionIndex(index);
+        }
 
         // If the tile is empty it's automatically a collision tile.
         return !this.data[index] || this.isCollisionIndex(index);
