@@ -507,7 +507,10 @@ export default class Regions {
         let data: RegionData = {},
             region = this.getRegion(player.x, player.y);
 
+        log.info(`getRegionData: player at (${player.x},${player.y}), region=${region}, total regions=${this.regions.length}, force=${force}`);
+
         this.forEachSurroundingRegion(region, (surroundingRegion: number) => {
+            log.info(`Processing surrounding region ${surroundingRegion}`);
             let regionObj = this.regions[surroundingRegion];
 
             if (!regionObj) {
@@ -532,11 +535,14 @@ export default class Regions {
                     ...this.getRegionTileData(regionObj, true, player)
                 ];
 
+            log.info(`Region ${surroundingRegion}: hasLoadedRegion=${player.hasLoadedRegion(surroundingRegion)}, will send static=${!player.hasLoadedRegion(surroundingRegion) || force}`);
+
             // We skip if the region is loaded and we are not forcing static data.
             if (!player.hasLoadedRegion(surroundingRegion) || force) {
                 // In social mode, always use dynamic tile generation (disable region cache)
                 let useCache = config.regionCache && !config.socialMode;
                 let tileData = useCache ? regionObj.data : this.getRegionTileData(regionObj);
+                log.info(`Region ${surroundingRegion}: sending ${tileData.length} tiles (useCache=${useCache}, socialMode=${config.socialMode})`);
                 data[surroundingRegion] = [
                     ...data[surroundingRegion],
                     ...tileData
@@ -545,11 +551,16 @@ export default class Regions {
                 player.loadRegion(surroundingRegion);
             }
 
+            log.info(`Region ${surroundingRegion}: final tile count = ${data[surroundingRegion].length}`);
+
             // Remove data to prevent client from parsing unnecessarily.
-            if (data[surroundingRegion].length === 0)
+            if (data[surroundingRegion].length === 0) {
+                log.info(`Region ${surroundingRegion}: removing empty data`);
                 delete data[surroundingRegion];
+            }
         });
 
+        log.info(`getRegionData: returning ${Object.keys(data).length} regions with data`);
         return data;
     }
 
@@ -591,6 +602,10 @@ export default class Regions {
                     skipped++;
                 }
             });
+
+        if (!dynamic && (processed > 0 || skipped > 10)) {
+            log.info(`getRegionTileData: region(${region.x},${region.y}) processed=${processed}, skipped=${skipped}`);
+        }
 
         return tileData;
     }

@@ -63,6 +63,8 @@ export default class Map {
      * @param mapFile The map file name ('map' or 'social_map')
      */
     public setMapFile(mapFile: string): void {
+        log.info(`Setting map file to: ${mapFile}`);
+        
         // Select the appropriate map data
         this.mapData = mapFile === 'social_map' ? socialMapData : defaultMapData;
         
@@ -80,6 +82,8 @@ export default class Map {
         Utils.thirdTile = this.tileSize / 3;
         Utils.tileAndAQuarter = this.tileSize * 1.25;
         
+        log.info(`Map dimensions: ${this.width}x${this.height}, tileSize: ${this.tileSize}`);
+        
         // CRITICAL: Recreate data/grid with correct size for new map dimensions
         // The original map is 1056×768, social map is 48×48
         // coordToIndex(x,y) = y*width+x, so array size must match new dimensions
@@ -89,6 +93,7 @@ export default class Map {
         
         // Create new empty arrays with correct size
         let newSize = this.width * this.height;
+        log.info(`Recreating data/grid arrays: old size=${this.data.length}, new size=${newSize}`);
         
         this.data = new Array(newSize).fill(0);
         this.grid = [];
@@ -96,6 +101,7 @@ export default class Map {
             this.grid[y] = new Array(this.width).fill(0);
         }
         
+        log.info(`Arrays recreated successfully`);
         this.mapLoaded = true;
         
         // Update camera dimensions immediately
@@ -168,8 +174,14 @@ export default class Map {
      */
 
     public loadRegions(regionData: RegionData): void {
-        for (let region in regionData)
+        log.info(`loadRegions called: current map size=${this.width}x${this.height}, regions=${Object.keys(regionData).length}`);
+        
+        for (let region in regionData) {
+            log.info(`Loading region ${region} with ${regionData[region].length} tiles`);
             this.loadRegion(regionData[region], parseInt(region));
+        }
+
+        log.info(`After loadRegions: data array has ${this.data.filter(d => d !== 0).length} non-zero tiles`);
 
         // Save data after we finish parsing it.
         this.saveMapData();

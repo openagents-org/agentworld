@@ -174,7 +174,10 @@ export default class Connection {
         this.game.player.serverId = data.serverId!;
 
         // Set the map file if specified by server (for social mode)
-        if (data.mapFile) this.map.setMapFile(data.mapFile);
+        if (data.mapFile) {
+            log.info(`Server specified map file: ${data.mapFile}`);
+            this.map.setMapFile(data.mapFile);
+        }
 
         // Guest login doesn't require any credentials, send the packet right away.
         if (this.app.isGuest())
@@ -234,6 +237,8 @@ export default class Connection {
                 .map((char) => char.charCodeAt(0)),
             inflatedString = inflate(new Uint8Array(bufferData), { to: 'string' }),
             regions = JSON.parse(inflatedString);
+
+        log.info(`📦 Received Map packet with ${Object.keys(regions).length} regions`);
 
         this.map.loadRegions(regions);
 

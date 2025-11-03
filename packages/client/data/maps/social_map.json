@@ -1,0 +1,1 @@
+{"width":48,"height":48,"tileSize":16,"version":1,"tilesets":[{"firstGid":0,"lastGid":4095,"path":"tilesheet-1.png"},{"firstGid":4096,"lastGid":8191,"path":"tilesheet-2.png"},{"firstGid":8192,"lastGid":12287,"path":"tilesheet-3.png"},{"firstGid":12288,"lastGid":16383,"path":"tilesheet-4.png"},{"firstGid":16644,"lastGid":20739,"path":"tilesheet-5.png"}],"animations":{}}

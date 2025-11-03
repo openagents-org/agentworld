@@ -325,6 +325,7 @@ export default class API {
 
         // Get observations for the AI agent
         router.get('/ai/observe', (request: Request, response: Response) => {
+            console.log('[API DEBUG] Observe endpoint called - NEW CODE ACTIVE');
             try {
                 const token = request.query.token as string;
 

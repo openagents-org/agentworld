@@ -186,6 +186,8 @@ export default class Incoming {
                 if (config.socialMode && config.socialModeAllowMonitor) {
                     let existingPlayer = this.world.getPlayerByName(this.player.username);
                     if (existingPlayer) {
+                        log.info(`✅ Setting up observer connection for: ${this.player.username}`);
+                        
                         // Add this connection as an observer to the existing player
                         existingPlayer.addObserver(this.connection);
                         
@@ -222,10 +224,13 @@ export default class Incoming {
                                         
                                         // If requesting to move back to previous position within 2 seconds, ignore it
                                         if (dx <= 1 && dy <= 1 && dx + dy > 0 && timeDiff < 2000) {
+                                            log.info(`🚫 Ignoring ping-pong movement: (${msg.requestX},${msg.requestY}) ↔ (${lastMoveRequest.x},${lastMoveRequest.y}) within ${timeDiff}ms`);
                                             return;
                                         }
                                         
                                         lastMoveRequest = { x: msg.requestX, y: msg.requestY, time: now };
+                                        
+                                        log.info(`📍 Observer Movement.Request: ${existingPlayer.username} to (${msg.requestX},${msg.requestY}) from (${existingPlayer.x},${existingPlayer.y})`);
                                         
                                         // For observers (Web UI), use server-side movement to ensure position sync with Python API
                                         // Update server-side position (like NPC movement)
@@ -240,6 +245,7 @@ export default class Incoming {
                                             movementSpeed: existingPlayer.movementSpeed
                                         }));
                                         
+                                        log.info(`✅ Observer moved ${existingPlayer.username} to (${existingPlayer.x},${existingPlayer.y})`);
                                         return;
                                     }
                                     case Packets.Target: {
@@ -342,8 +348,10 @@ export default class Incoming {
                                             if (existingPlayer.achievements) {
                                                 existingPlayer.handler['handleAchievements']();
                                             }
+                                            
+                                            log.info(`✅ Observer Ready processing complete for: ${existingPlayer.username}`);
                                         } catch (error) {
-                                            log.error(`Error processing observer Ready: ${error}`);
+                                            log.error(`❌ Error processing observer Ready: ${error}`);
                                         }
                                         
                                         return;
@@ -368,8 +376,14 @@ export default class Incoming {
                             existingPlayer.removeObserver(this.connection);
                         });
                         
+                        log.info(`✅ Web UI observer fully connected for player: ${this.player.username}`);
+                        log.info(`⏳ Waiting for client Ready packet...`);
                         return; // Complete observer setup, don't proceed with login
+                    } else {
+                        log.error(`❌ existingPlayer is null for ${this.player.username}`);
                     }
+                } else {
+                    log.debug(`❌ Cannot setup observer: socialMode=${config.socialMode}, allowMonitor=${config.socialModeAllowMonitor}`);
                 }
                 log.info(`Rejecting login for ${this.player.username} - already logged in`);
                 return this.connection.reject('loggedin');
@@ -502,6 +516,8 @@ export default class Incoming {
 
         switch (opcode) {
             case Opcodes.Movement.Request: {
+                // requestX/requestY are the target coordinates, playerX/playerY are current position
+                log.info(`🚶 Movement.Request: ${this.player.username} from (${this.player.x},${this.player.y}) to (${requestX},${requestY}) [playerPos: ${playerX},${playerY}]`);
                 return this.player.handleMovementRequest(
                     requestX!,
                     requestY!,
@@ -511,6 +527,7 @@ export default class Incoming {
             }
 
             case Opcodes.Movement.Started: {
+                log.info(`🏃 Movement.Started: ${this.player.username} at (${playerX},${playerY}), speed=${movementSpeed}`);
                 return this.player.handleMovementStarted(
                     playerX!,
                     playerY!,
@@ -520,17 +537,21 @@ export default class Incoming {
             }
 
             case Opcodes.Movement.Step: {
+                let oldX = this.player.x, oldY = this.player.y;
                 this.player.handleMovementStep(playerX!, playerY!, timestamp);
+                log.info(`👣 Movement.Step: ${this.player.username} (${oldX},${oldY}) → (${this.player.x},${this.player.y}) [client sent (${playerX},${playerY})]`);
                 return;
             }
 
             case Opcodes.Movement.Stop: {
+                let oldX = this.player.x, oldY = this.player.y;
                 this.player.handleMovementStop(
                     playerX!,
                     playerY!,
                     targetInstance!,
                     orientation!
                 );
+                log.info(`🛑 Movement.Stop: ${this.player.username} (${oldX},${oldY}) → (${this.player.x},${this.player.y}) [client sent (${playerX},${playerY})]`);
                 return;
             }
 

@@ -426,6 +426,36 @@ class GameConsole:
             print(f"❌ Observe failed: {str(e)}")
             self.log_message("CHEAT", f"Observe failed: {str(e)}")
 
+    def handle_chat_command(self, command: str):
+        """Handle /chat command to send global chat messages"""
+        try:
+            # Parse command: /chat <message>
+            parts = command.strip().split(maxsplit=1)
+            
+            if len(parts) < 2:
+                print("❌ Invalid chat command. Usage:")
+                print("   /chat <message>  - Send a global chat message")
+                print("   Example: /chat Hello everyone!")
+                return
+            
+            message = parts[1].strip()
+            
+            if not message:
+                print("❌ Message cannot be empty.")
+                return
+            
+            print(f"💬 CHEAT: Sending global chat message: {message}")
+            
+            # Direct call to chat without going through LLM
+            result = self.agent.game_tools.chat({"message": message})
+            
+            print(f"✅ Chat result: {result}")
+            self.log_message("CHEAT", f"Sent chat: {message}")
+            
+        except Exception as e:
+            print(f"❌ Chat failed: {str(e)}")
+            self.log_message("CHEAT", f"Chat failed: {str(e)}")
+
     def handle_cheat_command(self, command: str):
         """Handle any cheat command - centralized dispatcher"""
         command = command.strip()
@@ -442,6 +472,8 @@ class GameConsole:
             self.handle_give_command(command)
         elif command.startswith('/observe'):
             self.handle_observe_command(command)
+        elif command.startswith('/chat'):
+            self.handle_chat_command(command)
         else:
             print(f"❌ Unknown cheat command: {command}")
             print("Available cheat commands:")
@@ -451,6 +483,7 @@ class GameConsole:
             print("  /give <item> [count] - Give items to inventory")
             print("  /fullequip - Give essential equipment set")
             print("  /observe [radius] - Show raw observation JSON data")
+            print("  /chat <message> - Send a global chat message")
 
     def handle_new_character_creation(self):
         """Handle new character creation or recreation using master password"""
