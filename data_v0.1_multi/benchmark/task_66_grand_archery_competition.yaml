@@ -1,0 +1,233 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Grand Archery Competition - Arrow & Bow Production"
+  description: "Six archery specialists mass-produce arrows, craft bows, and prepare for grand competition"
+
+# Task objectives
+objectives:
+  primary: "Produce archery arsenal: 50+ arrows, 5+ bows, all supporting equipment"
+  secondary:
+    - "Materials (Rounds 1-15): Gather feathers, logs, strings, ores"
+    - "Production (Rounds 16-35): Craft sticks, strings, base items"
+    - "Assembly (Rounds 36-47): Mass arrow production, bow crafting"
+    - "Competition (Rounds 48-50): Display complete archery arsenal"
+
+# Context and guidance for agents
+relevant_game_context: |
+  Grand archery competition requiring mass arrow production and bow crafting.
+
+  🎯 ARCHERY ARSENAL:
+
+  **ARROWS (50+ total)**:
+  - 50 arrows = 50 sticks + 50 feathers
+  - Sticks from logs (1 log → 4 sticks)
+  - Need 13+ logs for sticks
+
+  **BOWS (5+ total)**:
+  - 3x Wooden Bow (logs + string each)
+  - 2x Golden Bow (15 goldbar + 10 string + 2 logs each) if materials allow
+  - Alternative: More wooden bows
+
+  **SUPPORT ITEMS**:
+  - Quivers, containers, equipment
+
+  📍 TEAM ROLES:
+
+  **FEATHER COLLECTORS (Agents 1-2)**: Hunt birds
+  - Location: Plains/Forest
+  - Hunt chickens, birds for 50+ feathers
+  - Target: 50+ feathers total
+
+  **LUMBERJACKS (Agents 3-4)**: Harvest wood
+  - Location: Forest (250, 350)
+  - Harvest 15+ logs
+  - Target: 15+ logs for sticks and bows
+
+  **CRAFTSMEN (Agents 5-6)**: Production hub
+  - Location: Hub (528, 384)
+  - Agent 5: Craft all sticks and arrows
+  - Agent 6: Craft all bows
+  - Target: 50 arrows + 5 bows
+
+  ═══════════════════════════════════════════════════════════
+  MATERIALS (Rounds 1-15)
+  ═══════════════════════════════════════════════════════════
+
+  🪶 FEATHER COLLECTORS (Agents 1-2):
+  Starting: (350, 250)
+  - observe_environment radius=64 for birds/chickens
+  - attack_entity to hunt birds
+  - Collect feather drops
+  - Each bird may drop 1-3 feathers
+  - Need ~20-30 bird kills for 50 feathers
+  - Chat: "Collected X/50 feathers"
+
+  🪓 LUMBERJACKS (Agents 3-4):
+  Location: (250, 350)
+  - observe_environment for Oak Trees
+  - harvest_resource on trees
+  - Target: 15+ logs total
+  - Agent 3: 8 logs, Agent 4: 7 logs
+  - Chat: "Harvested X/15 logs"
+
+  🏭 CRAFTSMEN PREP (Agents 5-6):
+  - Stay at hub
+  - Check for string in starting inventory
+  - Need 15+ string total for bows
+  - May need to forage/craft string
+  - Chat: "Hub ready for materials"
+
+  ═══════════════════════════════════════════════════════════
+  PRODUCTION (Rounds 16-35)
+  ═══════════════════════════════════════════════════════════
+
+  🚚 TRAVEL (Rounds 16-22):
+  All gatherers → Hub (528, 384)
+
+  🔄 CONSOLIDATION (Rounds 23-25):
+  Transfer to Arrow_Crafter (Agent 5):
+  - All feathers (50+)
+  - All logs (15+)
+  - verify_inventory
+
+  🔨 STICK PRODUCTION (Rounds 26-35):
+  Arrow_Crafter (Agent 5):
+  - craft_item skill=Fletching itemKey=stick
+  - Recipe: 1 log → 4 sticks
+  - Craft 13 times: 13 logs → 52 sticks
+  - Chat: "Crafted X/52 sticks"
+
+  🧵 STRING GATHERING (Rounds 26-35):
+  Bow_Crafter (Agent 6):
+  - If no string, agent must forage/obtain
+  - Or receive from team members
+  - Need 15+ string for bows
+  - Chat: "String ready: X/15"
+
+  ═══════════════════════════════════════════════════════════
+  ASSEMBLY (Rounds 36-47)
+  ═══════════════════════════════════════════════════════════
+
+  🏹 ARROW PRODUCTION (Rounds 36-42):
+  Arrow_Crafter (Agent 5):
+  - craft_item skill=Fletching itemKey=arrow
+  - Recipe: 10 sticks + 10 feathers → 10 arrows
+  - Craft 5 times: 50 sticks + 50 feathers → 50 arrows
+  - Chat after each batch: "Crafted X/50 arrows"
+  - verify_inventory: Should have 50 arrows
+
+  🏹 BOW CRAFTING (Rounds 40-47):
+  Bow_Crafter (Agent 6):
+
+  **Wooden Bows** (3-5x):
+  - craft_item skill=Fletching itemKey=woodenbow
+  - Recipe: 1 logs + 1 string → 1 bow
+  - Requires Fletching 5
+  - Craft 3-5 times
+  - Chat: "Crafted X wooden bows"
+
+  **Golden Bows** (if materials):
+  - craft_item skill=Fletching itemKey=goldenbow
+  - Recipe: 15 goldbar + 10 string + 2 logs
+  - Requires Fletching 32, need gold bars
+  - Optional if gold available
+  - Chat: "Crafted golden bow!"
+
+  ═══════════════════════════════════════════════════════════
+  COMPETITION (Rounds 48-50)
+  ═══════════════════════════════════════════════════════════
+
+  ✅ VERIFICATION:
+  - Arrow_Crafter: 50 arrows
+  - Bow_Crafter: 5+ bows
+  - Total archery arsenal complete
+
+  📊 COMPLETION:
+  complete response="Grand Archery Competition ready! Produced 50 arrows and 5 bows. Complete archery arsenal assembled!"
+
+# Limitations
+max_action_steps: 50
+
+# Agent configurations
+agent_1:
+  username: "Feather_Hunter_1"
+  new_character: true
+  location: {x: 350, y: 250}
+  skill_levels: {strength: 40, accuracy: 38, health: 46}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "Feather_Hunter_2"
+  new_character: true
+  location: {x: 352, y: 252}
+  skill_levels: {strength: 38, accuracy: 36, health: 44}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "Master_Lumberjack"
+  new_character: true
+  location: {x: 250, y: 350}
+  skill_levels: {lumberjacking: 45, strength: 32, health: 38}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "Wood_Harvester"
+  new_character: true
+  location: {x: 252, y: 352}
+  skill_levels: {lumberjacking: 40, strength: 30, health: 36}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "Arrow_Crafter"
+  new_character: true
+  location: {x: 528, y: 384}
+  skill_levels: {fletching: 40, crafting: 30, health: 32}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "Bow_Crafter"
+  new_character: true
+  location: {x: 530, y: 386}
+  skill_levels: {fletching: 45, crafting: 35, health: 34}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+    - {item: "string", count: 15}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Materials: Feather Hunters collect 50+ feathers from birds"
+  - "Materials: Lumberjacks harvest 15+ logs"
+  - "Production: Arrow Crafter crafts 50+ sticks from logs"
+  - "Production: String gathered/available for bows (15+)"
+  - "Assembly: Arrow Crafter produces 50 arrows"
+  - "Assembly: Bow Crafter creates 5+ bows (wooden/golden)"
+  - "Competition: Complete archery arsenal verified"
+  - "Completed in 48-50 rounds"
