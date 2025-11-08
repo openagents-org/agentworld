@@ -1,0 +1,716 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Underground Mining Expedition - Comprehensive Ore Extraction & Processing"
+  description: "Seven specialized miners coordinate a massive underground expedition to extract and process multiple ore types, creating a complete metallurgy operation"
+
+# Task objectives
+objectives:
+  primary: "Execute a comprehensive mining operation extracting 80+ ores across 4 types, smelt 60+ bars, and craft 10+ metal items including tools, weapons, and jewelry"
+  secondary:
+    - "Phase 1 (Rounds 1-15): Deep Mining Operations - Extract iron, gold, coal, and special ores"
+    - "Phase 2 (Rounds 16-28): Ore Transportation - Travel to central smeltery with all materials"
+    - "Phase 3 (Rounds 29-43): Mass Smelting - Convert all ores to refined bars"
+    - "Phase 4 (Rounds 44-52): Metalwork Production - Craft complete metallurgy collection"
+
+# Context and guidance for agents
+relevant_game_context: |
+  This is an intensive mining and metallurgy operation requiring coordination across multiple mining teams and processing specialists.
+
+  🚨 CRITICAL AWARENESS - MINING EXPEDITION:
+  - ALWAYS use chat to report ore counts and mining progress
+  - ALWAYS verify_inventory after mining sessions
+  - Use observe_environment radius=32 to locate ore deposits
+  - Different ores require different mining skill levels
+  - This is a high-volume operation - expect 80+ ore extraction
+  - Teams must mine efficiently and consolidate frequently
+
+  🎯 OVERALL EXPEDITION OBJECTIVE:
+  Complete metallurgy operation:
+
+  **ORE EXTRACTION (80+ total)**:
+  - 25+ Iron Ore (most versatile metal)
+  - 20+ Gold Ore (precious metal for high-tier items)
+  - 30+ Coal (fuel for all smelting)
+  - 5+ Special Ores (nisoc, pythar, cinnabar)
+
+  **BAR PRODUCTION (60+ bars)**:
+  - 25+ Iron Bars (from iron ore)
+  - 20+ Gold Bars (from gold ore)
+  - 15+ Bronze/Copper Bars (if materials available)
+
+  **CRAFTED ITEMS (10+ pieces)**:
+  - 3x Tools (pickaxe, axe, bucket)
+  - 4x Weapons (heavy sword, golden sword, axes)
+  - 3x Jewelry (gold rings, silver rings)
+
+  📍 AGENT ASSIGNMENTS & LOCATIONS:
+
+  **IRON MINING TEAM (Agents 1-2)**: Start (230, 38) - Mountain Base
+  - Agent 1 "Iron_Chief": Mine 15+ iron ore
+  - Agent 2 "Iron_Specialist": Mine 10+ iron ore
+  - Objective: Extract 25+ iron ore total
+
+  **GOLD MINING TEAM (Agents 3-4)**: Start (238, 48) - Gold Vein Area
+  - Agent 3 "Gold_Prospector": Mine 12+ gold ore
+  - Agent 4 "Gold_Digger": Mine 8+ gold ore
+  - Objective: Extract 20+ gold ore total
+
+  **COAL MINING TEAM (Agent 5)**: Start (232, 40) - Coal Deposits
+  - Agent 5 "Coal_Baron": Mine 30+ coal
+  - Objective: Massive coal extraction for fuel
+
+  **SMELTERY OPERATIONS (Agents 6-7)**: Start (528, 384) - Central Smeltery
+  - Agent 6 "Master_Smelter": Smelt all bars, coordinate operations
+  - Agent 7 "Metalsmith": Craft all metal items from bars
+  - Objective: Process ores and create final products
+
+  ═══════════════════════════════════════════════════════════
+  PHASE 1: DEEP MINING OPERATIONS (Rounds 1-15)
+  ═══════════════════════════════════════════════════════════
+
+  🎯 PHASE OBJECTIVES:
+  - Iron team extracts 25+ iron ore
+  - Gold team extracts 20+ gold ore
+  - Coal baron extracts 30+ coal
+  - All mining teams reach quotas before Phase 2
+
+  ⛏️ IRON CHIEF (Agent 1) - PRIMARY IRON MINER:
+
+  Location: (230, 38) - Northern Mountains
+  Specialty: Iron Ore
+  Target: 15+ iron ore
+
+  Strategy:
+  1. Rounds 1-12: Intensive iron mining
+     - observe_environment radius=32 to find iron rocks
+     - Iron requires Mining 10+ (Agent 1 has Mining 45)
+     - harvest_resource targetInstance=<iron_rock_id>
+     - Each rock yields 1-3 iron ore
+     - Need ~5-8 rock instances
+     - Chat every 3 ore: "Iron Chief: X/15 iron ore"
+
+  2. Search pattern:
+     - Primary: (230, 38)
+     - Secondary: (235, 40), (228, 36)
+     - Move systematically through mountain area
+     - Iron rocks are moderately common
+
+  3. Rounds 13-15: Final extraction and verification
+     - verify_inventory
+     - Should have 15+ iron ore
+     - Chat: "Iron Chief: Iron quota complete - X ore"
+
+  ⛏️ IRON SPECIALIST (Agent 2) - SECONDARY IRON:
+
+  Location: (232, 39) - Near Iron Chief
+  Specialty: Iron Ore
+  Target: 10+ iron ore
+
+  Strategy:
+  1. Coordinate with Iron Chief to avoid duplicate mining
+  2. Search adjacent areas: (232, 39), (234, 41)
+  3. Same mining technique as Iron Chief
+  4. Chat: "Iron Specialist: X/10 iron ore"
+  5. Combined total: 25+ iron ore between both agents
+
+  ⛏️ GOLD PROSPECTOR (Agent 3) - PRIMARY GOLD:
+
+  Location: (238, 48) - Gold Vein Area
+  Specialty: Gold Ore
+  Target: 12+ gold ore
+
+  Strategy:
+  1. Rounds 1-13: Gold mining
+     - observe_environment radius=32 for gold rocks
+     - Gold requires Mining 25+ (Agent 3 has Mining 40)
+     - harvest_resource targetInstance=<gold_rock_id>
+     - Gold is rarer than iron but valuable
+     - Each rock yields 1-3 gold ore
+     - Chat every 2 ore: "Gold Prospector: X/12 gold ore"
+
+  2. Gold rock locations:
+     - Primary: (238, 48)
+     - Secondary: (230, 38) - overlaps with iron area
+     - Gold and iron can coexist in mountains
+
+  3. Rounds 14-15: Verify and prepare
+     - verify_inventory
+     - Should have 12+ gold ore
+
+  ⛏️ GOLD DIGGER (Agent 4) - SECONDARY GOLD:
+
+  Location: (240, 50) - Gold Vein Area
+  Specialty: Gold Ore
+  Target: 8+ gold ore
+
+  Strategy:
+  1. Coordinate with Gold Prospector
+  2. Search adjacent gold areas
+  3. Chat: "Gold Digger: X/8 gold ore"
+  4. Combined gold total: 20+ ore
+
+  ⛏️ COAL BARON (Agent 5) - MASS COAL EXTRACTION:
+
+  Location: (232, 40) - Coal Deposits
+  Specialty: Coal
+  Target: 30+ coal (largest individual quota!)
+
+  Strategy:
+  1. Rounds 1-14: Continuous coal mining
+     - observe_environment to find coal rocks
+     - Coal requires Mining 1+ (very accessible)
+     - harvest_resource targetInstance=<coal_rock_id>
+     - Coal is very common in mountains
+     - Each rock yields 1-3 coal
+     - Need ~10-15 rock instances
+     - Chat every 5 coal: "Coal Baron: X/30 coal mined"
+
+  2. Coal abundance strategy:
+     - Coal rocks everywhere in mountains
+     - Efficient gathering - don't travel far
+     - Stay in (230-235, 38-42) area
+     - Maximize harvests per round
+
+  3. Rounds 15: Final verification
+     - verify_inventory
+     - Should have 30+ coal
+     - Chat: "Coal Baron: Coal reserves complete - 30+ coal"
+
+  🏭 SMELTERY PREPARATION (Agents 6-7):
+
+  Location: (528, 384) - Central Smeltery
+  Both agents prepare during Phase 1
+
+  Rounds 1-15 Activities:
+  1. Monitor mining team chat updates
+  2. verify_inventory to check starting materials
+  3. Plan smelting sequences: iron first, then gold
+  4. Agent 7 check for starting logs (need for tool handles)
+  5. Chat: "Smeltery ready for ore delivery"
+  6. Calculate expected bars: 25 iron + 20 gold = 45 bars minimum
+
+  ⏱️ PHASE 1 TIME ALLOCATION:
+  - Rounds 1-12: Intensive mining all ore types
+  - Rounds 13-15: Final extraction and verification
+
+  ═══════════════════════════════════════════════════════════
+  PHASE 2: ORE TRANSPORTATION (Rounds 16-28)
+  ═══════════════════════════════════════════════════════════
+
+  🎯 PHASE OBJECTIVES:
+  - All mining teams travel to Central Smeltery
+  - Transport 80+ total ores safely
+  - Consolidate all materials with Master_Smelter
+  - Verify complete ore inventory
+
+  🚚 TRAVEL TO SMELTERY:
+
+  **All Mountain Miners (Agents 1-5) → Smeltery (528, 384)**:
+  - Starting: (230-240, 38-50) - Mountain regions
+  - Destination: (528, 384) - Central Smeltery
+  - Distance: ~420-450 tiles
+  - Moves needed: 14-15 actions
+  - All travel together as convoy
+
+  Travel Plan:
+  - Round 16: All agents move together
+  - Route: Southeast from mountains to central plains
+  - Incremental moves of 32 tiles each
+  - Chat position every 2 moves: "Mining convoy at (X,Y)"
+  - Expected arrival: Round 25-28
+
+  Example route for Agent 1:
+  - Round 16: move_character x=262 y=70
+  - Round 17: move_character x=294 y=102
+  - Round 18: move_character x=326 y=134
+  - Continue until (528, 384)
+
+  🔄 ORE CONSOLIDATION (Rounds 26-28):
+
+  Transfer Sequence to Master_Smelter (Agent 6):
+
+  Iron Team Transfers:
+  - Iron_Chief: transfer_items targetPlayer=Master_Smelter itemKey=ironore count=15
+  - Iron_Specialist: transfer_items targetPlayer=Master_Smelter itemKey=ironore count=10
+  - Chat confirmation: "Iron transferred: 25/25 ✓"
+
+  Gold Team Transfers:
+  - Gold_Prospector: transfer_items targetPlayer=Master_Smelter itemKey=goldore count=12
+  - Gold_Digger: transfer_items targetPlayer=Master_Smelter itemKey=goldore count=8
+  - Chat confirmation: "Gold transferred: 20/20 ✓"
+
+  Coal Transfer:
+  - Coal_Baron: transfer_items targetPlayer=Master_Smelter itemKey=coal count=30
+  - Chat confirmation: "Coal transferred: 30/30 ✓"
+
+  Master_Smelter Verification (Round 28):
+  - verify_inventory
+  - Expected: 25+ ironore, 20+ goldore, 30+ coal
+  - Chat: "Ore consolidation complete! Iron: 25, Gold: 20, Coal: 30 ✓"
+
+  ⏱️ PHASE 2 TIME ALLOCATION:
+  - Rounds 16-25: Travel convoy to smeltery
+  - Rounds 26-27: Ore transfers to Master_Smelter
+  - Round 28: Complete verification
+
+  ═══════════════════════════════════════════════════════════
+  PHASE 3: MASS SMELTING (Rounds 29-43)
+  ═══════════════════════════════════════════════════════════
+
+  🎯 PHASE OBJECTIVES:
+  - Smelt 25+ iron bars from iron ore
+  - Smelt 20+ gold bars from gold ore
+  - Create intermediate items (silver rings)
+  - Distribute bars to Metalsmith for crafting
+
+  🔥 IRON BAR SMELTING (Agent 6 - Master_Smelter):
+
+  Rounds 29-36: Smelt Iron Bars
+  - Recipe: 1x ironore + 1x coal → 1x ironbar
+  - Need to smelt 25 times
+  - Can craft 3-4 per round = ~7-9 rounds needed
+  - Process:
+    1. craft_item skill=Smelting itemKey=ironbar
+    2. Repeat 25 times
+    3. Chat every 5 bars: "Master Smelter: X/25 iron bars"
+  - verify_inventory after completion
+  - Should have: 25 ironbar
+
+  🔥 GOLD BAR SMELTING (Agent 6):
+
+  Rounds 37-43: Smelt Gold Bars
+  - Recipe: 1x goldore + 1x coal → 1x goldbar
+  - Need to smelt 20 times
+  - Can craft 3-4 per round = ~5-7 rounds needed
+  - Process:
+    1. craft_item skill=Smelting itemKey=goldbar
+    2. Repeat 20 times
+    3. Chat every 5 bars: "Master Smelter: X/20 gold bars"
+  - verify_inventory after completion
+  - Should have: 25 ironbar, 20 goldbar
+  - Chat: "All smelting complete! 25 iron bars, 20 gold bars ✓"
+
+  Coal Usage Calculation:
+  - Iron: 25 coal
+  - Gold: 20 coal
+  - Total: 45 coal used (5 coal remaining as buffer)
+
+  ⏱️ PHASE 3 TIME ALLOCATION:
+  - Rounds 29-36: Iron bar smelting (25 bars)
+  - Rounds 37-43: Gold bar smelting (20 bars)
+
+  ═══════════════════════════════════════════════════════════
+  PHASE 4: METALWORK PRODUCTION (Rounds 44-52)
+  ═══════════════════════════════════════════════════════════
+
+  🎯 PHASE OBJECTIVES:
+  - Distribute bars to Metalsmith
+  - Craft 10+ metal items across categories
+  - Verify complete metallurgy collection
+  - Complete expedition report
+
+  📦 BAR DISTRIBUTION (Round 44):
+
+  Master_Smelter → Metalsmith:
+  - transfer_items targetPlayer=Metalsmith itemKey=ironbar count=25
+  - transfer_items targetPlayer=Metalsmith itemKey=goldbar count=20
+
+  Metalsmith Verification:
+  - verify_inventory
+  - Should have: 25 ironbar, 20 goldbar
+  - Chat: "Metalsmith: Received all bars, beginning production ✓"
+
+  🔨 TOOL CRAFTING (Agent 7 - Metalsmith):
+
+  Rounds 45-47: Craft Essential Tools
+
+  **Pickaxe** (Mining tool):
+  - Recipe: 5x ironbar + 1x logs → 1x pickaxe
+  - craft_item skill=Smithing itemKey=pickaxe
+  - Need logs - check starting inventory or get from miners
+  - Chat: "Metalsmith: Pickaxe crafted ⛏️"
+
+  **Axe** (Woodcutting tool):
+  - Recipe: 3x ironbar + 1x logs → 1x axe
+  - craft_item skill=Smithing itemKey=axe
+  - Chat: "Metalsmith: Axe crafted 🪓"
+
+  **Bucket** (Utility tool):
+  - Recipe: 3x ironbar → 1x bucket
+  - craft_item skill=Smithing itemKey=bucket
+  - Chat: "Metalsmith: Bucket crafted 🪣"
+
+  Iron used: 5 + 3 + 3 = 11 ironbar (14 remaining)
+
+  ⚔️ WEAPON CRAFTING (Agent 7):
+
+  Rounds 48-50: Craft Weapons
+
+  **Heavy Sword**:
+  - Recipe: 2x ironbar + 1x hilt2 → 1x sword2
+  - craft_item skill=Smithing itemKey=sword2
+  - Need hilt2 - check starting inventory
+  - Chat: "Metalsmith: Heavy Sword forged ⚔️"
+
+  **Golden Sword**:
+  - Recipe: 15x goldbar + 1x hilt2 → 1x goldensword
+  - craft_item skill=Smithing itemKey=goldensword
+  - Requires Smithing 62 (Agent 7 has 65)
+  - Chat: "Metalsmith: Golden Sword forged ⚔️✨"
+
+  **Battle Axe** (additional weapon):
+  - Recipe: 3x ironbar + 1x logs → 1x axe
+  - craft_item skill=Smithing itemKey=axe
+  - Chat: "Metalsmith: Battle Axe crafted 🪓"
+
+  Bars used: 2 + 15 + 3 = 20 (2 iron + 15 gold)
+  Remaining: 9 ironbar, 5 goldbar
+
+  💍 JEWELRY CRAFTING (Agent 7):
+
+  Rounds 50-52: Craft Jewelry
+
+  **Silver Rings** (2x):
+  - Recipe: 2x ironbar → 1x silverring
+  - craft_item skill=Smithing itemKey=silverring
+  - Repeat twice: 4 ironbar → 2 silverring
+  - Chat: "Metalsmith: 2x Silver Rings crafted 💍"
+
+  **Gold Rings** (2x):
+  - Recipe: 2x goldbar → 1x goldring
+  - craft_item skill=Smithing itemKey=goldring
+  - Repeat twice: 4 goldbar → 2 goldring
+  - Chat: "Metalsmith: 2x Gold Rings crafted 💍✨"
+
+  Bars used: 4 iron + 4 gold
+  Remaining: 5 ironbar, 1 goldbar
+
+  ✅ FINAL VERIFICATION (Round 52):
+
+  Metalsmith final inventory:
+  - verify_inventory
+  - Should have:
+    * Tools: 1x pickaxe, 2x axe, 1x bucket (4 tools)
+    * Weapons: 1x sword2, 1x goldensword (2 weapons)
+    * Jewelry: 2x silverring, 2x goldring (4 jewelry)
+  - Total: 10 items crafted
+  - Plus: 5 ironbar, 1 goldbar remaining
+
+  📊 EXPEDITION COMPLETION (Round 52):
+
+  Master_Smelter or Metalsmith uses complete():
+
+  complete response="Underground Mining Expedition completed successfully!
+
+  EXPEDITION SUMMARY:
+  ═══════════════════════════════════════════════════════════
+
+  PHASE 1 - DEEP MINING OPERATIONS (Rounds 1-15):
+  ✓ Iron Team extracted 25 iron ore from Northern Mountains
+  ✓ Gold Team extracted 20 gold ore from gold vein areas
+  ✓ Coal Baron extracted 30 coal from coal deposits
+  ✓ Total ores mined: 75+ (25 iron + 20 gold + 30 coal)
+  ✓ All mining quotas achieved
+
+  PHASE 2 - ORE TRANSPORTATION (Rounds 16-28):
+  ✓ Mining convoy traveled 450+ tiles to Central Smeltery
+  ✓ All 5 mining teams arrived safely
+  ✓ Perfect ore consolidation with Master Smelter
+  ✓ Zero ore losses during transportation
+
+  PHASE 3 - MASS SMELTING (Rounds 29-43):
+  ✓ Smelted 25 iron bars from iron ore
+  ✓ Smelted 20 gold bars from gold ore
+  ✓ Total bars produced: 45
+  ✓ Coal consumption: 45 (efficient usage)
+
+  PHASE 4 - METALWORK PRODUCTION (Rounds 44-52):
+  ✓ Crafted 4 essential tools (pickaxe, 2x axe, bucket)
+  ✓ Forged 2 powerful weapons (heavy sword, golden sword)
+  ✓ Created 4 jewelry pieces (2x silver ring, 2x gold ring)
+  ✓ Total items crafted: 10
+
+  FINAL METALLURGY COLLECTION:
+  ═══════════════════════════════════════════════════════════
+
+  TOOLS (4 pieces):
+  ⛏️ Pickaxe (5 iron bars + logs)
+  🪓 Axe x2 (6 iron bars + logs total)
+  🪣 Bucket (3 iron bars)
+
+  WEAPONS (2 pieces):
+  ⚔️ Heavy Sword (2 iron bars + hilt)
+  ⚔️ Golden Sword (15 gold bars + hilt) - LEGENDARY
+
+  JEWELRY (4 pieces):
+  💍 Silver Ring x2 (4 iron bars)
+  💍 Gold Ring x2 (4 gold bars)
+
+  RESOURCES PROCESSED:
+  ═══════════════════════════════════════════════════════════
+  - Iron ore mined: 25
+  - Gold ore mined: 20
+  - Coal mined: 30
+  - Iron bars smelted: 25
+  - Gold bars smelted: 20
+  - Coal consumed: 45
+  - Items crafted: 10
+  - Remaining bars: 5 iron, 1 gold
+
+  EXPEDITION STATISTICS:
+  ═══════════════════════════════════════════════════════════
+  - Total rounds: 52
+  - Total ores extracted: 75
+  - Total bars smelted: 45
+  - Total items crafted: 10
+  - Mining agents: 5
+  - Processing agents: 2
+  - Distance traveled: 2,500+ tiles (all agents)
+  - Regions covered: Northern Mountains, Central Plains
+  - Failed actions: 0
+  - Efficiency: Excellent
+
+  Underground Mining Expedition: COMPLETE ✓
+  Central Smeltery now fully operational with complete metallurgy capabilities!"
+
+  🚨 CRITICAL COMPLETION REQUIREMENTS:
+
+  DO NOT use complete() unless ALL verified:
+  ✓ 75+ ores mined (25 iron, 20 gold, 30 coal minimum)
+  ✓ 45+ bars smelted (25 iron, 20 gold minimum)
+  ✓ 10+ items crafted (tools, weapons, jewelry)
+  ✓ All mining teams participated in extraction
+  ✓ Perfect ore transportation and consolidation
+  ✓ Expedition completed in 50-52 rounds
+
+  ⚠️ DEADLOCK PREVENTION:
+
+  1. **Ore Depletion**: If ores not sufficient
+     - Mountains have abundant ores
+     - Move to different mountain locations
+     - Rocks respawn after time
+     - Use observe_environment radius=32-64
+
+  2. **Travel Issues**: If agents can't reach smeltery
+     - Calculate moves: 450 / 32 = 15 moves
+     - Start travel at Round 16
+     - Travel as convoy for safety
+     - Chat positions frequently
+
+  3. **Missing Materials**: If lack hilts or logs
+     - Check all starting inventories
+     - Some miners may start with logs
+     - Can adapt: craft more rings instead of swords
+     - Logs from mining agents who have them
+
+  4. **Smelting Volume**: If 45 bars seems daunting
+     - Master_Smelter has 15 rounds (29-43)
+     - Can smelt 3-4 per round
+     - 15 rounds × 3 = 45 bars achievable!
+     - Focus and consistency required
+
+  📡 COMMUNICATION PROTOCOL:
+
+  - Miners: Report every 5 ores collected
+  - Convoy: Report position every 2 moves
+  - Smelter: Report every 5 bars smelted
+  - Metalsmith: Report each item crafted
+  - Use format: "[Role]: [Status] X/Y"
+  - Minimum: Every 3-4 rounds
+
+  🎯 SUCCESS METRICS:
+
+  Primary:
+  ✓ 10+ metal items crafted
+
+  Secondary:
+  ✓ 75+ ores mined
+  ✓ 45+ bars smelted
+  ✓ Completed in 50-52 rounds
+
+  Tertiary:
+  ✓ Perfect mining coordination
+  ✓ Efficient smelting operations
+  ✓ Diverse item creation
+
+# Limitations
+max_action_steps: 52
+
+# Agent configurations
+agent_1:
+  username: "Iron_Chief"
+  new_character: true
+  location:
+    x: 230
+    y: 38
+  skill_levels:
+    mining: 45
+    strength: 30
+    health: 35
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "Iron_Specialist"
+  new_character: true
+  location:
+    x: 232
+    y: 39
+  skill_levels:
+    mining: 40
+    strength: 28
+    health: 33
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "Gold_Prospector"
+  new_character: true
+  location:
+    x: 238
+    y: 48
+  skill_levels:
+    mining: 40
+    strength: 28
+    health: 33
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "Gold_Digger"
+  new_character: true
+  location:
+    x: 240
+    y: 50
+  skill_levels:
+    mining: 35
+    strength: 26
+    health: 32
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "Coal_Baron"
+  new_character: true
+  location:
+    x: 232
+    y: 40
+  skill_levels:
+    mining: 30
+    strength: 25
+    health: 30
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "Master_Smelter"
+  new_character: true
+  location:
+    x: 528
+    y: 384
+  skill_levels:
+    smithing: 30
+    crafting: 25
+    health: 30
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "Metalsmith"
+  new_character: true
+  location:
+    x: 530
+    y: 386
+  skill_levels:
+    smithing: 65
+    crafting: 35
+    fletching: 25
+    health: 32
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "logs"
+      count: 5
+    - item: "hilt2"
+      count: 2
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Phase 1: Iron Team mines 25+ iron ore from mountains"
+  - "Phase 1: Gold Team mines 20+ gold ore from mountains"
+  - "Phase 1: Coal Baron mines 30+ coal"
+  - "Phase 1: Total 75+ ores extracted"
+  - "Phase 2: All mining teams travel to Central Smeltery"
+  - "Phase 2: Perfect ore consolidation with Master Smelter"
+  - "Phase 3: Master Smelter smelts 25 iron bars"
+  - "Phase 3: Master Smelter smelts 20 gold bars"
+  - "Phase 4: Metalsmith crafts pickaxe, 2x axe, bucket (4 tools)"
+  - "Phase 4: Metalsmith forges heavy sword and golden sword"
+  - "Phase 4: Metalsmith creates 2x silver rings and 2x gold rings"
+  - "Total 10+ metal items crafted"
+  - "All mining teams coordinate efficiently"
+  - "Expedition completed in 50-52 rounds"
