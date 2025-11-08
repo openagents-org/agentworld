@@ -1,0 +1,561 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Legendary Equipment Forge - Ultimate Gear Creation"
+  description: "Nine master craftsmen unite to create the ultimate equipment set: legendary golden items, magical staffs, and complete combat gear"
+
+# Task objectives
+objectives:
+  primary: "Forge legendary equipment set: 5+ golden items, 4+ magical staffs, 6+ elite weapons/armor for complete legendary arsenal"
+  secondary:
+    - "Conquest 1 (Rounds 1-18): Massive Resource Gathering - Mine 100+ ores, gather magical components"
+    - "Conquest 2 (Rounds 19-32): Industrial Smelting - Produce 80+ bars from ores"
+    - "Conquest 3 (Rounds 33-48): Legendary Crafting - Forge all legendary items"
+    - "Conquest 4 (Rounds 49-54): Arsenal Exhibition - Display complete legendary set"
+
+# Context and guidance for agents
+relevant_game_context: |
+  Ultimate crafting challenge creating legendary equipment set.
+
+  🎯 LEGENDARY ARSENAL (15+ items):
+
+  **GOLDEN ITEMS (5 pieces)**:
+  - 1x Golden Sword (15 goldbar + hilt2)
+  - 1x Golden Bow (15 goldbar + 10 string + 2 logs)
+  - 1x Golden Boots (15 goldbar)
+  - 2x Gold Ring (2 goldbar each)
+  TOTAL: 49 gold bars needed!
+
+  **MAGICAL STAFFS (4 types)**:
+  - 1x Lightning Staff (staff + lightningbead)
+  - 1x Fire Staff (staff + firebead)
+  - 1x Ice Staff (staff + icebead)
+  - 1x Nature Staff (staff + naturebead)
+  TOTAL: 4 base staffs (20 sticks, 4 beads) + 4 special beads
+
+  **ELITE WEAPONS (6+ pieces)**:
+  - 2x Heavy Sword (2 ironbar + hilt2 each)
+  - 2x Pickaxe (5 ironbar + logs each)
+  - 2x Battle Axe (3 ironbar + logs each)
+  TOTAL: 20 iron bars + materials
+
+  **TOTAL MATERIALS NEEDED**:
+  - 49+ gold bars (49 goldore + 49 coal)
+  - 20+ iron bars (20 ironore + 20 coal)
+  - 69+ coal total for smelting
+  - 20+ sticks (5 logs for sticks)
+  - 10+ string, 8+ beads (4 regular + 4 special)
+  - 5+ hilts, 5+ logs for handles
+
+  📍 MASTER CRAFTSMEN (9 agents):
+
+  **GOLD EXTRACTION TEAM (Agents 1-3)**: Mountains
+  - Mine 49+ gold ore collectively
+  - Agent 1: 17 ore, Agent 2: 16 ore, Agent 3: 16 ore
+
+  **IRON & COAL TEAM (Agents 4-5)**: Mountains
+  - Agent 4: Mine 20+ iron ore
+  - Agent 5: Mine 69+ coal (massive!)
+
+  **MAGICAL COMPONENT HUNTERS (Agents 6-7)**: Various
+  - Agent 6: Hunt/forage for 8+ beads (4 regular + 4 special)
+  - Agent 7: Gather 10+ string, 5+ logs, 5+ hilts
+
+  **LEGENDARY FORGE MASTERS (Agents 8-9)**: Central Forge
+  - Agent 8: Smelt ALL bars (69 total!)
+  - Agent 9: Craft ALL legendary items (15+ pieces)
+
+  ═══════════════════════════════════════════════════════════
+  CONQUEST 1: MASSIVE RESOURCE GATHERING (Rounds 1-18)
+  ═══════════════════════════════════════════════════════════
+
+  ⛏️ GOLD EXTRACTION TEAM (Agents 1-3):
+  Location: (230-240, 38-50) Mountains
+  - Intensive gold ore mining
+  - observe_environment radius=32-64
+  - harvest_resource on gold rocks
+  - Agent 1 target: 17 goldore
+  - Agent 2 target: 16 goldore
+  - Agent 3 target: 16 goldore
+  - TOTAL: 49 goldore
+  - Chat every 5 ore: "Gold Agent X: Y/target"
+
+  ⛏️ IRON MINER (Agent 4):
+  Location: (230, 38) Mountains
+  - Mine 20+ iron ore
+  - observe_environment for iron rocks
+  - harvest_resource intensively
+  - Chat every 5 ore: "Iron: X/20 ore"
+
+  ⛏️ COAL MASTER (Agent 5):
+  Location: (232, 40) Mountains
+  - Mine 69+ coal (LARGEST quota!)
+  - Coal is abundant but need massive amount
+  - Chat every 10 coal: "Coal: X/69"
+
+  🔮 MAGICAL BEAD HUNTER (Agent 6):
+  Location: (350, 250) Plains
+  - Hunt mobs for special beads:
+    * Lightning bead (from wizards/magical mobs)
+    * Fire bead (from fire mobs)
+    * Ice bead (from ice mobs)
+    * Nature bead (from nature mobs)
+  - Forage regular beads (4+)
+  - observe_environment radius=64
+  - attack_entity for mob drops
+  - Target: 8 beads total (4 regular + 4 special)
+  - Chat: "Beads: X regular, Y special"
+
+  🧵 COMPONENT GATHERER (Agent 7):
+  Location: (250, 350) Forest
+  - Forage/hunt for strings (10+)
+  - Harvest logs (5+)
+  - Check for hilts in starting inventory or obtain
+  - Multi-location gathering
+  - Chat: "Components: X string, Y logs, Z hilts"
+
+  🏭 FORGE MASTERS (Agents 8-9):
+  Location: (528, 384) Central Forge
+  - Monitor gathering progress
+  - Plan smelting and crafting sequences
+  - Calculate exact material requirements
+  - Chat: "Forge monitoring: Awaiting materials"
+
+  ═══════════════════════════════════════════════════════════
+  CONQUEST 2: INDUSTRIAL SMELTING (Rounds 19-32)
+  ═══════════════════════════════════════════════════════════
+
+  🚚 TRAVEL (Rounds 19-26):
+  All gatherers → Central Forge (528, 384)
+  - Gold/Iron/Coal teams: ~450 tiles, 15 moves
+  - Magical hunters: ~220-325 tiles, 7-11 moves
+  - All travel together as convoy
+  - Chat positions every 2 moves
+
+  🔄 CONSOLIDATION (Rounds 27-28):
+  Transfer ALL to Master_Smelter (Agent 8):
+
+  Gold Team:
+  - Agent 1: transfer goldore (17)
+  - Agent 2: transfer goldore (16)
+  - Agent 3: transfer goldore (16)
+
+  Iron/Coal:
+  - Agent 4: transfer ironore (20)
+  - Agent 5: transfer coal (69)
+
+  Components to Legendary_Crafter (Agent 9):
+  - Agent 6: transfer all beads (8)
+  - Agent 7: transfer string (10), logs (5), hilts (5)
+
+  Verification:
+  - Agent 8: verify_inventory: 49 goldore, 20 ironore, 69 coal
+  - Agent 9: verify_inventory: 8 beads, 10 string, 5 logs, 5 hilts
+
+  🔥 MASS SMELTING (Rounds 29-32):
+  Master_Smelter (Agent 8):
+
+  **Gold Bar Production**:
+  - craft_item skill=Smelting itemKey=goldbar
+  - Recipe: 1 goldore + 1 coal → 1 goldbar
+  - Smelt 49 times: 49 goldore + 49 coal → 49 goldbar
+  - Can smelt ~12-15 per round
+  - Rounds needed: ~4 rounds
+  - Chat every 10 bars: "Smelted X/49 gold bars"
+
+  **Iron Bar Production**:
+  - craft_item skill=Smelting itemKey=ironbar
+  - Recipe: 1 ironore + 1 coal → 1 ironbar
+  - Smelt 20 times: 20 ironore + 20 coal → 20 ironbar
+  - Chat: "Smelted X/20 iron bars"
+
+  Coal usage: 49 + 20 = 69 coal (perfect!)
+
+  Final verify: 49 goldbar, 20 ironbar
+
+  ═══════════════════════════════════════════════════════════
+  CONQUEST 3: LEGENDARY CRAFTING (Rounds 33-48)
+  ═══════════════════════════════════════════════════════════
+
+  📦 BAR DISTRIBUTION (Round 33):
+  Master_Smelter → Legendary_Crafter:
+  - transfer goldbar (49)
+  - transfer ironbar (20)
+
+  🔨 LEGENDARY CRAFTER (Agent 9):
+
+  **GOLDEN ITEMS** (Rounds 34-40):
+
+  Golden Sword:
+  - craft_item skill=Smithing itemKey=goldensword
+  - Materials: 15 goldbar + 1 hilt2
+  - Requires Smithing 62
+  - Chat: "Forged Golden Sword! ⚔️✨"
+
+  Golden Bow:
+  - craft_item skill=Fletching itemKey=goldenbow
+  - Materials: 15 goldbar + 10 string + 2 logs
+  - Requires Fletching 32
+  - Chat: "Crafted Golden Bow! 🏹✨"
+
+  Golden Boots:
+  - craft_item skill=Smithing itemKey=goldboots
+  - Materials: 15 goldbar
+  - Requires Smithing 62
+  - Chat: "Forged Golden Boots! 👢✨"
+
+  Gold Rings (2x):
+  - craft_item skill=Smithing itemKey=goldring
+  - Materials: 2 goldbar each = 4 total
+  - Repeat twice
+  - Chat: "Crafted 2x Gold Rings! 💍✨"
+
+  Gold used: 15 + 15 + 15 + 4 = 49 goldbar ✓
+
+  **MAGICAL STAFFS** (Rounds 40-44):
+
+  Craft Sticks:
+  - craft_item skill=Fletching itemKey=stick
+  - 1 logs → 4 sticks, craft 5 times
+  - 5 logs → 20 sticks
+  - Chat: "Crafted 20 sticks"
+
+  Base Staffs (4x):
+  - craft_item skill=Crafting itemKey=staff
+  - Recipe: 5 sticks + 1 bead → 1 staff
+  - Repeat 4 times: 20 sticks + 4 beads → 4 staffs
+  - Chat: "Crafted 4 base magic staffs"
+
+  Lightning Staff:
+  - craft_item skill=Crafting itemKey=lightningstaff
+  - 1 staff + 1 lightningbead
+  - Requires Crafting 10
+  - Chat: "Lightning Staff! ⚡"
+
+  Fire Staff:
+  - craft_item skill=Crafting itemKey=firestaff
+  - 1 staff + 1 firebead
+  - Requires Crafting 35
+  - Chat: "Fire Staff! 🔥"
+
+  Ice Staff:
+  - craft_item skill=Crafting itemKey=icestaff
+  - 1 staff + 1 icebead
+  - Requires Crafting 55
+  - Chat: "Ice Staff! ❄️"
+
+  Nature Staff:
+  - craft_item skill=Crafting itemKey=naturestaff
+  - 1 staff + 1 naturebead
+  - Requires Crafting 20
+  - Chat: "Nature Staff! 🌿"
+
+  **ELITE WEAPONS** (Rounds 45-48):
+
+  Heavy Swords (2x):
+  - craft_item skill=Smithing itemKey=sword2
+  - Recipe: 2 ironbar + 1 hilt2 each
+  - Craft 2: 4 ironbar + 2 hilt2
+  - Chat: "Forged 2x Heavy Swords! ⚔️"
+
+  Pickaxes (2x):
+  - craft_item skill=Smithing itemKey=pickaxe
+  - Recipe: 5 ironbar + 1 logs each
+  - Craft 2: 10 ironbar + 2 logs (remaining)
+  - Chat: "Forged 2x Pickaxes! ⛏️"
+
+  Battle Axes (2x):
+  - craft_item skill=Smithing itemKey=axe
+  - Recipe: 3 ironbar + 1 logs each
+  - Craft 2: 6 ironbar + 2 logs (from remaining)
+  - Chat: "Forged 2x Battle Axes! 🪓"
+
+  Iron used: 4 + 10 + 6 = 20 ironbar ✓
+
+  ═══════════════════════════════════════════════════════════
+  CONQUEST 4: ARSENAL EXHIBITION (Rounds 49-54)
+  ═══════════════════════════════════════════════════════════
+
+  ✅ COMPREHENSIVE VERIFICATION (Round 50-52):
+
+  Legendary_Crafter (Agent 9) verify_inventory:
+
+  **Golden Items (5)**:
+  - 1x goldensword
+  - 1x goldenbow
+  - 1x goldboots
+  - 2x goldring
+
+  **Magical Staffs (4)**:
+  - 1x lightningstaff
+  - 1x firestaff
+  - 1x icestaff
+  - 1x naturestaff
+
+  **Elite Weapons (6)**:
+  - 2x sword2 (heavy swords)
+  - 2x pickaxe
+  - 2x axe (battle axes)
+
+  TOTAL: 15 legendary items!
+
+  📊 TEAM CONTRIBUTIONS (Round 53):
+
+  All agents report:
+  - Agent 1: "Gold extraction: 17 ore ✓"
+  - Agent 2: "Gold extraction: 16 ore ✓"
+  - Agent 3: "Gold extraction: 16 ore ✓"
+  - Agent 4: "Iron extraction: 20 ore ✓"
+  - Agent 5: "Coal extraction: 69 coal ✓"
+  - Agent 6: "Magical components: 8 beads ✓"
+  - Agent 7: "Support materials: String, logs, hilts ✓"
+  - Agent 8: "Mass smelting: 69 bars ✓"
+  - Agent 9: "Legendary crafting: 15 items ✓"
+
+  🏁 LEGENDARY COMPLETION (Round 54):
+
+  complete response="LEGENDARY EQUIPMENT FORGE COMPLETE!
+
+  ════════════════════════════════════════════════════════════
+  ULTIMATE LEGENDARY ARSENAL - FINAL REPORT
+  ════════════════════════════════════════════════════════════
+
+  CONQUEST 1 - MASSIVE RESOURCE GATHERING (Rounds 1-18):
+  ✓ Gold Extraction Team mined 49 gold ore (15kg+ of precious metal!)
+  ✓ Iron & Coal Team extracted 20 iron ore + 69 coal
+  ✓ Magical Component Hunters gathered 8 beads (regular + special)
+  ✓ Support materials: 10 string, 5 logs, 5 hilts collected
+  ✓ Total raw materials: 100+ items gathered
+
+  CONQUEST 2 - INDUSTRIAL SMELTING (Rounds 19-32):
+  ✓ All 9 craftsmen traveled to Central Forge
+  ✓ Perfect material consolidation - zero losses
+  ✓ Master Smelter produced 49 GOLD BARS (legendary quantity!)
+  ✓ Master Smelter produced 20 IRON BARS
+  ✓ Total bars smelted: 69 (all coal consumed efficiently)
+
+  CONQUEST 3 - LEGENDARY CRAFTING (Rounds 33-48):
+  ✓ Legendary Crafter forged COMPLETE golden set
+  ✓ Legendary Crafter created ALL elemental magical staffs
+  ✓ Legendary Crafter produced elite weapon collection
+  ✓ 15 legendary items crafted with perfect precision
+
+  CONQUEST 4 - ARSENAL EXHIBITION (Rounds 49-54):
+  ✓ Complete verification of all legendary items
+  ✓ Team debriefing and contribution recognition
+  ✓ Arsenal ready for legendary adventures
+
+  ════════════════════════════════════════════════════════════
+  LEGENDARY ARSENAL - COMPLETE INVENTORY
+  ════════════════════════════════════════════════════════════
+
+  💎 GOLDEN ITEMS (5 pieces - LEGENDARY TIER):
+  ⚔️ Golden Sword (Item Level 48, Smithing 62, 15 gold bars)
+    "The blade that legends are forged from"
+  🏹 Golden Bow (Item Level 22, Fletching 32, 15 gold bars)
+    "Arrows launched from this bow never miss their mark"
+  👢 Golden Boots (Smithing 62, 15 gold bars)
+    "Walk the path of champions"
+  💍 Gold Ring x2 (2 gold bars each)
+    "Symbols of ultimate wealth and power"
+
+  🔮 MAGICAL STAFFS (4 elements - ARCANE MASTERY):
+  ⚡ Lightning Staff (Item Level 10, Crafting 10)
+    "Command the power of storms"
+  🔥 Fire Staff (Item Level 25, Crafting 35)
+    "Unleash infernal destruction"
+  ❄️ Ice Staff (Item Level 35, Crafting 55)
+    "Freeze enemies in their tracks"
+  🌿 Nature Staff (Item Level 17, Crafting 20)
+    "Harness the force of living earth"
+
+  ⚔️ ELITE WEAPONS (6 pieces - MASTER CRAFTSMANSHIP):
+  ⚔️ Heavy Sword x2 (Item Level 2, 2 iron bars each)
+    "Trusted blades of seasoned warriors"
+  ⛏️ Pickaxe x2 (Item Level 1, 5 iron bars each)
+    "Break mountains, forge destinies"
+  🪓 Battle Axe x2 (3 iron bars each)
+    "Cleave through any obstacle"
+
+  ════════════════════════════════════════════════════════════
+  LEGENDARY FORGE STATISTICS
+  ════════════════════════════════════════════════════════════
+
+  - Total rounds: 54 (Epic saga!)
+  - Total agents: 9 (Largest team!)
+  - Total ores mined: 138 (49 gold + 20 iron + 69 coal)
+  - Total bars smelted: 69
+  - Total items crafted: 15 legendary pieces
+  - Total gold processed: 49 bars (98kg of pure gold!)
+  - Total iron processed: 20 bars
+  - Magical components: 8 rare beads
+  - Regions involved: Mountains, Forest, Plains, Central Forge
+  - Distance traveled: 3,000+ tiles (all agents combined)
+  - Crafting skill levels utilized: Smithing 70, Fletching 50, Crafting 60
+  - Failed actions: 0
+  - Perfection achieved: ✓
+
+  ════════════════════════════════════════════════════════════
+  MASTER CRAFTSMEN HONORS
+  ════════════════════════════════════════════════════════════
+
+  🥇 Gold Extraction Team (Agents 1-3):
+     "Extracted impossible quantities of precious metal"
+  🥈 Iron & Coal Team (Agents 4-5):
+     "Provided foundation for all legendary creations"
+  🏆 Magical Hunters (Agents 6-7):
+     "Sourced the rarest arcane components"
+  ⚒️ Master Smelter (Agent 8):
+     "Transformed raw ore into refined perfection"
+  👑 Legendary Crafter (Agent 9):
+     "Forged items that will echo through ages"
+
+  ════════════════════════════════════════════════════════════
+
+  LEGENDARY EQUIPMENT FORGE: COMPLETE ✓
+  Arsenal Status: READY FOR EPIC QUESTS
+  Legacy Status: ETERNAL
+
+  The greatest equipment collection ever assembled is ready!
+  Let the legendary adventures begin! ⚔️✨🏆"
+
+  🚨 CRITICAL COMPLETION REQUIREMENTS:
+
+  DO NOT use complete() unless ALL verified:
+  ✓ 5 golden items crafted (golden sword, bow, boots, 2 rings)
+  ✓ 4 magical staffs crafted (lightning, fire, ice, nature)
+  ✓ 6 elite weapons crafted (2 heavy swords, 2 pickaxes, 2 axes)
+  ✓ Total 15 legendary items verified
+  ✓ 49 gold bars smelted and used
+  ✓ 20 iron bars smelted and used
+  ✓ All 9 agents participated fully
+  ✓ Completed in 52-54 rounds
+
+# Limitations
+max_action_steps: 54
+
+# Agent configurations
+agent_1:
+  username: "Gold_Extractor_Prime"
+  new_character: true
+  location: {x: 230, y: 38}
+  skill_levels: {mining: 55, strength: 36, health: 42}
+  inventory_items:
+    - {item: "flask", count: 35}
+    - {item: "apple", count: 40}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "Gold_Extractor_Alpha"
+  new_character: true
+  location: {x: 238, y: 48}
+  skill_levels: {mining: 52, strength: 34, health: 40}
+  inventory_items:
+    - {item: "flask", count: 35}
+    - {item: "apple", count: 40}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "Gold_Extractor_Beta"
+  new_character: true
+  location: {x: 236, y: 46}
+  skill_levels: {mining: 50, strength: 32, health: 38}
+  inventory_items:
+    - {item: "flask", count: 35}
+    - {item: "apple", count: 40}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "Iron_Specialist"
+  new_character: true
+  location: {x: 232, y: 40}
+  skill_levels: {mining: 48, strength: 30, health: 36}
+  inventory_items:
+    - {item: "flask", count: 35}
+    - {item: "apple", count: 40}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "Coal_Master_Supreme"
+  new_character: true
+  location: {x: 234, y: 42}
+  skill_levels: {mining: 45, strength: 28, health: 34}
+  inventory_items:
+    - {item: "flask", count: 35}
+    - {item: "apple", count: 40}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "Arcane_Bead_Hunter"
+  new_character: true
+  location: {x: 350, y: 250}
+  skill_levels: {strength: 44, accuracy: 40, foraging: 38, health: 50}
+  inventory_items:
+    - {item: "flask", count: 40}
+    - {item: "apple", count: 45}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_7:
+  username: "Component_Master"
+  new_character: true
+  location: {x: 250, y: 350}
+  skill_levels: {foraging: 42, lumberjacking: 40, health: 38}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+    - {item: "hilt2", count: 3}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_8:
+  username: "Master_Smelter_Supreme"
+  new_character: true
+  location: {x: 528, y: 384}
+  skill_levels: {crafting: 65, smithing: 45, health: 38}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_9:
+  username: "Legendary_Crafter"
+  new_character: true
+  location: {x: 530, y: 386}
+  skill_levels: {smithing: 70, fletching: 50, crafting: 60, health: 40}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+    - {item: "hilt2", count: 2}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Conquest 1: Gold team mines 49+ gold ore"
+  - "Conquest 1: Iron & Coal team extracts 20 iron ore + 69 coal"
+  - "Conquest 1: Magical hunters gather 8 beads (4 regular + 4 special)"
+  - "Conquest 1: Component master gathers 10 string, 5 logs, 5 hilts"
+  - "Conquest 2: Master Smelter produces 49 gold bars"
+  - "Conquest 2: Master Smelter produces 20 iron bars"
+  - "Conquest 3: Legendary Crafter forges Golden Sword, Bow, Boots"
+  - "Conquest 3: Legendary Crafter creates 2 Gold Rings"
+  - "Conquest 3: Legendary Crafter crafts 4 magical staffs (lightning, fire, ice, nature)"
+  - "Conquest 3: Legendary Crafter forges 6 elite weapons (2 swords, 2 pickaxes, 2 axes)"
+  - "Total 15 legendary items created"
+  - "All 9 master craftsmen participate in epic forge"
+  - "Complete legendary arsenal in 52-54 rounds"
+  - "Ultimate equipment challenge conquered"
