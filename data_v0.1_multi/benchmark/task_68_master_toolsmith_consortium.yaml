@@ -1,0 +1,256 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Master Toolsmith Consortium - Complete Tool & Implement Production"
+  description: "Seven toolsmiths create comprehensive tool collection: pickaxes, axes, buckets, and specialty implements"
+
+# Task objectives
+objectives:
+  primary: "Forge complete tool collection: 8+ pickaxes, 8+ axes, 5+ buckets, 5+ specialty tools for 25+ total implements"
+  secondary:
+    - "Extraction (Rounds 1-16): Mine massive iron and coal reserves"
+    - "Lumber Supply (Rounds 1-16): Harvest wood for tool handles"
+    - "Smelting (Rounds 17-36): Produce 100+ iron bars"
+    - "Forging (Rounds 37-51): Craft all tools and implements"
+
+# Context and guidance for agents
+relevant_game_context: |
+  Industrial-scale tool production requiring massive resource gathering.
+
+  🎯 TOOL COLLECTION (25+ implements):
+
+  **PICKAXES (8x)**: 5 ironbar + 1 logs each = 40 bars + 8 logs
+  **AXES (8x)**: 3 ironbar + 1 logs each = 24 bars + 8 logs
+  **BUCKETS (5x)**: 3 ironbar each = 15 bars
+  **HEAVY SWORDS (4x)**: 2 ironbar + 1 hilt2 each = 8 bars + 4 hilts
+
+  **TOTAL MATERIALS**:
+  - 87+ iron bars (need 87+ ironore + 87+ coal)
+  - 16+ logs
+  - 4+ hilt2
+
+  📍 CONSORTIUM ROLES:
+
+  **IRON MINERS (Agents 1-3)**: Mountains
+  - Mine 87+ iron ore collectively
+  - Agent 1: 30 ore, Agent 2: 30 ore, Agent 3: 27 ore
+
+  **COAL MINERS (Agents 4-5)**: Mountains
+  - Mine 87+ coal collectively
+  - Agent 4: 45 coal, Agent 5: 42 coal
+
+  **LUMBERJACK (Agent 6)**: Forest
+  - Harvest 16+ logs for handles
+
+  **MASTER TOOLSMITH (Agent 7)**: Central Forge
+  - Smelt ALL bars
+  - Forge ALL tools
+
+  ═══════════════════════════════════════════════════════════
+  EXTRACTION (Rounds 1-16)
+  ═══════════════════════════════════════════════════════════
+
+  ⛏️ IRON MINERS (Agents 1-3):
+  Location: (230-236, 38-42) Mountains
+  - observe_environment for iron rocks
+  - harvest_resource intensively
+  - Agent 1 target: 30 ironore
+  - Agent 2 target: 30 ironore
+  - Agent 3 target: 27 ironore
+  - Total: 87 ironore
+  - Chat every 5 ore: "Miner X: Y/target ore"
+
+  ⛏️ COAL MINERS (Agents 4-5):
+  Location: (232-234, 40-42) Mountains
+  - observe_environment for coal rocks
+  - harvest_resource intensively
+  - Agent 4 target: 45 coal
+  - Agent 5 target: 42 coal
+  - Total: 87 coal
+  - Chat every 10 coal: "Coal X: Y/target"
+
+  🪓 LUMBERJACK (Agent 6):
+  Location: (250, 350) Forest
+  - observe_environment for Oak Trees
+  - harvest_resource on trees
+  - Target: 16+ logs
+  - Chat: "Harvested X/16 logs"
+
+  🏭 MASTER TOOLSMITH (Agent 7):
+  Location: (528, 384) Central Forge
+  - Monitor extraction progress
+  - Plan smelting operations
+  - Check for hilt2 in inventory (need 4)
+  - Chat: "Forge ready for materials"
+
+  ═══════════════════════════════════════════════════════════
+  SMELTING (Rounds 17-36)
+  ═══════════════════════════════════════════════════════════
+
+  🚚 TRAVEL (Rounds 17-25):
+  All miners and lumberjack → Central Forge (528, 384)
+  - Distance: 325-450 tiles
+  - Moves needed: 11-15 actions
+  - Travel as group
+
+  🔄 CONSOLIDATION (Rounds 26-27):
+  Transfer ALL to Master_Toolsmith (Agent 7):
+  - Iron Miners: transfer 87 ironore total
+  - Coal Miners: transfer 87 coal total
+  - Lumberjack: transfer 16 logs
+  - verify_inventory: Should have 87 ironore, 87 coal, 16 logs
+
+  🔥 MASS SMELTING (Rounds 28-36):
+  Master_Toolsmith (Agent 7):
+  - craft_item skill=Smelting itemKey=ironbar
+  - Recipe: 1 ironore + 1 coal → 1 ironbar
+  - Repeat 87 times!
+  - Can smelt ~10 per round
+  - 87 bars ÷ 10 per round = 9 rounds
+  - Chat every 10 bars: "Smelted X/87 iron bars"
+  - Final verify_inventory: 87 ironbar
+
+  ═══════════════════════════════════════════════════════════
+  FORGING (Rounds 37-51)
+  ═══════════════════════════════════════════════════════════
+
+  🔨 PICKAXE PRODUCTION (Rounds 37-42):
+  Master_Toolsmith (Agent 7):
+  - craft_item skill=Smithing itemKey=pickaxe
+  - Recipe: 5 ironbar + 1 logs → 1 pickaxe
+  - Craft 8 times: 40 bars + 8 logs → 8 pickaxes
+  - Chat: "Forged X/8 pickaxes"
+
+  🪓 AXE PRODUCTION (Rounds 42-46):
+  - craft_item skill=Smithing itemKey=axe
+  - Recipe: 3 ironbar + 1 logs → 1 axe
+  - Craft 8 times: 24 bars + 8 logs → 8 axes
+  - Chat: "Forged X/8 axes"
+
+  🪣 BUCKET PRODUCTION (Rounds 47-49):
+  - craft_item skill=Smithing itemKey=bucket
+  - Recipe: 3 ironbar → 1 bucket
+  - Craft 5 times: 15 bars → 5 buckets
+  - Chat: "Forged X/5 buckets"
+
+  ⚔️ HEAVY SWORD PRODUCTION (Rounds 49-51):
+  - craft_item skill=Smithing itemKey=sword2
+  - Recipe: 2 ironbar + 1 hilt2 → 1 sword2
+  - Craft 4 times: 8 bars + 4 hilts → 4 heavy swords
+  - Chat: "Forged X/4 heavy swords"
+
+  Total bars used: 40 + 24 + 15 + 8 = 87 bars ✓
+
+  ✅ VERIFICATION (Round 51):
+  verify_inventory:
+  - 8x pickaxe
+  - 8x axe
+  - 5x bucket
+  - 4x sword2
+  - Total: 25 implements
+
+  📊 COMPLETION:
+  complete response="Master Toolsmith Consortium complete! Forged 25 implements: 8 pickaxes, 8 axes, 5 buckets, 4 heavy swords. Industrial-scale tool production achieved!"
+
+# Limitations
+max_action_steps: 51
+
+# Agent configurations
+agent_1:
+  username: "Iron_Miner_Alpha"
+  new_character: true
+  location: {x: 230, y: 38}
+  skill_levels: {mining: 50, strength: 34, health: 40}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "Iron_Miner_Beta"
+  new_character: true
+  location: {x: 232, y: 40}
+  skill_levels: {mining: 48, strength: 32, health: 38}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "Iron_Miner_Gamma"
+  new_character: true
+  location: {x: 234, y: 42}
+  skill_levels: {mining: 46, strength: 30, health: 36}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "Coal_Miner_Prime"
+  new_character: true
+  location: {x: 232, y: 38}
+  skill_levels: {mining: 40, strength: 28, health: 36}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "Coal_Miner_Secondary"
+  new_character: true
+  location: {x: 234, y: 40}
+  skill_levels: {mining: 38, strength: 26, health: 34}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "Handle_Harvester"
+  new_character: true
+  location: {x: 250, y: 350}
+  skill_levels: {lumberjacking: 50, strength: 32, health: 38}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_7:
+  username: "Master_Toolsmith"
+  new_character: true
+  location: {x: 528, y: 384}
+  skill_levels: {crafting: 60, smithing: 70, health: 36}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+    - {item: "hilt2", count: 4}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Extraction: Iron Miners mine 87+ iron ore total"
+  - "Extraction: Coal Miners mine 87+ coal total"
+  - "Extraction: Lumberjack harvests 16+ logs"
+  - "Smelting: All materials consolidated at Central Forge"
+  - "Smelting: Master Toolsmith smelts 87 iron bars"
+  - "Forging: Master Toolsmith crafts 8 pickaxes"
+  - "Forging: Master Toolsmith crafts 8 axes"
+  - "Forging: Master Toolsmith crafts 5 buckets"
+  - "Forging: Master Toolsmith crafts 4 heavy swords"
+  - "Total 25 implements forged"
+  - "Industrial-scale tool production completed"
+  - "Completed in 49-51 rounds"
