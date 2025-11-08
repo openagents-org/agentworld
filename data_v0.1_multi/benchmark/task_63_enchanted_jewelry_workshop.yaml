@@ -1,0 +1,223 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Enchanted Jewelry Workshop - Gemstone Collection & Crafting"
+  description: "Six jewelry artisans gather rare gems, craft base jewelry, and create 15+ enchanted pieces"
+
+# Task objectives
+objectives:
+  primary: "Create complete jewelry collection: 15+ pieces including 5 rings, 5 pendants, 5 base items"
+  secondary:
+    - "Gem Hunt (Rounds 1-15): Hunt mobs and forage for 20+ gemstones"
+    - "Metal Works (Rounds 16-30): Mine and smelt metals for base jewelry"
+    - "Crafting (Rounds 31-45): Create all jewelry pieces"
+    - "Exhibition (Rounds 46-50): Display complete collection"
+
+# Context and guidance for agents
+relevant_game_context: |
+  Elite jewelry workshop creating diverse gemstone collection.
+
+  🎯 JEWELRY COLLECTION:
+
+  **RINGS (5 types)**:
+  - 2x Gold Ring (2 goldbar each)
+  - 2x Ruby Ring (ruby + goldring each)
+  - 1x Topaz Ring (topaz + goldring)
+
+  **PENDANTS (5 pieces)**:
+  - 2x Emerald Pendant (emerald + string)
+  - 2x Beryl Pendant (beryl + string)
+  - 1x Ruby Pendant (ruby + string)
+
+  **BASE ITEMS (5 pieces)**:
+  - 3x Silver Ring (2 ironbar each)
+  - 2x Additional decorative items
+
+  📍 ARTISAN ROLES:
+
+  **GEM HUNTERS (Agents 1-2)**: Plains (350, 250)
+  - Hunt mobs for rubies, emeralds, topaz
+  - Target: 8+ rare gems
+
+  **FORAGERS (Agents 3-4)**: Forest (250, 350)
+  - Forage beryl, strings, materials
+  - Target: 10+ beryl, 10+ string
+
+  **METALSMITHS (Agents 5-6)**: Mountains → Hub
+  - Agent 5: Mine gold/iron, smelt bars
+  - Agent 6: Craft all jewelry at hub
+
+  ═══════════════════════════════════════════════════════════
+  GEM HUNT (Rounds 1-15)
+  ═══════════════════════════════════════════════════════════
+
+  🏹 GEM HUNTERS (Agents 1-2):
+  - Hunt Level 15-25 mobs for gem drops
+  - Goblins → emeralds
+  - Skeletons → rubies
+  - Various mobs → topaz
+  - observe_environment radius=64
+  - attack_entity targetInstance=<mob_id>
+  - Target: 3 ruby, 3 emerald, 2 topaz
+  - Chat: "Hunted X mobs, Y gems collected"
+
+  🌿 FORAGERS (Agents 3-4):
+  - Forage beryl from plants
+  - Gather string from plants/spiders
+  - harvest_resource on foraging spots
+  - Target: 10 beryl, 10 string
+  - Chat: "Foraged X beryl, Y string"
+
+  ⛏️ METALSMITH PREP (Agent 5):
+  - Mine 8+ gold ore, 10+ iron ore, 20+ coal
+  - Location: Mountains (230, 38)
+  - Chat: "Mined X gold, Y iron, Z coal"
+
+  🏭 WORKSHOP PREP (Agent 6):
+  - Stay at hub (528, 384)
+  - Monitor incoming materials
+  - Plan crafting sequences
+
+  ═══════════════════════════════════════════════════════════
+  METAL WORKS (Rounds 16-30)
+  ═══════════════════════════════════════════════════════════
+
+  🚚 TRAVEL (Rounds 16-22):
+  All gatherers → Hub (528, 384)
+
+  🔄 CONSOLIDATION (Rounds 23-25):
+  Transfer all materials to Jeweler (Agent 6):
+  - Gems, beryl, string, metals
+
+  🔥 SMELTING (Rounds 26-30):
+  Metalsmith (Agent 5) at hub:
+  - Smelt 8 gold bars
+  - Smelt 10 iron bars
+  - Transfer to Agent 6
+
+  ═══════════════════════════════════════════════════════════
+  CRAFTING (Rounds 31-45)
+  ═══════════════════════════════════════════════════════════
+
+  💍 JEWELER (Agent 6):
+
+  **Gold Rings** (2x):
+  - craft_item skill=Smithing itemKey=goldring
+  - 2x goldbar each = 4 bars total
+
+  **Silver Rings** (3x):
+  - craft_item skill=Smithing itemKey=silverring
+  - 2x ironbar each = 6 bars total
+
+  **Ruby Rings** (2x):
+  - craft_item skill=Crafting itemKey=rubyring
+  - ruby + goldring each
+
+  **Topaz Ring** (1x):
+  - craft_item skill=Crafting itemKey=topazring
+  - topaz + goldring
+
+  **Emerald Pendants** (2x):
+  - craft_item skill=Crafting itemKey=emeraldpendant
+  - emerald + string each
+
+  **Beryl Pendants** (2x):
+  - craft_item skill=Crafting itemKey=berylpendant
+  - beryl + string each
+
+  **Ruby Pendant** (1x):
+  - craft_item skill=Crafting itemKey=rubypendant
+  - ruby + string
+
+  ═══════════════════════════════════════════════════════════
+  EXHIBITION (Rounds 46-50)
+  ═══════════════════════════════════════════════════════════
+
+  ✅ Verify all 15 jewelry pieces
+  🎨 Display complete collection
+
+  complete response="Enchanted Jewelry Workshop complete! 15 exquisite pieces crafted: 5 rings, 5 pendants, 5 base items!"
+
+# Limitations
+max_action_steps: 50
+
+# Agent configurations
+agent_1:
+  username: "Ruby_Hunter"
+  new_character: true
+  location: {x: 350, y: 250}
+  skill_levels: {strength: 42, accuracy: 38, health: 48}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "Emerald_Hunter"
+  new_character: true
+  location: {x: 352, y: 252}
+  skill_levels: {strength: 40, accuracy: 36, health: 46}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+  equipped_items:
+    - {item: "heavysword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "Beryl_Forager"
+  new_character: true
+  location: {x: 250, y: 350}
+  skill_levels: {foraging: 45, health: 35}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "String_Gatherer"
+  new_character: true
+  location: {x: 252, y: 352}
+  skill_levels: {foraging: 40, health: 33}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "Metal_Artisan"
+  new_character: true
+  location: {x: 230, y: 38}
+  skill_levels: {mining: 45, crafting: 40, health: 36}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "Master_Jeweler"
+  new_character: true
+  location: {x: 528, y: 384}
+  skill_levels: {crafting: 50, smithing: 45, health: 32}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Gem Hunt: Collect 3 rubies, 3 emeralds, 2 topaz from mobs"
+  - "Gem Hunt: Forage 10 beryl and 10 string"
+  - "Metal Works: Mine and smelt 8 gold bars, 10 iron bars"
+  - "Crafting: Create 2 gold rings, 3 silver rings"
+  - "Crafting: Create 2 ruby rings, 1 topaz ring"
+  - "Crafting: Create 2 emerald pendants, 2 beryl pendants, 1 ruby pendant"
+  - "Total 15 jewelry pieces crafted"
+  - "Completed in 48-50 rounds"
