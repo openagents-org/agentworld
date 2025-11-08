@@ -1,0 +1,260 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Royal Banquet Preparation - Gourmet Multi-Course Feast"
+  description: "Eight culinary specialists coordinate to prepare an elaborate royal banquet with 12+ gourmet dishes, rare ingredients, and exquisite presentation"
+
+# Task objectives
+objectives:
+  primary: "Prepare a complete royal banquet: 8+ cooked dishes, 4+ specialty items, 60+ rare ingredients for the royal feast"
+  secondary:
+    - "Course 1 (Rounds 1-15): Rare Ingredient Gathering - Hunt, fish, and forage premium ingredients"
+    - "Course 2 (Rounds 16-28): Ingredient Processing - Transport and prepare ingredients"
+    - "Course 3 (Rounds 29-45): Gourmet Cooking - Create all banquet dishes"
+    - "Course 4 (Rounds 46-53): Banquet Assembly - Present complete feast"
+
+# Context and guidance for agents
+relevant_game_context: |
+  This is an elite culinary operation requiring diverse ingredient gathering, advanced cooking, and perfect coordination.
+
+  🎯 BANQUET OBJECTIVES:
+
+  **MAIN COURSES (4 dishes)**:
+  - 2x Corn Stew (gourmet vegetable stew)
+  - 1x Cooked Beef (premium meat dish)
+  - 1x Tuna Sushi (exotic seafood)
+
+  **SECONDARY COURSES (4 dishes)**:
+  - 2x Cooked Shrimp (seafood appetizers)
+  - 1x Cooked Chicken (poultry dish)
+  - 1x Jellyfish Smoothie (exotic beverage)
+
+  **SPECIALTY ITEMS (4 pieces)**:
+  - 2x Beryl Pendant (table decorations)
+  - 2x Silver Ring (guest gifts)
+
+  📍 AGENT ROLES (8 specialists):
+
+  **HUNTING BRIGADE (Agents 1-2)**: (350, 250)
+  - Hunt chickens, cows for premium meat
+
+  **FISHING FLEET (Agents 3-4)**: (900, 400)
+  - Fish for tuna, shrimp, jellyfish
+
+  **FORAGING TEAM (Agents 5-6)**: (250, 350)
+  - Gather vegetables, herbs, beryl
+
+  **CULINARY MASTERS (Agents 7-8)**: (528, 384)
+  - Cook all dishes, craft decorations
+
+  ═══════════════════════════════════════════════════════════
+  COURSE 1: RARE INGREDIENT GATHERING (Rounds 1-15)
+  ═══════════════════════════════════════════════════════════
+
+  🏹 HUNTING BRIGADE (Agents 1-2):
+  Target: 5+ chicken, 3+ beef
+
+  Strategy:
+  1. observe_environment radius=64 to find animals
+  2. Hunt chickens (low level, easy)
+  3. Hunt cows for beef (moderate level)
+  4. attack_entity targetInstance=<animal_id>
+  5. Auto-loot meat after kills
+  6. Chat progress: "Hunted X animals"
+
+  🎣 FISHING FLEET (Agents 3-4):
+  Target: 3+ tuna, 8+ shrimp, 5+ jellyfish
+
+  Strategy:
+  1. observe_environment to find fish spots
+  2. harvest_resource targetInstance=<fish_spot>
+  3. Tuna requires Fishing 1+
+  4. Shrimp requires Fishing 1+
+  5. Jellyfish requires Fishing 5+
+  6. Chat: "Caught X fish"
+
+  🌾 FORAGING TEAM (Agents 5-6):
+  Target: 10+ corn, 8+ mushrooms, 2+ beryl, 4+ string
+
+  Strategy:
+  1. observe_environment for foraging spots
+  2. harvest_resource on plants
+  3. Corn, mushrooms common in forest
+  4. Beryl from special plants
+  5. String for decorations
+  6. Chat: "Foraged X items"
+
+  ⏱️ Rounds 1-15: Active gathering
+
+  ═══════════════════════════════════════════════════════════
+  COURSE 2: INGREDIENT PROCESSING (Rounds 16-28)
+  ═══════════════════════════════════════════════════════════
+
+  🚚 TRAVEL TO KITCHEN (Rounds 16-24):
+  - All gatherers → (528, 384)
+  - Distances: 220-450 tiles
+  - 7-15 moves needed
+  - Chat positions
+
+  🔄 CONSOLIDATION (Rounds 25-28):
+  Transfer to Head_Chef (Agent 7):
+  - All meat to Head_Chef
+  - All seafood to Head_Chef
+  - All vegetables to Head_Chef
+  - Decorative items to Decorator (Agent 8)
+
+  ═══════════════════════════════════════════════════════════
+  COURSE 3: GOURMET COOKING (Rounds 29-45)
+  ═══════════════════════════════════════════════════════════
+
+  👨‍🍳 HEAD CHEF (Agent 7):
+
+  Cook all 8 dishes:
+
+  **Corn Stew** (2x):
+  - craft_item skill=Cooking itemKey=stew2
+  - Recipe: 3 corn + 1 mushroom + bowl
+  - Repeat 2 times
+
+  **Tuna Sushi**:
+  - craft_item skill=Cooking itemKey=tunasushi
+  - Recipe: varies (check game)
+
+  **Cooked Shrimp** (2x):
+  - craft_item skill=Cooking itemKey=cookedshrimp
+  - Repeat 2 times
+
+  **Cooked Chicken**:
+  - craft_item skill=Cooking itemKey=cookedchicken
+
+  **Cooked Beef**:
+  - craft_item skill=Cooking itemKey=cookedbeef
+
+  **Jellyfish Smoothie**:
+  - craft_item skill=Cooking itemKey=jellyfishsmoothie
+  - Recipe: 3 jellyfish
+
+  🎨 DECORATOR (Agent 8):
+
+  Craft decorations:
+  - 2x Beryl Pendant: craft_item skill=Crafting itemKey=berylpendant
+  - 2x Silver Ring: craft_item skill=Smithing itemKey=silverring
+    (needs 4 iron bars - check starting inventory)
+
+  ═══════════════════════════════════════════════════════════
+  COURSE 4: BANQUET ASSEMBLY (Rounds 46-53)
+  ═══════════════════════════════════════════════════════════
+
+  ✅ Consolidate all items
+  📊 Verify complete banquet
+  🎉 Complete with feast report
+
+  complete response="Royal Banquet prepared successfully! All 8 dishes + 4 decorations ready for the feast!"
+
+# Limitations
+max_action_steps: 53
+
+# Agent configurations
+agent_1:
+  username: "Master_Hunter"
+  new_character: true
+  location: {x: 350, y: 250}
+  skill_levels: {strength: 40, accuracy: 35, health: 45}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "Beast_Slayer"
+  new_character: true
+  location: {x: 352, y: 252}
+  skill_levels: {strength: 38, accuracy: 33, health: 43}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+  equipped_items:
+    - {item: "heavysword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "Expert_Fisher"
+  new_character: true
+  location: {x: 900, y: 400}
+  skill_levels: {fishing: 35, health: 35}
+  inventory_items:
+    - {item: "flask", count: 20}
+    - {item: "apple", count: 25}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "Sea_Harvester"
+  new_character: true
+  location: {x: 902, y: 402}
+  skill_levels: {fishing: 30, health: 33}
+  inventory_items:
+    - {item: "flask", count: 20}
+    - {item: "apple", count: 25}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "Herb_Master"
+  new_character: true
+  location: {x: 250, y: 350}
+  skill_levels: {foraging: 40, health: 32}
+  inventory_items:
+    - {item: "flask", count: 20}
+    - {item: "apple", count: 25}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "Vegetable_Gatherer"
+  new_character: true
+  location: {x: 252, y: 352}
+  skill_levels: {foraging: 35, health: 30}
+  inventory_items:
+    - {item: "flask", count: 20}
+    - {item: "apple", count: 25}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_7:
+  username: "Head_Chef"
+  new_character: true
+  location: {x: 528, y: 384}
+  skill_levels: {cooking: 45, crafting: 25, health: 30}
+  inventory_items:
+    - {item: "flask", count: 20}
+    - {item: "apple", count: 25}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_8:
+  username: "Banquet_Decorator"
+  new_character: true
+  location: {x: 530, y: 386}
+  skill_levels: {crafting: 35, smithing: 30, health: 28}
+  inventory_items:
+    - {item: "flask", count: 20}
+    - {item: "apple", count: 25}
+    - {item: "ironbar", count: 4}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Course 1: Hunting Brigade hunts 5+ chickens and 3+ beef"
+  - "Course 1: Fishing Fleet catches 3+ tuna, 8+ shrimp, 5+ jellyfish"
+  - "Course 1: Foraging Team gathers 10+ corn, 8+ mushrooms, 2+ beryl"
+  - "Course 2: All teams travel to Royal Kitchen"
+  - "Course 2: Perfect ingredient consolidation"
+  - "Course 3: Head Chef cooks all 8 dishes"
+  - "Course 3: Decorator crafts 4 specialty items"
+  - "Course 4: Complete banquet assembled"
+  - "Total 12+ items created for royal feast"
+  - "Completed in 50-53 rounds"
