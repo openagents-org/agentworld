@@ -1,0 +1,256 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Ice Region Survival Expedition - Cold Weather Resource Gathering"
+  description: "Eight explorers venture into frozen regions to gather ice materials, hunt arctic creatures, and craft cold-weather equipment"
+
+# Task objectives
+objectives:
+  primary: "Complete ice expedition: gather 50+ ice materials, hunt 15+ ice creatures, craft 8+ cold-weather items"
+  secondary:
+    - "Expedition (Rounds 1-15): Travel to ice regions and establish base"
+    - "Harvesting (Rounds 16-35): Gather ice logs, mine frozen ores, hunt ice mobs"
+    - "Processing (Rounds 36-48): Return and craft ice-themed items"
+    - "Completion (Rounds 49-53): Verify expedition success"
+
+# Context and guidance for agents
+relevant_game_context: |
+  Dangerous ice region expedition requiring cold resistance and coordination.
+
+  🎯 EXPEDITION OBJECTIVES:
+
+  **ICE MATERIALS (50+ items)**:
+  - 20+ Ice Logs (from Ice Trees)
+  - 15+ Ice Palm Logs (from Ice Palms)
+  - 10+ Coal (for warmth/smelting)
+  - 5+ Special ice items
+
+  **ARCTIC HUNTING (15+ creatures)**:
+  - Ice Rats (Level 5-10)
+  - Ice Bats (Level 8-12)
+  - Ice Crabs (Level 6-10)
+  - Ice Goblins (Level 15+)
+
+  **CRAFTED ITEMS (8+ pieces)**:
+  - Tools, weapons, cold-weather gear
+
+  📍 EXPEDITION TEAM:
+
+  **SCOUTS (Agents 1-2)**: Lead expedition
+  - Navigate to ice region (259, 151)
+  - Establish safe gathering zones
+
+  **LUMBERJACKS (Agents 3-4)**: Ice lumber
+  - Harvest ice logs and ice palm logs
+  - Target: 35+ logs total
+
+  **HUNTERS (Agents 5-6)**: Arctic beasts
+  - Hunt ice creatures for materials
+  - Target: 15+ kills
+
+  **SUPPORT (Agents 7-8)**: Crafting/mining
+  - Mine coal, gather supplies
+  - Craft expedition items
+
+  ═══════════════════════════════════════════════════════════
+  EXPEDITION (Rounds 1-15): TRAVEL TO ICE REGION
+  ═══════════════════════════════════════════════════════════
+
+  🗺️ ALL AGENTS START: (350, 250) - Central Plains
+
+  DESTINATION: (259, 151) - Ice Region
+  - Distance: ~220 tiles
+  - Moves needed: 7-8 actions
+  - Travel together for safety
+
+  Route:
+  - Round 1-2: Move northwest
+  - Round 3-5: Continue to ice boundary
+  - Round 6-8: Enter ice region
+  - Rounds 9-15: Establish base, scout resources
+
+  Ice Region Hazards:
+  - Cold damage (use healing items)
+  - Ice Guardian boss (Level 35) - AVOID!
+  - Stay together within 15 tiles
+
+  Chat: "Expedition at (X,Y), HP status, moving to ice region"
+
+  ═══════════════════════════════════════════════════════════
+  HARVESTING (Rounds 16-35): GATHER ICE RESOURCES
+  ═══════════════════════════════════════════════════════════
+
+  🪓 LUMBERJACKS (Agents 3-4):
+  - observe_environment radius=32 for ice trees
+  - Ice Tree → Ice Logs (requires Lumberjacking 1+)
+  - Ice Palm → Ice Palm Logs
+  - harvest_resource targetInstance=<tree_id>
+  - Target: 20 ice logs + 15 ice palm logs
+  - Chat: "Harvested X/35 ice logs"
+
+  🏹 HUNTERS (Agents 5-6):
+  - observe_environment radius=64 for ice mobs
+  - Hunt: icerat, icebat, icecrab, icegoblin
+  - attack_entity targetInstance=<mob_id>
+  - Collect drops (meat, materials)
+  - Heal when HP < 70%
+  - Target: 15+ mob kills
+  - Chat: "Hunted X/15 ice creatures, HP: Y"
+
+  ⛏️ SUPPORT TEAM (Agents 7-8):
+  - Mine coal rocks in area
+  - Gather any special ice materials
+  - Monitor team HP levels
+  - Target: 10+ coal
+  - Chat: "Mined X coal, team support ready"
+
+  🧭 SCOUTS (Agents 1-2):
+  - Coordinate expedition
+  - Mark safe zones
+  - Track resource locations
+  - Monitor for Ice Guardian
+  - Chat: "Scout report: Area X safe, resources at Y"
+
+  ═══════════════════════════════════════════════════════════
+  PROCESSING (Rounds 36-48): RETURN AND CRAFT
+  ═══════════════════════════════════════════════════════════
+
+  🚚 RETURN JOURNEY (Rounds 36-43):
+  All agents travel back to Central Hub (528, 384)
+  - Distance from ice region: ~320 tiles
+  - Moves needed: 10-11 actions
+  - Carry all ice materials
+  - Chat positions
+
+  🔄 CONSOLIDATION (Rounds 44-45):
+  Transfer materials to crafters (Agents 7-8)
+
+  🔨 CRAFTING (Rounds 46-48):
+  Create expedition items:
+  - Tools from ice logs
+  - Weapons from materials
+  - Decorative ice items
+  - Target: 8+ crafted items
+
+  ═══════════════════════════════════════════════════════════
+  COMPLETION (Rounds 49-53)
+  ═══════════════════════════════════════════════════════════
+
+  ✅ Verify all materials and crafts
+  📊 Complete expedition report
+
+  complete response="Ice Region Expedition successful! Gathered 50+ ice materials, hunted 15+ arctic creatures, crafted 8+ items. All agents survived frozen wasteland!"
+
+# Limitations
+max_action_steps: 53
+
+# Agent configurations
+agent_1:
+  username: "Lead_Scout"
+  new_character: true
+  location: {x: 350, y: 250}
+  skill_levels: {strength: 38, accuracy: 35, health: 50, defense: 35}
+  inventory_items:
+    - {item: "flask", count: 35}
+    - {item: "apple", count: 40}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_2:
+  username: "Scout_Navigator"
+  new_character: true
+  location: {x: 352, y: 252}
+  skill_levels: {strength: 36, accuracy: 33, health: 48, defense: 33}
+  inventory_items:
+    - {item: "flask", count: 35}
+    - {item: "apple", count: 40}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_3:
+  username: "Ice_Lumberjack_1"
+  new_character: true
+  location: {x: 354, y: 254}
+  skill_levels: {lumberjacking: 40, strength: 32, health: 42}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "Ice_Lumberjack_2"
+  new_character: true
+  location: {x: 356, y: 256}
+  skill_levels: {lumberjacking: 38, strength: 30, health: 40}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "Arctic_Hunter_1"
+  new_character: true
+  location: {x: 348, y: 248}
+  skill_levels: {strength: 45, accuracy: 40, health: 52, defense: 36}
+  inventory_items:
+    - {item: "flask", count: 35}
+    - {item: "apple", count: 40}
+  equipped_items:
+    - {item: "heavysword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "Arctic_Hunter_2"
+  new_character: true
+  location: {x: 350, y: 246}
+  skill_levels: {strength: 43, accuracy: 38, health: 50, defense: 34}
+  inventory_items:
+    - {item: "flask", count: 35}
+    - {item: "apple", count: 40}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_7:
+  username: "Expedition_Miner"
+  new_character: true
+  location: {x: 346, y: 252}
+  skill_levels: {mining: 35, strength: 30, health: 38}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_8:
+  username: "Expedition_Crafter"
+  new_character: true
+  location: {x: 352, y: 248}
+  skill_levels: {crafting: 40, smithing: 35, health: 35}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+    - {item: "logs", count: 3}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Expedition: All 8 agents travel to ice region (259, 151)"
+  - "Expedition: Establish base and scout resources"
+  - "Harvesting: Lumberjacks gather 35+ ice logs total"
+  - "Harvesting: Hunters kill 15+ ice creatures"
+  - "Harvesting: Support team mines 10+ coal"
+  - "Processing: All agents return to hub safely"
+  - "Processing: Crafters create 8+ expedition items"
+  - "All agents survive ice region (HP > 0)"
+  - "Complete expedition in 50-53 rounds"
