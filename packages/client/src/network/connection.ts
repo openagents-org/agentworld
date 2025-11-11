@@ -185,7 +185,8 @@ export default class Connection {
 
         let username = this.app.getUsername(),
             password = this.app.getPassword(),
-            email = this.app.getEmail();
+            email = this.app.getEmail(),
+            channel = this.app.getChannel();
 
         // Assign username to palyer object (will get overriden after login is completed).
         this.game.player.name = username.toLowerCase();
@@ -196,14 +197,16 @@ export default class Connection {
                 opcode: Opcodes.Login.Register,
                 username,
                 password,
-                email
+                email,
+                channel
             });
 
         // Send login packet if the user is logging in.
         this.socket.send(Packets.Login, {
             opcode: Opcodes.Login.Login,
             username,
-            password
+            password,
+            channel
         });
     }
 

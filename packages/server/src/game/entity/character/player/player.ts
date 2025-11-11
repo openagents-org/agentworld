@@ -120,6 +120,10 @@ export default class Player extends Character {
     public email = '';
     public userAgent = '';
     public guild = '';
+    
+    // AI agent channel and spawn info
+    public channel = ''; // Team channel name for AI agents
+    public spawnLocation: { x: number; y: number } | null = null; // Spawn location for AI agents
 
     public rank: Modules.Ranks = Modules.Ranks.None;
 
@@ -2054,7 +2058,23 @@ export default class Player extends Character {
         // Relay the hub so that it can handle the discord relay.
         this.world.client.send(new Chat({ source, message }));
 
-        if (global) return this.world.globalMessage(name, message, colour);
+        // Send global message to all players
+        if (global) {
+            this.world.globalMessage(name, message, colour);
+            
+            // Also send a bubble packet to nearby players (for visual bubble above player's head)
+            if (withBubble) {
+                let bubblePacket = new Chat({
+                    instance: this.instance,
+                    message,
+                    withBubble: true,
+                    colour
+                });
+                this.sendToRegions(bubblePacket);
+            }
+            
+            return;
+        }
 
         let packet = new Chat({
             instance: this.instance,

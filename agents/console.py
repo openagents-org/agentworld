@@ -58,6 +58,7 @@ class GameConsole:
         host: str = None,
         output_file: str = None,
         initial_location: tuple = None,
+        channel: str = None,
         combat_levels: dict = None,
         equipped_items: list = None,
         inventory_items: list = None,
@@ -76,6 +77,7 @@ class GameConsole:
         
         # Initial state configuration
         self.initial_location = initial_location
+        self.channel = channel
         self.combat_levels = combat_levels or {}
         self.equipped_items = equipped_items or []
         self.inventory_items = inventory_items or []
@@ -456,12 +458,99 @@ class GameConsole:
             print(f"❌ Chat failed: {str(e)}")
             self.log_message("CHEAT", f"Chat failed: {str(e)}")
 
+    def handle_move_command(self, command: str):
+        """Handle /move command to move character with smooth animation"""
+        try:
+            # Parse command: /move x y
+            parts = command.strip().split()
+            
+            if len(parts) < 3:
+                print("❌ Invalid move command. Usage:")
+                print("   /move x y  - Move to coordinates with smooth animation")
+                print("   Example: /move 250 180")
+                return
+            
+            try:
+                x = int(parts[1])
+                y = int(parts[2])
+            except ValueError:
+                print("❌ Invalid coordinates. Please use integers.")
+                print("   Example: /move 250 180")
+                return
+            
+            print(f"🚶 CHEAT: Moving bot to ({x}, {y}) with smooth animation...")
+            
+            # Direct call to move_character without going through LLM
+            result = self.agent.game_tools.move_character({"x": x, "y": y})
+            
+            print(f"✅ Move result: {result}")
+            self.log_message("CHEAT", f"Moved to ({x}, {y}): {result}")
+            
+        except Exception as e:
+            print(f"❌ Move failed: {str(e)}")
+            self.log_message("CHEAT", f"Move failed: {str(e)}")
+
+    def handle_channel_command(self, command: str):
+        """Handle /channel command to send channel-specific chat"""
+        try:
+            # Parse command: /channel <channel_name> <message>
+            parts = command.strip().split(maxsplit=2)
+            
+            if len(parts) < 3:
+                print("❌ Invalid channel command. Usage:")
+                print("   /channel <channel_name> <message>  - Send message to specific channel")
+                print("   Example: /channel team-1 Hello team!")
+                print("   Note: Agents must login with the same channel to see messages")
+                return
+            
+            channel_name = parts[1]
+            message = parts[2].strip()
+            
+            if not message:
+                print("❌ Message cannot be empty.")
+                return
+            
+            print(f"📢 CHEAT: Sending channel message to '{channel_name}': {message}")
+            
+            # Direct call to chat with channel parameter
+            result = self.agent.game_tools.chat({
+                "message": message,
+                "channel": channel_name,
+                "global": False
+            })
+            
+            print(f"✅ Channel result: {result}")
+            self.log_message("CHEAT", f"Sent to channel {channel_name}: {message}")
+            
+        except Exception as e:
+            print(f"❌ Channel command failed: {str(e)}")
+            self.log_message("CHEAT", f"Channel command failed: {str(e)}")
+
+    def handle_tospawn_command(self, command: str):
+        """Handle /tospawn command to teleport to spawn location"""
+        try:
+            print(f"🏠 CHEAT: Teleporting to spawn location...")
+            
+            # Direct call to teleport_to_spawn
+            result = self.agent.game_tools.teleport_to_spawn({})
+            
+            print(f"✅ Teleport to spawn result: {result}")
+            self.log_message("CHEAT", f"Teleport to spawn: {result}")
+            
+        except Exception as e:
+            print(f"❌ Teleport to spawn failed: {str(e)}")
+            self.log_message("CHEAT", f"Teleport to spawn failed: {str(e)}")
+
     def handle_cheat_command(self, command: str):
         """Handle any cheat command - centralized dispatcher"""
         command = command.strip()
         
         if command.startswith('/teleport'):
             self.handle_teleport_command(command)
+        elif command.startswith('/tospawn'):
+            self.handle_tospawn_command(command)
+        elif command.startswith('/move'):
+            self.handle_move_command(command)
         elif command.startswith('/equip'):
             self.handle_equip_command(command)
         elif command.startswith('/setlevel'):
@@ -472,17 +561,22 @@ class GameConsole:
             self.handle_give_command(command)
         elif command.startswith('/observe'):
             self.handle_observe_command(command)
+        elif command.startswith('/channel'):
+            self.handle_channel_command(command)
         elif command.startswith('/chat'):
             self.handle_chat_command(command)
         else:
             print(f"❌ Unknown cheat command: {command}")
             print("Available cheat commands:")
-            print("  /teleport x y [withAnimation] - Teleport to coordinates")
+            print("  /teleport x y [withAnimation] - Teleport to coordinates (instant)")
+            print("  /tospawn - Teleport to spawn location set at login")
+            print("  /move x y - Move to coordinates (smooth animation)")
             print("  /equip <item> [count] [enchant] - Give and equip item")
             print("  /setlevel <level> - Set all combat skills to level")
             print("  /give <item> [count] - Give items to inventory")
             print("  /fullequip - Give essential equipment set")
             print("  /observe [radius] - Show raw observation JSON data")
+            print("  /channel <name> <message> - Send message to specific channel")
             print("  /chat <message> - Send a global chat message")
 
     def handle_new_character_creation(self):
@@ -499,10 +593,19 @@ class GameConsole:
             print(f"🔐 Using master password: {MASTER_PASSWORD}")
             
             # Try login first with master password (most likely to succeed)
-            login_result = self.agent.game_tools.login_character({
+            login_data = {
                 "username": self.username,
                 "password": MASTER_PASSWORD
-            })
+            }
+            # Add channel if specified
+            if self.channel:
+                login_data["channel"] = self.channel
+            # Add spawn_location if specified
+            if self.initial_location:
+                x, y = self.initial_location
+                login_data["spawn_location"] = f"{x},{y}"
+            
+            login_result = self.agent.game_tools.login_character(login_data)
             
             if "successfully" in login_result.lower() and "token obtained" in login_result.lower():
                 self.log_message("SYSTEM", f"✅ Master password login successful: {login_result}")
@@ -537,10 +640,19 @@ class GameConsole:
             for password in fallback_passwords:
                 try:
                     # Try login first
-                    login_result = self.agent.game_tools.login_character({
+                    login_data = {
                         "username": self.username,
                         "password": password
-                    })
+                    }
+                    # Add channel if specified
+                    if self.channel:
+                        login_data["channel"] = self.channel
+                    # Add spawn_location if specified
+                    if self.initial_location:
+                        x, y = self.initial_location
+                        login_data["spawn_location"] = f"{x},{y}"
+                    
+                    login_result = self.agent.game_tools.login_character(login_data)
                     
                     if "successfully" in login_result.lower() and "token obtained" in login_result.lower():
                         self.log_message("SYSTEM", f"✅ Fallback login successful with {password}: {login_result}")
@@ -827,11 +939,23 @@ class GameConsole:
             # Regular auto-login directly without LLM prompting
             self.log_message("SYSTEM", "🔄 Auto-logging into game...")
             try:
-                # Direct login call without going through LLM
-                login_result = self.agent.game_tools.login_character({
+                # Prepare login data with channel and spawn_location if specified
+                login_data = {
                     "username": self.username,
                     "password": self.password
-                })
+                }
+                # Add channel if specified
+                if self.channel:
+                    login_data["channel"] = self.channel
+                    self.log_message("SYSTEM", f"📢 Using channel: {self.channel}")
+                # Add spawn_location if specified
+                if self.initial_location:
+                    x, y = self.initial_location
+                    login_data["spawn_location"] = f"{x},{y}"
+                    self.log_message("SYSTEM", f"🏠 Using spawn location: ({x}, {y})")
+                
+                # Direct login call without going through LLM
+                login_result = self.agent.game_tools.login_character(login_data)
                 
                 # If login failed, try logout first then login again
                 if "Failed to login" in login_result and "400 Client Error" in login_result:
@@ -843,11 +967,9 @@ class GameConsole:
                     except:
                         pass  # Ignore cleanup errors
                     
-                    # Retry login after cleanup
-                    login_result = self.agent.game_tools.login_character({
-                        "username": self.username,
-                        "password": self.password
-                    })
+                    # Retry login after cleanup with same data
+                    login_result = self.agent.game_tools.login_character(login_data)
+                
             except Exception as e:
                 login_result = f"Login failed: {str(e)}"
         
@@ -874,17 +996,33 @@ class GameConsole:
             print("\n⚠️  Failed to complete login/setup process.")
         
         print("\n🎯 READY FOR NATURAL LANGUAGE COMMANDS!")
+        
+        # Show current configuration
+        config_info = []
+        if self.channel:
+            config_info.append(f"Channel: {self.channel}")
+        if self.initial_location:
+            x, y = self.initial_location
+            config_info.append(f"Spawn: ({x},{y})")
+        
+        if config_info:
+            print(f"📍 Current Config: {' | '.join(config_info)}")
+        
         print("┌─" + "─" * 76 + "─┐")
         print("│ 💬 Type what you want to do in the game (e.g., 'explore the area')     │")
         print("│ 🔄 'reset' - Reset conversation and re-login                           │") 
         print("│ 📊 'stats' - Show session statistics                                   │")
         print("│ 💾 'save' - Save session logs                                          │")
         print("│ 📜 'history' - Show conversation history                               │")
-        print("│ ⚡ '/teleport x y' or '/teleport spawn' - Cheat: teleport bot           │")
+        print("│ ⚡ '/teleport x y' or '/teleport spawn' - Cheat: instant teleport       │")
+        print("│ ⚡ '/tospawn' - Cheat: teleport to spawn location                       │")
+        print("│ ⚡ '/move x y' - Cheat: move with smooth animation                      │")
+        print("│ ⚡ '/chat <message>' - Cheat: send global chat message                  │")
+        print("│ ⚡ '/channel <name> <message>' - Cheat: send channel message            │")
         print("│ ⚡ '/equip <item>' - Cheat: give and equip item                         │")
         print("│ ⚡ '/setlevel <level>' - Cheat: set player level                        │")
         print("│ ⚡ '/give <item> [count]' - Cheat: give items to inventory              │")
-        print("│ ⚡ '/fullequip' - Cheat: give essential equipment set (sword, axe, staff, armor)   │")
+        print("│ ⚡ '/fullequip' - Cheat: give essential equipment set                   │")
         print("│ ⚡ '/observe [radius]' - Cheat: show raw observation JSON data          │")
         print("│ 🚪 'logout' - Logout current session                                   │")
         print("│ 🚪 'exit' - Quit the console                                           │")
@@ -921,10 +1059,19 @@ class GameConsole:
                     self.agent.reset_conversation()
                     # Direct re-login without LLM
                     try:
-                        login_result = self.agent.game_tools.login_character({
+                        login_data = {
                             "username": self.username,
                             "password": self.password
-                        })
+                        }
+                        # Add channel if specified
+                        if self.channel:
+                            login_data["channel"] = self.channel
+                        # Add spawn_location if specified
+                        if self.initial_location:
+                            x, y = self.initial_location
+                            login_data["spawn_location"] = f"{x},{y}"
+                        
+                        login_result = self.agent.game_tools.login_character(login_data)
                         if "successfully" in login_result.lower() and "token obtained" in login_result.lower():
                             # Skip auto-teleport if custom location is specified
                             if not self.initial_location:
@@ -1132,6 +1279,8 @@ Examples:
   
   # Initial state configuration
   python console.py --location 250,180                  # Start at coordinates (250, 180)
+  python console.py --channel team-alpha                # Join team-alpha channel for team chat
+  python console.py --location 20,10 --channel team-1   # Spawn at (20,10) in team-1 channel
   python console.py --combat-level-accuracy 45          # Set accuracy to level 45
   python console.py --combat-level-strength 50 --combat-level-cooking 30  # Set multiple skills
   python console.py --equipped-items coppersword ironhelmet:1:3  # Equip sword and +3 helmet
@@ -1142,6 +1291,10 @@ Examples:
     --equipped-items bastardsword whitearmor \\
     --inventory-items healingpotion:10 firepotion:5 \\
     --task "explore and fight mobs"
+  
+  # Team collaboration with channel
+  python console.py --username agent1 --channel team-alpha --location 20,10
+  python console.py --username agent2 --channel team-alpha --location 22,10
   
   # Other options
   python console.py --host http://localhost:7031         # Connect to different game server
@@ -1238,7 +1391,13 @@ Default Models: {', '.join([f'{p}={m}' for p, m in default_models.items()])}
     parser.add_argument(
         "--location",
         type=str,
-        help="Initial spawn location as 'x,y' coordinates (e.g., '250,180')"
+        help="Initial spawn location as 'x,y' coordinates (e.g., '250,180'). Will be used as spawn_location in login API."
+    )
+    
+    parser.add_argument(
+        "--channel",
+        type=str,
+        help="Team channel name for channel-based chat (e.g., 'team-alpha'). Agents in the same channel can see each other's messages."
     )
     
     parser.add_argument(
@@ -1430,6 +1589,7 @@ def main():
         host=args.host,
         output_file=args.output,
         initial_location=initial_location,
+        channel=args.channel,
         combat_levels=combat_levels,
         equipped_items=equipped_items,
         inventory_items=inventory_items,
@@ -1456,10 +1616,19 @@ def main():
                 # Direct login without LLM - try master password first
                 try:
                     # First attempt: Master password
-                    login_result = console.agent.game_tools.login_character({
+                    login_data = {
                         "username": console.username,
                         "password": MASTER_PASSWORD
-                    })
+                    }
+                    # Add channel if specified
+                    if console.channel:
+                        login_data["channel"] = console.channel
+                    # Add spawn_location if specified
+                    if console.initial_location:
+                        x, y = console.initial_location
+                        login_data["spawn_location"] = f"{x},{y}"
+                    
+                    login_result = console.agent.game_tools.login_character(login_data)
                     
                     # If master password login successful
                     if "successfully" in login_result.lower() and "token obtained" in login_result.lower():

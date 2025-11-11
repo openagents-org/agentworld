@@ -168,7 +168,7 @@ export default class Incoming {
      */
 
     private handleLogin(data: LoginPacket): void {
-        let { opcode, username, password, email } = data;
+        let { opcode, username, password, email, channel } = data;
 
         if (username) {
             // Format username by making it all lower case, shorter than 32 characters, and no spaces.
@@ -176,6 +176,10 @@ export default class Incoming {
 
             if (password) this.player.password = password.slice(0, 32);
             if (email) this.player.email = email;
+            if (channel) {
+                this.player.channel = channel.slice(0, 32).trim();
+                log.info(`Player ${this.player.username} set channel to: ${this.player.channel}`);
+            }
 
             // Reject connection if player is already logged in.
             // In social mode with monitoring, allow Web UI to observe API-controlled players

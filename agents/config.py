@@ -51,6 +51,7 @@ AGENTWORLD_API_ENDPOINTS = {
     "craft": "/ai/craft",
     "attack": "/ai/attack",
     "teleport": "/ai/teleport",
+    "teleport_to_spawn": "/ai/teleport_to_spawn",
     "setInventory": "/ai/setInventory"
 }
 

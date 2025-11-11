@@ -6,7 +6,8 @@ import express from 'express';
 import * as Sentry from '@sentry/node';
 import * as Tracing from '@sentry/tracing';
 import Filter from '@kaetram/common/util/filter';
-import { Modules } from '@kaetram/common/network';
+import { Modules, Opcodes } from '@kaetram/common/network';
+import { Movement, Chat } from '@kaetram/common/network/impl';
 import CraftingData from '../../data/crafting';
 import Items from '../../data/items.json';
 import Formulas from '../info/formulas';
@@ -148,7 +149,7 @@ export default class API {
         // Login with an AI agent
         router.post('/ai/login', (request: Request, response: Response) => {
             try {
-                const { username, password } = request.body;
+                const { username, password, channel, spawn_location } = request.body;
 
                 if (!username || !password) {
                     return response.status(400).json({
@@ -179,13 +180,42 @@ export default class API {
                     });
                 }
 
+                const player = connection.player;
+
+                // Set channel if provided
+                if (channel) {
+                    player.channel = channel;
+                    log.info(`Player ${username} logged in to channel: ${channel}`);
+                }
+
+                // Parse and set spawn location if provided (format: "x,y")
+                if (spawn_location) {
+                    try {
+                        const [x, y] = spawn_location.split(',').map((coord: string) => parseInt(coord.trim()));
+                        if (!isNaN(x) && !isNaN(y)) {
+                            player.spawnLocation = { x, y };
+                            // Teleport to spawn location after login
+                            setTimeout(() => {
+                                player.teleport(x, y, false, true);
+                                log.info(`Player ${username} teleported to spawn location: (${x}, ${y})`);
+                            }, 500); // Small delay to ensure player is fully loaded
+                        } else {
+                            log.error(`Invalid spawn_location format for ${username}: ${spawn_location}`);
+                        }
+                    } catch (error) {
+                        log.error(`Error parsing spawn_location for ${username}: ${error}`);
+                    }
+                }
+
                 // Store the player reference for future API calls
-                this.aiAgents[token] = connection.player;
+                this.aiAgents[token] = player;
 
                 response.json({
                     status: 'success',
                     token,
-                    message: 'Logged in successfully'
+                    message: 'Logged in successfully',
+                    channel: player.channel || null,
+                    spawn_location: player.spawnLocation || null
                 });
             } catch (error) {
                 log.error(`Error logging in AI agent: ${error}`);
@@ -221,13 +251,26 @@ export default class API {
                 const startX = player.x;
                 const startY = player.y;
                 
-                // Teleport the player to the target position
-                // Since AI agents don't have actual clients, we use teleport instead of path movement
-                player.teleport(x, y);
+                log.info(`📍 API Move: ${player.username} from (${startX},${startY}) to (${x},${y})`);
+                
+                // Use server-side movement to enable smooth animation in Web UI
+                // This updates the server-side position
+                player.move(x, y);
+                
+                // Send Movement packet to all observers and nearby players for smooth animation
+                // The client will interpolate movement from current position to target position
+                player.sendToRegions(new Movement(Opcodes.Movement.Move, {
+                    instance: player.instance,
+                    x: x,
+                    y: y,
+                    movementSpeed: player.movementSpeed
+                }));
+                
+                log.info(`✅ API Move completed: ${player.username} now at (${player.x},${player.y})`);
                 
                 response.json({
                     status: 'success',
-                    message: 'Character moved to the destination',
+                    message: 'Character moved to the destination with smooth animation',
                     startPosition: { x: startX, y: startY },
                     targetPosition: { x, y }
                 });
@@ -243,7 +286,7 @@ export default class API {
         // Chat as the AI agent's character
         router.post('/ai/chat', (request: Request, response: Response) => {
             try {
-                const { token, message, global = false } = request.body;
+                const { token, message, global = false, channel } = request.body;
 
                 if (!token || !message) {
                     return response.status(400).json({
@@ -261,15 +304,116 @@ export default class API {
                     });
                 }
 
-                // Send the chat message
-                player.chat(message, global);
+                // If global is true, send global chat (ignore channel)
+                if (global) {
+                    player.chat(message, true);
+                    return response.json({
+                        status: 'success',
+                        message: 'Global message sent successfully'
+                    });
+                }
+
+                // Determine channel for the message
+                const targetChannel = channel || player.channel;
+
+                if (!targetChannel) {
+                    // No channel specified, send normal local chat
+                    player.chat(message, false);
+                    return response.json({
+                        status: 'success',
+                        message: 'Local message sent successfully'
+                    });
+                }
+
+                // Send channel-based message
+                log.info(`Channel chat from ${player.username} to channel ${targetChannel}: ${message}`);
+                
+                // Get all players in the same channel and send message
+                const formattedName = Utils.formatName(player.username);
+                const channelMessage = `[Channel: ${targetChannel}] ${formattedName}: ${message}`;
+                
+                let recipientCount = 0;
+                this.world.entities.forEachPlayer((p: Player) => {
+                    if (p.channel === targetChannel) {
+                        p.notify(channelMessage, 'aquamarine');
+                        recipientCount++;
+                    }
+                });
+
+                if (recipientCount === 0) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: `No players found in channel: ${targetChannel}`
+                    });
+                }
+
+                // Also show bubble above sender's head for nearby players
+                const bubblePacket = new Chat({
+                    instance: player.instance,
+                    message,
+                    withBubble: true,
+                    colour: 'aquamarine'
+                });
+                player.sendToRegions(bubblePacket);
 
                 response.json({
                     status: 'success',
-                    message: 'Message sent successfully'
+                    message: `Channel message sent to ${recipientCount} players in ${targetChannel}`
                 });
             } catch (error) {
                 log.error(`Error sending chat message: ${error}`);
+                response.status(500).json({
+                    status: 'error',
+                    message: 'Internal server error'
+                });
+            }
+        });
+
+        // Teleport AI agent to spawn location
+        router.post('/ai/teleport_to_spawn', (request: Request, response: Response) => {
+            try {
+                const { token } = request.body;
+
+                if (!token) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Token is required'
+                    });
+                }
+
+                const player = this.aiAgents[token];
+
+                if (!player) {
+                    return response.status(401).json({
+                        status: 'error',
+                        message: 'Invalid token'
+                    });
+                }
+
+                // Check if spawn location is set
+                if (!player.spawnLocation) {
+                    return response.json({
+                        status: 'success',
+                        message: 'No spawn location set, teleport skipped',
+                        teleported: false
+                    });
+                }
+
+                const { x, y } = player.spawnLocation;
+                
+                log.info(`Teleporting ${player.username} to spawn location: (${x}, ${y})`);
+                
+                // Teleport to spawn location
+                player.teleport(x, y, false, true);
+
+                response.json({
+                    status: 'success',
+                    message: `Teleported to spawn location (${x}, ${y})`,
+                    teleported: true,
+                    spawn_location: { x, y }
+                });
+            } catch (error) {
+                log.error(`Error teleporting AI agent to spawn: ${error}`);
                 response.status(500).json({
                     status: 'error',
                     message: 'Internal server error'

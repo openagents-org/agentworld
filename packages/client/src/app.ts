@@ -599,6 +599,26 @@ export default class App {
     }
 
     /**
+     * @returns The JQuery HTML element of the channel field
+     * depending on the currently open scroll.
+     */
+
+    private getChannelField(): HTMLInputElement {
+        return document.querySelector(
+            this.isRegistering() ? '#register-channel-input' : '#login-channel-input'
+        )!;
+    }
+
+    /**
+     * Grabs the channel value from the field.
+     * @returns Raw string value of the channel field.
+     */
+
+    public getChannel(): string {
+        return this.getChannelField()?.value || '';
+    }
+
+    /**
      * @returns The password confirmation field input string.
      */
 

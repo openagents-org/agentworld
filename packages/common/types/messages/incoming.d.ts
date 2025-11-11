@@ -22,6 +22,7 @@ export interface LoginPacket {
     username?: string;
     password?: string;
     email?: string;
+    channel?: string;
 }
 
 export interface EquipmentPacket {

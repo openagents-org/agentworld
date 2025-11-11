@@ -218,20 +218,46 @@ class KaetramGameTools:
             return f"Failed to create character: {result.get('message', 'Unknown error')}"
 
     def login_character(self, arguments: Dict[str, Any]) -> str:
-        """Login with existing character"""
+        """Login with existing character
+        
+        Args:
+            username: Character username
+            password: Character password  
+            channel: Optional team channel name for channel-based chat
+            spawn_location: Optional spawn location in format "x,y" (e.g., "12,51")
+        """
         username = arguments.get("username", "QwenAgent")
         password = arguments.get("password", "qwen123456")
+        channel = arguments.get("channel")
+        spawn_location = arguments.get("spawn_location")
         
         data = {
             "username": username,
             "password": password
         }
         
+        # Add optional channel parameter
+        if channel:
+            data["channel"] = channel
+            
+        # Add optional spawn_location parameter
+        if spawn_location:
+            data["spawn_location"] = spawn_location
+        
         result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["login"], data)
         
         if result.get("status") == "success":
             self.token = result.get("token")
-            return f"Character {username} logged in successfully. Token obtained."
+            response_parts = [f"Character {username} logged in successfully. Token obtained."]
+            
+            if result.get("channel"):
+                response_parts.append(f"Channel: {result.get('channel')}")
+                
+            if result.get("spawn_location"):
+                spawn = result.get("spawn_location")
+                response_parts.append(f"Spawn location: ({spawn['x']}, {spawn['y']})")
+                
+            return " ".join(response_parts)
         else:
             return f"Failed to login: {result.get('message', 'Unknown error')}"
 
@@ -1956,28 +1982,75 @@ class KaetramGameTools:
             return f"Failed to clear equipment: {result.get('message', 'Unknown error')}"
 
     def chat(self, arguments: Dict[str, Any]) -> str:
-        """Send a global group chat message to all agents/players in the game"""
+        """Send a chat message to channel, local area, or globally
+        
+        Args:
+            message: The message to send
+            channel: Optional channel name. If not specified, uses the channel from login.
+            global: If True, sends global chat (overrides channel). Default: False
+        
+        Behavior:
+            - If global=True: Send global chat to all players
+            - If channel is specified: Send to players in that channel only
+            - If channel from login: Send to players in login channel
+            - Otherwise: Send local chat to nearby players
+        """
         if not self.token:
             return "Error: No token available. Please login first."
         
         message = arguments.get("message", "")
+        channel = arguments.get("channel")
+        is_global = arguments.get("global", False)
         
         if not message:
             return "Error: Message content is required."
         
-        # Always send as global message for group chat functionality
         data = {
             "token": self.token,
             "message": message,
-            "global": True  # Force global for group chat
+            "global": is_global
         }
+        
+        # Add channel parameter if specified
+        if channel and not is_global:
+            data["channel"] = channel
         
         result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["chat"], data)
         
         if result.get("status") == "success":
-            return f"Global chat message sent: {message}"
+            result_message = result.get("message", "")
+            if "global" in result_message.lower():
+                return f"Global chat message sent: {message}"
+            elif "channel" in result_message.lower():
+                return f"Channel chat message sent: {message} ({result_message})"
+            else:
+                return f"Local chat message sent: {message}"
         else:
-            return f"Failed to send global chat message: {result.get('message', 'Unknown error')}"
+            return f"Failed to send chat message: {result.get('message', 'Unknown error')}"
+
+    def teleport_to_spawn(self, arguments: Dict[str, Any] = None) -> str:
+        """Teleport the character back to the spawn location specified at login
+        
+        Returns:
+            Success message if spawn location exists, or info message if not set
+        """
+        if not self.token:
+            return "Error: No token available. Please login first."
+        
+        data = {
+            "token": self.token
+        }
+        
+        result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["teleport_to_spawn"], data)
+        
+        if result.get("status") == "success":
+            if result.get("teleported"):
+                spawn = result.get("spawn_location", {})
+                return f"Teleported to spawn location: ({spawn.get('x')}, {spawn.get('y')})"
+            else:
+                return "No spawn location set (spawn location is only set during login)"
+        else:
+            return f"Failed to teleport to spawn: {result.get('message', 'Unknown error')}"
 
     def get_chat_messages(self) -> str:
         """Retrieve all chat messages from the current game session (for system prompt context)"""
