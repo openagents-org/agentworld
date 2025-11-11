@@ -1,0 +1,964 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Multi-Region Supply Network - Continental Trade System"
+  description: "Eight agents establish a complex supply chain spanning forests, mountains, deserts, and coasts to create ultimate crafted goods"
+
+# Task objectives
+objectives:
+  primary: "Create a functioning 5-region supply network with specialized gathering teams, transport logistics, and centralized crafting over 55 rounds"
+  secondary:
+    - "Phase 1 (Rounds 1-8): Network Planning - Scout all regions and establish base camps"
+    - "Phase 2 (Rounds 9-20): Specialized Resource Gathering - Teams gather region-specific materials simultaneously"
+    - "Phase 3 (Rounds 21-32): Transport Operations - Coordinate long-distance material transfers to central hub"
+    - "Phase 4 (Rounds 33-45): Mass Production - Craft advanced equipment using consolidated resources"
+    - "Phase 5 (Rounds 46-55): Distribution & Validation - Deliver finished goods to all regions, complete network"
+
+# Relevant game context
+relevant_game_context: |
+  This is an epic multi-region logistics and cooperation challenge requiring simultaneous operations across the entire game world.
+
+  🚨 CRITICAL AWARENESS - SUPPLY NETWORK:
+  - ALWAYS use verify_inventory before claiming to have materials
+  - ALWAYS use chat to coordinate between distant teams
+  - Use observe_environment radius=64 to locate resources in each region
+  - Use transfer_items for ALL material handoffs (verify with chat!)
+  - Teams will be SEPARATED by 200-500 tiles - communication is CRITICAL
+  - This is about COORDINATION and LOGISTICS, not just combat
+  - Each region has unique resources - teams must specialize
+
+  📍 STARTING LOCATION: (500-520, 380-395) - Central Kingdom (spawn area)
+
+  🎯 SUPPLY NETWORK STRUCTURE: Build functioning trade system over 55 rounds
+
+  ═══════════════════════════════════════════════════════════════
+  PHASE 1 - NETWORK PLANNING (Rounds 1-8)
+  ═══════════════════════════════════════════════════════════════
+
+  🎯 MANDATORY Objectives:
+    - Assign 8 agents to 4 specialized teams: Forest Team (2), Mountain Team (2), Coast Team (2), Central Hub (2)
+    - Scout all 4 gathering regions and identify resource locations
+    - Establish base camp at Central Hub (recommend staying at spawn 500, 390)
+    - Create communication protocol for long-distance coordination
+    - Plan transport routes between regions (calculate distances)
+    - Set gathering targets for Phase 2
+
+  📋 TEAM ASSIGNMENTS & SPECIALIZATIONS:
+
+  **Forest Team (2 agents: SupplyLogger1, SupplyLogger2)**
+  - Region: Western Forest (250, 350)
+  - Specialization: Lumberjacking, Fletching
+  - Target Resources: Logs (50+), sticks (100+), feathers (50+)
+  - Starting Skills: Lumberjacking 35+, Fletching 25+
+  - Role: Gather all wood-based materials for crafting
+
+  **Mountain Team (2 agents: SupplyMiner1, SupplyMiner2)**
+  - Region: Northern Mountains (230, 38)
+  - Specialization: Mining, Smithing
+  - Target Resources: Iron ore (40+), coal (40+), gold ore (20+)
+  - Starting Skills: Mining 35+, Smithing 25+
+  - Role: Extract all metal ores for smelting and crafting
+
+  **Coast Team (2 agents: SupplyFisher1, SupplyFisher2)**
+  - Region: Eastern Coast (900, 400)
+  - Specialization: Hunting, Foraging
+  - Target Resources: Feathers (30+), string (30+), food (60+), gems from hunting
+  - Starting Skills: Strength 30+, Accuracy 30+
+  - Role: Hunt creatures for special materials and food supplies
+
+  **Central Hub (2 agents: SupplyCrafter1, SupplyCrafter2)**
+  - Region: Central Kingdom (500, 390)
+  - Specialization: Crafting, Smithing, Fletching (high skill levels)
+  - Target Resources: None (they receive materials from other teams)
+  - Starting Skills: Crafting 40+, Smithing 35+, Fletching 30+
+  - Role: Receive all materials, craft final products, distribute goods
+
+  🗺️ HOW TO SCOUT REGIONS (Rounds 1-5):
+    1. All agents start together at Central Kingdom (500-520, 380-395)
+    2. Use chat to discuss and confirm team assignments
+    3. Teams split up and travel to designated regions:
+       - Forest Team → Western Forest (250, 350) [Distance: ~280 tiles, 2 rounds travel]
+       - Mountain Team → Northern Mountains (230, 38) [Distance: ~400 tiles, 2 rounds travel]
+       - Coast Team → Eastern Coast (900, 400) [Distance: ~400 tiles, 2 rounds travel]
+       - Central Hub → Stays at spawn (500, 390) [No travel]
+    4. Each regional team uses observe_environment radius=64 upon arrival
+    5. Identify resource nodes: trees, rocks, creatures, forage points
+    6. Use chat to report findings:
+       - "Forest Team arrived at (250, 350). Oak Trees located: [positions]. Ready to gather."
+       - "Mountain Team at (230, 38). Iron rock x5, coal rock x4, gold rock x2 found. Ready."
+       - "Coast Team at (900, 400). Crabs, bats spotted. Hunting ground established."
+
+  📡 HOW TO ESTABLISH COMMUNICATION PROTOCOL:
+    1. Central Hub acts as coordination center
+    2. All teams use standardized chat messages:
+       - Status updates: "[Team] Status: [gathering/traveling/ready]. Resources: X"
+       - Requests: "[Team] Request: Need [resource] for [purpose]"
+       - Confirmations: "[Team] Confirmed: [action completed]"
+    3. Central Hub tracks all team statuses and coordinates handoffs
+    4. Use chat every 2-3 rounds minimum to maintain coordination
+    5. Example exchange:
+       - SupplyCrafter1: "Central Hub: All teams report status"
+       - SupplyLogger1: "Forest Team: 10 logs gathered. Target: 50. Continuing."
+       - SupplyMiner1: "Mountain Team: 15 iron ore mined. Target: 40. On schedule."
+       - SupplyFisher1: "Coast Team: 8 crabs defeated. Collecting drops. Proceeding."
+
+  📏 HOW TO CALCULATE TRANSPORT ROUTES:
+    1. Measure distances between regions:
+       - Forest → Central: ~280 tiles (2 rounds travel time)
+       - Mountain → Central: ~400 tiles (2-3 rounds travel time)
+       - Coast → Central: ~400 tiles (2-3 rounds travel time)
+    2. Plan transport waves:
+       - Wave 1 (Round 21): Forest Team travels to Central
+       - Wave 2 (Round 24): Mountain Team travels to Central
+       - Wave 3 (Round 27): Coast Team travels to Central
+    3. Each transport takes 2-3 rounds + 1 round for material transfer
+    4. Teams return to regions after delivery (2-3 rounds back)
+    5. Use chat to announce: "[Team] Departing for Central Hub. ETA: [rounds]"
+
+  ⏱️ TIME ALLOCATION:
+    - Rounds 1-2: Team assignments, communication protocol setup
+    - Rounds 3-5: Regional teams travel to designated areas, scout resources
+    - Rounds 6-8: Finalize gathering plans, confirm targets, prepare for Phase 2
+
+  ═══════════════════════════════════════════════════════════════
+  PHASE 2 - SPECIALIZED RESOURCE GATHERING (Rounds 9-20)
+  ═══════════════════════════════════════════════════════════════
+
+  🎯 Objectives:
+    - All regional teams gather resources simultaneously in their regions
+    - Forest Team: Harvest 50+ logs, craft 100+ sticks, collect feathers
+    - Mountain Team: Mine 40+ iron ore, 40+ coal, 20+ gold ore
+    - Coast Team: Hunt creatures for 30+ feathers, 30+ string, 60+ food items, rare drops
+    - Central Hub: Prepare crafting stations, organize storage, track incoming resources
+
+  🌲 FOREST TEAM OPERATIONS (Rounds 9-20):
+    **Primary Goal**: Gather wood-based materials
+
+    A) Harvest Logs (Target: 50+)
+       - Location: Western Forest around (250, 350)
+       - Use observe_environment radius=32 to find Oak Trees
+       - Both SupplyLogger1 and SupplyLogger2 harvest simultaneously
+       - Function: harvest_resource targetInstance=<tree_instance>
+       - Each agent gathers 25+ logs (50 total)
+       - Chat updates every 3 rounds: "Forest Team: X/50 logs gathered"
+       - Takes approximately 8-10 rounds of continuous harvesting
+
+    B) Craft Sticks (Target: 100+)
+       - After gathering logs, craft sticks for arrows and staffs
+       - Function: craft_item skill=Fletching itemKey=stick
+       - Recipe: 1x logs → 4x sticks
+       - Need 25 logs to create 100 sticks
+       - Both agents craft: 50 sticks each
+       - Chat: "Forest Team: Crafted X/100 sticks. Logs used: Y"
+
+    C) Collect Feathers (opportunistic)
+       - While gathering, hunt any birds/bats in forest
+       - Target: 20+ feathers from hunting
+       - Feathers needed for arrow production in Phase 4
+
+    D) Status Reporting:
+       - Round 12: "Forest Team: 20 logs gathered, on schedule"
+       - Round 15: "Forest Team: 35 logs, starting stick crafting"
+       - Round 18: "Forest Team: 50+ logs COMPLETE, 100+ sticks crafted, 15 feathers collected"
+       - Round 20: "Forest Team: Ready for transport to Central Hub. Inventory verified."
+
+  ⛏️ MOUNTAIN TEAM OPERATIONS (Rounds 9-20):
+    **Primary Goal**: Extract metal ores
+
+    A) Mine Iron Ore (Target: 40+)
+       - Location: Northern Mountains (230, 38)
+       - Use observe_environment radius=32 to locate iron rock nodes
+       - Both SupplyMiner1 and SupplyMiner2 mine simultaneously
+       - Function: harvest_resource targetInstance=<iron_rock_instance>
+       - Each agent mines 20+ iron ore (40 total)
+       - Requires Mining 10+ skill (both agents have 35+)
+       - Chat updates: "Mountain Team: X/40 iron ore mined"
+
+    B) Mine Coal (Target: 40+)
+       - Search same mountain area for coal rock nodes
+       - Function: harvest_resource targetInstance=<coal_rock_instance>
+       - Coal used for smelting iron and gold bars
+       - Each agent mines 20+ coal (40 total)
+       - Easier than iron (Mining 1+ required)
+       - Chat: "Mountain Team: X/40 coal mined"
+
+    C) Mine Gold Ore (Target: 20+)
+       - Search for rarer gold rock deposits
+       - Requires Mining 25+ skill (both agents qualified)
+       - Function: harvest_resource targetInstance=<gold_rock_instance>
+       - Each agent mines 10+ gold ore (20 total)
+       - Gold used for high-end equipment in Phase 4
+       - Chat: "Mountain Team: X/20 gold ore mined (PREMIUM)"
+
+    D) Status Reporting:
+       - Round 12: "Mountain Team: 15 iron, 18 coal mined. Searching for gold."
+       - Round 15: "Mountain Team: 28 iron, 30 coal, 8 gold. Strong progress."
+       - Round 18: "Mountain Team: 40 iron COMPLETE, 40 coal COMPLETE, 15 gold."
+       - Round 20: "Mountain Team: All targets MET. 40 iron, 40 coal, 20 gold. Ready for transport."
+
+  🌊 COAST TEAM OPERATIONS (Rounds 9-20):
+    **Primary Goal**: Hunt creatures for special materials and food
+
+    A) Hunt for Feathers (Target: 30+)
+       - Location: Eastern Coast (900, 400)
+       - Use observe_environment radius=32 to find bats, birds
+       - Function: attack_mob targetInstance=<bat_instance>
+       - Bats drop feathers (Level 4-8, easy targets)
+       - Both agents hunt simultaneously
+       - Chat: "Coast Team: Defeated X creatures, Y/30 feathers collected"
+
+    B) Collect String (Target: 30+)
+       - String drops from various creatures
+       - Hunt spiders, insects if available
+       - Alternative: forage for string materials
+       - Both agents contribute to collection
+       - String needed for bows and crafting
+
+    C) Gather Food Items (Target: 60+)
+       - Hunt crabs (Level 1, very easy) for meat drops
+       - Forage coastal plants for fruits
+       - Fish if fishing spots available
+       - Food provides healing for all agents
+       - Distribute evenly: each agent gathers 30+
+       - Chat: "Coast Team: X/60 food items collected"
+
+    D) Hunt for Gem Drops (opportunistic)
+       - Defeat mid-level creatures (Level 10-15) for gem drops
+       - Gems used for enhanced rings and pendants
+       - Target: 5+ gems if possible
+       - Beryl, emerald, ruby priority
+
+    E) Status Reporting:
+       - Round 12: "Coast Team: 12 feathers, 15 food items. Hunting bats."
+       - Round 15: "Coast Team: 22 feathers, 38 food, 10 string. On track."
+       - Round 18: "Coast Team: 30+ feathers COMPLETE, 55 food, 25 string, 3 gems found!"
+       - Round 20: "Coast Team: All targets ACHIEVED. Ready for transport. Excellent haul!"
+
+  🏛️ CENTRAL HUB OPERATIONS (Rounds 9-20):
+    **Primary Goal**: Prepare for receiving materials and crafting
+
+    A) Organize Tracking System:
+       - SupplyCrafter1 tracks Forest Team inventory
+       - SupplyCrafter2 tracks Mountain and Coast Teams
+       - Create checklist of expected materials:
+         * Forest: 50 logs, 100 sticks, 20 feathers
+         * Mountain: 40 iron ore, 40 coal, 20 gold ore
+         * Coast: 30 feathers, 30 string, 60 food, gems
+       - Use chat to request status updates every 3 rounds
+
+    B) Gather Local Materials:
+       - While waiting, gather nearby resources around spawn
+       - Hunt local creatures for additional food/materials
+       - Mine any nearby rocks for extra ore
+       - Forage plants for healing items
+       - Target: 20+ additional healing items, misc materials
+
+    C) Prepare Crafting Plan:
+       - Calculate crafting recipes for Phase 4:
+         * Iron bars needed: 40 (for weapons, tools, rings)
+         * Gold bars needed: 20 (for premium equipment)
+         * Arrows needed: 50 (for rangers/archers)
+         * Weapons: 5x Heavy Swords, 3x Axes, 2x Bows
+         * Armor: 5x Silver Rings, 2x Gold Rings
+         * Staffs: 2x Enhanced Magical Staffs
+       - Use chat to announce: "Central Hub: Crafting plan finalized. Awaiting materials."
+
+    D) Status Reporting:
+       - Round 12: "Central Hub: All teams reporting. On schedule. Preparing storage."
+       - Round 15: "Central Hub: Teams at 70% targets. Excellent progress. Ready to receive."
+       - Round 18: "Central Hub: Teams completing gathering. Transport phase incoming."
+       - Round 20: "Central Hub: READY. All teams prepare for Phase 3 transport operations!"
+
+  ⏱️ TIME ALLOCATION:
+    - Rounds 9-20: Continuous simultaneous gathering (12 rounds)
+    - All teams work in parallel in their designated regions
+    - Central Hub coordinates and tracks progress
+    - Phase ends with all teams ready for transport
+
+  ═══════════════════════════════════════════════════════════════
+  PHASE 3 - TRANSPORT OPERATIONS (Rounds 21-32)
+  ═══════════════════════════════════════════════════════════════
+
+  🎯 Objectives:
+    - Coordinate sequential transport waves from regions to Central Hub
+    - Transfer all gathered materials to Central Hub crafters
+    - Verify all transfers with inventory checks
+    - Return regional teams to their areas for Phase 5 distribution
+    - Complete 3 transport waves without losing any materials
+
+  🚚 TRANSPORT WAVE 1 - FOREST TEAM (Rounds 21-24):
+    **Forest Team → Central Hub**
+
+    Round 21: Departure
+    - SupplyLogger1 and SupplyLogger2 verify_inventory
+    - Confirm carrying: 50+ logs, 100+ sticks, 20+ feathers
+    - Chat: "Forest Team: Departing Western Forest (250,350) for Central Hub (500,390). ETA: 2 rounds."
+    - Begin travel toward Central Kingdom
+
+    Round 22-23: Travel
+    - Move together toward Central Hub
+    - Distance: ~280 tiles
+    - Stay within 5 tiles of each other
+    - Chat position updates: "Forest Team: Position (X,Y), ETA: 1 round"
+
+    Round 24: Arrival & Transfer
+    - Arrive at Central Hub (500, 390)
+    - Use observe_environment to locate SupplyCrafter1 and SupplyCrafter2
+    - Execute transfers:
+      * SupplyLogger1 → SupplyCrafter1:
+        - transfer_items targetPlayer=SupplyCrafter1 itemKey=logs count=25
+        - transfer_items targetPlayer=SupplyCrafter1 itemKey=stick count=50
+        - transfer_items targetPlayer=SupplyCrafter1 itemKey=feather count=10
+      * SupplyLogger2 → SupplyCrafter2:
+        - transfer_items targetPlayer=SupplyCrafter2 itemKey=logs count=25
+        - transfer_items targetPlayer=SupplyCrafter2 itemKey=stick count=50
+        - transfer_items targetPlayer=SupplyCrafter2 itemKey=feather count=10
+    - All agents verify_inventory after transfers
+    - Chat confirmations:
+      * SupplyCrafter1: "Received: 25 logs, 50 sticks, 10 feathers. VERIFIED."
+      * SupplyCrafter2: "Received: 25 logs, 50 sticks, 10 feathers. VERIFIED."
+      * SupplyLogger1: "Transfer complete. Inventory empty. Standing by."
+    - Forest Team stays at Central Hub (will be part of distribution in Phase 5)
+
+  🚚 TRANSPORT WAVE 2 - MOUNTAIN TEAM (Rounds 25-28):
+    **Mountain Team → Central Hub**
+
+    Round 25: Departure
+    - SupplyMiner1 and SupplyMiner2 verify_inventory
+    - Confirm carrying: 40+ iron ore, 40+ coal, 20+ gold ore
+    - Chat: "Mountain Team: Departing Northern Mountains (230,38) for Central Hub. ETA: 3 rounds."
+    - Begin travel (longest distance)
+
+    Round 26-27: Travel
+    - Move together toward Central Hub
+    - Distance: ~400 tiles
+    - Coordinate movement with chat updates
+    - Chat: "Mountain Team: Position (X,Y), ETA: 1 round"
+
+    Round 28: Arrival & Transfer
+    - Arrive at Central Hub (500, 390)
+    - Execute transfers:
+      * SupplyMiner1 → SupplyCrafter1:
+        - transfer_items targetPlayer=SupplyCrafter1 itemKey=ironore count=20
+        - transfer_items targetPlayer=SupplyCrafter1 itemKey=coal count=20
+        - transfer_items targetPlayer=SupplyCrafter1 itemKey=goldore count=10
+      * SupplyMiner2 → SupplyCrafter2:
+        - transfer_items targetPlayer=SupplyCrafter2 itemKey=ironore count=20
+        - transfer_items targetPlayer=SupplyCrafter2 itemKey=coal count=20
+        - transfer_items targetPlayer=SupplyCrafter2 itemKey=goldore count=10
+    - All agents verify_inventory
+    - Chat confirmations:
+      * SupplyCrafter1: "Received: 20 iron ore, 20 coal, 10 gold ore. Smelting ready."
+      * SupplyCrafter2: "Received: 20 iron ore, 20 coal, 10 gold ore. Production line SET."
+      * SupplyMiner1: "Mountain ores delivered successfully. Awaiting orders."
+    - Mountain Team stays at Central Hub
+
+  🚚 TRANSPORT WAVE 3 - COAST TEAM (Rounds 29-32):
+    **Coast Team → Central Hub**
+
+    Round 29: Departure
+    - SupplyFisher1 and SupplyFisher2 verify_inventory
+    - Confirm carrying: 30+ feathers, 30+ string, 60+ food, gems
+    - Chat: "Coast Team: Departing Eastern Coast (900,400) for Central Hub. ETA: 3 rounds."
+    - Begin travel
+
+    Round 30-31: Travel
+    - Move together toward Central Hub
+    - Distance: ~400 tiles
+    - Chat position updates
+
+    Round 32: Arrival & Transfer
+    - Arrive at Central Hub (500, 390)
+    - Execute transfers:
+      * SupplyFisher1 → SupplyCrafter1:
+        - transfer_items targetPlayer=SupplyCrafter1 itemKey=feather count=15
+        - transfer_items targetPlayer=SupplyCrafter1 itemKey=string count=15
+        - transfer_items targetPlayer=SupplyCrafter1 itemKey=apple count=30 (or other food)
+      * SupplyFisher2 → SupplyCrafter2:
+        - transfer_items targetPlayer=SupplyCrafter2 itemKey=feather count=15
+        - transfer_items targetPlayer=SupplyCrafter2 itemKey=string count=15
+        - transfer_items targetPlayer=SupplyCrafter2 itemKey=flask count=30 (or other food)
+      * Transfer any gems collected to crafters
+    - All agents verify_inventory
+    - Chat confirmations:
+      * SupplyCrafter1: "Coast materials received. Feathers: 15, String: 15, Food: 30."
+      * SupplyCrafter2: "All materials RECEIVED. Production ready. Gems acquired!"
+      * SupplyFisher1: "Delivery complete. All teams now at Central Hub!"
+
+    Round 32: Phase 3 Complete
+    - All 8 agents now at Central Hub (500, 390)
+    - SupplyCrafter1 and SupplyCrafter2 have ALL materials
+    - Use chat for major announcement:
+      * "PHASE 3 COMPLETE! All materials consolidated at Central Hub!"
+      * "Material inventory: 50 logs, 100 sticks, 40 iron ore, 40 coal, 20 gold ore, 50 feathers, 30 string, 60+ food"
+      * "Phase 4 Mass Production STARTING! All agents stand by for equipment distribution!"
+
+  ⏱️ TIME ALLOCATION:
+    - Rounds 21-24: Forest Team transport and transfer (4 rounds)
+    - Rounds 25-28: Mountain Team transport and transfer (4 rounds)
+    - Rounds 29-32: Coast Team transport and transfer (4 rounds)
+    - Total: 12 rounds for complete logistics operation
+
+  ═══════════════════════════════════════════════════════════════
+  PHASE 4 - MASS PRODUCTION (Rounds 33-45)
+  ═══════════════════════════════════════════════════════════════
+
+  🎯 Objectives:
+    - Craft metal bars: 40x iron bars, 20x gold bars
+    - Produce weapons: 5x Heavy Swords, 3x Axes, 2x Wooden Bows
+    - Create armor/accessories: 5x Silver Rings, 2x Gold Rings, 2x Pendants
+    - Craft ammunition: 50x Arrows
+    - Make magical equipment: 2x Enhanced Staffs
+    - Distribute finished goods to all agents
+    - Verify every agent equipped with premium gear
+
+  🔨 MASS PRODUCTION SEQUENCE:
+
+  **Sub-Phase 4A: Bar Smelting (Rounds 33-38)**
+
+  A) Iron Bar Production (40x needed):
+     - Both crafters work simultaneously
+     - Function: craft_item skill=Crafting itemKey=ironbar
+     - Recipe: 1x ironore + 1x coal → 1x ironbar
+     - SupplyCrafter1 crafts 20 iron bars (20 iron ore + 20 coal)
+     - SupplyCrafter2 crafts 20 iron bars (20 iron ore + 20 coal)
+     - Takes approximately 3-4 rounds for both to complete
+     - Chat updates:
+       * Round 34: "Smelting: 10/40 iron bars complete"
+       * Round 36: "Smelting: 30/40 iron bars complete"
+       * Round 38: "Smelting: 40/40 iron bars COMPLETE!"
+
+  B) Gold Bar Production (20x needed):
+     - Function: craft_item skill=Crafting itemKey=goldbar
+     - Recipe: 1x goldore + 1x coal → 1x goldbar
+     - Note: Used all 40 coal for iron bars! Need to adjust:
+       * Actually craft only 30 iron bars (save 10 coal for gold)
+       * SupplyCrafter1: 15 iron bars, then 10 gold bars
+       * SupplyCrafter2: 15 iron bars, then 10 gold bars
+     - Chat: "Gold bars: 20/20 complete. Premium materials ready!"
+
+  **Sub-Phase 4B: Weapon Crafting (Rounds 39-42)**
+
+  A) Heavy Swords (5x for main fighters):
+     - Function: craft_item skill=Smithing itemKey=sword2
+     - Recipe: 2x ironbar + 1x hilt2 → 1x Heavy Sword
+     - Need 10 iron bars + 5 hilts
+     - Check starting inventories for hilts (some agents have them!)
+     - SupplyCrafter1 crafts 3 swords
+     - SupplyCrafter2 crafts 2 swords
+     - Chat: "Weapons: 5/5 Heavy Swords forged!"
+
+  B) Axes (3x for utility/backup):
+     - Function: craft_item skill=Smithing itemKey=axe
+     - Recipe: 3x ironbar + 1x logs → 1x Axe
+     - Need 9 iron bars + 3 logs
+     - SupplyCrafter1 crafts 2 axes
+     - SupplyCrafter2 crafts 1 axe
+     - Chat: "Weapons: 3/3 Axes crafted!"
+
+  C) Wooden Bows (2x for rangers):
+     - Function: craft_item skill=Fletching itemKey=woodenbow
+     - Recipe: 1x logs + 1x string → 1x Wooden Bow
+     - Need 2 logs + 2 string
+     - SupplyCrafter1 crafts 1 bow
+     - SupplyCrafter2 crafts 1 bow
+     - Chat: "Weapons: 2/2 Wooden Bows complete! All weapons ready!"
+
+  **Sub-Phase 4C: Armor & Accessories (Rounds 43-44)**
+
+  A) Silver Rings (5x for defense):
+     - Function: craft_item skill=Smithing itemKey=silverring
+     - Recipe: 2x ironbar → 1x silverring
+     - Need 10 iron bars
+     - SupplyCrafter1 crafts 3 rings
+     - SupplyCrafter2 crafts 2 rings
+     - Chat: "Armor: 5/5 Silver Rings complete!"
+
+  B) Gold Rings (2x for premium agents):
+     - Function: craft_item skill=Smithing itemKey=goldring
+     - Recipe: 2x goldbar → 1x goldring
+     - Need 4 gold bars
+     - SupplyCrafter1 crafts 1 gold ring
+     - SupplyCrafter2 crafts 1 gold ring
+     - Chat: "Armor: 2/2 Gold Rings crafted!"
+
+  C) Enhanced Rings (if have gems):
+     - If gems available from Coast Team:
+       * Ruby Ring: craft_item skill=Crafting itemKey=rubyring
+         Recipe: 1x ruby + 1x goldring → 1x Ruby Ring
+       * Emerald Ring: craft_item skill=Crafting itemKey=emeraldring
+         Recipe: 1x emerald + 1x goldring → 1x Emerald Ring
+     - Enhance the 2 gold rings with gems
+     - Chat: "Premium: 2 Enhanced Rings with gems!"
+
+  **Sub-Phase 4D: Ammunition & Magic (Rounds 44-45)**
+
+  A) Arrows (50x for ranged combat):
+     - Function: craft_item skill=Fletching itemKey=arrow
+     - Recipe: 10x stick + 10x feather → 10x arrows
+     - Need 50 sticks + 50 feathers (we have 100 sticks, 50 feathers!)
+     - Craft 5 times to make 50 arrows
+     - SupplyCrafter1 crafts 30 arrows (3 batches)
+     - SupplyCrafter2 crafts 20 arrows (2 batches)
+     - Chat: "Ammunition: 50/50 Arrows complete!"
+
+  B) Magical Staffs (2x for magic users):
+     - Basic Staff first:
+       * Function: craft_item skill=Crafting itemKey=staff
+       * Recipe: 5x stick + 1x bead → 1x Magic Staff
+       * Need 10 sticks + 2 beads
+     - Then enhance if have special beads:
+       * Lightning Staff: 1x staff + 1x lightningbead
+       * Fire Staff: 1x staff + 1x firebead
+     - Chat: "Magic: 2 Enhanced Magical Staffs ready!"
+
+  **Sub-Phase 4E: Distribution (Round 45)**
+
+  ALL agents receive equipment:
+
+  - SupplyLogger1: Heavy Sword, Silver Ring, 10 arrows
+  - SupplyLogger2: Axe, Silver Ring, 10 arrows
+  - SupplyMiner1: Heavy Sword, Gold Ring (enhanced), 5 arrows
+  - SupplyMiner2: Heavy Sword, Silver Ring, 5 arrows
+  - SupplyFisher1: Wooden Bow, Silver Ring, 15 arrows
+  - SupplyFisher2: Wooden Bow, Silver Ring, 15 arrows
+  - SupplyCrafter1: Heavy Sword, Gold Ring (enhanced), Magical Staff
+  - SupplyCrafter2: Axe, Silver Ring, Magical Staff
+
+  Transfer sequence:
+  - SupplyCrafter1 and SupplyCrafter2 use transfer_items for each agent
+  - Each agent uses equip_item to equip their gear
+  - Everyone verifies_inventory to confirm equipment
+  - Use chat: "Agent X: Equipped with [weapon + armor]. Ready!"
+
+  Final announcement (Round 45):
+  - "PHASE 4 COMPLETE! Mass production finished!"
+  - "All 8 agents equipped with premium gear!"
+  - "Equipment distributed: 5 swords, 3 axes, 2 bows, 7 rings, 2 staffs, 50 arrows!"
+  - "Phase 5 Distribution & Validation STARTING!"
+
+  ⏱️ TIME ALLOCATION:
+    - Rounds 33-38: Bar smelting (6 rounds)
+    - Rounds 39-42: Weapon crafting (4 rounds)
+    - Rounds 43-44: Armor and accessories (2 rounds)
+    - Round 45: Distribution to all agents (1 round)
+    - Total: 13 rounds for complete production
+
+  ═══════════════════════════════════════════════════════════════
+  PHASE 5 - DISTRIBUTION & VALIDATION (Rounds 46-55)
+  ═══════════════════════════════════════════════════════════════
+
+  🎯 Objectives:
+    - Teams return to their original regions with finished equipment
+    - Validate network functionality: demonstrate equipment in each region
+    - Conduct final supply check across all regions
+    - Perform synchronized demonstration of network success
+    - Complete 55-round multi-region supply network challenge
+
+  🌍 REGIONAL RETURN & VALIDATION:
+
+  **Return Wave 1: Forest Team (Rounds 46-48)**
+  - SupplyLogger1 and SupplyLogger2 return to Western Forest (250, 350)
+  - Travel time: 2 rounds from Central Hub
+  - Upon arrival, demonstrate network success:
+    * Use observe_environment to locate a creature
+    * Both agents attack mob using their new equipment
+    * Collect loot with verify_inventory
+    * Chat: "Forest Region VALIDATED! Equipment functional. Network operating!"
+
+  **Return Wave 2: Mountain Team (Rounds 48-51)**
+  - SupplyMiner1 and SupplyMiner2 return to Northern Mountains (230, 38)
+  - Travel time: 3 rounds from Central Hub
+  - Upon arrival, demonstrate network:
+    * Mine additional resources using equipped axes
+    * Defeat any mountain creatures with new weapons
+    * Chat: "Mountain Region VALIDATED! Supply chain successful!"
+
+  **Return Wave 3: Coast Team (Rounds 51-54)**
+  - SupplyFisher1 and SupplyFisher2 return to Eastern Coast (900, 400)
+  - Travel time: 3 rounds from Central Hub
+  - Upon arrival, demonstrate network:
+    * Hunt creatures using wooden bows and arrows
+    * Use observe_environment radius=64 to show area control
+    * Chat: "Coast Region VALIDATED! Network complete across all regions!"
+
+  **Central Hub Validation (Rounds 54-55)**
+  - SupplyCrafter1 and SupplyCrafter2 remain at Central Hub
+  - Demonstrate crafting capability still available
+  - Verify remaining materials in inventory
+  - Prepare final network report
+
+  📊 FINAL NETWORK VALIDATION (Round 55):
+
+  Each team reports final status:
+
+  - SupplyLogger1 (Forest): "Forest Region operational. Equipment: Heavy Sword+Ring+Arrows. Resources available: Logs. Network: ACTIVE."
+  - SupplyLogger2 (Forest): "Forest validation complete. Network hub functioning."
+  - SupplyMiner1 (Mountain): "Mountain Region operational. Equipment: Sword+Enhanced Ring. Resources: Ores available. Network: ACTIVE."
+  - SupplyMiner2 (Mountain): "Mountain validation complete. Supply line functional."
+  - SupplyFisher1 (Coast): "Coast Region operational. Equipment: Bow+Ring+Arrows. Hunting grounds secure. Network: ACTIVE."
+  - SupplyFisher2 (Coast): "Coast validation complete. Network terminal online."
+  - SupplyCrafter1 (Central Hub): "Central Hub operational. Production capacity maintained. Network coordinator: ACTIVE."
+  - SupplyCrafter2 (Central Hub): "Network status: ALL REGIONS CONNECTED. Supply chain COMPLETE!"
+
+  Final announcement (Round 55):
+  - "🌐 MULTI-REGION SUPPLY NETWORK COMPLETE! 🌐"
+  - "✓ 4 regions connected: Forest, Mountain, Coast, Central"
+  - "✓ 8 agents coordinated across 500+ tiles"
+  - "✓ 150+ resources gathered and transported"
+  - "✓ 80+ items crafted and distributed"
+  - "✓ All agents equipped with premium gear"
+  - "✓ Network validated in all regions"
+  - "✓ 55-round logistics operation: SUCCESSFUL!"
+  - "Continental Trade System is now OPERATIONAL! 🎉"
+
+  ⏱️ TIME ALLOCATION:
+    - Rounds 46-48: Forest Team return and validation (3 rounds)
+    - Rounds 48-51: Mountain Team return and validation (3 rounds)
+    - Rounds 51-54: Coast Team return and validation (3 rounds)
+    - Rounds 54-55: Final network validation and completion (2 rounds)
+    - Total: 10 rounds for distribution and validation
+
+  ═══════════════════════════════════════════════════════════════
+  SUPPLY NETWORK COORDINATION PRINCIPLES
+  ═══════════════════════════════════════════════════════════════
+
+  💬 COMMUNICATION REQUIREMENTS:
+  - Central Hub coordinates all operations via chat
+  - Regional teams report status every 2-3 rounds
+  - Use standardized message format for clarity
+  - Announce all major actions: departures, arrivals, transfers, crafting
+  - Celebrate milestones: gathering complete, transport successful, crafting done
+
+  🤝 LOGISTICS COORDINATION:
+  - Teams work simultaneously in separate regions (massive parallel operations)
+  - Central Hub tracks all teams and material flows
+  - Precise transfer operations with verify_inventory confirmations
+  - Sequential transport waves to avoid congestion
+  - Equipment distribution ensures all agents benefit equally
+
+  📊 NETWORK SUCCESS METRICS:
+  - All 150+ resources successfully gathered from 4 regions
+  - All materials transported to Central Hub without loss
+  - 80+ items crafted using consolidated resources
+  - All 8 agents equipped with finished goods
+  - Network functionality validated in all original regions
+  - 55-round operation completed without deadlocks
+
+  🚨 COMPLETION REQUIREMENTS - STRICT 5-PHASE NETWORK:
+
+  DO NOT use complete() until ALL requirements met:
+
+  PHASE COMPLETION CHECKLIST:
+  ✓ Phase 1: Network planned, teams assigned, regions scouted
+  ✓ Phase 2: All resources gathered (50 logs, 40 iron, 40 coal, 20 gold, 50 feathers, 30 string, 60 food)
+  ✓ Phase 3: All 3 transport waves completed, materials consolidated at Central Hub
+  ✓ Phase 4: Mass production completed (40+ items crafted and distributed)
+  ✓ Phase 5: Teams returned to regions, network validated across all zones
+  ✓ Network operates across 500+ tiles with 4 distinct regions
+  ✓ All 8 agents equipped and validated
+  ✓ Completed in 50-55 rounds (NOT before round 45!)
+
+  MINIMUM ACCEPTABLE COMPLETION (If Issues):
+  ✓ At least 4 phases completed
+  ✓ At least 2 regions successfully integrated into network
+  ✓ At least 50 items crafted from transported materials
+  ✓ At least 6 agents equipped with finished goods
+  ✓ Network takes 45+ rounds minimum
+
+  ⚠️ CRITICAL: DO NOT RUSH TO COMPLETION!
+  - This is about LOGISTICS and COORDINATION, not speed
+  - Teams must work in separate regions simultaneously
+  - All transport waves must complete with verified transfers
+  - Mass production requires proper material consolidation
+  - Completing in 20 rounds = FAILURE (logistics not demonstrated)
+
+  VERIFICATION PROCESS (Round 54-55):
+  ✓ Each regional team confirms: Location, Equipment, Network status
+  ✓ Central Hub confirms: All materials received, All items crafted, All agents equipped
+  ✓ Network validation: All 4 regions report operational status
+  ✓ Final metrics: Resources gathered, Items crafted, Agents equipped, Network span
+
+  THEN SupplyCrafter1 or SupplyCrafter2 calls complete() with full network summary
+
+# Limitations
+max_action_steps: 55
+
+# Agent configurations
+agent_1:
+  username: "SupplyLogger1"
+  new_character: true
+
+  location:
+    x: 500
+    y: 380
+
+  skill_levels:
+    lumberjacking: 35
+    fletching: 28
+    strength: 32
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "SupplyLogger2"
+  new_character: true
+
+  location:
+    x: 505
+    y: 383
+
+  skill_levels:
+    lumberjacking: 37
+    fletching: 25
+    strength: 35
+    health: 36
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "SupplyMiner1"
+  new_character: true
+
+  location:
+    x: 510
+    y: 385
+
+  skill_levels:
+    mining: 38
+    smithing: 28
+    strength: 35
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+    - item: "hilt2"
+      count: 1
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "SupplyMiner2"
+  new_character: true
+
+  location:
+    x: 515
+    y: 388
+
+  skill_levels:
+    mining: 35
+    smithing: 25
+    strength: 33
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+    - item: "hilt2"
+      count: 1
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "SupplyFisher1"
+  new_character: true
+
+  location:
+    x: 520
+    y: 390
+
+  skill_levels:
+    accuracy: 35
+    strength: 32
+    health: 36
+    archery: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "SupplyFisher2"
+  new_character: true
+
+  location:
+    x: 502
+    y: 393
+
+  skill_levels:
+    accuracy: 33
+    strength: 34
+    health: 35
+    archery: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "SupplyCrafter1"
+  new_character: true
+
+  location:
+    x: 507
+    y: 395
+
+  skill_levels:
+    crafting: 42
+    smithing: 35
+    fletching: 32
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "hilt2"
+      count: 2
+    - item: "bead"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "SupplyCrafter2"
+  new_character: true
+
+  location:
+    x: 512
+    y: 390
+
+  skill_levels:
+    crafting: 40
+    smithing: 33
+    fletching: 30
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "hilt2"
+      count: 2
+    - item: "bead"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Phase 1 completed: Network planned, 4 teams assigned, all regions scouted"
+  - "Phase 1: Communication protocol established, transport routes calculated"
+  - "Phase 2 completed: Forest Team gathers 50+ logs, 100+ sticks, 20+ feathers"
+  - "Phase 2: Mountain Team mines 40+ iron ore, 40+ coal, 20+ gold ore"
+  - "Phase 2: Coast Team hunts 30+ feathers, 30+ string, 60+ food items"
+  - "Phase 2: All teams gather simultaneously in separate regions (parallel operations)"
+  - "Phase 3 completed: All 3 transport waves successful (Forest, Mountain, Coast)"
+  - "Phase 3: All materials consolidated at Central Hub with verified transfers"
+  - "Phase 3: Zero materials lost during transport operations"
+  - "Phase 4 completed: 40 iron bars and 20 gold bars crafted"
+  - "Phase 4: 10 weapons crafted (5 swords, 3 axes, 2 bows)"
+  - "Phase 4: 7 rings crafted and 50 arrows produced"
+  - "Phase 4: All 8 agents receive and equip finished goods"
+  - "Phase 5 completed: Regional teams return to original zones"
+  - "Phase 5: Network validated in all 4 regions (Forest, Mountain, Coast, Central)"
+  - "Phase 5: All agents demonstrate functional equipment in their regions"
+  - "Multi-region supply network spans 500+ tiles across game world"
+  - "All 5 phases completed in sequence over 50-55 rounds"
+  - "All 8 agents coordinated successfully despite separation"
+  - "Team demonstrates mastery of logistics, crafting, and long-distance coordination"
+  - "Continental Trade System: OPERATIONAL"

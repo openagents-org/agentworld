@@ -1,0 +1,1000 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Elemental Mastery Expedition - Multi-Biome Conquest"
+  description: "Eight elementalists journey across four biomes, gathering elemental materials, crafting specialized weapons, and mastering environmental combat"
+
+# Task objectives
+objectives:
+  primary: "Complete a 5-phase elemental mastery journey spanning 54 rounds across forest, mountain, volcanic, and coastal biomes"
+  secondary:
+    - "Phase 1 (Rounds 1-10): Gathering Convergence - Collect basic materials from all biomes simultaneously"
+    - "Phase 2 (Rounds 11-22): Forest Mastery - Craft nature-based equipment and conquer forest guardians"
+    - "Phase 3 (Rounds 23-34): Mountain Mastery - Create ice/earth equipment and defeat mountain bosses"
+    - "Phase 4 (Rounds 35-46): Volcanic Mastery - Forge fire equipment and survive volcanic encounters"
+    - "Phase 5 (Rounds 47-54): Coastal Finale - Master water element and defeat ultimate aquatic boss"
+
+# Relevant game context
+relevant_game_context: |
+  This is an epic elemental-themed journey requiring biome exploration, specialized crafting, and environmental combat mastery.
+
+  🚨 CRITICAL AWARENESS - ELEMENTAL MASTERY:
+  - ALWAYS use verify_inventory to check equipment and elemental materials
+  - ALWAYS use chat to coordinate biome exploration and material gathering
+  - Use observe_environment radius=64 to locate biome-specific resources and enemies
+  - Use attack_mob for combat (system handles battles)
+  - Environmental hazards exist: cold damage (mountains), heat damage (volcanic)
+  - Each biome has unique resources - must visit all 4 biomes
+  - Elemental equipment progression critical for later phases
+  - This is about MASTERY of environments, not just combat
+
+  📍 STARTING LOCATION: (510-530, 385-400) - Central Kingdom assembly point
+
+  🌍 BIOME MAP REFERENCE:
+  - Forest Biome: Western area (250, 350) - Nature/Earth elements
+  - Mountain Biome: Northern area (230, 38) - Ice/Earth elements
+  - Volcanic Biome: Southwest (150, 650) - Fire element
+  - Coastal Biome: Eastern area (900, 400) - Water element
+  - Central Hub: (515, 390) - Crafting and coordination center
+
+  🎯 ELEMENTAL MASTERY STRUCTURE: Complete all 5 phases over 54 rounds
+
+  ═══════════════════════════════════════════════════════════════
+  PHASE 1 - GATHERING CONVERGENCE (Rounds 1-10)
+  ═══════════════════════════════════════════════════════════════
+
+  🎯 MANDATORY Objectives:
+    - Assign 8 agents to 4 biome teams (2 agents per biome)
+    - Each team travels to designated biome simultaneously
+    - Gather biome-specific materials: logs, ores, special items
+    - Collect elemental materials: beads, gems, special crystals
+    - All teams return to Central Hub with materials
+    - Consolidate resources for Phase 2 crafting
+
+  👥 BIOME TEAM ASSIGNMENTS:
+
+  **Forest Team (ElementForest1, ElementForest2)**
+  - Biome: Western Forest (250, 350)
+  - Target Materials: 20+ logs, 30+ feathers, 10+ beryl gems, nature beads
+  - Skills: Lumberjacking 30+, Fletching 25+
+  - Element Focus: Nature/Earth
+  - Travel distance: ~280 tiles from center
+
+  **Mountain Team (ElementIce1, ElementIce2)**
+  - Biome: Northern Mountains (230, 38)
+  - Target Materials: 30+ iron ore, 30+ coal, 15+ ice logs, ice beads
+  - Skills: Mining 35+, Crafting 30+
+  - Element Focus: Ice/Earth
+  - Travel distance: ~400 tiles from center
+
+  **Volcanic Team (ElementFire1, ElementFire2)**
+  - Biome: Southwest Volcanic (150, 650)
+  - Target Materials: 15+ gold ore, 10+ cinnabar ore, fire beads, heat-resistant materials
+  - Skills: Mining 30+, Smithing 30+
+  - Element Focus: Fire
+  - Travel distance: ~450 tiles from center
+
+  **Coastal Team (ElementWater1, ElementWater2)**
+  - Biome: Eastern Coast (900, 400)
+  - Target Materials: 25+ string, 30+ food items, 5+ aquatic gems, water materials
+  - Skills: Accuracy 30+, Hunting 25+
+  - Element Focus: Water
+  - Travel distance: ~400 tiles from center
+
+  🌍 HOW TO EXECUTE SIMULTANEOUS GATHERING (Rounds 1-8):
+
+  **Round 1: Team Formation and Departure**
+  - All 8 agents meet at Central Hub (515, 390)
+  - Use chat to confirm team assignments
+  - Each team announces destination and ETA:
+    * ElementForest1: "Forest Team departing for (250,350). ETA: 2 rounds. Element: Nature."
+    * ElementIce1: "Mountain Team departing for (230,38). ETA: 3 rounds. Element: Ice."
+    * ElementFire1: "Volcanic Team departing for (150,650). ETA: 3 rounds. Element: Fire."
+    * ElementWater1: "Coastal Team departing for (900,400). ETA: 3 rounds. Element: Water."
+  - All teams depart simultaneously (PARALLEL OPERATIONS!)
+
+  **Rounds 2-4: Travel Phase**
+  - Teams travel to their designated biomes
+  - Use chat for position updates:
+    * "Forest Team: Position (X,Y), ETA: 1 round"
+    * "Mountain Team: Position (X,Y), on schedule"
+  - Teams arrive at different times (Forest first, others by Round 4)
+
+  **Rounds 4-7: Biome Gathering Phase**
+
+  A) Forest Team Gathering (at 250, 350):
+     - Use observe_environment radius=32 to find Oak Trees
+     - Harvest 20+ logs: harvest_resource targetInstance=<tree_instance>
+     - Hunt birds/bats for 30+ feathers
+     - Search for beryl gems (hunt creatures, forage plants)
+     - Look for nature beads (dropped by forest creatures)
+     - Chat updates: "Forest Team: X/20 logs, Y/30 feathers, Z gems collected"
+
+  B) Mountain Team Gathering (at 230, 38):
+     - Use observe_environment radius=32 to find rock nodes
+     - Mine 30+ iron ore: harvest_resource targetInstance=<iron_rock>
+     - Mine 30+ coal: harvest_resource targetInstance=<coal_rock>
+     - Harvest 15+ ice logs from Ice Oak Trees (if available)
+     - Search for ice beads (dropped by ice creatures)
+     - Chat: "Mountain Team: X/30 iron, Y/30 coal, Z ice logs gathered"
+
+  C) Volcanic Team Gathering (at 150, 650):
+     - Use observe_environment radius=64 to locate special ores
+     - Mine 15+ gold ore (requires Mining 25+)
+     - Mine 10+ cinnabar ore (special red ore)
+     - Hunt fire-based creatures for fire beads
+     - Gather heat-resistant materials
+     - WARNING: Volcanic area may have environmental hazards!
+     - Chat: "Volcanic Team: X/15 gold, Y/10 cinnabar, Z fire beads acquired"
+
+  D) Coastal Team Gathering (at 900, 400):
+     - Use observe_environment radius=32 to find creatures
+     - Hunt crabs, bats, coastal creatures
+     - Collect 25+ string from creature drops
+     - Gather 30+ food items (fish, meat, foraged items)
+     - Search for aquatic gems (emerald, topaz)
+     - Chat: "Coastal Team: X/25 string, Y/30 food, Z gems collected"
+
+  **Rounds 8-10: Return Convergence**
+  - All teams return to Central Hub (515, 390)
+  - Teams arrive sequentially (Forest first, others by Round 10)
+  - Each team reports gathered materials:
+    * ElementForest1: "Forest Team returned. Materials: 20 logs, 35 feathers, 3 beryl, 1 nature bead."
+    * ElementIce1: "Mountain Team returned. Materials: 30 iron, 32 coal, 12 ice logs, 2 ice beads."
+    * ElementFire1: "Volcanic Team returned. Materials: 16 gold, 10 cinnabar, 2 fire beads."
+    * ElementWater1: "Coastal Team returned. Materials: 27 string, 35 food, 4 gems."
+  - All materials now at Central Hub
+  - Chat: "PHASE 1 COMPLETE! All biome materials gathered. Elemental convergence achieved!"
+
+  ⏱️ TIME ALLOCATION:
+    - Round 1: Team formation and simultaneous departure
+    - Rounds 2-4: Travel to biomes (parallel)
+    - Rounds 4-7: Biome gathering (parallel operations, 4 teams in 4 locations!)
+    - Rounds 8-10: Return convergence to Central Hub
+
+  ═══════════════════════════════════════════════════════════════
+  PHASE 2 - FOREST MASTERY (Rounds 11-22)
+  ═══════════════════════════════════════════════════════════════
+
+  🎯 Objectives:
+    - Craft nature-element equipment: Nature Staffs, Beryl Pendants, wooden weapons
+    - Create arrows and fletching equipment (50+ arrows)
+    - ALL 8 agents travel to Forest biome together
+    - Engage and defeat forest guardians (Goblins Level 10-15)
+    - Test nature equipment effectiveness
+    - Collect additional forest materials for later phases
+
+  🌲 HOW TO CRAFT NATURE EQUIPMENT (Rounds 11-15):
+
+  A) Craft Sticks (100+ needed for staffs and arrows):
+     - Function: craft_item skill=Fletching itemKey=stick
+     - Recipe: 1x logs → 4x sticks
+     - Use 20 logs to create 80 sticks
+     - ElementForest1 and ElementForest2 handle crafting
+     - Chat: "Sticks: X/100 crafted from logs"
+
+  B) Nature Staffs (2-3x for mage agents):
+     - First craft basic staff:
+       * Function: craft_item skill=Crafting itemKey=staff
+       * Recipe: 5x stick + 1x bead → 1x Magic Staff
+     - Then enhance with nature bead:
+       * Function: craft_item skill=Crafting itemKey=naturestaff
+       * Recipe: 1x staff + 1x naturebead → 1x Nature Staff
+     - Craft 2 Nature Staffs for ElementForest1 and ElementForest2
+     - Chat: "Nature element: 2/2 Nature Staffs crafted!"
+
+  C) Beryl Pendants (4x for nature attunement):
+     - Function: craft_item skill=Crafting itemKey=berylpendant
+     - Recipe: 1x beryl + 1x string → 1x Beryl Pendant
+     - Use beryl gems collected from Forest biome
+     - Craft 3-4 pendants for various agents
+     - Chat: "Nature accessories: X Beryl Pendants created!"
+
+  D) Wooden Bows (3x for rangers):
+     - Function: craft_item skill=Fletching itemKey=woodenbow
+     - Recipe: 1x logs + 1x string → 1x Wooden Bow
+     - Craft 3 bows for ElementWater1, ElementWater2, and one other agent
+     - Chat: "Ranged weapons: 3/3 Wooden Bows ready!"
+
+  E) Arrows (50+ for forest combat):
+     - Function: craft_item skill=Fletching itemKey=arrow
+     - Recipe: 10x stick + 10x feather → 10x arrows
+     - Craft 5 times to make 50 arrows (50 sticks + 50 feathers)
+     - We have 80 sticks and 65+ feathers (enough!)
+     - Distribute arrows to bow users
+     - Chat: "Ammunition: 50/50 arrows crafted. Forest combat ready!"
+
+  **Equipment Distribution (Round 15):**
+  - ElementForest1: Nature Staff, Beryl Pendant
+  - ElementForest2: Nature Staff, Beryl Pendant
+  - ElementWater1: Wooden Bow, 17 arrows
+  - ElementWater2: Wooden Bow, 17 arrows
+  - ElementIce1: Basic sword (from starting), Beryl Pendant (if extra)
+  - ElementIce2: Basic weapon, 16 arrows (if bow available)
+  - ElementFire1: Basic weapon
+  - ElementFire2: Basic weapon
+  - All agents: verify_inventory and equip items
+
+  🌲 HOW TO ACHIEVE FOREST MASTERY (Rounds 16-22):
+
+  **Round 16-17: Travel to Forest Combat Zone**
+  - ALL 8 agents travel together to Western Forest (250, 350)
+  - Distance: ~280 tiles, takes 2 rounds
+  - Maintain group cohesion (within 10 tiles)
+  - Chat: "Elemental expedition departing for Forest. Nature Mastery phase!"
+
+  **Round 18: Scout Forest Guardians**
+  - Use observe_environment radius=64 to locate goblins
+  - Identify 2-3 forest guardians (Goblin Level 10-15)
+  - Plan attack strategy
+  - ElementForest1 (leader): "Forest guardians located at (X,Y). Level: 10-15. Count: 2-3."
+  - "Testing nature equipment effectiveness. All agents ready check."
+  - All agents: verify_inventory for HP (must be > 90%)
+
+  **Rounds 19-21: Forest Guardian Combat**
+  - Engage goblins one at a time with focused attacks
+  - ALL 8 agents attack same target (overwhelming force)
+  - First Goblin:
+    * ElementForest1 calls: "ENGAGE GUARDIAN 1! Focus fire!"
+    * All agents: attack_mob targetInstance=<goblin1>
+    * Post-combat: Check nature staff effectiveness
+    * Chat: "Guardian 1 defeated! Nature element proven effective!"
+  - Second Goblin:
+    * Same tactics, all agents focus fire
+    * Chat: "Guardian 2 down! Forest mastery progressing!"
+  - Third Goblin (if present):
+    * Final forest engagement
+    * Chat: "Guardian 3 eliminated! FOREST MASTERY ACHIEVED!"
+
+  **Round 22: Forest Mastery Completion**
+  - Collect loot from defeated guardians
+  - Gather additional forest materials (logs, feathers, gems)
+  - ElementForest1: "Forest Mastery complete!"
+  - "Nature equipment tested successfully: Nature Staffs functional, Bows effective!"
+  - "Forest guardians defeated: 2-3 goblins eliminated!"
+  - "Preparing for Phase 3: Mountain Mastery - Ice element focus!"
+  - All agents verify full HP and equipment status
+
+  ⏱️ TIME ALLOCATION:
+    - Rounds 11-15: Craft nature equipment (5 rounds)
+    - Rounds 16-17: Travel to forest combat zone (2 rounds)
+    - Round 18: Scout forest guardians (1 round)
+    - Rounds 19-21: Combat and mastery achievement (3 rounds)
+    - Round 22: Completion and preparation (1 round)
+
+  ═══════════════════════════════════════════════════════════════
+  PHASE 3 - MOUNTAIN MASTERY (Rounds 23-34)
+  ═══════════════════════════════════════════════════════════════
+
+  🎯 Objectives:
+    - Return to Central Hub for ice equipment crafting
+    - Craft ice-element equipment: Ice Staffs, iron weapons, defensive gear
+    - ALL 8 agents travel to Mountain biome together
+    - Engage and defeat mountain guardians (Skeletons Level 15-25, Ice creatures)
+    - Survive cold environmental effects
+    - Achieve Mountain Mastery
+
+  🏔️ HOW TO CRAFT ICE EQUIPMENT (Rounds 23-28):
+
+  **Round 23-24: Return to Central Hub**
+  - Travel from Forest (250, 350) back to Hub (515, 390)
+  - Takes 2 rounds
+  - Chat: "Returning to Central Hub for ice equipment crafting"
+
+  **Rounds 25-28: Ice Equipment Crafting**
+
+  A) Smelt Iron Bars (30+ needed):
+     - Function: craft_item skill=Crafting itemKey=ironbar
+     - Recipe: 1x ironore + 1x coal → 1x ironbar
+     - Use 30 iron ore + 30 coal (from Mountain Team gathering)
+     - ElementIce1 and ElementIce2 handle smelting
+     - Creates 30 iron bars
+     - Chat: "Iron bars: 30/30 smelted for ice weapons"
+
+  B) Heavy Swords (4x for melee fighters):
+     - Function: craft_item skill=Smithing itemKey=sword2
+     - Recipe: 2x ironbar + 1x hilt2 → 1x Heavy Sword
+     - Requires 8 iron bars + 4 hilts (check starting inventories!)
+     - ElementFire1 and ElementFire2 have smithing skills
+     - Craft 4 swords for main fighters
+     - Chat: "Ice melee weapons: 4/4 Heavy Swords forged!"
+
+  C) Pickaxes (2x for utility and ice breaking):
+     - Function: craft_item skill=Smithing itemKey=pickaxe
+     - Recipe: 5x ironbar + 1x logs → 1x Pickaxe
+     - Requires 10 iron bars + 2 logs
+     - Useful for mountain combat and mining
+     - Chat: "Ice utility: 2/2 Pickaxes crafted!"
+
+  D) Ice Staffs (2x if have ice beads):
+     - If collected ice beads from mountains:
+       * First craft basic staff (5x stick + 1x bead)
+       * Then enhance with ice bead:
+         Function: craft_item skill=Crafting itemKey=icestaff
+         Recipe: 1x staff + 1x icebead → 1x Ice Staff
+     - Craft 1-2 Ice Staffs for mage agents
+     - Chat: "Ice element: Ice Staffs crafted! (if materials available)"
+
+  E) Silver Rings (6x for cold resistance):
+     - Function: craft_item skill=Smithing itemKey=silverring
+     - Recipe: 2x ironbar → 1x silverring
+     - Requires 12 iron bars
+     - Provides defense against mountain enemies
+     - Distribute to all agents for protection
+     - Chat: "Ice defense: 6/6 Silver Rings forged!"
+
+  **Equipment Distribution (Round 28):**
+  - ElementIce1: Heavy Sword, Silver Ring, (Ice Staff if available)
+  - ElementIce2: Heavy Sword, Silver Ring
+  - ElementForest1: Nature Staff, Silver Ring
+  - ElementForest2: Pickaxe, Silver Ring
+  - ElementFire1: Heavy Sword, Silver Ring
+  - ElementFire2: Heavy Sword, Silver Ring
+  - ElementWater1: Wooden Bow, Silver Ring, 17 arrows
+  - ElementWater2: Pickaxe, Silver Ring, 16 arrows
+  - All agents equip new gear, verify inventory
+
+  🏔️ HOW TO ACHIEVE MOUNTAIN MASTERY (Rounds 29-34):
+
+  **Round 29-30: Travel to Mountain Combat Zone**
+  - ALL 8 agents travel from Central Hub to Northern Mountains (230, 38)
+  - Distance: ~400 tiles, takes 2-3 rounds
+  - Expect COLD environmental effects in mountains
+  - Chat: "Expedition departing for Mountains. Ice Mastery phase! Prepare for cold!"
+
+  **Round 31: Scout Mountain Guardians**
+  - Use observe_environment radius=64
+  - Locate mountain guardians:
+    * Skeletons (Level 15-25) - undead mountain dwellers
+    * Ice Goblins (Level 12-18) - cold-adapted creatures
+    * Possibly Ice Knights (Level 30+) - if very unlucky!
+  - Identify 2-3 targets suitable for team's level
+  - ElementIce1: "Mountain guardians spotted. Skeletons Level 15-25 at (X,Y). Count: 2-3."
+  - "Silver rings equipped for cold protection. All agents ready check!"
+  - Verify all HP > 90%
+
+  **Rounds 32-34: Mountain Guardian Combat**
+  - Engage mountain enemies with full coordination
+  - Focus fire tactics (all 8 agents attack same target)
+
+  First Mountain Guardian (Round 32):
+  - ElementIce1: "ENGAGE MOUNTAIN GUARDIAN 1! Ice mastery test begins!"
+  - All agents: attack_mob targetInstance=<skeleton1>
+  - Tougher enemies than forest (Level 15-25 vs 10-15)
+  - Combat may take 1-2 rounds
+  - Chat: "Guardian 1 defeated! Silver rings proving effective against cold!"
+
+  Second Mountain Guardian (Round 33):
+  - Same focused attack strategy
+  - ElementIce2: "ENGAGE GUARDIAN 2! Ice element tested!"
+  - All agents attack same target
+  - Chat: "Guardian 2 eliminated! Mountain mastery progressing!"
+
+  Third Mountain Guardian or Environmental Challenge (Round 34):
+  - Final mountain engagement
+  - OR demonstrate survival in cold environment for 2 rounds
+  - ElementIce1: "MOUNTAIN MASTERY ACHIEVED!"
+  - "Ice equipment tested: Heavy Swords effective, Silver Rings provide cold protection!"
+  - "Mountain guardians defeated: 2-3 eliminated!"
+  - "Environmental cold survived successfully!"
+  - "Preparing for Phase 4: Volcanic Mastery - Fire element focus!"
+
+  ⏱️ TIME ALLOCATION:
+    - Rounds 23-24: Return to Central Hub (2 rounds)
+    - Rounds 25-28: Craft ice equipment (4 rounds)
+    - Rounds 29-30: Travel to mountains (2 rounds)
+    - Round 31: Scout mountain guardians (1 round)
+    - Rounds 32-34: Combat and mastery achievement (3 rounds)
+
+  ═══════════════════════════════════════════════════════════════
+  PHASE 4 - VOLCANIC MASTERY (Rounds 35-46)
+  ═══════════════════════════════════════════════════════════════
+
+  🎯 Objectives:
+    - Return to Central Hub for fire equipment crafting
+    - Craft fire-element equipment: Fire Staffs, golden weapons, heat-resistant gear
+    - ALL 8 agents travel to Volcanic biome together
+    - Engage and defeat volcanic guardians (Dark Ogres Level 28-35, Fire creatures)
+    - Survive heat environmental effects
+    - Achieve Volcanic Mastery (hardest biome!)
+
+  🔥 HOW TO CRAFT FIRE EQUIPMENT (Rounds 35-41):
+
+  **Rounds 35-36: Return to Central Hub**
+  - Travel from Mountains (230, 38) to Hub (515, 390)
+  - Takes 2-3 rounds
+  - Chat: "Returning to Hub for fire equipment forging. Volcanic phase preparation!"
+
+  **Rounds 37-41: Fire Equipment Crafting**
+
+  A) Smelt Gold Bars (15+ for premium equipment):
+     - Function: craft_item skill=Crafting itemKey=goldbar
+     - Recipe: 1x goldore + 1x coal → 1x goldbar
+     - Use 15 gold ore from Volcanic Team gathering
+     - Need additional coal! Quick gather if short
+     - ElementFire1 and ElementFire2 handle smelting
+     - Chat: "Gold bars: X/15 smelted for fire weapons"
+
+  B) Fire Staffs (2-3x for fire mages):
+     - First craft basic staffs if needed (5x stick + 1x bead)
+     - Then enhance with fire beads:
+       * Function: craft_item skill=Crafting itemKey=firestaff
+       * Recipe: 1x staff + 1x firebead → 1x Fire Staff
+     - Craft 2 Fire Staffs using collected fire beads
+     - Most powerful elemental staffs!
+     - Chat: "Fire element: 2/2 Fire Staffs forged! Maximum power!"
+
+  C) Axes (3x for volcanic combat):
+     - Function: craft_item skill=Smithing itemKey=axe
+     - Recipe: 3x ironbar + 1x logs → 1x Axe
+     - Use remaining iron bars (should have some left)
+     - Axes effective against tough volcanic enemies
+     - Chat: "Fire melee: 3/3 Axes crafted!"
+
+  D) Gold Rings (4x for heat resistance):
+     - Function: craft_item skill=Smithing itemKey=goldring
+     - Recipe: 2x goldbar → 1x goldring
+     - Requires 8 gold bars
+     - Critical for volcanic heat protection!
+     - Chat: "Heat resistance: 4/4 Gold Rings forged!"
+
+  E) Enhanced Rings with Gems (3x if have gems):
+     - If collected gems from previous phases:
+       * Ruby Ring: craft_item skill=Crafting itemKey=rubyring
+         Recipe: 1x ruby + 1x goldring → 1x Ruby Ring
+       * Topaz Ring: craft_item skill=Crafting itemKey=topazring
+         Recipe: 1x topaz + 1x goldring → 1x Topaz Ring
+     - Craft 2-3 enhanced rings for main fighters
+     - Chat: "Premium fire gear: Enhanced Rings crafted!"
+
+  F) Additional Healing Items:
+     - Use remaining food items from all phases
+     - Hunt near Central Hub for additional supplies
+     - Target: 80+ healing items total across team
+     - Critical for tough volcanic battles!
+     - Chat: "Healing supplies: X/80 stockpiled for volcanic phase"
+
+  **Equipment Distribution (Round 41):**
+  - ElementFire1: Fire Staff, Enhanced Ruby Ring (or Gold Ring)
+  - ElementFire2: Fire Staff, Gold Ring
+  - ElementIce1: Heavy Sword, Enhanced Ring
+  - ElementIce2: Axe, Gold Ring
+  - ElementForest1: Nature Staff, Silver Ring, 10+ healing items
+  - ElementForest2: Axe, Silver Ring, 10+ healing items
+  - ElementWater1: Wooden Bow, Gold Ring, 15 arrows, 10+ healing
+  - ElementWater2: Axe, Silver Ring, 15 arrows, 10+ healing
+  - All agents equip fire gear, verify inventory
+  - Chat: "All agents equipped for volcanic assault! Fire element ready!"
+
+  🔥 HOW TO ACHIEVE VOLCANIC MASTERY (Rounds 42-46):
+
+  **Round 42-43: Travel to Volcanic Combat Zone**
+  - ALL 8 agents travel from Hub to Volcanic region (150, 650)
+  - Distance: ~450 tiles, takes 2-3 rounds (longest journey!)
+  - Expect HEAT environmental effects near lava
+  - Chat: "Expedition departing for Volcanic region. Fire Mastery - Ultimate test!"
+  - "Gold rings equipped for heat protection. Healing items ready. LET'S GO!"
+
+  **Round 44: Scout Volcanic Guardians**
+  - Use observe_environment radius=64
+  - Locate volcanic guardians:
+    * Dark Ogres (Level 28-35) - volcanic giants
+    * Fire Spiders (Level 25-30) - lava creatures
+    * Possibly Ogre Lord (Level 40+) - AVOID if present!
+  - Identify 1-2 targets (volcanic enemies are TOUGH!)
+  - ElementFire1: "Volcanic guardians detected! Dark Ogres Level 28-35 at (X,Y)."
+  - "CRITICAL: These are our toughest enemies yet! ALL agents ready check!"
+  - MANDATORY: All HP = 100%, all healing items confirmed
+
+  **Rounds 45-46: Volcanic Guardian Combat (ULTIMATE CHALLENGE)**
+
+  First Volcanic Guardian (Round 45):
+  - ElementFire1: "ALL AGENTS! FOCUS FIRE! VOLCANIC GUARDIAN 1!"
+  - "Fire Staffs at maximum power! ENGAGE!"
+  - All 8 agents: attack_mob targetInstance=<dark_ogre1>
+  - Battle will take 1-2 rounds (toughest enemies yet!)
+  - Post-combat: IMMEDIATELY check all agent HP
+  - Heal any agent below 85% to 90%+
+  - Chat: "Guardian 1 defeated! Fire Staffs proving devastating!"
+  - "Team HP: [list all agents]. Healing if needed before next engagement."
+
+  Second Volcanic Guardian OR Heat Survival (Round 46):
+  - If team in good condition (all > 85% HP):
+    * Engage second guardian with same tactics
+    * ElementFire2: "ENGAGE GUARDIAN 2! VOLCANIC MASTERY!"
+    * All agents focus fire
+    * Post-combat healing
+  - If team weakened (any < 80% HP):
+    * Skip second guardian
+    * Demonstrate heat survival for 2 rounds
+    * Use gold rings to resist heat damage
+    * Chat: "Heat resistance test: Surviving volcanic environment!"
+
+  Volcanic Mastery Achievement:
+  - ElementFire1: "VOLCANIC MASTERY ACHIEVED!"
+  - "🔥 Fire equipment tested: Fire Staffs DEVASTATING, Gold Rings protect from heat!"
+  - "Volcanic guardians defeated: 1-2 Dark Ogres eliminated! (Level 28-35)"
+  - "Heat environmental effects survived successfully!"
+  - "This was our hardest trial! Team has proven elemental mastery!"
+  - "Preparing for Phase 5: Coastal Finale - Water element and ultimate boss!"
+
+  ⏱️ TIME ALLOCATION:
+    - Rounds 35-36: Return to Central Hub (2 rounds)
+    - Rounds 37-41: Craft fire equipment (5 rounds)
+    - Rounds 42-43: Travel to volcanic region (2 rounds)
+    - Round 44: Scout volcanic guardians (1 round)
+    - Rounds 45-46: Combat and mastery achievement (2 rounds)
+
+  ═══════════════════════════════════════════════════════════════
+  PHASE 5 - COASTAL FINALE (Rounds 47-54)
+  ═══════════════════════════════════════════════════════════════
+
+  🎯 Objectives:
+    - Return to Central Hub for final preparations
+    - Consolidate all elemental equipment
+    - ALL 8 agents travel to Coastal biome together
+    - Engage coastal guardians (Water Guardians Level 30-40)
+    - Defeat ultimate aquatic boss (Mini Sea Dragon Level 35-45 OR Sea Dragon Level 50+)
+    - Achieve Water Mastery and complete Elemental Mastery Expedition
+    - Demonstrate mastery of all 4 elements
+
+  🌊 HOW TO PREPARE FOR COASTAL FINALE (Rounds 47-49):
+
+  **Round 47-48: Return and Final Preparation**
+  - Travel from Volcanic (150, 650) to Hub (515, 390)
+  - Takes 2 rounds
+  - Consolidate equipment and healing supplies
+  - All agents heal to 100% HP
+  - Verify all equipment equipped correctly
+  - ElementWater1: "Final preparation: Coastal finale begins!"
+  - "All elemental equipment consolidated:"
+  - "- Nature: 2 Nature Staffs ✓"
+  - "- Ice: Heavy Swords, Silver Rings ✓"
+  - "- Fire: 2 Fire Staffs, Gold Rings ✓"
+  - "- Water: Ready to test Wooden Bows in aquatic combat!"
+
+  **Round 49: Strategy Session**
+  - Team discusses coastal strategy
+  - Assign roles for final battles:
+    * ElementFire1 & ElementFire2: Primary damage (Fire Staffs)
+    * ElementIce1 & ElementIce2: Melee assault (Heavy Swords)
+    * ElementForest1: Support magic (Nature Staff)
+    * ElementForest2: Utility and backup (Axe)
+    * ElementWater1 & ElementWater2: Ranged damage (Bows + Arrows)
+  - Distribute remaining healing items (10+ per agent)
+  - ElementWater1: "Strategy finalized! Departing for Coastal finale!"
+
+  🌊 HOW TO ACHIEVE COASTAL MASTERY (Rounds 50-54):
+
+  **Round 50-51: Travel to Coastal Combat Zone**
+  - ALL 8 agents travel from Hub (515, 390) to Eastern Coast (900, 400)
+  - Distance: ~400 tiles, takes 2 rounds
+  - Chat: "Elemental expedition departing for Coastal region!"
+  - "Water Mastery - Final element! Ultimate boss awaits!"
+
+  **Round 52: Scout Coastal Guardians and Ultimate Boss**
+  - Use observe_environment radius=64 extensively
+  - Locate water guardians and boss:
+    * Water Guardians (Level 30-40) - aquatic defenders
+    * Mini Sea Dragon (Level 35-45) - major boss
+    * OR Sea Dragon (Level 50+) - ULTIMATE boss (assess if viable!)
+  - ElementWater1: "Coastal guardians located!"
+  - "Water Guardians at (X,Y): Level 30-40"
+  - "ULTIMATE BOSS DETECTED: [Mini Sea Dragon / Sea Dragon] at (X,Y). Level: 35-50!"
+  - "ALL agents ready check! This is our final trial!"
+  - CRITICAL PREPARATION:
+    * ALL HP = 100% (mandatory!)
+    * All healing items verified (8+ per agent minimum)
+    * All equipment checked and equipped
+    * Formation established (ranged back, melee front, mages mid)
+
+  **Round 53: Water Guardian Engagement (Warm-up)**
+  - Fight 1 Water Guardian first to test coordination
+  - ElementWater1: "Engage Water Guardian! Test formation!"
+  - All 8 agents: attack_mob targetInstance=<water_guardian>
+  - Should be manageable with current equipment
+  - Post-combat: Heal any damage, prepare for boss
+  - Chat: "Water Guardian defeated! Formation tested! BOSS TIME!"
+
+  **Round 54: ULTIMATE BOSS - COASTAL FINALE**
+
+  Pre-Boss Final Check:
+  - ElementWater1: "ULTIMATE BOSS ENGAGEMENT!"
+  - "This is it! All 4 elements tested! Final mastery!"
+  - Each agent reports: "Agent X: HP 100%, Equipment: [list], Healing: Y items. READY!"
+  - ElementWater1: "ALL ELEMENTS ASSEMBLED!"
+  - "Nature! Ice! Fire! Water! ATTACK!"
+
+  Boss Combat:
+  - ALL 8 agents attack ultimate aquatic boss
+  - ElementFire1 & ElementFire2: Fire Staffs (devastating against water!)
+  - ElementWater1 & ElementWater2: Bow attacks with arrows
+  - ElementIce1 & ElementIce2: Heavy Sword melee
+  - ElementForest1: Nature Staff support
+  - ElementForest2: Axe melee
+  - All agents: attack_mob targetInstance=<mini_sea_dragon OR sea_dragon>
+  - Battle takes 1-2 rounds (ultimate boss is tough!)
+  - System processes epic final combat
+
+  VICTORY! - Elemental Mastery Complete:
+  - ElementWater1: "ULTIMATE BOSS DEFEATED!"
+  - "🌊 COASTAL MASTERY ACHIEVED! 🌊"
+  - "🌍 ELEMENTAL MASTERY EXPEDITION COMPLETE! 🌍"
+  - ""
+  - "54 ROUNDS OF ELEMENTAL JOURNEY!"
+  - "4 BIOMES CONQUERED: Forest ✓, Mountain ✓, Volcanic ✓, Coastal ✓"
+  - "4 ELEMENTS MASTERED: Nature ✓, Ice ✓, Fire ✓, Water ✓"
+  - "ULTIMATE AQUATIC BOSS DEFEATED!"
+  - "ALL 8 ELEMENTALISTS SURVIVED!"
+  - ""
+  - "Element Equipment Progression:"
+  - "- Phase 2: Nature Staffs, Beryl Pendants"
+  - "- Phase 3: Heavy Swords, Silver Rings"
+  - "- Phase 4: Fire Staffs, Gold Rings (PEAK POWER!)"
+  - "- Phase 5: All elements combined for ultimate victory!"
+  - ""
+  - Each agent final report:
+    * "ElementFire1: Survived! HP: X/Y. Fire Staff: LEGENDARY. Mastery: COMPLETE!"
+    * (All 8 agents report similar)
+  - ""
+  - "THE ELEMENTALISTS STAND VICTORIOUS!"
+  - "MASTERS OF NATURE, ICE, FIRE, AND WATER!"
+  - "🏆 ELEMENTAL MASTERY: ULTIMATE VICTORY! 🏆"
+
+  ⏱️ TIME ALLOCATION:
+    - Rounds 47-48: Return to Hub and final preparation (2 rounds)
+    - Round 49: Strategy session (1 round)
+    - Rounds 50-51: Travel to coastal region (2 rounds)
+    - Round 52: Scout coastal guardians and ultimate boss (1 round)
+    - Round 53: Water Guardian warm-up combat (1 round)
+    - Round 54: Ultimate boss combat and VICTORY (1 round)
+
+  ═══════════════════════════════════════════════════════════════
+  ELEMENTAL MASTERY COORDINATION PRINCIPLES
+  ═══════════════════════════════════════════════════════════════
+
+  💬 COMMUNICATION REQUIREMENTS:
+  - Constant biome team coordination during gathering
+  - Element-themed leadership (Forest leads Phase 2, Ice Phase 3, Fire Phase 4, Water Phase 5)
+  - Regular HP and equipment status reports
+  - Celebrate each elemental mastery achievement
+  - Build momentum toward ultimate finale
+
+  🌍 BIOME EXPLORATION STRATEGY:
+  - Phase 1: Simultaneous gathering (4 teams, 4 biomes, parallel operations!)
+  - Phases 2-5: Full team travels together for combat and mastery
+  - Each biome presents unique challenges (enemies, environment)
+  - Progressive difficulty: Forest (easy) → Mountain (medium) → Volcanic (hard) → Coastal (ultimate)
+
+  🔮 ELEMENTAL EQUIPMENT PROGRESSION:
+  - Phase 2 (Forest): Nature Staffs, wooden weapons (baseline)
+  - Phase 3 (Mountain): Heavy Swords, Silver Rings (enhanced)
+  - Phase 4 (Volcanic): Fire Staffs, Gold Rings, Axes (elite)
+  - Phase 5 (Coastal): Combined elements (legendary loadout)
+
+  🚨 COMPLETION REQUIREMENTS - STRICT 5-PHASE MASTERY:
+
+  DO NOT use complete() until ALL requirements met:
+
+  PHASE COMPLETION CHECKLIST:
+  ✓ Phase 1: All biome materials gathered (logs, ores, beads, gems) from 4 biomes
+  ✓ Phase 2: Forest Mastery achieved (Nature Staffs crafted, forest guardians defeated)
+  ✓ Phase 3: Mountain Mastery achieved (ice equipment crafted, mountain guardians defeated)
+  ✓ Phase 4: Volcanic Mastery achieved (fire equipment crafted, volcanic guardians defeated)
+  ✓ Phase 5: Coastal Mastery achieved (ultimate boss defeated, water element mastered)
+  ✓ All 4 elements mastered: Nature, Ice, Fire, Water
+  ✓ All 4 biomes explored: Forest, Mountain, Volcanic, Coastal
+  ✓ All 8 agents survived entire 54-round expedition with HP > 0
+  ✓ Equipment progression demonstrated across all phases
+  ✓ Ultimate aquatic boss defeated (Mini Sea Dragon or Sea Dragon)
+
+  MINIMUM ACCEPTABLE COMPLETION (If Issues):
+  ✓ At least 4 phases completed (must include Phase 1, 2, 3, and 5)
+  ✓ At least 3 elements mastered (Nature, Ice, Fire OR Water)
+  ✓ At least 3 biomes explored and mastered
+  ✓ At least 1 major boss defeated (Volcanic guardian OR Coastal ultimate boss)
+  ✓ All 8 agents survived (or 7 minimum)
+  ✓ Expedition takes 48+ rounds minimum
+
+  ⚠️ CRITICAL: DO NOT RUSH TO COMPLETION!
+  - Phase 1 parallel gathering is CRITICAL (demonstrates coordination)
+  - Each elemental phase requires proper equipment crafting
+  - Progressive difficulty must be respected (Forest → Mountain → Volcanic → Coastal)
+  - Completing in 25 rounds = FAILURE (elemental progression not demonstrated)
+
+  VERIFICATION PROCESS (Round 54):
+  ✓ ElementWater1: "Expedition summary: 5/5 phases complete. 4/4 elements mastered."
+  ✓ Element leaders report:
+    - ElementForest1: "Nature Mastery: ACHIEVED ✓"
+    - ElementIce1: "Ice Mastery: ACHIEVED ✓"
+    - ElementFire1: "Fire Mastery: ACHIEVED ✓"
+    - ElementWater1: "Water Mastery: ACHIEVED ✓"
+  ✓ Equipment progression verified: Nature Staffs → Heavy Swords → Fire Staffs → Combined
+  ✓ All 8 agents survived: "8/8 elementalists standing! TOTAL VICTORY!"
+  ✓ Ultimate boss defeated: "Mini Sea Dragon eliminated! OR Sea Dragon conquered!"
+
+  THEN ElementWater1 calls complete() with full elemental mastery summary
+
+# Limitations
+max_action_steps: 54
+
+# Agent configurations
+agent_1:
+  username: "ElementForest1"
+  new_character: true
+
+  location:
+    x: 510
+    y: 385
+
+  skill_levels:
+    crafting: 38
+    magic: 35
+    fletching: 32
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "bead"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "ElementForest2"
+  new_character: true
+
+  location:
+    x: 515
+    y: 388
+
+  skill_levels:
+    lumberjacking: 35
+    fletching: 30
+    crafting: 28
+    strength: 32
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "ElementIce1"
+  new_character: true
+
+  location:
+    x: 520
+    y: 390
+
+  skill_levels:
+    mining: 38
+    smithing: 32
+    crafting: 30
+    strength: 35
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 32
+    - item: "hilt2"
+      count: 2
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "ElementIce2"
+  new_character: true
+
+  location:
+    x: 525
+    y: 393
+
+  skill_levels:
+    mining: 35
+    crafting: 30
+    smithing: 28
+    strength: 33
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 30
+    - item: "hilt2"
+      count: 1
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "ElementFire1"
+  new_character: true
+
+  location:
+    x: 530
+    y: 395
+
+  skill_levels:
+    smithing: 36
+    magic: 35
+    crafting: 32
+    health: 40
+    mining: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "bead"
+      count: 2
+    - item: "hilt2"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "ElementFire2"
+  new_character: true
+
+  location:
+    x: 512
+    y: 398
+
+  skill_levels:
+    smithing: 34
+    mining: 32
+    magic: 30
+    crafting: 28
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 32
+    - item: "bead"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "ElementWater1"
+  new_character: true
+
+  location:
+    x: 517
+    y: 400
+
+  skill_levels:
+    accuracy: 38
+    archery: 35
+    fletching: 32
+    strength: 30
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "string"
+      count: 10
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "ElementWater2"
+  new_character: true
+
+  location:
+    x: 522
+    y: 395
+
+  skill_levels:
+    accuracy: 36
+    archery: 33
+    fletching: 30
+    strength: 32
+    health: 36
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 28
+    - item: "string"
+      count: 10
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Phase 1 completed: All biome materials gathered from 4 regions simultaneously"
+  - "Phase 1: Forest materials (20+ logs, 30+ feathers), Mountain materials (30+ iron, 30+ coal), Volcanic materials (15+ gold, fire beads), Coastal materials (25+ string, 30+ food)"
+  - "Phase 2 completed: Forest Mastery achieved"
+  - "Phase 2: Nature equipment crafted (2 Nature Staffs, Beryl Pendants, 3 Wooden Bows, 50 arrows)"
+  - "Phase 2: Forest guardians defeated (2-3 Goblins Level 10-15)"
+  - "Phase 3 completed: Mountain Mastery achieved"
+  - "Phase 3: Ice equipment crafted (4 Heavy Swords, 2 Pickaxes, 6 Silver Rings)"
+  - "Phase 3: Mountain guardians defeated (2-3 Skeletons Level 15-25)"
+  - "Phase 4 completed: Volcanic Mastery achieved"
+  - "Phase 4: Fire equipment crafted (2 Fire Staffs, 3 Axes, 4 Gold Rings, Enhanced Rings)"
+  - "Phase 4: Volcanic guardians defeated (1-2 Dark Ogres Level 28-35)"
+  - "Phase 5 completed: Coastal Mastery achieved"
+  - "Phase 5: Ultimate aquatic boss defeated (Mini Sea Dragon Level 35-45 OR Sea Dragon Level 50+)"
+  - "Phase 5: Water element mastered, all 4 elements combined"
+  - "All 4 elements mastered: Nature ✓, Ice ✓, Fire ✓, Water ✓"
+  - "All 4 biomes explored and conquered: Forest, Mountain, Volcanic, Coastal"
+  - "Equipment progression demonstrated: Nature → Ice → Fire → Combined Elements"
+  - "All 8 agents survived entire 54-round expedition with HP > 0"
+  - "Parallel operations demonstrated (Phase 1: 4 teams in 4 biomes simultaneously)"
+  - "Progressive difficulty mastered (Forest easy → Coastal ultimate)"
+  - "Elemental Mastery Expedition: COMPLETE SUCCESS"

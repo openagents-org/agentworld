@@ -1,0 +1,839 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Progressive Dungeon Expedition Campaign"
+  description: "Seven adventurers embark on a multi-stage dungeon expedition, progressively crafting better equipment and exploring deeper levels"
+
+# Task objectives
+objectives:
+  primary: "Complete a 6-phase progressive dungeon expedition spanning 55 rounds with equipment upgrades between each exploration phase"
+  secondary:
+    - "Phase 1 (Rounds 1-10): Initial Preparation - Gather basic materials and craft starting equipment"
+    - "Phase 2 (Rounds 11-18): Shallow Dungeon Exploration - Scout dungeon entrance and defeat low-level guardians"
+    - "Phase 3 (Rounds 19-28): Equipment Enhancement - Gather advanced materials and craft superior weapons/armor"
+    - "Phase 4 (Rounds 29-38): Mid-Level Dungeon - Explore deeper levels and defeat mid-tier bosses"
+    - "Phase 5 (Rounds 39-48): Elite Equipment Crafting - Create specialized gear for final push"
+    - "Phase 6 (Rounds 49-55): Deep Dungeon Boss Rush - Conquer final chambers and defeat dungeon lord"
+
+# Relevant game context
+relevant_game_context: |
+  This is an epic progressive dungeon expedition requiring careful planning, equipment progression, and strategic coordination.
+
+  🚨 CRITICAL AWARENESS - PROGRESSIVE EXPEDITION:
+  - ALWAYS use verify_inventory to check equipment and materials before each phase
+  - ALWAYS use chat to coordinate phase transitions and equipment distribution
+  - Use observe_environment radius=64 to scout dungeon areas and locate enemies
+  - Use attack_mob for combat (system handles battles automatically)
+  - NEVER enter new dungeon level if team average HP < 85%
+  - Team must stay together (within 10 tiles) during dungeon exploration
+  - Each phase builds on previous phase - DO NOT skip phases!
+
+  📍 STARTING LOCATION: (380-395, 290-305) - Town square near forest and mountains
+
+  🎯 EXPEDITION STRUCTURE: Complete all 6 phases in sequence over 55 rounds
+
+  ═══════════════════════════════════════════════════════════════
+  PHASE 1 - INITIAL PREPARATION (Rounds 1-10)
+  ═══════════════════════════════════════════════════════════════
+
+  🎯 MANDATORY Objectives:
+    - Assign expedition roles: 2x Tank, 2x DPS, 2x Ranger, 1x Support
+    - Gather 15+ logs from forest (Western Forest: 250, 350)
+    - Mine 20+ iron ore and 20+ coal (Northern Mountains: 230, 38)
+    - Craft 15+ iron bars using Crafting skill
+    - Craft basic equipment: 3x Heavy Swords, 2x Axes, 2x Wooden Bows
+    - Gather 50+ healing items (hunt animals, forage, use starting supplies)
+    - Scout dungeon entrance location (around 200, 100)
+
+  📋 WHY THIS PHASE MATTERS:
+    - Starting equipment insufficient for 6-phase expedition
+    - Need weapons for all 7 agents (some start unarmed)
+    - Establishes resource gathering coordination patterns
+    - Team learns to work together before facing danger
+
+  🌲 HOW TO GATHER LOGS (Need 15+):
+    1. Team travels together to Western Forest (250, 350)
+    2. DPS and Tank agents focus on logging (they have high strength)
+    3. Use observe_environment radius=32 to find Oak Trees
+    4. Use harvest_resource targetInstance=<tree_instance>
+    5. Each logging agent should gather 5+ logs
+    6. Use chat: "Gathered X logs, team total: Y/15"
+    7. Takes approximately 2-3 rounds of work
+
+  ⛏️ HOW TO MINE ORES (Need 20+ iron, 20+ coal):
+    1. Travel to Northern Mountains mining area (230, 38)
+    2. Use observe_environment radius=32 to locate iron rock and coal rock
+    3. Prioritize iron ore first (critical for weapons)
+    4. All agents can mine coal (Mining 1+ required)
+    5. Tank and DPS focus on iron ore (Mining 10+ helpful)
+    6. Use chat: "Mined X iron, Y coal. Team: A/20 iron, B/20 coal"
+    7. Takes approximately 3-4 rounds
+
+  🔨 HOW TO CRAFT IRON BARS (Need 15+):
+    1. Consolidate all ores with designated crafter (recommend DungeonSmith)
+    2. Use transfer_items targetPlayer=DungeonSmith itemKey=ironore count=<X>
+    3. Use transfer_items targetPlayer=DungeonSmith itemKey=coal count=<X>
+    4. DungeonSmith: verify_inventory to confirm materials
+    5. Function: craft_item skill=Crafting itemKey=ironbar
+    6. Recipe: 1x ironore + 1x coal → 1x ironbar
+    7. Craft 15 times to create 15 iron bars
+    8. Use chat: "Smelted X bars, total: Y/15"
+
+  ⚔️ HOW TO CRAFT WEAPONS:
+    A) Heavy Swords (3x needed for Tanks and melee DPS):
+       - Function: craft_item skill=Smithing itemKey=sword2
+       - Recipe: 2x ironbar + 1x hilt2 → 1x Heavy Sword
+       - DungeonTank1 and DungeonTank2 start with hilt2 (verify inventory!)
+       - Craft 3 swords, equip to tank agents and primary DPS
+
+    B) Axes (2x needed for backup/utility):
+       - Function: craft_item skill=Smithing itemKey=axe
+       - Recipe: 3x ironbar + 1x logs → 1x Axe
+       - Craft 2 axes for secondary DPS and support
+
+    C) Wooden Bows (2x needed for Rangers):
+       - Function: craft_item skill=Fletching itemKey=woodenbow
+       - Recipe: 1x logs + 1x string → 1x Wooden Bow
+       - DungeonRanger1 and DungeonRanger2 have string in starting inventory
+       - Craft 2 bows, equip to ranger agents
+
+  📦 HOW TO DISTRIBUTE EQUIPMENT:
+    1. After crafting, use transfer_items to distribute weapons
+    2. Each agent uses equip_item to equip their designated weapon
+    3. Verify each agent has primary weapon equipped
+    4. Use chat: "Agent X equipped with [weapon], ready for Phase 2"
+
+  ⏱️ TIME ALLOCATION:
+    - Rounds 1-3: Travel and gather logs (Western Forest)
+    - Rounds 4-7: Travel and mine ores (Northern Mountains)
+    - Rounds 8-9: Craft iron bars and weapons
+    - Round 10: Distribute equipment, heal to 100%, prepare for Phase 2
+
+  ═══════════════════════════════════════════════════════════════
+  PHASE 2 - SHALLOW DUNGEON EXPLORATION (Rounds 11-18)
+  ═══════════════════════════════════════════════════════════════
+
+  🎯 Objectives:
+    - Travel to dungeon entrance (around 200, 100)
+    - Scout shallow dungeon levels (first 2 chambers)
+    - Defeat 2-3 low-level guardian mobs (Rats Level 1-5, Bats Level 4-8)
+    - Map safe paths and rest points
+    - Collect dungeon loot and materials
+    - Assess team performance and coordination
+
+  📍 HOW TO REACH DUNGEON:
+    1. From mountains (230, 38), travel to dungeon area (200, 100)
+    2. Distance: ~150 tiles, takes 1-2 rounds of coordinated movement
+    3. Move as complete group (no splitting!)
+    4. Use chat: "Moving to dungeon entrance, current position: (X,Y)"
+    5. Use observe_environment radius=64 when approaching
+
+  🗺️ HOW TO SCOUT DUNGEON:
+    1. At entrance, use observe_environment radius=64 to scan area
+    2. Identify mob types, levels, and positions
+    3. Look for environmental features (doors, passages, hazards)
+    4. Tanks lead scouting, Rangers provide vision
+    5. Use chat to share scouting information
+    6. Create mental map of first 2 chambers
+
+  👾 HOW TO FIGHT GUARDIAN MOBS:
+    1. Target Selection Priority:
+       - First: Rats (Level 1-5) - easiest targets
+       - Second: Bats (Level 4-8) - flying but manageable
+       - Third: Any Goblins (Level 7-12) - if present
+
+    2. Pre-Combat Checks (MANDATORY):
+       - All agents: verify_inventory to check HP
+       - All HP must be > 85%
+       - All agents within 15 tiles of target
+       - Chat: "Combat ready? HP: X/Y, Position: (A,B)"
+
+    3. Combat Execution:
+       - DungeonTank1 initiates: attack_mob targetInstance=<mob_instance>
+       - DungeonTank2 follows: attack_mob targetInstance=<same_instance>
+       - DungeonDPS1-2: attack_mob targetInstance=<same_instance>
+       - DungeonRanger1-2: attack_mob targetInstance=<same_instance>
+       - DungeonSupport holds back, ready to assist
+
+    4. Post-Combat:
+       - Collect loot with verify_inventory
+       - Rest 1 round if any agent below 70% HP
+       - Use healing items to restore to 85%+
+       - Chat: "Guardian defeated! Team HP: [list], Loot: [items]"
+
+  🎁 DUNGEON LOOT TO COLLECT:
+    - Healing items (priority!)
+    - Crafting materials (gems, special ores)
+    - Equipment drops (upgrade opportunities)
+    - Quest items (may be useful later)
+
+  ⏱️ TIME ALLOCATION:
+    - Rounds 11-12: Travel to dungeon entrance
+    - Round 13: Scout first chamber with observe_environment
+    - Rounds 14-15: Defeat first guardian mob, collect loot
+    - Round 16: Scout second chamber
+    - Rounds 17-18: Defeat second guardian, assess readiness for Phase 3
+
+  ═══════════════════════════════════════════════════════════════
+  PHASE 3 - EQUIPMENT ENHANCEMENT (Rounds 19-28)
+  ═══════════════════════════════════════════════════════════════
+
+  🎯 MANDATORY Objectives:
+    - Exit dungeon temporarily for resupply
+    - Gather specialized materials: 10+ gold ore (if available), gems, special materials
+    - Craft 10+ additional iron bars
+    - Craft protective equipment: 3x Silver Rings, specialized armor upgrades
+    - Create 30+ arrows for Rangers (need 30 sticks + 30 feathers)
+    - Stock healing items to 70+ total across team
+    - Prepare for mid-level dungeon challenges
+
+  ❤️ HOW TO HEAL AND RECOVER:
+    1. Exit dungeon to safe area (outside entrance)
+    2. All agents verify_inventory to check HP
+    3. Distribute healing items evenly (each agent needs 10+)
+    4. Consume items to restore all agents to 100% HP
+    5. Use chat: "HP restored. Agent X: 100%, healing items: Y"
+
+  💎 HOW TO GATHER ENHANCEMENT MATERIALS:
+    A) Gold Ore (Target: 10+ if available):
+       - Search mountain regions for gold rock (230, 38 area)
+       - Requires Mining 25+ (DungeonTank1 and DungeonDPS1 have this)
+       - Use observe_environment radius=64 to locate gold deposits
+       - Use harvest_resource targetInstance=<gold_rock>
+       - Chat: "Found gold! Mined X ore, team total: Y/10"
+
+    B) Gems and Special Materials:
+       - Hunt mid-level creatures (Level 10-15) for gem drops
+       - Search around (250, 350) forest for Goblins
+       - Loot from previous dungeon fights
+       - Target: 5+ gems (emerald, ruby, topaz, beryl)
+
+    C) Feathers and Sticks (for arrows):
+       - Hunt birds and bats for feathers (need 30 total)
+       - Craft sticks from logs using Fletching skill
+       - Function: craft_item skill=Fletching itemKey=stick
+       - Recipe: 1x logs → 4x sticks
+       - Need 8 logs to craft 30+ sticks
+
+  🛡️ HOW TO CRAFT PROTECTIVE EQUIPMENT:
+    A) Silver Rings (3x for main fighters):
+       - Function: craft_item skill=Smithing itemKey=silverring
+       - Recipe: 2x ironbar → 1x silverring
+       - Craft 3 rings, distribute to Tanks and primary DPS
+       - Use equip_item to equip rings
+       - Provides defense bonus for tougher fights
+
+    B) Enhanced Rings (if materials available):
+       - If found gems, craft enhanced rings using Crafting skill
+       - Emerald Ring: 1x emerald + 1x silverring
+       - Ruby Ring: 1x ruby + 1x goldring (if have gold bars)
+       - Prioritize for Tanks
+
+    C) Arrows for Rangers (30x minimum):
+       - Consolidate 30 sticks + 30 feathers with Ranger agents
+       - Function: craft_item skill=Fletching itemKey=arrow
+       - Recipe: 10x sticks + 10x feathers → 10x arrows
+       - Craft 3 times to create 30 arrows
+       - Distribute to both Rangers (15 each)
+
+  🏥 HOW TO STOCK HEALING ITEMS (Target: 70+ total):
+    1. Current healing items from Phase 1-2: ~50
+    2. Hunt mid-level creatures for food drops (10-15 items)
+    3. Forage plants and mushrooms (5-10 items)
+    4. Distribute evenly: each agent needs 10 items minimum
+    5. Tanks and DPS get 12+ each (frontline priority)
+    6. Use chat: "Healing stock: X items. Per agent: [list]"
+
+  ⏱️ TIME ALLOCATION:
+    - Rounds 19-20: Exit dungeon, heal, and plan
+    - Rounds 21-23: Gather gold ore and gems
+    - Rounds 24-26: Craft iron bars, rings, and arrows
+    - Rounds 27-28: Distribute equipment, stock healing, prepare for Phase 4
+
+  ═══════════════════════════════════════════════════════════════
+  PHASE 4 - MID-LEVEL DUNGEON (Rounds 29-38)
+  ═══════════════════════════════════════════════════════════════
+
+  🎯 Objectives:
+    - Re-enter dungeon with enhanced equipment
+    - Explore deeper chambers (3rd-5th levels)
+    - Defeat mid-tier enemies: Skeletons (Level 15-20), Spectres (Level 25-30)
+    - Collect rare materials and equipment drops
+    - Locate final boss chamber entrance
+    - Prepare team for elite equipment crafting phase
+
+  🚪 HOW TO ENTER DEEPER DUNGEON:
+    1. Return to dungeon entrance (200, 100)
+    2. Navigate through previously cleared shallow chambers
+    3. Proceed to 3rd chamber entrance
+    4. Use observe_environment radius=64 at each transition
+    5. Tanks lead, Rangers provide rear security
+    6. Chat: "Entering chamber X, formation check"
+
+  💀 HOW TO FIGHT MID-TIER ENEMIES:
+    A) Skeletons (Level 15-20):
+       - Location: 3rd-4th chambers, dark areas (around 200, 100)
+       - Pre-fight: ALL agents HP > 90% (MANDATORY)
+       - Combat formation:
+         * Tanks engage first (within 5 tiles)
+         * DPS follow immediately (within 8 tiles)
+         * Rangers attack from 10 tiles distance
+         * Support ready with backup attacks
+       - Function: attack_mob targetInstance=<skeleton_instance>
+       - Post-fight: Rest 1 round, heal if any agent below 75%
+
+    B) Spectres (Level 25-30):
+       - Location: 4th-5th chambers, deeper darkness
+       - MUCH tougher opponents than skeletons!
+       - Pre-fight CRITICAL checks:
+         * ALL agents HP = 100% (full health required)
+         * All agents have 8+ healing items
+         * All agents within 10 tiles
+         * Chat: "SPECTRE READY CHECK - Status: [HP/Items/Position]"
+       - Combat execution:
+         * DungeonTank1 initiates attack
+         * Wait for tank to engage (1 combat round)
+         * ALL other agents attack same target
+         * Focus fire = faster victory = less damage taken
+       - Post-fight: IMMEDIATELY heal to >80%, rest 2 rounds
+
+  🗺️ HOW TO NAVIGATE DEEPER CHAMBERS:
+    1. Move cautiously, check each corner with observe_environment
+    2. Identify mob locations before engaging
+    3. Plan escape routes in case of emergency
+    4. Mark safe rest points for healing
+    5. Locate doors, passages, and environmental features
+    6. Find final boss chamber entrance (don't enter yet!)
+    7. Chat navigation updates: "At chamber X, Y enemies spotted"
+
+  🎁 PRIORITY LOOT TO COLLECT:
+    - Rare crafting materials (special ores, magical beads)
+    - Weapon/armor upgrades (better than current equipment)
+    - Large healing items (flasks, food)
+    - Boss keys or access items (for Phase 6)
+    - Gold ore, gems (for Phase 5 elite crafting)
+
+  ⏱️ TIME ALLOCATION:
+    - Rounds 29-30: Re-enter dungeon, navigate to 3rd chamber
+    - Rounds 31-33: Fight Skeletons in 3rd-4th chambers
+    - Rounds 34-35: Scout 5th chamber carefully
+    - Rounds 36-38: Fight Spectres, locate boss chamber, prepare exit
+
+  ═══════════════════════════════════════════════════════════════
+  PHASE 5 - ELITE EQUIPMENT CRAFTING (Rounds 39-48)
+  ═══════════════════════════════════════════════════════════════
+
+  🎯 MANDATORY Objectives:
+    - Exit dungeon for final equipment preparation
+    - Gather ultimate materials: 15+ gold ore, rare gems, magical beads
+    - Craft 10+ gold bars from gold ore
+    - Create elite equipment: Golden weapons, enhanced magical staffs, special rings
+    - Upgrade all agents to best possible gear
+    - Stock maximum healing: 100+ items total across team
+    - Finalize boss fight strategy
+
+  🏔️ HOW TO GATHER ULTIMATE MATERIALS:
+    A) Gold Ore (15+ for elite crafting):
+       - Return to mountain mining areas (230, 38)
+       - Search for gold rock deposits
+       - All agents with Mining 25+ focus on gold
+       - Use harvest_resource targetInstance=<gold_rock>
+       - Target: 15 gold ore minimum
+       - Chat: "Gold mining: X/15 collected"
+
+    B) Magical Beads (for magical weapons):
+       - Hunt high-level magical creatures
+       - Search around (350, 200) for wizards/magical mobs
+       - Defeat mobs and collect magical bead drops
+       - Target: 3-5 magical beads
+       - Types: lightningbead, firebead, naturebead
+
+    C) Rare Gems (for ultimate rings/pendants):
+       - Continue hunting mid-level creatures
+       - Search dungeon loot from Phase 4
+       - Target: 5+ rare gems (ruby, emerald, topaz)
+
+  ⚒️ HOW TO CRAFT ELITE EQUIPMENT:
+    A) Gold Bars (10+ needed):
+       - Consolidate gold ore and coal with crafter
+       - Function: craft_item skill=Crafting itemKey=goldbar
+       - Recipe: 1x goldore + 1x coal → 1x goldbar
+       - Craft 10-15 times
+       - Chat: "Crafted X gold bars, total: Y"
+
+    B) Golden Weapons (if have enough gold and high smithing):
+       - Golden Sword: 15x goldbar + 1x hilt2 (Smithing 62 required!)
+       - Golden Bow: 15x goldbar + 10x string + 2x logs (Fletching 32 required!)
+       - Only craft if agents have required skill levels
+       - Otherwise, craft additional silver/iron weapons
+
+    C) Enhanced Magical Staffs (for Support agent):
+       - First craft basic staff if needed:
+         * Function: craft_item skill=Crafting itemKey=staff
+         * Recipe: 5x stick + 1x bead → 1x Magic Staff
+       - Then enhance with special beads:
+         * Lightning Staff: craft_item skill=Crafting itemKey=lightningstaff
+         * Recipe: 1x staff + 1x lightningbead → 1x Lightning Staff
+         * Fire Staff: craft_item skill=Crafting itemKey=firestaff
+         * Recipe: 1x staff + 1x firebead → 1x Fire Staff
+       - DungeonSupport equips best magical staff
+
+    D) Ultimate Rings:
+       - Ruby Ring: craft_item skill=Crafting itemKey=rubyring
+         * Recipe: 1x ruby + 1x goldring → 1x Ruby Ring
+       - Emerald Ring: craft_item skill=Crafting itemKey=emeraldring
+         * Recipe: 1x emerald + 1x goldring → 1x Emerald Ring
+       - Distribute to Tanks and primary DPS for maximum survivability
+
+  🏥 HOW TO MAX HEALING SUPPLIES (100+ total):
+    1. Current supplies: ~60-70 items
+    2. Hunt additional creatures for drops: 20+ items
+    3. Purchase from NPCs if accessible: 10+ items
+    4. Forage final resources: 10+ items
+    5. Distribution for boss fight:
+       - Tanks: 15 items each (30 total)
+       - DPS: 12 items each (24 total)
+       - Rangers: 12 items each (24 total)
+       - Support: 15 items (22 total = buffer)
+    6. Use chat: "Final healing stock: 100+ total. Ready for boss!"
+
+  📋 BOSS FIGHT STRATEGY SESSION:
+    1. Review boss chamber layout (from Phase 4 scouting)
+    2. Assign specific roles:
+       - DungeonTank1: Main tank, initiates combat
+       - DungeonTank2: Off-tank, flanks boss
+       - DungeonDPS1-2: Focus damage, stay mobile
+       - DungeonRanger1-2: Ranged damage, kite if needed
+       - DungeonSupport: Backup damage, emergency tactics
+    3. Establish retreat signals and emergency procedures
+    4. Plan healing rotation during extended fight
+    5. Use chat: "Boss strategy confirmed. Roles assigned. Ready to proceed."
+
+  ⏱️ TIME ALLOCATION:
+    - Rounds 39-41: Gather ultimate materials (gold, beads, gems)
+    - Rounds 42-45: Craft elite equipment (gold bars, weapons, staffs, rings)
+    - Rounds 46-47: Distribute equipment, maximize healing supplies
+    - Round 48: Strategy session, final preparations, heal to 100%
+
+  ═══════════════════════════════════════════════════════════════
+  PHASE 6 - DEEP DUNGEON BOSS RUSH (Rounds 49-55)
+  ═══════════════════════════════════════════════════════════════
+
+  🎯 Objectives:
+    - Re-enter dungeon with elite equipment
+    - Navigate to final boss chamber
+    - Defeat dungeon miniboss (Skeleton or Dark Ogre Level 30-35)
+    - Proceed to dungeon lord chamber
+    - Defeat dungeon lord (Ogre Lord Level 40+ OR Death Knight Level 35-40)
+    - Successfully complete 6-phase expedition
+
+  🚪 HOW TO REACH FINAL CHAMBERS:
+    1. Enter dungeon at (200, 100)
+    2. Navigate quickly through cleared chambers 1-5
+    3. Use observe_environment at each level to ensure no new spawns
+    4. Proceed to boss chamber entrance
+    5. Full HP check before entering
+    6. Chat: "At boss chamber entrance. Final checks."
+
+  👹 HOW TO FIGHT MINIBOSS:
+    1. Potential miniboss types:
+       - Skeleton (Level 30-35) - undead warrior
+       - Dark Ogre (Level 32-38) - heavy bruiser
+       - Location: 6th chamber, before final chamber
+
+    2. CRITICAL Pre-Fight Preparation:
+       - ALL agents must have HP = 100% (full health REQUIRED)
+       - Each agent verifies 10+ healing items in inventory
+       - All agents position within 12 tiles of boss
+       - Formation: Tanks front (5 tiles), DPS close (8 tiles), Rangers back (10-12 tiles)
+       - Chat full status: "MINIBOSS READY CHECK"
+       - Each agent responds: "Agent [name]: HP 100%, Items: X, Position: (A,B). READY!"
+
+    3. Combat Execution:
+       - DungeonTank1 initiates: attack_mob targetInstance=<miniboss_instance>
+       - DungeonTank2 follows: attack_mob targetInstance=<same_instance>
+       - DungeonDPS1: attack_mob targetInstance=<same_instance>
+       - DungeonDPS2: attack_mob targetInstance=<same_instance>
+       - DungeonRanger1: attack_mob targetInstance=<same_instance>
+       - DungeonRanger2: attack_mob targetInstance=<same_instance>
+       - DungeonSupport: attack_mob targetInstance=<same_instance>
+       - ALL agents attack same target for focused damage!
+
+    4. Post-Miniboss Recovery:
+       - Check all agent HP immediately
+       - Heal any agent below 85% to full HP
+       - Rest 2 rounds before final boss
+       - Redistribute healing items if needed
+       - Chat: "Miniboss defeated! HP status: [list all agents]. Preparing for FINAL BOSS."
+
+  👑 HOW TO FIGHT DUNGEON LORD (FINAL BOSS):
+    1. Potential final boss types:
+       - Ogre Lord (Level 40-45) - ultimate tank destroyer
+       - Death Knight (Level 35-40) - heavily armored undead
+       - Spectre (Level 35+) - high-level magical attacker
+       - Location: Final chamber at deepest dungeon level
+
+    2. ULTIMATE Pre-Fight Preparation:
+       - Rest for 2 full rounds after miniboss
+       - ALL agents heal to 100% HP (absolutely mandatory)
+       - Each agent must have 8+ healing items remaining
+       - Perfect formation setup:
+         * Tanks: 5 tiles from boss (front line)
+         * DPS: 7-8 tiles from boss (close support)
+         * Rangers: 10 tiles from boss (ranged damage)
+         * Support: 10 tiles from boss (magical attacks)
+       - Use chat for detailed ready check:
+         * DungeonTank1: "HP 100%, Healing: X items, Position: (A,B), Equipment: [list]. READY!"
+         * (All agents report similar status)
+       - Team leader confirms: "ALL AGENTS READY. INITIATING FINAL BOSS FIGHT. FOR GLORY!"
+
+    3. Final Boss Combat Execution:
+       - Attack sequence (ALL agents attack SAME target):
+         * DungeonTank1: attack_mob targetInstance=<boss_instance>
+         * DungeonTank2: attack_mob targetInstance=<same_instance>
+         * DungeonDPS1: attack_mob targetInstance=<same_instance>
+         * DungeonDPS2: attack_mob targetInstance=<same_instance>
+         * DungeonRanger1: attack_mob targetInstance=<same_instance>
+         * DungeonRanger2: attack_mob targetInstance=<same_instance>
+         * DungeonSupport: attack_mob targetInstance=<same_instance>
+       - Battle will take 2-4 rounds (longest fight of expedition)
+       - Do NOT use healing items mid-fight (system handles HP)
+       - Maintain focus and coordination
+
+    4. Victory Celebration:
+       - After boss defeated, use verify_inventory for loot
+       - Check final HP status of all agents
+       - Collect epic boss loot
+       - Use chat: "DUNGEON LORD DEFEATED! 6-PHASE EXPEDITION COMPLETE!"
+       - Each agent shares final status:
+         * "Agent X: Survived! HP: Y/Z. Equipment: [list]. Victory!"
+       - Team leader summarizes expedition:
+         * "55-round Progressive Dungeon Expedition SUCCESSFUL!"
+         * "Phases completed: 6/6"
+         * "Bosses defeated: [list all bosses]"
+         * "All 7 agents survived: YES"
+         * "Epic loot acquired: [list legendary items]"
+
+  ⏱️ TIME ALLOCATION:
+    - Round 49: Enter dungeon, navigate to boss chambers
+    - Rounds 50-51: Locate and fight miniboss
+    - Round 52: Rest and recover, full healing
+    - Rounds 53-55: Fight dungeon lord (final boss), victory celebration
+
+  ═══════════════════════════════════════════════════════════════
+  EXPEDITION COORDINATION PRINCIPLES
+  ═══════════════════════════════════════════════════════════════
+
+  💬 COMMUNICATION REQUIREMENTS:
+  - Use global chat constantly throughout all 55 rounds
+  - Share exact positions when moving between areas
+  - Report exact inventory counts after gathering/crafting
+  - Confirm equipment changes and distributions
+  - Coordinate combat with ready checks before each fight
+  - Celebrate phase completions and victories
+
+  🤝 TEAM COORDINATION:
+  - NEVER split the party (stay within 10 tiles always)
+  - Designate clear roles: Tanks, DPS, Rangers, Support
+  - Share resources and equipment fairly
+  - Prioritize team survival over individual glory
+  - Adapt strategy based on actual dungeon encounters
+  - Support struggling agents (redistribute healing if needed)
+
+  📊 PHASE PROGRESSION TRACKING:
+  Phase 1: Equipment foundation (gather + craft basic gear)
+  Phase 2: Combat initiation (shallow dungeon + low-level fights)
+  Phase 3: Enhancement (upgrade equipment + stock supplies)
+  Phase 4: Challenge escalation (mid-level dungeon + tough enemies)
+  Phase 5: Elite preparation (best equipment + maximum supplies)
+  Phase 6: Ultimate test (boss rush + dungeon lord victory)
+
+  🚨 COMPLETION REQUIREMENTS - STRICT 6-PHASE EXPEDITION:
+
+  DO NOT use complete() until ALL requirements met:
+
+  PHASE COMPLETION CHECKLIST:
+  ✓ Phase 1: Basic equipment crafted (3x Heavy Swords, 2x Axes, 2x Bows, 15+ iron bars)
+  ✓ Phase 2: Shallow dungeon explored, 2-3 guardians defeated
+  ✓ Phase 3: Enhanced equipment crafted (rings, arrows, additional bars)
+  ✓ Phase 4: Mid-level dungeon cleared, Skeletons and Spectres defeated
+  ✓ Phase 5: Elite equipment created (gold bars, ultimate weapons, magical staffs)
+  ✓ Phase 6: Miniboss AND final boss both defeated
+  ✓ Expedition completed in 50-55 rounds (NOT before round 45!)
+  ✓ All 7 agents survived with HP > 0
+
+  MINIMUM ACCEPTABLE COMPLETION (If Issues):
+  ✓ At least 5 phases completed (must complete Phase 1, 2, 3, 4, and 6)
+  ✓ At least 2 significant bosses defeated (Phase 4 and Phase 6)
+  ✓ All basic equipment crafting completed
+  ✓ 6+ agents survived
+  ✓ Expedition takes 45+ rounds minimum
+
+  ⚠️ CRITICAL: DO NOT RUSH TO COMPLETION!
+  - If completing before Round 45, you SKIPPED required phases
+  - Must complete preparation phases (1, 3, 5) before combat phases
+  - Each combat phase requires proper setup from previous phase
+  - Completing in 20 rounds = FAILURE (skipped most content)
+
+  VERIFICATION PROCESS (Rounds 53-55):
+  ✓ DungeonTank1: "Expedition summary: All 6 phases complete. Bosses: [list]"
+  ✓ DungeonDPS1: "Equipment progression: Phase 1 [items] → Phase 5 [items]"
+  ✓ DungeonRanger1: "Combat record: Guardian fights + Skeletons + Spectres + Miniboss + Final Boss"
+  ✓ DungeonSupport: "Final status: All agents HP > 0. Healing items: [remaining]. EXPEDITION SUCCESS!"
+
+  THEN one agent calls complete() with full summary of entire 6-phase expedition
+
+# Limitations
+max_action_steps: 55
+
+# Agent configurations
+agent_1:
+  username: "DungeonTank1"
+  new_character: true
+
+  location:
+    x: 380
+    y: 290
+
+  skill_levels:
+    defense: 40
+    strength: 35
+    health: 50
+    mining: 30
+    smithing: 20
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "hilt2"
+      count: 2
+
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "DungeonTank2"
+  new_character: true
+
+  location:
+    x: 385
+    y: 292
+
+  skill_levels:
+    defense: 38
+    strength: 37
+    health: 48
+    mining: 28
+    smithing: 18
+
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 32
+    - item: "hilt2"
+      count: 1
+
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "DungeonDPS1"
+  new_character: true
+
+  location:
+    x: 390
+    y: 295
+
+  skill_levels:
+    strength: 45
+    accuracy: 38
+    health: 42
+    lumberjacking: 30
+    smithing: 15
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "DungeonDPS2"
+  new_character: true
+
+  location:
+    x: 395
+    y: 298
+
+  skill_levels:
+    strength: 43
+    accuracy: 40
+    health: 40
+    lumberjacking: 32
+    mining: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 28
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "DungeonRanger1"
+  new_character: true
+
+  location:
+    x: 382
+    y: 300
+
+  skill_levels:
+    accuracy: 45
+    archery: 40
+    health: 38
+    fletching: 30
+    strength: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 25
+    - item: "string"
+      count: 5
+    - item: "feather"
+      count: 15
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "DungeonRanger2"
+  new_character: true
+
+  location:
+    x: 387
+    y: 303
+
+  skill_levels:
+    accuracy: 42
+    archery: 38
+    health: 36
+    fletching: 28
+    strength: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 25
+    - item: "string"
+      count: 5
+    - item: "feather"
+      count: 15
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "DungeonSupport"
+  new_character: true
+
+  location:
+    x: 392
+    y: 305
+
+  skill_levels:
+    magic: 40
+    crafting: 35
+    health: 38
+    strength: 28
+    fletching: 25
+    smithing: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 32
+    - item: "bead"
+      count: 3
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Phase 1 completed: Team gathers 15+ logs, mines 20+ iron ore and coal, crafts 15+ iron bars"
+  - "Phase 1: Team crafts 3x Heavy Swords, 2x Axes, 2x Wooden Bows"
+  - "Phase 1: All agents equipped with appropriate weapons, 50+ healing items stockpiled"
+  - "Phase 2 completed: Team explores shallow dungeon, defeats 2-3 guardian mobs"
+  - "Phase 2: Dungeon scouted, safe paths identified, loot collected"
+  - "Phase 3 completed: Team gathers enhancement materials (gold ore, gems, feathers)"
+  - "Phase 3: Team crafts protective equipment (3x Silver Rings, 30+ arrows)"
+  - "Phase 3: Healing supplies increased to 70+ total across team"
+  - "Phase 4 completed: Team explores mid-level dungeon chambers (3rd-5th levels)"
+  - "Phase 4: Skeletons (Level 15-20) and Spectres (Level 25-30) defeated"
+  - "Phase 4: Boss chamber located, rare materials collected"
+  - "Phase 5 completed: Team gathers ultimate materials (15+ gold ore, magical beads)"
+  - "Phase 5: Elite equipment crafted (gold bars, enhanced weapons, magical staffs)"
+  - "Phase 5: Maximum healing supplies stockpiled (100+ total)"
+  - "Phase 6 completed: Team defeats miniboss in 6th chamber"
+  - "Phase 6: Team defeats final dungeon lord boss (Level 35-45)"
+  - "All 6 phases completed in proper sequence over 50-55 rounds"
+  - "All 7 agents survive entire expedition with HP > 0"
+  - "Team demonstrates progressive equipment upgrades from Phase 1 to Phase 5"
+  - "Team uses chat extensively for coordination throughout all phases"
+  - "Epic 6-phase dungeon expedition successfully completed"
