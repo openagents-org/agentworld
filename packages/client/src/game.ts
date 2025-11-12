@@ -65,6 +65,8 @@ export default class Game {
     public ready = false;
     public pvp = false;
     public useWebGl = false;
+    
+    public channel = '';  // User's channel for channel chat
 
     public constructor(public app: App) {
         this.storage = app.storage;

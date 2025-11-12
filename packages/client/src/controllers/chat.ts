@@ -89,7 +89,14 @@ export default class ChatController {
      */
 
     public send(): void {
-        this.game.socket.send(Packets.Chat, [this.input.value]);
+        let message = this.input.value;
+        
+        // If user has a channel set and message doesn't start with / or ;, prepend /channel command
+        if (this.game.channel && !message.startsWith('/') && !message.startsWith(';')) {
+            message = `/channel ${this.game.channel} ${message}`;
+        }
+        
+        this.game.socket.send(Packets.Chat, [message]);
 
         this.hide();
     }

@@ -77,7 +77,7 @@ export default class Commands {
                 return this.player.chat(
                     Filter.clean(blocks.join(' ')),
                     true,
-                    false,
+                    true,
                     'rgba(191, 161, 63, 1.0)'
                 );
             }
@@ -98,6 +98,38 @@ export default class Commands {
 
             case 'ping': {
                 this.player.ping();
+                break;
+            }
+
+            case 'channel': {
+                // Format: /channel <channel_name> <message>
+                if (blocks.length < 2) {
+                    return this.player.notify('Usage: /channel <channel_name> <message>', 'crimson');
+                }
+
+                let targetChannel = blocks[0];
+                let message = blocks.slice(1).join(' ');
+
+                if (!message) {
+                    return this.player.notify('Please provide a message to send', 'crimson');
+                }
+
+                // Get all players in the same channel
+                let recipientCount = 0;
+                let formattedName = Utils.formatName(this.player.username);
+                let channelMessage = `[Channel: ${targetChannel}] ${formattedName}: ${message}`;
+
+                this.entities.forEachPlayer((p) => {
+                    if (p.channel === targetChannel) {
+                        p.notify(channelMessage, 'aquamarine');
+                        recipientCount++;
+                    }
+                });
+
+                if (recipientCount === 0) {
+                    return this.player.notify(`No players found in channel: ${targetChannel}`, 'crimson');
+                }
+
                 break;
             }
         }

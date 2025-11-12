@@ -158,29 +158,38 @@ export default class API {
                     });
                 }
 
+                let player: Player;
+
                 // Check if player is already logged in
-                // In social mode with monitoring, allow multiple connections
-                if (this.world.isOnline(username) && !(config.socialMode && config.socialModeAllowMonitor)) {
-                    return response.status(400).json({
-                        status: 'error',
-                        message: 'Player is already logged in'
-                    });
+                // In social mode with monitoring, reuse existing player instance if available
+                if (this.world.isOnline(username)) {
+                    if (config.socialMode && config.socialModeAllowMonitor) {
+                        // Reuse existing player instance (Web UI observer is already connected)
+                        player = this.world.getPlayerByName(username)!;
+                        log.info(`🔄 API re-login: Reusing existing player instance for ${username}`);
+                    } else {
+                        return response.status(400).json({
+                            status: 'error',
+                            message: 'Player is already logged in'
+                        });
+                    }
+                } else {
+                    // Create a new player instance (first login)
+                    const connection = this.world.createAIConnection(username, password);
+                    
+                    if (!connection) {
+                        return response.status(500).json({
+                            status: 'error',
+                            message: 'Failed to create connection'
+                        });
+                    }
+
+                    player = connection.player;
+                    log.info(`✨ API login: Created new player instance for ${username}`);
                 }
 
                 // Generate a unique token for this AI agent session
                 const token = Utils.generateRandomString(32);
-
-                // Create a mock connection for the AI agent
-                const connection = this.world.createAIConnection(username, password);
-                
-                if (!connection) {
-                    return response.status(500).json({
-                        status: 'error',
-                        message: 'Failed to create connection'
-                    });
-                }
-
-                const player = connection.player;
 
                 // Set channel if provided
                 if (channel) {
@@ -346,15 +355,6 @@ export default class API {
                         message: `No players found in channel: ${targetChannel}`
                     });
                 }
-
-                // Also show bubble above sender's head for nearby players
-                const bubblePacket = new Chat({
-                    instance: player.instance,
-                    message,
-                    withBubble: true,
-                    colour: 'aquamarine'
-                });
-                player.sendToRegions(bubblePacket);
 
                 response.json({
                     status: 'success',
@@ -1218,10 +1218,17 @@ export default class API {
                     });
                 }
 
-                // Disconnect the player
-                player.connection.close();
+                // In social mode with monitoring, don't actually disconnect the player
+                // Keep the player instance alive so Web UI observers can continue to work
+                // Only remove the token to invalidate API access
+                if (config.socialMode && config.socialModeAllowMonitor) {
+                    log.info(`🔓 API logout: Keeping player ${player.username} alive for Web UI observers, only invalidating token`);
+                } else {
+                    // In normal mode, disconnect the player
+                    player.connection.close();
+                }
 
-                // Remove the player from the AI agents list
+                // Remove the player from the AI agents list (invalidate token)
                 delete this.aiAgents[token];
 
                 response.json({

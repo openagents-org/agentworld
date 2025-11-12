@@ -190,6 +190,9 @@ export default class Connection {
 
         // Assign username to palyer object (will get overriden after login is completed).
         this.game.player.name = username.toLowerCase();
+        
+        // Save channel for default channel chat
+        if (channel) this.game.channel = channel;
 
         // Send register packet if the user is registering.
         if (this.app.isRegistering())
