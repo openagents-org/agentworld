@@ -1,0 +1,806 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Elite Dragon Hunt Expedition - Multi-Region Boss Campaign"
+  description: "Ten elite warriors form an expedition force to hunt bosses across multiple biomes, culminating in an epic dragon battle"
+
+# Task objectives
+objectives:
+  primary: "Complete a multi-region boss hunting campaign where 10 agents travel across 5 different biomes, defeat 4-5 bosses, craft equipment between battles, and ultimately defeat a dragon or legendary beast"
+  secondary:
+    - "Phase 1: Equipment Preparation & Team Assembly (Gather materials, craft weapons)"
+    - "Phase 2: Forest Expedition (Travel to forest, hunt forest boss Level 15-20)"
+    - "Phase 3: Desert Campaign (Travel to desert, hunt desert boss Level 20-25)"
+    - "Phase 4: Mountain Assault (Travel to mountains, hunt mountain boss Level 25-30)"
+    - "Phase 5: Ice Cavern Preparation (Gather ice region materials, upgrade equipment)"
+    - "Phase 6: Volcanic Battleground (Travel to volcanic region, defeat volcanic enemies)"
+    - "Phase 7: Dragon Hunt Finale (Locate and defeat Forest Dragon Level 60+ or Hell Hound Level 50+)"
+    - "Complete campaign within 52 rounds with all warriors surviving"
+
+# Context and guidance for agents
+relevant_game_context: |
+  Team objective: Form an elite 10-agent expedition force to hunt bosses across multiple regions and defeat a legendary dragon.
+
+  🚨 CRITICAL AWARENESS - DRAGON HUNT EXPEDITION:
+  - ALWAYS verify HP before combat: verify_inventory
+  - NEVER engage boss if team HP < 85%
+  - ALWAYS stay within 15 tiles of each other during battles
+  - Use chat to coordinate EVERY attack
+  - Use attack_entity for combat (system handles battle automatically)
+  - Heal immediately after each boss fight
+  - This is SURVIVAL-FOCUSED - staying alive is priority
+
+  📍 STARTING LOCATION: All agents start near (350, 300) - Central Rally Point
+
+  🎖️ TEAM COMPOSITION & ROLES:
+
+  TANKS (3 agents): DragonTank1, DragonTank2, DragonTank3
+    → High Defense + Health
+    → Initiate boss attacks first
+    → Absorb damage for team
+
+  DPS (4 agents): DragonDPS1, DragonDPS2, DragonDPS3, DragonDPS4
+    → High Strength + Accuracy
+    → Main damage dealers
+    → Attack bosses after tanks engage
+
+  SUPPORT (2 agents): DragonSupport1, DragonSupport2
+    → Gather materials between battles
+    → Craft equipment and healing items
+    → Provide backup combat when needed
+
+  SCOUT (1 agent): DragonScout
+    → Explore regions to locate bosses
+    → Use observe_environment to find targets
+    → Guide team to boss locations
+
+  ⚠️ REALISTIC EXPEDITION EXPECTATIONS:
+  - Boss locations are approximate - scout must search
+  - Some bosses may not spawn - try alternatives
+  - If team takes heavy damage, skip optional bosses
+  - Minimum requirement: Defeat at least 3-4 bosses including final dragon
+  - Survival more important than perfect execution
+
+  📊 PHASE 1 - EQUIPMENT PREPARATION (Rounds 1-8):
+
+  🎯 MANDATORY Objectives:
+  - Gather 10+ logs from nearby Oak trees for weapon crafting
+  - Mine 15+ iron ore and 15+ coal from mountains
+  - Smelt 15+ iron bars for weapons and armor
+  - Craft 3x Heavy Swords for additional DPS
+  - Craft 2x Axes as backup weapons
+  - Stock 50+ healing items across team
+  - Team assembly and role confirmation
+
+  🌲 HOW TO GATHER LOGS (Support agents + 2 DPS):
+  1. Travel to forest area around (250, 350) - Oak trees abundant
+  2. DragonSupport1, DragonSupport2, DragonDPS1, DragonDPS2 gather logs
+  3. Use observe_environment radius=32 to find Oak Tree
+  4. Use harvest_resource targetInstance=<tree_instance>
+  5. Each agent gathers 3 logs = 12 logs total
+  6. Chat: "Agent [name]: Harvested X logs. Team total: Y/10"
+
+  ⛏️ HOW TO MINE ORES (All 3 Tanks + Scout):
+  1. Travel to mountain mining area (230, 38)
+  2. Use observe_environment radius=32 to find iron rock and coal rock
+  3. Use harvest_resource targetInstance=<rock_instance>
+  4. DragonTank1, DragonTank2, DragonTank3, DragonScout mine
+  5. Target: 15 iron ore, 15 coal total
+  6. Chat: "Mined X ore. Team total: Y/15 iron, Z/15 coal"
+
+  🔥 HOW TO SMELT BARS (Support agents):
+  1. Transfer all ore and coal to DragonSupport1:
+     - Each miner: transfer_items targetPlayer=DragonSupport1 itemKey=ironore count=<amount>
+     - Each miner: transfer_items targetPlayer=DragonSupport1 itemKey=coal count=<amount>
+  2. DragonSupport1: craft_item skill=Smelting itemKey=ironbar (repeat 15x)
+  3. Recipe: 1 ironore + 1 coal → 1 ironbar each
+  4. Chat: "Smelted X bars. Total: Y/15"
+
+  🔨 HOW TO CRAFT WEAPONS (Support agents):
+  1. DragonSupport1 crafts Heavy Swords:
+     - Need: 2x ironbar + 1x hilt2 → 1x Heavy Sword
+     - craft_item skill=Smithing itemKey=sword2 (repeat 3x if hilts available)
+     - If no hilts, craft axes instead
+  2. DragonSupport2 crafts Axes:
+     - Need: 3x ironbar + 1x logs → 1x Axe
+     - craft_item skill=Smithing itemKey=axe (repeat 2x)
+  3. Distribute weapons to DPS agents
+  4. Chat: "Weapons crafted: 3 swords, 2 axes. Ready for battle!"
+
+  ⏱️ TIME ALLOCATION:
+  - Rounds 1-3: Travel and gather logs/ores simultaneously
+  - Rounds 4-5: Smelt bars
+  - Rounds 6-7: Craft weapons
+  - Round 8: Distribute equipment, heal to 100%, team assembly
+
+  📊 PHASE 2 - FOREST EXPEDITION (Rounds 9-15):
+
+  🎯 Objectives:
+  - Travel to forest region around (200, 400)
+  - Scout locates forest boss (Treant Level 18, Forest Troll Level 15-20, or similar)
+  - Execute coordinated assault
+  - Defeat forest boss
+  - Collect loot and heal
+
+  🔍 HOW TO SCOUT FOR FOREST BOSS (DragonScout):
+  1. DragonScout travels ahead to (200, 400) - forest boss area
+  2. Use observe_environment radius=64 to search for bosses
+  3. Look for: "treant" Level 18, "troll" Level 15-20, or high-level forest mob
+  4. Chat: "Scouting forest region (X,Y)... searching for boss"
+  5. When found: "FOREST BOSS LOCATED: [boss name] Level [X] at position (Y,Z)!"
+  6. If not found, expand search: try (180,420), (220,380), (250,350)
+
+  🚶 HOW TEAM TRAVELS TO BOSS:
+  1. Scout announces boss location
+  2. All 10 agents use move_character to travel toward boss coordinates
+  3. Distance from (350,300) to (200,400): ~180 tiles, need 6 moves
+  4. Chat during travel: "Agent [name]: Moving to forest boss. Position: (X,Y)"
+  5. Upon arrival: "Arrived at forest boss location. HP: X/Y. READY!"
+
+  ⚔️ HOW TO FIGHT FOREST BOSS (Coordinated Attack):
+  1. Pre-fight checks (MANDATORY):
+     - All agents within 15 tiles of boss
+     - All agents HP > 85%
+     - Chat: "Team ready check - Agent [name]: HP X/Y, Position (A,B)"
+  2. Attack sequence:
+     - DragonTank1: attack_entity targetInstance=<boss_instance>
+     - DragonTank2: attack_entity targetInstance=<same_instance>
+     - DragonTank3: attack_entity targetInstance=<same_instance>
+     - DragonDPS1-4: attack_entity targetInstance=<same_instance>
+     - DragonSupport1-2: attack_entity targetInstance=<same_instance>
+     - DragonScout: attack_entity targetInstance=<same_instance>
+  3. System processes battle automatically
+  4. Post-battle:
+     - All agents verify_inventory to check HP and loot
+     - Chat: "Forest boss defeated! HP: X/Y. Loot: [items]"
+     - Heal to >80% HP before Phase 3
+
+  ⏱️ TIME ALLOCATION:
+  - Rounds 9-11: Scout searches, team travels to forest
+  - Round 12: Locate boss, position team
+  - Rounds 13-14: Fight forest boss
+  - Round 15: Heal and prepare for Phase 3
+
+  📊 PHASE 3 - DESERT CAMPAIGN (Rounds 16-22):
+
+  🎯 Objectives:
+  - Travel to desert region around (720, 150)
+  - Scout locates desert boss (Scorpion Level 22, Desert Raider Level 20-25)
+  - Execute assault with improved tactics
+  - Defeat desert boss
+
+  🔍 HOW TO SCOUT FOR DESERT BOSS:
+  1. DragonScout travels to desert area (720, 150)
+  2. Use observe_environment radius=64 to find desert boss
+  3. Look for: "scorpion" Level 20+, "raider" Level 20-25, or desert mob
+  4. Chat: "Scouting desert (X,Y)... searching"
+  5. Found: "DESERT BOSS: [name] Level [X] at (Y,Z)!"
+  6. Alternative locations: (680,130), (740,170), (700,200)
+
+  🚶 HOW TEAM TRAVELS TO DESERT:
+  1. From forest (200,400) to desert (720,150): ~560 tiles
+  2. This is LONG DISTANCE - will take 18+ moves
+  3. All agents move in parallel toward (720,150)
+  4. Chat every 3-4 moves: "Traveling to desert. Position: (X,Y). Distance: ~Z"
+  5. Upon arrival: "Reached desert! HP check before boss fight!"
+
+  ⚔️ HOW TO FIGHT DESERT BOSS:
+  1. Pre-fight (MANDATORY):
+     - ALL agents HP > 85% (heal if needed!)
+     - All within 15 tiles of boss
+     - Chat ready check
+  2. Attack sequence (same as Phase 2):
+     - Tanks attack first
+     - DPS follows
+     - Support and Scout join
+  3. Post-battle:
+     - Heal immediately
+     - Chat: "Desert boss defeated! HP: X/Y"
+
+  ⏱️ TIME ALLOCATION:
+  - Rounds 16-19: Long travel to desert (560 tiles)
+  - Round 20: Scout finds boss, team positions
+  - Rounds 21-22: Fight desert boss, recover
+
+  📊 PHASE 4 - MOUNTAIN ASSAULT (Rounds 23-30):
+
+  🎯 Objectives:
+  - Travel to mountain region (238, 48)
+  - Locate mountain boss (Ogre Level 28, Mountain Giant Level 25-30)
+  - Execute advanced coordinated assault
+  - Defeat mountain boss (toughest fight yet!)
+
+  🔍 HOW TO SCOUT FOR MOUNTAIN BOSS:
+  1. DragonScout travels to mountain area (238, 48)
+  2. Use observe_environment radius=64
+  3. Look for: "ogre" Level 25-30, "giant" Level 25-30
+  4. Chat: "Scouting mountains for boss..."
+  5. Found: "MOUNTAIN BOSS: [name] Level [X] at (Y,Z)! WARNING: High level!"
+  6. Alternative: (230,30), (245,55), (250,60)
+
+  🚶 HOW TEAM TRAVELS TO MOUNTAINS:
+  1. From desert (720,150) to mountains (238,48): ~490 tiles
+  2. Long travel - 16+ moves
+  3. Move in parallel toward (238,48)
+  4. Chat progress updates
+
+  ⚔️ HOW TO FIGHT MOUNTAIN BOSS (DIFFICULT):
+  1. Pre-fight (CRITICAL):
+     - ALL agents HP = 100% (MUST heal to full!)
+     - Stock healing items ready
+     - All within 12 tiles
+     - Chat: "Mountain boss ready check - this is tough!"
+  2. Attack sequence:
+     - Coordinated assault as before
+     - Expect longer battle (3-4 rounds possible)
+  3. Post-battle:
+     - IMMEDIATELY heal to >70%
+     - Chat: "Mountain boss defeated! Major victory! HP: X/Y"
+     - Rest 1 round before Phase 5
+
+  ⏱️ TIME ALLOCATION:
+  - Rounds 23-26: Travel to mountains
+  - Round 27: Scout finds boss, team prepares
+  - Rounds 28-29: Fight mountain boss (extended battle)
+  - Round 30: Heal and recover
+
+  📊 PHASE 5 - ICE CAVERN PREPARATION (Rounds 31-37):
+
+  🎯 Objectives:
+  - Travel to ice region (259, 151)
+  - Gather special ice materials (Ice Oak logs, special gems if available)
+  - Upgrade equipment with additional crafting
+  - Stock up healing items for final battles
+  - Scout for ice region enemies
+
+  🧊 HOW TO GATHER ICE MATERIALS:
+  1. All agents travel to ice region (259, 151)
+  2. Support agents + 2 DPS gather Ice Oak logs:
+     - Use observe_environment to find Ice Oak Tree
+     - harvest_resource targetInstance=<ice_oak_instance>
+     - Gather 5+ Ice Oak logs
+  3. If gems available, mine them:
+     - Look for beryl rock, topaz rock
+     - Gather 3-5 gems for rings/pendants
+  4. Chat: "Ice materials gathered: X logs, Y gems"
+
+  🔧 HOW TO UPGRADE EQUIPMENT:
+  1. Support agents craft protective items:
+     - If have gold: craft Golden Ring (2 goldbar → goldring)
+     - If have gems: craft Beryl Pendant (2 berylgem + 1 logs → pendant)
+     - If have iron: craft Silver Rings (2 ironbar → silverring)
+  2. Distribute protective items to tanks and DPS
+  3. equip_item to boost defense
+  4. Chat: "Equipment upgraded! Team stronger for dragon!"
+
+  🏥 HOW TO STOCK HEALING:
+  1. Hunt mid-level creatures in ice region for food drops
+  2. Each agent should have 10+ healing items
+  3. Distribute healing items to ensure balance
+  4. Chat: "Healing check - Agent [name]: X healing items"
+
+  ⏱️ TIME ALLOCATION:
+  - Rounds 31-32: Travel to ice region
+  - Rounds 33-35: Gather ice materials
+  - Rounds 36-37: Craft equipment upgrades, stock healing
+
+  📊 PHASE 6 - VOLCANIC BATTLEGROUND (Rounds 38-43):
+
+  🎯 Objectives:
+  - Travel to volcanic region (150, 200)
+  - Hunt volcanic enemies (Fire Elementals, Lava Beasts)
+  - Optional: Defeat volcanic mini-boss if found
+  - Test upgraded equipment
+  - Final preparations for dragon
+
+  🔥 HOW TO HUNT VOLCANIC ENEMIES:
+  1. Travel to volcanic/dark forest area (150, 200)
+  2. Scout searches for enemies: use observe_environment radius=64
+  3. Look for: Level 20-30 enemies (not dragon yet!)
+  4. Team fights 2-3 volcanic enemies for practice
+  5. Chat: "Volcanic enemy defeated! Team coordination excellent!"
+
+  🔍 OPTIONAL VOLCANIC BOSS:
+  1. If scout finds boss Level 30-35, team can engage
+  2. NOT REQUIRED - only if team is healthy
+  3. Skip if HP low or time running short
+  4. Priority is dragon fight in Phase 7
+
+  ⏱️ TIME ALLOCATION:
+  - Rounds 38-39: Travel to volcanic region
+  - Rounds 40-42: Hunt volcanic enemies (2-3 fights)
+  - Round 43: Final team prep, heal to 100%
+
+  📊 PHASE 7 - DRAGON HUNT FINALE (Rounds 44-52):
+
+  🎯 Objectives:
+  - Locate legendary dragon or beast boss
+  - Execute PERFECT team coordination
+  - Defeat Forest Dragon (Level 60+) or Hell Hound (Level 50+)
+  - Complete expedition successfully
+  - All warriors survive
+
+  🐉 HOW TO LOCATE DRAGON:
+  1. Primary target: Forest Dragon
+     - Location: Forest region around (200, 450) or (300, 500)
+     - Level: 60-70 (VERY DIFFICULT)
+     - DragonScout: observe_environment radius=64 to search
+  2. Alternative target: Hell Hound
+     - Location: Volcanic region (150, 150) or (100, 180)
+     - Level: 50-55 (DIFFICULT but more manageable)
+  3. Scout searches and chats: "Searching for dragon at (X,Y)..."
+  4. When found: "🐉 DRAGON LOCATED: [name] Level [X] at (Y,Z)! PREPARE FOR EPIC BATTLE!"
+
+  🚶 HOW TEAM TRAVELS TO DRAGON:
+  1. All agents move toward dragon location
+  2. Travel distance varies: 100-300 tiles depending on location
+  3. Chat: "Moving to dragon. Position: (X,Y)"
+  4. Arrival: "At dragon location! FINAL PREPARATIONS!"
+
+  ⚔️ HOW TO FIGHT DRAGON (EPIC BATTLE):
+  1. CRITICAL pre-fight preparation:
+     - ALL agents MUST have HP = 100% (full health)
+     - Each agent needs 8+ healing items ready
+     - ALL agents within 10 tiles of dragon
+     - Chat FULL status: "DRAGON READY CHECK"
+     - Each agent: "Agent [name]: HP X/X, Healing: Y items, Position: (A,B), Weapon: [item]. READY!"
+
+  2. Attack execution (COORDINATED):
+     - DragonTank1 initiates: attack_entity targetInstance=<dragon_instance>
+     - Wait for system processing
+     - DragonTank2: attack_entity targetInstance=<same_instance>
+     - DragonTank3: attack_entity targetInstance=<same_instance>
+     - DragonDPS1: attack_entity targetInstance=<same_instance>
+     - DragonDPS2: attack_entity targetInstance=<same_instance>
+     - DragonDPS3: attack_entity targetInstance=<same_instance>
+     - DragonDPS4: attack_entity targetInstance=<same_instance>
+     - DragonSupport1: attack_entity targetInstance=<same_instance>
+     - DragonSupport2: attack_entity targetInstance=<same_instance>
+     - DragonScout: attack_entity targetInstance=<same_instance>
+
+  3. Battle expectations:
+     - Dragon fight will be LONGEST battle - expect 4-6 rounds
+     - Some agents may need to heal mid-battle
+     - Team must maintain coordination
+     - DO NOT panic if HP drops - focus on victory
+
+  4. Post-battle VICTORY:
+     - All agents: verify_inventory to check HP and epic loot
+     - Chat: "🐉 DRAGON DEFEATED! LEGENDARY VICTORY!"
+     - Share final stats: "Agent [name]: HP X/Y, Survived: YES!"
+     - Celebrate: "Elite Dragon Hunt Expedition COMPLETE!"
+
+  ⏱️ TIME ALLOCATION:
+  - Rounds 44-46: Scout searches for dragon (may take time to find)
+  - Round 47: Team travels to dragon location
+  - Round 48: Heal to 100%, final preparations, positioning
+  - Rounds 49-51: Epic dragon battle (extended combat)
+  - Round 52: Victory celebration, loot collection
+
+  🎖️ EXPEDITION COORDINATION THROUGHOUT:
+  - Use global chat CONSTANTLY (after every major action)
+  - Tanks lead attacks, DPS follows, Support crafts
+  - Scout explores ahead and guides team
+  - Stay together during travel (within 50 tiles)
+  - Heal after every boss fight
+  - Adapt strategy based on boss encounters
+  - Help agents who fall behind
+  - Share healing items if needed
+
+  📊 7-PHASE CAMPAIGN PROGRESSION:
+  Phase 1 (Preparation): Gather, smelt, craft - Build foundation
+  Phase 2 (Forest): First regional boss, establish coordination
+  Phase 3 (Desert): Long travel, second boss, test endurance
+  Phase 4 (Mountain): Difficult boss, test strength
+  Phase 5 (Ice): Gather upgrades, improve equipment
+  Phase 6 (Volcanic): Practice fights, final prep
+  Phase 7 (Dragon): Ultimate challenge, legendary victory
+
+  🚨 COMPLETION REQUIREMENTS:
+
+  DO NOT use complete() until ALL MANDATORY requirements met:
+
+  ✓ Phase 1: Equipment crafted (3 Heavy Swords or Axes, 15 iron bars)
+  ✓ Phase 2: Forest boss defeated (Level 15-20)
+  ✓ Phase 3: Desert boss defeated (Level 20-25)
+  ✓ Phase 4: Mountain boss defeated (Level 25-30)
+  ✓ Phase 5: Ice materials gathered, equipment upgraded
+  ✓ Phase 6: Volcanic enemies hunted (2-3 fights)
+  ✓ Phase 7: DRAGON or HELL HOUND defeated (Level 50-70)
+  ✓ All 10 warriors survive with HP > 0
+  ✓ Expedition takes 45+ rounds (NOT before round 40!)
+  ✓ Team traveled across 5+ different regions
+  ✓ Team used chat extensively for coordination
+
+  MINIMUM ACCEPTABLE (If Issues):
+  ✓ At least 4 bosses defeated (Phases 2, 3, 4, 7 required)
+  ✓ Dragon or high-level legendary beast defeated
+  ✓ At least 8/10 warriors survive
+  ✓ Equipment crafting completed in Phase 1
+
+  📋 FINAL VERIFICATION (Round 50-52):
+  ✓ DragonTank1: "Campaign summary: Defeated [list bosses]. Dragon: DEFEATED!"
+  ✓ DragonScout: "Regions explored: Forest, Desert, Mountain, Ice, Volcanic. Epic journey!"
+  ✓ DragonSupport1: "Equipment crafted: [list]. Healing provided throughout."
+  ✓ All agents: "Final HP: X/Y. Status: SURVIVED! Elite Dragon Hunt Expedition COMPLETE!"
+
+  THEN one agent calls complete() with full summary of all 7 phases and bosses defeated
+
+  Goal: Demonstrate elite combat coordination, multi-region exploration, progressive difficulty, equipment management, and legendary boss hunting across an epic expedition!
+
+# Limitations
+max_action_steps: 52
+
+# Agent configurations
+agent_1:
+  username: "DragonTank1"
+  new_character: true
+
+  location:
+    x: 350
+    y: 300
+
+  skill_levels:
+    defense: 50
+    strength: 40
+    health: 60
+    accuracy: 30
+    mining: 15
+    smithing: 15
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "bigflask"
+      count: 10
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "plateboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "DragonTank2"
+  new_character: true
+
+  location:
+    x: 352
+    y: 302
+
+  skill_levels:
+    defense: 48
+    strength: 38
+    health: 58
+    accuracy: 28
+    mining: 15
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "bigflask"
+      count: 10
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "plateboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "DragonTank3"
+  new_character: true
+
+  location:
+    x: 348
+    y: 298
+
+  skill_levels:
+    defense: 48
+    strength: 38
+    health: 58
+    accuracy: 28
+    mining: 15
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "bigflask"
+      count: 10
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "plateboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "DragonDPS1"
+  new_character: true
+
+  location:
+    x: 354
+    y: 304
+
+  skill_levels:
+    strength: 55
+    accuracy: 50
+    health: 45
+    defense: 35
+    lumberjacking: 15
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "bigflask"
+      count: 8
+
+  equipped_items:
+    - item: "goldensword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "axe"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "DragonDPS2"
+  new_character: true
+
+  location:
+    x: 346
+    y: 296
+
+  skill_levels:
+    strength: 53
+    accuracy: 48
+    health: 45
+    defense: 35
+    lumberjacking: 15
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "bigflask"
+      count: 8
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "DragonDPS3"
+  new_character: true
+
+  location:
+    x: 352
+    y: 298
+
+  skill_levels:
+    strength: 53
+    accuracy: 48
+    health: 45
+    defense: 35
+    lumberjacking: 15
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "bigflask"
+      count: 8
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "DragonDPS4"
+  new_character: true
+
+  location:
+    x: 348
+    y: 302
+
+  skill_levels:
+    accuracy: 55
+    strength: 50
+    health: 45
+    defense: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "bigflask"
+      count: 8
+    - item: "arrow"
+      count: 100
+
+  equipped_items:
+    - item: "bow2"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "DragonSupport1"
+  new_character: true
+
+  location:
+    x: 350
+    y: 304
+
+  skill_levels:
+    smithing: 25
+    # smelting: 25
+    crafting: 20
+    lumberjacking: 20
+    mining: 20
+    strength: 30
+    health: 40
+    defense: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "DragonSupport2"
+  new_character: true
+
+  location:
+    x: 346
+    y: 304
+
+  skill_levels:
+    crafting: 25
+    fletching: 25
+    lumberjacking: 20
+    foraging: 20
+    strength: 30
+    health: 40
+    defense: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "DragonScout"
+  new_character: true
+
+  location:
+    x: 354
+    y: 298
+
+  skill_levels:
+    accuracy: 40
+    strength: 35
+    health: 45
+    defense: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "arrow"
+      count: 50
+
+  equipped_items:
+    - item: "bow1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "Phase 1 completed: Team gathers 10+ logs and mines 15+ iron ore and coal"
+  - "Phase 1: Team smelts 15 iron bars and crafts 3 Heavy Swords or Axes"
+  - "Phase 1: All 10 agents assemble, roles confirmed, equipped and ready"
+  - "Phase 2 completed: Forest boss (Treant/Troll Level 15-20) defeated"
+  - "Phase 2: Scout successfully locates boss, team travels and coordinates attack"
+  - "Phase 3 completed: Desert boss (Scorpion/Raider Level 20-25) defeated"
+  - "Phase 3: Team successfully travels long distance (560+ tiles) to desert region"
+  - "Phase 4 completed: Mountain boss (Ogre/Giant Level 25-30) defeated"
+  - "Phase 4: Team handles difficult boss fight with healing and coordination"
+  - "Phase 5 completed: Ice materials gathered (5+ Ice Oak logs, gems if available)"
+  - "Phase 5: Equipment upgraded with additional crafted items (rings, pendants, or weapons)"
+  - "Phase 6 completed: Team hunts 2-3 volcanic enemies in volcanic region"
+  - "Phase 6: Team tests upgraded equipment and prepares for dragon"
+  - "Phase 7 completed: DRAGON or LEGENDARY BEAST defeated (Forest Dragon Level 60+ or Hell Hound Level 50+)"
+  - "Phase 7: Scout locates dragon, team executes coordinated assault"
+  - "At least 4-5 bosses defeated total across all phases"
+  - "All 10 warriors survive expedition with HP > 0 (or at least 8/10 survive)"
+  - "Expedition spans 5+ different regions (Forest, Desert, Mountain, Ice, Volcanic)"
+  - "Team travels 1000+ total tiles across all phases"
+  - "Team uses chat extensively for coordination throughout 52 rounds"
+  - "Campaign takes 45-52 rounds (shows proper pacing and preparation)"
+  - "Elite Dragon Hunt Expedition successfully completed with legendary victory"

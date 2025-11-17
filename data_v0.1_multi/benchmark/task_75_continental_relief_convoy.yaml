@@ -1,0 +1,422 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Continental Relief Convoy - Multi-Region Aid Escort"
+  description: "Ten specialists assemble, fabricate supply crates, and escort them from the central farmlands to the flooded coast over ~52 rounds"
+
+# Task objectives
+objectives:
+  primary: "Deliver consolidated medical and engineering supplies to the coastal refugee pier after executing a four-phase convoy plan in 50-52 rounds"
+  secondary:
+    - "Phase 1 (Rounds 1-12): Stage at (410-420, 215-225) and gather logs, ore, coal, shrimp, berries"
+    - "Phase 2 (Rounds 13-26): Smelt 30 iron bars, craft repair tools, cook 30 meals, bundle aid kits"
+    - "Phase 3 (Rounds 27-40): Move the convoy across mountains with scouts, payload, rearguard"
+    - "Phase 4 (Rounds 41-52): Hand off supplies at (175-190, 634-640), verify inventories, summarize route"
+
+# Relevant game context
+relevant_game_context: |
+  Mission overview: move_character in ≤32 tile hops, keep the convoy together, and keep real inventories synced through verify_inventory every time supplies move.
+  
+  CORE TOOLS:
+  - move_character: hop toward rendezvous / waypoints without exceeding 32 tiles per call.
+  - observe_environment radius=64: mandatory before harvesting or fighting in any new sector.
+  - harvest_resource targetInstance=<id>: trees (logs), rocks (iron/coal), fish spots (rawshrimp), plants (blueberry/tomato).
+  - craft_item skill=<Crafting|Smelting|Fletching|Cooking|Smithing> itemKey=<recipe>: sticks, arrows, ironbar, pickaxe, axe, bucket, cookedshrimp.
+  - transfer_items targetPlayer=<ally> itemKey=<item> count=<n>: every material or meal handoff.
+  - verify_inventory: confirm totals after each transfer and before leaving any waypoint.
+  - attack_entity targetInstance=<mob>: escorts clear threats; payload pauses until chat confirms area safe.
+  - chat (global): publish role assignments, travel waypoints, combat reports, and delivery confirmations.
+  
+  PHASE 1 (Rounds 1-12) STAGING & RESOURCE SWEEP
+  1. All agents converge on (410-415, 215-222) using staggered move_character calls; post "role confirmed" in chat.
+  2. Split into four squads: Mining (EngineerMarek + ShieldTomas) to (230,38); Logging/Fletching (PathfinderLena + RangerKira) near (388-250, 4-350); Food & Recon (CookEmil + ScoutIlan) to coast (175,635); HQ (QuartermasterAvery + MedicSora + DriverNyx + DiplomatJuno) maintain staging.
+  3. Mining squad harvest_resource enough nodes for ≥30 ironore and ≥30 coal; logging pair bring back ≥40 logs + ≥40 feathers; food team fishes ≥20 rawshrimp and forages ≥50 blueberries/tomatoes near farmland.
+  4. After each trip everyone meets back at staging, uses transfer_items to feed QuartermasterAvery, then Quartermaster runs verify_inventory and posts totals.
+  
+  PHASE 2 (Rounds 13-26) FABRICATION & PACKAGING
+  1. EngineerMarek smelts ≥30 ironbar (craft_item skill=Smelting itemKey=ironbar) and forges 3 pickaxe, 3 axe, 3 bucket (Smithing).
+  2. RangerKira converts logs into sticks (craft_item skill=Fletching itemKey=stick) and then 60+ arrows; ScoutIlan double-checks feathers and shares via transfer_items.
+  3. CookEmil cooks ≥30 cookedshrimp (craft_item skill=Cooking itemKey=cookedshrimp) and transfers meals to MedicSora, who consolidates with flasks/berries.
+  4. QuartermasterAvery must hold before departure: ≥40 logs, ≥30 ironbar, ≥50 blueberries, ≥30 cookedshrimp, ≥30 flasks, spare sticks/feathers, plus manifest written in chat by DiplomatJuno.
+  
+  PHASE 3 (Rounds 27-40) CONVOY MOVEMENT
+  1. Form three columns: Pathfinders (PathfinderLena + RangerKira), Payload (QuartermasterAvery, MedicSora, DriverNyx, CookEmil), Rearguard (ShieldTomas, EngineerMarek, ScoutIlan, DiplomatJuno).
+  2. Leapfrog move_character hops ≤32 tiles, regroup every two hops for verify_inventory so the payload never exceeds 10 tiles separation from escorts.
+  3. Scouts use observe_environment radius=64 before each hop; if mobs spotted, escorts engage with attack_entity while payload waits.
+  4. Upon reaching mountains (230,38) and again at foothills (210,250) post chat updates summarizing positions, HP, and remaining supplies.
+  
+  PHASE 4 (Rounds 41-52) COASTAL DELIVERY
+  1. Arrive at refugee pier (175-190, 634-640); set perimeter (escorts 8 tiles out) while Quartermaster + Diplomat in center.
+  2. Quartermaster transfers via transfer_items to DiplomatJuno: ≥30 cookedshrimp, ≥20 flasks, ≥20 ironbar, ≥60 arrows, and any spare repair tools; both agents run verify_inventory and echo counts.
+  3. MedicSora confirms every agent HP >25%; ShieldTomas reports final security sweep; DiplomatJuno summarizes entire route/deliveries in chat.
+  4. Only after round 50 may any agent call complete(), and the final message must cite supply totals and convoy survival.
+  
+  DEADLOCK SAFETY:
+  - Whenever two squads need the same tile, one pauses with sleep(2) or alternate path to avoid blocking move_character calls.
+  - If mining or fishing nodes are missing, swap squads instead of waiting idle; keep Quartermaster updated.
+
+# Limitations
+max_action_steps: 52
+
+# Agent configurations
+agent_1:
+  username: "QuartermasterAvery_75"
+  new_character: true
+  
+  location:
+    x: 410
+    y: 220
+  
+  skill_levels:
+    crafting: 38
+    smithing: 32
+    strength: 30
+    health: 35
+  
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 18
+    - item: "string"
+      count: 20
+    - item: "bead"
+      count: 3
+  
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "PathfinderLena_75"
+  new_character: true
+  
+  location:
+    x: 405
+    y: 212
+  
+  skill_levels:
+    lumberjacking: 34
+    strength: 32
+    defense: 28
+    health: 34
+  
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 14
+    - item: "logs"
+      count: 4
+    - item: "cure"
+      count: 1
+  
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "ScoutIlan_75"
+  new_character: true
+  
+  location:
+    x: 392
+    y: 210
+  
+  skill_levels:
+    accuracy: 36
+    fletching: 28
+    strength: 26
+    health: 28
+  
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 12
+    - item: "feather"
+      count: 10
+    - item: "string"
+      count: 8
+  
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "EngineerMarek_75"
+  new_character: true
+  
+  location:
+    x: 230
+    y: 38
+  
+  skill_levels:
+    mining: 40
+    smithing: 38
+    strength: 30
+    health: 32
+  
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+    - item: "coal"
+      count: 4
+    - item: "ironore"
+      count: 4
+  
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "hammer"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "MedicSora_75"
+  new_character: true
+  
+  location:
+    x: 415
+    y: 225
+  
+  skill_levels:
+    magic: 34
+    crafting: 24
+    cooking: 30
+    health: 38
+  
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "manaflask"
+      count: 8
+    - item: "blueberry"
+      count: 12
+    - item: "tomato"
+      count: 10
+  
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "RangerKira_75"
+  new_character: true
+  
+  location:
+    x: 248
+    y: 350
+  
+  skill_levels:
+    accuracy: 34
+    fletching: 30
+    lumberjacking: 28
+    health: 30
+  
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 10
+    - item: "feather"
+      count: 15
+    - item: "logs"
+      count: 3
+  
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "ShieldTomas_75"
+  new_character: true
+  
+  location:
+    x: 407
+    y: 218
+  
+  skill_levels:
+    defense: 40
+    strength: 38
+    health: 40
+    accuracy: 24
+  
+  inventory_items:
+    - item: "flask"
+      count: 14
+    - item: "apple"
+      count: 16
+    - item: "cure"
+      count: 2
+  
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "DriverNyx_75"
+  new_character: true
+  
+  location:
+    x: 402
+    y: 215
+  
+  skill_levels:
+    crafting: 28
+    strength: 26
+    health: 28
+    fletching: 22
+  
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 14
+    - item: "string"
+      count: 10
+    - item: "logs"
+      count: 2
+  
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "CookEmil_75"
+  new_character: true
+  
+  location:
+    x: 420
+    y: 230
+  
+  skill_levels:
+    cooking: 38
+    fishing: 32
+    foraging: 26
+    health: 28
+  
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 10
+    - item: "rawshrimp"
+      count: 12
+    - item: "rawtuna"
+      count: 6
+  
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "DiplomatJuno_75"
+  new_character: true
+  
+  location:
+    x: 224
+    y: 359
+  
+  skill_levels:
+    magic: 30
+    accuracy: 28
+    strength: 24
+    health: 30
+  
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "manaflask"
+      count: 6
+    - item: "apple"
+      count: 12
+    - item: "bead"
+      count: 2
+  
+  equipped_items:
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "All ten agents meet inside (410-415, 215-225) before Round 5 and publish a chat log confirming their assigned squad roles."
+  - "QuartermasterAvery verifies (via verify_inventory) a pre-departure stockpile of ≥40 logs, ≥30 ironbar, ≥50 blueberries, ≥30 cookedshrimp, and ≥30 flasks."
+  - "EngineerMarek crafts ≥30 ironbar plus 3 pickaxe, 3 axe, and 3 bucket using craft_item calls announced in chat."
+  - "RangerKira and ScoutIlan craft and consolidate ≥60 arrows and report the arrow count for escorts."
+  - "At least one escort (ShieldTomas or EngineerMarek) uses attack_entity to remove a threat during the mountain crossing and reports HP afterward."
+  - "DiplomatJuno receives (via transfer_items) ≥30 cookedshrimp, ≥20 flasks, ≥20 ironbar, and ≥60 arrows at the coast and confirms via verify_inventory."
+  - "Mission completes between Rounds 50-52 only after MedicSora confirms every agent HP >25% and DiplomatJuno summarizes the full convoy route and deliveries."
+

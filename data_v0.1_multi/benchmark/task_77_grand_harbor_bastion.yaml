@@ -1,0 +1,421 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Grand Harbor Bastion - Coastal Defense Retrofit"
+  description: "Ten harbor specialists rebuild siege batteries, fortify the tidal wall, and repel an elite coastal boss within 53 rounds"
+
+# Task objectives
+objectives:
+  primary: "Construct four functional ballista towers at the coastal harbor (175-197, 633-640) and survive the ensuing merfolk assault"
+  secondary:
+    - "Phase 1 (Rounds 1-12): Stockpile timber, ore, feathers, palmlogs, kelp, and seafood while establishing the harbor command post"
+    - "Phase 2 (Rounds 13-28): Smelt 24 iron bars, craft 6 ballista frames (woodenbow) + 60 arrows, build repair kits, cook 20 meals"
+    - "Phase 3 (Rounds 29-40): Install four towers along the seawall, assign crews, and verify ammo and repair materials"
+    - "Phase 4 (Rounds 41-53): Trigger the defense drill, defeat the Water Guardian/Mermaid, heal up, and log the final readiness report"
+
+# Relevant game context
+relevant_game_context: |
+  Harbor staging area: (182-190, 636-640). HarborMarshalEdda acts as quartermaster; all supplies flow through this tile via transfer_items followed by verify_inventory.
+  
+  CORE ACTION REMINDERS:
+  - move_character ≤32 tiles per hop; stagger departures so carts do not collide.
+  - observe_environment radius=64 before entering a new shoreline or mine to avoid walking into the Guardian early.
+  - harvest_resource targetInstance=<id>: trees (logs/palmlogs), rocks (iron/coal), fish spots (rawshrimp), plants (kelp).
+  - craft_item skill=Smelting itemKey=ironbar (24x), Smithing itemKey=pickaxe/axe, Crafting itemKey=woodenbow, Fletching itemKey=arrow, Cooking itemKey=cookedshrimp.
+  - transfer_items targetPlayer=<ally> itemKey=<item> count=<n> for every resource/bundle; never rely on verbal promises.
+  - verify_inventory before/after each tower install and before calling complete().
+  - attack_entity targetInstance=<guardian> when Water Guardian or Mermaid spawns near (197,633); escorts must announce HP before/after combat.
+  - chat (global) for role assignment, material totals, tower status, combat updates.
+  
+  PHASE 1 (Rounds 1-12) RESOURCE SURGE
+  1. TimberLeadQuill + BowmasterRen work the western forest (388-360, 5-40) for ≥60 logs and ≥40 feathers.
+  2. OreChiefSilas + ArtilleristNia mine at (230,38) for ≥30 ironore and ≥30 coal; keep Shield escort within 5 tiles to deter mobs.
+  3. ScoutPax + CookHarper harvest ≥20 palmlogs, ≥12 kelp, and fish ≥20 rawshrimp along the coast (175-205, 630-645).
+  4. Every run ends back at (185,638) where HarborMarshalEdda logs totals via verify_inventory; MedicDae redistributes healing items as needed.
+  
+  PHASE 2 (Rounds 13-28) FABRICATION BLOCK
+  1. OreChiefSilas smelts 24 ironbar (craft_item skill=Smelting itemKey=ironbar) then forges 4 pickaxe + 4 axe for field repairs.
+  2. BowmasterRen converts logs→sticks (craft_item skill=Fletching itemKey=stick) and crafts 60 arrows; ArtilleristNia builds 6 woodenbow frames (craft_item skill=Crafting itemKey=woodenbow).
+  3. StormMageIris crafts an extra lightningstaff or firestaff if beads allow; she is responsible for magical overwatch.
+  4. CookHarper cooks ≥20 cookedshrimp (craft_item skill=Cooking itemKey=cookedshrimp) and transfers half to MedicDae.
+  5. HarborMarshalEdda ensures the stockpile before deployment contains: 24 ironbar, 6 woodenbow, 60 arrows, 20 cookedshrimp, 20 palmlogs, 12 kelp, 4 pickaxe, 4 axe.
+  
+  PHASE 3 (Rounds 29-40) TOWER INSTALLATION
+  1. Tower spots: (180,634), (185,636), (190,638), (195,640). Each requires: 1 woodenbow + 10 arrows + 2 ironbar + 5 logs (ballista kit) plus 1 pickaxe or axe for maintenance.
+  2. ArtilleristNia coordinates placements via chat. After a kit is set, assigned crew (BowmasterRen + ScoutPax, StormMageIris + MedicDae, etc.) posts "Tower X ready" with verify_inventory proof of remaining ammo.
+  3. Driver duties: Defenders rotate along the wall using move_character hops; no crew more than 10 tiles away from their tower while ammo present.
+  4. Spare materials stay on HarborMarshalEdda so emergency repairs don't deadlock.
+  
+  PHASE 4 (Rounds 41-53) DEFENSE DRILL & BOSS
+  1. Trigger the drill by having ScoutPax run observe_environment radius=64 near (197,633). Once Water Guardian or Mermaid appears, HarborMarshalEdda, DefenderRook, and StormMageIris engage via attack_entity while ballista crews announce support fire.
+  2. MedicDae tracks HP (must stay >35% before re-engaging) and redistributes flasks/cookedshrimp afterward.
+  3. CookHarper restocks meals if any fall below 5 per tower; OreChiefSilas checks ironbar remainder (≥4) for future repairs.
+  4. Final report: HarborMarshalEdda lists tower status, ammo counts, and guardian outcome before calling complete(). Do not finish before Round 50.
+  
+  DEADLOCK AVOIDANCE:
+  - If tower tiles are occupied, use sleep(2) and take turns dropping kits so items do not vanish.
+  - If resource nodes are empty, swap squads rather than waiting idle; there is enough slack to hit quotas.
+
+# Limitations
+max_action_steps: 53
+
+# Agent configurations
+agent_1:
+  username: "HarborMarshalEdda_77"
+  new_character: true
+  
+  location:
+    x: 185
+    y: 638
+  
+  skill_levels:
+    defense: 38
+    strength: 32
+    health: 38
+    crafting: 28
+  
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+    - item: "cure"
+      count: 2
+  
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "TimberLeadQuill_77"
+  new_character: true
+  
+  location:
+    x: 388
+    y: 5
+  
+  skill_levels:
+    lumberjacking: 40
+    fletching: 30
+    strength: 30
+    health: 32
+  
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 14
+    - item: "logs"
+      count: 6
+    - item: "string"
+      count: 10
+  
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "OreChiefSilas_77"
+  new_character: true
+  
+  location:
+    x: 230
+    y: 38
+  
+  skill_levels:
+    mining: 42
+    smithing: 36
+    strength: 32
+    health: 34
+  
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+    - item: "ironore"
+      count: 5
+    - item: "coal"
+      count: 5
+  
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "hammer"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "BowmasterRen_77"
+  new_character: true
+  
+  location:
+    x: 250
+    y: 345
+  
+  skill_levels:
+    fletching: 38
+    accuracy: 34
+    lumberjacking: 28
+    health: 30
+  
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 12
+    - item: "feather"
+      count: 20
+    - item: "string"
+      count: 15
+  
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "ArtilleristNia_77"
+  new_character: true
+  
+  location:
+    x: 182
+    y: 636
+  
+  skill_levels:
+    crafting: 34
+    smithing: 32
+    accuracy: 28
+    health: 30
+  
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 12
+    - item: "bead"
+      count: 2
+    - item: "logs"
+      count: 4
+  
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "CookHarper_77"
+  new_character: true
+  
+  location:
+    x: 190
+    y: 642
+  
+  skill_levels:
+    cooking: 36
+    fishing: 32
+    foraging: 28
+    health: 30
+  
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 10
+    - item: "rawshrimp"
+      count: 10
+    - item: "kelp"
+      count: 6
+  
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "MedicDae_77"
+  new_character: true
+  
+  location:
+    x: 185
+    y: 638
+  
+  skill_levels:
+    magic: 34
+    crafting: 26
+    health: 36
+    defense: 28
+  
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "manaflask"
+      count: 8
+    - item: "blueberry"
+      count: 12
+    - item: "cure"
+      count: 1
+  
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "ScoutPax_77"
+  new_character: true
+  
+  location:
+    x: 210
+    y: 610
+  
+  skill_levels:
+    accuracy: 32
+    strength: 26
+    health: 30
+    foraging: 24
+  
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 12
+    - item: "palmlogs"
+      count: 4
+    - item: "kelp"
+      count: 4
+  
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "StormMageIris_77"
+  new_character: true
+  
+  location:
+    x: 197
+    y: 633
+  
+  skill_levels:
+    magic: 38
+    accuracy: 30
+    health: 32
+    crafting: 28
+  
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "manaflask"
+      count: 10
+    - item: "lightningbead"
+      count: 2
+    - item: "firebead"
+      count: 1
+  
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "DefenderRook_77"
+  new_character: true
+  
+  location:
+    x: 176
+    y: 632
+  
+  skill_levels:
+    defense: 36
+    strength: 34
+    health: 38
+    accuracy: 24
+  
+  inventory_items:
+    - item: "flask"
+      count: 14
+    - item: "apple"
+      count: 16
+    - item: "cure"
+      count: 2
+  
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "HarborMarshalEdda maintains the central stockpile and confirms via verify_inventory that resource quotas from Phase 1 were hit (≥60 logs, ≥40 feathers, ≥30 ironore, ≥30 coal, ≥20 palmlogs, ≥20 rawshrimp, ≥12 kelp)."
+  - "OreChiefSilas crafts 24 ironbar plus 4 pickaxe and 4 axe, announcing milestones in chat."
+  - "BowmasterRen and ArtilleristNia produce 6 woodenbow and 60 arrows, then bundle them into four tower kits with logged transfers."
+  - "All four tower coordinates (180,634 / 185,636 / 190,638 / 195,640) receive a complete kit and the assigned crew posts a chat confirmation with remaining ammo counts."
+  - "CookHarper delivers ≥20 cookedshrimp to MedicDae, who confirms medical stock before the boss fight."
+  - "Water Guardian or Mermaid is defeated via coordinated attack_entity calls, and all frontliners report post-fight HP."
+  - "complete() is only called between Rounds 50-53 after HarborMarshalEdda summarizes tower integrity, ammo, meals, and guardian outcome."
+

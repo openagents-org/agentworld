@@ -1,0 +1,430 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Elemental Nexus Stabilization - Tri-Shrine Containment"
+  description: "Ten elemental specialists gather rare resources, craft pylons, and defend three shrines (ice, stone, tidal) to seal planar rifts within 55 rounds"
+
+# Task objectives
+objectives:
+  primary: "Stabilize the Ice, Stone, and Tidal conduits by supplying each shrine with its catalyst set, energizing pylons, and defeating their guardians"
+  secondary:
+    - "Phase 1 (Rounds 1-10): Meet at Magical Nexus (163-168, 335-342), assign squads, audit tools"
+    - "Phase 2 (Rounds 11-22): Harvest icelogs/icebeads, mine iron/coal/cinnabar, gather palmlogs/kelp/shrimp"
+    - "Phase 3 (Rounds 23-34): Craft 20 iron bars, 6 pickaxes, 6 silver rings, and the three elemental staffs"
+    - "Phase 4 (Rounds 35-45): Deploy to Ice Guardian (259,151), Iron Ogre (238,48), and Water Guardian (197,633) shrines and keep pylons powered"
+    - "Phase 5 (Rounds 46-55): Re-sync at Magical Nexus, verify conduit inventories, log final containment report"
+
+# Relevant game context
+relevant_game_context: |
+  Use move_character (≤32 tiles) to keep squads together, and avoid "I did it" claims without verify_inventory proof. The tri-shrine seal needs all three conduits online before anyone calls complete().
+  
+  REQUIRED TOOLS & CALLS:
+  - move_character: short hops, pause if another squad needs the same tile.
+  - observe_environment radius=64: identify resource nodes and guardian mobs before engaging.
+  - harvest_resource targetInstance=<id>: chop icelogs, mine iron/coal/cinnabar, gather palmlogs, fish rawshrimp, pick kelp.
+  - craft_item skill=Smelting itemKey=ironbar, craft_item skill=Smithing itemKey=pickaxe/silverring, craft_item skill=Crafting itemKey=staff/firestaff/lightningstaff/naturestaff.
+  - transfer_items targetPlayer=<ally> itemKey=<item> count=<n>: every handoff of beads, logs, or forged gear.
+  - verify_inventory: mandatory at the end of each phase and before leaving a shrine.
+  - attack_entity targetInstance=<guardian>: coordinate three-person bursts, announce HP before and after.
+  - chat (global): announce squad departures, node discoveries, crafted counts, and shrine status checkpoints.
+  - sleep(seconds=2) is acceptable when staggering pylons so actions don’t overlap.
+  
+  PHASE 1 (Rounds 1-10) COORDINATION
+  1. All agents gather at (163-168, 335-342); ArbiterCael kicks off with a chat log naming Ice Squad (IceBinderMira + TacticianRek + MedicLian), Stone Squad (FlameSmithRurik + ShieldWallOtto + RuneCourierBex), and Tidal Squad (ArchivistNyree + ScoutVega + StormScribeElowen) while Arbiter floats between them.
+  2. Everyone runs verify_inventory and confirms key tools (axes, pickaxes, staffs). If something is missing, request it immediately.
+  
+  PHASE 2 (Rounds 11-22) RESOURCE COLLECTION
+  - Ice Squad moves to Frozen Ridge (228-260, 151-156) to harvest_resource ≥20 icelogs and loot ≥6 icebead (if beads scarce, swap with Arbiter’s reserves). Keep within two tiles for transfers.
+  - Stone Squad travels to mountains (230,38) and high ridge (291,644) to mine ≥25 ironore, ≥25 coal, and ≥8 cinnabarore.
+  - Tidal Squad heads to coast (175-197, 633-635) to harvest ≥30 palmlogs, collect ≥10 kelp via forage, and fish ≥20 rawshrimp.
+  - After each haul, squads report counts over chat and send couriers (RuneCourierBex / ArbiterCael) to move materials to central caches.
+  
+  PHASE 3 (Rounds 23-34) FABRICATION
+  1. All squads regroup at Magical Nexus. FlameSmithRurik smelts ≥20 ironbar (craft_item skill=Smelting itemKey=ironbar) and forges 6 pickaxe + 6 silverring; he shares interim counts in chat.
+  2. Ranger/Fletcher roles craft sticks/arrows if extra wood exists; not mandatory but enables defenses.
+  3. StormScribeElowen + ArchivistNyree craft three pylons: first craft base staffs (craft_item skill=Crafting itemKey=staff), then upgrade to lightningstaff/firestaff/naturestaff with the correct beads.
+  4. MedicLian assembles support packs (30 flasks + 20 cookedshrimp) and spreads them evenly using transfer_items so every squad has healing.
+  5. ArbiterCael verifies each conduit kit contains: 1 elemental staff, 2 silver rings, 1 pickaxe, 8 catalyst logs (ice/palm), and 6 iron bars.
+  
+  PHASE 4 (Rounds 35-45) DEPLOY & DEFEND
+  - Ice Squad heads back to (259,151), installs the ice pylon (drop icelogs + icebeads) and channels with lightningstaff/naturestaff support; expect at least one Ice Guardian, engage via attack_entity.
+  - Stone Squad travels to (238,48), plants iron bars + cinnabar ore, then defeat the Iron Ogre; ShieldWallOtto tanks while FlameSmithRurik + RuneCourierBex assist.
+  - Tidal Squad sails to (197,633) to set up palmlog pylons and defend the Water Guardian spawn; keep ScoutVega scouting for Mimics.
+  - Each squad must broadcast: "Shrine stabilized: <name>, HP status, remaining catalysts".
+  
+  PHASE 5 (Rounds 46-55) SYNCHRONIZE
+  1. All teams regroup at Magical Nexus no later than Round 50 with their conduit leads still carrying leftover catalysts (≥2 logs, ≥2 bars each).
+  2. ArbiterCael runs final verify_inventory with each lead and posts a combined containment report (which shrines sealed, mobs defeated, items remaining).
+  3. Only then may ArbiterCael or ArchivistNyree call complete(), citing all three shrine confirmations.
+  
+  DEADLOCK RULES:
+  - Never let two squads stand on the same transfer tile; stagger by 2 tiles or use sleep(2).
+  - If a guardian fails to spawn, document the search in chat and move to the backup spawn coordinates listed in docs/regions.md.
+
+# Limitations
+max_action_steps: 55
+
+# Agent configurations
+agent_1:
+  username: "ArbiterCael_76"
+  new_character: true
+  
+  location:
+    x: 165
+    y: 338
+  
+  skill_levels:
+    magic: 40
+    crafting: 35
+    health: 35
+    defense: 28
+  
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "manaflask"
+      count: 10
+    - item: "bead"
+      count: 4
+    - item: "cure"
+      count: 1
+  
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "IceBinderMira_76"
+  new_character: true
+  
+  location:
+    x: 232
+    y: 155
+  
+  skill_levels:
+    magic: 32
+    lumberjacking: 30
+    health: 32
+    defense: 26
+  
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 12
+    - item: "icebead"
+      count: 2
+    - item: "icelogs"
+      count: 4
+  
+  equipped_items:
+    - item: "icestaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "FlameSmithRurik_76"
+  new_character: true
+  
+  location:
+    x: 230
+    y: 40
+  
+  skill_levels:
+    smithing: 42
+    mining: 38
+    strength: 32
+    health: 32
+  
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+    - item: "coal"
+      count: 5
+    - item: "ironore"
+      count: 5
+    - item: "firebead"
+      count: 1
+  
+  equipped_items:
+    - item: "hammer"
+      count: 1
+      enchant: 0
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "StormScribeElowen_76"
+  new_character: true
+  
+  location:
+    x: 165
+    y: 342
+  
+  skill_levels:
+    magic: 36
+    crafting: 32
+    accuracy: 28
+    health: 30
+  
+  inventory_items:
+    - item: "manaflask"
+      count: 10
+    - item: "flask"
+      count: 10
+    - item: "lightningbead"
+      count: 2
+    - item: "bead"
+      count: 2
+  
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "RuneCourierBex_76"
+  new_character: true
+  
+  location:
+    x: 200
+    y: 320
+  
+  skill_levels:
+    strength: 30
+    health: 30
+    accuracy: 26
+    fletching: 24
+  
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 12
+    - item: "string"
+      count: 15
+    - item: "logs"
+      count: 5
+  
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "ShieldWallOtto_76"
+  new_character: true
+  
+  location:
+    x: 168
+    y: 31
+  
+  skill_levels:
+    defense: 42
+    strength: 38
+    health: 42
+    accuracy: 20
+  
+  inventory_items:
+    - item: "flask"
+      count: 14
+    - item: "apple"
+      count: 16
+    - item: "cure"
+      count: 2
+  
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "ScoutVega_76"
+  new_character: true
+  
+  location:
+    x: 224
+    y: 359
+  
+  skill_levels:
+    accuracy: 34
+    fishing: 28
+    foraging: 26
+    health: 28
+  
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 10
+    - item: "rawshrimp"
+      count: 8
+    - item: "kelp"
+      count: 6
+  
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "MedicLian_76"
+  new_character: true
+  
+  location:
+    x: 165
+    y: 335
+  
+  skill_levels:
+    magic: 32
+    cooking: 30
+    crafting: 26
+    health: 34
+  
+  inventory_items:
+    - item: "flask"
+      count: 16
+    - item: "manaflask"
+      count: 6
+    - item: "blueberry"
+      count: 12
+    - item: "tomato"
+      count: 8
+  
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "TacticianRek_76"
+  new_character: true
+  
+  location:
+    x: 259
+    y: 151
+  
+  skill_levels:
+    defense: 34
+    accuracy: 30
+    strength: 28
+    health: 32
+  
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 14
+    - item: "palmlogs"
+      count: 4
+    - item: "string"
+      count: 6
+  
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "ArchivistNyree_76"
+  new_character: true
+  
+  location:
+    x: 197
+    y: 633
+  
+  skill_levels:
+    magic: 30
+    crafting: 30
+    fletching: 24
+    health: 30
+  
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 12
+    - item: "palmlogs"
+      count: 6
+    - item: "bead"
+      count: 2
+  
+  equipped_items:
+    - item: "naturestaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "ArbiterCael hosts the kickoff meeting at the Magical Nexus before Round 5, assigns squads in chat, and confirms every agent ran verify_inventory."
+  - "Ice Squad delivers ≥20 icelogs and ≥6 icebead to ArbiterCael, who confirms receipt via verify_inventory before Phase 3."
+  - "FlameSmithRurik crafts ≥20 ironbar plus 6 pickaxe and 6 silverring, announcing each milestone in chat."
+  - "Three distinct elemental staffs (firestaff, lightningstaff, naturestaff) are crafted and held by squad leads prior to shrine deployment."
+  - "Each shrine fight is handled with at least one recorded attack_entity call and a post-combat HP report (Ice Guardian, Iron Ogre, Water Guardian)."
+  - "At Round 46-50 regroup, each conduit lead retains ≥2 catalyst logs and ≥2 iron bars while ArbiterCael logs a consolidated containment summary."
+  - "complete() is only called after Round 50 with confirmation that all three shrines were stabilized and inventories verified."
+
