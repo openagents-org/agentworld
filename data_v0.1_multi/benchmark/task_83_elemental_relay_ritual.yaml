@@ -1,0 +1,324 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Elemental Relay Ritual - Quad-Biome Convergence"
+  description: "Ten adepts retrieve four elemental cores from distant biomes and perform a timed relay ritual at the Central Obelisk within 52 rounds."
+
+# Task objectives
+objectives:
+  primary: "Deliver Earth, Flame, Tide, and Gale cores to the Central Obelisk (500,300) and channel them clockwise without dropping control of any relay baton."
+  secondary:
+    - "Phase 1: Forest team secures the Earth core in the western woods."
+    - "Phase 2: Desert team secures the Flame core near the southern dunes."
+    - "Phase 3: Coastal team secures the Tide core from eastern fishing shrines."
+    - "Phase 4: Swamp team secures the Gale core from marsh spectres."
+    - "Phase 5: Central relay completes a lap per core, then seals the obelisk."
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  CORE RECIPES
+  - Earth core: gather beryl (mining) + string, craft_item Crafting berylpandant to symbolize stability.
+  - Flame core: smelt goldbar (ironore+coal -> ironbar; combine to gold? use goldore) and attach to 4 bloodwoodlogs for heat shielding, craft_item Smithing goldring for the core token.
+  - Tide core: fish rawtuna, cook into tuna sushi (campfire/cooking), pair with lightningbead drop from coastal mobs for tidal surge focus.
+  - Gale core: defeat swamp spectres for feather + bead, craft_item Crafting staff, then upgrade to lightningstaff representing wind channeling.
+  
+  RITUAL PROTOCOL
+  1. Biome teams (Agents 1-8) operate independently until their cores are ready; each team must post inventory snapshots before departing for the center.
+  2. RelayCaptain (Agent 9) stands at (500,300) with baton (any staff). Gale core must arrive last; if the order is broken, restart lap countdown.
+  3. ChantMedic (Agent 10) keeps RelayCaptain above 75% HP; if HP falls lower, ritual pauses until healed.
+  4. Every time a core arrives, the delivering team runs a clockwise lap around the obelisk (touch N-E-S-W markers) before handing off via transfer_items.
+  5. verify_inventory after each handoff and call out “Core X secured – baton state ok” to avoid confusion.
+  6. complete() only after all four cores rest at the obelisk, lap summaries are logged, and no extra cores remain in personal inventories.
+
+# Limitations
+max_action_steps: 52
+
+# Agent configurations
+agent_1:
+  username: "ForestBinder"
+  new_character: true
+
+  location:
+    x: 250
+    y: 350
+
+  skill_levels:
+    lumberjacking: 34
+    crafting: 30
+    accuracy: 28
+    health: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "EarthRunner"
+  new_character: true
+
+  location:
+    x: 255
+    y: 360
+
+  skill_levels:
+    crafting: 32
+    magic: 30
+    strength: 26
+    health: 30
+
+  inventory_items:
+    - item: "string"
+      count: 2
+    - item: "flask"
+      count: 10
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "DesertFlame"
+  new_character: true
+
+  location:
+    x: 420
+    y: 650
+
+  skill_levels:
+    lumberjacking: 30
+    smithing: 32
+    strength: 32
+    health: 33
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 12
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "EmberCourier"
+  new_character: true
+
+  location:
+    x: 430
+    y: 640
+
+  skill_levels:
+    smithing: 28
+    magic: 26
+    defense: 30
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 10
+
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "CoastHarvester"
+  new_character: true
+
+  location:
+    x: 900
+    y: 400
+
+  skill_levels:
+    fishing: 34
+    cooking: 30
+    accuracy: 30
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 12
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "TideBearer"
+  new_character: true
+
+  location:
+    x: 880
+    y: 420
+
+  skill_levels:
+    fishing: 32
+    crafting: 28
+    magic: 26
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 10
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "SwampStrider"
+  new_character: true
+
+  location:
+    x: 520
+    y: 520
+
+  skill_levels:
+    magic: 34
+    accuracy: 30
+    defense: 28
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "manaflask"
+      count: 8
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "GaleRunner"
+  new_character: true
+
+  location:
+    x: 540
+    y: 540
+
+  skill_levels:
+    accuracy: 32
+    crafting: 28
+    strength: 26
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 10
+
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "RelayCaptain"
+  new_character: true
+
+  location:
+    x: 500
+    y: 300
+
+  skill_levels:
+    magic: 36
+    crafting: 34
+    defense: 32
+    health: 36
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "manaflask"
+      count: 10
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "ChantMedic"
+  new_character: true
+
+  location:
+    x: 505
+    y: 305
+
+  skill_levels:
+    magic: 34
+    crafting: 30
+    health: 34
+    defense: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "manaflask"
+      count: 12
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "Each biome team announces core completion with ingredient counts and a verify_inventory snapshot."
+  - "Cores arrive at the obelisk in Earth → Flame → Tide → Gale order; lap start/end messages accompany every handoff."
+  - "RelayCaptain never drops below 75% HP; ChantMedic documents any healing performed mid-ritual."
+  - "All four cores rest at the obelisk simultaneously while agents form a 6-tile ring for the final chant."
+  - "No core or key ingredient remains in personal inventories when complete() is called."
+
