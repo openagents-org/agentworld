@@ -15,228 +15,24 @@ objectives:
 
 # Relevant game context (Hint)
 relevant_game_context: |
-  This is an advanced cooperative multi-agent metalworking scenario requiring complex five-smith coordination.
-  
-  🚨 CRITICAL AWARENESS - 5 AGENTS COORDINATION:
-  - ALWAYS use verify_inventory before claiming to have materials
-  - ALWAYS use transfer_items for ALL material transfers
-  - ALWAYS use chat to announce every action: gathering, smelting, crafting, transferring
-  - NEVER assume materials were sent without verifying
-  - This is a COMPLEX 5-agent task - communication is CRITICAL
-  
-  📍 COORDINATION ZONES:
-  - MasterMiner: Starts at (230, 38) - Mountain mining zone
-  - SmeltingMaster: Starts at (260, 184) - Smelting station
-  - Others: (232-238, 175-180) - Crafting workshops
-  - Agents must travel to transfer materials - use move_character or teleport_character
-  - Stay within 10 tiles when transferring materials
-  
-  GRAND OBJECTIVE: Establish a comprehensive smithy producing complete equipment:
-  1. Ore Mining Division: Extract iron ore, coal, and gold ore
-  2. Smelting Division: Convert ores to usable metal bars
-  3. Tool Smithing Division: Craft pickaxes and axes
-  4. Weapon Smithing Division: Craft swords and combat equipment
-  5. Jewelry Division: Craft rings and accessories
-  
-  FIVE-SMITH ORGANIZATION:
-  - Smith 1: Master Miner - Ore extraction specialist
-  - Smith 2: Smelting Master - Metal bar production
-  - Smith 3: Tool Forge - Tool crafting specialist
-  - Smith 4: Weapon Forge - Combat equipment specialist
-  - Smith 5: Jewelry Artisan - Ring and accessory crafting
-  
-  COMPREHENSIVE METALWORKING OPERATIONS:
-  
-  DIVISION 1 - ORE MINING (Master Miner):
-  🎯 Responsibilities:
-    - Mine iron ore (need 15+ pieces for all operations)
-    - Mine coal (need 15+ pieces for smelting)
-    - Mine gold ore if available (need 4+ pieces for jewelry)
-    - Coordinate ore distribution to smelting division
-  
-  ⛏️ HOW MASTERMINER MINES IRON ORE (15+ needed):
-    1. Already at (230, 38) - perfect mining location
-    2. Use observe_environment radius=32 to find iron rock instances
-    3. Use harvest_resource targetInstance=<instance_id> for each iron rock
-    4. Already has 3x ironore in starting inventory
-    5. Mine additional 12+ pieces (total 15+)
-    6. Use chat to announce: "Mined X iron ore, total: Y"
-    7. Level required: 10+ Mining (MasterMiner has 35 Mining - perfect!)
-  
-  ⛏️ HOW MASTERMINER MINES COAL (15+ needed):
-    1. Coal rocks near iron deposits in same area
-    2. Use observe_environment to locate coal rock instances
-    3. Use harvest_resource targetInstance=<instance_id>
-    4. Already has 3x coal, mine 12+ more (total 15+)
-    5. Use chat: "Mined X coal, total: Y"
-    6. Level required: 1+ Mining (easy for MasterMiner)
-  
-  ⛏️ HOW TO MINE GOLD ORE (4+ needed):
-    1. Gold deposits may be in same mountain region or elsewhere
-    2. Use observe_environment radius=64 to search wider area
-    3. Use harvest_resource targetInstance=<instance_id>
-    4. If no gold nearby, may need to skip gold equipment (jewelry can use iron)
-    5. Level required: 25+ Mining (MasterMiner has 35 - can do it!)
-    6. Gold is OPTIONAL - can substitute with more iron rings
-  
-  DIVISION 2 - SMELTING (Smelting Master):
-  🎯 Responsibilities:
-    - Smelt iron bars (need 12+ bars)
-    - Smelt gold bars (need 4+ bars)
-    - Manage fuel efficiency and bar distribution
-    - Coordinate with all crafting divisions
-  
-  🔥 HOW SMELTINGMASTER RECEIVES ORES:
-    1. MasterMiner must travel to SmeltingMaster's location (260, 184)
-    2. MasterMiner uses transfer_items targetPlayer=SmeltingMaster itemKey=ironore count=15
-    3. MasterMiner uses transfer_items targetPlayer=SmeltingMaster itemKey=coal count=15
-    4. SmeltingMaster uses verify_inventory to confirm receipt
-    5. SmeltingMaster announces in chat: "Received X ironore and Y coal"
-  
-  🔥 HOW TO SMELT IRON BARS (24+ needed):
-    - Function: craft_item skill=Smelting itemKey=ironbar
-    - Materials: 1x ironore + 1x coal → 1x ironbar
-    - SmeltingMaster already has 2x ironore + 4x coal in inventory
-    - Call craft_item 24+ times (1 bar per call)
-    - Use verify_inventory after each batch to track progress
-    - Level required: 20 Smithing (SmeltingMaster has 40 - perfect!)
-  
-  🔥 HOW TO SMELT GOLD BARS (4+ needed, OPTIONAL):
-    - Function: craft_item skill=Smelting itemKey=goldbar
-    - Materials: 1x goldore + 1x coal → 1x goldbar
-    - Only if MasterMiner found gold ore
-    - Call 4 times if gold available
-    - Level required: 35 Smithing (SmeltingMaster has 40 - can do!)
-  
-  DIVISION 3 - TOOL FORGE (Tool Specialist):
-  🎯 Responsibilities:
-    - Gather logs for tool handles (need 3+ logs)
-    - Craft pickaxes (need 2x)
-    - Craft axes (need 2x)
-    - Distribute tools to team members
-  
-  🪵 HOW TOOLFORGE GATHERS LOGS:
-    1. Use observe_environment radius=32 to find Oak Tree instances
-    2. Use harvest_resource targetInstance=<tree_instance>
-    3. Need 3+ logs total (1 per pickaxe/axe, plus 1 spare)
-    4. ToolForgeSpecialist has Lumberjacking 25 - perfect for this!
-  
-  🔨 HOW TO RECEIVE IRON BARS AND CRAFT PICKAXE:
-    1. SmeltingMaster travels to ToolForge location (232, 175)
-    2. SmeltingMaster: transfer_items targetPlayer=ToolForgeSpecialist itemKey=ironbar count=10
-    3. ToolForge: verify_inventory (should have 10x ironbar, 2x logs)
-    4. Function: craft_item skill=Smithing itemKey=pickaxe (makes 1 pickaxe)
-    5. Materials: 5x ironbar + 1x logs → 1x pickaxe
-    6. Call twice to make 2x pickaxes
-    7. Level required: 5 Smithing (ToolForge has 25 - can do!)
-  
-  🔨 HOW TO CRAFT AXE:
-    1. Function: craft_item skill=Smithing itemKey=axe
-    2. Materials: 3x ironbar + 1x logs → 1x axe
-    3. Should have 4x ironbar remaining after pickaxes (10 - 6 = 4)
-    4. Need 6x more bars from SmeltingMaster
-    5. Call twice to make 2x axes
-    6. Level required: 3 Smithing (ToolForge has 25 - easy!)
-  
-  DIVISION 4 - WEAPON FORGE (Weapon Specialist):
-  🎯 Responsibilities:
-    - Acquire hilts for sword crafting
-    - Craft heavy swords (need 2x)
-    - Coordinate weapon distribution
-    - Ensure combat readiness
-  
-  🔨 HOW WEAPONFORGE CRAFTS HEAVY SWORDS:
-    1. WeaponForgeSpecialist already has 2x hilt2 in starting inventory
-    2. SmeltingMaster travels to WeaponForge (235, 177)
-    3. SmeltingMaster: transfer_items targetPlayer=WeaponForgeSpecialist itemKey=ironbar count=4
-    4. WeaponForge: verify_inventory (should have 4x ironbar, 2x hilt2)
-    5. Function: craft_item skill=Smithing itemKey=sword2
-    6. Materials: 2x ironbar + 1x hilt2 → 1x Heavy Sword
-    7. Call twice to make 2x Heavy Swords
-    8. Level required: 1 Smithing (WeaponForge has 30 - easy!)
-  
-  DIVISION 5 - JEWELRY (Jewelry Artisan):
-  🎯 Responsibilities:
-    - Craft silver rings from iron bars (need 2x)
-    - Craft gold rings from gold bars if available (need 2x)
-    - Distribute jewelry to team members
-    - Complete accessory production
-  
-  🔨 HOW JEWELRYARTISAN CRAFTS SILVER RINGS:
-    1. SmeltingMaster travels to JewelryArtisan (238, 180)
-    2. SmeltingMaster: transfer_items targetPlayer=JewelryArtisan itemKey=ironbar count=4
-    3. JewelryArtisan: verify_inventory (should have 4x ironbar)
-    4. Function: craft_item skill=Smithing itemKey=silverring
-    5. Materials: 2x ironbar → 1x Silver Ring
-    6. Call twice to make 2x Silver Rings
-    7. Level required: 1 Smithing (JewelryArtisan has 25 - can do!)
-  
-  🔨 HOW TO CRAFT GOLD RINGS (OPTIONAL):
-    1. Only if gold bars available from SmeltingMaster
-    2. SmeltingMaster: transfer_items targetPlayer=JewelryArtisan itemKey=goldbar count=4
-    3. Function: craft_item skill=Smithing itemKey=goldring
-    4. Materials: 2x goldbar → 1x Gold Ring
-    5. Call twice to make 2x Gold Rings
-    6. If no gold, craft 2x more silver rings instead (total 4x silver)
-  
-  📋 FIVE-SMITH COORDINATION PROTOCOLS (CRITICAL):
-  
-  🗣️ COMMUNICATION REQUIREMENTS:
-  - After mining: "MasterMiner: Mined X iron, Y coal. Total: [inventory]"
-  - Before transfer: "Traveling to [agent] to transfer [items]"
-  - After transfer: "[Sender]: Sent X to [recipient]" + "[Recipient]: Confirmed received X"
-  - Before crafting: "Ready to craft X. I have: [exact materials]"
-  - After crafting: "Crafted X. Remaining materials: [inventory]"
-  - Use chat after EVERY action - this keeps all 5 smiths synchronized!
-  
-  🚚 TRANSFER SEQUENCE (FOLLOW THIS ORDER):
-  1. MasterMiner → SmeltingMaster: All ore and coal
-  2. SmeltingMaster smelts all bars
-  3. SmeltingMaster → ToolForge: 10x ironbar first
-  4. ToolForge crafts pickaxes, requests 6 more bars for axes
-  5. SmeltingMaster → ToolForge: 6x ironbar
-  6. ToolForge crafts axes
-  7. SmeltingMaster → WeaponForge: 4x ironbar
-  8. WeaponForge crafts swords
-  9. SmeltingMaster → JewelryArtisan: 4-8x ironbar (and goldbar if available)
-  10. JewelryArtisan crafts rings
-  
-  ⚠️ TRANSFER RULES:
-  - ALWAYS use verify_inventory before and after transfers
-  - Sender and recipient must be within 10 tiles
-  - Use chat to confirm every transfer
-  - If transfer fails, agents must move closer
-  
-  TOTAL PRODUCTION REQUIREMENTS:
-  - Iron ore: 15+ pieces
-  - Coal: 15+ pieces
-  - Gold ore: 4+ pieces
-  - Logs: 3+ pieces
-  - Hilts: 2+ pieces (for swords)
-  
-  TARGET EQUIPMENT PRODUCTION:
-  - Pickaxes: 2x (5 iron bars each = 10 bars)
-  - Axes: 2x (3 iron bars each = 6 bars)
-  - Heavy Swords: 2x (2 iron bars each = 4 bars)
-  - Silver Rings: 2x (2 iron bars each = 4 bars)
-  - Gold Rings: 2x (2 gold bars each = 4 bars)
-  - TOTAL: 24 iron bars + 4 gold bars needed
-  
-  🚨 COMPLETION REQUIREMENTS (DO NOT SKIP):
-  
-  DO NOT use complete() until ALL verified:
-  
-  ✓ MasterMiner: Verify mined 15+ ironore, 15+ coal (use verify_inventory)
-  ✓ SmeltingMaster: Verify smelted 24+ ironbar (use verify_inventory)
-  ✓ ToolForge: Verify crafted 2x pickaxes AND 2x axes (use verify_inventory)
-  ✓ WeaponForge: Verify crafted 2x Heavy Swords (use verify_inventory)
-  ✓ JewelryArtisan: Verify crafted 4+ rings total (silver or gold) (use verify_inventory)
-  ✓ All smiths announce in chat: "My final inventory: [list all equipment]"
-  ✓ Team counts total equipment: minimum 10 pieces (2+2+2+4)
-  ✓ All 5 smiths agree in chat: "Smithy operations complete"
-  
-  THEN one agent calls complete() with response summarizing all produced equipment
+  OVERVIEW
+  - Five smiths split the ore→bar→equipment pipeline. MasterMiner feeds ores, SmeltingMaster turns them into bars, ToolForge builds pickaxes/axes, WeaponForge crafts heavy swords, JewelryArtisan handles rings. Target output in 35 rounds: 2 pickaxes, 2 axes, 2 sword2, and 4 rings (silver or gold).
 
+  FLOW BY ROLE
+  1. MasterMiner (230,38): harvest_resource iron/coal (≥15 each) plus optional gold, reporting totals in chat. When ready, travel to the smelter’s hut (260,184) and transfer the entire haul.
+  2. SmeltingMaster: craft_item(Smelting, ironbar) until ~24 bars exist; smelt goldbar if ore arrived. Hand out bars in batches: 10→ToolForge, 6 more→ToolForge after pickaxes, 4→WeaponForge, 4→JewelryArtisan (+gold bars if available).
+  3. ToolForge: gather a few logs, craft two pickaxes (5 bars + log each) then two axes (3 bars + log each). Confirm outputs before requesting more bars.
+  4. WeaponForge: already has two hilt2; combine with 4 ironbars to forge two sword2.
+  5. JewelryArtisan: turn 4 ironbars into two silverrings, plus optional goldrings if gold bars arrived. Extra bars can become more silverrings to reach four total.
+
+  COORDINATION NOTES
+  - Transfers must occur within ~10 tiles using transfer_items; both sides run verify_inventory and acknowledge via chat.
+  - Every craft or smelt should be announced (“SmeltingMaster: iron bars 6/24”). Keep a running checklist of produced items so all divisions know when they are done.
+  - If gold ore is missing, state it early and substitute the jewelry quota with additional silverrings.
+
+  COMPLETION CHECK
+  - Inventory review shows: 2 pickaxes, 2 axes, 2 sword2, and ≥4 rings. Each role states “Division complete – holding X”.
+  - Final chat message summarizes total equipment before any agent calls complete().
 # Limitations
 max_action_steps: 35
 

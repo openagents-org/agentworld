@@ -15,47 +15,19 @@ objectives:
 
 # Relevant game context
 relevant_game_context: |
-  Harbor staging area: (182-190, 636-640). HarborMarshalEdda acts as quartermaster; all supplies flow through this tile via transfer_items followed by verify_inventory.
-  
-  CORE ACTION REMINDERS:
-  - move_character ≤32 tiles per hop; stagger departures so carts do not collide.
-  - observe_environment radius=64 before entering a new shoreline or mine to avoid walking into the Guardian early.
-  - harvest_resource targetInstance=<id>: trees (logs/palmlogs), rocks (iron/coal), fish spots (rawshrimp), plants (kelp).
-  - craft_item skill=Smelting itemKey=ironbar (24x), Smithing itemKey=pickaxe/axe, Crafting itemKey=woodenbow, Fletching itemKey=arrow, Cooking itemKey=cookedshrimp.
-  - transfer_items targetPlayer=<ally> itemKey=<item> count=<n> for every resource/bundle; never rely on verbal promises.
-  - verify_inventory before/after each tower install and before calling complete().
-  - attack_entity targetInstance=<guardian> when Water Guardian or Mermaid spawns near (197,633); escorts must announce HP before/after combat.
-  - chat (global) for role assignment, material totals, tower status, combat updates.
-  
-  PHASE 1 (Rounds 1-12) RESOURCE SURGE
-  1. TimberLeadQuill + BowmasterRen work the western forest (388-360, 5-40) for ≥60 logs and ≥40 feathers.
-  2. OreChiefSilas + ArtilleristNia mine at (230,38) for ≥30 ironore and ≥30 coal; keep Shield escort within 5 tiles to deter mobs.
-  3. ScoutPax + CookHarper harvest ≥20 palmlogs, ≥12 kelp, and fish ≥20 rawshrimp along the coast (175-205, 630-645).
-  4. Every run ends back at (185,638) where HarborMarshalEdda logs totals via verify_inventory; MedicDae redistributes healing items as needed.
-  
-  PHASE 2 (Rounds 13-28) FABRICATION BLOCK
-  1. OreChiefSilas smelts 24 ironbar (craft_item skill=Smelting itemKey=ironbar) then forges 4 pickaxe + 4 axe for field repairs.
-  2. BowmasterRen converts logs→sticks (craft_item skill=Fletching itemKey=stick) and crafts 60 arrows; ArtilleristNia builds 6 woodenbow frames (craft_item skill=Crafting itemKey=woodenbow).
-  3. StormMageIris crafts an extra lightningstaff or firestaff if beads allow; she is responsible for magical overwatch.
-  4. CookHarper cooks ≥20 cookedshrimp (craft_item skill=Cooking itemKey=cookedshrimp) and transfers half to MedicDae.
-  5. HarborMarshalEdda ensures the stockpile before deployment contains: 24 ironbar, 6 woodenbow, 60 arrows, 20 cookedshrimp, 20 palmlogs, 12 kelp, 4 pickaxe, 4 axe.
-  
-  PHASE 3 (Rounds 29-40) TOWER INSTALLATION
-  1. Tower spots: (180,634), (185,636), (190,638), (195,640). Each requires: 1 woodenbow + 10 arrows + 2 ironbar + 5 logs (ballista kit) plus 1 pickaxe or axe for maintenance.
-  2. ArtilleristNia coordinates placements via chat. After a kit is set, assigned crew (BowmasterRen + ScoutPax, StormMageIris + MedicDae, etc.) posts "Tower X ready" with verify_inventory proof of remaining ammo.
-  3. Driver duties: Defenders rotate along the wall using move_character hops; no crew more than 10 tiles away from their tower while ammo present.
-  4. Spare materials stay on HarborMarshalEdda so emergency repairs don't deadlock.
-  
-  PHASE 4 (Rounds 41-53) DEFENSE DRILL & BOSS
-  1. Trigger the drill by having ScoutPax run observe_environment radius=64 near (197,633). Once Water Guardian or Mermaid appears, HarborMarshalEdda, DefenderRook, and StormMageIris engage via attack_entity while ballista crews announce support fire.
-  2. MedicDae tracks HP (must stay >35% before re-engaging) and redistributes flasks/cookedshrimp afterward.
-  3. CookHarper restocks meals if any fall below 5 per tower; OreChiefSilas checks ironbar remainder (≥4) for future repairs.
-  4. Final report: HarborMarshalEdda lists tower status, ammo counts, and guardian outcome before calling complete(). Do not finish before Round 50.
-  
-  DEADLOCK AVOIDANCE:
-  - If tower tiles are occupied, use sleep(2) and take turns dropping kits so items do not vanish.
-  - If resource nodes are empty, swap squads rather than waiting idle; there is enough slack to hit quotas.
+  BASTION PLAN
+  - Ten defenders must rebuild four ballista towers near (185,638) and survive the Water Guardian assault within 53 rounds. Work through four phases: gather → fabricate → install towers → run the defense drill.
 
+  PHASE SUMMARY
+  1. R1-12 Resource surge: timber team cuts ≥60 logs + ≥40 feathers, miners pull ≥30 ironore/coal, coastal team harvests ≥20 palmlogs + ≥12 kelp + ≥20 rawshrimp. Every trip ends with transfers to HarborMarshalEdda, who posts totals via verify_inventory.
+  2. R13-28 Fabrication: smelt 24 iron bars, forge 4 pickaxes/axes, craft 6 woodenbow frames + 60 arrows, prepare 20 cookedshrimp, and stash repair palmlogs/kelp. HarborMarshal ensures the stockpile matches the checklist before deployment.
+  3. R29-40 Tower install: for each seawall coordinate (180,634 up to 195,640) drop 1 woodenbow + 10 arrows + 2 iron bars + 5 logs + 1 tool, assign a crew, and announce “Tower X ready” with leftover ammo counts. Keep spare materials with the marshal for emergencies.
+  4. R41-53 Defense drill: scout for the Water Guardian at (197,633), have escorts engage with attack_entity while ballista crews call support shots, then report HP and ammo status. Final readiness report must list tower health, remaining supplies, and guardian outcome before complete().
+
+  EXECUTION NOTES
+  - Keep move_character hops ≤32 tiles and stagger carts to avoid collisions; use sleep(2) if two players need the same tower tile.
+  - Always run observe_environment before entering a new shoreline or mine and before triggering the boss.
+  - Transfers require both sender and HarborMarshalEdda to confirm inventories; log all key counts in chat so everyone knows when quotas are met.
 # Limitations
 max_action_steps: 53
 

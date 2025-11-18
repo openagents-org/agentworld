@@ -15,46 +15,16 @@ objectives:
 
 # Relevant game context
 relevant_game_context: |
-  Mission overview: move_character in ≤32 tile hops, keep the convoy together, and keep real inventories synced through verify_inventory every time supplies move.
-  
-  CORE TOOLS:
-  - move_character: hop toward rendezvous / waypoints without exceeding 32 tiles per call.
-  - observe_environment radius=64: mandatory before harvesting or fighting in any new sector.
-  - harvest_resource targetInstance=<id>: trees (logs), rocks (iron/coal), fish spots (rawshrimp), plants (blueberry/tomato).
-  - craft_item skill=<Crafting|Smelting|Fletching|Cooking|Smithing> itemKey=<recipe>: sticks, arrows, ironbar, pickaxe, axe, bucket, cookedshrimp.
-  - transfer_items targetPlayer=<ally> itemKey=<item> count=<n>: every material or meal handoff.
-  - verify_inventory: confirm totals after each transfer and before leaving any waypoint.
-  - attack_entity targetInstance=<mob>: escorts clear threats; payload pauses until chat confirms area safe.
-  - chat (global): publish role assignments, travel waypoints, combat reports, and delivery confirmations.
-  
-  PHASE 1 (Rounds 1-12) STAGING & RESOURCE SWEEP
-  1. All agents converge on (410-415, 215-222) using staggered move_character calls; post "role confirmed" in chat.
-  2. Split into four squads: Mining (EngineerMarek + ShieldTomas) to (230,38); Logging/Fletching (PathfinderLena + RangerKira) near (388-250, 4-350); Food & Recon (CookEmil + ScoutIlan) to coast (175,635); HQ (QuartermasterAvery + MedicSora + DriverNyx + DiplomatJuno) maintain staging.
-  3. Mining squad harvest_resource enough nodes for ≥30 ironore and ≥30 coal; logging pair bring back ≥40 logs + ≥40 feathers; food team fishes ≥20 rawshrimp and forages ≥50 blueberries/tomatoes near farmland.
-  4. After each trip everyone meets back at staging, uses transfer_items to feed QuartermasterAvery, then Quartermaster runs verify_inventory and posts totals.
-  
-  PHASE 2 (Rounds 13-26) FABRICATION & PACKAGING
-  1. EngineerMarek smelts ≥30 ironbar (craft_item skill=Smelting itemKey=ironbar) and forges 3 pickaxe, 3 axe, 3 bucket (Smithing).
-  2. RangerKira converts logs into sticks (craft_item skill=Fletching itemKey=stick) and then 60+ arrows; ScoutIlan double-checks feathers and shares via transfer_items.
-  3. CookEmil cooks ≥30 cookedshrimp (craft_item skill=Cooking itemKey=cookedshrimp) and transfers meals to MedicSora, who consolidates with flasks/berries.
-  4. QuartermasterAvery must hold before departure: ≥40 logs, ≥30 ironbar, ≥50 blueberries, ≥30 cookedshrimp, ≥30 flasks, spare sticks/feathers, plus manifest written in chat by DiplomatJuno.
-  
-  PHASE 3 (Rounds 27-40) CONVOY MOVEMENT
-  1. Form three columns: Pathfinders (PathfinderLena + RangerKira), Payload (QuartermasterAvery, MedicSora, DriverNyx, CookEmil), Rearguard (ShieldTomas, EngineerMarek, ScoutIlan, DiplomatJuno).
-  2. Leapfrog move_character hops ≤32 tiles, regroup every two hops for verify_inventory so the payload never exceeds 10 tiles separation from escorts.
-  3. Scouts use observe_environment radius=64 before each hop; if mobs spotted, escorts engage with attack_entity while payload waits.
-  4. Upon reaching mountains (230,38) and again at foothills (210,250) post chat updates summarizing positions, HP, and remaining supplies.
-  
-  PHASE 4 (Rounds 41-52) COASTAL DELIVERY
-  1. Arrive at refugee pier (175-190, 634-640); set perimeter (escorts 8 tiles out) while Quartermaster + Diplomat in center.
-  2. Quartermaster transfers via transfer_items to DiplomatJuno: ≥30 cookedshrimp, ≥20 flasks, ≥20 ironbar, ≥60 arrows, and any spare repair tools; both agents run verify_inventory and echo counts.
-  3. MedicSora confirms every agent HP >25%; ShieldTomas reports final security sweep; DiplomatJuno summarizes entire route/deliveries in chat.
-  4. Only after round 50 may any agent call complete(), and the final message must cite supply totals and convoy survival.
-  
-  DEADLOCK SAFETY:
-  - Whenever two squads need the same tile, one pauses with sleep(2) or alternate path to avoid blocking move_character calls.
-  - If mining or fishing nodes are missing, swap squads instead of waiting idle; keep Quartermaster updated.
+  MISSION FLOW (≈52 ROUNDS)
+  - Phase 1: gather quotas near the staging farm (410,220) — ≥30 iron + ≥30 coal, ≥40 logs + ≥40 feathers, ≥20 rawshrimp, ≥50 berries/tomatoes — and transfer them to QuartermasterAvery with verify_inventory confirmations.
+  - Phase 2: in camp, EngineerMarek smelts 30+ iron bars and forges pickaxes/axes/buckets; RangerKira + ScoutIlan craft sticks → 60 arrows; CookEmil prepares 30 cookedshrimp; Quartermaster aggregates crates (logs, bars, food, flasks) while DiplomatJuno posts the manifest in chat.
+  - Phase 3: split into vanguard/payload/rearguard columns, leapfrog via move_character hops ≤32 tiles, regroup every two hops for verify_inventory, and only advance after scouts clear threats with attack_entity; log checkpoints at the mountains and foothills.
+  - Phase 4: reach the coastal pier (~185,637), set a perimeter, transfer aid crates from Quartermaster to Diplomat (cookedshrimp, flasks, iron bars, arrows, tools), double-check HP >25%, and broadcast a delivery summary before complete().
 
+  EXECUTION NOTES
+  - Always call observe_environment before harvesting in a new area or before each convoy hop; if the tool is unavailable, physically scout the tile range and report coordinates.
+  - Transfers only count when both agents confirm via verify_inventory; Quartermaster should keep running totals in chat (“Iron bars 32, Meals 34, Arrows 60”).
+  - During movement, payload agents never stray >10 tiles from either escort column; if mobs spawn mid-hop, escorts fight while the payload waits.
 # Limitations
 max_action_steps: 52
 

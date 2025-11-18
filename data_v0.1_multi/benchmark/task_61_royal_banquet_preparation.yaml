@@ -15,142 +15,30 @@ objectives:
 
 # Context and guidance for agents
 relevant_game_context: |
-  This is an elite culinary operation requiring diverse ingredient gathering, advanced cooking, and perfect coordination.
+  BANQUET OVERVIEW
+  - Eight chefs split into hunting, fishing, foraging, and kitchen crews to deliver by Round 53: 8 cooked dishes (corn stew ×2, cooked beef, tuna sushi, cooked shrimp ×2, cooked chicken, jellyfish smoothie) plus 4 decorative gifts (2 beryl pendants, 2 silver rings) using at least 60 premium ingredients.
 
-  🎯 BANQUET OBJECTIVES:
+  WORKFLOW
+  1. R1-15 Gathering
+     • Hunters near (350,250) farm chickens/cows for meat.
+     • Fishers on the eastern coast (~900,400) net tuna, shrimp, jellyfish.
+     • Foragers in the western forest (~250,350) collect corn, mushrooms, herbs, beryl, string.
+     • Kitchen duo at (528,384) monitors chat and checks starting bowls/iron bars.
+  2. R16-28 Delivery
+     • All gatherers march toward the royal kitchen in ≤32-tile hops and transfer ingredients via transfer_items (meat/veg → Head_Chef, gems/strings → Decorator). After each transfer, both parties verify_inventory and log totals.
+  3. R29-45 Cooking & Crafting
+     • Head_Chef cooks the eight dishes consecutively once ingredients arrive; mention each completion (“Corn stew 1/2”).
+     • Decorator uses the supplied beryl/string/iron bars to craft pendants and silver rings (smelt extra iron if needed).
+  4. R46-53 Assembly
+     • Team reviews inventories, plates the courses, and records a final menu summary before complete().
 
-  **MAIN COURSES (4 dishes)**:
-  - 2x Corn Stew (gourmet vegetable stew)
-  - 1x Cooked Beef (premium meat dish)
-  - 1x Tuna Sushi (exotic seafood)
+  EXECUTION NOTES
+  - Without observe_environment, sweep the suggested coordinate bands manually; rely on harvest_resource/attack_entity results and verify_inventory counts.
+  - Healing: hunters/fishers should eat apples/flasks when HP < 70% so ingredient loss is avoided.
+  - Keep a rolling checklist in chat ("Seafood 5/8", "Decor 1/4") so the kitchen knows when to start each dish.
 
-  **SECONDARY COURSES (4 dishes)**:
-  - 2x Cooked Shrimp (seafood appetizers)
-  - 1x Cooked Chicken (poultry dish)
-  - 1x Jellyfish Smoothie (exotic beverage)
-
-  **SPECIALTY ITEMS (4 pieces)**:
-  - 2x Beryl Pendant (table decorations)
-  - 2x Silver Ring (guest gifts)
-
-  📍 AGENT ROLES (8 specialists):
-
-  **HUNTING BRIGADE (Agents 1-2)**: (350, 250)
-  - Hunt chickens, cows for premium meat
-
-  **FISHING FLEET (Agents 3-4)**: (900, 400)
-  - Fish for tuna, shrimp, jellyfish
-
-  **FORAGING TEAM (Agents 5-6)**: (250, 350)
-  - Gather vegetables, herbs, beryl
-
-  **CULINARY MASTERS (Agents 7-8)**: (528, 384)
-  - Cook all dishes, craft decorations
-
-  ═══════════════════════════════════════════════════════════
-  COURSE 1: RARE INGREDIENT GATHERING (Rounds 1-15)
-  ═══════════════════════════════════════════════════════════
-
-  🏹 HUNTING BRIGADE (Agents 1-2):
-  Target: 5+ chicken, 3+ beef
-
-  Strategy:
-  1. observe_environment radius=64 to find animals
-  2. Hunt chickens (low level, easy)
-  3. Hunt cows for beef (moderate level)
-  4. attack_entity targetInstance=<animal_id>
-  5. Auto-loot meat after kills
-  6. Chat progress: "Hunted X animals"
-
-  🎣 FISHING FLEET (Agents 3-4):
-  Target: 3+ tuna, 8+ shrimp, 5+ jellyfish
-
-  Strategy:
-  1. observe_environment to find fish spots
-  2. harvest_resource targetInstance=<fish_spot>
-  3. Tuna requires Fishing 1+
-  4. Shrimp requires Fishing 1+
-  5. Jellyfish requires Fishing 5+
-  6. Chat: "Caught X fish"
-
-  🌾 FORAGING TEAM (Agents 5-6):
-  Target: 10+ corn, 8+ mushrooms, 2+ beryl, 4+ string
-
-  Strategy:
-  1. observe_environment for foraging spots
-  2. harvest_resource on plants
-  3. Corn, mushrooms common in forest
-  4. Beryl from special plants
-  5. String for decorations
-  6. Chat: "Foraged X items"
-
-  ⏱️ Rounds 1-15: Active gathering
-
-  ═══════════════════════════════════════════════════════════
-  COURSE 2: INGREDIENT PROCESSING (Rounds 16-28)
-  ═══════════════════════════════════════════════════════════
-
-  🚚 TRAVEL TO KITCHEN (Rounds 16-24):
-  - All gatherers → (528, 384)
-  - Distances: 220-450 tiles
-  - 7-15 moves needed
-  - Chat positions
-
-  🔄 CONSOLIDATION (Rounds 25-28):
-  Transfer to Head_Chef (Agent 7):
-  - All meat to Head_Chef
-  - All seafood to Head_Chef
-  - All vegetables to Head_Chef
-  - Decorative items to Decorator (Agent 8)
-
-  ═══════════════════════════════════════════════════════════
-  COURSE 3: GOURMET COOKING (Rounds 29-45)
-  ═══════════════════════════════════════════════════════════
-
-  👨‍🍳 HEAD CHEF (Agent 7):
-
-  Cook all 8 dishes:
-
-  **Corn Stew** (2x):
-  - craft_item skill=Cooking itemKey=stew2
-  - Recipe: 3 corn + 1 mushroom + bowl
-  - Repeat 2 times
-
-  **Tuna Sushi**:
-  - craft_item skill=Cooking itemKey=tunasushi
-  - Recipe: varies (check game)
-
-  **Cooked Shrimp** (2x):
-  - craft_item skill=Cooking itemKey=cookedshrimp
-  - Repeat 2 times
-
-  **Cooked Chicken**:
-  - craft_item skill=Cooking itemKey=cookedchicken
-
-  **Cooked Beef**:
-  - craft_item skill=Cooking itemKey=cookedbeef
-
-  **Jellyfish Smoothie**:
-  - craft_item skill=Cooking itemKey=jellyfishsmoothie
-  - Recipe: 3 jellyfish
-
-  🎨 DECORATOR (Agent 8):
-
-  Craft decorations:
-  - 2x Beryl Pendant: craft_item skill=Crafting itemKey=berylpendant
-  - 2x Silver Ring: craft_item skill=Smithing itemKey=silverring
-    (needs 4 iron bars - check starting inventory)
-
-  ═══════════════════════════════════════════════════════════
-  COURSE 4: BANQUET ASSEMBLY (Rounds 46-53)
-  ═══════════════════════════════════════════════════════════
-
-  ✅ Consolidate all items
-  📊 Verify complete banquet
-  🎉 Complete with feast report
-
-  complete response="Royal Banquet prepared successfully! All 8 dishes + 4 decorations ready for the feast!"
-
+  COMPLETION CHECK
+  - Final message must list all cooked dishes and decorative pieces with the carrier. Only call complete() after the feast inventory is confirmed and everyone is at the kitchen.
 # Limitations
 max_action_steps: 53
 

@@ -15,132 +15,22 @@ objectives:
 
 # Context and guidance for agents
 relevant_game_context: |
-  Dangerous ice region expedition requiring cold resistance and coordination.
+  MISSION OUTLINE
+  - Eight explorers leave (350,250), establish a camp near (259,151), collect ≥50 ice materials (ice logs, ice palm logs, coal, specials), hunt ≥15 arctic mobs, then return to the hub (528,384) to craft 8+ cold-weather items before Round 53.
 
-  🎯 EXPEDITION OBJECTIVES:
+  PHASES
+  1. R1-15 Trek north-west together; scouts call waypoints every hop and mark safe clearings. Heal aggressively if cold damage ticks HP down.
+  2. R16-35 Split duties inside the ice biome:
+     • Lumberjacks harvest ice/ice-palm logs via harvest_resource, logging counts in chat.
+     • Hunters clear icerat/icebat/icecrab/icegoblin spawns with attack_entity; confirm kills and loot with verify_inventory.
+     • Support duo mines coal/special drops and watches HP levels.
+  3. R36-48 Caravan home: regroup, march back toward the hub (≤32-tile moves), consolidate materials with the crafter, and craft tools/weapons/gear from the haul.
+  4. R49-53 Verification: list material totals, crafted items, and survival status before complete().
 
-  **ICE MATERIALS (50+ items)**:
-  - 20+ Ice Logs (from Ice Trees)
-  - 15+ Ice Palm Logs (from Ice Palms)
-  - 10+ Coal (for warmth/smelting)
-  - 5+ Special ice items
-
-  **ARCTIC HUNTING (15+ creatures)**:
-  - Ice Rats (Level 5-10)
-  - Ice Bats (Level 8-12)
-  - Ice Crabs (Level 6-10)
-  - Ice Goblins (Level 15+)
-
-  **CRAFTED ITEMS (8+ pieces)**:
-  - Tools, weapons, cold-weather gear
-
-  📍 EXPEDITION TEAM:
-
-  **SCOUTS (Agents 1-2)**: Lead expedition
-  - Navigate to ice region (259, 151)
-  - Establish safe gathering zones
-
-  **LUMBERJACKS (Agents 3-4)**: Ice lumber
-  - Harvest ice logs and ice palm logs
-  - Target: 35+ logs total
-
-  **HUNTERS (Agents 5-6)**: Arctic beasts
-  - Hunt ice creatures for materials
-  - Target: 15+ kills
-
-  **SUPPORT (Agents 7-8)**: Crafting/mining
-  - Mine coal, gather supplies
-  - Craft expedition items
-
-  ═══════════════════════════════════════════════════════════
-  EXPEDITION (Rounds 1-15): TRAVEL TO ICE REGION
-  ═══════════════════════════════════════════════════════════
-
-  🗺️ ALL AGENTS START: (350, 250) - Central Plains
-
-  DESTINATION: (259, 151) - Ice Region
-  - Distance: ~220 tiles
-  - Moves needed: 7-8 actions
-  - Travel together for safety
-
-  Route:
-  - Round 1-2: Move northwest
-  - Round 3-5: Continue to ice boundary
-  - Round 6-8: Enter ice region
-  - Rounds 9-15: Establish base, scout resources
-
-  Ice Region Hazards:
-  - Cold damage (use healing items)
-  - Ice Guardian boss (Level 35) - AVOID!
-  - Stay together within 15 tiles
-
-  Chat: "Expedition at (X,Y), HP status, moving to ice region"
-
-  ═══════════════════════════════════════════════════════════
-  HARVESTING (Rounds 16-35): GATHER ICE RESOURCES
-  ═══════════════════════════════════════════════════════════
-
-  🪓 LUMBERJACKS (Agents 3-4):
-  - observe_environment radius=32 for ice trees
-  - Ice Tree → Ice Logs (requires Lumberjacking 1+)
-  - Ice Palm → Ice Palm Logs
-  - harvest_resource targetInstance=<tree_id>
-  - Target: 20 ice logs + 15 ice palm logs
-  - Chat: "Harvested X/35 ice logs"
-
-  🏹 HUNTERS (Agents 5-6):
-  - observe_environment radius=64 for ice mobs
-  - Hunt: icerat, icebat, icecrab, icegoblin
-  - attack_entity targetInstance=<mob_id>
-  - Collect drops (meat, materials)
-  - Heal when HP < 70%
-  - Target: 15+ mob kills
-  - Chat: "Hunted X/15 ice creatures, HP: Y"
-
-  ⛏️ SUPPORT TEAM (Agents 7-8):
-  - Mine coal rocks in area
-  - Gather any special ice materials
-  - Monitor team HP levels
-  - Target: 10+ coal
-  - Chat: "Mined X coal, team support ready"
-
-  🧭 SCOUTS (Agents 1-2):
-  - Coordinate expedition
-  - Mark safe zones
-  - Track resource locations
-  - Monitor for Ice Guardian
-  - Chat: "Scout report: Area X safe, resources at Y"
-
-  ═══════════════════════════════════════════════════════════
-  PROCESSING (Rounds 36-48): RETURN AND CRAFT
-  ═══════════════════════════════════════════════════════════
-
-  🚚 RETURN JOURNEY (Rounds 36-43):
-  All agents travel back to Central Hub (528, 384)
-  - Distance from ice region: ~320 tiles
-  - Moves needed: 10-11 actions
-  - Carry all ice materials
-  - Chat positions
-
-  🔄 CONSOLIDATION (Rounds 44-45):
-  Transfer materials to crafters (Agents 7-8)
-
-  🔨 CRAFTING (Rounds 46-48):
-  Create expedition items:
-  - Tools from ice logs
-  - Weapons from materials
-  - Decorative ice items
-  - Target: 8+ crafted items
-
-  ═══════════════════════════════════════════════════════════
-  COMPLETION (Rounds 49-53)
-  ═══════════════════════════════════════════════════════════
-
-  ✅ Verify all materials and crafts
-  📊 Complete expedition report
-
-  complete response="Ice Region Expedition successful! Gathered 50+ ice materials, hunted 15+ arctic creatures, crafted 8+ items. All agents survived frozen wasteland!"
-
+  EXECUTION NOTES
+  - If observe_environment isn’t callable, sweep the ice grid manually and rely on harvest/attack feedback; use sleep(1s) after long moves to avoid “too far” errors.
+  - Keep everyone within ~15 tiles so hunters can assist lumberjacks if mobs approach.
+  - Transfers happen only after the return journey; bundle materials per type (logs, coal, trophies) before handing them to Expedition_Crafter.
 # Limitations
 max_action_steps: 53
 

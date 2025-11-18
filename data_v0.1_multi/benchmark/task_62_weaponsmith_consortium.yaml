@@ -15,171 +15,19 @@ objectives:
 
 # Context and guidance for agents
 relevant_game_context: |
-  Elite weaponsmith consortium creating diverse weapon collection through specialized forging.
+  ARSENAL PLAN
+  - Seven smiths build an 11-piece arsenal (golden sword/bow, heavy swords, battle axes, wooden bow, pickaxe) by Round 52. Mountain miners supply ore, forest suppliers bring logs + string, and the central forge team smelts/crafts everything.
 
-  🎯 ARSENAL REQUIREMENTS:
+  FLOW
+  1. R1-15 Procurement: Iron_Master (30 iron ore), Gold_Master (30 gold ore), Coal_Master (60 coal) mine around (230-240,40). Lumber_Jack harvests 12 logs near (250,350); String_Maker gathers 12 string. Forge team stays at (528,384) monitoring counts.
+  2. R16-28 Transport & Consolidation: all gatherers travel toward the forge in ≤32-tile hops, transferring resources via transfer_items (ores/coal → Master_Forger, logs/string → Weaponsmith). When observe_environment is unavailable, rely on grid movement plus harvest confirmations.
+  3. R29-45 Production: Master_Forger smelts ~30 iron + ~30 gold bars (announce milestones). Weaponsmith crafts in order: pickaxe, axes, wooden bow, heavy swords, golden sword, golden bow; ensure hilts/strings/logs are allocated before crafting each recipe.
+  4. R46-52 Verification: verify_inventory shows every weapon, and the consortium announces “Arsenal complete” before calling complete().
 
-  **SWORDS (5 total)**:
-  - 1x Golden Sword (15 goldbar + hilt2) - LEGENDARY
-  - 2x Heavy Sword (2 ironbar + hilt2 each)
-  - 2x Additional swords
-
-  **AXES (3 total)**:
-  - 3x Battle Axe (3 ironbar + logs each)
-
-  **BOWS (2 total)**:
-  - 1x Golden Bow (15 goldbar + 10 string + 2 logs)
-  - 1x Wooden Bow (logs + string)
-
-  **TOOLS (1)**:
-  - 1x Pickaxe (5 ironbar + logs)
-
-  **MATERIALS NEEDED**:
-  - 45+ Iron bars (30+ ironore + coal)
-  - 30+ Gold bars (30+ goldore + coal)
-  - 10+ Logs
-  - 12+ String
-  - 4+ Hilt2
-
-  📍 CONSORTIUM MEMBERS:
-
-  **MINERS (Agents 1-3)**: Mountains (230-238, 38-48)
-  - Agent 1 "Iron_Master": Mine 30+ iron ore
-  - Agent 2 "Gold_Master": Mine 30+ gold ore
-  - Agent 3 "Coal_Master": Mine 60+ coal
-
-  **SUPPLIERS (Agents 4-5)**: Forest (250, 350)
-  - Agent 4 "Lumber_Jack": Harvest 12+ logs
-  - Agent 5 "String_Maker": Gather/craft 12+ string
-
-  **FORGE MASTERS (Agents 6-7)**: Central Forge (528, 384)
-  - Agent 6 "Master_Forger": Smelt all bars
-  - Agent 7 "Weaponsmith": Craft all weapons
-
-  ═══════════════════════════════════════════════════════════
-  FORGE 1: MATERIAL PROCUREMENT (Rounds 1-15)
-  ═══════════════════════════════════════════════════════════
-
-  ⛏️ IRON MASTER (Agent 1):
-  - Location: (230, 38)
-  - Mine 30+ iron ore
-  - observe_environment → harvest_resource
-  - Chat every 5 ore: "Iron Master: X/30 iron ore"
-
-  ⛏️ GOLD MASTER (Agent 2):
-  - Location: (238, 48)
-  - Mine 30+ gold ore (requires Mining 25+)
-  - observe_environment → harvest_resource
-  - Chat every 5 ore: "Gold Master: X/30 gold ore"
-
-  ⛏️ COAL MASTER (Agent 3):
-  - Location: (232, 40)
-  - Mine 60+ coal (massive quantity for smelting!)
-  - Chat every 10 coal: "Coal Master: X/60 coal"
-
-  🪓 LUMBER JACK (Agent 4):
-  - Location: (250, 350)
-  - Harvest 12+ logs from Oak Trees
-  - observe_environment → harvest_resource
-  - Chat: "Lumber Jack: X/12 logs"
-
-  🧵 STRING MAKER (Agent 5):
-  - Location: (252, 352)
-  - Forage/craft 12+ string
-  - Can forage plants or hunt spiders
-  - Chat: "String Maker: X/12 string"
-
-  🏭 FORGE PREPARATION (Agents 6-7):
-  - Monitor mining progress
-  - Check starting inventories for hilts
-  - Plan smelting sequences
-  - Chat: "Forge ready for materials"
-
-  ═══════════════════════════════════════════════════════════
-  FORGE 2: BAR PRODUCTION (Rounds 16-28)
-  ═══════════════════════════════════════════════════════════
-
-  🚚 TRAVEL (Rounds 16-24):
-  All material agents → Central Forge (528, 384)
-  - Miners travel ~450 tiles (15 moves)
-  - Suppliers travel ~325 tiles (11 moves)
-  - Chat positions every 2-3 moves
-
-  🔄 CONSOLIDATION (Rounds 25-26):
-  Transfer to Master_Forger (Agent 6):
-  - Iron_Master: transfer ironore (30+)
-  - Gold_Master: transfer goldore (30+)
-  - Coal_Master: transfer coal (60+)
-  - Lumber_Jack: transfer logs to Weaponsmith
-  - String_Maker: transfer string to Weaponsmith
-
-  🔥 SMELTING (Rounds 27-28):
-  Master_Forger begins smelting:
-  - Iron bars: craft_item skill=Smelting itemKey=ironbar
-  - Gold bars: craft_item skill=Smelting itemKey=goldbar
-  - Continue in Forge 3
-
-  ═══════════════════════════════════════════════════════════
-  FORGE 3: WEAPON FORGING (Rounds 29-45)
-  ═══════════════════════════════════════════════════════════
-
-  🔥 COMPLETE SMELTING (Rounds 29-38):
-  Master_Forger (Agent 6):
-  - Smelt 30 iron bars (30 ironore + 30 coal)
-  - Smelt 30 gold bars (30 goldore + 30 coal)
-  - Chat every 10 bars
-  - Total: 60 bars produced
-
-  🔨 WEAPON CRAFTING (Rounds 39-45):
-  Weaponsmith (Agent 7) receives bars:
-  - transfer all bars from Master_Forger
-
-  **Golden Sword**:
-  - craft_item skill=Smithing itemKey=goldensword
-  - Uses: 15 goldbar + 1 hilt2
-  - Requires Smithing 62
-
-  **Golden Bow**:
-  - craft_item skill=Fletching itemKey=goldenbow
-  - Uses: 15 goldbar + 10 string + 2 logs
-  - Requires Fletching 32
-
-  **Heavy Swords** (2x):
-  - craft_item skill=Smithing itemKey=sword2
-  - Each: 2 ironbar + 1 hilt2
-  - Total: 4 ironbar + 2 hilt2
-
-  **Battle Axes** (3x):
-  - craft_item skill=Smithing itemKey=axe
-  - Each: 3 ironbar + 1 logs
-  - Total: 9 ironbar + 3 logs
-
-  **Wooden Bow**:
-  - craft_item skill=Fletching itemKey=woodenbow
-  - Uses: 1 logs + 1 string
-
-  **Pickaxe**:
-  - craft_item skill=Smithing itemKey=pickaxe
-  - Uses: 5 ironbar + 1 logs
-
-  ═══════════════════════════════════════════════════════════
-  FORGE 4: ARSENAL COMPLETION (Rounds 46-52)
-  ═══════════════════════════════════════════════════════════
-
-  ✅ VERIFICATION (Round 50):
-  Weaponsmith verify_inventory:
-  - 1x goldensword
-  - 1x goldenbow
-  - 2x sword2 (heavy swords)
-  - 3x axe
-  - 1x woodenbow
-  - 1x pickaxe
-  - Additional swords if materials allow
-  - Total: 9-11 weapons
-
-  📊 COMPLETION (Round 52):
-  complete response="Weaponsmith Consortium completed! Arsenal of 11 weapons forged including legendary golden sword and bow. All weapon types represented!"
-
+  EXECUTION NOTES
+  - Keep a shared progress log (“Gold 18/30”, “String 8/12”) so the forge can plan smelting batches.
+  - If smelting lags, prioritize the bars required for non-gold weapons first so counts progress toward the objective.
+  - Transfers only succeed within ~10 tiles; both parties must acknowledge receipt and run verify_inventory.
 # Limitations
 max_action_steps: 52
 

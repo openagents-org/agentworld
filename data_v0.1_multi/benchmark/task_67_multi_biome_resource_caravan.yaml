@@ -15,112 +15,22 @@ objectives:
 
 # Context and guidance for agents
 relevant_game_context: |
-  Continental trading caravan visiting diverse biomes for unique resources.
+  CARAVAN OVERVIEW
+  - Eight traders must visit six biomes (forest, plains, mountains, coast, desert, ice), collect ≥80 total resources (≈15 per fertile biome, 10 per harsh biome), then craft ≥12 regional goods back at the hub by Round 52.
 
-  🎯 TRADING OBJECTIVES:
+  ROUTE PLAN
+  1. R1-13 Forest + Plains: start at (350,250), swing west to (250,350) for logs/herbs, then back through the plains for animal/plant goods. Track subtotals (“Forest 12/15”).
+  2. R14-26 Mountains + Coast: push north-east to (230,38) for ores/coal, then march to (900,400) for seafood/shells. Use ≤32-tile moves and keep caravan leaders posting coordinates.
+  3. R27-40 Desert + Ice: head south to (400,680) for cacti/desert drops, then north to the ice ridge (~259,151) for ice logs/palm logs. Maintain HP with flasks; avoid optional bosses.
+  4. R41-52 Return & Craft: converge on the central hub (528,384), hand off materials to the crafting duo, and produce the regional specialties (smelted goods, cooked dishes, artisan crafts). Summaries should mention which biome each item represents.
 
-  **BIOMES TO VISIT (6 total)**:
-  1. Forest (250, 350) - Logs, mushrooms, herbs
-  2. Plains (350, 250) - Animals, foraging
-  3. Mountains (230, 38) - Ores, coal
-  4. Coast (900, 400) - Seafood, shells
-  5. Desert (400, 680) - Cacti, special plants
-  6. Ice Region (259, 151) - Ice materials
+  EXECUTION NOTES
+  - If observe_environment isn’t callable, rely on systematic sweeping (e.g., forest grid laps) and harvest_resource feedback plus verify_inventory counts.
+  - Use chat threads to record travel checkpoints (“Route 2 hop 3: (300,120)”), resource totals, and pending needs (“Need 3 more desert mats”).
+  - Crafting can start as soon as the caravan reaches the hub; prioritize items tied to scarce materials so later substitutions are easier.
 
-  **RESOURCES (80+ total)**:
-  - 15+ Forest materials
-  - 15+ Mountain materials
-  - 15+ Coastal materials
-  - 10+ Desert materials
-  - 10+ Ice materials
-  - 15+ Plains materials
-
-  **CRAFTED ITEMS (12+)**:
-  - Regional specialty items from each biome
-
-  📍 CARAVAN MEMBERS:
-
-  **LEADERS (Agents 1-2)**: Navigate routes
-  **GATHERERS (Agents 3-6)**: Collect resources
-  **CRAFTERS (Agents 7-8)**: Process materials
-
-  ═══════════════════════════════════════════════════════════
-  ROUTE 1: FOREST & PLAINS (Rounds 1-13)
-  ═══════════════════════════════════════════════════════════
-
-  🌲 FOREST BIOME (Rounds 1-6):
-  All agents start: (350, 250)
-  Travel to: (250, 350) - Forest
-
-  Gather:
-  - Agents 3-4: Harvest 10+ logs
-  - Agents 5-6: Forage mushrooms, herbs, berries
-  - Target: 15+ forest materials
-  - Chat: "Forest: Gathered X items"
-
-  🌾 PLAINS BIOME (Rounds 7-13):
-  Move to: (350, 250)
-  - Agents 3-4: Hunt animals (chickens, small game)
-  - Agents 5-6: Forage vegetables, plants
-  - Target: 15+ plains materials
-  - Chat: "Plains: Gathered X items"
-
-  ═══════════════════════════════════════════════════════════
-  ROUTE 2: MOUNTAINS & COAST (Rounds 14-26)
-  ═══════════════════════════════════════════════════════════
-
-  ⛰️ MOUNTAINS (Rounds 14-19):
-  Travel to: (230, 38)
-  - Agents 3-4: Mine iron ore, coal
-  - Agents 5-6: Mine gold ore
-  - Target: 15+ mountain materials
-  - Chat: "Mountains: Mined X ores"
-
-  🌊 COAST (Rounds 20-26):
-  Travel to: (900, 400)
-  - All gatherers: Fish for tuna, shrimp, jellyfish
-  - Collect shells, coastal items
-  - Target: 15+ coastal materials
-  - Chat: "Coast: Caught X seafood"
-
-  ═══════════════════════════════════════════════════════════
-  ROUTE 3: DESERT & ICE (Rounds 27-40)
-  ═══════════════════════════════════════════════════════════
-
-  🏜️ DESERT (Rounds 27-33):
-  Travel to: (400, 680)
-  - Forage cacti, desert plants
-  - Hunt desert creatures
-  - Target: 10+ desert materials
-  - Chat: "Desert: Collected X items"
-
-  ❄️ ICE REGION (Rounds 34-40):
-  Travel to: (259, 151)
-  - Harvest ice logs, ice palm logs
-  - Mine frozen materials
-  - Hunt ice creatures
-  - Target: 10+ ice materials
-  - Chat: "Ice: Gathered X items"
-
-  ═══════════════════════════════════════════════════════════
-  ROUTE 4: RETURN & PROCESSING (Rounds 41-52)
-  ═══════════════════════════════════════════════════════════
-
-  🚚 RETURN TO HUB (Rounds 41-46):
-  Travel to: (528, 384)
-  - All caravan members
-  - Distance varies by current location
-
-  🔨 CRAFTING (Rounds 47-52):
-  Crafters (Agents 7-8):
-  - Smelt ores to bars
-  - Cook food from ingredients
-  - Craft regional specialty items
-  - Target: 12+ crafted items
-
-  ✅ COMPLETION:
-  complete response="Continental Trading Caravan complete! Visited 6 biomes, gathered 80+ unique resources, crafted 12+ regional items!"
-
+  COMPLETION CHECK
+  - Before complete(), list the six biomes visited, resource totals per region, and the 12 crafted items with their biome themes.
 # Limitations
 max_action_steps: 52
 

@@ -16,51 +16,20 @@ objectives:
 
 # Relevant game context
 relevant_game_context: |
-  Use move_character (≤32 tiles) to keep squads together, and avoid "I did it" claims without verify_inventory proof. The tri-shrine seal needs all three conduits online before anyone calls complete().
-  
-  REQUIRED TOOLS & CALLS:
-  - move_character: short hops, pause if another squad needs the same tile.
-  - observe_environment radius=64: identify resource nodes and guardian mobs before engaging.
-  - harvest_resource targetInstance=<id>: chop icelogs, mine iron/coal/cinnabar, gather palmlogs, fish rawshrimp, pick kelp.
-  - craft_item skill=Smelting itemKey=ironbar, craft_item skill=Smithing itemKey=pickaxe/silverring, craft_item skill=Crafting itemKey=staff/firestaff/lightningstaff/naturestaff.
-  - transfer_items targetPlayer=<ally> itemKey=<item> count=<n>: every handoff of beads, logs, or forged gear.
-  - verify_inventory: mandatory at the end of each phase and before leaving a shrine.
-  - attack_entity targetInstance=<guardian>: coordinate three-person bursts, announce HP before and after.
-  - chat (global): announce squad departures, node discoveries, crafted counts, and shrine status checkpoints.
-  - sleep(seconds=2) is acceptable when staggering pylons so actions don’t overlap.
-  
-  PHASE 1 (Rounds 1-10) COORDINATION
-  1. All agents gather at (163-168, 335-342); ArbiterCael kicks off with a chat log naming Ice Squad (IceBinderMira + TacticianRek + MedicLian), Stone Squad (FlameSmithRurik + ShieldWallOtto + RuneCourierBex), and Tidal Squad (ArchivistNyree + ScoutVega + StormScribeElowen) while Arbiter floats between them.
-  2. Everyone runs verify_inventory and confirms key tools (axes, pickaxes, staffs). If something is missing, request it immediately.
-  
-  PHASE 2 (Rounds 11-22) RESOURCE COLLECTION
-  - Ice Squad moves to Frozen Ridge (228-260, 151-156) to harvest_resource ≥20 icelogs and loot ≥6 icebead (if beads scarce, swap with Arbiter’s reserves). Keep within two tiles for transfers.
-  - Stone Squad travels to mountains (230,38) and high ridge (291,644) to mine ≥25 ironore, ≥25 coal, and ≥8 cinnabarore.
-  - Tidal Squad heads to coast (175-197, 633-635) to harvest ≥30 palmlogs, collect ≥10 kelp via forage, and fish ≥20 rawshrimp.
-  - After each haul, squads report counts over chat and send couriers (RuneCourierBex / ArbiterCael) to move materials to central caches.
-  
-  PHASE 3 (Rounds 23-34) FABRICATION
-  1. All squads regroup at Magical Nexus. FlameSmithRurik smelts ≥20 ironbar (craft_item skill=Smelting itemKey=ironbar) and forges 6 pickaxe + 6 silverring; he shares interim counts in chat.
-  2. Ranger/Fletcher roles craft sticks/arrows if extra wood exists; not mandatory but enables defenses.
-  3. StormScribeElowen + ArchivistNyree craft three pylons: first craft base staffs (craft_item skill=Crafting itemKey=staff), then upgrade to lightningstaff/firestaff/naturestaff with the correct beads.
-  4. MedicLian assembles support packs (30 flasks + 20 cookedshrimp) and spreads them evenly using transfer_items so every squad has healing.
-  5. ArbiterCael verifies each conduit kit contains: 1 elemental staff, 2 silver rings, 1 pickaxe, 8 catalyst logs (ice/palm), and 6 iron bars.
-  
-  PHASE 4 (Rounds 35-45) DEPLOY & DEFEND
-  - Ice Squad heads back to (259,151), installs the ice pylon (drop icelogs + icebeads) and channels with lightningstaff/naturestaff support; expect at least one Ice Guardian, engage via attack_entity.
-  - Stone Squad travels to (238,48), plants iron bars + cinnabar ore, then defeat the Iron Ogre; ShieldWallOtto tanks while FlameSmithRurik + RuneCourierBex assist.
-  - Tidal Squad sails to (197,633) to set up palmlog pylons and defend the Water Guardian spawn; keep ScoutVega scouting for Mimics.
-  - Each squad must broadcast: "Shrine stabilized: <name>, HP status, remaining catalysts".
-  
-  PHASE 5 (Rounds 46-55) SYNCHRONIZE
-  1. All teams regroup at Magical Nexus no later than Round 50 with their conduit leads still carrying leftover catalysts (≥2 logs, ≥2 bars each).
-  2. ArbiterCael runs final verify_inventory with each lead and posts a combined containment report (which shrines sealed, mobs defeated, items remaining).
-  3. Only then may ArbiterCael or ArchivistNyree call complete(), citing all three shrine confirmations.
-  
-  DEADLOCK RULES:
-  - Never let two squads stand on the same transfer tile; stagger by 2 tiles or use sleep(2).
-  - If a guardian fails to spawn, document the search in chat and move to the backup spawn coordinates listed in docs/regions.md.
+  MISSION OUTLINE
+  - Ten specialists seal three elemental shrines (Ice 259,151; Stone 238,48; Tidal 197,633) within 55 rounds. Run five phases: rendezvous and role check → resource sweep → fabrication → shrine deployment → final sync. Each squad must carry its catalyst kit (elemental staff + 2 silver rings + pickaxe + 8 themed logs + 6 iron bars) before leaving the nexus.
 
+  PHASE CHECKLIST
+  1. R1-10: meet at the Magical Nexus (~165,338). ArbiterCael assigns Ice/Stone/Tidal squads, everyone verify_inventory for tools, and request missing gear immediately.
+  2. R11-22: Ice Squad harvests ≥20 icelogs + ≥6 icebeads, Stone Squad mines ≥25 ironore/coal + ≥8 cinnabar, Tidal Squad gathers ≥30 palmlogs + ≥10 kelp + ≥20 rawshrimp. Couriers relay materials back to the nexus using transfer_items.
+  3. R23-34: regroup to smelt 20+ iron bars, forge 6 pickaxes + 6 silver rings, and craft three elemental staffs (lightning/fire/nature). MedicLian prepares shared healing packs. ArbiterCael confirms each conduit kit contents via verify_inventory.
+  4. R35-45: squads march to their shrines (≤32-tile hops) with escorts, install pylons, and defeat the local guardian with coordinated attack_entity bursts. After stabilizing, broadcast “Shrine <name> sealed, HP status, catalysts left”.
+  5. R46-55: everyone returns to the nexus with leftover catalysts (≥2 logs + ≥2 bars each), Arbiter posts a final containment summary covering all three shrines, then calls complete().
+
+  EXECUTION NOTES
+  - Always run observe_environment before harvesting or approaching a shrine; if unavailable, sweep manually and report coordinates.
+  - Transfers require both sides to acknowledge via verify_inventory. Keep a shared log in chat (“Iron bars 14/20 ready”, “Ice kit loaded”).
+  - When two squads need the same tile, stagger with sleep(2) or offset positions to avoid action conflicts.
 # Limitations
 max_action_steps: 55
 

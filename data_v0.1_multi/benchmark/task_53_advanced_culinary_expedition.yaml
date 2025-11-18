@@ -15,215 +15,23 @@ objectives:
 
 # Relevant game context (Hint)
 relevant_game_context: |
-  This is an extended cooperative multi-agent culinary scenario requiring diverse ingredient gathering and complex cooking.
-  
-  🚨 CRITICAL AWARENESS - MULTI-REGION CULINARY EXPEDITION:
-  - ALWAYS use verify_inventory before claiming to have ingredients
-  - Prefer verify_inventory and check_inventory_status to confirm what you carry
-  - TOOLING REALITY: observe_environment is an internal helper and may not be exposed as a callable tool. If it is unavailable, proceed using the action tools below — harvest_resource and attack_entity will auto-handle movement toward visible targets; use move_character to navigate and use inventory checks for feedback
-  - If observations are not explicitly provided, continue with movement toward known waypoints (below) and rely on successful tool responses to guide next steps
-  - When observe_environment is available (system-provided), use it to choose targets; otherwise do NOT attempt to call it by name
-  - If a tool returns an “Unknown tool” error, adapt immediately using the exposed tools list (move_character, harvest_resource, attack_entity, craft_item, transfer_items, chat, verify_inventory, check_inventory_status)
-  
-  🔁 RELIABLE HARVEST PROCEDURE (to avoid distance/sync errors):
-  - Target a resource instance and move to one of its four adjacent tiles (x±1,y) or (x,y±1)
-  - After moving, wait briefly (1–2s) if necessary, then try harvest_resource(targetInstance=…)
-  - If you see “Too far from resource” or similar, step once more to the exact resource tile and retry once
-  - If it still fails, switch to another nearby resource and report in chat
-  - Use harvest_resource for foraging plants
-  - Use attack_mob for hunting animals (they drop meat when defeated)
-  - Use transfer_items to consolidate ingredients with MasterCook
-  - Use chat to share locations and progress after EVERY action
-  - This requires EXTENSIVE travel - coordinate movement!
-  
-  📍 STARTING LOCATION: (400-404, 350-354) - Central farming region
-  
-  ⚠️ REALISTIC EXPECTATIONS:
-  - Some ingredients may NOT be available nearby (especially jellyfish)
-  - Hunting animals for meat requires combat - animals must be defeated
-  - Team may need to adapt recipe choices based on available ingredients
-  - If an ingredient is not found after searching, SKIP that recipe and focus on others
-  
-  CULINARY OBJECTIVE: Complete a multi-stage culinary expedition:
-  1. Gather basic vegetables and ingredients (tomatoes, mushrooms, onions)
-  2. Hunt and gather meat products (raw beef, raw chicken)
-  3. Gather special ingredients (jellyfish, corn) - OPTIONAL if not found
-  4. Cook basic food items (cooked meats)
-  5. Craft advanced food items (stews, smoothies)
-  
-  EXTENDED CULINARY OPERATIONS:
-  
-  STAGE 1 - VEGETABLE FORAGING (Rounds 1-10):
-  🎯 Objectives:
-    - Forage tomatoes from plants (need 3+ tomatoes)
-    - Forage mushrooms from forest areas (need 3+ mushrooms)
-    - Forage onions from farm areas (need 2+ onions)
-    - Establish ingredient inventory tracking
-  
-  🌾 HOW TO FORAGE VEGETABLES:
-    1. ChefForager already has 1x tomato and 1x mushroom1 in starting inventory!
-    2. Use observe_environment radius=32 to search for more plants
-    3. Look for tomato plants, mushroom spots, and other forage resources
-    4. Use harvest_resource targetInstance=<plant_instance> when found
-    5. ChefForager has Foraging 30 - can harvest any vegetable!
-    6. Start searching near current location (400, 350) first
-    7. If not enough found, expand search radius to 64
-    8. Target: 3x tomato, 3x mushroom1 total (already have 2, need 4 more)
-  
-  STAGE 2 - HUNTING & GATHERING (Rounds 11-20):
-  🎯 Objectives:
-    - Hunt animals for raw beef (need 2+ pieces)
-    - Hunt animals for raw chicken (need 2+ pieces)
-    - Locate and gather raw pork if available (1+ piece)
-    - Prepare for meat cooking operations
-  
-  🏹 HOW TO HUNT FOR RAW MEAT:
-    1. HunterGatherer leads hunting (Strength 35, Accuracy 30, equipped with sword2)
-    2. Use observe_environment radius=64 to find animals
-    3. Look for LOW-LEVEL mobs that drop meat: rat, crab, bat (Level 1-5)
-    4. ⚠️ NOTE: Cows, chickens, pigs may NOT exist in game - hunt any low-level creatures
-    5. Use attack_mob targetInstance=<animal_instance>
-    6. System auto-completes battle and collects drops
-    7. Check drops using verify_inventory after each kill
-    8. Meat drops are RANDOM - may need to hunt 5-10 creatures to get 4 meats total
-    9. Share in chat: "Killed X, got Y meat. Total meat: Z"
-  
-  STAGE 3 - SPECIAL INGREDIENTS (Rounds 21-30):
-  🎯 Objectives:
-    - Gather jellyfish from coastal areas (need 2+ jellyfish) - OPTIONAL
-    - Forage corn from farm regions (need 2+ corn)
-    - Acquire bowls for stew preparation (need 2+ medium bowls)
-    - MasterCook already has 2x bowlmedium and 1x jellyfish in starting inventory!
-  
-  🌊 JELLYFISH NOTE (ALREADY HAVE 1):
-    - MasterCook already has 1x jellyfish in starting inventory
-    - Jellyfish are FAR away at coastal region (900, 400) - very long travel!
-    - Team can skip additional jellyfish and just craft 1x smoothie
-    - If team wants more, they must travel ~500 tiles east (15+ rounds of travel)
-    - RECOMMENDATION: Use the 1x jellyfish already in inventory, skip extra travel
-  
-  STAGE 4 - BASIC COOKING (Rounds 31-40):
-  🎯 Objectives:
-    - Cook raw beef into cooked beef
-    - Cook raw chicken into cooked chicken
-    - Cook raw pork into cooked pork if available
-    - Prepare cooked meats for consumption
-  
-  🍳 HOW TO COOK RAW MEAT:
-    1. Consolidate ALL raw meat with MasterCook using transfer_items
-    2. HunterGatherer: transfer_items targetPlayer=MasterCook itemKey=rawbeef count=<amount>
-    3. Transfer any rawchicken, rawpork similarly
-    4. MasterCook: verify_inventory to confirm received all meat
-    5. MasterCook has Cooking 30 - can cook anything!
-    
-    ⚠️ NOTE: Item keys may vary - check actual drops!
-    - If you get "meat" instead of "rawbeef", use itemKey=meat
-    - Adapt recipe based on actual items received from hunting
-    - Use observe_environment to check exact item names in inventory
-    
-    6. Function: craft_item skill=Cooking itemKey=cookedbeef (or whatever meat type you have)
-    7. Materials: 1x raw meat → 1x cooked meat
-    8. Call once per piece of raw meat
-    9. Level required: 1 Cooking (MasterCook has 30 - easy!)
-  
-  STAGE 5 - ADVANCED COOKING (Rounds 41-50):
-  🎯 Objectives:
-    - Craft Tomato Stew (tomato + mushroom + bowl)
-    - Craft Corn Stew (corn + mushroom + bowl)
-    - Craft Jellyfish Smoothie (jellyfish)
-    - Complete culinary expedition with diverse food portfolio
-  
-  🥘 HOW TO CRAFT TOMATO STEW:
-    1. Consolidate ingredients with MasterCook via transfer_items
-    2. Need: 1x tomato + 1x mushroom1 + 1x bowlmedium
-    3. MasterCook already has 1x tomato, 1x mushroom1, 2x bowlmedium!
-    4. If need more tomato/mushroom, ChefForager transfers them
-    5. Function: craft_item skill=Cooking itemKey=stew
-    6. Materials: 1x tomato + 1x mushroom1 + 1x bowlmedium → 1x Tomato Stew
-    7. Level required: 5 Cooking (MasterCook has 30 - can do!)
-  
-  🥘 HOW TO CRAFT CORN STEW (IF CORN FOUND):
-    1. Need to forage corn first - search farming areas
-    2. Use observe_environment to find corn plants
-    3. Function: craft_item skill=Cooking itemKey=stew2
-    4. Materials: 1x corn + 1x mushroom1 + 1x bowlmedium → 1x Corn Stew
-    5. If no corn found, SKIP this recipe - focus on tomato stew instead
-    6. Level required: 8 Cooking (MasterCook has 30 - can do!)
-  
-  🥤 HOW TO CRAFT JELLYFISH SMOOTHIE:
-    1. MasterCook already has 1x jellyfish in starting inventory!
-    2. Function: craft_item skill=Cooking itemKey=jellyfishsmoothie
-    3. Materials: 1x jellyfish → 1x jellyfishsmoothie
-    4. Level required: 5 Cooking (MasterCook has 30 - can do!)
-    5. Easiest advanced recipe - only needs 1 ingredient!
-  
-  CULINARY COORDINATION:
-  - Use global chat to coordinate ingredient gathering locations
-  - Track ingredient inventory after each gathering session
-  - Plan travel routes for efficient ingredient collection
-  - Coordinate cooking operations and food distribution
-  - Balance gathering time with cooking preparation
-  
-  🧭 SUGGESTED WAYPOINTS (for navigation without explicit scans):
-  - Central spawn farming belt for vegetables: around (260–290, 160–190)
-    • Tomatoes often near (265, 160); other farm plants scattered nearby
-  - Nearby foraging/forest band for mushrooms: around (360–390, 140–170)
-  - Coastal jellyfish (optional beyond the one you start with): far east ≈ (900, 400)
-  - Use move_character in ≤32‑tile hops; confirm progress via check_inventory_status/verify_inventory
-  
-  ⏱️ TIMEBOXING AND FALLBACKS (keep difficulty, improve execution):
-  - Stage 1 (Rounds 1–10): Focus only on tomatoes/mushrooms; if onions aren’t found quickly, proceed — they are not required for minimum completion
-  - Stage 2 (Rounds 11–20): Hunt low‑level mobs (rat/crab/bat). If after 3–4 kills no meat is obtained, switch mob types and report totals via verify_inventory
-  - Stage 3 (Rounds 21–30): Prefer using the 1x jellyfish already in MasterCook’s inventory; skip long travel east unless ahead of schedule
-  - Stage 4–5 (Rounds 31–50): Consolidate via transfer_items to MasterCook and craft immediately; if any single stew path is blocked by a missing ingredient, craft the others first and summarize availability in chat
-  - Always keep an eye on the 50‑round cap: if behind schedule by Round 40, prioritize the minimum completion set (2 cooked meats total, 1 tomato stew, 1 jellyfish smoothie) and complete with a clear inventory‑verified summary
-  
-  TOTAL INGREDIENT REQUIREMENTS:
-  - Tomatoes: 3+ pieces
-  - Mushrooms: 3+ pieces
-  - Onions: 2+ pieces
-  - Raw beef: 2+ pieces
-  - Raw chicken: 2+ pieces
-  - Jellyfish: 2+ pieces
-  - Corn: 2+ pieces
-  - Medium bowls: 2+ pieces
-  
-  FOOD PRODUCTION TARGETS:
-  - Cooked beef: 2+ pieces
-  - Cooked chicken: 2+ pieces
-  - Tomato Stew: 1+ piece
-  - Corn Stew: 1+ piece
-  - Jellyfish Smoothie: 1+ piece
-  - Total: 7+ food items across multiple types
-  
-  🚨 COMPLETION REQUIREMENTS (FLEXIBLE BASED ON AVAILABILITY):
-  
-  DO NOT use complete() until MINIMUM requirements verified:
-  
-  MINIMUM REQUIRED (Must Complete):
-  ✓ Cooked meats: 2+ pieces total (any type) - use verify_inventory
-  ✓ Tomato Stew: 1+ piece - use verify_inventory
-  ✓ Jellyfish Smoothie: 1+ piece - use verify_inventory (MasterCook starts with jellyfish!)
-  ✓ Team gathered vegetables successfully (verify tomato, mushroom)
-  ✓ Team hunted successfully and obtained meat drops
-  
-  BONUS (If Ingredients Found):
-  ✓ Corn Stew: 1+ piece if corn was found
-  ✓ Multiple cooked meat types if various meats obtained
-  ✓ Additional stews if more bowls/ingredients available
-  
-  REALITY CHECK:
-  - If certain ingredients don't exist in accessible areas, SKIP those recipes
-  - Focus on achievable recipes with available ingredients
-  - Team demonstrates ADAPTIVE cooking based on what's actually available
-  - Communication and coordination more important than perfect recipe completion
-  
-  ✓ All agents use chat to confirm: "My final food items: [list]"
-  ✓ MasterCook summarizes: "Total food produced: X cooked meats, Y stews, Z smoothies"
-  ✓ Team agrees: "Culinary expedition complete"
-  
-  THEN call complete() with summary of all food produced
+  EXPEDITION SNAPSHOT
+  - Three cooks roam the central farms → nearby forests → optional coast to gather ingredients and cook at least: 2 cooked meats (any mix), 1 tomato stew, and 1 jellyfish smoothie (corn stew optional). MasterCook already carries bowls and one jellyfish, so only a handful of items must be collected.
 
+  SUGGESTED TIMELINE (≤50 ROUNDS)
+  1. R1-10: ChefForager sweeps the farm belt (≈(260-300,160-200)) for tomatoes + mushrooms. Share coordinates and totals in chat; transfer extras to MasterCook later.
+  2. R11-20: HunterGatherer hunts low-level mobs near spawn for raw meats via attack_mob. After each kill run verify_inventory and state drops; aim for at least four meat pieces.
+  3. R21-30: Optional errands—grab corn if it appears along the farm edge or travel east only if the team wants extra jellyfish (not required thanks to the starter one).
+  4. R31-50: Everyone regroups at camp (~(400,350)), transfers all ingredients to MasterCook (transfer_items + verify_inventory), cooks the meats (craft_item Cooking cookedbeef/chicken/pork), then crafts tomato stew (tomato + mushroom + bowl), corn stew if corn exists, and the jellyfish smoothie.
+
+  EXECUTION RULES
+  - If observe_environment is unavailable, rely on move_character hops (≤32 tiles) and harvest_resource/attack_mob feedback to confirm success.
+  - Log every gather/hunt/cook action in chat; mention when ingredients are scarce so plans can pivot (e.g., “No corn found by R25, proceeding without corn stew”).
+  - MasterCook announces each finished dish so the team knows when minimum goals are met.
+
+  COMPLETION CHECKLIST
+  - Inventory proof (via verify_inventory) for ≥2 cooked meats, ≥1 tomato stew, and ≥1 jellyfish smoothie; corn stew noted if crafted.
+  - Final chat summary lists total dishes before anyone invokes complete().
 # Limitations
 max_action_steps: 50
 

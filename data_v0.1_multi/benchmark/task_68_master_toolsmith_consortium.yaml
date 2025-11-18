@@ -15,143 +15,22 @@ objectives:
 
 # Context and guidance for agents
 relevant_game_context: |
-  Industrial-scale tool production requiring massive resource gathering.
+  FACTORY PLAN
+  - Produce 25 tools (8 pickaxes, 8 axes, 5 buckets, 4 heavy swords) by Round 51. Five miners collect 87 iron ore + 87 coal, a lumberjack supplies 16 logs, and the Master Toolsmith stationed at (528,384) smelts/forges everything.
 
-  🎯 TOOL COLLECTION (25+ implements):
+  SCHEDULE
+  1. R1-16 Extraction: iron miners split the 87 ore quota; coal miners do the same for coal; Handle_Harvester logs the forest. Post running totals in chat and verify inventories before leaving the mountains/forest.
+  2. R17-27 Transport & Consolidation: gatherers march to the forge (≤32-tile hops), then transfer ore/coal/logs via transfer_items to the Master Toolsmith. Confirm receipt (“Received 30/30 iron ore”).
+  3. R28-36 Smelting: Master Toolsmith executes craft_item(Smelting, ironbar) repeatedly until 87 bars exist, announcing milestones every 10 bars.
+  4. R37-51 Forging: craft pickaxes first (5 bars + 1 log each), then axes, buckets, and finally heavy swords using the stored hilts. After each batch, log progress and remaining bars/logs.
 
-  **PICKAXES (8x)**: 5 ironbar + 1 logs each = 40 bars + 8 logs
-  **AXES (8x)**: 3 ironbar + 1 logs each = 24 bars + 8 logs
-  **BUCKETS (5x)**: 3 ironbar each = 15 bars
-  **HEAVY SWORDS (4x)**: 2 ironbar + 1 hilt2 each = 8 bars + 4 hilts
+  EXECUTION NOTES
+  - If observe_environment is unavailable, sweep the mining grid manually; rely on harvest_resource output and verify_inventory counts.
+  - Maintain a shared checklist (“Iron 60/87”, “Coal 70/87”) so the forge knows when to expect more loads.
+  - Transfers succeed only within ~10 tiles; both sender and receiver must log the transaction.
 
-  **TOTAL MATERIALS**:
-  - 87+ iron bars (need 87+ ironore + 87+ coal)
-  - 16+ logs
-  - 4+ hilt2
-
-  📍 CONSORTIUM ROLES:
-
-  **IRON MINERS (Agents 1-3)**: Mountains
-  - Mine 87+ iron ore collectively
-  - Agent 1: 30 ore, Agent 2: 30 ore, Agent 3: 27 ore
-
-  **COAL MINERS (Agents 4-5)**: Mountains
-  - Mine 87+ coal collectively
-  - Agent 4: 45 coal, Agent 5: 42 coal
-
-  **LUMBERJACK (Agent 6)**: Forest
-  - Harvest 16+ logs for handles
-
-  **MASTER TOOLSMITH (Agent 7)**: Central Forge
-  - Smelt ALL bars
-  - Forge ALL tools
-
-  ═══════════════════════════════════════════════════════════
-  EXTRACTION (Rounds 1-16)
-  ═══════════════════════════════════════════════════════════
-
-  ⛏️ IRON MINERS (Agents 1-3):
-  Location: (230-236, 38-42) Mountains
-  - observe_environment for iron rocks
-  - harvest_resource intensively
-  - Agent 1 target: 30 ironore
-  - Agent 2 target: 30 ironore
-  - Agent 3 target: 27 ironore
-  - Total: 87 ironore
-  - Chat every 5 ore: "Miner X: Y/target ore"
-
-  ⛏️ COAL MINERS (Agents 4-5):
-  Location: (232-234, 40-42) Mountains
-  - observe_environment for coal rocks
-  - harvest_resource intensively
-  - Agent 4 target: 45 coal
-  - Agent 5 target: 42 coal
-  - Total: 87 coal
-  - Chat every 10 coal: "Coal X: Y/target"
-
-  🪓 LUMBERJACK (Agent 6):
-  Location: (250, 350) Forest
-  - observe_environment for Oak Trees
-  - harvest_resource on trees
-  - Target: 16+ logs
-  - Chat: "Harvested X/16 logs"
-
-  🏭 MASTER TOOLSMITH (Agent 7):
-  Location: (528, 384) Central Forge
-  - Monitor extraction progress
-  - Plan smelting operations
-  - Check for hilt2 in inventory (need 4)
-  - Chat: "Forge ready for materials"
-
-  ═══════════════════════════════════════════════════════════
-  SMELTING (Rounds 17-36)
-  ═══════════════════════════════════════════════════════════
-
-  🚚 TRAVEL (Rounds 17-25):
-  All miners and lumberjack → Central Forge (528, 384)
-  - Distance: 325-450 tiles
-  - Moves needed: 11-15 actions
-  - Travel as group
-
-  🔄 CONSOLIDATION (Rounds 26-27):
-  Transfer ALL to Master_Toolsmith (Agent 7):
-  - Iron Miners: transfer 87 ironore total
-  - Coal Miners: transfer 87 coal total
-  - Lumberjack: transfer 16 logs
-  - verify_inventory: Should have 87 ironore, 87 coal, 16 logs
-
-  🔥 MASS SMELTING (Rounds 28-36):
-  Master_Toolsmith (Agent 7):
-  - craft_item skill=Smelting itemKey=ironbar
-  - Recipe: 1 ironore + 1 coal → 1 ironbar
-  - Repeat 87 times!
-  - Can smelt ~10 per round
-  - 87 bars ÷ 10 per round = 9 rounds
-  - Chat every 10 bars: "Smelted X/87 iron bars"
-  - Final verify_inventory: 87 ironbar
-
-  ═══════════════════════════════════════════════════════════
-  FORGING (Rounds 37-51)
-  ═══════════════════════════════════════════════════════════
-
-  🔨 PICKAXE PRODUCTION (Rounds 37-42):
-  Master_Toolsmith (Agent 7):
-  - craft_item skill=Smithing itemKey=pickaxe
-  - Recipe: 5 ironbar + 1 logs → 1 pickaxe
-  - Craft 8 times: 40 bars + 8 logs → 8 pickaxes
-  - Chat: "Forged X/8 pickaxes"
-
-  🪓 AXE PRODUCTION (Rounds 42-46):
-  - craft_item skill=Smithing itemKey=axe
-  - Recipe: 3 ironbar + 1 logs → 1 axe
-  - Craft 8 times: 24 bars + 8 logs → 8 axes
-  - Chat: "Forged X/8 axes"
-
-  🪣 BUCKET PRODUCTION (Rounds 47-49):
-  - craft_item skill=Smithing itemKey=bucket
-  - Recipe: 3 ironbar → 1 bucket
-  - Craft 5 times: 15 bars → 5 buckets
-  - Chat: "Forged X/5 buckets"
-
-  ⚔️ HEAVY SWORD PRODUCTION (Rounds 49-51):
-  - craft_item skill=Smithing itemKey=sword2
-  - Recipe: 2 ironbar + 1 hilt2 → 1 sword2
-  - Craft 4 times: 8 bars + 4 hilts → 4 heavy swords
-  - Chat: "Forged X/4 heavy swords"
-
-  Total bars used: 40 + 24 + 15 + 8 = 87 bars ✓
-
-  ✅ VERIFICATION (Round 51):
-  verify_inventory:
-  - 8x pickaxe
-  - 8x axe
-  - 5x bucket
-  - 4x sword2
-  - Total: 25 implements
-
-  📊 COMPLETION:
-  complete response="Master Toolsmith Consortium complete! Forged 25 implements: 8 pickaxes, 8 axes, 5 buckets, 4 heavy swords. Industrial-scale tool production achieved!"
-
+  COMPLETION CHECK
+  - Final verify_inventory must list all 25 implements; one agent posts the breakdown before complete().
 # Limitations
 max_action_steps: 51
 

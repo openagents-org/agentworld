@@ -15,173 +15,24 @@ objectives:
 
 # Relevant game context (Hint)
 relevant_game_context: |
-  This is an advanced cooperative multi-agent archery scenario requiring complex five-archer coordination.
-  
-  🚨 CRITICAL AWARENESS - 5 ARCHERS COORDINATION:
-  - ALWAYS use verify_inventory before claiming to have materials
-  - ALWAYS use transfer_items for ALL material transfers
-  - ALWAYS use chat after every action
-  - Team already has 23x feathers in starting inventory (5+0+0+8+10)!
-  - Use harvest_resource for gathering logs
-  - Use craft_item for making sticks, bows, and arrows
-  - This requires EXTENSIVE coordination - communicate constantly!
-  
-  📍 STARTING LOCATION: (250-258, 350-358) - Forest region
-  - Close to Oak trees for lumber
-  - Good starting position for archery operations
-  - Stay within 10 tiles during transfers
-  
-  GRAND OBJECTIVE: Establish a complete archery academy with five archers:
-  1. Gather wood materials for bow and arrow production
-  2. Gather feathers for arrow fletching (already have 23!)
-  3. Craft wooden bows for multiple archers
-  4. Craft arrows in large quantities
-  5. Conduct coordinated archery training exercises
-  
-  FIVE-ARCHER ACADEMY STRUCTURE:
-  - Archer 1: Wood Gathering Specialist - Lumber operations
-  - Archer 2: Feather Hunter - Feather collection from birds
-  - Archer 3: Bow Craftsman - Bow production specialist
-  - Archer 4: Arrow Fletcher - Arrow mass production
-  - Archer 5: Master Instructor - Coordination and training
-  
-  ARCHERY ACADEMY OPERATIONS:
-  
-  DIVISION 1 - LUMBER OPERATIONS (Rounds 1-10):
-  🎯 Responsibilities (Wood Gathering Specialist):
-    - Harvest logs from Oak trees (need 6+ logs)
-    - Craft sticks from logs (need 40+ sticks)
-    - Distribute sticks for bow and arrow production
-    - Gather string materials if available
-  
-  🌲 HOW WOODGATHERING HARVESTS LOGS:
-    1. Already at (250, 350) - forest area with Oak trees
-    2. Use observe_environment radius=32 to find Oak Tree instances
-    3. Use harvest_resource targetInstance=<tree_instance>
-    4. Need 8+ logs total (3 for bows + 5 for sticks)
-    5. WoodGatheringSpecialist has Lumberjacking 30 - perfect!
-    6. Use chat after each harvest: "Harvested log X. Total: Y logs"
-  
-  🪄 HOW TO CRAFT STICKS (40+ needed):
-    1. Function: craft_item skill=Fletching itemKey=stick
-    2. Materials: 1x logs → 4x sticks per craft
-    3. Need 30 sticks for arrows (30/10 = 3 arrow crafts)
-    4. Call 8+ times to get 32+ sticks (from 8 logs)
-    5. WoodGatheringSpecialist crafts sticks (Fletching 25)
-    6. Use verify_inventory after crafting to track progress
-  
-  DIVISION 2 - FEATHER COLLECTION (Rounds 5-15):
-  🎯 Responsibilities (Feather Hunter):
-    - Hunt birds for feathers (need 30+ feathers)
-    - Engage bats, roosters, or other birds
-    - Coordinate feather distribution for fletching
-    - Support arrow production needs
-  
-  🏹 FEATHER STATUS - ALREADY HAVE 23!:
-    ✓ FeatherHunter: 5x feathers (starting inventory)
-    ✓ ArrowFletcher: 8x feathers (starting inventory)
-    ✓ MasterInstructor: 10x feathers (starting inventory)
-    ✓ Total: 23x feathers - ENOUGH for 30 arrows!
-    
-    - Team needs 30 feathers for 30 arrows
-    - Already have 23 - only need 7 more if wanting extra
-    - FeatherHunter can hunt a few bats (Level 1-5) for bonus feathers
-    - Use observe_environment to find bat instances
-    - Use attack_mob targetInstance=<bat_instance>
-    - Feather drops are RANDOM - may or may not get feathers
-    - OPTIONAL: Team can proceed with 23 feathers = 20 arrows (still meets minimum 30)
-  
-  DIVISION 3 - BOW CRAFTING (Rounds 10-20):
-  🎯 Responsibilities (Bow Craftsman):
-    - BowCraftsman already has 3x string in starting inventory!
-    - Receive logs from WoodGatheringSpecialist
-    - Craft wooden bows (need 3+ bows)
-    - Distribute bows to academy archers
-  
-  🏹 HOW TO CRAFT WOODEN BOWS:
-    1. BowCraftsman already has 3x string - perfect!
-    2. WoodGathering travels to BowCraftsman (254, 354)
-    3. WoodGathering: transfer_items targetPlayer=BowCraftsman itemKey=logs count=3
-    4. BowCraftsman: verify_inventory (should have 3x logs, 3x string)
-    5. Function: craft_item skill=Fletching itemKey=woodenbow
-    6. Materials: 1x logs + 1x string → 1x Wooden Bow
-    7. Call 3 times to make 3x wooden bows
-    8. Level required: 5 Fletching (BowCraftsman has 30 - easy!)
-  
-  DIVISION 4 - ARROW FLETCHING (Rounds 15-28):
-  🎯 Responsibilities (Arrow Fletcher):
-    - Mass produce arrows from sticks and feathers
-    - Craft multiple arrow batches (30+ total arrows)
-    - Distribute arrows to all academy archers
-    - Ensure adequate ammunition supply
-  
-  🏹 HOW TO CRAFT ARROWS (30+ total):
-    1. Consolidate materials with ArrowFletcher
-    2. WoodGathering: transfer_items targetPlayer=ArrowFletcher itemKey=stick count=30
-    3. FeatherHunter: transfer_items targetPlayer=ArrowFletcher itemKey=feather count=5
-    4. MasterInstructor: transfer_items targetPlayer=ArrowFletcher itemKey=feather count=10
-    5. ArrowFletcher already has 8x feathers - total will be 23+
-    6. ArrowFletcher: verify_inventory (should have 30+ sticks, 23+ feathers)
-    7. Function: craft_item skill=Fletching itemKey=arrow
-    8. Materials: 10x stick + 10x feather → 10x arrow
-    9. Call 3 times to make 30x arrows (if have 30 feathers)
-    10. Or call 2 times to make 20x arrows (with 23 feathers) - still good!
-    11. Level required: 1 Fletching (ArrowFletcher has 35 - perfect!)
-  
-  DIVISION 5 - TRAINING COORDINATION (Rounds 20-35):
-  🎯 Responsibilities (Master Instructor):
-    - MasterInstructor already has 1x woodenbow and 20x arrow equipped!
-    - Distribute bows and arrows to other archers
-    - Coordinate archery training exercises
-    - Lead live-fire training
-  
-  🎯 HOW TO CONDUCT TRAINING:
-    1. BowCraftsman distributes bows using transfer_items
-    2. ArrowFletcher distributes arrows using transfer_items
-    3. Each archer equips bow: equip_item index=<inventory_slot>
-    4. Training options:
-       a) Find low-level enemies (rats, bats) for practice
-       b) Use observe_environment to locate targets
-       c) Use attack_mob for live-fire exercises
-    5. MasterInstructor demonstrates first shot
-    6. Team announces in chat: "Training complete - all archers equipped"
-  
-  FIVE-ARCHER COORDINATION PROTOCOLS:
-  - Use global chat extensively for material tracking
-  - Coordinate transfer points for materials distribution
-  - Track production: logs gathered, sticks crafted, feathers collected
-  - Balance production across all divisions
-  - Synchronize equipment distribution timing
-  - Coordinate training exercise timing
-  
-  TOTAL MATERIAL REQUIREMENTS:
-  - Logs: 8+ pieces (for sticks and bows)
-  - Sticks: 40+ pieces (for arrows)
-  - Feathers: 30+ pieces (for arrows)
-  - String: 3+ pieces (for bows)
-  
-  PRODUCTION TARGETS:
-  - Wooden bows: 3+ bows (one for each primary archer)
-  - Arrows: 30+ total arrows (distributed among archers)
-  - Equipped archers: All 5 archers with bow/arrow setup
-  
-  🚨 COMPLETION REQUIREMENTS (DO NOT SKIP):
-  
-  DO NOT use complete() until ALL verified:
-  
-  ✓ WoodGatheringSpecialist: Gathered 8+ logs (use verify_inventory)
-  ✓ WoodGatheringSpecialist: Crafted 30+ sticks (use verify_inventory)
-  ✓ BowCraftsman: Crafted 3+ wooden bows (use verify_inventory)
-  ✓ ArrowFletcher: Crafted 20-30x arrows (use verify_inventory)
-  ✓ Team consolidated 23+ feathers with ArrowFletcher
-  ✓ At least 3 archers have bows distributed to them
-  ✓ Arrows distributed to multiple archers
-  ✓ All 5 archers announce in chat: "My equipment: [list bows/arrows]"
-  ✓ Optional: Training exercise completed (at least 1 archer shot at enemy)
-  ✓ Team confirms in chat: "Academy operations complete"
-  
-  THEN one agent calls complete() with summary of all produced equipment
+  TARGET OUTPUT
+  - In 35 rounds produce at least 3 wooden bows and ~30 arrows, then hand them out so all five archers are equipped and ready for a short training shoot. The team already holds 23 feathers and 3 strings, so the main work is chopping logs, crafting sticks, and coordinating handoffs.
 
+  SIMPLE PLAN
+  1. WoodGatheringSpecialist harvests 8 logs near (250,350), converts most into sticks via craft_item(Fletching, stick), keeps 3 logs reserved for bows.
+  2. BowCraftsman receives 3 logs + 3 strings (already owned) through transfer_items and crafts three woodenbows.
+  3. ArrowFletcher gathers 30 sticks + pooled feathers (transfer from FeatherHunter + MasterInstructor) and runs craft_item(Fletching, arrow) until ~30 arrows exist.
+  4. FeatherHunter only needs to top up feathers if extras are desired—attack_mob bats near the clearing if so.
+  5. MasterInstructor coordinates distribution and optional live-fire practice on a low-level mob using attack_mob once everyone is armed.
+
+  COORDINATION RULES
+  - Stay within ~10 tiles when transferring; both sides verify_inventory and report in chat.
+  - Track totals after every craft (“Sticks 24/30”, “Arrows batch 2 complete”).
+  - If feathers stay at 23, two arrow batches (20 arrows) are acceptable; log clearly if the team stops below 30.
+
+  COMPLETION CHECKLIST
+  - Bow inventory shows ≥3 new woodenbows, ArrowFletcher reports total arrows made, and every archer states their equipped bow/arrow count.
+  - Training message logged (“All five archers fired on target X”). Only then may MasterInstructor call complete().
 # Limitations
 max_action_steps: 35
 

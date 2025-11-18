@@ -15,135 +15,19 @@ objectives:
 
 # Context and guidance for agents
 relevant_game_context: |
-  Alchemist guild creating diverse consumable collection.
+  GUILD OVERVIEW
+  - Seven alchemists must present ≥10 consumables (stews, cooked meats, seafood dishes, smoothie) by Round 51. Two herbalists forage vegetables/mushrooms, two hunters collect meat, two fishers gather tuna/shrimp/jellyfish, and the Master Brewer at (528,384) handles all cooking.
 
-  🎯 POTION COLLECTION (10+ types):
+  TIMELINE
+  1. R1-18 Gathering: each squad works its region (forest, plains, coast), announcing ingredient counts and healing whenever HP < 70%.
+  2. R19-32 Delivery: all gatherers move toward the guild hall using ≤32-tile hops, then transfer ingredients to the Master Brewer (meat/veg/seafood captured separately). Both sides use verify_inventory after every transfer.
+  3. R33-47 Brewing: the Master Brewer cooks the menu—corn & tomato stews, cooked chicken ×2, cooked shrimp ×2, cooked beef, tuna sushi, jellyfish smoothie—logging each completion. If bowls are missing, request them via chat so suppliers can fetch replacements.
+  4. R48-51 Exhibition: list the finished dishes, confirm total ≥10, and deliver a final summary before complete().
 
-  **HEALING ITEMS (4)**:
-  - 2x Cooked Chicken (chicken → cook)
-  - 2x Cooked Shrimp (shrimp → cook)
-
-  **GOURMET FOOD (3)**:
-  - 1x Tomato Stew (tomato + mushroom + bowl)
-  - 1x Corn Stew (corn + mushroom + bowl)
-  - 1x Jellyfish Smoothie (jellyfish)
-
-  **SPECIALTY CONSUMABLES (3+)**:
-  - 1x Tuna Sushi (tuna)
-  - 1x Cooked Beef (beef)
-  - 1x Additional specialty items
-
-  📍 GUILD MEMBERS:
-
-  **HERBALISTS (Agents 1-2)**: Forest (250, 350)
-  - Forage vegetables, mushrooms, herbs
-  - Target: 20+ foraged items
-
-  **HUNTERS (Agents 3-4)**: Plains (350, 250)
-  - Hunt animals for meat
-  - Target: 10+ animal kills
-
-  **FISHERS (Agents 5-6)**: Coast (900, 400)
-  - Fish for seafood ingredients
-  - Target: 15+ fish caught
-
-  **MASTER BREWER (Agent 7)**: Guild Hall (528, 384)
-  - Receive ingredients, brew all potions
-  - Target: 10+ consumables crafted
-
-  ═══════════════════════════════════════════════════════════
-  GATHERING (Rounds 1-18)
-  ═══════════════════════════════════════════════════════════
-
-  🌿 HERBALISTS (Agents 1-2):
-  Location: (250, 350)
-  - observe_environment for foraging spots
-  - harvest_resource on plants
-  - Gather: 6 tomato, 6 corn, 6 mushroom, misc herbs
-  - Chat: "Herbalist X: Foraged Y items"
-
-  🏹 HUNTERS (Agents 3-4):
-  Location: (350, 250)
-  - observe_environment radius=64 for animals
-  - Hunt: chickens (easy), cows (moderate)
-  - attack_entity targetInstance=<animal_id>
-  - Target: 5 chicken, 3 beef minimum
-  - Heal when HP < 70%
-  - Chat: "Hunter X: Killed Y animals"
-
-  🎣 FISHERS (Agents 5-6):
-  Location: (900, 400)
-  - observe_environment for fish spots
-  - harvest_resource on fishing spots
-  - Catch: 5 tuna, 6 shrimp, 4 jellyfish
-  - Chat: "Fisher X: Caught Y fish"
-
-  🏭 MASTER BREWER (Agent 7):
-  - Stay at guild hall
-  - Monitor gathering progress
-  - Plan brewing sequences
-  - Chat: "Guild Hall ready for ingredients"
-
-  ═══════════════════════════════════════════════════════════
-  PREPARATION (Rounds 19-32)
-  ═══════════════════════════════════════════════════════════
-
-  🚚 TRAVEL (Rounds 19-28):
-  All gatherers → Guild Hall (528, 384)
-  - Herbalists: ~325 tiles, 11 moves
-  - Hunters: ~220 tiles, 7 moves
-  - Fishers: ~372 tiles, 12 moves
-
-  🔄 CONSOLIDATION (Rounds 29-32):
-  Transfer ALL ingredients to Master_Brewer (Agent 7):
-  - Vegetables, mushrooms from Herbalists
-  - Meat from Hunters
-  - Seafood from Fishers
-  - verify_inventory to confirm
-
-  ═══════════════════════════════════════════════════════════
-  BREWING (Rounds 33-47)
-  ═══════════════════════════════════════════════════════════
-
-  🧪 MASTER BREWER (Agent 7):
-
-  **Tomato Stew**:
-  - craft_item skill=Cooking itemKey=stew
-  - 3 tomato + 1 mushroom
-
-  **Corn Stew**:
-  - craft_item skill=Cooking itemKey=stew2
-  - 3 corn + 1 mushroom
-
-  **Cooked Chicken** (2x):
-  - craft_item skill=Cooking itemKey=cookedchicken
-  - Repeat twice
-
-  **Cooked Shrimp** (2x):
-  - craft_item skill=Cooking itemKey=cookedshrimp
-  - Repeat twice
-
-  **Cooked Beef**:
-  - craft_item skill=Cooking itemKey=cookedbeef
-
-  **Tuna Sushi**:
-  - craft_item skill=Cooking itemKey=tunasushi
-
-  **Jellyfish Smoothie**:
-  - craft_item skill=Cooking itemKey=jellyfishsmoothie
-  - 3 jellyfish
-
-  Chat after each: "Brewed X potion/food"
-
-  ═══════════════════════════════════════════════════════════
-  GUILD HALL (Rounds 48-51)
-  ═══════════════════════════════════════════════════════════
-
-  ✅ Verify 10+ consumables created
-  🎨 Display potion collection
-
-  complete response="Alchemist Guild complete! Brewed 10+ diverse consumables: healing items, gourmet foods, specialty potions!"
-
+  EXECUTION NOTES
+  - Lacking observe_environment? Sweep the suggested coordinate bands manually and rely on harvest_resource/attack_entity results plus inventory counts.
+  - Keep per-team checklists (“Veg 12/20”, “Fish 10/15”) in chat so the brewer knows when to begin cooking.
+  - If certain ingredients refuse to drop, announce substitutions early (e.g., extra cooked chicken instead of beef) so the total dish count still clears the requirement.
 # Limitations
 max_action_steps: 51
 
