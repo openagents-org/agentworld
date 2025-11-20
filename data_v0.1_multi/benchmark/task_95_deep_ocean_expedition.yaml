@@ -1,0 +1,436 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Deep Ocean Expedition - Underwater Resource Discovery"
+  description: "Eleven agents embark on a comprehensive ocean exploration mission, fishing, hunting sea creatures, and establishing coastal supply chains"
+
+# Task objectives
+objectives:
+  primary: "Complete deep ocean expedition gathering 150+ seafood items, defeating 3+ sea bosses, and establishing coastal fishing station within 50 rounds"
+  secondary: # checkpoints
+    - "Phase 1 (Rounds 1-12): Coastal Setup - Establish base camp and gather initial supplies"
+    - "Phase 2 (Rounds 13-25): Deep Sea Fishing - Catch 100+ rawshrimp, jellyfish, and other seafood"
+    - "Phase 3 (Rounds 26-38): Ocean Combat - Hunt sea creatures and defeat marine bosses"
+    - "Phase 4 (Rounds 39-50): Culinary Processing - Cook massive feast with 80+ prepared meals"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  DEEP OCEAN EXPEDITION OVERVIEW:
+  
+  Eleven brave adventurers must explore the dangerous coastal waters, harvest marine resources,
+  battle sea monsters, and establish a permanent fishing industry.
+  
+  🌊 EXPEDITION TEAMS:
+  
+  ═══════════════════════════════════════════════════════════
+  🎣 MASTER FISHING FLEET (Agents 1-5) - Marine Harvesting
+  ═══════════════════════════════════════════════════════════
+  
+  **Location**: Coastal Region (580, 750)
+  **Mission**: Harvest 100+ seafood from fishing spots
+  
+  **Team**:
+  - Agent 1 (Fleet Admiral): Coordinate all fishing operations
+  - Agent 2 (Master Fisher Alpha): Catch shrimp and fish
+  - Agent 3 (Master Fisher Beta): Catch jellyfish
+  - Agent 4 (Fisher Gamma): Support fishing
+  - Agent 5 (Resource Collector): Gather coastal resources
+  
+  **Fishing Goals**:
+  - 60x rawshrimp (primary catch)
+  - 30x jellyfish (secondary catch)
+  - 10x other fish (clams, crabs)
+  - Use harvest_resource on fishing spots
+  - All agents need fishing rods equipped
+  
+  ═══════════════════════════════════════════════════════════
+  ⚔️ MARINE COMBAT SQUAD (Agents 6-8) - Sea Monster Hunters
+  ═══════════════════════════════════════════════════════════
+  
+  **Location**: Deep Waters (580, 755)
+  **Mission**: Defeat 3+ sea bosses and protect fishing fleet
+  
+  **Team**:
+  - Agent 6 (Sea Captain): Lead combat operations
+  - Agent 7 (Harpooner): Primary damage dealer
+  - Agent 8 (Naval Guardian): Tank and defender
+  
+  **Combat Targets**:
+  - Mermaid (Level 55) at (580, 755) - Primary boss
+  - Hermit Crab Warrior (Level 30) at (224, 359)
+  - Water Guardian (Level 36) at (197, 633)
+  - Coastal crabs and sea creatures
+  
+  **Combat Strategy**:
+  - Travel to boss locations
+  - Coordinate synchronized attacks
+  - Maintain HP above 70%
+  - Use healing items liberally
+  
+  ═══════════════════════════════════════════════════════════
+  👨‍🍳 CULINARY MASTERS (Agents 9-11) - Food Processing
+  ═══════════════════════════════════════════════════════════
+  
+  **Location**: Coastal Kitchen (585, 752)
+  **Mission**: Cook 80+ seafood meals for expedition
+  
+  **Team**:
+  - Agent 9 (Head Chef): Cook premium dishes
+  - Agent 10 (Sous Chef): Cook standard meals
+  - Agent 11 (Kitchen Assistant): Prepare ingredients
+  
+  **Cooking Goals**:
+  - 40x cookedshrimp (rawshrimp → cookedshrimp)
+  - 25x jellyfishsmoothie (jellyfish → smoothie)
+  - 15x other cooked seafood
+  - Minimum 80 total prepared meals
+  
+  **Recipes**:
+  - craft_item skill=Cooking itemKey=cookedshrimp
+  - craft_item skill=Cooking itemKey=jellyfishsmoothie
+  
+  ═══════════════════════════════════════════════════════════
+  📋 EXPEDITION PROTOCOL
+  ═══════════════════════════════════════════════════════════
+  
+  **Phase 1: Coastal Setup (Rounds 1-12)**
+  - All teams gather at coastal region
+  - Fishing Fleet scouts fishing spots
+  - Combat Squad prepares for battles
+  - Culinary team sets up kitchen
+  - Announce: "Base camp established at (580, 750)"
+  
+  **Phase 2: Deep Sea Fishing (Rounds 13-25)**
+  - Fishing Fleet harvests continuously
+  - Report every 10 catches: "Caught 20/100 seafood"
+  - Combat Squad patrols for threats
+  - Begin transferring catches to Culinary team
+  
+  **Phase 3: Ocean Combat (Rounds 26-38)**
+  - Combat Squad hunts sea bosses
+  - Coordinate attacks: "Engaging Mermaid at (580, 755)"
+  - Fishing Fleet continues operations
+  - Share boss drops with team
+  
+  **Phase 4: Culinary Processing (Rounds 39-50)**
+  - Culinary team cooks all seafood
+  - Produce 80+ prepared meals
+  - Distribute food to all teams
+  - Final expedition feast
+  
+  **Communication**:
+  - "[Fishing Fleet]: Caught 30/100 items, location (580, 750)"
+  - "[Combat Squad]: Engaging boss, HP 85%, need healing"
+  - "[Culinary]: Cooked 20/80 meals, need more rawshrimp"
+  
+  ═══════════════════════════════════════════════════════════
+  🎯 SUCCESS CRITERIA
+  ═══════════════════════════════════════════════════════════
+  
+  1. Catch 100+ seafood items (60 shrimp, 30 jellyfish, 10 other)
+  2. Defeat 3+ marine bosses
+  3. Cook 80+ prepared meals
+  4. All teams coordinate effectively
+  5. Complete within 50 rounds
+
+# Limitations
+max_action_steps: 50
+
+# Agent configurations
+agent_1:
+  username: "fleet_admiral"
+  new_character: true
+  location:
+    x: 580
+    y: 750
+  skill_levels:
+    fishing: 50
+    health: 45
+    strength: 35
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "master_fisher_alpha"
+  new_character: true
+  location:
+    x: 582
+    y: 752
+  skill_levels:
+    fishing: 48
+    health: 42
+    strength: 33
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 33
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "master_fisher_beta"
+  new_character: true
+  location:
+    x: 584
+    y: 754
+  skill_levels:
+    fishing: 45
+    health: 40
+    strength: 32
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 33
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "fisher_gamma"
+  new_character: true
+  location:
+    x: 586
+    y: 756
+  skill_levels:
+    fishing: 42
+    health: 40
+    strength: 30
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "resource_collector"
+  new_character: true
+  location:
+    x: 588
+    y: 758
+  skill_levels:
+    fishing: 40
+    foraging: 35
+    health: 38
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "sea_captain"
+  new_character: true
+  location:
+    x: 578
+    y: 748
+  skill_levels:
+    strength: 50
+    defense: 45
+    health: 55
+    accuracy: 40
+  inventory_items:
+    - item: "flask"
+      count: 40
+    - item: "apple"
+      count: 45
+    - item: "healthpotion"
+      count: 10
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "harpooner"
+  new_character: true
+  location:
+    x: 576
+    y: 746
+  skill_levels:
+    strength: 55
+    accuracy: 50
+    health: 50
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+    - item: "healthpotion"
+      count: 8
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "naval_guardian"
+  new_character: true
+  location:
+    x: 574
+    y: 744
+  skill_levels:
+    defense: 50
+    strength: 45
+    health: 60
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+    - item: "healthpotion"
+      count: 12
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "head_chef"
+  new_character: true
+  location:
+    x: 585
+    y: 752
+  skill_levels:
+    cooking: 55
+    crafting: 40
+    health: 38
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "sous_chef"
+  new_character: true
+  location:
+    x: 587
+    y: 754
+  skill_levels:
+    cooking: 50
+    crafting: 38
+    health: 36
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_11:
+  username: "kitchen_assistant"
+  new_character: true
+  location:
+    x: 589
+    y: 756
+  skill_levels:
+    cooking: 45
+    health: 35
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Fishing Fleet catches 60+ rawshrimp"
+  - "Fishing Fleet catches 30+ jellyfish"
+  - "Total 100+ seafood items collected"
+  - "Combat Squad defeats Mermaid boss (Level 55)"
+  - "Combat Squad defeats 2+ additional marine bosses or mini-bosses"
+  - "Culinary team cooks 40+ cookedshrimp"
+  - "Culinary team prepares 25+ jellyfishsmoothie"
+  - "Total 80+ prepared meals completed"
+  - "All teams coordinate using global chat"
+  - "Deep ocean expedition completed within 50 rounds"
+
+
