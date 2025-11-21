@@ -1,0 +1,23 @@
+Category: Combat (Count: 12)
+Task IDs: 16, 28, 29, 30, 35, 36, 50, 55, 72, 77, 88, 91
+
+Category: Construction (Count: 10)
+Task IDs: 41, 43, 74, 76, 81, 84, 87, 89, 90, 93
+
+Category: Crafting (Count: 33)
+Task IDs: 00, 01, 02, 03, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 22, 27, 31, 34, 39, 47, 49, 52, 54, 58, 61, 62, 63, 65, 66, 68, 69, 86, 97
+
+Category: Exploration (Count: 14)
+Task IDs: 100, 21, 23, 24, 33, 46, 48, 53, 57, 60, 70, 73, 79, 95
+
+Category: Gathering (Count: 6)
+Task IDs: 15, 17, 18, 19, 20, 98
+
+Category: Other (Count: 4)
+Task IDs: 42, 80, 83, 99
+
+Category: Survival (Count: 11)
+Task IDs: 25, 26, 32, 37, 40, 51, 64, 75, 82, 85, 96
+
+Category: Trading (Count: 10)
+Task IDs: 38, 44, 45, 56, 59, 67, 71, 78, 92, 94
