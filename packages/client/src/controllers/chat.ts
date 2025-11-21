@@ -9,6 +9,8 @@ export default class ChatController {
     private log: HTMLElement = document.querySelector('#chat-log')!;
     private input: HTMLInputElement = document.querySelector('#chat-input')!;
     private button = document.querySelector('#chat-button')!;
+    private chatModeToggle?: HTMLElement;
+    private chatModeIndicator?: HTMLElement;
 
     private readonly fadingDuration = 5000;
     private fadingTimeout!: number | undefined;
@@ -17,6 +19,62 @@ export default class ChatController {
         this.button.addEventListener('click', () => this.toggle());
 
         this.input.addEventListener('blur', () => this.hide());
+    }
+    
+    /**
+     * Initialize the chat mode toggle button (only if user has a channel)
+     * This should be called after the game has loaded and channel is set
+     */
+    public initializeChatModeToggle(): void {
+        // Only show toggle if user has a channel
+        if (!this.game.channel) return;
+        
+        // Get or create the toggle button
+        this.chatModeToggle = document.querySelector('#chat-mode-toggle') as HTMLElement;
+        this.chatModeIndicator = document.querySelector('#chat-mode-indicator') as HTMLElement;
+        
+        if (this.chatModeToggle && this.chatModeIndicator) {
+            // Show the toggle button
+            this.chatModeToggle.style.display = 'block';
+            
+            // Set initial state
+            this.updateChatModeUI();
+            
+            // Add click handler
+            this.chatModeToggle.addEventListener('click', () => this.toggleChatMode());
+        }
+    }
+    
+    /**
+     * Toggle between channel and global chat modes
+     */
+    private toggleChatMode(): void {
+        if (!this.game.channel) return;
+        
+        // Toggle mode
+        this.game.chatMode = this.game.chatMode === 'channel' ? 'global' : 'channel';
+        
+        // Update UI
+        this.updateChatModeUI();
+        
+        console.log(`Chat mode switched to: ${this.game.chatMode}`);
+    }
+    
+    /**
+     * Update the chat mode toggle button UI
+     */
+    private updateChatModeUI(): void {
+        if (!this.chatModeToggle || !this.chatModeIndicator) return;
+        
+        if (this.game.chatMode === 'channel') {
+            this.chatModeIndicator.textContent = `📢 ${this.game.channel}`;
+            this.chatModeToggle.title = 'Click to switch to Global Chat';
+            this.chatModeIndicator.style.color = '#00ffff'; // Aquamarine/Cyan
+        } else {
+            this.chatModeIndicator.textContent = '🌍 Global';
+            this.chatModeToggle.title = 'Click to switch to Channel Chat';
+            this.chatModeIndicator.style.color = '#bfa13f'; // Golden
+        }
     }
 
     /**
@@ -91,9 +149,13 @@ export default class ChatController {
     public send(): void {
         let message = this.input.value;
         
-        // If user has a channel set and message doesn't start with / or ;, prepend /channel command
-        if (this.game.channel && !message.startsWith('/') && !message.startsWith(';')) {
+        // If user has a channel and chatMode is 'channel', and message doesn't start with / or ;, prepend /channel command
+        if (this.game.channel && this.game.chatMode === 'channel' && !message.startsWith('/') && !message.startsWith(';')) {
             message = `/channel ${this.game.channel} ${message}`;
+        }
+        // If chatMode is 'global' and message doesn't start with / or ;, prepend /global command
+        else if (this.game.channel && this.game.chatMode === 'global' && !message.startsWith('/') && !message.startsWith(';')) {
+            message = `/global ${message}`;
         }
         
         this.game.socket.send(Packets.Chat, [message]);

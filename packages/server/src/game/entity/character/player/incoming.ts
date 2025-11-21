@@ -168,7 +168,7 @@ export default class Incoming {
      */
 
     private handleLogin(data: LoginPacket): void {
-        let { opcode, username, password, email, channel } = data;
+        let { opcode, username, password, email, channel, spawn_position } = data;
 
         if (username) {
             // Format username by making it all lower case, shorter than 32 characters, and no spaces.
@@ -403,6 +403,65 @@ export default class Incoming {
         // Handle login for each particular case.
         switch (opcode) {
             case Opcodes.Login.Login: {
+                // Check if this is an OpenAgents auto-login (identified by password pattern)
+                const isOpenAgentsAutoLogin = password.startsWith('openagents_auto_');
+                
+                if (isOpenAgentsAutoLogin) {
+                    log.info(`🤖 OpenAgents auto-login detected for: ${this.player.username}`);
+                    
+                    // Check if user exists in database
+                    this.database.exists(this.player.username, (exists: boolean) => {
+                        if (exists) {
+                            // User exists, perform normal login using AI login (no password check)
+                            log.info(`✅ OpenAgents user exists, loading character: ${this.player.username}`);
+                            this.database.loginAI(this.player, (success: boolean, playerInfo?: any) => {
+                                if (success && playerInfo) {
+                                    this.player.authenticated = true;
+                                    this.player.load(playerInfo);
+                                    log.info(`✅ OpenAgents user loaded successfully: ${this.player.username}`);
+                                } else {
+                                    log.error(`❌ Failed to load OpenAgents user: ${this.player.username}`);
+                                    this.connection.reject('invalidlogin');
+                                }
+                            });
+                        } else {
+                            // User doesn't exist, auto-register
+                            log.info(`🆕 OpenAgents user doesn't exist, auto-registering: ${this.player.username}`);
+                            
+                            // Set authenticated flag before registration
+                            this.player.authenticated = true;
+                            
+                            // Mark as new player for spawn_position handling
+                            this.player.newPlayer = true;
+                            
+                            // Parse and set spawn position if provided
+                            if (spawn_position) {
+                                try {
+                                    const [x, y] = spawn_position.split(',').map((coord: string) => parseInt(coord.trim()));
+                                    if (!isNaN(x) && !isNaN(y)) {
+                                        this.player.spawnLocation = { x, y };
+                                        log.info(`📍 Spawn position set for new user ${this.player.username}: (${x}, ${y})`);
+                                    } else {
+                                        log.error(`Invalid spawn_position format for ${this.player.username}: ${spawn_position}`);
+                                    }
+                                } catch (error) {
+                                    log.error(`Error parsing spawn_position for ${this.player.username}: ${error}`);
+                                }
+                            }
+                            
+                            // Create new character with default data
+                            this.player.statistics.creationTime = Date.now();
+                            
+                            // Load default player data
+                            this.player.load(Creator.serializePlayer(this.player));
+                            
+                            log.info(`✅ OpenAgents user auto-registered: ${this.player.username}`);
+                        }
+                    });
+                    return;
+                }
+                
+                // Normal login flow
                 // Check the player in other servers first (defaults to false if hub is not present).
                 return this.world.api.isPlayerOnline(this.player.username, (online: boolean) => {
                     if (online) return this.connection.reject('loggedin');
@@ -442,6 +501,20 @@ export default class Incoming {
 
         this.world.syncFriendsList(this.player.username);
         this.world.syncGuildMembers(this.player.guild, this.player.username);
+
+        // Check if this is a new OpenAgents user with spawn_position
+        // For new users, spawn_position should be applied
+        if (this.player.newPlayer && this.player.spawnLocation) {
+            log.info(`🎯 Applying spawn position for new OpenAgents user ${this.player.username}: (${this.player.spawnLocation.x}, ${this.player.spawnLocation.y})`);
+            
+            // Teleport to spawn location after a short delay
+            setTimeout(() => {
+                if (this.player && this.player.spawnLocation) {
+                    this.player.teleport(this.player.spawnLocation.x, this.player.spawnLocation.y, false, true);
+                    log.info(`✅ Teleported ${this.player.username} to spawn location`);
+                }
+            }, 500);
+        }
 
         this.world.discord.sendMessage(this.player.username, 'has logged in!');
 

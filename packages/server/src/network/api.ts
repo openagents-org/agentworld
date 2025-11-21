@@ -146,6 +146,161 @@ export default class API {
             }
         });
 
+        // Auto-login with agent_id from OpenAgents
+        router.post('/ai/autologin', (request: Request, response: Response) => {
+            try {
+                const { source, agent_id, spawn_position, channel } = request.body;
+
+                // Validate required parameters
+                if (!source || source !== 'openagents') {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'source parameter must be "openagents"'
+                    });
+                }
+
+                if (!agent_id) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'agent_id is required'
+                    });
+                }
+
+                if (!channel) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'channel is required'
+                    });
+                }
+
+                // Use agent_id as username
+                const username = agent_id.toLowerCase();
+                // Use a default password for auto-login (AI agents don't need real passwords)
+                const password = 'openagents_auto_' + agent_id;
+
+                let player: Player;
+                let isReusing = false;
+                let isNewUser = false;
+
+                // Check if player is already logged in
+                if (this.world.isOnline(username)) {
+                    if (config.socialMode && config.socialModeAllowMonitor) {
+                        // Reuse existing player instance
+                        player = this.world.getPlayerByName(username)!;
+                        isReusing = true;
+                        log.info(`🔄 Auto-login: Reusing existing player instance for ${username}`);
+                    } else {
+                        return response.status(400).json({
+                            status: 'error',
+                            message: 'Player is already logged in'
+                        });
+                    }
+                } else {
+                    // Check if user exists in database first
+                    this.world.database.exists(username, (exists: boolean) => {
+                        isNewUser = !exists;
+                        
+                        if (isNewUser) {
+                            log.info(`✨ Auto-login: Creating new user for agent_id: ${agent_id}`);
+                        } else {
+                            log.info(`🔄 Auto-login: Loading existing user for agent_id: ${agent_id}`);
+                        }
+                        
+                        // Create a new player instance
+                        const connection = this.world.createAIConnection(username, password);
+                        
+                        if (!connection) {
+                            return response.status(500).json({
+                                status: 'error',
+                                message: 'Failed to create connection'
+                            });
+                        }
+
+                        player = connection.player;
+                        
+                        // Generate a unique token for this API agent session
+                        const token = Utils.generateRandomString(32);
+
+                        // Set channel (always set for both new and existing users)
+                        player.channel = channel;
+                        log.info(`Player ${username} set channel to: ${channel}`);
+
+                        // Parse and set spawn position only for NEW users
+                        // Existing users will use their last saved position
+                        if (isNewUser && spawn_position) {
+                            try {
+                                const [x, y] = spawn_position.split(',').map((coord: string) => parseInt(coord.trim()));
+                                if (!isNaN(x) && !isNaN(y)) {
+                                    player.spawnLocation = { x, y };
+                                    
+                                    // For new players, delay teleport to ensure player is fully loaded
+                                    setTimeout(() => {
+                                        player.teleport(x, y, false, true);
+                                        log.info(`✨ Auto-login: Teleported new user ${username} to spawn position: (${x}, ${y})`);
+                                    }, 500);
+                                } else {
+                                    log.error(`Invalid spawn_position format for ${username}: ${spawn_position}`);
+                                }
+                            } catch (error) {
+                                log.error(`Error parsing spawn_position for ${username}: ${error}`);
+                            }
+                        } else if (!isNewUser) {
+                            log.info(`🔄 Auto-login: Existing user ${username} will use last saved position (${player.x}, ${player.y})`);
+                        }
+
+                        // Store the player reference for future API calls
+                        this.aiAgents[token] = player;
+
+                        response.json({
+                            status: 'success',
+                            token,
+                            message: isNewUser ? 'New user created and logged in successfully' : 'Existing user logged in successfully',
+                            agent_id: agent_id,
+                            username: username,
+                            channel: player.channel,
+                            position: { x: player.x, y: player.y },
+                            spawn_position: player.spawnLocation || null,
+                            is_new_user: isNewUser
+                        });
+                    });
+                    
+                    // Return early as we need to wait for database check
+                    return;
+                }
+
+                // Handle case where player is being reused
+                if (isReusing) {
+                    // Generate a unique token for this API agent session
+                    const token = Utils.generateRandomString(32);
+                    
+                    // Update channel for reused player
+                    player.channel = channel;
+                    log.info(`Player ${username} updated channel to: ${channel}`);
+
+                    // Store the player reference for future API calls
+                    this.aiAgents[token] = player;
+
+                    response.json({
+                        status: 'success',
+                        token,
+                        message: 'Reused existing player instance',
+                        agent_id: agent_id,
+                        username: username,
+                        channel: player.channel,
+                        position: { x: player.x, y: player.y },
+                        spawn_position: player.spawnLocation || null,
+                        is_new_user: false
+                    });
+                }
+            } catch (error) {
+                log.error(`Error in auto-login: ${error}`);
+                response.status(500).json({
+                    status: 'error',
+                    message: 'Internal server error'
+                });
+            }
+        });
+
         // Login with an AI agent
         router.post('/ai/login', (request: Request, response: Response) => {
             try {
@@ -159,6 +314,7 @@ export default class API {
                 }
 
                 let player: Player;
+                let isReusing = false;
 
                 // Check if player is already logged in
                 // In social mode with monitoring, reuse existing player instance if available
@@ -166,6 +322,7 @@ export default class API {
                     if (config.socialMode && config.socialModeAllowMonitor) {
                         // Reuse existing player instance (Web UI observer is already connected)
                         player = this.world.getPlayerByName(username)!;
+                        isReusing = true;
                         log.info(`🔄 API re-login: Reusing existing player instance for ${username}`);
                     } else {
                         return response.status(400).json({
@@ -188,13 +345,13 @@ export default class API {
                     log.info(`✨ API login: Created new player instance for ${username}`);
                 }
 
-                // Generate a unique token for this AI agent session
+                // Generate a unique token for this API agent session
                 const token = Utils.generateRandomString(32);
 
-                // Set channel if provided
+                // Set channel if provided (update for both new and reused players)
                 if (channel) {
                     player.channel = channel;
-                    log.info(`Player ${username} logged in to channel: ${channel}`);
+                    log.info(`Player ${username} ${isReusing ? 'updated' : 'set'} channel to: ${channel}`);
                 }
 
                 // Parse and set spawn location if provided (format: "x,y")
@@ -203,11 +360,19 @@ export default class API {
                         const [x, y] = spawn_location.split(',').map((coord: string) => parseInt(coord.trim()));
                         if (!isNaN(x) && !isNaN(y)) {
                             player.spawnLocation = { x, y };
-                            // Teleport to spawn location after login
-                            setTimeout(() => {
+                            
+                            if (isReusing) {
+                                // For reused players, teleport immediately (player is already loaded)
+                                // This will sync the position to all observers (including Web UI)
                                 player.teleport(x, y, false, true);
-                                log.info(`Player ${username} teleported to spawn location: (${x}, ${y})`);
-                            }, 500); // Small delay to ensure player is fully loaded
+                                log.info(`🔄 API re-login: Immediately teleported ${username} to spawn location: (${x}, ${y})`);
+                            } else {
+                                // For new players, delay teleport to ensure player is fully loaded
+                                setTimeout(() => {
+                                    player.teleport(x, y, false, true);
+                                    log.info(`✨ API login: Teleported ${username} to spawn location: (${x}, ${y})`);
+                                }, 500);
+                            }
                         } else {
                             log.error(`Invalid spawn_location format for ${username}: ${spawn_location}`);
                         }

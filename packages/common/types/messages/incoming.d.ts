@@ -23,6 +23,7 @@ export interface LoginPacket {
     password?: string;
     email?: string;
     channel?: string;
+    spawn_position?: string; // Format: "x,y" - for OpenAgents auto-login
 }
 
 export interface EquipmentPacket {

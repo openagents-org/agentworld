@@ -67,6 +67,7 @@ export default class Game {
     public useWebGl = false;
     
     public channel = '';  // User's channel for channel chat
+    public chatMode: 'channel' | 'global' = 'channel';  // Current chat mode (default to channel if channel is set)
 
     public constructor(public app: App) {
         this.storage = app.storage;

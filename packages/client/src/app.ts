@@ -77,10 +77,50 @@ export default class App {
     public respawnCallback?: EmptyCallback;
     public focusCallback?: EmptyCallback;
 
+    // Store auto-login parameters from URL
+    private autoLoginParams?: {
+        source: string;
+        agent_id: string;
+        channel: string;
+        spawn_position?: string;
+    };
+
     public constructor() {
         this.sendStatus('Initializing the game client');
 
+        // Check for OpenAgents auto-login parameters in URL
+        this.checkAutoLoginParams();
+
         this.load();
+    }
+
+    /**
+     * Checks URL parameters for OpenAgents auto-login.
+     * If valid parameters are found, stores them for automatic login.
+     */
+    private checkAutoLoginParams(): void {
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        const source = urlParams.get('source');
+        const agent_id = urlParams.get('agent_id');
+        const channel = urlParams.get('channel');
+        const spawn_position = urlParams.get('spawn_position');
+
+        // Validate required parameters for OpenAgents auto-login
+        if (source === 'openagents' && agent_id && channel) {
+            this.autoLoginParams = {
+                source,
+                agent_id,
+                channel,
+                spawn_position: spawn_position || undefined
+            };
+
+            console.log('🔐 OpenAgents auto-login detected:', {
+                agent_id,
+                channel,
+                spawn_position: spawn_position || 'not specified'
+            });
+        }
     }
 
     /**
@@ -191,6 +231,49 @@ export default class App {
                 'validation-warning',
                 'Your browser does not support IndexedDB. Regions will not be cached.'
             );
+
+        // Perform auto-login if OpenAgents parameters are present
+        if (this.autoLoginParams) {
+            console.log('🚀 Triggering OpenAgents auto-login...');
+            this.performAutoLogin();
+        }
+    }
+
+    /**
+     * Performs automatic login using OpenAgents parameters from URL.
+     * This fills in the login form and triggers the login process.
+     */
+    private performAutoLogin(): void {
+        if (!this.autoLoginParams) return;
+
+        // Use agent_id as username
+        const username = this.autoLoginParams.agent_id.toLowerCase();
+        // Generate a consistent password for AI agents
+        const password = 'openagents_auto_' + this.autoLoginParams.agent_id;
+
+        // Fill in the login form
+        this.getUsernameField().value = username;
+        this.getPasswordField().value = password;
+        this.getChannelField().value = this.autoLoginParams.channel;
+
+        // Store spawn position in localStorage if provided (for later use)
+        if (this.autoLoginParams.spawn_position) {
+            window.localStorage.setItem('openagents_spawn_position', this.autoLoginParams.spawn_position);
+            console.log('📍 Spawn position saved:', this.autoLoginParams.spawn_position);
+        }
+
+        // Store that this is an OpenAgents auto-login
+        window.localStorage.setItem('openagents_autologin', 'true');
+        window.localStorage.setItem('openagents_agent_id', this.autoLoginParams.agent_id);
+
+        // Clear URL parameters to avoid re-login on refresh
+        window.history.replaceState({}, document.title, window.location.pathname);
+
+        // Trigger login after a short delay to ensure everything is ready
+        setTimeout(() => {
+            console.log('✨ Auto-login as:', username);
+            this.login();
+        }, 500);
     }
 
     /**

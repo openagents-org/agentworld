@@ -194,6 +194,9 @@ export default class Connection {
         // Save channel for default channel chat
         if (channel) this.game.channel = channel;
 
+        // Get spawn_position from localStorage for OpenAgents auto-login
+        const spawn_position = window.localStorage.getItem('openagents_spawn_position') || undefined;
+
         // Send register packet if the user is registering.
         if (this.app.isRegistering())
             return this.socket.send(Packets.Login, {
@@ -201,7 +204,8 @@ export default class Connection {
                 username,
                 password,
                 email,
-                channel
+                channel,
+                spawn_position
             });
 
         // Send login packet if the user is logging in.
@@ -209,7 +213,8 @@ export default class Connection {
             opcode: Opcodes.Login.Login,
             username,
             password,
-            channel
+            channel,
+            spawn_position
         });
     }
 
@@ -224,6 +229,11 @@ export default class Connection {
 
         this.game.start();
         this.game.postLoad();
+        
+        // Initialize chat mode toggle after game is loaded (if user has a channel)
+        if (this.game.channel) {
+            this.game.input.chatHandler.initializeChatModeToggle();
+        }
     }
 
     /**

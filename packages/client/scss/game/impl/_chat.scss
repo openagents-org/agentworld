@@ -54,6 +54,42 @@
     color: white;
 }
 
+#chat-mode-toggle {
+    pointer-events: auto;
+    
+    position: absolute;
+    bottom: -24px;
+    left: 0;
+    
+    padding: 4px 12px;
+    
+    background: linear-gradient(135deg, rgb(0 0 0 / 80%), rgb(20 20 20 / 80%));
+    border: 1px solid rgb(255 255 255 / 20%);
+    border-radius: 12px;
+    
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    &:hover {
+        background: linear-gradient(135deg, rgb(20 20 20 / 90%), rgb(40 40 40 / 90%));
+        border-color: rgb(255 255 255 / 40%);
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgb(0 0 0 / 50%);
+    }
+    
+    &:active {
+        transform: translateY(0);
+    }
+}
+
+#chat-mode-indicator {
+    font-family: AdvoCut, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px black;
+    white-space: nowrap;
+}
+
 @each $size, $i in media.$sizes {
     @media ($size) {
         #chat {
