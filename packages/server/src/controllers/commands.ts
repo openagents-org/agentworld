@@ -6,7 +6,7 @@ import log from '@kaetram/common/util/log';
 import Utils from '@kaetram/common/util/utils';
 import Filter from '@kaetram/common/util/filter';
 import { Modules, Opcodes } from '@kaetram/common/network';
-import { Command, Notification, NPC, Pointer, Store } from '@kaetram/common/network/impl';
+import { Chat, Command, Notification, NPC, Pointer, Store } from '@kaetram/common/network/impl';
 
 import type Mob from '../game/entity/character/mob/mob';
 import type Achievement from '../game/entity/character/player/achievement/achievement';
@@ -114,20 +114,33 @@ export default class Commands {
                     return this.player.notify('Please provide a message to send', 'crimson');
                 }
 
-                // Get all players in the same channel
+                // Send channel message to all players in the same channel
                 let recipientCount = 0;
                 let formattedName = Utils.formatName(this.player.username);
-                let channelMessage = `[Channel: ${targetChannel}] ${formattedName}: ${message}`;
+                let source = `[${targetChannel}] ${formattedName}`;
+
+                // Create Chat packet for the channel message
+                let chatPacket = new Chat({
+                    source: source,
+                    message: Utils.parseMessage(message),
+                    colour: 'aquamarine'
+                });
 
                 this.entities.forEachPlayer((p) => {
                     if (p.channel === targetChannel) {
-                        p.notify(channelMessage, 'aquamarine');
+                        p.send(chatPacket);
                         recipientCount++;
                     }
                 });
 
-                if (recipientCount === 0) {
-                    return this.player.notify(`No players found in channel: ${targetChannel}`, 'crimson');
+                // Log the channel message
+                log.info(`Channel [${targetChannel}] ${this.player.username}: ${message}`);
+
+                // Success feedback (even if only the sender is in the channel)
+                if (recipientCount === 1) {
+                    this.player.notify(`✓ Message sent (only you in channel: ${targetChannel})`, 'lightyellow');
+                } else if (recipientCount > 1) {
+                    this.player.notify(`✓ Message sent to ${recipientCount} players in ${targetChannel}`, 'lightgreen');
                 }
 
                 break;

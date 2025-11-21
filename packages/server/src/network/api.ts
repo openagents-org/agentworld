@@ -500,30 +500,41 @@ export default class API {
                 }
 
                 // Send channel-based message
-                log.info(`Channel chat from ${player.username} to channel ${targetChannel}: ${message}`);
+                log.info(`📢 API Channel chat from ${player.username} (channel: ${player.channel}) to target channel ${targetChannel}: ${message}`);
                 
-                // Get all players in the same channel and send message
+                // Create Chat packet for the channel message
                 const formattedName = Utils.formatName(player.username);
-                const channelMessage = `[Channel: ${targetChannel}] ${formattedName}: ${message}`;
+                const source = `[${targetChannel}] ${formattedName}`;
+                
+                const chatPacket = new Chat({
+                    source: source,
+                    message: Utils.parseMessage(message),
+                    colour: 'aquamarine'
+                });
                 
                 let recipientCount = 0;
+                let recipientNames: string[] = [];
                 this.world.entities.forEachPlayer((p: Player) => {
+                    log.debug(`Checking player ${p.username}: channel=${p.channel}, target=${targetChannel}, match=${p.channel === targetChannel}`);
                     if (p.channel === targetChannel) {
-                        p.notify(channelMessage, 'aquamarine');
+                        p.send(chatPacket);
                         recipientCount++;
+                        recipientNames.push(p.username);
                     }
                 });
 
-                if (recipientCount === 0) {
-                    return response.status(400).json({
-                        status: 'error',
-                        message: `No players found in channel: ${targetChannel}`
-                    });
-                }
+                log.info(`📬 API Channel message sent to ${recipientCount} recipients: [${recipientNames.join(', ')}]`);
 
+                // Success even if only the sender is in the channel
+                // This allows solo testing and self-messages
                 response.json({
                     status: 'success',
-                    message: `Channel message sent to ${recipientCount} players in ${targetChannel}`
+                    message: recipientCount === 1 
+                        ? `Channel message sent (only you in channel: ${targetChannel})`
+                        : `Channel message sent to ${recipientCount} players in ${targetChannel}`,
+                    recipientCount: recipientCount,
+                    recipients: recipientNames,
+                    channel: targetChannel
                 });
             } catch (error) {
                 log.error(`Error sending chat message: ${error}`);

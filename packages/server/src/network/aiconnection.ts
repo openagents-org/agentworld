@@ -108,11 +108,44 @@ export default class AIConnection {
         log.info(`AI agent ${this.username} marked as ready`);
     }
 
+    // Store received messages for AI agents to retrieve via API
+    private messageQueue: any[] = [];
+    private maxQueueSize: number = 100;
+
     /**
-     * Sends a message to the AI agent (no-op since there's no actual socket)
+     * Sends a message to the AI agent
+     * AI agents don't have a socket, but we can store messages for them to retrieve
      */
     public send(message: unknown): void {
-        // No-op, AI agents don't need to receive messages
+        // Store message in queue for AI agents to retrieve via API
+        this.messageQueue.push({
+            timestamp: Date.now(),
+            message: message
+        });
+        
+        // Keep queue size limited
+        if (this.messageQueue.length > this.maxQueueSize) {
+            this.messageQueue.shift(); // Remove oldest message
+        }
+        
+        // Log for debugging
+        if (typeof message === 'object' && message !== null && 'constructor' in message) {
+            log.debug(`AI agent ${this.username} received message: ${message.constructor.name}`);
+        }
+    }
+    
+    /**
+     * Gets messages from the queue (for AI agents to retrieve via API)
+     */
+    public getMessages(): any[] {
+        return [...this.messageQueue]; // Return a copy
+    }
+    
+    /**
+     * Clears the message queue
+     */
+    public clearMessages(): void {
+        this.messageQueue = [];
     }
 
     /**
