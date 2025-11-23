@@ -108,6 +108,17 @@ export default class App {
 
         // Validate required parameters for OpenAgents auto-login
         if (source === 'openagents' && agent_id && channel) {
+            // Check if we recently did an autologin (within 10 seconds)
+            const lastAutoLogin = window.localStorage.getItem('last_autologin_time');
+            const now = Date.now();
+            
+            if (lastAutoLogin && (now - parseInt(lastAutoLogin)) < 10000) {
+                console.log('⚠️ Auto-login recently performed, skipping to avoid rate limit');
+                // Clear URL parameters immediately to prevent re-trigger
+                window.history.replaceState({}, document.title, window.location.pathname);
+                return;
+            }
+            
             this.autoLoginParams = {
                 source,
                 agent_id,
@@ -120,6 +131,14 @@ export default class App {
                 channel,
                 spawn_position: spawn_position || 'not specified'
             });
+            
+            // IMPORTANT: Clear URL parameters immediately to prevent double-trigger
+            // This prevents issues if user refreshes page or browser back/forward
+            window.history.replaceState({}, document.title, window.location.pathname);
+            console.log('🧹 URL parameters cleared immediately');
+            
+            // Record the time of this autologin attempt
+            window.localStorage.setItem('last_autologin_time', now.toString());
         }
     }
 
@@ -266,8 +285,10 @@ export default class App {
         window.localStorage.setItem('openagents_autologin', 'true');
         window.localStorage.setItem('openagents_agent_id', this.autoLoginParams.agent_id);
 
-        // Clear URL parameters to avoid re-login on refresh
-        window.history.replaceState({}, document.title, window.location.pathname);
+        // Note: URL parameters are already cleared in checkAutoLoginParams()
+        
+        // Clear autoLoginParams to prevent re-execution
+        this.autoLoginParams = undefined;
 
         // Trigger login after a short delay to ensure everything is ready
         setTimeout(() => {
