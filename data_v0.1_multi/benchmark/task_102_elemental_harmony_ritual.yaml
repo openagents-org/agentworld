@@ -1,0 +1,173 @@
+task:
+  name: "Elemental Harmony Ritual - The Tri-Element Convergence"
+  description: "Twenty agents must coordinate to craft three types of elemental staffs and perform a synchronization ritual in the Magical Region."
+
+objectives:
+  primary: "Craft 5 Fire Staffs, 5 Ice Staffs, and 5 Nature Staffs, then transfer them to the Ritual Team for the final ceremony."
+  secondary:
+    - "Fire/Ice/Nature Teams: Harvest Logs from the Magical Forest"
+    - "All Teams: Process Logs into Sticks (Shafts)"
+    - "Fire Team: Craft 5 Fire Staffs using Fire Beads"
+    - "Ice Team: Craft 5 Ice Staffs using Ice Beads"
+    - "Nature Team: Craft 5 Nature Staffs using Nature Beads"
+    - "Ritual Team: Receive all 15 Staffs and equip them (distribute among members)"
+    - "Ritual Team: Demonstrate power by defeating 1 Ancient Wizard together"
+
+relevant_game_context: |
+  🔮 RITUAL INSTRUCTIONS
+  
+  The Grand Magus requires a convergence of Fire, Ice, and Nature.
+  You have arrived at the Magical Grove (Region 1-3) with the rare Elemental Beads, but you lack the staffs to house them.
+  
+  STEP 1: GATHERING & PROCESSING (Rounds 1-20)
+  - Trees are abundant here. Use 'harvest_resource' on Oak Trees.
+  - Recipe: 1 Log = 4 Sticks (Shafts).
+  - Staff Recipe: 5 Sticks + 1 Bead = 1 Elemental Staff.
+  - EACH element team has 5 Beads. You need 25 Sticks per team (approx 7 logs).
+  - WARNING: Ancient Wizards roam here. They are neutral unless provoked, but dangerous.
+  
+  STEP 2: CRAFTING (Rounds 21-35)
+  - Craft your respective staffs:
+    - Fire Team: 'firestaff' (Crafting Lvl 35 req - You are buffed)
+    - Ice Team: 'icestaff' (Crafting Lvl 55 req - You are buffed)
+    - Nature Team: 'naturestaff' (Crafting Lvl 20 req - You are buffed)
+  - Note: You need a base 'staff' first? 
+    - Checking recipes: 'firestaff' needs 'staff' + 'firebead'. 
+    - 'staff' needs 5 sticks + 1 'bead' (Magic Bead).
+    - WAIT: The recipe requires a base 'staff' (Magic Staff) first!
+    - You have 'bead' (Magic Bead) in your inventory too!
+    - SO: Logs -> Sticks. Sticks + Magic Bead -> Magic Staff. Magic Staff + Elemental Bead -> Elemental Staff.
+  
+  STEP 3: THE CONVERGENCE (Rounds 36-50)
+  - Transfer ALL 15 final staffs to the Ritual Team.
+  - Ritual Team members must equip the staffs.
+  - Final Act: The Ritual Team must defeat 1 Ancient Wizard to prove the staffs' power.
+  
+  📍 LOCATION STRATEGY
+  - Stay close (X:163, Y:339).
+  - Protect the crafters.
+
+limitations:
+  max_action_steps: 55
+
+agent_configurations:
+  # FIRE TEAM (1-5)
+  agent_1: &fire_agent
+    username: "Fire_Adept_1"
+    new_character: true
+    location: {x: 160, y: 338}
+    skill_levels: {crafting: 40, fletching: 10, strength: 30, health: 40, magic: 40}
+    inventory_items: 
+      - {item: "firebead", count: 1}
+      - {item: "bead", count: 1} # For base staff
+      - {item: "flask", count: 10}
+      - {item: "apple", count: 10}
+    equipped_items: [{item: "leatherarmor", count: 1}]
+  agent_2:
+    <<: *fire_agent
+    username: "Fire_Adept_2"
+    location: {x: 160, y: 339}
+  agent_3:
+    <<: *fire_agent
+    username: "Fire_Adept_3"
+    location: {x: 160, y: 340}
+  agent_4:
+    <<: *fire_agent
+    username: "Fire_Adept_4"
+    location: {x: 159, y: 339}
+  agent_5:
+    <<: *fire_agent
+    username: "Fire_Adept_5"
+    location: {x: 159, y: 340}
+
+  # ICE TEAM (6-10)
+  agent_6: &ice_agent
+    username: "Ice_Adept_1"
+    new_character: true
+    location: {x: 166, y: 338}
+    skill_levels: {crafting: 60, fletching: 10, strength: 30, health: 40, magic: 40}
+    inventory_items: 
+      - {item: "icebead", count: 1}
+      - {item: "bead", count: 1}
+      - {item: "flask", count: 10}
+      - {item: "apple", count: 10}
+    equipped_items: [{item: "leatherarmor", count: 1}]
+  agent_7:
+    <<: *ice_agent
+    username: "Ice_Adept_2"
+    location: {x: 166, y: 339}
+  agent_8:
+    <<: *ice_agent
+    username: "Ice_Adept_3"
+    location: {x: 166, y: 340}
+  agent_9:
+    <<: *ice_agent
+    username: "Ice_Adept_4"
+    location: {x: 167, y: 339}
+  agent_10:
+    <<: *ice_agent
+    username: "Ice_Adept_5"
+    location: {x: 167, y: 340}
+
+  # NATURE TEAM (11-15)
+  agent_11: &nature_agent
+    username: "Nature_Adept_1"
+    new_character: true
+    location: {x: 163, y: 335}
+    skill_levels: {crafting: 30, fletching: 10, strength: 30, health: 40, magic: 40}
+    inventory_items: 
+      - {item: "naturebead", count: 1}
+      - {item: "bead", count: 1}
+      - {item: "flask", count: 10}
+      - {item: "apple", count: 10}
+    equipped_items: [{item: "leatherarmor", count: 1}]
+  agent_12:
+    <<: *nature_agent
+    username: "Nature_Adept_2"
+    location: {x: 162, y: 335}
+  agent_13:
+    <<: *nature_agent
+    username: "Nature_Adept_3"
+    location: {x: 164, y: 335}
+  agent_14:
+    <<: *nature_agent
+    username: "Nature_Adept_4"
+    location: {x: 162, y: 334}
+  agent_15:
+    <<: *nature_agent
+    username: "Nature_Adept_5"
+    location: {x: 164, y: 334}
+
+  # RITUAL TEAM (16-20)
+  agent_16: &ritual_agent
+    username: "Ritual_Master_1"
+    new_character: true
+    location: {x: 163, y: 339}
+    skill_levels: {magic: 60, defense: 50, health: 60, strength: 30}
+    inventory_items: [{item: "flask", count: 20}, {item: "apple", count: 20}]
+    equipped_items: [{item: "wizardhat", count: 1}, {item: "leatherarmor", count: 1}]
+  agent_17:
+    <<: *ritual_agent
+    username: "Ritual_Master_2"
+    location: {x: 163, y: 340}
+  agent_18:
+    <<: *ritual_agent
+    username: "Ritual_Master_3"
+    location: {x: 163, y: 341}
+  agent_19:
+    <<: *ritual_agent
+    username: "Ritual_Master_4"
+    location: {x: 162, y: 340}
+  agent_20:
+    <<: *ritual_agent
+    username: "Ritual_Master_5"
+    location: {x: 164, y: 340}
+
+success_criteria:
+  - "Fire Team crafts 5 Fire Staffs"
+  - "Ice Team crafts 5 Ice Staffs"
+  - "Nature Team crafts 5 Nature Staffs"
+  - "Ritual Team receives all 15 Elemental Staffs"
+  - "Ritual Team defeats 1 Ancient Wizard"
+  - "Team maintains effective communication throughout the ritual"
+

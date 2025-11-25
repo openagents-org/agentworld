@@ -1,0 +1,150 @@
+task:
+  name: "Kingdom Defense Campaign - The Two-Front War"
+  description: "A synchronized military operation where 20 agents split into two squads to defend the Kingdom's Northern and Eastern borders simultaneously against elite threats."
+
+objectives:
+  primary: "Simultaneously secure the Northern Border (Ice Guardians) and Eastern Border (Golden Golems)."
+  secondary:
+    - "North Squad: Defeat 3 Ice Guardians (Level 35 Minibosses)"
+    - "East Squad: Defeat 3 Golden Golems (Level 0? No, Level 45+ typically, checking docs... Docs say Level 0 but it's a Miniboss, likely scales or is tough. I'll assume it's a threat)"
+    - "Support Units: Keep frontline warriors healed (HP > 50%)"
+    - "Commanders: Coordinate the final kill count to ensure both fronts succeed"
+
+relevant_game_context: |
+  ⚔️ OPERATION TWIN SHIELDS
+  
+  The Kingdom is under attack from two directions. You must hold the line.
+  
+  NORTHERN FRONT (Agents 1-10)
+  - Location: Frozen Expanse (Region 2-1, X:259, Y:151)
+  - Threat: Ice Guardians (Freezing attacks, high durability).
+  - Strategy: Use Fire weapons if available. Support units must heal the Tank.
+  
+  EASTERN FRONT (Agents 11-20)
+  - Location: Ancient Ruins (Region 7-6, X:784, Y:676)
+  - Threat: Golden Golems (High Defense, Crush damage).
+  - Strategy: Sunder armor (Pickaxes/Warhammers). Magical attacks are effective.
+  
+  SQUAD ROLES:
+  - Commander (x1): Calls targets, tracks kills.
+  - Vanguard (x6): Frontline combat.
+  - Support (x3): Healers/Suppliers. Keep distance, use flasks on Vanguard if possible (transfer).
+  
+  VICTORY CONDITION:
+  - Both fronts must report 3 confirmed kills.
+  - Total 6 Minibosses defeated.
+  - Minimal casualties (Supporters must survive).
+
+limitations:
+  max_action_steps: 55
+
+agent_configurations:
+  # NORTH SQUAD (1-10)
+  agent_1: &north_cmdr
+    username: "North_Cmdr"
+    new_character: true
+    location: {x: 258, y: 150}
+    skill_levels: {strength: 60, defense: 60, health: 70, accuracy: 50}
+    inventory_items: [{item: "flask", count: 20}, {item: "apple", count: 20}]
+    equipped_items: [{item: "goldensword", count: 1}, {item: "platearmor", count: 1}]
+  agent_2: &north_vanguard
+    username: "North_Van_1"
+    new_character: true
+    location: {x: 259, y: 150}
+    skill_levels: {strength: 50, defense: 50, health: 60, accuracy: 40}
+    inventory_items: [{item: "flask", count: 10}, {item: "apple", count: 10}]
+    equipped_items: [{item: "heavysword", count: 1}, {item: "chainmail", count: 1}]
+  agent_3:
+    <<: *north_vanguard
+    username: "North_Van_2"
+    location: {x: 260, y: 150}
+  agent_4:
+    <<: *north_vanguard
+    username: "North_Van_3"
+    location: {x: 258, y: 152}
+  agent_5:
+    <<: *north_vanguard
+    username: "North_Van_4"
+    location: {x: 259, y: 152}
+  agent_6:
+    <<: *north_vanguard
+    username: "North_Van_5"
+    location: {x: 260, y: 152}
+  agent_7:
+    <<: *north_vanguard
+    username: "North_Van_6"
+    location: {x: 261, y: 151}
+  agent_8: &north_support
+    username: "North_Sup_1"
+    new_character: true
+    location: {x: 257, y: 149}
+    skill_levels: {magic: 40, healing: 40, health: 40} # Healing skill theoretical
+    inventory_items: [{item: "flask", count: 50}, {item: "apple", count: 50}]
+    equipped_items: [{item: "firestaff", count: 1}, {item: "leatherarmor", count: 1}]
+  agent_9:
+    <<: *north_support
+    username: "North_Sup_2"
+    location: {x: 256, y: 149}
+  agent_10:
+    <<: *north_support
+    username: "North_Sup_3"
+    location: {x: 255, y: 149}
+
+  # EAST SQUAD (11-20)
+  agent_11: &east_cmdr
+    username: "East_Cmdr"
+    new_character: true
+    location: {x: 783, y: 675}
+    skill_levels: {strength: 60, defense: 60, health: 70, accuracy: 50}
+    inventory_items: [{item: "flask", count: 20}, {item: "apple", count: 20}]
+    equipped_items: [{item: "pickaxe", count: 1}, {item: "platearmor", count: 1}] # Pickaxe for golems
+  agent_12: &east_vanguard
+    username: "East_Van_1"
+    new_character: true
+    location: {x: 784, y: 675}
+    skill_levels: {strength: 50, defense: 50, health: 60, accuracy: 40}
+    inventory_items: [{item: "flask", count: 10}, {item: "apple", count: 10}]
+    equipped_items: [{item: "pickaxe", count: 1}, {item: "chainmail", count: 1}]
+  agent_13:
+    <<: *east_vanguard
+    username: "East_Van_2"
+    location: {x: 785, y: 675}
+  agent_14:
+    <<: *east_vanguard
+    username: "East_Van_3"
+    location: {x: 783, y: 677}
+  agent_15:
+    <<: *east_vanguard
+    username: "East_Van_4"
+    location: {x: 784, y: 677}
+  agent_16:
+    <<: *east_vanguard
+    username: "East_Van_5"
+    location: {x: 785, y: 677}
+  agent_17:
+    <<: *east_vanguard
+    username: "East_Van_6"
+    location: {x: 786, y: 676}
+  agent_18: &east_support
+    username: "East_Sup_1"
+    new_character: true
+    location: {x: 782, y: 674}
+    skill_levels: {magic: 40, health: 40}
+    inventory_items: [{item: "flask", count: 50}, {item: "apple", count: 50}]
+    equipped_items: [{item: "icestaff", count: 1}, {item: "leatherarmor", count: 1}]
+  agent_19:
+    <<: *east_support
+    username: "East_Sup_2"
+    location: {x: 781, y: 674}
+  agent_20:
+    <<: *east_support
+    username: "East_Sup_3"
+    location: {x: 780, y: 674}
+
+success_criteria:
+  - "North Squad defeats 3 Ice Guardians"
+  - "East Squad defeats 3 Golden Golems"
+  - "All Commanders and Vanguards survive"
+  - "North Squad Support units maintain distance (>3 tiles from bosses)"
+  - "East Squad uses Pickaxes/Magic effectively against Golems"
+
