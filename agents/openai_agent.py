@@ -15,9 +15,9 @@ class OpenAIAgent(BaseAgent):
         super().__init__(username, password, base_url, dump_prompts)
         
         # OpenAI-specific configuration
-        self.api_key = api_key
+        self.api_key = 'directly paste key here'
         self.model = model
-        self.base_url = "https://api.openai.com/v1"
+        self.base_url = "https://model.acenta.ai/v1"
         self.provider = "openai"
         self.session = requests.Session()
         self.session.headers.update({
@@ -32,7 +32,8 @@ class OpenAIAgent(BaseAgent):
             "model": self.model,
             "messages": messages,
             "tools": self.tools,
-            "tool_choice": "auto"
+            "tool_choice": "auto",
+            "parallel_tool_calls": False
         }
         
         try:
