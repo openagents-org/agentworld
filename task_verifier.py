@@ -479,6 +479,14 @@ def task_03_verifier(traj_json: Dict) -> Tuple[int, str]:
     return (1 if silverring else 0, msg)
 
 
+def task_04_verifier(traj_json: Dict) -> Tuple[int, str]:
+    """Axe Crafting - Create an axe through coordinated mining and smithing."""
+    inventories = get_final_inventories(traj_json)
+    axe = has_item_in_any_inventory(inventories, 'axe')
+    msg = f"Axe crafted: {axe}"
+    return (1 if axe else 0, msg)
+
+
 def task_05_verifier(traj_json: Dict) -> Tuple[int, str]:
     """Beryl Pendant Crafting."""
     inventories = get_final_inventories(traj_json)
@@ -1575,6 +1583,116 @@ def task_99_verifier(traj_json: Dict) -> Tuple[int, str]:
     return (1 if passed else 0, msg)
 
 
+def task_101_verifier(traj_json: Dict) -> Tuple[int, str]:
+    """Grand Citadel Construction - 40 iron bars, 40 logs consolidated, all survive."""
+    inventories = get_final_inventories(traj_json)
+
+    item_counts = {}
+    for items in inventories.values():
+        for item in items:
+            k = item.get("key", "").lower()
+            x = item.get("count", 0)
+            item_counts[k] = item_counts.get(k, 0) + x
+
+    ironbar = item_counts.get("ironbar", 0)
+    logs = item_counts.get("logs", 0)
+
+    agent_hp = get_final_agent_hp_simple(traj_json)
+    all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
+
+    ironbar_passed = ironbar >= 40
+    logs_passed = logs >= 40
+    survival_passed = all_alive
+
+    passed = ironbar_passed and logs_passed and survival_passed
+    msg = f"Iron bars: {ironbar}/40, Logs: {logs}/40, All alive: {all_alive}"
+    return (1 if passed else 0, msg)
+
+
+def task_102_verifier(traj_json: Dict) -> Tuple[int, str]:
+    """Elemental Harmony Ritual - 5 fire staffs, 5 ice staffs, 5 nature staffs."""
+    inventories = get_final_inventories(traj_json)
+
+    item_counts = {}
+    for items in inventories.values():
+        for item in items:
+            k = item.get("key", "").lower()
+            x = item.get("count", 0)
+            item_counts[k] = item_counts.get(k, 0) + x
+
+    firestaff = item_counts.get("firestaff", 0)
+    icestaff = item_counts.get("icestaff", 0)
+    naturestaff = item_counts.get("naturestaff", 0)
+
+    fire_passed = firestaff >= 5
+    ice_passed = icestaff >= 5
+    nature_passed = naturestaff >= 5
+
+    passed = fire_passed and ice_passed and nature_passed
+    msg = f"Fire staffs: {firestaff}/5, Ice staffs: {icestaff}/5, Nature staffs: {naturestaff}/5"
+    return (1 if passed else 0, msg)
+
+
+def task_103_verifier(traj_json: Dict) -> Tuple[int, str]:
+    """Great Migration - 160 logs consolidated, all settlers survive."""
+    inventories = get_final_inventories(traj_json)
+
+    item_counts = {}
+    for items in inventories.values():
+        for item in items:
+            k = item.get("key", "").lower()
+            x = item.get("count", 0)
+            item_counts[k] = item_counts.get(k, 0) + x
+
+    logs = item_counts.get("logs", 0)
+
+    # Check settler survival (agents 7-14 are settlers)
+    agent_hp = get_final_agent_hp_simple(traj_json)
+    all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
+
+    logs_passed = logs >= 160
+    survival_passed = all_alive
+
+    passed = logs_passed and survival_passed
+    msg = f"Logs: {logs}/160, All alive: {all_alive}"
+    return (1 if passed else 0, msg)
+
+
+def task_104_verifier(traj_json: Dict) -> Tuple[int, str]:
+    """Kingdom Defense Campaign - all commanders and vanguards survive (two-front war)."""
+    agent_hp = get_final_agent_hp_simple(traj_json)
+    all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
+
+    msg = f"All agents alive: {all_alive}"
+    return (1 if all_alive else 0, msg)
+
+
+def task_105_verifier(traj_json: Dict) -> Tuple[int, str]:
+    """Legendary Golden Tribute - 5 golden bows, 1 golden sword, all survive."""
+    inventories = get_final_inventories(traj_json)
+
+    item_counts = {}
+    for items in inventories.values():
+        for item in items:
+            k = item.get("key", "").lower()
+            x = item.get("count", 0)
+            item_counts[k] = item_counts.get(k, 0) + x
+
+    goldenbow = item_counts.get("goldenbow", 0)
+    goldensword = item_counts.get("goldensword", 0)
+
+    agent_hp = get_final_agent_hp_simple(traj_json)
+    all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
+
+    bow_passed = goldenbow >= 5
+    sword_passed = goldensword >= 1
+    survival_passed = all_alive
+
+    passed = bow_passed and sword_passed and survival_passed
+    msg = f"Golden bows: {goldenbow}/5, Golden swords: {goldensword}/1, All alive: {all_alive}"
+    return (1 if passed else 0, msg)
+
+
 # =============================================================================
 # MAIN VERIFIER DISPATCH
 # =============================================================================
@@ -1611,6 +1729,7 @@ VERIFIERS = {
     'task_01': task_01_verifier,
     'task_02': task_02_verifier,
     'task_03': task_03_verifier,
+    'task_04': task_04_verifier,
     'task_05': task_05_verifier,
     'task_06': task_06_verifier,
     'task_07': task_07_verifier,
@@ -1689,6 +1808,13 @@ VERIFIERS = {
     'task_96': task_96_verifier,
     'task_98': task_98_verifier,
     'task_99': task_99_verifier,
+
+    # Large-scale tasks (101-105)
+    'task_101': task_101_verifier,
+    'task_102': task_102_verifier,
+    'task_103': task_103_verifier,
+    'task_104': task_104_verifier,
+    'task_105': task_105_verifier,
 }
 
 
