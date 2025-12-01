@@ -1,0 +1,171 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Cooperative Axe Crafting - Woodcutter Tool Production"
+  description: "Three agents work together to mine, smelt, and forge an axe for woodcutting operations"
+
+# Task objectives
+objectives:
+  primary: "Create an axe through coordinated mining, smelting, and smithing"
+  secondary: # checkpoints
+    - "Execute iron mining and coal gathering operations"
+    - "Coordinate smelting for iron bars production"
+    - "Complete tool smithing within 25 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent tool crafting scenario requiring mining and smithing skills.
+
+  OBJECTIVE: Work together to create an axe through coordinated resource gathering and metalworking.
+
+  TEAM COORDINATION NOTES:
+  - Each agent starts with some materials already in inventory
+  - Team success requires sharing and coordinating resources effectively
+  - Use global chat to communicate and coordinate with teammates
+  - Consider using transfer_items to move materials between agents when needed
+  - Each agent has specialized skills that complement the others
+  - Work together to complete the metallurgy and tool crafting chain
+
+  IMPORTANT CONSIDERATIONS:
+  - Check your current inventory and understand what materials the team has available
+  - Coordinate the metallurgy process between team members as needed
+  - Materials may need to be shared or transferred for efficient production
+  - The axe requires iron bars and logs - ensure both are collected
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  CRAFTING RECIPES (CRITICAL KNOWLEDGE):
+  ⛏️ Mining - iron ore:
+    - harvest_resource on iron rock instances to get ironore
+    - Level required: 10+ (Mining skill)
+
+  ⛏️ Mining - coal:
+    - harvest_resource on coal rock instances to get coal
+    - Level required: 1+ (Mining skill)
+
+  🪓 Lumberjacking - logs:
+    - harvest_resource on oak tree instances to get logs
+    - Level required: 1+ (Lumberjacking skill)
+
+  🔥 Smelting Recipe - ironbar:
+    - craft_item skill=Smelting itemKey=ironbar
+    - Materials: 1x ironore + 1x coal → 1x ironbar
+    - Level required: 20 (uses Smithing skill level)
+
+  🪓 Smithing Recipe - axe:
+    - craft_item skill=Smithing itemKey=axe
+    - Materials: 3x ironbar + 1x logs → 1x axe
+    - Level required: 1 (Smithing skill)
+    - CRITICAL: Smith must receive ironbars and logs from teammates via transfer_items
+
+# Limitations
+max_action_steps: 25
+
+# Agent configurations
+agent_1:
+  username: "miner_agent"
+  new_character: true
+
+  location:
+    x: 229
+    y: 37
+
+  skill_levels:
+    mining: 25
+    strength: 30
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+    - item: "ironore"
+      count: 2
+    - item: "coal"
+      count: 2
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 3
+
+  skill_levels:
+    lumberjacking: 25
+    smithing: 20
+    strength: 25
+    health: 20
+
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 12
+    - item: "logs"
+      count: 1
+    - item: "ironore"
+      count: 1
+    - item: "coal"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "smith_agent"
+  new_character: true
+
+  location:
+    x: 259
+    y: 184
+
+  skill_levels:
+    smithing: 25
+    strength: 30
+    health: 25
+    defense: 20
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "Team successfully creates an axe through effective coordination"
+  - "miner_agent collects iron ore and coal for smelting"
+  - "lumberjack_agent collects logs and assists with smelting"
+  - "smith_agent receives materials and forges the axe"
+  - "Materials flow efficiently between team members to complete the task"
+  - "Tool crafting completes within time limit"

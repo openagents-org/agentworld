@@ -50,118 +50,117 @@ relevant_game_context: |
 limitations:
   max_action_steps: 55
 
-agent_configurations:
-  # FIRE TEAM (1-5)
-  agent_1: &fire_agent
-    username: "Fire_Adept_1"
-    new_character: true
-    location: {x: 160, y: 338}
-    skill_levels: {crafting: 40, fletching: 10, strength: 30, health: 40, magic: 40}
-    inventory_items: 
-      - {item: "firebead", count: 1}
-      - {item: "bead", count: 1} # For base staff
-      - {item: "flask", count: 10}
-      - {item: "apple", count: 10}
-    equipped_items: [{item: "leatherarmor", count: 1}]
-  agent_2:
-    <<: *fire_agent
-    username: "Fire_Adept_2"
-    location: {x: 160, y: 339}
-  agent_3:
-    <<: *fire_agent
-    username: "Fire_Adept_3"
-    location: {x: 160, y: 340}
-  agent_4:
-    <<: *fire_agent
-    username: "Fire_Adept_4"
-    location: {x: 159, y: 339}
-  agent_5:
-    <<: *fire_agent
-    username: "Fire_Adept_5"
-    location: {x: 159, y: 340}
+# FIRE TEAM (1-5)
+agent_1: &fire_agent
+  username: "Fire_Adept_1"
+  new_character: true
+  location: {x: 160, y: 338}
+  skill_levels: {crafting: 40, fletching: 10, strength: 30, health: 40, magic: 40}
+  inventory_items:
+    - {item: "firebead", count: 1}
+    - {item: "bead", count: 1}
+    - {item: "flask", count: 10}
+    - {item: "apple", count: 10}
+  equipped_items: [{item: "leatherarmor", count: 1}]
+agent_2:
+  <<: *fire_agent
+  username: "Fire_Adept_2"
+  location: {x: 160, y: 339}
+agent_3:
+  <<: *fire_agent
+  username: "Fire_Adept_3"
+  location: {x: 160, y: 340}
+agent_4:
+  <<: *fire_agent
+  username: "Fire_Adept_4"
+  location: {x: 159, y: 339}
+agent_5:
+  <<: *fire_agent
+  username: "Fire_Adept_5"
+  location: {x: 159, y: 340}
 
-  # ICE TEAM (6-10)
-  agent_6: &ice_agent
-    username: "Ice_Adept_1"
-    new_character: true
-    location: {x: 166, y: 338}
-    skill_levels: {crafting: 60, fletching: 10, strength: 30, health: 40, magic: 40}
-    inventory_items: 
-      - {item: "icebead", count: 1}
-      - {item: "bead", count: 1}
-      - {item: "flask", count: 10}
-      - {item: "apple", count: 10}
-    equipped_items: [{item: "leatherarmor", count: 1}]
-  agent_7:
-    <<: *ice_agent
-    username: "Ice_Adept_2"
-    location: {x: 166, y: 339}
-  agent_8:
-    <<: *ice_agent
-    username: "Ice_Adept_3"
-    location: {x: 166, y: 340}
-  agent_9:
-    <<: *ice_agent
-    username: "Ice_Adept_4"
-    location: {x: 167, y: 339}
-  agent_10:
-    <<: *ice_agent
-    username: "Ice_Adept_5"
-    location: {x: 167, y: 340}
+# ICE TEAM (6-10)
+agent_6: &ice_agent
+  username: "Ice_Adept_1"
+  new_character: true
+  location: {x: 166, y: 338}
+  skill_levels: {crafting: 60, fletching: 10, strength: 30, health: 40, magic: 40}
+  inventory_items:
+    - {item: "icebead", count: 1}
+    - {item: "bead", count: 1}
+    - {item: "flask", count: 10}
+    - {item: "apple", count: 10}
+  equipped_items: [{item: "leatherarmor", count: 1}]
+agent_7:
+  <<: *ice_agent
+  username: "Ice_Adept_2"
+  location: {x: 166, y: 339}
+agent_8:
+  <<: *ice_agent
+  username: "Ice_Adept_3"
+  location: {x: 166, y: 340}
+agent_9:
+  <<: *ice_agent
+  username: "Ice_Adept_4"
+  location: {x: 167, y: 339}
+agent_10:
+  <<: *ice_agent
+  username: "Ice_Adept_5"
+  location: {x: 167, y: 340}
 
-  # NATURE TEAM (11-15)
-  agent_11: &nature_agent
-    username: "Nature_Adept_1"
-    new_character: true
-    location: {x: 163, y: 335}
-    skill_levels: {crafting: 30, fletching: 10, strength: 30, health: 40, magic: 40}
-    inventory_items: 
-      - {item: "naturebead", count: 1}
-      - {item: "bead", count: 1}
-      - {item: "flask", count: 10}
-      - {item: "apple", count: 10}
-    equipped_items: [{item: "leatherarmor", count: 1}]
-  agent_12:
-    <<: *nature_agent
-    username: "Nature_Adept_2"
-    location: {x: 162, y: 335}
-  agent_13:
-    <<: *nature_agent
-    username: "Nature_Adept_3"
-    location: {x: 164, y: 335}
-  agent_14:
-    <<: *nature_agent
-    username: "Nature_Adept_4"
-    location: {x: 162, y: 334}
-  agent_15:
-    <<: *nature_agent
-    username: "Nature_Adept_5"
-    location: {x: 164, y: 334}
+# NATURE TEAM (11-15)
+agent_11: &nature_agent
+  username: "Nature_Adept_1"
+  new_character: true
+  location: {x: 163, y: 335}
+  skill_levels: {crafting: 30, fletching: 10, strength: 30, health: 40, magic: 40}
+  inventory_items:
+    - {item: "naturebead", count: 1}
+    - {item: "bead", count: 1}
+    - {item: "flask", count: 10}
+    - {item: "apple", count: 10}
+  equipped_items: [{item: "leatherarmor", count: 1}]
+agent_12:
+  <<: *nature_agent
+  username: "Nature_Adept_2"
+  location: {x: 162, y: 335}
+agent_13:
+  <<: *nature_agent
+  username: "Nature_Adept_3"
+  location: {x: 164, y: 335}
+agent_14:
+  <<: *nature_agent
+  username: "Nature_Adept_4"
+  location: {x: 162, y: 334}
+agent_15:
+  <<: *nature_agent
+  username: "Nature_Adept_5"
+  location: {x: 164, y: 334}
 
-  # RITUAL TEAM (16-20)
-  agent_16: &ritual_agent
-    username: "Ritual_Master_1"
-    new_character: true
-    location: {x: 163, y: 339}
-    skill_levels: {magic: 60, defense: 50, health: 60, strength: 30}
-    inventory_items: [{item: "flask", count: 20}, {item: "apple", count: 20}]
-    equipped_items: [{item: "wizardhat", count: 1}, {item: "leatherarmor", count: 1}]
-  agent_17:
-    <<: *ritual_agent
-    username: "Ritual_Master_2"
-    location: {x: 163, y: 340}
-  agent_18:
-    <<: *ritual_agent
-    username: "Ritual_Master_3"
-    location: {x: 163, y: 341}
-  agent_19:
-    <<: *ritual_agent
-    username: "Ritual_Master_4"
-    location: {x: 162, y: 340}
-  agent_20:
-    <<: *ritual_agent
-    username: "Ritual_Master_5"
-    location: {x: 164, y: 340}
+# RITUAL TEAM (16-20)
+agent_16: &ritual_agent
+  username: "Ritual_Master_1"
+  new_character: true
+  location: {x: 163, y: 339}
+  skill_levels: {magic: 60, defense: 50, health: 60, strength: 30}
+  inventory_items: [{item: "flask", count: 20}, {item: "apple", count: 20}]
+  equipped_items: [{item: "wizardhat", count: 1}, {item: "leatherarmor", count: 1}]
+agent_17:
+  <<: *ritual_agent
+  username: "Ritual_Master_2"
+  location: {x: 163, y: 340}
+agent_18:
+  <<: *ritual_agent
+  username: "Ritual_Master_3"
+  location: {x: 163, y: 341}
+agent_19:
+  <<: *ritual_agent
+  username: "Ritual_Master_4"
+  location: {x: 162, y: 340}
+agent_20:
+  <<: *ritual_agent
+  username: "Ritual_Master_5"
+  location: {x: 164, y: 340}
 
 success_criteria:
   - "Fire Team crafts 5 Fire Staffs"

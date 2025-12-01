@@ -59,10 +59,10 @@ max_action_steps: 25
 agent_1:
   username: "forager_agent"
   new_character: true
-  
+
   location:
-    x: 142
-    y: 327
+    x: 160
+    y: 120
   
   skill_levels:
     foraging: 20      # Required for blue lily collection
@@ -86,10 +86,10 @@ agent_1:
 agent_2:
   username: "gem_miner_agent"
   new_character: true
-  
+
   location:
-    x: 216
-    y: 315
+    x: 170
+    y: 125
   
   skill_levels:
     mining: 25        # Required for beryl mining
@@ -118,10 +118,10 @@ agent_2:
 agent_3:
   username: "jeweler_agent"
   new_character: true
-  
+
   location:
-    x: 242
-    y: 336
+    x: 165
+    y: 130
   
   skill_levels:
     crafting: 25      # Required for string and pendant crafting

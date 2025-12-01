@@ -92,10 +92,10 @@ agent_1:
 agent_2:
   username: "ingredient_gatherer_agent"
   new_character: true
-  
+
   location:
-    x: 142
-    y: 327
+    x: 200
+    y: 200
   
   skill_levels:
     foraging: 20      # Required for ingredient collection

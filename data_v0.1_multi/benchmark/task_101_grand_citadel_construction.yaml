@@ -49,101 +49,100 @@ relevant_game_context: |
 limitations:
   max_action_steps: 55
 
-agent_configurations:
-  # RESOURCE TEAM (1-8)
-  agent_1: &resource_agent
-    username: "Citadel_Miner_1"
-    new_character: true
-    location: {x: 430, y: 730}
-    skill_levels: {mining: 60, lumberjacking: 60, strength: 50, health: 50}
-    inventory_items: [{item: "flask", count: 20}, {item: "apple", count: 20}]
-    equipped_items: [{item: "pickaxe", count: 1}, {item: "axe", count: 1}, {item: "leatherarmor", count: 1}]
-  agent_2:
-    <<: *resource_agent
-    username: "Citadel_Miner_2"
-    location: {x: 431, y: 730}
-  agent_3:
-    <<: *resource_agent
-    username: "Citadel_Miner_3"
-    location: {x: 432, y: 730}
-  agent_4:
-    <<: *resource_agent
-    username: "Citadel_Miner_4"
-    location: {x: 433, y: 730}
-  agent_5:
-    <<: *resource_agent
-    username: "Citadel_Miner_5"
-    location: {x: 434, y: 730}
-  agent_6:
-    <<: *resource_agent
-    username: "Citadel_Miner_6"
-    location: {x: 430, y: 731}
-  agent_7:
-    <<: *resource_agent
-    username: "Citadel_Miner_7"
-    location: {x: 431, y: 731}
-  agent_8:
-    <<: *resource_agent
-    username: "Citadel_Miner_8"
-    location: {x: 432, y: 731}
+# RESOURCE TEAM (1-8)
+agent_1: &resource_agent
+  username: "Citadel_Miner_1"
+  new_character: true
+  location: {x: 430, y: 730}
+  skill_levels: {mining: 60, lumberjacking: 60, strength: 50, health: 50}
+  inventory_items: [{item: "flask", count: 20}, {item: "apple", count: 20}]
+  equipped_items: [{item: "pickaxe", count: 1}, {item: "axe", count: 1}, {item: "leatherarmor", count: 1}]
+agent_2:
+  <<: *resource_agent
+  username: "Citadel_Miner_2"
+  location: {x: 431, y: 730}
+agent_3:
+  <<: *resource_agent
+  username: "Citadel_Miner_3"
+  location: {x: 432, y: 730}
+agent_4:
+  <<: *resource_agent
+  username: "Citadel_Miner_4"
+  location: {x: 433, y: 730}
+agent_5:
+  <<: *resource_agent
+  username: "Citadel_Miner_5"
+  location: {x: 434, y: 730}
+agent_6:
+  <<: *resource_agent
+  username: "Citadel_Miner_6"
+  location: {x: 430, y: 731}
+agent_7:
+  <<: *resource_agent
+  username: "Citadel_Miner_7"
+  location: {x: 431, y: 731}
+agent_8:
+  <<: *resource_agent
+  username: "Citadel_Miner_8"
+  location: {x: 432, y: 731}
 
-  # CONSTRUCTION TEAM (9-14)
-  agent_9: &builder_agent
-    username: "Citadel_Builder_1" # Site Foreman
-    new_character: true
-    location: {x: 435, y: 730}
-    skill_levels: {smithing: 70, crafting: 70, strength: 50, health: 50}
-    inventory_items: [{item: "coal", count: 50}, {item: "flask", count: 20}, {item: "apple", count: 20}] # Coal provided for smelting
-    equipped_items: [{item: "heavysword", count: 1}, {item: "platearmor", count: 1}]
-  agent_10:
-    <<: *builder_agent
-    username: "Citadel_Builder_2"
-    location: {x: 436, y: 730}
-  agent_11:
-    <<: *builder_agent
-    username: "Citadel_Builder_3"
-    location: {x: 437, y: 730}
-  agent_12:
-    <<: *builder_agent
-    username: "Citadel_Builder_4"
-    location: {x: 435, y: 731}
-  agent_13:
-    <<: *builder_agent
-    username: "Citadel_Builder_5"
-    location: {x: 436, y: 731}
-  agent_14:
-    <<: *builder_agent
-    username: "Citadel_Builder_6"
-    location: {x: 437, y: 731}
+# CONSTRUCTION TEAM (9-14)
+agent_9: &builder_agent
+  username: "Citadel_Builder_1"
+  new_character: true
+  location: {x: 435, y: 730}
+  skill_levels: {smithing: 70, crafting: 70, strength: 50, health: 50}
+  inventory_items: [{item: "coal", count: 50}, {item: "flask", count: 20}, {item: "apple", count: 20}]
+  equipped_items: [{item: "heavysword", count: 1}, {item: "platearmor", count: 1}]
+agent_10:
+  <<: *builder_agent
+  username: "Citadel_Builder_2"
+  location: {x: 436, y: 730}
+agent_11:
+  <<: *builder_agent
+  username: "Citadel_Builder_3"
+  location: {x: 437, y: 730}
+agent_12:
+  <<: *builder_agent
+  username: "Citadel_Builder_4"
+  location: {x: 435, y: 731}
+agent_13:
+  <<: *builder_agent
+  username: "Citadel_Builder_5"
+  location: {x: 436, y: 731}
+agent_14:
+  <<: *builder_agent
+  username: "Citadel_Builder_6"
+  location: {x: 437, y: 731}
 
-  # DEFENSE TEAM (15-20)
-  agent_15: &guard_agent
-    username: "Citadel_Guard_1"
-    new_character: true
-    location: {x: 440, y: 730}
-    skill_levels: {strength: 80, defense: 80, health: 90, accuracy: 75}
-    inventory_items: [{item: "flask", count: 40}, {item: "apple", count: 40}]
-    equipped_items: [{item: "goldensword", count: 1}, {item: "platearmor", count: 1}, {item: "goldboots", count: 1}]
-  agent_16:
-    <<: *guard_agent
-    username: "Citadel_Guard_2"
-    location: {x: 441, y: 730}
-  agent_17:
-    <<: *guard_agent
-    username: "Citadel_Guard_3"
-    location: {x: 442, y: 730}
-  agent_18:
-    <<: *guard_agent
-    username: "Citadel_Guard_4"
-    location: {x: 440, y: 731}
-  agent_19:
-    <<: *guard_agent
-    username: "Citadel_Guard_5"
-    location: {x: 441, y: 731}
-  agent_20:
-    <<: *guard_agent
-    username: "Citadel_Guard_6"
-    location: {x: 442, y: 731}
+# DEFENSE TEAM (15-20)
+agent_15: &guard_agent
+  username: "Citadel_Guard_1"
+  new_character: true
+  location: {x: 440, y: 730}
+  skill_levels: {strength: 80, defense: 80, health: 90, accuracy: 75}
+  inventory_items: [{item: "flask", count: 40}, {item: "apple", count: 40}]
+  equipped_items: [{item: "goldensword", count: 1}, {item: "platearmor", count: 1}, {item: "goldboots", count: 1}]
+agent_16:
+  <<: *guard_agent
+  username: "Citadel_Guard_2"
+  location: {x: 441, y: 730}
+agent_17:
+  <<: *guard_agent
+  username: "Citadel_Guard_3"
+  location: {x: 442, y: 730}
+agent_18:
+  <<: *guard_agent
+  username: "Citadel_Guard_4"
+  location: {x: 440, y: 731}
+agent_19:
+  <<: *guard_agent
+  username: "Citadel_Guard_5"
+  location: {x: 441, y: 731}
+agent_20:
+  <<: *guard_agent
+  username: "Citadel_Guard_6"
+  location: {x: 442, y: 731}
 
 success_criteria:
   - "Resource Team gathers at least 40 Logs total"

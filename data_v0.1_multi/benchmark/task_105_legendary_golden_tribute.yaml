@@ -53,112 +53,111 @@ relevant_game_context: |
 limitations:
   max_action_steps: 55
 
-agent_configurations:
-  # MINERS (1-10)
-  agent_1: &miner_agent
-    username: "Gold_Miner_1"
-    new_character: true
-    location: {x: 230, y: 45}
-    skill_levels: {mining: 50, strength: 40, health: 50}
-    inventory_items: [{item: "flask", count: 10}, {item: "apple", count: 10}]
-    equipped_items: [{item: "pickaxe", count: 1}, {item: "leatherarmor", count: 1}]
-  agent_2:
-    <<: *miner_agent
-    username: "Gold_Miner_2"
-    location: {x: 231, y: 45}
-  agent_3:
-    <<: *miner_agent
-    username: "Gold_Miner_3"
-    location: {x: 232, y: 45}
-  agent_4:
-    <<: *miner_agent
-    username: "Gold_Miner_4"
-    location: {x: 230, y: 46}
-  agent_5:
-    <<: *miner_agent
-    username: "Gold_Miner_5"
-    location: {x: 231, y: 46}
-  agent_6:
-    <<: *miner_agent
-    username: "Gold_Miner_6"
-    location: {x: 232, y: 46}
-  agent_7:
-    <<: *miner_agent
-    username: "Gold_Miner_7"
-    location: {x: 230, y: 44}
-  agent_8:
-    <<: *miner_agent
-    username: "Gold_Miner_8"
-    location: {x: 231, y: 44}
-  agent_9:
-    <<: *miner_agent
-    username: "Gold_Miner_9"
-    location: {x: 232, y: 44}
-  agent_10:
-    <<: *miner_agent
-    username: "Gold_Miner_10"
-    location: {x: 233, y: 45}
+# MINERS (1-10)
+agent_1: &miner_agent
+  username: "Gold_Miner_1"
+  new_character: true
+  location: {x: 230, y: 45}
+  skill_levels: {mining: 50, strength: 40, health: 50}
+  inventory_items: [{item: "flask", count: 10}, {item: "apple", count: 10}]
+  equipped_items: [{item: "pickaxe", count: 1}, {item: "leatherarmor", count: 1}]
+agent_2:
+  <<: *miner_agent
+  username: "Gold_Miner_2"
+  location: {x: 231, y: 45}
+agent_3:
+  <<: *miner_agent
+  username: "Gold_Miner_3"
+  location: {x: 232, y: 45}
+agent_4:
+  <<: *miner_agent
+  username: "Gold_Miner_4"
+  location: {x: 230, y: 46}
+agent_5:
+  <<: *miner_agent
+  username: "Gold_Miner_5"
+  location: {x: 231, y: 46}
+agent_6:
+  <<: *miner_agent
+  username: "Gold_Miner_6"
+  location: {x: 232, y: 46}
+agent_7:
+  <<: *miner_agent
+  username: "Gold_Miner_7"
+  location: {x: 230, y: 44}
+agent_8:
+  <<: *miner_agent
+  username: "Gold_Miner_8"
+  location: {x: 231, y: 44}
+agent_9:
+  <<: *miner_agent
+  username: "Gold_Miner_9"
+  location: {x: 232, y: 44}
+agent_10:
+  <<: *miner_agent
+  username: "Gold_Miner_10"
+  location: {x: 233, y: 45}
 
-  # HUNTERS (11-15) - Logistics/Suppliers
-  agent_11: &hunter_agent
-    username: "Supply_Hunter_1"
-    new_character: true
-    location: {x: 235, y: 45}
-    skill_levels: {woodcutting: 40, strength: 40, health: 50}
-    inventory_items: 
-      - {item: "string", count: 10} # 5 agents * 10 = 50 String
-      - {item: "flask", count: 10}
-      - {item: "apple", count: 10}
-    equipped_items: [{item: "axe", count: 1}, {item: "woodenbow", count: 1}, {item: "leatherarmor", count: 1}]
-  agent_12:
-    <<: *hunter_agent
-    username: "Supply_Hunter_2"
-    location: {x: 235, y: 46}
-  agent_13:
-    <<: *hunter_agent
-    username: "Supply_Hunter_3"
-    location: {x: 235, y: 44}
-  agent_14:
-    <<: *hunter_agent
-    username: "Supply_Hunter_4"
-    location: {x: 236, y: 45}
-  agent_15:
-    <<: *hunter_agent
-    username: "Supply_Hunter_5"
-    location: {x: 236, y: 46}
+# HUNTERS (11-15) - Logistics/Suppliers
+agent_11: &hunter_agent
+  username: "Supply_Hunter_1"
+  new_character: true
+  location: {x: 235, y: 45}
+  skill_levels: {woodcutting: 40, strength: 40, health: 50}
+  inventory_items:
+    - {item: "string", count: 10}
+    - {item: "flask", count: 10}
+    - {item: "apple", count: 10}
+  equipped_items: [{item: "axe", count: 1}, {item: "woodenbow", count: 1}, {item: "leatherarmor", count: 1}]
+agent_12:
+  <<: *hunter_agent
+  username: "Supply_Hunter_2"
+  location: {x: 235, y: 46}
+agent_13:
+  <<: *hunter_agent
+  username: "Supply_Hunter_3"
+  location: {x: 235, y: 44}
+agent_14:
+  <<: *hunter_agent
+  username: "Supply_Hunter_4"
+  location: {x: 236, y: 45}
+agent_15:
+  <<: *hunter_agent
+  username: "Supply_Hunter_5"
+  location: {x: 236, y: 46}
 
-  # SMITHS (16-20)
-  agent_16: &smith_agent
-    username: "Tribute_Master" # Smith_1
-    new_character: true
-    location: {x: 234, y: 45}
-    skill_levels: {smithing: 70, crafting: 70, fletching: 70, strength: 40} # Master of all
-    inventory_items: 
-      - {item: "coal", count: 40} # Fuel for smelting
-      - {item: "hilt2", count: 1} # For the sword
-      - {item: "flask", count: 20}
-      - {item: "apple", count: 20}
-    equipped_items: [{item: "heavysword", count: 1}, {item: "platearmor", count: 1}]
-  agent_17:
-    <<: *smith_agent
-    username: "Master_Smith_2"
-    inventory_items: [{item: "coal", count: 40}, {item: "flask", count: 20}, {item: "apple", count: 20}]
-    location: {x: 234, y: 46}
-  agent_18:
-    <<: *smith_agent
-    username: "Master_Smith_3"
-    inventory_items: [{item: "coal", count: 40}, {item: "flask", count: 20}, {item: "apple", count: 20}]
-    location: {x: 234, y: 44}
-  agent_19:
-    <<: *smith_agent
-    username: "Master_Smith_4"
-    inventory_items: [{item: "coal", count: 40}, {item: "flask", count: 20}, {item: "apple", count: 20}]
-    location: {x: 233, y: 46}
-  agent_20:
-    <<: *smith_agent
-    username: "Master_Smith_5"
-    inventory_items: [{item: "coal", count: 40}, {item: "flask", count: 20}, {item: "apple", count: 20}]
-    location: {x: 233, y: 44}
+# SMITHS (16-20)
+agent_16: &smith_agent
+  username: "Tribute_Master"
+  new_character: true
+  location: {x: 234, y: 45}
+  skill_levels: {smithing: 70, crafting: 70, fletching: 70, strength: 40}
+  inventory_items:
+    - {item: "coal", count: 40}
+    - {item: "hilt2", count: 1}
+    - {item: "flask", count: 20}
+    - {item: "apple", count: 20}
+  equipped_items: [{item: "heavysword", count: 1}, {item: "platearmor", count: 1}]
+agent_17:
+  <<: *smith_agent
+  username: "Master_Smith_2"
+  inventory_items: [{item: "coal", count: 40}, {item: "flask", count: 20}, {item: "apple", count: 20}]
+  location: {x: 234, y: 46}
+agent_18:
+  <<: *smith_agent
+  username: "Master_Smith_3"
+  inventory_items: [{item: "coal", count: 40}, {item: "flask", count: 20}, {item: "apple", count: 20}]
+  location: {x: 234, y: 44}
+agent_19:
+  <<: *smith_agent
+  username: "Master_Smith_4"
+  inventory_items: [{item: "coal", count: 40}, {item: "flask", count: 20}, {item: "apple", count: 20}]
+  location: {x: 233, y: 46}
+agent_20:
+  <<: *smith_agent
+  username: "Master_Smith_5"
+  inventory_items: [{item: "coal", count: 40}, {item: "flask", count: 20}, {item: "apple", count: 20}]
+  location: {x: 233, y: 44}
 
 success_criteria:
   - "Team Mines 100 Gold Ore"

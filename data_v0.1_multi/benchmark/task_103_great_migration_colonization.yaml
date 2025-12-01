@@ -43,103 +43,102 @@ relevant_game_context: |
 limitations:
   max_action_steps: 55
 
-agent_configurations:
-  # VANGUARD (1-6) - Elite Warriors
-  agent_1: &vanguard_agent
-    username: "Vanguard_Captain"
-    new_character: true
-    location: {x: 702, y: 702}
-    skill_levels: {strength: 70, defense: 70, health: 80, accuracy: 60}
-    inventory_items: [{item: "flask", count: 30}, {item: "apple", count: 30}]
-    equipped_items: [{item: "goldensword", count: 1}, {item: "platearmor", count: 1}, {item: "goldboots", count: 1}]
-  agent_2:
-    <<: *vanguard_agent
-    username: "Vanguard_2"
-    location: {x: 703, y: 702}
-  agent_3:
-    <<: *vanguard_agent
-    username: "Vanguard_3"
-    location: {x: 701, y: 702}
-  agent_4:
-    <<: *vanguard_agent
-    username: "Vanguard_4"
-    location: {x: 702, y: 703}
-  agent_5:
-    <<: *vanguard_agent
-    username: "Vanguard_5"
-    location: {x: 703, y: 703}
-  agent_6:
-    <<: *vanguard_agent
-    username: "Vanguard_6"
-    location: {x: 701, y: 703}
+# VANGUARD (1-6) - Elite Warriors
+agent_1: &vanguard_agent
+  username: "Vanguard_Captain"
+  new_character: true
+  location: {x: 702, y: 702}
+  skill_levels: {strength: 70, defense: 70, health: 80, accuracy: 60}
+  inventory_items: [{item: "flask", count: 30}, {item: "apple", count: 30}]
+  equipped_items: [{item: "goldensword", count: 1}, {item: "platearmor", count: 1}, {item: "goldboots", count: 1}]
+agent_2:
+  <<: *vanguard_agent
+  username: "Vanguard_2"
+  location: {x: 703, y: 702}
+agent_3:
+  <<: *vanguard_agent
+  username: "Vanguard_3"
+  location: {x: 701, y: 702}
+agent_4:
+  <<: *vanguard_agent
+  username: "Vanguard_4"
+  location: {x: 702, y: 703}
+agent_5:
+  <<: *vanguard_agent
+  username: "Vanguard_5"
+  location: {x: 703, y: 703}
+agent_6:
+  <<: *vanguard_agent
+  username: "Vanguard_6"
+  location: {x: 701, y: 703}
 
-  # SETTLERS (7-14) - Carriers
-  agent_7: &settler_agent
-    username: "Settler_Governor"
-    new_character: true
-    location: {x: 700, y: 700}
-    skill_levels: {strength: 20, defense: 10, health: 30, woodcutting: 10}
-    inventory_items: 
-      - {item: "logs", count: 20}
-      - {item: "apple", count: 10}
-    equipped_items: [{item: "leatherarmor", count: 1}]
-  agent_8:
-    <<: *settler_agent
-    username: "Settler_2"
-    location: {x: 700, y: 701}
-  agent_9:
-    <<: *settler_agent
-    username: "Settler_3"
-    location: {x: 699, y: 700}
-  agent_10:
-    <<: *settler_agent
-    username: "Settler_4"
-    location: {x: 699, y: 701}
-  agent_11:
-    <<: *settler_agent
-    username: "Settler_5"
-    location: {x: 698, y: 700}
-  agent_12:
-    <<: *settler_agent
-    username: "Settler_6"
-    location: {x: 698, y: 701}
-  agent_13:
-    <<: *settler_agent
-    username: "Settler_7"
-    location: {x: 697, y: 700}
-  agent_14:
-    <<: *settler_agent
-    username: "Settler_8"
-    location: {x: 697, y: 701}
+# SETTLERS (7-14) - Carriers
+agent_7: &settler_agent
+  username: "Settler_Governor"
+  new_character: true
+  location: {x: 700, y: 700}
+  skill_levels: {strength: 20, defense: 10, health: 30, woodcutting: 10}
+  inventory_items:
+    - {item: "logs", count: 20}
+    - {item: "apple", count: 10}
+  equipped_items: [{item: "leatherarmor", count: 1}]
+agent_8:
+  <<: *settler_agent
+  username: "Settler_2"
+  location: {x: 700, y: 701}
+agent_9:
+  <<: *settler_agent
+  username: "Settler_3"
+  location: {x: 699, y: 700}
+agent_10:
+  <<: *settler_agent
+  username: "Settler_4"
+  location: {x: 699, y: 701}
+agent_11:
+  <<: *settler_agent
+  username: "Settler_5"
+  location: {x: 698, y: 700}
+agent_12:
+  <<: *settler_agent
+  username: "Settler_6"
+  location: {x: 698, y: 701}
+agent_13:
+  <<: *settler_agent
+  username: "Settler_7"
+  location: {x: 697, y: 700}
+agent_14:
+  <<: *settler_agent
+  username: "Settler_8"
+  location: {x: 697, y: 701}
 
-  # REAR GUARD (15-20)
-  agent_15: &rearguard_agent
-    username: "RearGuard_Cmdr"
-    new_character: true
-    location: {x: 696, y: 699}
-    skill_levels: {strength: 50, defense: 50, health: 60, accuracy: 50}
-    inventory_items: [{item: "flask", count: 20}, {item: "apple", count: 20}]
-    equipped_items: [{item: "heavysword", count: 1}, {item: "platearmor", count: 1}]
-  agent_16:
-    <<: *rearguard_agent
-    username: "RearGuard_2"
-    location: {x: 697, y: 699}
-  agent_17:
-    <<: *rearguard_agent
-    username: "RearGuard_3"
-    location: {x: 695, y: 699}
-  agent_18:
-    <<: *rearguard_agent
-    username: "RearGuard_4"
-    location: {x: 696, y: 698}
-  agent_19:
-    <<: *rearguard_agent
-    username: "RearGuard_5"
-    location: {x: 697, y: 698}
-  agent_20:
-    <<: *rearguard_agent
-    username: "RearGuard_6"
-    location: {x: 695, y: 698}
+# REAR GUARD (15-20)
+agent_15: &rearguard_agent
+  username: "RearGuard_Cmdr"
+  new_character: true
+  location: {x: 696, y: 699}
+  skill_levels: {strength: 50, defense: 50, health: 60, accuracy: 50}
+  inventory_items: [{item: "flask", count: 20}, {item: "apple", count: 20}]
+  equipped_items: [{item: "heavysword", count: 1}, {item: "platearmor", count: 1}]
+agent_16:
+  <<: *rearguard_agent
+  username: "RearGuard_2"
+  location: {x: 697, y: 699}
+agent_17:
+  <<: *rearguard_agent
+  username: "RearGuard_3"
+  location: {x: 695, y: 699}
+agent_18:
+  <<: *rearguard_agent
+  username: "RearGuard_4"
+  location: {x: 696, y: 698}
+agent_19:
+  <<: *rearguard_agent
+  username: "RearGuard_5"
+  location: {x: 697, y: 698}
+agent_20:
+  <<: *rearguard_agent
+  username: "RearGuard_6"
+  location: {x: 695, y: 698}
 
 success_criteria:
   - "All 8 Settlers reach the Throne Room (712, 717)"
