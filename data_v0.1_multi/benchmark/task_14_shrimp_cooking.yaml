@@ -14,35 +14,31 @@ objectives:
 
 # Relevant game context (Hint)
 relevant_game_context: |
-  This is a cooperative multi-agent seafood cooking scenario requiring fishing and cooking expertise.
-  
-  OBJECTIVE: Prepare cooked shrimp through coordinated fishing operations and seafood culinary preparation.
-  
+  This is a cooperative multi-agent seafood cooking scenario.
+
+  OBJECTIVE: Cook the raw shrimp that seafood_chef_agent already has in inventory.
+
+  CRITICAL: seafood_chef_agent ALREADY HAS 5x rawshrimp in inventory!
+
   TEAM COORDINATION:
-  - Use global chat to share fishing locations and cooking preparation progress
-  - Coordinate between fishing operations and cooking fuel gathering
-  - Share fresh seafood and cooking materials for culinary preparation
-  - Work together to complete fresh seafood cooking chain
-  
-  GENERAL STRATEGY:
-  - The team needs to catch fresh seafood from fishing locations
-  - Someone needs to gather materials for cooking operations
-  - Fresh seafood cooking requires proper fuel and cooking expertise
-  - Coordinate fishing timing with cooking preparation for freshness
-  - Balance fishing operations with cooking support activities
-  
-  DO NOT use complete() until ALL objectives are achieved by the team!
-  
-  CRAFTING RECIPES (CRITICAL KNOWLEDGE):
-  🎣 Fishing - raw shrimp:
-    - harvest_resource on fishing spot instances to get rawshrimp
-    - Level required: 1+ (Fishing skill)
-    - Tool required: Fishing pole
-  
+  - Use global chat to coordinate
+  - seafood_chef_agent should cook the shrimp immediately
+  - Other agents can assist or observe
+
+  COOKING RECIPE (CRITICAL - USE THIS EXACT COMMAND):
   🍤 Cooking Recipe - cookedshrimp:
-    - craft_item skill=Cooking itemKey=cookedshrimp
+    - Command: craft_item skill=Cooking itemKey=cookedshrimp
     - Materials: 1x rawshrimp → 1x cookedshrimp
     - Level required: 1 (Cooking skill)
+    - seafood_chef_agent has Cooking skill and rawshrimp ready!
+
+  SIMPLE STEPS:
+  1. seafood_chef_agent should use: craft_item skill=Cooking itemKey=cookedshrimp
+  2. This will convert 1 rawshrimp into 1 cookedshrimp
+  3. Repeat if needed to cook more shrimp
+  4. Once at least 1 cookedshrimp exists, the team can complete()
+
+  DO NOT use complete() until cookedshrimp is in inventory!
 
 # Limitations
 max_action_steps: 25
@@ -112,22 +108,24 @@ agent_2:
 agent_3:
   username: "seafood_chef_agent"
   new_character: true
-  
+
   location:
     x: 210
     y: 200
-  
+
   skill_levels:
     cooking: 20       # Required for shrimp cooking (level 1+)
     fishing: 10       # Seafood knowledge
     strength: 20
     health: 25
-  
+
   inventory_items:
     - item: "flask"
       count: 10
     - item: "apple"
       count: 15
+    - item: "rawshrimp"
+      count: 5
   
   equipped_items:
     - item: "leatherarmor"

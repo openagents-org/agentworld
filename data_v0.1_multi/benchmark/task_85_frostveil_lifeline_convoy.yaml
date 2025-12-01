@@ -44,8 +44,8 @@ agent_1:
   new_character: true
   
   location:
-    x: 500
-    y: 120
+    x: 232
+    y: 148
   
   skill_levels:
     defense: 38
@@ -75,8 +75,8 @@ agent_2:
   new_character: true
   
   location:
-    x: 505
-    y: 120
+    x: 234
+    y: 150
   
   skill_levels:
     mining: 42
@@ -105,8 +105,8 @@ agent_3:
   new_character: true
   
   location:
-    x: 510
-    y: 120
+    x: 230
+    y: 146
   
   skill_levels:
     lumberjacking: 40
@@ -133,8 +133,8 @@ agent_4:
   new_character: true
   
   location:
-    x: 500
-    y: 125
+    x: 233
+    y: 149
   
   skill_levels:
     crafting: 38
@@ -163,8 +163,8 @@ agent_5:
   new_character: true
   
   location:
-    x: 505
-    y: 125
+    x: 236
+    y: 152
   
   skill_levels:
     magic: 34
@@ -193,8 +193,8 @@ agent_6:
   new_character: true
   
   location:
-    x: 510
-    y: 125
+    x: 232
+    y: 150
   
   skill_levels:
     magic: 36
@@ -223,8 +223,8 @@ agent_7:
   new_character: true
   
   location:
-    x: 500
-    y: 130
+    x: 235
+    y: 145
   
   skill_levels:
     accuracy: 34
@@ -251,8 +251,8 @@ agent_8:
   new_character: true
   
   location:
-    x: 505
-    y: 130
+    x: 228
+    y: 152
   
   skill_levels:
     fishing: 36
@@ -281,8 +281,8 @@ agent_9:
   new_character: true
   
   location:
-    x: 510
-    y: 130
+    x: 231
+    y: 149
   
   skill_levels:
     crafting: 34
@@ -311,8 +311,8 @@ agent_10:
   new_character: true
   
   location:
-    x: 500
-    y: 135
+    x: 233
+    y: 147
   
   skill_levels:
     strength: 36

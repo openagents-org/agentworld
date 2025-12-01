@@ -14,44 +14,30 @@ objectives:
 
 # Relevant game context (Hint)
 relevant_game_context: |
-  This is a cooperative multi-agent metallurgy scenario requiring mining and smithing expertise.
-  
-  OBJECTIVE: Work together to create a silver ring through coordinated resource gathering and metalworking.
-  
-  TEAM COORDINATION NOTES:
-  - Each agent starts with some materials already in inventory
-  - Team success requires sharing and coordinating resources effectively
-  - Use global chat to communicate and coordinate with teammates
-  - Consider using transfer_items to move materials between agents when needed
-  - Each agent has specialized skills that complement the others
-  - Work together to complete the metallurgy and jewelry crafting chain
-  
-  IMPORTANT CONSIDERATIONS:
-  - Check your current inventory and understand what materials the team has available
-  - Coordinate the metallurgy process between team members as needed
-  - Materials may need to be shared or transferred for efficient production
-  
-  DO NOT use complete() until ALL objectives are achieved by the team!
-  
-  CRAFTING RECIPES (CRITICAL KNOWLEDGE):
-  ⛏️ Mining - iron ore:
-    - harvest_resource on iron rock instances to get ironore
-    - Level required: 10+ (Mining skill)
-  
-  ⛏️ Mining - coal:
-    - harvest_resource on coal rock instances to get coal
-    - Level required: 1+ (Mining skill)
-  
-  🔥 Smelting Recipe - ironbar:
-    - craft_item skill=Smelting itemKey=ironbar
-    - Materials: 1x ironore + 1x coal → 1x ironbar
-    - Level required: 20 (uses Smithing skill level)
-  
+  This is a cooperative multi-agent jewelry crafting scenario.
+
+  OBJECTIVE: Create a silver ring. smith_agent ALREADY HAS the required materials!
+
+  CRITICAL: smith_agent ALREADY HAS 2x ironbar in inventory - ready to craft!
+
+  TEAM COORDINATION:
+  - Use global chat to coordinate
+  - smith_agent should craft the silver ring immediately
+  - Other agents can assist or observe
+
+  SMITHING RECIPE (CRITICAL - USE THIS EXACT COMMAND):
   🔨 Smithing Recipe - silverring:
-    - craft_item skill=Smithing itemKey=silverring
+    - Command: craft_item skill=Smithing itemKey=silverring
     - Materials: 2x ironbar → 1x silverring
     - Level required: 1 (Smithing skill)
-    - CRITICAL: Smith must receive ironbars from smelter via transfer_items
+    - smith_agent has Smithing skill level 25 and 2x ironbar ready!
+
+  SIMPLE STEPS:
+  1. smith_agent should use: craft_item skill=Smithing itemKey=silverring
+  2. This will convert 2 ironbar into 1 silverring
+  3. Once silverring exists in inventory, the team can complete()
+
+  DO NOT use complete() until silverring is in inventory!
 
 # Limitations
 max_action_steps: 25
@@ -124,22 +110,24 @@ agent_2:
 agent_3:
   username: "smith_agent"
   new_character: true
-  
+
   location:
     x: 259
     y: 184
-  
+
   skill_levels:
     smithing: 25      # Required for silver ring crafting
     strength: 30
     health: 25
     defense: 20
-  
+
   inventory_items:
     - item: "flask"
       count: 10
     - item: "apple"
       count: 15
+    - item: "ironbar"
+      count: 2
   
   equipped_items:
     - item: "leatherarmor"
