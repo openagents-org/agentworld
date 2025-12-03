@@ -1,0 +1,144 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Coordinate crafting through communication
+
+task:
+  name: "Communication Network - Coordinated Crafting Pipeline"
+  description: "Three agents communicate to coordinate a stick and arrow production pipeline"
+
+# Task objectives
+objectives:
+  primary: "Coordinate to produce 16x sticks and 12x arrows through communication"
+  secondary: # checkpoints
+    - "Establish communication for crafting pipeline"
+    - "Complete coordinated crafting within 25 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a communication-based crafting coordination scenario.
+
+  OBJECTIVE: Use team communication to coordinate crafting pipeline.
+
+  MISSION REQUIREMENTS:
+  - Gatherer collects 4x logs
+  - Processor makes 16x sticks from logs
+  - Fletcher makes 12x arrows from sticks
+  - Coordinate transfers via communication
+
+  TEAM COORDINATION:
+  - Announce when materials are ready
+  - Request transfers via chat
+  - Confirm receipt before crafting
+
+  CRAFTING PIPELINE:
+  🌲 Logs → Sticks → Arrows
+
+  CRAFTING RECIPES:
+  🪄 Fletching - stick:
+    - 1x logs → 4x stick
+  🏹 Fletching - arrow:
+    - 1x stick → 4x arrow
+
+  DO NOT use complete() until pipeline is complete!
+
+# Limitations
+max_action_steps: 25
+
+# Agent configurations
+agent_1:
+  username: "material_gatherer_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 3
+
+  skill_levels:
+    lumberjacking: 28
+    strength: 38
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "logs"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "stick_processor_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 5
+
+  skill_levels:
+    fletching: 20
+    crafting: 22
+    strength: 32
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "stick"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "arrow_fletcher_agent"
+  new_character: true
+
+  location:
+    x: 392
+    y: 7
+
+  skill_levels:
+    fletching: 25
+    crafting: 20
+    accuracy: 30
+    health: 36
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "arrow"
+      count: 4
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "material_gatherer_agent gathers 4x logs"
+  - "Team produces at least 16x sticks"
+  - "Team produces at least 12x arrows"
+  - "Communication-based pipeline completed"

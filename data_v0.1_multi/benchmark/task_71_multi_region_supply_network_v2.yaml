@@ -1,0 +1,186 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Extended 10-agent 6-region supply empire
+
+task:
+  name: "Multi-Region Supply Network - Continental Trade Empire"
+  description: "Ten agents establish a complex supply empire spanning 6 regions with specialized teams and massive production"
+
+# Task objectives
+objectives:
+  primary: "Create a functioning 6-region supply empire with specialized gathering teams, logistics, and industrial crafting over 65 rounds"
+  secondary:
+    - "Phase 1 (Rounds 1-10): Network Planning - Scout all regions and establish base camps"
+    - "Phase 2 (Rounds 11-24): Specialized Gathering - Teams gather region-specific materials simultaneously"
+    - "Phase 3 (Rounds 25-38): Transport Operations - Coordinate multi-wave material transfers"
+    - "Phase 4 (Rounds 39-52): Mass Production - Craft advanced equipment using all resources"
+    - "Phase 5 (Rounds 53-65): Distribution & Validation - Deliver goods and validate network"
+
+# Relevant game context
+relevant_game_context: |
+  NETWORK GOAL
+  - Ten agents run a six-region supply empire over ~65 rounds: forest logs/sticks, mountain ores (iron/coal/gold), coast feathers/strings/food, plains herbs, desert materials, plus a central hub that smelts/crafts and redistributes.
+
+  PHASE OVERVIEW
+  1. R1-10 Planning: assign teams (Forest, Mountain, Coast, Plains, Desert, Hub), scout all regions, set chat protocols.
+  2. R11-24 Gathering: each team hits quotas (forest 60 logs + 120 sticks, mountains 50 iron/50 coal/25 gold, coast 40 feathers + 40 string + 80 food, etc.).
+  3. R25-38 Transport: execute five delivery waves. After each arrival, transfer via transfer_items.
+  4. R39-52 Production: hub crafters smelt bars, craft weapons/bows/staffs/rings, package shipments.
+  5. R53-65 Distribution: deliver finished goods to all regions, validate network.
+
+  EXECUTION NOTES
+  - Keep a running logistics board in chat ("Mountain 40/50 iron") so the hub can time smelting.
+  - Transfers only work within ~10 tiles; both sender and receiver must confirm.
+# Limitations
+max_action_steps: 65
+
+# Agent configurations
+agent_1:
+  username: "SupplyLogger1"
+  new_character: true
+  location: {x: 200, y: 200}
+  skill_levels: {lumberjacking: 40, fletching: 32, strength: 36, health: 42}
+  inventory_items:
+    - {item: "flask", count: 24}
+    - {item: "apple", count: 28}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_2:
+  username: "SupplyLogger2"
+  new_character: true
+  location: {x: 205, y: 200}
+  skill_levels: {lumberjacking: 42, fletching: 28, strength: 38, health: 40}
+  inventory_items:
+    - {item: "flask", count: 24}
+    - {item: "apple", count: 28}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_3:
+  username: "SupplyMiner1"
+  new_character: true
+  location: {x: 210, y: 200}
+  skill_levels: {mining: 42, smithing: 32, strength: 38, health: 44}
+  inventory_items:
+    - {item: "flask", count: 26}
+    - {item: "apple", count: 32}
+    - {item: "hilt2", count: 2}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_4:
+  username: "SupplyMiner2"
+  new_character: true
+  location: {x: 200, y: 205}
+  skill_levels: {mining: 40, smithing: 30, strength: 36, health: 42}
+  inventory_items:
+    - {item: "flask", count: 26}
+    - {item: "apple", count: 32}
+    - {item: "hilt2", count: 2}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_5:
+  username: "SupplyHunter1"
+  new_character: true
+  location: {x: 205, y: 205}
+  skill_levels: {accuracy: 38, strength: 36, health: 40, archery: 28}
+  inventory_items:
+    - {item: "flask", count: 22}
+    - {item: "apple", count: 26}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_6:
+  username: "SupplyHunter2"
+  new_character: true
+  location: {x: 210, y: 205}
+  skill_levels: {accuracy: 36, strength: 38, health: 38, archery: 26}
+  inventory_items:
+    - {item: "flask", count: 22}
+    - {item: "apple", count: 26}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_7:
+  username: "SupplyForager"
+  new_character: true
+  location: {x: 215, y: 200}
+  skill_levels: {foraging: 40, fishing: 35, health: 38}
+  inventory_items:
+    - {item: "flask", count: 22}
+    - {item: "apple", count: 26}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_8:
+  username: "SupplyCrafter1"
+  new_character: true
+  location: {x: 200, y: 210}
+  skill_levels: {crafting: 48, smithing: 40, fletching: 36, health: 44}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 34}
+    - {item: "hilt2", count: 3}
+    - {item: "bead", count: 3}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_9:
+  username: "SupplyCrafter2"
+  new_character: true
+  location: {x: 205, y: 210}
+  skill_levels: {crafting: 45, smithing: 38, fletching: 34, health: 42}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 34}
+    - {item: "hilt2", count: 3}
+    - {item: "bead", count: 3}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_10:
+  username: "SupplyCommander"
+  new_character: true
+  location: {x: 202, y: 207}
+  skill_levels: {crafting: 40, smithing: 35, strength: 35, health: 45}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 36}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Phase 1 completed: Network planned, 6 teams assigned, all regions scouted"
+  - "Phase 2 completed: Forest Team gathers 60+ logs, 120+ sticks"
+  - "Phase 2: Mountain Team mines 50+ iron ore, 50+ coal, 25+ gold ore"
+  - "Phase 2: Coast Team hunts 40+ feathers, 40+ string, 80+ food items"
+  - "Phase 2: All teams gather simultaneously in separate regions"
+  - "Phase 3 completed: All 5 transport waves successful"
+  - "Phase 3: All materials consolidated at Central Hub with verified transfers"
+  - "Phase 4 completed: 50 iron bars and 25 gold bars crafted"
+  - "Phase 4: 15 weapons crafted (6 swords, 5 axes, 4 bows)"
+  - "Phase 4: 10 rings crafted and 80 arrows produced"
+  - "Phase 4: 3 staffs created"
+  - "Phase 5 completed: Goods delivered to all 6 regions"
+  - "Phase 5: Network validated across all regions"
+  - "All 5 phases completed in sequence over 62-65 rounds"
+  - "All 10 agents coordinated successfully"
+  - "Continental Trade Empire: OPERATIONAL"

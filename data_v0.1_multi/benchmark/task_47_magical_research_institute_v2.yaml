@@ -1,0 +1,152 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Craft base staff and upgrade to lightning staff
+
+task:
+  name: "Magical Research Institute - Lightning Staff Creation"
+  description: "Three agents craft a base staff and upgrade it to lightning staff"
+
+# Task objectives
+objectives:
+  primary: "Create 1x base staff and upgrade to 1x lightning staff"
+  secondary: # checkpoints
+    - "Coordinate staff crafting and enhancement"
+    - "Complete lightning staff within 28 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is an elemental staff creation scenario.
+
+  OBJECTIVE: Create and enhance a lightning staff.
+
+  MISSION REQUIREMENTS:
+  - Gather logs and make sticks
+  - Craft 1x base magic staff
+  - Enhance to 1x lightning staff
+
+  TEAM COORDINATION:
+  - Gatherer collects logs and makes sticks
+  - Assembler crafts base staff
+  - Enchanter upgrades to lightning staff
+
+  STARTING RESOURCES:
+  - Gatherer has 1x logs
+  - Assembler has 2x bead
+  - Enchanter has 1x lightningbead
+
+  CRAFTING RECIPES:
+  🪄 Fletching - stick:
+    - 1x logs → 4x stick
+
+  🔮 Crafting - staff:
+    - 5x stick + 1x bead → 1x staff
+
+  ⚡ Crafting - lightningstaff:
+    - 1x staff + 1x lightningbead → 1x lightningstaff
+
+  DO NOT use complete() until lightning staff is crafted!
+
+# Limitations
+max_action_steps: 28
+
+# Agent configurations
+agent_1:
+  username: "wood_gatherer_agent"
+  new_character: true
+
+  location:
+    x: 0
+    y: 100
+
+  skill_levels:
+    lumberjacking: 28
+    fletching: 22
+    strength: 35
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "logs"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "staff_assembler_agent"
+  new_character: true
+
+  location:
+    x: 2
+    y: 100
+
+  skill_levels:
+    crafting: 30
+    magic: 28
+    fletching: 18
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "bead"
+      count: 2
+    - item: "stick"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "lightning_enchanter_agent"
+  new_character: true
+
+  location:
+    x: 0
+    y: 98
+
+  skill_levels:
+    crafting: 28
+    magic: 35
+    accuracy: 25
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "lightningbead"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team gathers enough logs for sticks"
+  - "staff_assembler_agent crafts 1x base staff"
+  - "lightning_enchanter_agent crafts 1x lightningstaff"
+  - "Lightning staff creation completed"

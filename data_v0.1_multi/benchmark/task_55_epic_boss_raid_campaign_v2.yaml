@@ -1,0 +1,189 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Epic Boss Raid Campaign - Extended 4-Boss Challenge with 4 Warriors"
+  description: "Four elite warriors embark on an extended boss raid campaign, defeating 4 bosses across regions with preparation phases between encounters"
+
+# Task objectives
+objectives:
+  primary: "Complete a 6-phase boss raid campaign with crafting, resource gathering, and 4 boss battles spanning 55 rounds"
+  secondary: # checkpoints (6 phases)
+    - "Phase 1 (Rounds 1-12): Equipment Preparation - Craft weapons and tools"
+    - "Phase 2 (Rounds 13-20): First Boss - Defeat Goblin"
+    - "Phase 3 (Rounds 21-28): Resource Expansion - Gather advanced materials"
+    - "Phase 4 (Rounds 29-36): Second Boss - Defeat Skeleton"
+    - "Phase 5 (Rounds 37-46): Third Boss - Defeat Ogre"
+    - "Phase 6 (Rounds 47-55): Final Boss - Defeat Spectre"
+    - "Complete ALL 6 phases in sequence over 50-55 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  RAID ROADMAP (55 ROUNDS, 6 PHASES)
+  1. R1-12 Prep: cut 6 logs, mine 12 iron + 12 coal at (230,38), smelt 12 bars, craft 3 heavy swords + 1 pickaxe, stock healing items.
+  2. R13-20 Goblin: travel (~350,250), locate a level 10-15 goblin via observation/mob list, ensure HP>80%, all four attack_mob the same ID.
+  3. R21-28 Recovery/loot run: heal to >90%, gather bonus materials (gold or gems) and extra food; share totals in chat.
+  4. R29-36 Skeleton: hunt cemetery/dungeon zones (~200,100 or 350,200), repeat synchronized attack procedure.
+  5. R37-46 Ogre: head back near (238,48), run full ready check (HP>90%, healing stocked) before attacking.
+  6. R47-55 Final boss: Spectre (≈230,30). Everyone must be at 100% HP with ≥5 heals, attack simultaneously, then record victory logs.
+
+  EXECUTION RULES
+  - After every phase, post "Phase X complete – [summary]". Use transfer_items to funnel ore/bars to whoever crafts. attack_mob is preferred for bosses so loot and combat reporting are automatic.
+  - Never engage a boss with HP<80%; if supplies dip, pause the campaign and restock even if it delays the schedule.
+  - Minimum success requires Phase 1 gear, at least three bosses, and the run lasting ≥45 rounds.
+
+  COMPLETION CHECK
+  - By Round 53-55 each agent states: crafted gear, bosses defeated, current HP/healing. Only after all confirm may one agent call complete() summarizing all six phases.
+# Limitations
+max_action_steps: 55
+
+# Agent configurations
+agent_1:
+  username: "RaidTank"
+  new_character: true
+
+  location:
+    x: 350
+    y: 300
+
+  skill_levels:
+    defense: 45        # Maximum tanking capability
+    strength: 40       # Strong attacks
+    health: 55         # Maximum survivability
+    accuracy: 30       # Combat precision
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "RaidDPS"
+  new_character: true
+
+  location:
+    x: 352
+    y: 302
+
+  skill_levels:
+    strength: 50       # Maximum damage output
+    accuracy: 45       # High precision
+    health: 45         # Good survivability
+    defense: 35        # Moderate protection
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "RaidSupport"
+  new_character: true
+
+  location:
+    x: 354
+    y: 304
+
+  skill_levels:
+    magic: 45          # Magical support and damage
+    accuracy: 40       # Magical precision
+    health: 45         # Support survivability
+    defense: 35        # Protection
+    strength: 30       # Backup physical combat
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+    - item: "manaflask"
+      count: 20
+
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "RaidHealer"
+  new_character: true
+
+  location:
+    x: 356
+    y: 306
+
+  skill_levels:
+    magic: 50          # Strong healing magic
+    health: 50         # Good survivability
+    defense: 40        # Protection
+    accuracy: 35       # Spell precision
+
+  inventory_items:
+    - item: "flask"
+      count: 40
+    - item: "apple"
+      count: 45
+    - item: "manaflask"
+      count: 25
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "Phase 1 completed: Team crafts 3x Heavy Swords, 1x Pickaxe, and 12+ iron bars"
+  - "Phase 1: Team gathers 6+ logs and mines 12+ iron ore and coal"
+  - "Phase 2 completed: Goblin boss (Level 10-15) defeated"
+  - "Phase 2: Team coordinates attack with proper positioning and HP checks"
+  - "Phase 3 completed: Team gathers advanced materials and healing items"
+  - "Phase 4 completed: Skeleton boss (Level 15-20) defeated"
+  - "Phase 4: Team searches dark areas and locates skeleton successfully"
+  - "Phase 5 completed: Ogre boss (Level 25-30) defeated"
+  - "Phase 5: Team manages difficult boss fight with healing and coordination"
+  - "Phase 6 completed: Spectre boss (Level 30-40) defeated"
+  - "Phase 6: Team executes final assault with full preparation"
+  - "All 4 bosses defeated: Goblin, Skeleton, Ogre, and Spectre"
+  - "All four warriors survive entire 55-round campaign with HP > 0"
+  - "Campaign takes 50-55 rounds (NOT completed in under 45 rounds)"
+  - "Team uses chat extensively to coordinate all 6 phases"
+  - "6-phase boss raid campaign successfully completed with 4 warriors"

@@ -1,0 +1,190 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Extended 12-agent transcontinental trading empire
+
+task:
+  name: "Transcontinental Trading Network - Grand Continental Trade Empire"
+  description: "Twelve agents establish a massive trading network across 8 regions, craft 8 diverse items requiring materials from all regions"
+
+# Task objectives
+objectives:
+  primary: "Establish a transcontinental trading empire where 12 agents gather resources from 8 regions, consolidate at multiple hubs, and craft 8 cross-regional items"
+  secondary:
+    - "Phase 1 (Rounds 1-15): Regional Resource Gathering across 8 biomes"
+    - "Phase 2 (Rounds 16-26): Travel to 3 Regional Hubs"
+    - "Phase 3 (Rounds 27-38): Inter-Hub Trading and Smelting"
+    - "Phase 4 (Rounds 39-50): Final Consolidation at Central Point"
+    - "Phase 5 (Rounds 51-62): Coordinated Crafting of 8 items"
+
+# Relevant game context
+relevant_game_context: |
+  SUPPLY CHAIN PLAN
+  - Twelve agents harvest materials from eight regions, regroup at three hubs, relay goods to central point (400,250), and craft eight cross-regional items within ~62 rounds.
+  - Regions: Forest, Mountain, Coast, Ice, Desert, Plains, Volcano, Swamp.
+  - Items to craft: Golden Bow, 2x Golden Ring, 2x Silver Ring, Beryl Pendant, Magic Staff, Wooden Bow.
+
+  EXECUTION NOTES
+  - Use transfer_items + verify_inventory for every handoff.
+  - Maintain running manifest in chat.
+  - Three hubs coordinate before final consolidation.
+# Limitations
+max_action_steps: 62
+
+# Agent configurations
+agent_1:
+  username: "ForestGatherer_78v2"
+  new_character: true
+  location: {x: 200, y: 200}
+  skill_levels: {lumberjacking: 32, crafting: 30, strength: 24, health: 34}
+  inventory_items:
+    - {item: "flask", count: 16}
+    - {item: "apple", count: 22}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "MountainMiner_78v2"
+  new_character: true
+  location: {x: 205, y: 200}
+  skill_levels: {mining: 36, crafting: 24, strength: 28, health: 34}
+  inventory_items:
+    - {item: "flask", count: 16}
+    - {item: "apple", count: 22}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "CoastalFisher_78v2"
+  new_character: true
+  location: {x: 210, y: 200}
+  skill_levels: {fishing: 36, cooking: 26, strength: 24, health: 34}
+  inventory_items:
+    - {item: "flask", count: 16}
+    - {item: "apple", count: 22}
+  equipped_items:
+    - {item: "fishingpole", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "IceGatherer_78v2"
+  new_character: true
+  location: {x: 200, y: 205}
+  skill_levels: {lumberjacking: 30, strength: 24, health: 34}
+  inventory_items:
+    - {item: "flask", count: 16}
+    - {item: "apple", count: 22}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "DesertGatherer_78v2"
+  new_character: true
+  location: {x: 205, y: 205}
+  skill_levels: {lumberjacking: 30, strength: 24, health: 34}
+  inventory_items:
+    - {item: "flask", count: 16}
+    - {item: "apple", count: 22}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "GemMiner_78v2"
+  new_character: true
+  location: {x: 210, y: 205}
+  skill_levels: {mining: 36, strength: 24, health: 34}
+  inventory_items:
+    - {item: "flask", count: 16}
+    - {item: "apple", count: 22}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_7:
+  username: "GoldMiner_78v2"
+  new_character: true
+  location: {x: 200, y: 210}
+  skill_levels: {mining: 36, crafting: 32, smithing: 32, fletching: 26, strength: 28, health: 36}
+  inventory_items:
+    - {item: "flask", count: 18}
+    - {item: "apple", count: 24}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_8:
+  username: "Forager_78v2"
+  new_character: true
+  location: {x: 205, y: 210}
+  skill_levels: {foraging: 36, cooking: 26, strength: 24, health: 34}
+  inventory_items:
+    - {item: "flask", count: 16}
+    - {item: "apple", count: 22}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_9:
+  username: "VolcanicGatherer_78v2"
+  new_character: true
+  location: {x: 210, y: 210}
+  skill_levels: {lumberjacking: 30, strength: 24, health: 34}
+  inventory_items:
+    - {item: "flask", count: 16}
+    - {item: "apple", count: 22}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_10:
+  username: "PlainsGatherer_78v2"
+  new_character: true
+  location: {x: 200, y: 215}
+  skill_levels: {lumberjacking: 30, strength: 24, health: 34}
+  inventory_items:
+    - {item: "flask", count: 16}
+    - {item: "apple", count: 22}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_11:
+  username: "SwampGatherer_78v2"
+  new_character: true
+  location: {x: 205, y: 215}
+  skill_levels: {foraging: 30, fishing: 26, strength: 24, health: 34}
+  inventory_items:
+    - {item: "flask", count: 16}
+    - {item: "apple", count: 22}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_12:
+  username: "TradeCoordinator_78v2"
+  new_character: true
+  location: {x: 210, y: 215}
+  skill_levels: {crafting: 34, smithing: 30, magic: 28, health: 36}
+  inventory_items:
+    - {item: "flask", count: 18}
+    - {item: "apple", count: 24}
+    - {item: "bead", count: 3}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Phase 1: All 12 agents gather assigned resources from 8 regions"
+  - "ForestGatherer gathers 8x Oak logs, IceGatherer gathers 8x Ice Oak logs"
+  - "DesertGatherer gathers 8x Palm logs, VolcanicGatherer gathers 8x Bloodwood logs"
+  - "PlainsGatherer gathers 8x Willow logs"
+  - "MountainMiner mines 15x iron ore + 15x coal"
+  - "GoldMiner mines 12x gold ore + 12x coal"
+  - "GemMiner mines 8x beryl gems"
+  - "CoastalFisher catches 12x fish"
+  - "Forager forages 15x Blueberries"
+  - "Phase 2-3: All agents travel to hubs and consolidate"
+  - "Phase 4: Smelting completed - 15x ironbar and 12x goldbar"
+  - "Phase 5: All 8 items crafted (Golden Bow, 2x Golden Ring, 2x Silver Ring, Beryl Pendant, Magic Staff, Wooden Bow)"
+  - "Network established within 60-62 rounds"

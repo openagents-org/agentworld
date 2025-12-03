@@ -1,0 +1,113 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Only 2 agents, defeat 2 Worker Ants
+
+task:
+  name: "Combat Training - Basic Ant Combat"
+  description: "Two agents practice combat by defeating Worker Ants"
+
+# Task objectives
+objectives:
+  primary: "Defeat 2 Worker Ants through coordinated combat training"
+  secondary: # checkpoints
+    - "Locate Worker Ants for training"
+    - "Complete combat training within 18 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a basic combat training scenario against easier creatures.
+
+  OBJECTIVE: Practice combat skills by defeating Worker Ants.
+
+  MISSION REQUIREMENTS:
+  - Locate Worker Ants in the area
+  - Defeat 2 Worker Ants through coordinated attacks
+  - Practice combat coordination
+
+  TEAM COORDINATION:
+  - Coordinate attack timing
+  - Share healing resources
+  - Practice formation movement
+
+  COMBAT KNOWLEDGE:
+  🐜 Combat - Worker Ants:
+    - Level 46 creatures
+    - Good for combat training
+    - Coordinate attacks for efficiency
+
+  DO NOT use complete() until 2 Worker Ants are defeated!
+
+# Limitations
+max_action_steps: 18
+
+# Agent configurations
+agent_1:
+  username: "combat_trainee_1"
+  new_character: true
+
+  location:
+    x: 280
+    y: 190
+
+  skill_levels:
+    strength: 38
+    accuracy: 35
+    health: 45
+    defense: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "healthpotion"
+      count: 5
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "combat_trainee_2"
+  new_character: true
+
+  location:
+    x: 285
+    y: 195
+
+  skill_levels:
+    magic: 35
+    health: 42
+    defense: 30
+    accuracy: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "manapotion"
+      count: 5
+
+  equipped_items:
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team locates Worker Ants"
+  - "Team defeats at least 2 Worker Ants"
+  - "All agents survive combat training"

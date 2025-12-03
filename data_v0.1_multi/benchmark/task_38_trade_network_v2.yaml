@@ -1,0 +1,144 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Craft items for trade value
+
+task:
+  name: "Trade Network - Craftable Goods Production"
+  description: "Three agents gather materials and craft sticks and arrows for trade value"
+
+# Task objectives
+objectives:
+  primary: "Craft 16x sticks and 12x arrows as trade goods"
+  secondary: # checkpoints
+    - "Coordinate wood gathering and crafting"
+    - "Complete production within 25 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a trade goods production scenario.
+
+  OBJECTIVE: Create valuable crafted items for trading.
+
+  MISSION REQUIREMENTS:
+  - Gather logs from oak trees
+  - Craft 16x sticks from logs
+  - Craft 12x arrows from sticks
+  - Coordinate production pipeline
+
+  TEAM COORDINATION:
+  - Gatherer collects wood
+  - Processor makes sticks
+  - Fletcher crafts arrows
+
+  CRAFTING RECIPES:
+  🌲 Lumberjacking - logs:
+    - harvest_resource on Oak Tree instances
+
+  🪄 Fletching Recipe - stick:
+    - Materials: 1x logs → 4x stick
+
+  🏹 Fletching Recipe - arrow:
+    - Materials: 1x stick → 4x arrow
+
+  DO NOT use complete() until objectives are achieved!
+
+# Limitations
+max_action_steps: 25
+
+# Agent configurations
+agent_1:
+  username: "wood_supplier_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 3
+
+  skill_levels:
+    lumberjacking: 28
+    strength: 38
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "logs"
+      count: 2
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "stick_maker_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 5
+
+  skill_levels:
+    fletching: 18
+    crafting: 22
+    strength: 32
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "stick"
+      count: 4
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "arrow_crafter_agent"
+  new_character: true
+
+  location:
+    x: 392
+    y: 7
+
+  skill_levels:
+    fletching: 22
+    crafting: 20
+    accuracy: 28
+    health: 36
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "arrow"
+      count: 4
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team produces at least 16x sticks total"
+  - "Team produces at least 12x arrows total"
+  - "Production pipeline coordinated effectively"

@@ -1,0 +1,147 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Craft arrows instead of generic equipment
+
+task:
+  name: "Woodworking Coordination - Arrow Crafting Operation"
+  description: "Three agents work together to harvest wood, craft sticks, and make arrows"
+
+# Task objectives
+objectives:
+  primary: "Harvest wood and craft 20x arrows through coordinated operations"
+  secondary: # checkpoints
+    - "Execute coordinated wood harvesting and stick crafting"
+    - "Complete arrow production within 25 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative woodworking scenario focused on arrow production.
+
+  OBJECTIVE: Create arrows through coordinated wood processing.
+
+  MISSION REQUIREMENTS:
+  - Harvest logs from oak trees
+  - Craft sticks from logs
+  - Create arrows from sticks
+  - Coordinate the production pipeline
+
+  TEAM COORDINATION:
+  - Gatherer harvests wood
+  - Processor makes sticks
+  - Fletcher crafts arrows
+
+  CRAFTING RECIPES:
+  🌲 Lumberjacking - logs:
+    - harvest_resource on Oak Tree instances
+    - Level required: 1+ (Lumberjacking skill)
+
+  🪄 Fletching Recipe - stick:
+    - craft_item skill=Fletching itemKey=stick
+    - Materials: 1x logs → 4x stick
+
+  🏹 Fletching Recipe - arrow:
+    - craft_item skill=Fletching itemKey=arrow
+    - Materials: 1x stick → 4x arrow
+    - Level required: 5 (Fletching skill)
+
+  DO NOT use complete() until 20x arrows are crafted!
+
+# Limitations
+max_action_steps: 25
+
+# Agent configurations
+agent_1:
+  username: "wood_gatherer_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 3
+
+  skill_levels:
+    lumberjacking: 30
+    strength: 40
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "stick_processor_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 5
+
+  skill_levels:
+    fletching: 15
+    crafting: 20
+    strength: 30
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "logs"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "arrow_fletcher_agent"
+  new_character: true
+
+  location:
+    x: 392
+    y: 7
+
+  skill_levels:
+    fletching: 25
+    crafting: 20
+    accuracy: 30
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "stick"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "wood_gatherer_agent harvests logs from trees"
+  - "stick_processor_agent crafts sticks from logs"
+  - "arrow_fletcher_agent crafts at least 20x arrows"
+  - "Team coordinates production pipeline effectively"

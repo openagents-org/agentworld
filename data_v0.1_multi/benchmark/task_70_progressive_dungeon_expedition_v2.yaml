@@ -1,0 +1,185 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Extended 9-agent 8-phase dungeon campaign
+
+task:
+  name: "Progressive Dungeon Expedition - Grand Campaign"
+  description: "Nine adventurers embark on an 8-phase dungeon campaign with multiple bosses and elite equipment crafting"
+
+# Task objectives
+objectives:
+  primary: "Complete an 8-phase progressive dungeon campaign spanning 65 rounds with elite equipment and multiple bosses"
+  secondary:
+    - "Phase 1 (Rounds 1-10): Initial Preparation - Gather materials and craft starting equipment"
+    - "Phase 2 (Rounds 11-18): Shallow Dungeon - Scout entrance and defeat low-level guardians"
+    - "Phase 3 (Rounds 19-26): First Upgrade - Gather advanced materials and craft superior weapons"
+    - "Phase 4 (Rounds 27-34): Mid-Level Dungeon - Explore deeper levels and defeat mid-tier bosses"
+    - "Phase 5 (Rounds 35-42): Second Upgrade - Create specialized gear for harder challenges"
+    - "Phase 6 (Rounds 43-50): Deep Dungeon - Explore deepest levels and defeat elite guardians"
+    - "Phase 7 (Rounds 51-58): Elite Equipment - Create golden gear for final push"
+    - "Phase 8 (Rounds 59-65): Boss Rush - Conquer final chambers and defeat dungeon lord"
+
+# Relevant game context
+relevant_game_context: |
+  CAMPAIGN STRUCTURE (65 ROUNDS)
+  - Nine adventurers must clear eight sequential phases with three boss encounters. Equipment is upgraded between phases; no phase may be skipped.
+
+  PHASE CHEAT-SHEET
+  1. R1-10 Preparation: gather 20 logs, 30 iron/coal, smelt 25 bars, craft starter weapons and amass 60+ heals.
+  2. R11-18 Shallow dungeon: move to ~200,100, defeat low-level mobs, log loot/HP.
+  3. R19-26 First upgrade: retreat, gather materials, craft rings/arrows, restock heals to 80+.
+  4. R27-34 Mid-depth: push through chambers 3-5, fight skeletons and spectres, defeat first boss.
+  5. R35-42 Second upgrade: exit, gather gold/gems, craft enhanced gear, heal pool to 100+.
+  6. R43-50 Deep dungeon: explore chambers 6-8, defeat elite guardians and second boss.
+  7. R51-58 Elite crafting: gather ultimate mats, craft golden gear, maximize healing to 120+.
+  8. R59-65 Boss rush: re-enter with full HP, defeat dungeon lord.
+
+  EXECUTION NOTES
+  - Always verify_inventory before/after crafting, transfers, or phase transitions.
+  - Keep everyone within ~10 tiles during dungeon runs for coordinated healing.
+  - attack_mob handles combat; use move_character hops of <=32 tiles.
+# Limitations
+max_action_steps: 65
+
+# Agent configurations
+agent_1:
+  username: "DungeonTank1"
+  new_character: true
+  location: {x: 380, y: 290}
+  skill_levels: {defense: 44, strength: 38, health: 54, mining: 32, smithing: 22}
+  inventory_items:
+    - {item: "flask", count: 32}
+    - {item: "apple", count: 38}
+    - {item: "hilt2", count: 3}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_2:
+  username: "DungeonTank2"
+  new_character: true
+  location: {x: 385, y: 292}
+  skill_levels: {defense: 42, strength: 40, health: 52, mining: 30, smithing: 20}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+    - {item: "hilt2", count: 2}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_3:
+  username: "DungeonDPS1"
+  new_character: true
+  location: {x: 390, y: 295}
+  skill_levels: {strength: 48, accuracy: 42, health: 46, lumberjacking: 32, smithing: 18}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_4:
+  username: "DungeonDPS2"
+  new_character: true
+  location: {x: 395, y: 298}
+  skill_levels: {strength: 46, accuracy: 44, health: 44, lumberjacking: 34, mining: 28}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 30}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_5:
+  username: "DungeonRanger1"
+  new_character: true
+  location: {x: 382, y: 300}
+  skill_levels: {accuracy: 48, archery: 44, health: 42, fletching: 34, strength: 30}
+  inventory_items:
+    - {item: "flask", count: 24}
+    - {item: "apple", count: 28}
+    - {item: "string", count: 8}
+    - {item: "feather", count: 20}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_6:
+  username: "DungeonRanger2"
+  new_character: true
+  location: {x: 387, y: 303}
+  skill_levels: {accuracy: 46, archery: 42, health: 40, fletching: 32, strength: 32}
+  inventory_items:
+    - {item: "flask", count: 24}
+    - {item: "apple", count: 28}
+    - {item: "string", count: 8}
+    - {item: "feather", count: 20}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_7:
+  username: "DungeonSupport"
+  new_character: true
+  location: {x: 392, y: 305}
+  skill_levels: {magic: 44, crafting: 38, health: 42, strength: 30, fletching: 28, smithing: 28}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+    - {item: "bead", count: 4}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_8:
+  username: "DungeonCrafter"
+  new_character: true
+  location: {x: 388, y: 308}
+  skill_levels: {crafting: 50, smithing: 45, fletching: 38, health: 40, mining: 35}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+    - {item: "hilt2", count: 2}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_9:
+  username: "DungeonCommander"
+  new_character: true
+  location: {x: 385, y: 298}
+  skill_levels: {strength: 40, defense: 38, accuracy: 38, health: 50, smithing: 25, crafting: 28}
+  inventory_items:
+    - {item: "flask", count: 32}
+    - {item: "apple", count: 38}
+    - {item: "hilt2", count: 1}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Phase 1 completed: Team gathers 20+ logs, mines 30+ iron ore and coal, crafts 25+ iron bars"
+  - "Phase 1: Team crafts 4x Heavy Swords, 2x Axes, 2x Wooden Bows"
+  - "Phase 1: All agents equipped with weapons, 60+ healing items stockpiled"
+  - "Phase 2 completed: Team explores shallow dungeon, defeats 3 guardian mobs"
+  - "Phase 3 completed: Team crafts 4x Silver Rings, 40+ arrows"
+  - "Phase 3: Healing supplies increased to 80+ total"
+  - "Phase 4 completed: Team explores mid-level dungeon chambers"
+  - "Phase 4: First boss defeated (Level 25-30)"
+  - "Phase 5 completed: Team gathers gold ore and gems"
+  - "Phase 5: Team crafts enhanced weapons, healing at 100+"
+  - "Phase 6 completed: Team explores deep dungeon chambers"
+  - "Phase 6: Second boss defeated (Level 35-40)"
+  - "Phase 7 completed: Team crafts golden equipment"
+  - "Phase 7: Maximum healing supplies stockpiled (120+)"
+  - "Phase 8 completed: Team defeats final dungeon lord boss (Level 45-50)"
+  - "All 8 phases completed in proper sequence over 62-65 rounds"
+  - "All 9 agents survive entire campaign with HP > 0"
+  - "3 bosses defeated throughout campaign"

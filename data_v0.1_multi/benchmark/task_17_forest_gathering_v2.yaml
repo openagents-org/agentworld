@@ -1,0 +1,159 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Changed target resources to logs and blueberry, different location
+
+task:
+  name: "Forest Gathering Mission - Mixed Forest Harvest"
+  description: "Three agents work together to gather logs and blueberries from a mixed forest area"
+
+# Task objectives
+objectives:
+  primary: "Successfully protect collectors while they gather 5x logs and 4x blueberry"
+  secondary: # checkpoints
+    - "Establish effective team communication for threat alerts"
+    - "Guardian successfully defends team from hostile wildlife"
+    - "Complete forest resource gathering without casualties within 25 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent forest protection scenario requiring tactical coordination.
+
+  OBJECTIVE: Successfully gather required forest resources while protecting the team from wildlife threats.
+
+  MISSION REQUIREMENTS:
+  - Collect 5x logs and 4x blueberry while under potential wildlife threat
+  - Keep all team members alive throughout the mission
+  - Use teamwork to balance resource gathering with wilderness security
+
+  TEAM COORDINATION:
+  - Establish communication protocols for wildlife detection and warnings
+  - Coordinate movements between protection and forest resource gathering
+  - Share information about resource locations and environmental dangers
+  - Work together to ensure both safety and mission success
+
+  GENERAL STRATEGY:
+  - The team has complementary roles in combat, lumberjacking, and foraging
+  - Wildlife threats may appear and must be dealt with appropriately
+  - Forest resource gathering requires moving to specific locations
+  - Balance efficiency with safety - casualties will cause mission failure
+  - Use global chat for real-time coordination and threat alerts
+
+  DO NOT use complete() until ALL objectives are achieved safely!
+
+  COMBAT MECHANICS (CRITICAL KNOWLEDGE):
+  🏹 Combat - Attack threats:
+    - Use observe_environment to detect hostile wildlife
+    - Use attack command on hostile targets
+    - Use bow for ranged combat advantage
+
+  🪵 Lumberjacking - logs:
+    - harvest_resource on oak tree instances to get logs
+    - Level required: 1+ (Lumberjacking skill)
+    - Target: 5x logs total
+    - IMPORTANT: Look for "Oak" trees!
+
+  🫐 Foraging - blueberry:
+    - harvest_resource on blueberry instances
+    - Level required: 1+ (Foraging skill)
+    - Target: 4x blueberry total
+    - IMPORTANT: Look for "Blueberry" bushes!
+
+# Limitations
+max_action_steps: 25
+
+# Agent configurations
+agent_1:
+  username: "forest_guardian_agent"
+  new_character: true
+
+  location:
+    x: 180
+    y: 200
+
+  skill_levels:
+    archery: 30
+    fletching: 20
+    strength: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+    - item: "arrow"
+      count: 60
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+
+agent_2:
+  username: "oak_logger_agent"
+  new_character: true
+
+  location:
+    x: 185
+    y: 200
+
+  skill_levels:
+    lumberjacking: 25
+    defense: 15
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+
+agent_3:
+  username: "berry_forager_agent"
+  new_character: true
+
+  location:
+    x: 190
+    y: 200
+
+  skill_levels:
+    foraging: 20
+    defense: 12
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+
+# Success criteria
+success_criteria:
+  - "oak_logger_agent has at least 5x logs in inventory"
+  - "berry_forager_agent has at least 4x blueberry in inventory"
+  - "All agents remain alive throughout the mission"
+  - "Forest guardian successfully protects team from wildlife threats"

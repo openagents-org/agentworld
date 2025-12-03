@@ -1,0 +1,115 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Reconnaissance only, no Ice Knight combat
+
+task:
+  name: "Castle Siege Warfare - Fortress Reconnaissance"
+  description: "Two agents work together to conduct castle reconnaissance without engaging the commander"
+
+# Task objectives
+objectives:
+  primary: "Successfully conduct castle reconnaissance and map fortress defenses"
+  secondary: # checkpoints
+    - "Navigate to castle/fortress region"
+    - "Complete reconnaissance within 15 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a simplified castle mission focusing on reconnaissance.
+
+  OBJECTIVE: Conduct reconnaissance of the castle without engaging the Ice Knight.
+
+  MISSION REQUIREMENTS:
+  - Navigate to Castle/Fortress region (~712, 717)
+  - Observe and document fortress layout
+  - Identify strategic positions and entrances
+  - Avoid direct combat with Ice Knight
+
+  TEAM COORDINATION:
+  - Scout agents work together
+  - Map defensive positions
+  - Share intelligence about fortress
+
+  RECONNAISSANCE:
+  🏰 Fortress Reconnaissance:
+    - Observe castle layout
+    - Identify entrances and chokepoints
+    - Document strategic positions
+
+  DO NOT engage Ice Knight! Complete reconnaissance only!
+
+# Limitations
+max_action_steps: 15
+
+# Agent configurations
+agent_1:
+  username: "castle_scout_agent"
+  new_character: true
+
+  location:
+    x: 700
+    y: 710
+
+  skill_levels:
+    accuracy: 40
+    defense: 40
+    health: 50
+    strength: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "healthpotion"
+      count: 10
+
+  equipped_items:
+    - item: "bow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fortress_observer_agent"
+  new_character: true
+
+  location:
+    x: 705
+    y: 715
+
+  skill_levels:
+    accuracy: 35
+    magic: 30
+    health: 45
+    defense: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "healthpotion"
+      count: 10
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team navigates to castle region"
+  - "Agents observe fortress layout and defenses"
+  - "Reconnaissance completed without combat"
+  - "All agents survive the mission"

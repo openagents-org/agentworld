@@ -1,0 +1,112 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Only resource gathering, no trading required
+
+task:
+  name: "Desert Caravan Trading - Desert Resource Expedition"
+  description: "Two agents work together to gather desert resources without trading requirements"
+
+# Task objectives
+objectives:
+  primary: "Successfully gather 4x cactus materials and 3x desert ore from desert region"
+  secondary: # checkpoints
+    - "Navigate to southern desert region"
+    - "Complete desert resource gathering within 20 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a simplified desert expedition focusing on resource gathering.
+
+  OBJECTIVE: Gather desert resources efficiently.
+
+  MISSION REQUIREMENTS:
+  - Navigate to Southern Desert region (200-600, 600-768)
+  - Gather cactus materials from desert plants
+  - Mine desert ore from rocky areas
+  - Survive desert heat with proper supplies
+
+  TEAM COORDINATION:
+  - Forager focuses on cactus gathering
+  - Miner focuses on desert ore extraction
+  - Share water and healing supplies
+
+  RESOURCE GATHERING:
+  🌵 Desert Resource Gathering:
+    - Use observe_environment to locate cactus and plants
+    - Gather 4x cactus materials total
+
+  ⛏️ Desert Mining:
+    - harvest_resource on desert rock deposits
+    - Gather 3x desert ore total
+
+  DO NOT use complete() until resources are gathered!
+
+# Limitations
+max_action_steps: 20
+
+# Agent configurations
+agent_1:
+  username: "desert_forager_agent"
+  new_character: true
+
+  location:
+    x: 300
+    y: 650
+
+  skill_levels:
+    foraging: 25
+    strength: 35
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "healthpotion"
+      count: 8
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "desert_miner_agent"
+  new_character: true
+
+  location:
+    x: 305
+    y: 655
+
+  skill_levels:
+    mining: 25
+    strength: 40
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "healthpotion"
+      count: 8
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team gathers at least 4x cactus materials"
+  - "Team gathers at least 3x desert ore"
+  - "All agents survive desert conditions"

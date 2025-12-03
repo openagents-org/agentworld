@@ -1,0 +1,160 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Grand Harvest Festival - Simplified 4-Agent Preparation"
+  description: "Four agents coordinate to prepare for a festival by gathering ingredients, cooking dishes, and crafting decorations"
+
+# Task objectives
+objectives:
+  primary: "Prepare and deliver a festival package: 3x cooked dishes, 2x decorative jewelry, and 30+ gathered resources to Central Festival Grounds"
+  secondary:
+    - "Phase 1 (Rounds 1-12): Resource Gathering Spree - Collect ingredients from multiple biomes"
+    - "Phase 2 (Rounds 13-25): Culinary Production - Cook 3 different festival dishes"
+    - "Phase 3 (Rounds 26-35): Decorative Crafting - Create festival decorations"
+    - "Phase 4 (Rounds 36-42): Grand Festival Assembly - Deliver all items to festival grounds"
+
+# Context and guidance for agents
+relevant_game_context: |
+  FESTIVAL SNAPSHOT
+  - In 42 rounds four agents must gather 30+ raw ingredients, cook 3 dishes (tomato stew, corn stew, cooked chicken), craft 2 jewelry gifts (beryl pendant, silver ring), then deliver everything to the central grounds (528,384).
+
+  ROLES & ROUTES
+  - Forager (Agent 1) sweeps the western forest belt (~250,350) for tomatoes, corn, onions, mushrooms, fruit, beads/beryl; report totals every few items and walk east toward the hub once they hit ≈25 gathers.
+  - Hunter (Agent 2) hunts low-level birds for chicken meat near (~350,250), before trekking west to the hub.
+  - Hub duo (Agents 3-4) stay near (528,384) ready to receive transfers: Agent 3 cooks, Agent 4 crafts jewelry.
+
+  PHASE FLOW
+  1. R1-12 Gather: field teams farm materials in parallel; hub logs progress.
+  2. R13-25 Deliver & Cook: all gatherers converge on the hub using ≤32-tile moves, transfer via transfer_items with verify_inventory confirmations, then Head_Chef cooks the three dishes back-to-back.
+  3. R26-35 Craft Decor: Jeweler turns beryl+string into pendant and iron into ring.
+  4. R36-42 Assembly: everyone states their final inventory, loads items for delivery, and one agent summarizes totals before complete().
+
+  EXECUTION TIPS
+  - Keep a running checklist in chat ("Veg 20/30", "Meat ready", "Jewelry 1/2").
+# Limitations
+max_action_steps: 42
+
+# Agent configurations
+agent_1:
+  username: "Master_Forager"
+  new_character: true
+
+  location:
+    x: 200
+    y: 200
+
+  skill_levels:
+    foraging: 35
+    lumberjacking: 20
+    strength: 20
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "string"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "Chef_Hunter"
+  new_character: true
+
+  location:
+    x: 210
+    y: 200
+
+  skill_levels:
+    fishing: 25
+    strength: 30
+    accuracy: 30
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "Head_Chef"
+  new_character: true
+
+  location:
+    x: 200
+    y: 205
+
+  skill_levels:
+    cooking: 35
+    crafting: 20
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "Jeweler"
+  new_character: true
+
+  location:
+    x: 205
+    y: 205
+
+  skill_levels:
+    crafting: 40
+    smithing: 25
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "ironbar"
+      count: 3
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "Phase 1: Master Forager gathers 20+ vegetables, herbs, and special items from Western Forest"
+  - "Phase 1: Chef Hunter obtains 3+ meat from hunting"
+  - "Phase 1: Total 25+ raw materials gathered across all gathering agents"
+  - "Phase 2: All gathering agents travel to Festival Grounds (Central Hub)"
+  - "Phase 2: Perfect ingredient consolidation with Head Chef"
+  - "Phase 2: Head Chef cooks Tomato Stew using vegetables"
+  - "Phase 2: Head Chef cooks Corn Stew using corn and vegetables"
+  - "Phase 2: Head Chef cooks Cooked Chicken from hunted meat"
+  - "Phase 3: Jeweler crafts Beryl Pendant using beryl and string"
+  - "Phase 3: Jeweler crafts Silver Ring from iron bars"
+  - "Phase 4: All festival items consolidated"
+  - "Phase 4: Final verification confirms 3 dishes + 2 jewelry"
+  - "Phase 4: 30+ raw materials accounted for in final inventory"
+  - "All agents use chat extensively for festival coordination"
+  - "Festival preparation completed in 40-42 rounds"
+  - "Cooperative non-combat task completed with teamwork"

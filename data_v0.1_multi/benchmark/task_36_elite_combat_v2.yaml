@@ -1,0 +1,150 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Defeat 2 Wolves with 3 agents
+
+task:
+  name: "Elite Combat - Wolf Pack Challenge"
+  description: "Three agents work together to defeat 2 Wolves"
+
+# Task objectives
+objectives:
+  primary: "Defeat 2 Wolves (Level 55) through elite combat coordination"
+  secondary: # checkpoints
+    - "Locate Wolf pack"
+    - "Complete challenge within 30 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is an elite combat challenge against high-level creatures.
+
+  OBJECTIVE: Prove elite combat mastery by defeating multiple Wolves.
+
+  MISSION REQUIREMENTS:
+  - Navigate to wolf territory
+  - Defeat 2 Wolves (Level 55 each)
+  - Use advanced coordinated tactics
+
+  TEAM COORDINATION:
+  - Hunter leads the assault
+  - Battlemage provides magical damage
+  - Defender protects the team
+  - Focus on one wolf at a time
+
+  COMBAT KNOWLEDGE:
+  🐺 Combat - Wolf:
+    - Level 55 creatures
+    - Multiple high-level targets
+    - Requires excellent coordination
+
+  DO NOT use complete() until 2 Wolves are defeated!
+
+# Limitations
+max_action_steps: 30
+
+# Agent configurations
+agent_1:
+  username: "elite_hunter_agent"
+  new_character: true
+
+  location:
+    x: 280
+    y: 190
+
+  skill_levels:
+    strength: 52
+    accuracy: 48
+    defense: 45
+    health: 62
+
+  inventory_items:
+    - item: "flask"
+      count: 32
+    - item: "apple"
+      count: 38
+    - item: "healthpotion"
+      count: 12
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 1
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "elite_battlemage_agent"
+  new_character: true
+
+  location:
+    x: 285
+    y: 195
+
+  skill_levels:
+    magic: 55
+    accuracy: 45
+    health: 58
+    defense: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 35
+    - item: "manapotion"
+      count: 15
+
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "elite_defender_agent"
+  new_character: true
+
+  location:
+    x: 290
+    y: 200
+
+  skill_levels:
+    defense: 50
+    health: 65
+    strength: 48
+    accuracy: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+    - item: "healthpotion"
+      count: 15
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 1
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team defeats at least 2 Wolves"
+  - "Elite coordination demonstrated"
+  - "All agents survive the challenge"

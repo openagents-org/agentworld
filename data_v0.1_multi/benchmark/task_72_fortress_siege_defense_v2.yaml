@@ -1,0 +1,193 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Extended 9-agent 6-wave defense campaign
+
+task:
+  name: "Fortress Siege Defense - Ultimate Defense Campaign"
+  description: "Nine defenders prepare fortifications and withstand 6 waves of increasingly difficult enemy assaults"
+
+# Task objectives
+objectives:
+  primary: "Defend a fortress against 6 progressive enemy waves over 65 rounds with preparation phases between each assault"
+  secondary:
+    - "Phase 1 (Rounds 1-10): Fortress Preparation - Build defenses and craft siege equipment"
+    - "Phase 2 (Rounds 11-18): Wave 1 - Repel Goblin scout assault (Level 10-15)"
+    - "Phase 3 (Rounds 19-26): Reinforcement 1 - Upgrade defenses"
+    - "Phase 4 (Rounds 27-34): Wave 2 - Survive Skeleton invasion (Level 18-25)"
+    - "Phase 5 (Rounds 35-42): Reinforcement 2 - Craft elite equipment"
+    - "Phase 6 (Rounds 43-48): Wave 3 - Defeat Ogre siege (Level 28-35)"
+    - "Phase 7 (Rounds 49-54): Final Preparation - Maximum readiness"
+    - "Phase 8 (Rounds 55-58): Wave 4 - Survive Spectre assault (Level 35-40)"
+    - "Phase 9 (Rounds 59-62): Wave 5 - Defeat Ogre Lord (Level 40-45)"
+    - "Phase 10 (Rounds 63-65): Wave 6 - Survive Death Knight final assault (Level 45-50)"
+
+# Relevant game context
+relevant_game_context: |
+  DEFENSE OVERVIEW
+  - Nine defenders must hold the fortress at (~355,305) through six escalating waves with preparation breaks between phases.
+
+  PHASE QUICK GUIDE
+  1. R1-10 Setup: assign roles (3 frontline, 2 ranged, 1 support, 2 smiths, 1 commander), gather logs/ore/coal, craft heavy swords, bows, pickaxes, arrows, stock ~80 heals.
+  2. R11-18 Wave 1 (Goblins L10-15): verify HP, focus-fire each goblin. Heal to >=90% afterward.
+  3. R19-26 Reinforcement 1: gather extra materials, craft axes, silver rings, more arrows.
+  4. R27-34 Wave 2 (Skeletons L18-25): return to formation at full HP, burn down each skeleton.
+  5. R35-42 Reinforcement 2: mine gold, craft golden gear, stock heals to 100+.
+  6. R43-48 Wave 3 (Ogres L28-35): same tactics, announce knockbacks, support heals instantly.
+  7. R49-54 Final prep: maximize all equipment, healing to 120+.
+  8. R55-58 Wave 4 (Spectres L35-40): maintain formation, coordinate attacks.
+  9. R59-62 Wave 5 (Ogre Lord L40-45): focus-fire boss, all defenders support.
+  10. R63-65 Wave 6 (Death Knight L45-50): full HP, best gear, call out ability timings.
+
+  EXECUTION NOTES
+  - After every transfer/craft, run verify_inventory.
+  - Keep formation references in chat.
+# Limitations
+max_action_steps: 65
+
+# Agent configurations
+agent_1:
+  username: "DefenderGuard1"
+  new_character: true
+  location: {x: 352, y: 302}
+  skill_levels: {defense: 46, health: 56, strength: 42, mining: 32, smithing: 24}
+  inventory_items:
+    - {item: "flask", count: 38}
+    - {item: "apple", count: 44}
+    - {item: "hilt2", count: 3}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_2:
+  username: "DefenderGuard2"
+  new_character: true
+  location: {x: 355, y: 305}
+  skill_levels: {defense: 44, health: 54, strength: 40, mining: 30, smithing: 22}
+  inventory_items:
+    - {item: "flask", count: 38}
+    - {item: "apple", count: 42}
+    - {item: "hilt2", count: 2}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_3:
+  username: "DefenderGuard3"
+  new_character: true
+  location: {x: 354, y: 308}
+  skill_levels: {defense: 42, health: 52, strength: 38, mining: 28, smithing: 20}
+  inventory_items:
+    - {item: "flask", count: 36}
+    - {item: "apple", count: 40}
+    - {item: "hilt2", count: 1}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_4:
+  username: "DefenderArcher1"
+  new_character: true
+  location: {x: 358, y: 305}
+  skill_levels: {accuracy: 46, archery: 42, fletching: 36, health: 44, strength: 30}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 34}
+    - {item: "string", count: 10}
+    - {item: "feather", count: 25}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_5:
+  username: "DefenderArcher2"
+  new_character: true
+  location: {x: 360, y: 307}
+  skill_levels: {accuracy: 44, archery: 40, fletching: 34, health: 42, strength: 32}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 34}
+    - {item: "string", count: 10}
+    - {item: "feather", count: 25}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_6:
+  username: "DefenderCommander"
+  new_character: true
+  location: {x: 357, y: 305}
+  skill_levels: {strength: 42, defense: 38, accuracy: 38, health: 50, smithing: 25, crafting: 28}
+  inventory_items:
+    - {item: "flask", count: 34}
+    - {item: "apple", count: 40}
+    - {item: "hilt2", count: 2}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_7:
+  username: "DefenderMedic"
+  new_character: true
+  location: {x: 362, y: 307}
+  skill_levels: {crafting: 42, magic: 38, health: 44, strength: 30, smithing: 28}
+  inventory_items:
+    - {item: "flask", count: 32}
+    - {item: "apple", count: 36}
+    - {item: "bead", count: 4}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_8:
+  username: "DefenderSmith1"
+  new_character: true
+  location: {x: 365, y: 310}
+  skill_levels: {smithing: 42, crafting: 38, mining: 35, strength: 32, health: 42}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 36}
+    - {item: "hilt2", count: 2}
+    - {item: "bead", count: 2}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_9:
+  username: "DefenderSmith2"
+  new_character: true
+  location: {x: 368, y: 312}
+  skill_levels: {smithing: 40, crafting: 36, mining: 33, strength: 30, health: 40}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 36}
+    - {item: "hilt2", count: 1}
+    - {item: "bead", count: 2}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Phase 1 completed: Fortress prepared, defensive formation established"
+  - "Phase 1: Equipment crafted (6 swords, 3 bows, 4 pickaxes, 60 arrows)"
+  - "Phase 1: 80+ healing items stockpiled, all defenders equipped"
+  - "Phase 2 completed: Wave 1 defeated (Goblins Level 10-15)"
+  - "Phase 3 completed: Reinforcement successful (4 axes, 6 silver rings)"
+  - "Phase 4 completed: Wave 2 defeated (Skeletons Level 18-25)"
+  - "Phase 5 completed: Elite equipment crafted (gold rings, enhanced weapons)"
+  - "Phase 5: Healing supplies at 100+"
+  - "Phase 6 completed: Wave 3 defeated (Ogres Level 28-35)"
+  - "Phase 7 completed: Final preparation (maximum healing 120+)"
+  - "Phase 8 completed: Wave 4 defeated (Spectres Level 35-40)"
+  - "Phase 9 completed: Wave 5 defeated (Ogre Lord Level 40-45)"
+  - "Phase 10 completed: Wave 6 defeated (Death Knight Level 45-50)"
+  - "All 6 progressive waves defeated in sequence"
+  - "All 9 defenders survived entire 65-round siege with HP > 0"
+  - "Equipment progression: Basic -> Enhanced -> Elite -> Golden"
+  - "Formation discipline maintained throughout all waves"
+  - "Fortress siege defense completed: ULTIMATE VICTORY"

@@ -1,0 +1,195 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Extended 12-agent hexa-biome convergence
+
+task:
+  name: "Elemental Relay Ritual - Grand Hexa-Biome Convergence"
+  description: "Twelve adepts retrieve six elemental cores from distant biomes and perform a grand relay ritual at the Central Obelisk within 65 rounds."
+
+# Task objectives
+objectives:
+  primary: "Deliver Earth, Flame, Tide, Gale, Ice, and Shadow cores to the Central Obelisk (500,300) and channel them in sequence."
+  secondary:
+    - "Phase 1 (Rounds 1-12): Forest team secures the Earth core."
+    - "Phase 2 (Rounds 13-22): Desert team secures the Flame core."
+    - "Phase 3 (Rounds 23-32): Coastal team secures the Tide core."
+    - "Phase 4 (Rounds 33-42): Swamp team secures the Gale core."
+    - "Phase 5 (Rounds 43-52): Ice team secures the Ice core."
+    - "Phase 6 (Rounds 53-58): Shadow team secures the Shadow core."
+    - "Phase 7 (Rounds 59-65): Central relay completes handoffs and seals obelisk."
+
+# Relevant game context
+relevant_game_context: |
+  CORE RECIPES
+  - Earth core: gather beryl (mining) + string, craft berylpendant.
+  - Flame core: smelt goldbar, craft goldring for the core token.
+  - Tide core: fish rawtuna, cook, pair with lightningbead for tidal focus.
+  - Gale core: defeat swamp spectres for feather + bead, craft lightningstaff.
+  - Ice core: harvest icelogs + icebeads, craft icestaff.
+  - Shadow core: mine topaz + string, craft topazpendant.
+
+  RITUAL PROTOCOL
+  1. Biome teams (Agents 1-10) operate independently until cores are ready.
+  2. RelayCaptain (Agent 11) stands at (500,300) with baton (any staff).
+  3. ChantMedic (Agent 12) keeps RelayCaptain above 75% HP.
+  4. Every core arrives in sequence; each team runs a clockwise lap before handoff.
+  5. verify_inventory after each handoff.
+  6. complete() after all six cores rest at the obelisk.
+
+# Limitations
+max_action_steps: 65
+
+# Agent configurations
+agent_1:
+  username: "ForestBinder_83v2"
+  new_character: true
+  location: {x: 200, y: 200}
+  skill_levels: {lumberjacking: 36, crafting: 32, accuracy: 30, health: 34}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 16}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_2:
+  username: "EarthRunner_83v2"
+  new_character: true
+  location: {x: 205, y: 200}
+  skill_levels: {crafting: 34, magic: 32, mining: 30, health: 32}
+  inventory_items:
+    - {item: "string", count: 3}
+    - {item: "flask", count: 12}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "DesertFlame_83v2"
+  new_character: true
+  location: {x: 210, y: 200}
+  skill_levels: {lumberjacking: 32, smithing: 34, mining: 32, health: 34}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "pickaxe", count: 1, enchant: 0}
+
+agent_4:
+  username: "EmberCourier_83v2"
+  new_character: true
+  location: {x: 200, y: 205}
+  skill_levels: {smithing: 30, magic: 28, defense: 32, health: 32}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 12}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_5:
+  username: "CoastHarvester_83v2"
+  new_character: true
+  location: {x: 205, y: 205}
+  skill_levels: {fishing: 36, cooking: 32, accuracy: 32, health: 30}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "fishingpole", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_6:
+  username: "TideBearer_83v2"
+  new_character: true
+  location: {x: 210, y: 205}
+  skill_levels: {fishing: 34, crafting: 30, magic: 28, health: 30}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 12}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_7:
+  username: "SwampStrider_83v2"
+  new_character: true
+  location: {x: 200, y: 210}
+  skill_levels: {magic: 36, accuracy: 32, defense: 30, health: 32}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "manaflask", count: 10}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_8:
+  username: "GaleRunner_83v2"
+  new_character: true
+  location: {x: 205, y: 210}
+  skill_levels: {accuracy: 34, crafting: 30, strength: 28, health: 30}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 12}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_9:
+  username: "IceHarvester_83v2"
+  new_character: true
+  location: {x: 210, y: 210}
+  skill_levels: {lumberjacking: 34, crafting: 32, magic: 30, health: 32}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_10:
+  username: "ShadowSeeker_83v2"
+  new_character: true
+  location: {x: 200, y: 215}
+  skill_levels: {mining: 34, crafting: 32, accuracy: 30, health: 32}
+  inventory_items:
+    - {item: "string", count: 2}
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 12}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_11:
+  username: "RelayCaptain_83v2"
+  new_character: true
+  location: {x: 205, y: 215}
+  skill_levels: {magic: 38, crafting: 36, defense: 34, health: 38}
+  inventory_items:
+    - {item: "flask", count: 18}
+    - {item: "manaflask", count: 12}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_12:
+  username: "ChantMedic_83v2"
+  new_character: true
+  location: {x: 210, y: 215}
+  skill_levels: {magic: 36, crafting: 32, health: 36, defense: 32}
+  inventory_items:
+    - {item: "flask", count: 18}
+    - {item: "manaflask", count: 14}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Each biome team announces core completion with ingredient counts and verify_inventory snapshot"
+  - "Cores arrive at the obelisk in Earth → Flame → Tide → Gale → Ice → Shadow order"
+  - "Lap start/end messages accompany every handoff"
+  - "RelayCaptain never drops below 75% HP; ChantMedic documents any healing"
+  - "All six cores rest at the obelisk simultaneously"
+  - "No core or key ingredient remains in personal inventories when complete() is called"
+  - "Mission completes in 62-65 rounds"

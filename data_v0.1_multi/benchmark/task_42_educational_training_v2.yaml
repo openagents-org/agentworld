@@ -1,0 +1,148 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Combat training against Worker Ants
+
+task:
+  name: "Educational Training - Combat Skill Development"
+  description: "Three agents practice combat skills by defeating 4 Worker Ants"
+
+# Task objectives
+objectives:
+  primary: "Complete combat training by defeating 4 Worker Ants"
+  secondary: # checkpoints
+    - "Coordinate combat practice"
+    - "Complete training within 25 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a combat skill training scenario.
+
+  OBJECTIVE: Develop combat proficiency through coordinated practice.
+
+  MISSION REQUIREMENTS:
+  - Locate Worker Ants for training
+  - Practice coordinated combat tactics
+  - Defeat 4 Worker Ants as training exercise
+  - All trainees must participate
+
+  TEAM COORDINATION:
+  - Combat instructor leads the exercises
+  - Trainees practice attack coordination
+  - Share combat experience
+
+  COMBAT TRAINING:
+  🐜 Training Targets - Worker Ants:
+    - Level 46 creatures
+    - Good for combat practice
+    - Coordinate attacks for efficiency
+
+  DO NOT use complete() until training is complete!
+
+# Limitations
+max_action_steps: 25
+
+# Agent configurations
+agent_1:
+  username: "combat_instructor_agent"
+  new_character: true
+
+  location:
+    x: 280
+    y: 200
+
+  skill_levels:
+    strength: 45
+    accuracy: 40
+    health: 52
+    defense: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "healthpotion"
+      count: 8
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "melee_trainee_agent"
+  new_character: true
+
+  location:
+    x: 285
+    y: 205
+
+  skill_levels:
+    strength: 38
+    accuracy: 35
+    health: 45
+    defense: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+    - item: "healthpotion"
+      count: 6
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "magic_trainee_agent"
+  new_character: true
+
+  location:
+    x: 290
+    y: 210
+
+  skill_levels:
+    magic: 38
+    health: 44
+    accuracy: 34
+    defense: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+    - item: "manapotion"
+      count: 6
+
+  equipped_items:
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team defeats at least 4 Worker Ants"
+  - "All trainees participate in combat"
+  - "All agents survive training exercises"
+  - "Combat training completed successfully"

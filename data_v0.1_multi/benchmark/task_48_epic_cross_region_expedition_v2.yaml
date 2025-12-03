@@ -1,0 +1,165 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Two-region expedition (forest + mountain)
+
+task:
+  name: "Epic Cross-Region Expedition - Forest and Mountain Regions"
+  description: "Three agents complete expedition across forest and mountain regions"
+
+# Task objectives
+objectives:
+  primary: "Complete expedition: craft 1x magic staff (forest) and 1x axe (mountain)"
+  secondary: # checkpoints
+    - "Coordinate cross-region resource gathering"
+    - "Complete expedition within 35 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a two-region expedition scenario.
+
+  OBJECTIVE: Complete objectives in forest and mountain regions.
+
+  PHASE 1 - FOREST:
+  - Gather logs and craft sticks
+  - Craft 1x magic staff
+
+  PHASE 2 - MOUNTAIN:
+  - Mine iron ore and coal
+  - Smelt iron bars
+  - Craft 1x axe
+
+  TEAM COORDINATION:
+  - Leader coordinates both phases
+  - Craftsman handles all crafting
+  - Gatherer focuses on resources
+
+  STARTING RESOURCES:
+  - Leader has 1x bead
+  - Craftsman has smithinghammer
+  - Gatherer has 2x ironore + 2x coal
+
+  CRAFTING:
+  🔮 staff: 5x stick + 1x bead
+  🔨 axe: 3x ironbar + 1x logs
+
+  DO NOT use complete() until both items are crafted!
+
+# Limitations
+max_action_steps: 35
+
+# Agent configurations
+agent_1:
+  username: "expedition_leader_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 3
+
+  skill_levels:
+    lumberjacking: 25
+    mining: 20
+    fletching: 22
+    strength: 35
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "bead"
+      count: 1
+    - item: "logs"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "master_craftsman_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 5
+
+  skill_levels:
+    crafting: 28
+    smithing: 25
+    fletching: 22
+    strength: 30
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+
+  equipped_items:
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "resource_gatherer_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 38
+
+  skill_levels:
+    mining: 25
+    lumberjacking: 22
+    smithing: 20
+    strength: 38
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "ironore"
+      count: 2
+    - item: "coal"
+      count: 2
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team crafts 1x magic staff from forest resources"
+  - "Team smelts at least 3x ironbar"
+  - "Team crafts 1x axe from mountain resources"
+  - "Cross-region expedition completed"

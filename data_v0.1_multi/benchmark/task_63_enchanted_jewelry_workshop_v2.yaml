@@ -1,0 +1,136 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Extended 8-agent jewelry empire
+
+task:
+  name: "Enchanted Jewelry Workshop - Grand Gemstone Empire"
+  description: "Eight jewelry artisans gather rare gems, craft base jewelry, and create 20+ enchanted pieces"
+
+# Task objectives
+objectives:
+  primary: "Create complete jewelry collection: 20+ pieces including 8 rings, 7 pendants, 5 base items"
+  secondary:
+    - "Gem Hunt (Rounds 1-18): Hunt mobs and forage for 30+ gemstones"
+    - "Metal Works (Rounds 19-35): Mine and smelt metals for base jewelry"
+    - "Crafting (Rounds 36-52): Create all jewelry pieces"
+    - "Exhibition (Rounds 53-58): Display complete collection"
+
+# Context and guidance for agents
+relevant_game_context: |
+  WORKSHOP SNAPSHOT
+  - Eight artisans must finish 20 jewelry pieces (8 rings, 7 pendants, 5 base pieces) by Round 58. Gem hunters operate near (350,250), foragers in the western forest, metalsmiths mine in the mountains, and the Master Jewelers assemble everything at (528,384).
+
+  GAME PLAN
+  1. R1-18 Gem Hunt: Agents 1-2 farm goblins/skeletons for rubies/emeralds/topaz; Agents 3-4 forage beryl and string; Agents 5-6 mine gold/iron + coal.
+  2. R19-35 Delivery & Smelting: all gatherers converge on the hub, hand over materials via transfer_items. Metal team smelts 12 gold bars and 15 iron bars.
+  3. R36-52 Crafting: Master Jewelers craft base rings then upgrades with gemstones; pendants consume beryl/emerald/ruby + string.
+  4. R53-58 Exhibition: verify_inventory shows at least 20 finished pieces.
+
+  EXECUTION NOTES
+  - Transfer only within ~10 tiles and require both sender/receiver confirmations.
+  - Keep per-team checklists in chat so the jewelers know when materials are ready.
+# Limitations
+max_action_steps: 58
+
+# Agent configurations
+agent_1:
+  username: "Ruby_Hunter"
+  new_character: true
+  location: {x: 350, y: 250}
+  skill_levels: {strength: 45, accuracy: 40, health: 50}
+  inventory_items:
+    - {item: "flask", count: 32}
+    - {item: "apple", count: 38}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "Emerald_Hunter"
+  new_character: true
+  location: {x: 352, y: 252}
+  skill_levels: {strength: 42, accuracy: 38, health: 48}
+  inventory_items:
+    - {item: "flask", count: 32}
+    - {item: "apple", count: 38}
+  equipped_items:
+    - {item: "heavysword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "Beryl_Forager"
+  new_character: true
+  location: {x: 250, y: 350}
+  skill_levels: {foraging: 48, health: 38}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "String_Gatherer"
+  new_character: true
+  location: {x: 252, y: 352}
+  skill_levels: {foraging: 45, health: 36}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "Gold_Miner"
+  new_character: true
+  location: {x: 230, y: 38}
+  skill_levels: {mining: 48, strength: 35, health: 40}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "Metal_Artisan"
+  new_character: true
+  location: {x: 232, y: 40}
+  skill_levels: {mining: 45, smithing: 40, health: 38}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_7:
+  username: "Master_Jeweler"
+  new_character: true
+  location: {x: 528, y: 384}
+  skill_levels: {crafting: 55, smithing: 48, health: 35}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_8:
+  username: "Assistant_Jeweler"
+  new_character: true
+  location: {x: 530, y: 386}
+  skill_levels: {crafting: 50, smithing: 42, health: 33}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Gem Hunt: Collect 5 rubies, 5 emeralds, 3 topaz from mobs"
+  - "Gem Hunt: Forage 15 beryl and 15 string"
+  - "Metal Works: Mine and smelt 12 gold bars, 15 iron bars"
+  - "Crafting: Create 3 gold rings, 5 silver rings"
+  - "Crafting: Create 3 ruby rings, 2 topaz rings"
+  - "Crafting: Create 3 emerald pendants, 3 beryl pendants, 1 ruby pendant"
+  - "Total 20 jewelry pieces crafted"
+  - "Completed in 55-58 rounds"

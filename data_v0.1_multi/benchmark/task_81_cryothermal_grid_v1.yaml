@@ -1,0 +1,112 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simplified 6-agent dual-pylon energy project
+
+task:
+  name: "Cryothermal Grid Stabilization - Core Energy Project"
+  description: "Six specialists connect ice and lava resources by building two synchronized pylons"
+
+# Task objectives
+objectives:
+  primary: "Stabilize the cryothermal grid by collecting resources and activating pylons at 2 locations within 40 rounds"
+  secondary:
+    - "Phase 1 (Rounds 1-10): Ice squad harvests icelogs and icebeads"
+    - "Phase 2 (Rounds 11-20): Lava squad harvests bloodwoodlogs and firebeads"
+    - "Phase 3 (Rounds 21-30): Alloy squad mines and smelts 8 ironbar, crafts 2 silver ring connectors"
+    - "Phase 4 (Rounds 31-40): Assembly and activate two pylons"
+
+# Relevant game context
+relevant_game_context: |
+  WORKFLOW SNAPSHOT
+  - Agents 1-2 (Ice Stabilizers) harvest ice resources.
+  - Agents 3-4 (Lava Stabilizers) control heat vents and collect bloodwood + firebeads.
+  - Agents 5-6 (Metalworks) gather ores, smelt bars, craft staffs.
+
+  KEY TASK DETAILS
+  1. Ice squad harvests >=8 icelogs + >=2 icebeads.
+  2. Lava squad harvests >=8 bloodwoodlogs + >=2 firebeads.
+  3. Metalworks smelts 8 ironbar and crafts 2 silverring + 2 staffs.
+  4. Activate pylons at North and South positions.
+# Limitations
+max_action_steps: 40
+
+# Agent configurations
+agent_1:
+  username: "FrostArchitect_81v1"
+  new_character: true
+  location: {x: 500, y: 120}
+  skill_levels: {lumberjacking: 42, crafting: 28, strength: 26, health: 30}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 18}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "IceSurveyor_81v1"
+  new_character: true
+  location: {x: 505, y: 120}
+  skill_levels: {lumberjacking: 32, crafting: 24, magic: 24, health: 28}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 16}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_3:
+  username: "EmberMarshal_81v1"
+  new_character: true
+  location: {x: 500, y: 125}
+  skill_levels: {lumberjacking: 38, strength: 32, health: 33, defense: 28}
+  inventory_items:
+    - {item: "flask", count: 16}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_4:
+  username: "LavaWarden_81v1"
+  new_character: true
+  location: {x: 505, y: 125}
+  skill_levels: {lumberjacking: 30, defense: 36, strength: 30, health: 32}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "AlloyCommander_81v1"
+  new_character: true
+  location: {x: 500, y: 130}
+  skill_levels: {mining: 40, smithing: 36, crafting: 30, health: 33}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 16}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "GridPilot_81v1"
+  new_character: true
+  location: {x: 505, y: 130}
+  skill_levels: {crafting: 34, magic: 32, defense: 28, health: 30}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Ice Stabilizers harvest at least 8 icelogs + 2 icebeads"
+  - "Lava Stabilizers deliver 8 bloodwoodlogs + 2 firebeads"
+  - "AlloyCommander produces 8 ironbar and 2 silverring connectors"
+  - "Icestaff and firestaff crafted and assigned"
+  - "Both pylon activations broadcast with remaining resource counts"
+  - "Mission completes in 38-40 rounds"

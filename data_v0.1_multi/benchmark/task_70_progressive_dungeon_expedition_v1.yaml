@@ -1,0 +1,116 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simplified 5-agent 4-phase dungeon expedition
+
+task:
+  name: "Progressive Dungeon Expedition - Core Adventure"
+  description: "Five adventurers embark on a 4-phase dungeon expedition with equipment upgrades between exploration phases"
+
+# Task objectives
+objectives:
+  primary: "Complete a 4-phase progressive dungeon expedition spanning 40 rounds with equipment upgrades"
+  secondary:
+    - "Phase 1 (Rounds 1-10): Initial Preparation - Gather basic materials and craft starting equipment"
+    - "Phase 2 (Rounds 11-20): Dungeon Exploration - Scout dungeon and defeat low-level guardians"
+    - "Phase 3 (Rounds 21-30): Equipment Enhancement - Gather materials and craft superior gear"
+    - "Phase 4 (Rounds 31-40): Deep Dungeon - Explore deeper levels and defeat boss"
+
+# Relevant game context
+relevant_game_context: |
+  CAMPAIGN STRUCTURE (40 ROUNDS)
+  - Five adventurers must clear four sequential phases: prep gear -> dungeon exploration -> upgrades -> boss fight. Equipment and healing pools are upgraded between phases.
+
+  PHASE CHEAT-SHEET
+  1. R1-10 Preparation: gather 10 logs, 15 iron/coal, smelt 12 bars, craft starter weapons (heavy swords, axes) and amass 40+ heals.
+  2. R11-20 Exploration: move to dungeon area (~200,100), scout with observe_environment, defeat low-level mobs, log loot/HP.
+  3. R21-30 Enhancement: retreat to safe ground, gather extra materials, craft rings/arrows, restock heals to 60+.
+  4. R31-40 Boss fight: push through to boss chamber, defeat the dungeon boss with coordinated attacks.
+
+  EXECUTION NOTES
+  - Always verify_inventory before/after crafting, transfers, or phase transitions.
+  - Keep everyone within ~10 tiles during dungeon runs for coordinated healing.
+# Limitations
+max_action_steps: 40
+
+# Agent configurations
+agent_1:
+  username: "DungeonTank"
+  new_character: true
+  location: {x: 380, y: 290}
+  skill_levels: {defense: 38, strength: 33, health: 46, mining: 28, smithing: 18}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+    - {item: "hilt2", count: 2}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_2:
+  username: "DungeonDPS"
+  new_character: true
+  location: {x: 385, y: 292}
+  skill_levels: {strength: 42, accuracy: 36, health: 40, lumberjacking: 28, smithing: 14}
+  inventory_items:
+    - {item: "flask", count: 24}
+    - {item: "apple", count: 28}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_3:
+  username: "DungeonRanger"
+  new_character: true
+  location: {x: 382, y: 300}
+  skill_levels: {accuracy: 42, archery: 38, health: 36, fletching: 28, strength: 26}
+  inventory_items:
+    - {item: "flask", count: 20}
+    - {item: "apple", count: 24}
+    - {item: "string", count: 4}
+    - {item: "feather", count: 12}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_4:
+  username: "DungeonSupport"
+  new_character: true
+  location: {x: 392, y: 305}
+  skill_levels: {magic: 38, crafting: 32, health: 36, strength: 26, smithing: 22}
+  inventory_items:
+    - {item: "flask", count: 26}
+    - {item: "apple", count: 30}
+    - {item: "bead", count: 2}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_5:
+  username: "DungeonCrafter"
+  new_character: true
+  location: {x: 388, y: 298}
+  skill_levels: {crafting: 40, smithing: 35, fletching: 28, health: 34, mining: 25}
+  inventory_items:
+    - {item: "flask", count: 24}
+    - {item: "apple", count: 28}
+    - {item: "hilt2", count: 1}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Phase 1 completed: Team gathers 10+ logs, mines 15+ iron ore and coal, crafts 12+ iron bars"
+  - "Phase 1: Team crafts 2x Heavy Swords, 1x Axe, 1x Wooden Bow"
+  - "Phase 1: All agents equipped with weapons, 40+ healing items stockpiled"
+  - "Phase 2 completed: Team explores dungeon, defeats 2 guardian mobs"
+  - "Phase 2: Dungeon scouted, safe paths identified, loot collected"
+  - "Phase 3 completed: Team gathers enhancement materials"
+  - "Phase 3: Team crafts protective equipment (2x Silver Rings, 20+ arrows)"
+  - "Phase 3: Healing supplies increased to 60+ total"
+  - "Phase 4 completed: Team explores deep dungeon chambers"
+  - "Phase 4: Dungeon boss defeated (Level 25-30)"
+  - "All 4 phases completed in proper sequence over 38-40 rounds"
+  - "All 5 agents survive entire expedition with HP > 0"

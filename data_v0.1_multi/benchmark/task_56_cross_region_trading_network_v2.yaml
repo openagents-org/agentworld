@@ -1,0 +1,286 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Cross-Region Trading Network - Extended 8-Agent Trade Empire"
+  description: "Eight agents establish an extensive trading network across six different regions, gathering unique resources and consolidating them for advanced crafting"
+
+# Task objectives
+objectives:
+  primary: "Establish a cross-region trading network to gather resources from 6 different biomes and craft 4x Golden Rings, 3x Lightning Staffs, and 2x Heavy Swords"
+  secondary:
+    - "Phase 1 (Rounds 1-18): Regional Resource Gathering - Each team gathers biome-specific resources"
+    - "Phase 2 (Rounds 19-35): Cross-Region Travel & Trading - Consolidate materials with designated crafters"
+    - "Phase 3 (Rounds 36-50): Collaborative Crafting - Create intermediate and final items"
+    - "Phase 4 (Rounds 51-58): Final Assembly & Verification - Complete all crafting objectives"
+
+# Context and guidance for agents
+relevant_game_context: |
+  GOAL SNAPSHOT
+  - Eight agents operate in four pods: Forest (logs), Mountain (gold ore + coal), Coast (beads + lightningbeads), and a central crafting trio. After gathering, everyone meets at (528,384) to smelt/craft: 4 gold rings, 3 lightning staffs, and 2 heavy swords within ~58 rounds.
+
+  PHASE OUTLINE
+  1. R1-18 Gather
+     • Forest pair harvest 20 logs and convert some to sticks if time permits.
+     • Mountain pair mine ≥12 gold ore and ≥14 coal.
+     • Coastal runners forage 8 beads and hunt until 3 lightningbeads drop.
+  2. R19-35 Travel + Transfers
+     • Pods hop ≤32 tiles per move toward the hub, posting coordinates after each hop.
+     • Transfer order: Forest → Crafter_Magic (logs), Mountain → Crafter_Gold (ore/coal), Coast → Crafter_Magic (beads). Each transfer uses transfer_items with verify_inventory confirmations logged in chat.
+  3. R36-50 Crafting
+     • Crafter_Gold smelts goldbar (goldore+coal) then crafts 4 goldrings and, once ironbars exist, 2 sword2 (Heavy Swords).
+     • Crafter_Magic turns logs into sticks, crafts 3 staffs, then upgrades them with lightningbeads into 3 lightningstaffs.
+  4. R51-58 Verification
+     • All crafters list their finished items, distribute them if desired, and summarize the campaign before calling complete().
+
+  EXECUTION NOTES
+  - When observe_environment is missing, sweep the listed coordinate bands manually and rely on harvest_resource/attack_entity success plus inventory checks for feedback.
+  - Keep one chat thread for resource totals ("Forest logs 15/20", "Gold bars 6/8") so the hub knows when to expect deliveries.
+  - If lightningbeads prove stubborn, log every attempt; two beads is acceptable for minimum success, but try for three.
+
+  COMPLETION CHECKLIST
+  - Verified inventories show: 4 goldrings, 3 lightningstaffs, 2 heavy swords.
+  - Each pod states its final contribution via chat, then the designated leader calls complete() with a short phase summary.
+# Limitations
+max_action_steps: 58
+
+# Agent configurations
+agent_1:
+  username: "Forest_Gatherer_1"
+  new_character: true
+
+  location:
+    x: 180
+    y: 200
+
+  skill_levels:
+    lumberjacking: 30
+    strength: 20
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "Forest_Gatherer_2"
+  new_character: true
+
+  location:
+    x: 185
+    y: 200
+
+  skill_levels:
+    lumberjacking: 25
+    strength: 20
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "Mountain_Miner_1"
+  new_character: true
+
+  location:
+    x: 190
+    y: 200
+
+  skill_levels:
+    mining: 35
+    strength: 25
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "ironbar"
+      count: 4
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "Mountain_Miner_2"
+  new_character: true
+
+  location:
+    x: 180
+    y: 205
+
+  skill_levels:
+    mining: 30
+    strength: 25
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "Coastal_Forager_1"
+  new_character: true
+
+  location:
+    x: 185
+    y: 205
+
+  skill_levels:
+    foraging: 25
+    accuracy: 20
+    strength: 25
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "Coastal_Forager_2"
+  new_character: true
+
+  location:
+    x: 190
+    y: 205
+
+  skill_levels:
+    foraging: 25
+    accuracy: 22
+    strength: 23
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "Crafter_Gold"
+  new_character: true
+
+  location:
+    x: 180
+    y: 210
+
+  skill_levels:
+    smithing: 40
+    crafting: 25
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "hilt2"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "Crafter_Magic"
+  new_character: true
+
+  location:
+    x: 185
+    y: 210
+
+  skill_levels:
+    crafting: 45
+    fletching: 35
+    magic: 30
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "Phase 1: Forest Team gathers 20+ logs from Western Forest region"
+  - "Phase 1: Mountain Team mines 12+ gold ore and 14+ coal from Northern Mountains"
+  - "Phase 1: Coastal Team forages 8+ beads and obtains 3+ lightningbead from Eastern Coast"
+  - "Phase 2: All teams travel to Central Hub (528, 384) covering 1200+ total tiles"
+  - "Phase 2: Teams execute sequential transfer protocol without deadlocks"
+  - "Phase 2: Crafter_Gold receives 12 gold ore, 14 coal, maintains 2 hilt2"
+  - "Phase 2: Crafter_Magic receives 20 logs, 8 beads, 3 lightningbead"
+  - "Phase 3: Crafter_Gold smelts 8+ gold bars from gold ore and coal"
+  - "Phase 3: Crafter_Magic crafts 16+ sticks from logs"
+  - "Phase 3: Crafter_Gold crafts exactly 4x Gold Rings from gold bars"
+  - "Phase 3: Crafter_Magic crafts 3x Magic Staffs from sticks and beads"
+  - "Phase 3: Crafter_Magic upgrades 3x Magic Staffs to Lightning Staffs"
+  - "Phase 3: Crafter_Gold crafts 2x Heavy Swords from iron bars and hilts"
+  - "Phase 4: Final verification confirms 4 gold rings, 3 lightning staffs, 2 heavy swords"
+  - "All agents use chat extensively throughout all 4 phases for coordination"
+  - "All transfers completed successfully using transfer_items function"
+  - "Task completed in 55-58 rounds demonstrating efficient cross-region coordination"
+  - "Trading network successfully established across 6 different biomes"

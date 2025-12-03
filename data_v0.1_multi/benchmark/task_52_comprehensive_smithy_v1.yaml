@@ -1,0 +1,186 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simplified 4-smith operation with reduced output
+
+task:
+  name: "Comprehensive Smithy Operations - Four-Smith Metalworking Pipeline"
+  description: "Four specialized smiths work together to establish a metalworking operation from raw ore extraction through equipment production"
+
+# Task objectives
+objectives:
+  primary: "Establish a four-smith metalworking operation producing tools and weapons for the team"
+  secondary: # checkpoints
+    - "Coordinate four-smith specialization and role assignment"
+    - "Execute complete ore-to-equipment production pipeline"
+    - "Produce diverse equipment types: tools and weapons"
+    - "Complete equipment production within 30 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  OVERVIEW
+  - Four smiths split the ore→bar→equipment pipeline. MasterMiner feeds ores, SmeltingMaster turns them into bars, ToolForge builds pickaxe and axe, WeaponForge crafts heavy sword. Target output in 30 rounds: 1 pickaxe, 1 axe, 1 sword2, and 2 silverrings.
+
+  FLOW BY ROLE
+  1. MasterMiner (230,38): harvest_resource iron/coal (≥10 each), reporting totals in chat. When ready, travel to the smelter's hut (260,184) and transfer the entire haul.
+  2. SmeltingMaster: craft_item(Smelting, ironbar) until ~14 bars exist. Hand out bars in batches: 8→ToolForge, 4→WeaponForge (2 for sword, 2 for silverring).
+  3. ToolForge: gather a few logs, craft one pickaxe (5 bars + log) then one axe (3 bars + log). Confirm outputs before requesting more bars.
+  4. WeaponForge: already has one hilt2; combine with 2 ironbars to forge one sword2, then craft 2 silverrings (2 bars each).
+
+  COORDINATION NOTES
+  - Transfers must occur within ~10 tiles using transfer_items; both sides run verify_inventory and acknowledge via chat.
+  - Every craft or smelt should be announced ("SmeltingMaster: iron bars 6/14"). Keep a running checklist of produced items so all divisions know when they are done.
+
+  COMPLETION CHECK
+  - Inventory review shows: 1 pickaxe, 1 axe, 1 sword2, and 2 silverrings. Each role states "Division complete – holding X".
+  - Final chat message summarizes total equipment before any agent calls complete().
+# Limitations
+max_action_steps: 30
+
+# Agent configurations
+agent_1:
+  username: "MasterMiner"
+  new_character: true
+
+  location:
+    x: 230
+    y: 38
+
+  skill_levels:
+    mining: 35
+    strength: 40
+    health: 35
+    defense: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "ironore"
+      count: 2
+    - item: "coal"
+      count: 2
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "SmeltingMaster"
+  new_character: true
+
+  location:
+    x: 260
+    y: 184
+
+  skill_levels:
+    smithing: 40
+    mining: 20
+    strength: 30
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "ironore"
+      count: 2
+    - item: "coal"
+      count: 3
+
+  equipped_items:
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "ToolForgeSpecialist"
+  new_character: true
+
+  location:
+    x: 232
+    y: 175
+
+  skill_levels:
+    smithing: 25
+    lumberjacking: 25
+    strength: 30
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "logs"
+      count: 2
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "WeaponForgeSpecialist"
+  new_character: true
+
+  location:
+    x: 235
+    y: 177
+
+  skill_levels:
+    smithing: 30
+    strength: 35
+    accuracy: 25
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "hilt2"
+      count: 1
+
+  equipped_items:
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "MasterMiner successfully extracts all required ores"
+  - "SmeltingMaster successfully smelts all required metal bars"
+  - "ToolForgeSpecialist successfully crafts 1x pickaxe and 1x axe"
+  - "WeaponForgeSpecialist successfully crafts 1x heavy sword and 2x silverrings"
+  - "All four divisions coordinate effectively using global chat"
+  - "Resources flow efficiently from mining → smelting → crafting"
+  - "Complete equipment sets are produced"
+  - "Minimum 5 total equipment pieces are crafted"
+  - "All four smiths demonstrate specialized expertise"
+  - "Smithy operations completed within 30 rounds"

@@ -1,0 +1,352 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Grand Jewelry Expedition - Extended 10-Agent Gemstone Empire"
+  description: "Ten agents coordinate an extensive expedition involving mob hunting, gemstone gathering, ore mining, and large-scale jewelry crafting"
+
+# Task objectives
+objectives:
+  primary: "Complete a 5-stage jewelry production expedition creating 3x Ruby Rings, 3x Emerald Pendants, 2x Topaz Rings, and 3x Beryl Pendants"
+  secondary:
+    - "Stage 1 (Rounds 1-15): Mob Hunting Brigade - Hunt specific mobs for gem drops"
+    - "Stage 2 (Rounds 16-25): Mining Operations - Extract gold and special ores"
+    - "Stage 3 (Rounds 26-40): Intermediate Crafting - Create base rings and gather materials"
+    - "Stage 4 (Rounds 41-55): Sequential Jewelry Assembly - Craft all pendants and rings"
+    - "Stage 5 (Rounds 56-60): Quality Control & Distribution - Verify and distribute jewelry"
+
+# Context and guidance for agents
+relevant_game_context: |
+  EXPEDITION OVERVIEW
+  - Ten specialists complete five stages in ~60 rounds to deliver: 3 rubyring, 3 emeraldpendant, 3 berylpendant, 2 topazring. Hunters gather gemstones, miners collect gold + coal + string, and jewelers craft everything at the mountain rendezvous (~230,38).
+
+  STAGE SUMMARY
+  1. R1-15 Mob hunting & foraging (Agents 1-4)
+     • Ruby_Hunter_1 and Ruby_Hunter_2: chase lvl 15–20 mobs near (350,250) until 3 rubies drop.
+     • Gem_Hunter: secure 3 emerald + 2 topaz; switch mob types if drops stall.
+     • Combat_Support: forage 3 beryl, then assist kills and consolidate all gems via transfer_items.
+  2. R16-25 Mining (Agents 5-6)
+     • Gold_Miner extracts ≥8 gold ore; Coal_Miner gathers ≥10 coal and 6 string.
+     • Rather than dragging ore to the hub, have Smelter travel toward the mines for pickup.
+  3. R26-40 Transit & smelting
+     • Smelter reaches the mines, smelts 8 goldbars → crafts 5 goldrings.
+     • Jewelers (Agents 8-10) march from (528,384) toward the mines while Combat_Support carries the gems there.
+  4. R41-55 Jewelry assembly at the mountain camp
+     • Once all crafters are co-located, run a quick transfer log.
+     • Jeweler_Rings crafts 3 rubyring + 2 topazring; Jeweler_Pendants crafts 3 emeraldpendant + 3 berylpendant.
+  5. R56-60 Quality control
+     • Each crafter verify_inventory and broadcast holdings; distribute finished pieces if desired.
+
+  EXECUTION NOTES
+  - Use ≤32-tile move_character hops, announcing coordinates at each checkpoint so the team can converge.
+  - attack_entity handles combat; heal whenever HP < 60%.
+  - Keep a shared checklist in chat ("Rubies 2/3, Gold ore 6/8 …") so jewelers know when to start walking.
+
+  COMPLETION
+  - Before complete(), list final inventory totals for all eleven jewelry pieces and note which agent carries each.
+# Limitations
+max_action_steps: 60
+
+# Agent configurations
+agent_1:
+  username: "Ruby_Hunter_1"
+  new_character: true
+
+  location:
+    x: 180
+    y: 200
+
+  skill_levels:
+    strength: 40
+    accuracy: 35
+    health: 50
+    defense: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "Ruby_Hunter_2"
+  new_character: true
+
+  location:
+    x: 185
+    y: 200
+
+  skill_levels:
+    strength: 38
+    accuracy: 35
+    health: 48
+    defense: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "Gem_Hunter"
+  new_character: true
+
+  location:
+    x: 190
+    y: 200
+
+  skill_levels:
+    strength: 38
+    accuracy: 40
+    health: 45
+    defense: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "Combat_Support"
+  new_character: true
+
+  location:
+    x: 195
+    y: 200
+
+  skill_levels:
+    strength: 35
+    foraging: 35
+    health: 45
+    defense: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "Gold_Miner"
+  new_character: true
+
+  location:
+    x: 180
+    y: 205
+
+  skill_levels:
+    mining: 45
+    strength: 30
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "Coal_Miner"
+  new_character: true
+
+  location:
+    x: 185
+    y: 205
+
+  skill_levels:
+    mining: 30
+    foraging: 25
+    strength: 28
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "Smelter"
+  new_character: true
+
+  location:
+    x: 190
+    y: 205
+
+  skill_levels:
+    smithing: 35
+    crafting: 25
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "Jeweler_Rings"
+  new_character: true
+
+  location:
+    x: 180
+    y: 210
+
+  skill_levels:
+    crafting: 50
+    smithing: 30
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "Jeweler_Pendants"
+  new_character: true
+
+  location:
+    x: 185
+    y: 210
+
+  skill_levels:
+    crafting: 45
+    fletching: 25
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "Coordinator"
+  new_character: true
+
+  location:
+    x: 190
+    y: 210
+
+  skill_levels:
+    crafting: 30
+    health: 30
+    strength: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "string"
+      count: 3
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "Stage 1: Hunting Brigade kills 20+ mobs for gemstone drops"
+  - "Stage 1: Collected 3 rubies from mob drops (Ruby_Hunters)"
+  - "Stage 1: Collected 3 emeralds and 2 topaz from mob drops (Gem_Hunter)"
+  - "Stage 1: Foraged 3 beryl gemstones (Combat_Support)"
+  - "Stage 1: All gemstones consolidated with Combat_Support"
+  - "Stage 2: Mined 8+ gold ore from Northern Mountains (Gold_Miner)"
+  - "Stage 2: Mined 10+ coal from Northern Mountains (Coal_Miner)"
+  - "Stage 2: Foraged 6+ string for pendant crafting (Coal_Miner)"
+  - "Stage 2: Smelter travels to mountains and receives materials"
+  - "Stage 3: Smelter smelts 8 gold bars from gold ore and coal"
+  - "Stage 3: Smelter crafts 5 gold rings from 10 gold bars"
+  - "Stage 3: Jewelers travel 450+ tiles from hub to mountains"
+  - "Stage 3: Combat_Support delivers all gemstones to mountains"
+  - "Stage 4: All 10 agents converge at Northern Mountains region"
+  - "Stage 4: Materials distributed correctly to both jewelers"
+  - "Stage 4: Jeweler_Rings crafts 3 ruby rings using 3 rubies and 3 gold rings"
+  - "Stage 4: Jeweler_Rings crafts 2 topaz rings using 2 topaz and 2 gold rings"
+  - "Stage 4: Jeweler_Pendants crafts 3 emerald pendants using 3 emeralds and 3 strings"
+  - "Stage 4: Jeweler_Pendants crafts 3 beryl pendants using 3 beryls and 3 strings"
+  - "Stage 5: Final verification confirms all 11 jewelry pieces"
+  - "All agents use chat extensively for stage coordination"
+  - "Sequential stage execution without deadlocks"
+  - "Expedition completed in 57-60 rounds"
+  - "All agents survive the expedition with HP > 0"

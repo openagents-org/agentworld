@@ -1,0 +1,157 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Reduced targets, agents start with some resources
+
+task:
+  name: "Resource Protection Mission - Quick Guardian Defense"
+  description: "Three agents work together where one guardian protects two collectors from threats while they gather resources"
+
+# Task objectives
+objectives:
+  primary: "Successfully protect collectors while they gather 3x logs and 2x blueberry under combat conditions"
+  secondary: # checkpoints
+    - "Establish effective team communication for threat alerts"
+    - "Guardian successfully defends team from hostile creatures"
+    - "Complete resource gathering without casualties within 20 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent protection scenario requiring tactical coordination.
+
+  OBJECTIVE: Successfully gather required resources while protecting the team from environmental threats.
+
+  MISSION REQUIREMENTS:
+  - Collect 3x logs and 2x blueberry while under potential threat
+  - Keep all team members alive throughout the mission
+  - Use teamwork to balance resource gathering with security
+
+  TEAM COORDINATION:
+  - Establish communication protocols for threat detection and warnings
+  - Coordinate movements between protection and resource gathering
+  - Share information about resource locations and environmental dangers
+  - Work together to ensure both safety and mission success
+
+  GENERAL STRATEGY:
+  - Collectors already have some starting resources
+  - The team has complementary roles in combat, lumberjacking, and foraging
+  - Environmental threats may appear and must be dealt with appropriately
+  - Balance efficiency with safety - casualties will cause mission failure
+  - Use global chat for real-time coordination and threat alerts
+
+  DO NOT use complete() until ALL objectives are achieved safely!
+
+  COMBAT MECHANICS (CRITICAL KNOWLEDGE):
+  🏹 Combat - Attack threats:
+    - Use observe_environment to detect hostile creatures
+    - Use attack command on hostile targets
+    - Use bow for ranged combat advantage
+
+  🪵 Lumberjacking - logs:
+    - harvest_resource on oak tree instances to get logs
+    - Level required: 1+ (Lumberjacking skill)
+    - Target: 3x logs total
+    - IMPORTANT: Look for "Oak" trees, NOT "Willow" trees!
+
+  🫐 Foraging - blueberry:
+    - harvest_resource on blueberry instances
+    - Level required: 1+ (Foraging skill)
+    - Target: 2x blueberry total
+    - IMPORTANT: Look for "Blueberry" bushes, NOT rocks or trees!
+
+# Limitations
+max_action_steps: 20
+
+# Agent configurations
+agent_1:
+  username: "guardian_agent"
+  new_character: true
+
+  location:
+    x: 180
+    y: 200
+
+  skill_levels:
+    archery: 25
+    fletching: 15
+    strength: 20
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 18
+    - item: "arrow"
+      count: 50
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+
+
+agent_2:
+  username: "lumber_collector_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 3
+
+  skill_levels:
+    lumberjacking: 25
+    defense: 10
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 18
+    - item: "logs"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+
+agent_3:
+  username: "forager_collector_agent"
+  new_character: true
+
+  location:
+    x: 190
+    y: 200
+
+  skill_levels:
+    foraging: 15
+    defense: 10
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 18
+    - item: "blueberry"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+
+# Success criteria
+success_criteria:
+  - "lumber_collector_agent has at least 3x logs in inventory"
+  - "forager_collector_agent has at least 2x blueberry in inventory"
+  - "All agents remain alive throughout the mission"
+  - "Guardian successfully protects team from threats"

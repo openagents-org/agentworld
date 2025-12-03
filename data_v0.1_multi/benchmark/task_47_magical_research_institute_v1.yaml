@@ -1,0 +1,115 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Craft one base magic staff only
+
+task:
+  name: "Magical Research Institute - Basic Staff Creation"
+  description: "Two agents gather materials and craft 1x base magic staff"
+
+# Task objectives
+objectives:
+  primary: "Gather materials and craft 1x magic staff"
+  secondary: # checkpoints
+    - "Coordinate material gathering and staff crafting"
+    - "Complete staff creation within 20 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a simplified staff creation scenario.
+
+  OBJECTIVE: Create one base magic staff.
+
+  MISSION REQUIREMENTS:
+  - Gather 2x logs (for 8x sticks)
+  - Craft 5x sticks (need 5 for 1 staff)
+  - Obtain 1x bead (already have)
+  - Craft 1x magic staff
+
+  TEAM COORDINATION:
+  - Gatherer collects logs and makes sticks
+  - Crafter assembles the staff with bead
+
+  CRAFTING RECIPES:
+  🪄 Fletching - stick:
+    - 1x logs → 4x stick
+
+  🔮 Crafting - staff:
+    - craft_item skill=Crafting itemKey=staff
+    - Materials: 5x stick + 1x bead → 1x staff
+
+  DO NOT use complete() until staff is crafted!
+
+# Limitations
+max_action_steps: 20
+
+# Agent configurations
+agent_1:
+  username: "material_gatherer_agent"
+  new_character: true
+
+  location:
+    x: 0
+    y: 100
+
+  skill_levels:
+    lumberjacking: 25
+    fletching: 20
+    strength: 32
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "logs"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "staff_crafter_agent"
+  new_character: true
+
+  location:
+    x: 2
+    y: 100
+
+  skill_levels:
+    crafting: 28
+    magic: 25
+    fletching: 18
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "bead"
+      count: 1
+    - item: "stick"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team gathers at least 2x logs"
+  - "Team crafts at least 5x sticks"
+  - "staff_crafter_agent crafts 1x staff"
+  - "Basic staff creation completed"

@@ -1,0 +1,157 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+
+task:
+  name: "Grand Citadel Construction - Wilderness Fortress"
+  description: "A massive 20-agent operation to establish a fortress in the dangerous Wilderness. Teams must coordinate resource gathering, construction, and defense against high-level threats."
+
+objectives:
+  primary: "Construct the Citadel Foundation by gathering resources, processing materials, and securing the perimeter."
+  secondary:
+    - "Resource Team: Gather 50 Logs and 50 Iron Ore"
+    - "Construction Team: Smelt 50 Iron Bars and consolidate construction materials"
+    - "Defense Team: Defeat 7 High-Level Mimics (Level 84) to secure the area"
+    - "Consolidate all final materials (50 Iron Bars, 50 Logs) into the Site Foreman's inventory (Builder_1)"
+
+relevant_game_context: |
+  OPERATION CITADEL COMMAND
+
+  Teams and Roles:
+  1. RESOURCE TEAM (Agents 1-8):
+     - Primary Goal: Gather raw materials.
+     - Targets: Oak Trees (Logs) and Iron Deposits (Iron Ore).
+     - Warning: Do not engage combat unless attacked. Flee to Defense Team if targeted.
+
+  2. CONSTRUCTION TEAM (Agents 9-14):
+     - Primary Goal: Process materials and Logistics.
+     - Task: Receive Iron Ore from Resource Team -> Smelt into Iron Bars.
+     - Task: Consolidate all Logs and Iron Bars with Builder_1 (Site Foreman).
+     - Location: Establish a safe 'Smithing Zone' behind the Defense Team.
+
+  3. DEFENSE TEAM (Agents 15-20):
+     - Primary Goal: Perimeter Defense.
+     - Task: Patrol the immediate area (Radius 5 tiles).
+     - Task: Intercept and eliminate Mimics (Level 84).
+     - Strategy: Focus fire! Do not fight 1v1. Use 'attack_mob' on the same target.
+
+  COORDINTATION PROTOCOLS:
+  - TRANSFERS: Resource Team must frequently drop off materials to Construction Team to stay light and safe.
+  - COMBAT: Defense Team must announce targets ("Attacking Mimic ID 123").
+  - REPORTING: Builder_1 must announce total consolidated materials every 5 rounds.
+
+  CRITICAL SUCCESS PATH:
+  1. Rounds 1-18: Resource gathering and Perimeter setup.
+  2. Rounds 19-40: Smelting operations and Defensive skirmishes.
+  3. Rounds 41-55: Final consolidation and verification.
+  4. Rounds 56-65: Final headcount and complete().
+
+  DANGER: This is a High-Level Wilderness (Region 4-7). Mobs are Level 84.
+  - Resource/Construction agents: STAY BEHIND THE GUARDS.
+  - Guards: Keep HP > 60%. Use food/flasks liberally.
+
+limitations:
+  max_action_steps: 65
+
+# RESOURCE TEAM (1-8)
+agent_1: &resource_agent
+  username: "Citadel_Miner_1"
+  new_character: true
+  location: {x: 430, y: 730}
+  skill_levels: {mining: 58, lumberjacking: 58, strength: 48, health: 48}
+  inventory_items: [{item: "flask", count: 18}, {item: "apple", count: 18}]
+  equipped_items: [{item: "pickaxe", count: 1}, {item: "axe", count: 1}, {item: "leatherarmor", count: 1}]
+agent_2:
+  <<: *resource_agent
+  username: "Citadel_Miner_2"
+  location: {x: 431, y: 730}
+agent_3:
+  <<: *resource_agent
+  username: "Citadel_Miner_3"
+  location: {x: 432, y: 730}
+agent_4:
+  <<: *resource_agent
+  username: "Citadel_Miner_4"
+  location: {x: 433, y: 730}
+agent_5:
+  <<: *resource_agent
+  username: "Citadel_Miner_5"
+  location: {x: 434, y: 730}
+agent_6:
+  <<: *resource_agent
+  username: "Citadel_Miner_6"
+  location: {x: 430, y: 731}
+agent_7:
+  <<: *resource_agent
+  username: "Citadel_Miner_7"
+  location: {x: 431, y: 731}
+agent_8:
+  <<: *resource_agent
+  username: "Citadel_Miner_8"
+  location: {x: 432, y: 731}
+
+# CONSTRUCTION TEAM (9-14)
+agent_9: &builder_agent
+  username: "Citadel_Builder_1"
+  new_character: true
+  location: {x: 435, y: 730}
+  skill_levels: {smithing: 68, crafting: 68, strength: 48, health: 48}
+  inventory_items: [{item: "coal", count: 45}, {item: "flask", count: 18}, {item: "apple", count: 18}]
+  equipped_items: [{item: "heavysword", count: 1}, {item: "platearmor", count: 1}]
+agent_10:
+  <<: *builder_agent
+  username: "Citadel_Builder_2"
+  location: {x: 436, y: 730}
+agent_11:
+  <<: *builder_agent
+  username: "Citadel_Builder_3"
+  location: {x: 437, y: 730}
+agent_12:
+  <<: *builder_agent
+  username: "Citadel_Builder_4"
+  location: {x: 435, y: 731}
+agent_13:
+  <<: *builder_agent
+  username: "Citadel_Builder_5"
+  location: {x: 436, y: 731}
+agent_14:
+  <<: *builder_agent
+  username: "Citadel_Builder_6"
+  location: {x: 437, y: 731}
+
+# DEFENSE TEAM (15-20)
+agent_15: &guard_agent
+  username: "Citadel_Guard_1"
+  new_character: true
+  location: {x: 440, y: 730}
+  skill_levels: {strength: 78, defense: 78, health: 88, accuracy: 72}
+  inventory_items: [{item: "flask", count: 38}, {item: "apple", count: 38}]
+  equipped_items: [{item: "goldensword", count: 1}, {item: "platearmor", count: 1}, {item: "goldboots", count: 1}]
+agent_16:
+  <<: *guard_agent
+  username: "Citadel_Guard_2"
+  location: {x: 441, y: 730}
+agent_17:
+  <<: *guard_agent
+  username: "Citadel_Guard_3"
+  location: {x: 442, y: 730}
+agent_18:
+  <<: *guard_agent
+  username: "Citadel_Guard_4"
+  location: {x: 440, y: 731}
+agent_19:
+  <<: *guard_agent
+  username: "Citadel_Guard_5"
+  location: {x: 441, y: 731}
+agent_20:
+  <<: *guard_agent
+  username: "Citadel_Guard_6"
+  location: {x: 442, y: 731}
+
+success_criteria:
+  - "Resource Team gathers at least 50 Logs total"
+  - "Resource Team gathers at least 50 Iron Ore total"
+  - "Construction Team smelts at least 50 Iron Bars (using Coal provided + gathered Ore)"
+  - "Defense Team defeats at least 7 Level 84 Mimics"
+  - "Citadel_Builder_1 (Foreman) holds 50 Iron Bars and 50 Logs at the end"
+  - "All 20 agents survive the operation"
+  - "Team communicates coordinates of threats and resource deposits"

@@ -1,0 +1,118 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Staff already crafted, just need to defeat boss
+
+task:
+  name: "Magical Academy Defense - Quick Boss Battle"
+  description: "Two agents work together with pre-crafted lightning staff to defeat the Ice Wizard"
+
+# Task objectives
+objectives:
+  primary: "Successfully defeat the Ice Wizard in coordinated magical combat"
+  secondary: # checkpoints
+    - "Locate and engage Ice Wizard boss"
+    - "Complete boss battle victory within 20 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a simplified magical defense scenario with pre-crafted equipment.
+
+  OBJECTIVE: Defeat the Ice Wizard using pre-crafted lightning staff.
+
+  CRITICAL: Equipment already available!
+  - battle_mage_agent already has lightningstaff equipped
+  - Team is ready for immediate combat engagement
+
+  TEAM COORDINATION:
+  - Locate Ice Wizard near magical areas (400-420, 300-320)
+  - Coordinate magical and physical attacks
+  - Defeat the Ice Wizard boss
+
+  COMBAT KNOWLEDGE:
+  🧙‍♂️ Combat - Ice Wizard:
+    - Search for Ice Wizard in magical regions
+    - Ice Wizards are high-level magical bosses
+    - Coordinate attacks for maximum effectiveness
+    - Expect 150+ HP and freezing attacks
+
+  DO NOT use complete() until Ice Wizard is defeated!
+
+# Limitations
+max_action_steps: 20
+
+# Agent configurations
+agent_1:
+  username: "battle_mage_agent"
+  new_character: true
+
+  location:
+    x: 400
+    y: 310
+
+  skill_levels:
+    magic: 50
+    strength: 35
+    defense: 45
+    health: 55
+    accuracy: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "manapotion"
+      count: 15
+    - item: "healthpotion"
+      count: 10
+
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "support_warrior_agent"
+  new_character: true
+
+  location:
+    x: 402
+    y: 312
+
+  skill_levels:
+    strength: 45
+    defense: 40
+    health: 50
+    accuracy: 35
+    magic: 20
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "healthpotion"
+      count: 12
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team successfully locates Ice Wizard boss"
+  - "battle_mage_agent uses lightning staff effectively"
+  - "Ice Wizard is defeated through coordinated combat"
+  - "All agents survive the boss encounter"

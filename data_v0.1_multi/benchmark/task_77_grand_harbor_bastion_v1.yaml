@@ -1,0 +1,123 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simplified 6-agent harbor defense
+
+task:
+  name: "Grand Harbor Bastion - Core Coastal Defense"
+  description: "Six harbor specialists rebuild two ballista towers and repel a coastal assault within 38 rounds"
+
+# Task objectives
+objectives:
+  primary: "Construct two functional ballista towers at the coastal harbor and survive the merfolk assault"
+  secondary:
+    - "Phase 1 (Rounds 1-10): Stockpile timber, ore, feathers"
+    - "Phase 2 (Rounds 11-22): Smelt 12 iron bars, craft 3 ballista frames + 30 arrows, cook meals"
+    - "Phase 3 (Rounds 23-30): Install two towers along the seawall, assign crews"
+    - "Phase 4 (Rounds 31-38): Trigger defense drill, defeat coastal boss"
+
+# Relevant game context
+relevant_game_context: |
+  BASTION PLAN
+  - Six defenders rebuild two ballista towers near the harbor and survive a coastal assault within 38 rounds.
+  - Phase 1: timber team cuts >=30 logs + >=20 feathers, miners pull >=15 ironore/coal.
+  - Phase 2: smelt 12 iron bars, forge 2 pickaxes/axes, craft 3 woodenbow frames + 30 arrows.
+  - Phase 3: install two towers, assign crews.
+  - Phase 4: defend against Water Guardian.
+
+  EXECUTION NOTES
+  - Transfers require sender and marshal to confirm inventories.
+  - Keep formation references in chat.
+# Limitations
+max_action_steps: 38
+
+# Agent configurations
+agent_1:
+  username: "HarborMarshal_77v1"
+  new_character: true
+  location: {x: 200, y: 200}
+  skill_levels: {defense: 36, strength: 30, health: 36, crafting: 26}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 16}
+    - {item: "cure", count: 2}
+  equipped_items:
+    - {item: "heavysword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "TimberLead_77v1"
+  new_character: true
+  location: {x: 205, y: 200}
+  skill_levels: {lumberjacking: 38, fletching: 28, strength: 28, health: 30}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 12}
+    - {item: "logs", count: 5}
+    - {item: "string", count: 8}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "OreChief_77v1"
+  new_character: true
+  location: {x: 200, y: 205}
+  skill_levels: {mining: 40, smithing: 34, strength: 30, health: 32}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 14}
+    - {item: "ironore", count: 4}
+    - {item: "coal", count: 4}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "hammer", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "Bowmaster_77v1"
+  new_character: true
+  location: {x: 205, y: 205}
+  skill_levels: {fletching: 36, accuracy: 32, lumberjacking: 26, health: 28}
+  inventory_items:
+    - {item: "flask", count: 10}
+    - {item: "apple", count: 12}
+    - {item: "feather", count: 15}
+    - {item: "string", count: 12}
+  equipped_items:
+    - {item: "woodenbow", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "Cook_77v1"
+  new_character: true
+  location: {x: 200, y: 210}
+  skill_levels: {cooking: 34, fishing: 30, foraging: 26, health: 28}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 10}
+    - {item: "rawshrimp", count: 8}
+    - {item: "kelp", count: 4}
+  equipped_items:
+    - {item: "fishingpole", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "Medic_77v1"
+  new_character: true
+  location: {x: 205, y: 210}
+  skill_levels: {magic: 32, crafting: 24, health: 34, defense: 26}
+  inventory_items:
+    - {item: "flask", count: 16}
+    - {item: "manaflask", count: 6}
+    - {item: "blueberry", count: 10}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "HarborMarshal confirms resource quotas (>=30 logs, >=20 feathers, >=15 ironore/coal)"
+  - "OreChief crafts 12 ironbar plus 2 pickaxe and 2 axe"
+  - "Bowmaster produces 3 woodenbow and 30 arrows"
+  - "Both tower positions receive complete kits and crews post confirmation"
+  - "Water Guardian defeated via coordinated attack_entity calls"
+  - "Mission completes between Rounds 36-38"

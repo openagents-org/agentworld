@@ -1,0 +1,122 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Single region expedition, gather forest resources only
+
+task:
+  name: "Epic Cross-Region Expedition - Forest Region Focus"
+  description: "Two agents complete a forest expedition gathering 6x logs and crafting 1x magic staff"
+
+# Task objectives
+objectives:
+  primary: "Complete forest expedition: gather 6x logs and craft 1x magic staff"
+  secondary: # checkpoints
+    - "Coordinate forest resource gathering"
+    - "Complete expedition within 25 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a focused forest expedition scenario.
+
+  OBJECTIVE: Complete forest region objectives.
+
+  MISSION REQUIREMENTS:
+  - Gather 6x logs from oak trees
+  - Craft sticks from logs
+  - Craft 1x magic staff with bead
+
+  TEAM COORDINATION:
+  - Gatherer focuses on logs and sticks
+  - Crafter assembles the staff
+
+  STARTING RESOURCES:
+  - Leader has 1x bead
+  - Gatherer has 1x logs
+
+  FOREST ACTIVITIES:
+  🌲 Lumberjacking - logs:
+    - harvest_resource on Oak Tree instances
+    - Target: 6x logs total
+
+  🪄 Fletching - stick:
+    - 1x logs → 4x stick
+
+  🔮 Crafting - staff:
+    - 5x stick + 1x bead → 1x staff
+
+  DO NOT use complete() until objectives are met!
+
+# Limitations
+max_action_steps: 25
+
+# Agent configurations
+agent_1:
+  username: "expedition_leader_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 3
+
+  skill_levels:
+    lumberjacking: 25
+    fletching: 22
+    crafting: 25
+    strength: 32
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "bead"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "forest_gatherer_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 5
+
+  skill_levels:
+    lumberjacking: 28
+    fletching: 20
+    strength: 35
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "logs"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team gathers at least 6x logs"
+  - "Team crafts 1x magic staff"
+  - "Forest expedition completed"

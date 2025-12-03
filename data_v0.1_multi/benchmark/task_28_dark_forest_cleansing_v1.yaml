@@ -1,0 +1,120 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Only defeat Dark Wolf, no forest purification
+
+task:
+  name: "Dark Forest Cleansing - Dark Wolf Hunt"
+  description: "Two agents work together to locate and defeat the Dark Wolf boss"
+
+# Task objectives
+objectives:
+  primary: "Successfully defeat the Dark Wolf boss in the dark forest"
+  secondary: # checkpoints
+    - "Navigate to dark forest region"
+    - "Defeat Dark Wolf within 20 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a simplified dark forest mission focusing on boss combat.
+
+  OBJECTIVE: Locate and defeat the Dark Wolf boss.
+
+  MISSION REQUIREMENTS:
+  - Navigate to Dark Forest region (1016, 682)
+  - Locate the Dark Wolf boss
+  - Defeat Dark Wolf using coordinated attacks
+  - No forest purification required
+
+  TEAM COORDINATION:
+  - Both agents focus on combat
+  - Coordinate magical and physical attacks
+  - Share healing resources
+
+  COMBAT KNOWLEDGE:
+  🐺 Boss Combat - Dark Wolf:
+    - Location: coordinates (1016, 682)
+    - May have unique shadow abilities
+    - Use light-based magic for advantage
+
+  DO NOT use complete() until Dark Wolf is defeated!
+
+# Limitations
+max_action_steps: 20
+
+# Agent configurations
+agent_1:
+  username: "shadow_hunter_agent"
+  new_character: true
+
+  location:
+    x: 1010
+    y: 680
+
+  skill_levels:
+    strength: 50
+    accuracy: 40
+    magic: 35
+    health: 55
+    defense: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "healthpotion"
+      count: 15
+    - item: "manapotion"
+      count: 10
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "light_mage_agent"
+  new_character: true
+
+  location:
+    x: 1015
+    y: 685
+
+  skill_levels:
+    magic: 50
+    accuracy: 40
+    health: 50
+    strength: 30
+    defense: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "manapotion"
+      count: 20
+    - item: "healthpotion"
+      count: 10
+
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team navigates to dark forest region"
+  - "Team successfully defeats Dark Wolf boss"
+  - "All agents survive the boss encounter"

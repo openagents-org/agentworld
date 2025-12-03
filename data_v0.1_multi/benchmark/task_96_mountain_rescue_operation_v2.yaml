@@ -1,0 +1,384 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: Adjusted version - 4 rescue camps instead of 3
+
+task:
+  name: "Mountain Rescue Operation - Multi-Site Emergency Response (4 Camps)"
+  description: "Twelve agents coordinate a complex mountain rescue spanning multiple regions, delivering supplies, clearing paths, and establishing 4 rescue camps"
+
+# Task objectives
+objectives:
+  primary: "Execute successful mountain rescue operation across 4 regions, delivering 120+ supplies and establishing 4 rescue camps within 50 rounds"
+  secondary:
+    - "Phase 1 (Rounds 1-12): Supply Gathering - Collect 120+ healing items and 60+ tools"
+    - "Phase 2 (Rounds 13-25): Path Clearing - Clear routes and defeat blocking mobs"
+    - "Phase 3 (Rounds 26-38): Camp Establishment - Set up 4 rescue camps with supplies"
+    - "Phase 4 (Rounds 39-50): Rescue Completion - Coordinate final supply delivery"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  MOUNTAIN RESCUE OPERATION:
+
+  Three rescue teams must coordinate across mountain regions to save stranded travelers.
+  Requires supply gathering, route clearing, and establishing rescue camps.
+
+  RESCUE TEAMS:
+
+  SUPPLY CORPS (Agents 1-4) - Resource Gathering
+  **Mission**: Gather 120+ healing items and survival supplies
+  **Location**: Starting Base (400, 10)
+
+  **Goals**:
+  - 60x flask (healing)
+  - 40x apple (food)
+  - 25x cookedshrimp (premium healing)
+  - 12x logs (firewood)
+  - 6x pickaxes (tools)
+
+  PATH CLEARING TEAM (Agents 5-8) - Route Security
+  **Mission**: Clear mountain paths of hostile creatures
+  **Locations**: Multiple mountain regions
+
+  **Targets**:
+  - Defeat 6+ mountain mobs blocking paths
+  - Clear route from (400,10) to (230,40)
+  - Clear route from (230,40) to (260,156)
+  - Clear route from (260,156) to (350,100)
+  - Clear route back to base
+
+  CAMP CONSTRUCTION (Agents 9-12) - Rescue Stations
+  **Mission**: Establish 4 rescue camps with supplies
+  **Locations**:
+  - Camp Alpha: (235, 42)
+  - Camp Beta: (260, 154)
+  - Camp Gamma: (400, 12)
+  - Camp Delta: (350, 98)
+
+  **Each Camp Needs**:
+  - 35+ healing items
+  - 12+ food items
+  - 2+ tools
+  - Emergency supplies
+
+  SUCCESS CRITERIA:
+  1. Gather 120+ supply items
+  2. Defeat 6+ blocking creatures
+  3. Establish 4 rescue camps
+  4. Deliver 35+ items to each camp
+  5. Complete within 50 rounds
+
+# Limitations
+max_action_steps: 50
+
+# Agent configurations
+agent_1:
+  username: "supply_chief"
+  new_character: true
+  location:
+    x: 400
+    y: 10
+  skill_levels:
+    strength: 40
+    health: 45
+    cooking: 35
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+    - item: "cookedshrimp"
+      count: 10
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "supply_alpha"
+  new_character: true
+  location:
+    x: 402
+    y: 12
+  skill_levels:
+    fishing: 40
+    cooking: 38
+    health: 38
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "supply_beta"
+  new_character: true
+  location:
+    x: 404
+    y: 14
+  skill_levels:
+    lumberjacking: 40
+    strength: 38
+    health: 38
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "supply_gamma"
+  new_character: true
+  location:
+    x: 406
+    y: 16
+  skill_levels:
+    mining: 40
+    smithing: 35
+    health: 38
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "path_captain"
+  new_character: true
+  location:
+    x: 398
+    y: 8
+  skill_levels:
+    strength: 50
+    defense: 45
+    health: 55
+  inventory_items:
+    - item: "flask"
+      count: 40
+    - item: "apple"
+      count: 45
+    - item: "healthpotion"
+      count: 10
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "path_warrior_alpha"
+  new_character: true
+  location:
+    x: 396
+    y: 6
+  skill_levels:
+    strength: 48
+    accuracy: 42
+    health: 50
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+    - item: "healthpotion"
+      count: 8
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "path_warrior_beta"
+  new_character: true
+  location:
+    x: 394
+    y: 4
+  skill_levels:
+    strength: 46
+    defense: 40
+    health: 48
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "path_scout"
+  new_character: true
+  location:
+    x: 392
+    y: 2
+  skill_levels:
+    accuracy: 45
+    strength: 40
+    health: 42
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+  equipped_items:
+    - item: "bow"
+      count: 1
+      enchant: 0
+    - item: "arrow"
+      count: 50
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "camp_director"
+  new_character: true
+  location:
+    x: 235
+    y: 42
+  skill_levels:
+    crafting: 40
+    strength: 38
+    health: 45
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "camp_alpha_lead"
+  new_character: true
+  location:
+    x: 237
+    y: 44
+  skill_levels:
+    strength: 38
+    health: 42
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_11:
+  username: "camp_beta_lead"
+  new_character: true
+  location:
+    x: 260
+    y: 154
+  skill_levels:
+    strength: 38
+    health: 42
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_12:
+  username: "camp_gamma_lead"
+  new_character: true
+  location:
+    x: 350
+    y: 98
+  skill_levels:
+    strength: 38
+    health: 42
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Supply Corps gathers 120+ total supply items"
+  - "Path Clearing Team defeats 6+ blocking creatures"
+  - "Camp Alpha established with 35+ items at (235, 42)"
+  - "Camp Beta established with 35+ items at (260, 154)"
+  - "Camp Gamma established with 35+ items at (400, 12)"
+  - "Camp Delta established with 35+ items at (350, 98)"
+  - "All teams coordinate using global chat"
+  - "Mountain rescue operation completed within 50 rounds"

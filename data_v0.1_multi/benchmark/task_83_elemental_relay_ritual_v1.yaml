@@ -1,0 +1,113 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simplified 6-agent dual-biome convergence
+
+task:
+  name: "Elemental Relay Ritual - Dual-Biome Convergence"
+  description: "Six adepts retrieve two elemental cores from distant biomes and perform a timed relay ritual at the Central Obelisk within 38 rounds."
+
+# Task objectives
+objectives:
+  primary: "Deliver Earth and Flame cores to the Central Obelisk (500,300) and channel them without dropping control of the relay baton."
+  secondary:
+    - "Phase 1 (Rounds 1-12): Forest team secures the Earth core."
+    - "Phase 2 (Rounds 13-24): Desert team secures the Flame core."
+    - "Phase 3 (Rounds 25-32): Central relay completes handoffs."
+    - "Phase 4 (Rounds 33-38): Seal the obelisk."
+
+# Relevant game context
+relevant_game_context: |
+  CORE RECIPES
+  - Earth core: gather beryl (mining) + string, craft_item Crafting berylpendant.
+  - Flame core: smelt goldbar and craft_item Smithing goldring for the core token.
+
+  RITUAL PROTOCOL
+  1. Biome teams (Agents 1-4) operate independently until cores are ready.
+  2. RelayCaptain (Agent 5) stands at (500,300) with baton (any staff).
+  3. ChantMedic (Agent 6) keeps RelayCaptain above 75% HP.
+  4. verify_inventory after each handoff.
+  5. complete() after both cores rest at the obelisk.
+
+# Limitations
+max_action_steps: 38
+
+# Agent configurations
+agent_1:
+  username: "ForestBinder_83v1"
+  new_character: true
+  location: {x: 200, y: 200}
+  skill_levels: {lumberjacking: 30, crafting: 26, accuracy: 24, health: 28}
+  inventory_items:
+    - {item: "flask", count: 10}
+    - {item: "apple", count: 12}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_2:
+  username: "EarthRunner_83v1"
+  new_character: true
+  location: {x: 205, y: 200}
+  skill_levels: {crafting: 28, magic: 26, mining: 24, health: 26}
+  inventory_items:
+    - {item: "string", count: 2}
+    - {item: "flask", count: 10}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "DesertFlame_83v1"
+  new_character: true
+  location: {x: 210, y: 200}
+  skill_levels: {lumberjacking: 26, smithing: 28, mining: 26, health: 30}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 12}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "pickaxe", count: 1, enchant: 0}
+
+agent_4:
+  username: "EmberCourier_83v1"
+  new_character: true
+  location: {x: 200, y: 205}
+  skill_levels: {smithing: 24, magic: 22, defense: 26, health: 26}
+  inventory_items:
+    - {item: "flask", count: 10}
+    - {item: "apple", count: 10}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_5:
+  username: "RelayCaptain_83v1"
+  new_character: true
+  location: {x: 205, y: 205}
+  skill_levels: {magic: 32, crafting: 30, defense: 28, health: 32}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "manaflask", count: 8}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "ChantMedic_83v1"
+  new_character: true
+  location: {x: 210, y: 205}
+  skill_levels: {magic: 30, crafting: 26, health: 30, defense: 26}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "manaflask", count: 10}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Each biome team announces core completion with ingredient counts"
+  - "Cores arrive at the obelisk in Earth → Flame order"
+  - "RelayCaptain never drops below 75% HP"
+  - "Both cores rest at the obelisk simultaneously"
+  - "No core remains in personal inventories when complete() is called"
+  - "Mission completes in 36-38 rounds"

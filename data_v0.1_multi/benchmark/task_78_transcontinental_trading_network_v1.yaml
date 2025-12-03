@@ -1,0 +1,118 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simplified 6-agent trading network
+
+task:
+  name: "Transcontinental Trading Network - Core Regional Exchange"
+  description: "Six agents gather resources from 3 regions, establish trade routes, and craft 3 items requiring cross-regional cooperation"
+
+# Task objectives
+objectives:
+  primary: "Establish a trading network where 6 agents gather resources, travel to hubs, and craft 3 items requiring materials from 3+ regions"
+  secondary:
+    - "Phase 1 (Rounds 1-10): Regional Resource Gathering"
+    - "Phase 2 (Rounds 11-20): Travel to Regional Hub"
+    - "Phase 3 (Rounds 21-30): Consolidation and Smelting"
+    - "Phase 4 (Rounds 31-40): Coordinated Crafting"
+
+# Relevant game context
+relevant_game_context: |
+  SUPPLY CHAIN PLAN
+  - Six agents harvest materials from three regions, regroup at central hub (400,250), and craft three cross-regional items within ~40 rounds.
+  - Phase 1: each agent harvests their quota (logs, ores, gems, fish).
+  - Phase 2: agents march to central hub.
+  - Phase 3: consolidate materials, smelt bars.
+  - Phase 4: craft golden ring, silver ring, wooden bow.
+
+  EXECUTION NOTES
+  - Use transfer_items + verify_inventory for every handoff.
+  - Keep running manifest in chat.
+# Limitations
+max_action_steps: 40
+
+# Agent configurations
+agent_1:
+  username: "ForestGatherer_78v1"
+  new_character: true
+  location: {x: 200, y: 200}
+  skill_levels: {lumberjacking: 28, crafting: 26, strength: 22, health: 32}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 18}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "MountainMiner_78v1"
+  new_character: true
+  location: {x: 205, y: 200}
+  skill_levels: {mining: 32, crafting: 22, strength: 26, health: 32}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 18}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "CoastalFisher_78v1"
+  new_character: true
+  location: {x: 200, y: 205}
+  skill_levels: {fishing: 32, cooking: 22, strength: 22, health: 32}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 18}
+  equipped_items:
+    - {item: "fishingpole", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "GoldMiner_78v1"
+  new_character: true
+  location: {x: 205, y: 205}
+  skill_levels: {mining: 32, crafting: 28, smithing: 28, fletching: 22, strength: 26, health: 32}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 18}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "Forager_78v1"
+  new_character: true
+  location: {x: 200, y: 210}
+  skill_levels: {foraging: 32, cooking: 22, strength: 22, health: 32}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 18}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "PlainsGatherer_78v1"
+  new_character: true
+  location: {x: 205, y: 210}
+  skill_levels: {lumberjacking: 28, strength: 22, health: 32}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 18}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Phase 1: All 6 agents gather assigned resources from their regions"
+  - "ForestGatherer gathers 5x Oak logs, PlainsGatherer gathers 5x Willow logs"
+  - "MountainMiner mines 8x iron ore + 8x coal"
+  - "GoldMiner mines 6x gold ore + 6x coal"
+  - "CoastalFisher catches 6x fish"
+  - "Forager forages 8x Blueberries"
+  - "Phase 2: All agents travel to central hub"
+  - "Phase 3: GoldMiner creates 8x ironbar and 6x goldbar"
+  - "Phase 4: Golden Ring crafted from 2x goldbar"
+  - "Phase 4: Silver Ring crafted from 2x ironbar"
+  - "Phase 4: Wooden Bow crafted from logs"
+  - "All 3 items verified in crafter inventories"
+  - "Network established within 38-40 rounds"

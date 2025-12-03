@@ -1,0 +1,291 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, adjusted targets
+
+task:
+  name: "Mirefall Canal Restoration - Floodplain Logistics Grid"
+  description: "Ten hydrologists reopen the Mirefall canal between the flooded farms (388,520) and the delta lock (460,580), clearing debris, installing pumps, and relaunching a supply raft in 60 rounds."
+
+# Task objectives
+objectives:
+  primary: "Reopen the Mirefall canal by clearing three silt chokepoints, installing two pump cores, replenishing fish pens, and escorting the supply raft from the upper lock (388,520) to the delta lock (460,580)."
+  secondary:
+    - "Phase 1: Survey & role call — split into Dredge, Pump, Provision, and Escort cells; log the plan before leaving camp."
+    - "Phase 2: Dredge cell mines 15 silt/rock tiles (use mine_resource) and fells 18 logs for braces; confirm braces installed before moving downstream."
+    - "Phase 3: Pump cell smelts 8 ironbar, crafts 2 pickaxes, 2 staff blanks, then upgrades one lightningstaff and one icestaff to serve as pump cores."
+    - "Phase 4: Provision cell fishes 10 rawtuna + 10 clamobject and forages 6 corn for the farmsteads; share food evenly via transfer_items."
+    - "Phase 5: Escort cell keeps mobs off the work crews, then accompanies RaftPilot as the supply raft travels through all three locks."
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  CANAL MAP
+  - Locks at y=520, 550, 580. Each lock has a winch lever; two agents must stand nearby when RaftPilot passes.
+  - Chokepoints at (392,528), (410,552), (438,572). Dredge cell clears them in order; after each clearance, announce "Channel n open".
+
+  DREDGE & PUMP DETAILS
+  - Dredge team uses mine_resource with pickaxe equipped; after 5 mined tiles, pause to let BridgeWarden place braces.
+  - Smelt ironbar at the temporary forge near (394,526). PumpSmith crafts pickaxe (Smithing) for replacements, then craft_item Crafting staff → lightningstaff/icestaff.
+
+  PROVISIONS & RAFT
+  - FishWard uses fish_resource at 388,520 (tuna) and 440,570 (clam). Foraging spots around 400,540 yield corn.
+  - RaftPilot represents the supply raft inventory. Once pumps are online, transfer all finished goods to RaftPilot before the journey.
+
+  SAFETY RULES
+  - Use verify_inventory before and after any transfer.
+  - If any agent drops below 60% HP, call "Canal hold" and regroup.
+  - complete() only after raft arrival, pump status summary.
+
+# Limitations
+max_action_steps: 60
+
+# Agent configurations
+agent_1:
+  username: "CanalChief"
+  new_character: true
+  location:
+    x: 200
+    y: 200
+  skill_levels:
+    defense: 36
+    strength: 34
+    accuracy: 30
+    health: 36
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 18
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "DredgeMiner"
+  new_character: true
+  location:
+    x: 205
+    y: 200
+  skill_levels:
+    mining: 40
+    smithing: 34
+    strength: 32
+    health: 34
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 15
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "BridgeWarden"
+  new_character: true
+  location:
+    x: 210
+    y: 200
+  skill_levels:
+    lumberjacking: 38
+    crafting: 30
+    defense: 30
+    health: 32
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 15
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "PumpSmith"
+  new_character: true
+  location:
+    x: 200
+    y: 205
+  skill_levels:
+    smithing: 38
+    crafting: 36
+    magic: 32
+    health: 32
+  inventory_items:
+    - item: "string"
+      count: 5
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 12
+    - item: "coal"
+      count: 4
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "HydroMage"
+  new_character: true
+  location:
+    x: 205
+    y: 205
+  skill_levels:
+    magic: 38
+    crafting: 34
+    defense: 30
+    health: 32
+  inventory_items:
+    - item: "manaflask"
+      count: 12
+    - item: "flask"
+      count: 12
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "FishWard"
+  new_character: true
+  location:
+    x: 210
+    y: 205
+  skill_levels:
+    fishing: 38
+    cooking: 34
+    foraging: 30
+    health: 32
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 15
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "HerbRunner"
+  new_character: true
+  location:
+    x: 200
+    y: 210
+  skill_levels:
+    foraging: 34
+    cooking: 30
+    magic: 28
+    health: 30
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 12
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "SignalFlag"
+  new_character: true
+  location:
+    x: 205
+    y: 210
+  skill_levels:
+    accuracy: 34
+    magic: 32
+    crafting: 30
+    health: 30
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "manaflask"
+      count: 10
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "RaftPilot"
+  new_character: true
+  location:
+    x: 210
+    y: 210
+  skill_levels:
+    crafting: 34
+    defense: 34
+    strength: 30
+    health: 34
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 18
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "RearGuard"
+  new_character: true
+  location:
+    x: 200
+    y: 215
+  skill_levels:
+    defense: 36
+    strength: 34
+    health: 36
+    accuracy: 30
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 15
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - 'All three chokepoints are mined clear after braces are placed, with chat proof for each "Channel open" call.'
+  - "Pump cell smelts 8 ironbar, crafts 2 pickaxes + 2 staff blanks, and upgrades 1 lightningstaff + 1 icestaff that remain planted at the locks."
+  - "Provision cell secures 10 rawtuna, 10 clamobject, and 6 corn, and distributes food evenly using documented transfers."
+  - "RaftPilot receives the manifest (bars, staffs, food) before departure and reports status at each lock with escort confirmations."
+  - "Supply raft reaches the delta lock, pumps stay active, and complete() is triggered."

@@ -1,0 +1,119 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Only harvest marine resources, no treasure hunting
+
+task:
+  name: "Underwater Expedition - Marine Resource Gathering"
+  description: "Two agents work together to harvest marine resources from coastal waters"
+
+# Task objectives
+objectives:
+  primary: "Successfully harvest 4x jellyfish and 3x clam from underwater areas"
+  secondary: # checkpoints
+    - "Navigate to coastal fishing areas"
+    - "Complete marine resource gathering within 20 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a simplified underwater resource gathering scenario.
+
+  OBJECTIVE: Harvest marine resources from coastal and underwater areas.
+
+  MISSION REQUIREMENTS:
+  - Navigate to coastal regions near water
+  - Harvest 4x jellyfish from jellyfish fishing spots
+  - Harvest 3x clam from clam fishing spots
+  - No combat or treasure hunting required
+
+  TEAM COORDINATION:
+  - Both agents have fishing equipment
+  - Share fishing spots for efficient gathering
+  - Coordinate to reach target quantities
+
+  MARINE HARVESTING:
+  🐟 Fishing - Jellyfish:
+    - harvest_resource on Jellyfish fishing spots
+    - Level required: 5+ (Fishing skill)
+    - Target: 4x jellyfish total
+
+  🦪 Fishing - Clam:
+    - harvest_resource on Clam fishing spots
+    - Level required: 10+ (Fishing skill)
+    - Target: 3x clam total
+
+  DO NOT use complete() until all resources are gathered!
+
+# Limitations
+max_action_steps: 20
+
+# Agent configurations
+agent_1:
+  username: "marine_fisher_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 750
+
+  skill_levels:
+    fishing: 20
+    swimming: 20
+    strength: 30
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "jellyfish"
+      count: 1
+
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "clam_diver_agent"
+  new_character: true
+
+  location:
+    x: 585
+    y: 755
+
+  skill_levels:
+    fishing: 15
+    swimming: 25
+    strength: 30
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "clam"
+      count: 1
+
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team successfully harvests at least 4x jellyfish total"
+  - "Team successfully harvests at least 3x clam total"
+  - "All agents complete marine harvesting safely"

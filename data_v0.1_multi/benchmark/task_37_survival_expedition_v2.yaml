@@ -1,0 +1,147 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Gather wood and cook food
+
+task:
+  name: "Survival Expedition - Campsite Establishment"
+  description: "Three agents gather 4x logs and cook 3x cooked shrimp for survival"
+
+# Task objectives
+objectives:
+  primary: "Gather 4x logs and cook 3x shrimp for campsite"
+  secondary: # checkpoints
+    - "Coordinate wood and food gathering"
+    - "Complete campsite setup within 25 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a survival scenario with resource gathering and cooking.
+
+  OBJECTIVE: Establish a campsite with wood and cooked food.
+
+  MISSION REQUIREMENTS:
+  - Gather 4x logs from oak trees
+  - Catch raw shrimp from fishing spots
+  - Cook 3x cooked shrimp
+
+  TEAM COORDINATION:
+  - Lumberjack gathers wood
+  - Fisher catches shrimp
+  - Chef cooks the food
+
+  CRAFTING RECIPES:
+  🌲 Lumberjacking - logs:
+    - harvest_resource on Oak Tree instances
+    - Target: 4x logs total
+
+  🎣 Fishing - rawshrimp:
+    - harvest_resource on shrimp fishing spots
+
+  🍤 Cooking - cookedshrimp:
+    - craft_item skill=Cooking itemKey=cookedshrimp
+    - Materials: 1x rawshrimp → 1x cookedshrimp
+    - Target: 3x cookedshrimp total
+
+  DO NOT use complete() until objectives are achieved!
+
+# Limitations
+max_action_steps: 25
+
+# Agent configurations
+agent_1:
+  username: "survival_lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 3
+
+  skill_levels:
+    lumberjacking: 25
+    strength: 35
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "logs"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "survival_fisher_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 750
+
+  skill_levels:
+    fishing: 22
+    strength: 30
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "rawshrimp"
+      count: 1
+
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "survival_chef_agent"
+  new_character: true
+
+  location:
+    x: 582
+    y: 752
+
+  skill_levels:
+    cooking: 20
+    strength: 28
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "rawshrimp"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "survival_lumberjack_agent gathers at least 4x logs"
+  - "Team cooks at least 3x cookedshrimp"
+  - "All agents survive the expedition"

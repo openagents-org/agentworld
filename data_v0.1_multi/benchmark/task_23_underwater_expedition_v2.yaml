@@ -1,0 +1,184 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - 4 agents, harvest more resources and craft underwater equipment
+
+task:
+  name: "Underwater Expedition - Deep Sea Harvesting Operation"
+  description: "Four agents work together to harvest large quantities of marine resources and craft special underwater items"
+
+# Task objectives
+objectives:
+  primary: "Successfully harvest 8x jellyfish and 6x clam, then craft 2x jellyfishsmoothie"
+  secondary: # checkpoints
+    - "Establish efficient underwater harvesting coordination"
+    - "Execute marine resource gathering with full team"
+    - "Complete deep sea expedition within 40 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is an expanded underwater expedition with larger team and crafting goals.
+
+  OBJECTIVE: Harvest large quantities of marine resources and create exotic smoothies.
+
+  MISSION REQUIREMENTS:
+  - Navigate to coastal and underwater areas
+  - Harvest 8x jellyfish with fishing team
+  - Harvest 6x clam from deep areas
+  - Craft 2x bowlsmall for smoothie containers
+  - Create 2x jellyfishsmoothie as final products
+
+  TEAM COORDINATION:
+  - Fishing team focuses on jellyfish and clam harvesting
+  - Crafter gathers logs and makes bowls
+  - Chef combines ingredients for smoothies
+  - Share resources for efficient crafting
+
+  CRAFTING RECIPES:
+  🪄 Fletching Recipe - stick:
+    - craft_item skill=Fletching itemKey=stick
+    - Materials: 1x logs → 4x stick
+
+  🥣 Fletching Recipe - bowlsmall:
+    - craft_item skill=Fletching itemKey=bowlsmall
+    - Materials: 2x stick → 1x bowlsmall
+
+  🎐 Cooking Recipe - jellyfishsmoothie:
+    - craft_item skill=Cooking itemKey=jellyfishsmoothie
+    - Materials: 1x jellyfish + 1x bowlsmall → 1x jellyfishsmoothie
+    - Level required: 10 (Cooking skill)
+
+  DO NOT use complete() until 2x jellyfishsmoothie is created!
+
+# Limitations
+max_action_steps: 40
+
+# Agent configurations
+agent_1:
+  username: "lead_fisher_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 750
+
+  skill_levels:
+    fishing: 25
+    swimming: 25
+    strength: 35
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "deep_diver_agent"
+  new_character: true
+
+  location:
+    x: 585
+    y: 755
+
+  skill_levels:
+    fishing: 20
+    swimming: 30
+    strength: 35
+    health: 50
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "container_crafter_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 3
+
+  skill_levels:
+    lumberjacking: 20
+    fletching: 15
+    strength: 30
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "logs"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "marine_chef_agent"
+  new_character: true
+
+  location:
+    x: 590
+    y: 760
+
+  skill_levels:
+    cooking: 25
+    fishing: 15
+    strength: 25
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Fishing team harvests at least 8x jellyfish total"
+  - "Fishing team harvests at least 6x clam total"
+  - "container_crafter_agent creates 2x bowlsmall"
+  - "marine_chef_agent creates 2x jellyfishsmoothie"
+  - "All agents coordinate underwater operations effectively"

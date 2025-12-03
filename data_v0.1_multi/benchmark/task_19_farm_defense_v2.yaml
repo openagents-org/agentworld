@@ -1,0 +1,151 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Changed to apple and wheat harvesting instead of corn/tomato
+
+task:
+  name: "Farm Defense Mission - Orchard and Wheat Field Harvest"
+  description: "Three agents work together to harvest apples and wheat from farmland"
+
+# Task objectives
+objectives:
+  primary: "Successfully protect collectors while they gather 6x apple and 5x wheat"
+  secondary: # checkpoints
+    - "Establish effective team communication for threat alerts"
+    - "Guardian successfully defends team from hostile pests"
+    - "Complete farm produce gathering without casualties within 25 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent agricultural protection scenario.
+
+  OBJECTIVE: Successfully gather apples and wheat while protecting the team.
+
+  MISSION REQUIREMENTS:
+  - Collect 6x apple and 5x wheat while under potential pest threat
+  - Keep all team members alive throughout the mission
+  - Use teamwork to balance resource gathering with farm security
+
+  TEAM COORDINATION:
+  - Establish communication protocols for pest detection and warnings
+  - Coordinate movements between protection and farm produce gathering
+  - Share information about resource locations and environmental dangers
+  - Work together to ensure both safety and mission success
+
+  GENERAL STRATEGY:
+  - The team has complementary roles in combat and foraging
+  - Pest threats may appear and must be dealt with appropriately
+  - Farm produce gathering requires moving to specific agricultural locations
+  - Balance efficiency with safety - casualties will cause mission failure
+  - Use global chat for real-time coordination and threat alerts
+
+  DO NOT use complete() until ALL objectives are achieved safely!
+
+  GATHERING MECHANICS:
+  🍎 Foraging - apple:
+    - harvest_resource on apple tree instances to get apple
+    - Level required: 1+ (Foraging skill)
+    - Target: 6x apple total
+    - IMPORTANT: Look for "Apple" trees in orchard areas!
+
+  🌾 Foraging - wheat:
+    - harvest_resource on wheat instances to get wheat
+    - Level required: 1+ (Foraging skill)
+    - Target: 5x wheat total
+    - IMPORTANT: Look for "Wheat" plants in field areas!
+
+# Limitations
+max_action_steps: 25
+
+# Agent configurations
+agent_1:
+  username: "farm_guardian_agent"
+  new_character: true
+
+  location:
+    x: 180
+    y: 200
+
+  skill_levels:
+    archery: 35
+    fletching: 25
+    strength: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+    - item: "arrow"
+      count: 70
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+
+agent_2:
+  username: "apple_picker_agent"
+  new_character: true
+
+  location:
+    x: 185
+    y: 200
+
+  skill_levels:
+    foraging: 20
+    defense: 15
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 5
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+
+agent_3:
+  username: "wheat_harvester_agent"
+  new_character: true
+
+  location:
+    x: 190
+    y: 200
+
+  skill_levels:
+    foraging: 25
+    defense: 18
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+
+# Success criteria
+success_criteria:
+  - "apple_picker_agent has at least 6x apple in inventory"
+  - "wheat_harvester_agent has at least 5x wheat in inventory"
+  - "All agents remain alive throughout the mission"
+  - "Farm guardian successfully protects team from pest threats"

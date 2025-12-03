@@ -1,0 +1,280 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Reduced production targets, more initial resources
+
+task:
+  name: "Continental Trade Network - Multi-City Commercial Empire"
+  description: "Twelve agents establish a trade network spanning multiple regions, producing specialized goods in different cities and coordinating commerce"
+
+# Task objectives
+objectives:
+  primary: "Establish a functioning continental trade network with 4 specialized trade hubs producing and exchanging goods across 45 rounds"
+  secondary:
+    - "Phase 1 (Rounds 1-10): Hub Establishment - Set up 4 specialized production centers"
+    - "Phase 2 (Rounds 11-22): Initial Production - Each hub produces their specialty goods"
+    - "Phase 3 (Rounds 23-35): Trade Route Activation - Coordinate inter-hub resource exchanges"
+    - "Phase 4 (Rounds 36-45): Market Fulfillment - Complete trade orders and verify economic success"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  Continental trade network with 4 specialized hubs coordinating production and exchanges.
+
+  STRATEGY:
+  - Rounds 1-10: Establish hubs, gather resources
+  - Rounds 11-22: Produce specialty goods
+  - Rounds 23-35: Execute inter-hub trades
+  - Rounds 36-45: Verify completion
+
+  PRODUCTION TARGETS:
+  Hub 1 (380,20): 25 logs, 15 sticks, 2 bows
+  Hub 2 (580,750): 15 cookedshrimp, 6 jellyfishsmoothie
+  Hub 3 (230,40): 12 ironbar, 6 goldbar, 2 gold rings
+  Hub 4 (235,45): 2 heavy swords, 1 axe, 15 arrows
+
+  TRADES: Hub1→Hub4 (lumber), Hub3→Hub4 (iron), Hub2→All (food), Hub4→All (weapons)
+
+  Use global chat to coordinate. Complete 5+ exchanges. Do NOT call complete() until all goals verified!
+
+# Limitations
+max_action_steps: 45
+
+# Agent configurations
+agent_1:
+  username: "forest_lumber_master"
+  new_character: true
+  location:
+    x: 380
+    y: 20
+  skill_levels:
+    lumberjacking: 40
+    strength: 35
+    health: 40
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "logs"
+      count: 5
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "forest_woodworker"
+  new_character: true
+  location:
+    x: 382
+    y: 22
+  skill_levels:
+    fletching: 35
+    crafting: 30
+    health: 35
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "string"
+      count: 6
+
+agent_3:
+  username: "forest_trader"
+  new_character: true
+  location:
+    x: 384
+    y: 24
+  skill_levels:
+    strength: 40
+    health: 45
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 33
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "coastal_master_fisher"
+  new_character: true
+  location:
+    x: 580
+    y: 750
+  skill_levels:
+    fishing: 45
+    health: 40
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+    - item: "rawshrimp"
+      count: 4
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "coastal_chef"
+  new_character: true
+  location:
+    x: 582
+    y: 752
+  skill_levels:
+    cooking: 45
+    health: 35
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+agent_6:
+  username: "coastal_trader"
+  new_character: true
+  location:
+    x: 584
+    y: 754
+  skill_levels:
+    strength: 40
+    health: 50
+  inventory_items:
+    - item: "flask"
+      count: 33
+    - item: "apple"
+      count: 38
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "mountain_ore_miner"
+  new_character: true
+  location:
+    x: 230
+    y: 40
+  skill_levels:
+    mining: 45
+    health: 40
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+    - item: "coal"
+      count: 8
+    - item: "ironore"
+      count: 4
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "mountain_smelter"
+  new_character: true
+  location:
+    x: 232
+    y: 42
+  skill_levels:
+    smithing: 45
+    health: 35
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "coal"
+      count: 12
+
+agent_9:
+  username: "mountain_jeweler"
+  new_character: true
+  location:
+    x: 234
+    y: 44
+  skill_levels:
+    smithing: 40
+    health: 35
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "goldore"
+      count: 2
+
+agent_10:
+  username: "forge_master_smith"
+  new_character: true
+  location:
+    x: 235
+    y: 45
+  skill_levels:
+    smithing: 45
+    health: 35
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "hilt2"
+      count: 2
+
+agent_11:
+  username: "forge_master_fletcher"
+  new_character: true
+  location:
+    x: 237
+    y: 47
+  skill_levels:
+    fletching: 45
+    health: 35
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "feather"
+      count: 22
+
+agent_12:
+  username: "forge_arms_dealer"
+  new_character: true
+  location:
+    x: 239
+    y: 49
+  skill_levels:
+    strength: 40
+    health: 45
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 33
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "Hub 1 successfully produces 25+ logs through coordinated harvesting"
+  - "Hub 1 crafts 15+ sticks and 2+ wooden bows for export"
+  - "Hub 2 catches 18+ rawshrimp and 8+ jellyfish"
+  - "Hub 2 cooks 15+ cookedshrimp and 6+ jellyfishsmoothie"
+  - "Hub 3 mines 12+ ironore and 8+ goldore"
+  - "Hub 3 smelts 12+ ironbar and 6+ goldbar"
+  - "Hub 3 crafts 2+ gold rings"
+  - "Hub 4 crafts 2+ heavy swords and 1+ axe"
+  - "Hub 4 crafts 15+ arrows from imported materials"
+  - "Successful trade: Hub 1 exports lumber to Hub 4"
+  - "Successful trade: Hub 3 exports iron bars to Hub 4"
+  - "Successful trade: Hub 2 distributes food to all hubs"
+  - "At least 5 documented inter-hub exchanges completed"
+  - "Continental trade network established within 45 rounds"

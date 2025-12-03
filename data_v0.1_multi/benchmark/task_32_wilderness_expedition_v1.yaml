@@ -1,0 +1,114 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Only defeat Worker Ants (easier), no resource gathering
+
+task:
+  name: "Wilderness Expedition - Worker Ant Hunting"
+  description: "Two agents work together to hunt Worker Ants in the wilderness"
+
+# Task objectives
+objectives:
+  primary: "Defeat 3 Worker Ants through coordinated combat"
+  secondary: # checkpoints
+    - "Locate Worker Ants in wilderness area"
+    - "Complete ant hunting within 20 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a simplified wilderness combat scenario targeting easier creatures.
+
+  OBJECTIVE: Hunt and defeat Worker Ants in the wilderness.
+
+  MISSION REQUIREMENTS:
+  - Navigate wilderness areas
+  - Locate Worker Ants (Level 46)
+  - Defeat 3 Worker Ants through coordinated combat
+  - No resource gathering required
+
+  TEAM COORDINATION:
+  - Both agents focus on combat
+  - Coordinate attacks for efficiency
+  - Share healing resources
+
+  COMBAT KNOWLEDGE:
+  🐜 Combat - Worker Ants:
+    - Level 46 creatures, easier than Wolves
+    - Use observe_environment to locate
+    - Coordinate attacks for quick defeat
+
+  DO NOT use complete() until 3 Worker Ants are defeated!
+
+# Limitations
+max_action_steps: 20
+
+# Agent configurations
+agent_1:
+  username: "wilderness_warrior_agent"
+  new_character: true
+
+  location:
+    x: 280
+    y: 200
+
+  skill_levels:
+    strength: 40
+    defense: 35
+    health: 48
+    accuracy: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "healthpotion"
+      count: 5
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "wilderness_mage_agent"
+  new_character: true
+
+  location:
+    x: 285
+    y: 205
+
+  skill_levels:
+    magic: 38
+    health: 45
+    defense: 30
+    accuracy: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "manapotion"
+      count: 5
+
+  equipped_items:
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team locates Worker Ants in wilderness"
+  - "Team defeats at least 3 Worker Ants"
+  - "All agents survive the hunting expedition"

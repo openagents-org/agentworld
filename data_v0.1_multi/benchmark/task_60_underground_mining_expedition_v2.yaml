@@ -1,0 +1,252 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Underground Mining Expedition - Extended 9-Agent Mass Extraction"
+  description: "Nine specialized miners coordinate a massive underground expedition to extract and process multiple ore types, creating a complete metallurgy empire"
+
+# Task objectives
+objectives:
+  primary: "Execute a comprehensive mining operation extracting 120+ ores across 4 types, smelt 90+ bars, and craft 15+ metal items including tools, weapons, and jewelry"
+  secondary:
+    - "Phase 1 (Rounds 1-18): Deep Mining Operations - Extract iron, gold, coal, and special ores"
+    - "Phase 2 (Rounds 19-32): Ore Transportation - Travel to central smeltery with all materials"
+    - "Phase 3 (Rounds 33-48): Mass Smelting - Convert all ores to refined bars"
+    - "Phase 4 (Rounds 49-60): Metalwork Production - Craft complete metallurgy collection"
+
+# Context and guidance for agents
+relevant_game_context: |
+  EXPEDITION HIGHLIGHTS
+  - Nine miners must clear 120+ ore (40 iron, 30 gold, 45 coal, 5 special), smelt 90+ bars, and craft at least fifteen metal goods (tools, weapons, jewelry) before Round 60. Mining squads work the northern range (~230–240, 38–50) while the smelter trio holds the central hub (528,384).
+
+  PHASE PLAN
+  1. R1-18 Mining: iron team hits 40 ore, gold team 30, Coal_Baron 45, gathering counts in chat and verifying inventories after each stint.
+  2. R19-32 Transport: all miners march south-east toward the central smeltery in ≤32-tile hops, announcing positions. Once within 5 tiles, transfer ores/coal via transfer_items to Master_Smelter; special ores stay with Metalsmith until needed.
+  3. R33-48 Smelting: Master_Smelter and Assistant_Smelter run craft_item(Smelting, ironbar/goldbar) until quotas met while Metalsmith tracks inventory milestones.
+  4. R49-60 Production: Metalsmith and Jeweler craft pickaxe, 3x axe, 2x bucket, 2x heavy sword, golden sword, 3x gold ring, and 3x silver ring; report each completion before the final verification.
+
+  EXECUTION NOTES
+  - Keep ore handoffs orderly: iron/gold/coal → Smelters only; special ores/logs → Metalsmith. Both sender and receiver must confirm in chat.
+  - Smelting volume is high; post progress every 10 bars so crafters know when they can begin.
+
+  COMPLETION CHECK
+  - Final inventories must show ≥40 iron bars, ≥30 gold bars converted into the requested tool/weapon/jewelry set (at least 15 finished items). Summarize ore totals, smelting counts, and crafted goods before calling complete().
+# Limitations
+max_action_steps: 60
+
+# Agent configurations
+agent_1:
+  username: "Iron_Chief"
+  new_character: true
+  location:
+    x: 230
+    y: 38
+  skill_levels:
+    mining: 50
+    strength: 32
+    health: 38
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "Iron_Specialist"
+  new_character: true
+  location:
+    x: 232
+    y: 39
+  skill_levels:
+    mining: 45
+    strength: 30
+    health: 35
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "Gold_Prospector"
+  new_character: true
+  location:
+    x: 238
+    y: 48
+  skill_levels:
+    mining: 45
+    strength: 30
+    health: 35
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "Gold_Digger"
+  new_character: true
+  location:
+    x: 240
+    y: 50
+  skill_levels:
+    mining: 40
+    strength: 28
+    health: 34
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "Coal_Baron"
+  new_character: true
+  location:
+    x: 232
+    y: 40
+  skill_levels:
+    mining: 35
+    strength: 28
+    health: 33
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "Master_Smelter"
+  new_character: true
+  location:
+    x: 528
+    y: 384
+  skill_levels:
+    smithing: 35
+    crafting: 28
+    health: 32
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "Assistant_Smelter"
+  new_character: true
+  location:
+    x: 530
+    y: 384
+  skill_levels:
+    smithing: 30
+    crafting: 25
+    health: 30
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "Metalsmith"
+  new_character: true
+  location:
+    x: 532
+    y: 386
+  skill_levels:
+    smithing: 70
+    crafting: 40
+    fletching: 30
+    health: 35
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+    - item: "logs"
+      count: 8
+    - item: "hilt2"
+      count: 3
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "Jeweler"
+  new_character: true
+  location:
+    x: 534
+    y: 386
+  skill_levels:
+    crafting: 50
+    smithing: 35
+    health: 30
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Phase 1: Iron Team mines 40+ iron ore from mountains"
+  - "Phase 1: Gold Team mines 30+ gold ore from mountains"
+  - "Phase 1: Coal Baron mines 45+ coal"
+  - "Phase 1: Total 115+ ores extracted"
+  - "Phase 2: All mining teams travel to Central Smeltery"
+  - "Phase 2: Perfect ore consolidation with Smelters"
+  - "Phase 3: Smelters smelt 40 iron bars"
+  - "Phase 3: Smelters smelt 30 gold bars"
+  - "Phase 4: Metalsmith crafts pickaxe, 3x axe, 2x bucket (6 tools)"
+  - "Phase 4: Metalsmith forges 2x heavy sword and golden sword"
+  - "Phase 4: Jeweler creates 3x silver rings and 3x gold rings"
+  - "Total 15+ metal items crafted"
+  - "All mining teams coordinate efficiently"
+  - "Expedition completed in 57-60 rounds"

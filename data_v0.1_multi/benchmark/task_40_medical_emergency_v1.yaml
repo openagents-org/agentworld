@@ -1,0 +1,106 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simple health management, share food and healing
+
+task:
+  name: "Medical Emergency - Team Health Management"
+  description: "Two agents coordinate health management by sharing food supplies"
+
+# Task objectives
+objectives:
+  primary: "Ensure both agents maintain high health through resource sharing"
+  secondary: # checkpoints
+    - "Coordinate health resource distribution"
+    - "Complete health management within 15 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a simple health coordination scenario.
+
+  OBJECTIVE: Practice team health management through resource sharing.
+
+  MISSION REQUIREMENTS:
+  - Monitor team health levels
+  - Share food resources (apple, flask) between agents
+  - Ensure all agents maintain health above 80%
+  - Practice emergency coordination
+
+  TEAM COORDINATION:
+  - Share health resources when needed
+  - Coordinate resource distribution
+  - Monitor each other's health status
+
+  HEALTH MANAGEMENT:
+  🍎 Food Resources:
+    - Use apple and flask for health restoration
+    - Share resources between team members
+    - Monitor health levels regularly
+
+  DO NOT use complete() until health management is demonstrated!
+
+# Limitations
+max_action_steps: 15
+
+# Agent configurations
+agent_1:
+  username: "medical_coordinator_agent"
+  new_character: true
+
+  location:
+    x: 280
+    y: 190
+
+  skill_levels:
+    health: 45
+    magic: 30
+    strength: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "healthpotion"
+      count: 5
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "health_support_agent"
+  new_character: true
+
+  location:
+    x: 285
+    y: 195
+
+  skill_levels:
+    health: 42
+    strength: 35
+    defense: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "healthpotion"
+      count: 5
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Agents share health resources effectively"
+  - "Both agents maintain good health levels"
+  - "Health coordination demonstrated"

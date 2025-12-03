@@ -1,0 +1,310 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Elemental Mastery Expedition - Tri-Biome Conquest"
+  description: "Eight elementalists journey across three biomes, gathering elemental materials, crafting specialized weapons, and mastering environmental combat"
+
+# Task objectives
+objectives:
+  primary: "Complete a 4-phase elemental mastery journey spanning 54 rounds across forest, mountain, and volcanic biomes"
+  secondary:
+    - "Phase 1 (Rounds 1-12): Gathering Convergence - Collect basic materials from all biomes simultaneously"
+    - "Phase 2 (Rounds 13-24): Forest Mastery - Craft nature-based equipment and conquer forest guardians"
+    - "Phase 3 (Rounds 25-38): Mountain Mastery - Create ice/earth equipment and defeat mountain bosses"
+    - "Phase 4 (Rounds 39-54): Volcanic Finale - Forge fire equipment and defeat ultimate volcanic boss"
+
+# Relevant game context
+relevant_game_context: |
+  EXPEDITION PLAN
+  - Eight elementalists split into pairs, cover three biomes (forest, mountain, volcanic), and regroup between phases to craft themed gear. Each phase (≈12 rounds) follows the same rhythm: gather biome materials → craft elemental equipment at the hub → travel as a full squad to that biome → defeat 2-3 guardians while managing environmental effects.
+
+  PHASE HIGHLIGHTS
+  1. R1-12 Gathering Convergence: three teams depart simultaneously (≤32-tile hops) to collect logs/feathers, ores/ice logs, and gold/cinnabar. Return to the central hub and transfer everything via transfer_items with verify_inventory confirmations.
+  2. R13-24 Forest Mastery: craft nature staffs, beryl pendants, wooden bows, and 50 arrows; march to (250,350), defeat goblin guardians together, then loot and rest.
+  3. R25-38 Mountain Mastery: smelt 30+ iron bars, craft heavy swords/pickaxes/silver rings (and ice staffs if beads exist), travel north (~230,38), fight skeletons/ice mobs while watching cold damage, then confirm mastery.
+  4. R39-54 Volcanic Finale: forge fire gear (golden weapons, fire staffs, heat-resistant accessories), move to (~150,650), and focus-fire dark ogres/fire mobs while tracking heat ticks; defeat the ultimate volcanic boss and announce final mastery before complete().
+
+  EXECUTION NOTES
+  - Without observe_environment, sweep the target grid manually and rely on harvest_resource/attack_mob feedback plus inventory counts.
+  - Keep a phase checklist in chat ("Forest mats ✅, Nature gear ✅, Guardians 2/3") so everyone knows progress.
+  - Travel in ≤32-tile steps, announcing coordinates when moving as a squad; environmental hazards require staying above 80% HP at all times.
+# Limitations
+max_action_steps: 54
+
+# Agent configurations
+agent_1:
+  username: "ElementForest1"
+  new_character: true
+
+  location:
+    x: 500
+    y: 120
+
+  skill_levels:
+    crafting: 38
+    magic: 35
+    fletching: 32
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "bead"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "ElementForest2"
+  new_character: true
+
+  location:
+    x: 505
+    y: 120
+
+  skill_levels:
+    lumberjacking: 35
+    fletching: 30
+    crafting: 28
+    strength: 32
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "ElementIce1"
+  new_character: true
+
+  location:
+    x: 510
+    y: 120
+
+  skill_levels:
+    mining: 38
+    smithing: 32
+    crafting: 30
+    strength: 35
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 32
+    - item: "hilt2"
+      count: 2
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "ElementIce2"
+  new_character: true
+
+  location:
+    x: 500
+    y: 125
+
+  skill_levels:
+    mining: 35
+    crafting: 30
+    smithing: 28
+    strength: 33
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 30
+    - item: "hilt2"
+      count: 1
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "ElementFire1"
+  new_character: true
+
+  location:
+    x: 505
+    y: 125
+
+  skill_levels:
+    smithing: 36
+    magic: 35
+    crafting: 32
+    health: 40
+    mining: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "bead"
+      count: 2
+    - item: "hilt2"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "ElementFire2"
+  new_character: true
+
+  location:
+    x: 510
+    y: 125
+
+  skill_levels:
+    smithing: 34
+    mining: 32
+    magic: 30
+    crafting: 28
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 32
+    - item: "bead"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "ElementSupport1"
+  new_character: true
+
+  location:
+    x: 500
+    y: 130
+
+  skill_levels:
+    accuracy: 38
+    archery: 35
+    fletching: 32
+    strength: 30
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "string"
+      count: 10
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "ElementSupport2"
+  new_character: true
+
+  location:
+    x: 505
+    y: 130
+
+  skill_levels:
+    accuracy: 36
+    archery: 33
+    fletching: 30
+    strength: 32
+    health: 36
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 28
+    - item: "string"
+      count: 10
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Phase 1 completed: All biome materials gathered from 3 regions simultaneously"
+  - "Phase 1: Forest materials (20+ logs, 30+ feathers), Mountain materials (30+ iron, 30+ coal), Volcanic materials (15+ gold, fire beads)"
+  - "Phase 2 completed: Forest Mastery achieved"
+  - "Phase 2: Nature equipment crafted (2 Nature Staffs, Beryl Pendants, 3 Wooden Bows, 50 arrows)"
+  - "Phase 2: Forest guardians defeated (2-3 Goblins Level 10-15)"
+  - "Phase 3 completed: Mountain Mastery achieved"
+  - "Phase 3: Ice equipment crafted (4 Heavy Swords, 2 Pickaxes, 6 Silver Rings)"
+  - "Phase 3: Mountain guardians defeated (2-3 Skeletons Level 15-25)"
+  - "Phase 4 completed: Volcanic Mastery achieved"
+  - "Phase 4: Fire equipment crafted (2 Fire Staffs, 3 Axes, 4 Gold Rings, Enhanced Rings)"
+  - "Phase 4: Volcanic ultimate boss defeated (Dark Ogre Level 28-35 OR Fire Dragon Level 40+)"
+  - "All 3 elements mastered: Nature ✓, Ice ✓, Fire ✓"
+  - "All 3 biomes explored and conquered: Forest, Mountain, Volcanic"
+  - "Equipment progression demonstrated: Nature → Ice → Fire"
+  - "All 8 agents survived entire 54-round expedition with HP > 0"
+  - "Parallel operations demonstrated (Phase 1: 3 teams in 3 biomes simultaneously)"
+  - "Progressive difficulty mastered (Forest easy → Volcanic ultimate)"
+  - "Elemental Mastery Expedition: COMPLETE SUCCESS"

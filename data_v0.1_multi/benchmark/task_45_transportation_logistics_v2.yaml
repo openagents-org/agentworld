@@ -1,0 +1,139 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Multi-stop resource distribution
+
+task:
+  name: "Transportation Logistics - Multi-Stop Distribution"
+  description: "Three agents coordinate multi-stop resource distribution of logs and fish"
+
+# Task objectives
+objectives:
+  primary: "Distribute 4x logs and 4x rawshrimp across three agents"
+  secondary: # checkpoints
+    - "Coordinate multi-stop distribution"
+    - "Complete distribution within 28 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a multi-stop logistics distribution scenario.
+
+  OBJECTIVE: Coordinate resource distribution across team.
+
+  MISSION REQUIREMENTS:
+  - Lumberjack gathers 4x logs
+  - Fisher catches 4x rawshrimp
+  - Distribute so coordinator receives 2x logs and 2x rawshrimp
+  - Coordinate transfers efficiently
+
+  TEAM COORDINATION:
+  - Announce when resources are ready
+  - Coordinate transfer sequence
+  - Verify final distribution
+
+  DISTRIBUTION PLAN:
+  1. Lumberjack gathers logs → transfers 2x to coordinator
+  2. Fisher catches shrimp → transfers 2x to coordinator
+  3. Verify everyone has resources
+
+  DO NOT use complete() until distribution is verified!
+
+# Limitations
+max_action_steps: 28
+
+# Agent configurations
+agent_1:
+  username: "lumber_supplier_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 3
+
+  skill_levels:
+    lumberjacking: 28
+    strength: 40
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "logs"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fish_supplier_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 750
+
+  skill_levels:
+    fishing: 25
+    strength: 35
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "rawshrimp"
+      count: 1
+
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "logistics_coordinator_agent"
+  new_character: true
+
+  location:
+    x: 280
+    y: 190
+
+  skill_levels:
+    crafting: 22
+    strength: 32
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "lumber_supplier_agent gathers 4x logs"
+  - "fish_supplier_agent catches 4x rawshrimp"
+  - "logistics_coordinator_agent receives 2x logs and 2x rawshrimp"
+  - "Multi-stop distribution completed"

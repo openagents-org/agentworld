@@ -1,0 +1,107 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simplified 5-agent legendary crafting
+
+task:
+  name: "Legendary Equipment Forge - Core Gear Creation"
+  description: "Five master craftsmen unite to create legendary equipment: golden items and elite weapons"
+
+# Task objectives
+objectives:
+  primary: "Forge legendary equipment: 3+ golden items, 4+ elite weapons for core legendary arsenal"
+  secondary:
+    - "Conquest 1 (Rounds 1-14): Resource Gathering - Mine 40+ ores, gather components"
+    - "Conquest 2 (Rounds 15-26): Industrial Smelting - Produce 35+ bars from ores"
+    - "Conquest 3 (Rounds 27-38): Legendary Crafting - Forge all legendary items"
+    - "Conquest 4 (Rounds 39-42): Arsenal Display - Verify complete legendary set"
+
+# Context and guidance for agents
+relevant_game_context: |
+  LEGENDARY GOAL
+  - Five specialists must gather materials (25 gold ore, 10 iron ore, 35 coal, logs, strings, hilts) and craft 7 legendary items (3 golden pieces, 4 elite weapons/tools) within ~42 rounds. Miners work remotely while the forge master at (528,384) handles smelting and crafting.
+
+  ROADMAP
+  1. R1-14 Extraction: Gold miner collects 25 gold ore; Iron/Coal miner digs 10 iron + 35 coal; component gatherer secures strings/logs/hilts.
+  2. R15-22 Caravan: all gatherers march to the forge (<=32-tile hops). Transfer ores/coal to forge master.
+  3. R23-38 Production: Forge master smelts 25 gold bars and 10 iron bars, then crafts golden sword/bow/ring and elite weapons.
+  4. R39-42 Exhibition: list the final arsenal and confirm counts.
+
+  EXECUTION NOTES
+  - Keep a shared checklist ("Gold 15/25", "Coal 30/35") so the forge knows when each material stream is ready.
+  - Transfers only succeed within ~10 tiles.
+# Limitations
+max_action_steps: 42
+
+# Agent configurations
+agent_1:
+  username: "Gold_Extractor"
+  new_character: true
+  location: {x: 230, y: 38}
+  skill_levels: {mining: 50, strength: 34, health: 40}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "Iron_Coal_Miner"
+  new_character: true
+  location: {x: 234, y: 42}
+  skill_levels: {mining: 48, strength: 32, health: 38}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "Component_Gatherer"
+  new_character: true
+  location: {x: 250, y: 350}
+  skill_levels: {foraging: 40, lumberjacking: 38, health: 36}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+    - {item: "hilt2", count: 2}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "Master_Smelter"
+  new_character: true
+  location: {x: 528, y: 384}
+  skill_levels: {crafting: 55, smithing: 40, health: 36}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "Legendary_Crafter"
+  new_character: true
+  location: {x: 530, y: 386}
+  skill_levels: {smithing: 60, fletching: 45, crafting: 50, health: 38}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+    - {item: "hilt2", count: 2}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Conquest 1: Gold miner mines 25+ gold ore"
+  - "Conquest 1: Iron & Coal miner extracts 10 iron ore + 35 coal"
+  - "Conquest 1: Component gatherer gathers 6 string, 4 logs, 4 hilts"
+  - "Conquest 2: Master Smelter produces 25 gold bars"
+  - "Conquest 2: Master Smelter produces 10 iron bars"
+  - "Conquest 3: Legendary Crafter forges Golden Sword"
+  - "Conquest 3: Legendary Crafter creates Golden Bow"
+  - "Conquest 3: Legendary Crafter crafts 1 Gold Ring"
+  - "Conquest 3: Legendary Crafter forges 4 elite weapons (2 swords, 2 pickaxes)"
+  - "Total 7 legendary items created"
+  - "Complete legendary arsenal in 40-42 rounds"

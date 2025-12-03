@@ -1,0 +1,445 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, adjusted targets
+
+task:
+  name: "Fortress Defense Construction - Multi-Stage Defensive Fortification"
+  description: "Fifteen agents work together to build a fortress defense system, gathering materials, crafting equipment, and defending against simulated attacks"
+
+# Task objectives
+objectives:
+  primary: "Construct a fully operational fortress defense system with walls, weapons, and trained defenders over 60 rounds"
+  secondary:
+    - "Phase 1 (Rounds 1-15): Foundation - Gather raw materials (90+ logs, 45+ iron ore, 45+ coal)"
+    - "Phase 2 (Rounds 16-30): Construction - Craft defensive equipment (9+ weapons, 4+ armor sets)"
+    - "Phase 3 (Rounds 31-45): Armament - Produce ammunition and supplies (45+ arrows, 90+ healing items)"
+    - "Phase 4 (Rounds 46-60): Defense Drill - Position defenders and execute coordinated defense simulation"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  FORTRESS DEFENSE PROJECT OVERVIEW:
+
+  Fifteen citizens must unite to construct a fortress defense system.
+
+  CONSTRUCTION CORPS (Agents 1-5) - Material Gathering
+  - Starting Location: Oak Forest Region (388, 3)
+  - Material Goals: 90x logs, 45x coal, 28x ironore, 45x sticks
+  - Agents 1-3: Harvest Oak trees (aim for 30+ logs each)
+  - Agent 4: Mine at (230, 40) for ironore and coal
+  - Agent 5: Coordinate transfers to other teams
+
+  ARMORY DIVISION (Agents 6-10) - Equipment Crafting
+  - Starting Location: Mountain Forge (235, 45)
+  - Equipment Goals: 5x heavy swords, 2x axes, 2x pickaxes, 45+ ironbar
+  - Agent 9 receives ore + coal from Construction Corps
+  - Agent 9 smelts minimum 45x ironbar
+  - Agents 6-7 receive ironbar + logs for weapon crafting
+
+  ARCHERY CORPS (Agents 11-12) - Ranged Weapons
+  - Starting Location: Near Forest (390, 8)
+  - Production Goals: 45x arrows, 2x wooden bows
+  - Agent 12: Hunt Roosters/Bats for feathers (need 45+ feathers)
+  - Agent 11: Receive 45 sticks from Construction Corps
+
+  DEFENSE BATTALION (Agents 13-15) - Combat Force
+  - Starting Location: Fortress Center (400, 10)
+  - Equipment received from Armory
+  - Execute coordinated mock battle in Phase 4
+
+# Limitations
+max_action_steps: 60
+
+# Agent configurations
+agent_1:
+  username: "chief_lumberjack"
+  new_character: true
+  location:
+    x: 388
+    y: 3
+  skill_levels:
+    lumberjacking: 45
+    strength: 40
+    health: 40
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 33
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "lumberjack_alpha"
+  new_character: true
+  location:
+    x: 390
+    y: 5
+  skill_levels:
+    lumberjacking: 40
+    strength: 38
+    health: 38
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 33
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "lumberjack_beta"
+  new_character: true
+  location:
+    x: 392
+    y: 7
+  skill_levels:
+    lumberjacking: 38
+    strength: 40
+    health: 42
+  inventory_items:
+    - item: "flask"
+      count: 33
+    - item: "apple"
+      count: 38
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "stone_mason"
+  new_character: true
+  location:
+    x: 230
+    y: 40
+  skill_levels:
+    mining: 45
+    strength: 40
+    health: 40
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 33
+    - item: "coal"
+      count: 12
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "resource_coordinator"
+  new_character: true
+  location:
+    x: 390
+    y: 15
+  skill_levels:
+    strength: 40
+    health: 45
+    defense: 35
+  inventory_items:
+    - item: "flask"
+      count: 33
+    - item: "apple"
+      count: 38
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "master_blacksmith"
+  new_character: true
+  location:
+    x: 235
+    y: 45
+  skill_levels:
+    smithing: 50
+    strength: 35
+    health: 35
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+    - item: "hilt2"
+      count: 4
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "weapon_smith"
+  new_character: true
+  location:
+    x: 237
+    y: 47
+  skill_levels:
+    smithing: 45
+    strength: 35
+    health: 35
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+    - item: "hilt2"
+      count: 2
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "armor_smith"
+  new_character: true
+  location:
+    x: 239
+    y: 49
+  skill_levels:
+    smithing: 40
+    crafting: 35
+    health: 35
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "smelting_master"
+  new_character: true
+  location:
+    x: 233
+    y: 43
+  skill_levels:
+    smithing: 50
+    mining: 30
+    health: 35
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+    - item: "coal"
+      count: 18
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "armory_quartermaster"
+  new_character: true
+  location:
+    x: 240
+    y: 46
+  skill_levels:
+    strength: 40
+    health: 45
+    defense: 35
+  inventory_items:
+    - item: "flask"
+      count: 33
+    - item: "apple"
+      count: 38
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_11:
+  username: "master_fletcher"
+  new_character: true
+  location:
+    x: 390
+    y: 8
+  skill_levels:
+    fletching: 50
+    crafting: 40
+    health: 35
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+    - item: "feather"
+      count: 18
+    - item: "string"
+      count: 6
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_12:
+  username: "feather_collector"
+  new_character: true
+  location:
+    x: 392
+    y: 10
+  skill_levels:
+    accuracy: 40
+    strength: 38
+    health: 40
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 33
+    - item: "feather"
+      count: 12
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_13:
+  username: "defense_commander"
+  new_character: true
+  location:
+    x: 400
+    y: 10
+  skill_levels:
+    strength: 45
+    defense: 45
+    health: 50
+  inventory_items:
+    - item: "flask"
+      count: 33
+    - item: "apple"
+      count: 38
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_14:
+  username: "elite_warrior"
+  new_character: true
+  location:
+    x: 402
+    y: 12
+  skill_levels:
+    strength: 50
+    accuracy: 40
+    health: 45
+  inventory_items:
+    - item: "flask"
+      count: 33
+    - item: "apple"
+      count: 38
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_15:
+  username: "archer_sentinel"
+  new_character: true
+  location:
+    x: 404
+    y: 14
+  skill_levels:
+    accuracy: 50
+    archery: 45
+    health: 40
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 33
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "Construction Corps successfully gathers 90+ logs from oak forest operations"
+  - "Stone Mason successfully mines 45+ ironore and 45+ coal"
+  - "Smelting Master successfully smelts 45+ ironbar"
+  - "Armory Division crafts 5+ heavy swords for defenders"
+  - "Armory Division crafts 2+ axes and 2+ pickaxes"
+  - "Archery Corps produces 45+ arrows from gathered materials"
+  - "Archery Corps crafts 2+ wooden bows"
+  - "Defense Battalion receives complete equipment loadout"
+  - "All defenders equipped with weapons and 22+ healing items"
+  - "Team stockpiles 90+ total healing items for fortress"
+  - "Defense drill successfully executed with coordinated tactics"
+  - "Fortress defense system operational within 60 rounds"

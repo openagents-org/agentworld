@@ -1,0 +1,554 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, adjusted targets
+
+task:
+  name: "Grand Maritime Trading Empire - Ocean Commerce & Fleet Operations"
+  description: "Twenty agents establish a maritime trading empire including fishing fleets, merchant vessels, shipbuilding operations, and trade routes"
+
+# Task objectives
+objectives:
+  primary: "Establish a fully operational maritime trading empire with 3 fishing fleets, 45+ trade goods, and active commerce routes within 65 rounds"
+  secondary:
+    - "Phase 1 (Rounds 1-16): Fleet Formation - Establish fishing operations and gather seafood (28+ fish)"
+    - "Phase 2 (Rounds 17-32): Shipyard Construction - Gather materials and craft maritime equipment (18+ tools/weapons)"
+    - "Phase 3 (Rounds 33-48): Trade Goods Production - Craft jewelry, weapons, and food for trade (28+ items)"
+    - "Phase 4 (Rounds 49-65): Commerce Routes - Distribute goods and establish trading posts"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  GRAND MARITIME TRADING EMPIRE OVERVIEW:
+
+  Twenty seafaring agents must build the realm's greatest trading empire.
+
+  FISHING FLEET DIVISION (Agents 1-5) - Seafood Operations
+  - Starting Location: Coastal Region (580, 750)
+  - Goals: 14x rawshrimp, 9x jellyfish, 5x crab
+  - Total 28+ raw seafood items
+
+  SHIPYARD CONSTRUCTION (Agents 6-10) - Maritime Equipment
+  - Starting Location: Forest (380, 20) and Mountains (230, 40)
+  - Goals: 28x logs, 18+ ironbar, 18+ maritime tools and weapons
+
+  TRADE GOODS WORKSHOP (Agents 11-15) - Luxury Commerce
+  - Goals: 5x jewelry, 12x cooked seafood, 3x magical staves
+  - Total 28+ valuable trade items
+
+  MERCHANT GUILD (Agents 16-20) - Commerce & Distribution
+  - Starting Location: Central hub (400, 15)
+  - Goals: Establish 3+ trading posts, distribute 45+ total items
+
+  Trading Post Locations:
+  - Northern Post: (235, 45) - Mountain region
+  - Southern Post: (585, 752) - Coastal region
+  - Western Post: (385, 25) - Forest region
+
+# Limitations
+max_action_steps: 65
+
+# Agent configurations
+agent_1:
+  username: "nautical_admiral_supreme"
+  new_character: true
+  location:
+    x: 580
+    y: 750
+  skill_levels:
+    fishing: 50
+    health: 45
+    strength: 35
+  inventory_items:
+    - item: "flask"
+      count: 38
+    - item: "apple"
+      count: 43
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "shrimp_trawler_captain"
+  new_character: true
+  location:
+    x: 582
+    y: 752
+  skill_levels:
+    fishing: 48
+    health: 42
+  inventory_items:
+    - item: "flask"
+      count: 33
+    - item: "apple"
+      count: 38
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "deepsea_fisher_elite"
+  new_character: true
+  location:
+    x: 584
+    y: 754
+  skill_levels:
+    fishing: 46
+    health: 40
+    strength: 32
+  inventory_items:
+    - item: "flask"
+      count: 33
+    - item: "apple"
+      count: 38
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "crab_catcher_specialist"
+  new_character: true
+  location:
+    x: 586
+    y: 756
+  skill_levels:
+    fishing: 44
+    health: 40
+  inventory_items:
+    - item: "flask"
+      count: 33
+    - item: "apple"
+      count: 38
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "seafood_processing_chief"
+  new_character: true
+  location:
+    x: 588
+    y: 758
+  skill_levels:
+    cooking: 45
+    health: 40
+  inventory_items:
+    - item: "flask"
+      count: 33
+    - item: "apple"
+      count: 38
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "timber_baron_prime"
+  new_character: true
+  location:
+    x: 380
+    y: 20
+  skill_levels:
+    lumberjacking: 50
+    strength: 45
+    health: 45
+  inventory_items:
+    - item: "flask"
+      count: 33
+    - item: "apple"
+      count: 38
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "ore_overseer_master"
+  new_character: true
+  location:
+    x: 230
+    y: 40
+  skill_levels:
+    mining: 52
+    strength: 45
+    health: 45
+  inventory_items:
+    - item: "flask"
+      count: 33
+    - item: "apple"
+      count: 38
+    - item: "coal"
+      count: 6
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "maritime_forge_master"
+  new_character: true
+  location:
+    x: 232
+    y: 42
+  skill_levels:
+    smithing: 55
+    health: 40
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 33
+    - item: "coal"
+      count: 22
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "shipwright_grandmaster"
+  new_character: true
+  location:
+    x: 234
+    y: 44
+  skill_levels:
+    smithing: 50
+    crafting: 45
+    health: 40
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 33
+    - item: "hilt2"
+      count: 3
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "naval_armorer_supreme"
+  new_character: true
+  location:
+    x: 236
+    y: 46
+  skill_levels:
+    smithing: 48
+    crafting: 42
+    health: 40
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 33
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_11:
+  username: "gem_prospector_elite"
+  new_character: true
+  location:
+    x: 350
+    y: 250
+  skill_levels:
+    strength: 48
+    accuracy: 45
+    health: 48
+  inventory_items:
+    - item: "flask"
+      count: 38
+    - item: "apple"
+      count: 43
+    - item: "emerald"
+      count: 1
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_12:
+  username: "mystical_bead_merchant"
+  new_character: true
+  location:
+    x: 352
+    y: 252
+  skill_levels:
+    magic: 45
+    strength: 42
+    health: 45
+  inventory_items:
+    - item: "flask"
+      count: 38
+    - item: "apple"
+      count: 43
+    - item: "bead"
+      count: 1
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_13:
+  username: "artisan_jeweler_master"
+  new_character: true
+  location:
+    x: 238
+    y: 48
+  skill_levels:
+    crafting: 55
+    smithing: 48
+    health: 38
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 33
+    - item: "string"
+      count: 12
+    - item: "ruby"
+      count: 1
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_14:
+  username: "culinary_trader_supreme"
+  new_character: true
+  location:
+    x: 400
+    y: 10
+  skill_levels:
+    cooking: 52
+    crafting: 38
+    health: 40
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 33
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_15:
+  username: "maritime_staff_enchanter"
+  new_character: true
+  location:
+    x: 402
+    y: 12
+  skill_levels:
+    crafting: 50
+    magic: 48
+    fletching: 42
+    health: 40
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 33
+    - item: "firebead"
+      count: 1
+    - item: "icebead"
+      count: 1
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_16:
+  username: "trade_master_executive"
+  new_character: true
+  location:
+    x: 400
+    y: 15
+  skill_levels:
+    strength: 40
+    health: 50
+    defense: 38
+  inventory_items:
+    - item: "flask"
+      count: 43
+    - item: "apple"
+      count: 48
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_17:
+  username: "northern_envoy_diplomat"
+  new_character: true
+  location:
+    x: 235
+    y: 45
+  skill_levels:
+    strength: 38
+    health: 45
+    defense: 35
+  inventory_items:
+    - item: "flask"
+      count: 38
+    - item: "apple"
+      count: 43
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_18:
+  username: "southern_delegate_agent"
+  new_character: true
+  location:
+    x: 585
+    y: 752
+  skill_levels:
+    strength: 38
+    health: 45
+  inventory_items:
+    - item: "flask"
+      count: 38
+    - item: "apple"
+      count: 43
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_19:
+  username: "western_commerce_agent"
+  new_character: true
+  location:
+    x: 385
+    y: 25
+  skill_levels:
+    strength: 38
+    health: 45
+  inventory_items:
+    - item: "flask"
+      count: 38
+    - item: "apple"
+      count: 43
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_20:
+  username: "empire_inventory_keeper"
+  new_character: true
+  location:
+    x: 404
+    y: 14
+  skill_levels:
+    crafting: 40
+    health: 45
+  inventory_items:
+    - item: "flask"
+      count: 38
+    - item: "apple"
+      count: 43
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Fishing Fleet Division harvests 28+ seafood items (shrimp, jellyfish, crab)"
+  - "Shipyard Construction crafts 18+ maritime tools and weapons"
+  - "Trade Goods Workshop creates 28+ luxury commerce items"
+  - "Total 74+ items produced across all divisions"
+  - "Merchant Guild establishes 3+ trading posts in different regions"
+  - "Goods successfully distributed to all trading posts"
+  - "All divisions communicate and coordinate effectively"
+  - "Maritime Trading Empire operational within 65 rounds"

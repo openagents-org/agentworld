@@ -1,0 +1,152 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simplified 3-agent culinary expedition
+
+task:
+  name: "Advanced Culinary Expedition - Three-Chef Food Production"
+  description: "Three agents embark on a culinary journey gathering diverse ingredients from multiple regions and crafting food items through cooperation"
+
+# Task objectives
+objectives:
+  primary: "Complete a culinary expedition gathering ingredients and producing multiple food items"
+  secondary: # checkpoints
+    - "Execute ingredient gathering operations from farm and forest"
+    - "Coordinate food preparation and cooking"
+    - "Produce cooked meats and a special smoothie"
+    - "Complete entire culinary operation within 40 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  EXPEDITION SNAPSHOT
+  - Three cooks roam the central farms → nearby forests to gather ingredients and cook at least: 2 cooked meats (any mix) and 1 jellyfish smoothie. MasterCook already carries bowls and one jellyfish, so only a handful of items must be collected.
+
+  SUGGESTED TIMELINE (≤40 ROUNDS)
+  1. R1-12: ChefForager sweeps the farm belt (≈(260-300,160-200)) for tomatoes + mushrooms. Share coordinates and totals in chat; transfer extras to MasterCook later.
+  2. R13-25: HunterGatherer hunts low-level mobs near spawn for raw meats via attack_mob. After each kill run verify_inventory and state drops; aim for at least three meat pieces.
+  3. R26-40: Everyone regroups at camp (~(400,350)), transfers all ingredients to MasterCook (transfer_items + verify_inventory), cooks the meats (craft_item Cooking cookedbeef/chicken/pork), then crafts the jellyfish smoothie.
+
+  EXECUTION RULES
+  - If observe_environment is unavailable, rely on move_character hops (≤32 tiles) and harvest_resource/attack_mob feedback to confirm success.
+  - Log every gather/hunt/cook action in chat; mention when ingredients are scarce.
+  - MasterCook announces each finished dish so the team knows when minimum goals are met.
+
+  COMPLETION CHECKLIST
+  - Inventory proof (via verify_inventory) for ≥2 cooked meats and ≥1 jellyfish smoothie.
+  - Final chat summary lists total dishes before anyone invokes complete().
+# Limitations
+max_action_steps: 40
+
+# Agent configurations
+agent_1:
+  username: "ChefForager"
+  new_character: true
+
+  location:
+    x: 200
+    y: 200
+
+  skill_levels:
+    foraging: 30
+    cooking: 25
+    strength: 25
+    health: 35
+    accuracy: 20
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "tomato"
+      count: 1
+    - item: "mushroom1"
+      count: 1
+
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "HunterGatherer"
+  new_character: true
+
+  location:
+    x: 205
+    y: 200
+
+  skill_levels:
+    strength: 35
+    accuracy: 30
+    foraging: 25
+    health: 40
+    defense: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "sword2"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "MasterCook"
+  new_character: true
+
+  location:
+    x: 210
+    y: 200
+
+  skill_levels:
+    cooking: 30
+    foraging: 20
+    strength: 25
+    health: 35
+    crafting: 20
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "bowlmedium"
+      count: 2
+    - item: "jellyfish"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "ChefForager successfully gathers vegetables and ingredients"
+  - "Team successfully completes Stage 1: Ingredient Gathering"
+  - "HunterGatherer successfully hunts and gathers raw meats"
+  - "Team successfully completes Stage 2: Hunting & Gathering"
+  - "MasterCook successfully cooks all raw meats into cooked variants"
+  - "Team successfully completes Stage 3: Cooking"
+  - "Team successfully crafts Jellyfish Smoothie"
+  - "All three agents survive entire culinary expedition"
+  - "Minimum 3 food items produced (2 cooked meats + 1 smoothie)"
+  - "Team demonstrates multi-region food production coordination"
+  - "Culinary expedition completed within 40-round timeframe"

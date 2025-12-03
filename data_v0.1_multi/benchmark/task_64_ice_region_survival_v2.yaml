@@ -1,0 +1,173 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Extended 10-agent ice expedition with boss fight
+
+task:
+  name: "Ice Region Survival Expedition - Grand Arctic Conquest"
+  description: "Ten explorers venture into frozen regions to gather ice materials, hunt arctic creatures, defeat ice boss, and craft cold-weather equipment"
+
+# Task objectives
+objectives:
+  primary: "Complete ice expedition: gather 80+ ice materials, hunt 25+ ice creatures, defeat Ice Guardian boss, craft 12+ cold-weather items"
+  secondary:
+    - "Expedition (Rounds 1-15): Travel to ice regions and establish base"
+    - "Harvesting (Rounds 16-40): Gather ice logs, mine frozen ores, hunt ice mobs"
+    - "Boss Fight (Rounds 41-50): Defeat Ice Guardian"
+    - "Processing (Rounds 51-58): Return and craft ice-themed items"
+    - "Completion (Rounds 59-62): Verify expedition success"
+
+# Context and guidance for agents
+relevant_game_context: |
+  MISSION OUTLINE
+  - Ten explorers leave (350,250), establish a camp near (259,151), collect ≥80 ice materials, hunt ≥25 arctic mobs, defeat Ice Guardian boss, then return to the hub (528,384) to craft 12+ cold-weather items before Round 62.
+
+  PHASES
+  1. R1-15 Trek north-west together in formation.
+  2. R16-40 Split duties inside the ice biome:
+     • Lumberjacks harvest ice/ice-palm logs via harvest_resource.
+     • Hunters clear icerat/icebat/icecrab/icegoblin spawns.
+     • Miners extract coal/special drops.
+  3. R41-50 Boss Fight: locate Ice Guardian, ensure all HP>90%, execute coordinated attack.
+  4. R51-58 Caravan home: regroup, consolidate materials, craft items.
+  5. R59-62 Verification: list totals before complete().
+
+  EXECUTION NOTES
+  - Keep everyone within ~15 tiles during boss fight for coordinated attacks.
+  - Use attack_mob for combat with shared target calls.
+# Limitations
+max_action_steps: 62
+
+# Agent configurations
+agent_1:
+  username: "Lead_Scout"
+  new_character: true
+  location: {x: 350, y: 250}
+  skill_levels: {strength: 42, accuracy: 38, health: 55, defense: 38}
+  inventory_items:
+    - {item: "flask", count: 40}
+    - {item: "apple", count: 45}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_2:
+  username: "Scout_Navigator"
+  new_character: true
+  location: {x: 352, y: 252}
+  skill_levels: {strength: 40, accuracy: 36, health: 52, defense: 36}
+  inventory_items:
+    - {item: "flask", count: 40}
+    - {item: "apple", count: 45}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_3:
+  username: "Ice_Lumberjack_1"
+  new_character: true
+  location: {x: 354, y: 254}
+  skill_levels: {lumberjacking: 45, strength: 35, health: 45}
+  inventory_items:
+    - {item: "flask", count: 35}
+    - {item: "apple", count: 40}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "Ice_Lumberjack_2"
+  new_character: true
+  location: {x: 356, y: 256}
+  skill_levels: {lumberjacking: 42, strength: 33, health: 43}
+  inventory_items:
+    - {item: "flask", count: 35}
+    - {item: "apple", count: 40}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "Arctic_Hunter_1"
+  new_character: true
+  location: {x: 348, y: 248}
+  skill_levels: {strength: 50, accuracy: 45, health: 58, defense: 40}
+  inventory_items:
+    - {item: "flask", count: 42}
+    - {item: "apple", count: 48}
+  equipped_items:
+    - {item: "heavysword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "Arctic_Hunter_2"
+  new_character: true
+  location: {x: 350, y: 246}
+  skill_levels: {strength: 48, accuracy: 42, health: 55, defense: 38}
+  inventory_items:
+    - {item: "flask", count: 42}
+    - {item: "apple", count: 48}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_7:
+  username: "Arctic_Hunter_3"
+  new_character: true
+  location: {x: 346, y: 250}
+  skill_levels: {strength: 46, accuracy: 40, health: 53, defense: 36}
+  inventory_items:
+    - {item: "flask", count: 40}
+    - {item: "apple", count: 45}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_8:
+  username: "Expedition_Miner"
+  new_character: true
+  location: {x: 346, y: 252}
+  skill_levels: {mining: 40, strength: 33, health: 42}
+  inventory_items:
+    - {item: "flask", count: 35}
+    - {item: "apple", count: 40}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_9:
+  username: "Expedition_Crafter"
+  new_character: true
+  location: {x: 352, y: 248}
+  skill_levels: {crafting: 45, smithing: 40, health: 38}
+  inventory_items:
+    - {item: "flask", count: 35}
+    - {item: "apple", count: 40}
+    - {item: "logs", count: 5}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_10:
+  username: "Support_Medic"
+  new_character: true
+  location: {x: 354, y: 250}
+  skill_levels: {magic: 35, health: 45, defense: 32}
+  inventory_items:
+    - {item: "flask", count: 50}
+    - {item: "apple", count: 55}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Expedition: All 10 agents travel to ice region (259, 151)"
+  - "Harvesting: Lumberjacks gather 50+ ice logs total"
+  - "Harvesting: Hunters kill 25+ ice creatures"
+  - "Harvesting: Miner extracts 15+ coal"
+  - "Boss Fight: Ice Guardian located and engaged"
+  - "Boss Fight: Ice Guardian defeated through coordinated attack"
+  - "Processing: All agents return to hub safely"
+  - "Processing: Crafters create 12+ expedition items"
+  - "All agents survive ice region (HP > 0)"
+  - "Complete expedition in 60-62 rounds"

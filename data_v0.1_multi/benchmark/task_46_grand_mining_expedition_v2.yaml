@@ -1,0 +1,162 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Mine and craft just 1 pickaxe
+
+task:
+  name: "Grand Mining Expedition - Pickaxe Production"
+  description: "Three agents mine resources and craft 1x pickaxe"
+
+# Task objectives
+objectives:
+  primary: "Mine iron ore and coal, smelt bars, craft 1x pickaxe"
+  secondary: # checkpoints
+    - "Coordinate mining-smelting-crafting pipeline"
+    - "Complete pickaxe production within 30 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a focused mining and crafting scenario.
+
+  OBJECTIVE: Produce one pickaxe through coordinated effort.
+
+  MISSION REQUIREMENTS:
+  - Mine 5x iron ore and 5x coal (need 5 iron bars for pickaxe)
+  - Gather 1x logs for pickaxe handle
+  - Smelt 5x iron bars
+  - Craft 1x pickaxe
+
+  TEAM COORDINATION:
+  - Miner gathers iron ore and coal
+  - Lumberjack gathers logs
+  - Smith smelts and crafts pickaxe
+
+  STARTING RESOURCES:
+  - Miner has 2x ironore + 2x coal
+  - Lumberjack has 1x logs (equipped axe)
+  - Smith has smithinghammer equipped
+
+  CRAFTING:
+  🔥 Smelting - ironbar:
+    - 1x ironore + 1x coal → 1x ironbar
+
+  🔨 Smithing - pickaxe:
+    - 5x ironbar + 1x logs → 1x pickaxe
+
+  DO NOT use complete() until pickaxe is crafted!
+
+# Limitations
+max_action_steps: 30
+
+# Agent configurations
+agent_1:
+  username: "ore_collector_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 38
+
+  skill_levels:
+    mining: 28
+    strength: 40
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "ironore"
+      count: 2
+    - item: "coal"
+      count: 2
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "handle_gatherer_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 3
+
+  skill_levels:
+    lumberjacking: 25
+    mining: 15
+    strength: 35
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "pickaxe_smith_agent"
+  new_character: true
+
+  location:
+    x: 235
+    y: 42
+
+  skill_levels:
+    smithing: 30
+    mining: 18
+    strength: 35
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "ironore"
+      count: 1
+    - item: "coal"
+      count: 1
+
+  equipped_items:
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team mines at least 5x ironore total"
+  - "Team mines at least 5x coal total"
+  - "handle_gatherer_agent gathers 1x logs"
+  - "pickaxe_smith_agent crafts 1x pickaxe"
+  - "Pickaxe production completed"

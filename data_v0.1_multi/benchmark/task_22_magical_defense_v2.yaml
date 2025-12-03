@@ -1,0 +1,169 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Craft fire staff instead of lightning staff, different gem
+
+task:
+  name: "Magical Academy Defense - Fire Staff & Frost Elemental Battle"
+  description: "Three agents work together to craft a fire staff using ruby gems and defeat a Frost Elemental"
+
+# Task objectives
+objectives:
+  primary: "Craft a Fire Staff and successfully defeat a Frost Elemental in coordinated magical combat"
+  secondary: # checkpoints
+    - "Establish magical team coordination and resource gathering"
+    - "Execute fire staff crafting with ruby gem"
+    - "Complete elemental battle victory within 35 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent magical defense scenario requiring fire magic crafting.
+
+  OBJECTIVE: Create a fire staff and defeat a Frost Elemental through team coordination.
+
+  MISSION REQUIREMENTS:
+  - Gather logs and craft sticks for staff base
+  - Mine ruby gems for fire enchantment
+  - Craft a Fire Staff using advanced fletching
+  - Locate and defeat a Frost Elemental using fire advantage
+
+  TEAM COORDINATION:
+  - Use global chat to coordinate crafting and combat
+  - Share materials between gatherer and crafter
+  - Coordinate fire-based attacks for elemental advantage
+
+  CRAFTING RECIPES:
+  🪵 Lumberjacking - logs:
+    - harvest_resource on Oak Tree instances to get logs
+    - Level required: 1+ (Lumberjacking skill)
+
+  🪄 Fletching Recipe - stick:
+    - craft_item skill=Fletching itemKey=stick
+    - Materials: 1x logs → 4x stick
+
+  💎 Mining - Ruby (RARE GEMS):
+    - harvest_resource on Ruby Rock instances to get ruby
+    - Level required: 20+ (Mining skill)
+
+  🔥 Fletching Recipe - firestaff:
+    - craft_item skill=Fletching itemKey=firestaff
+    - Materials: 4x stick + 1x ruby → 1x firestaff
+    - Level required: 30 (Fletching skill)
+
+  DO NOT use complete() until Frost Elemental is defeated!
+
+# Limitations
+max_action_steps: 35
+
+# Agent configurations
+agent_1:
+  username: "gem_hunter_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 310
+
+  skill_levels:
+    mining: 30
+    lumberjacking: 25
+    strength: 35
+    health: 45
+    defense: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "goldaxe"
+      count: 1
+      enchant: 0
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "staff_crafter_agent"
+  new_character: true
+
+  location:
+    x: 392
+    y: 312
+
+  skill_levels:
+    fletching: 35
+    lumberjacking: 30
+    crafting: 25
+    strength: 30
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "logs"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "fire_mage_agent"
+  new_character: true
+
+  location:
+    x: 394
+    y: 314
+
+  skill_levels:
+    magic: 45
+    strength: 35
+    defense: 40
+    health: 50
+    accuracy: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "manapotion"
+      count: 10
+    - item: "healthpotion"
+      count: 8
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "gem_hunter_agent successfully mines Ruby gem"
+  - "staff_crafter_agent successfully crafts Fire Staff"
+  - "fire_mage_agent receives and equips Fire Staff"
+  - "Team successfully locates and defeats Frost Elemental"
+  - "All agents survive the elemental encounter"
+  - "Magical defense mission completed within time limit"

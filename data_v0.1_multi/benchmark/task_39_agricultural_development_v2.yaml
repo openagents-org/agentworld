@@ -1,0 +1,142 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Gather and process food, make cooked fish
+
+task:
+  name: "Agricultural Development - Food Processing"
+  description: "Three agents gather ingredients and cook 4x cooked tuna"
+
+# Task objectives
+objectives:
+  primary: "Catch raw tuna and cook 4x cooked tuna for food supply"
+  secondary: # checkpoints
+    - "Coordinate fishing and cooking operations"
+    - "Complete food processing within 25 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is an agricultural food processing scenario.
+
+  OBJECTIVE: Establish food production with fishing and cooking.
+
+  MISSION REQUIREMENTS:
+  - Catch raw tuna from fishing spots
+  - Cook 4x cooked tuna for food supply
+  - Coordinate fishing and cooking
+
+  TEAM COORDINATION:
+  - Fishers catch tuna
+  - Chef cooks the fish
+  - Share resources efficiently
+
+  RECIPES:
+  🐟 Fishing - rawtuna:
+    - harvest_resource on tuna fishing spots
+    - Level required: 1+ (Fishing skill)
+
+  🍳 Cooking - cookedtuna:
+    - craft_item skill=Cooking itemKey=cookedtuna
+    - Materials: 1x rawtuna → 1x cookedtuna
+    - Target: 4x cookedtuna total
+
+  DO NOT use complete() until objectives are achieved!
+
+# Limitations
+max_action_steps: 25
+
+# Agent configurations
+agent_1:
+  username: "lead_fisher_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 750
+
+  skill_levels:
+    fishing: 25
+    strength: 32
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "rawtuna"
+      count: 1
+
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "support_fisher_agent"
+  new_character: true
+
+  location:
+    x: 582
+    y: 752
+
+  skill_levels:
+    fishing: 22
+    strength: 30
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "rawtuna"
+      count: 1
+
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "farm_chef_agent"
+  new_character: true
+
+  location:
+    x: 584
+    y: 754
+
+  skill_levels:
+    cooking: 22
+    strength: 28
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Fishers catch enough raw tuna"
+  - "farm_chef_agent cooks at least 4x cookedtuna"
+  - "Food production completed successfully"

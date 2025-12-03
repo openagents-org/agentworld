@@ -1,0 +1,120 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simplified 6-agent dual-shrine stabilization
+
+task:
+  name: "Elemental Nexus Stabilization - Dual-Shrine Containment"
+  description: "Six elemental specialists gather resources, craft pylons, and defend two shrines to seal planar rifts within 40 rounds"
+
+# Task objectives
+objectives:
+  primary: "Stabilize the Ice and Stone conduits by supplying each shrine with its catalyst set and defeating their guardians"
+  secondary:
+    - "Phase 1 (Rounds 1-8): Meet at Magical Nexus, assign squads, audit tools"
+    - "Phase 2 (Rounds 9-18): Harvest icelogs/icebeads, mine iron/coal"
+    - "Phase 3 (Rounds 19-28): Craft 12 iron bars, 3 pickaxes, 3 silver rings, two elemental staffs"
+    - "Phase 4 (Rounds 29-40): Deploy to shrines and activate pylons"
+
+# Relevant game context
+relevant_game_context: |
+  MISSION OUTLINE
+  - Six specialists seal two elemental shrines (Ice 259,151; Stone 238,48) within 40 rounds.
+  - Phase 1: meet at nexus, assign Ice/Stone squads.
+  - Phase 2: Ice Squad harvests >=12 icelogs + >=3 icebeads; Stone Squad mines >=15 ironore/coal.
+  - Phase 3: smelt 12+ iron bars, forge 3 pickaxes + 3 silver rings, craft two staffs.
+  - Phase 4: deploy to shrines, defeat guardians, activate pylons.
+
+  EXECUTION NOTES
+  - Transfers require both sides to verify_inventory.
+  - Keep shared log in chat for material tracking.
+# Limitations
+max_action_steps: 40
+
+# Agent configurations
+agent_1:
+  username: "Arbiter_76v1"
+  new_character: true
+  location: {x: 200, y: 200}
+  skill_levels: {magic: 38, crafting: 32, health: 33, defense: 26}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "manaflask", count: 8}
+    - {item: "bead", count: 3}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "IceBinder_76v1"
+  new_character: true
+  location: {x: 205, y: 200}
+  skill_levels: {magic: 30, lumberjacking: 28, health: 30, defense: 24}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 12}
+    - {item: "icebead", count: 1}
+    - {item: "icelogs", count: 3}
+  equipped_items:
+    - {item: "icestaff", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "FlameSmith_76v1"
+  new_character: true
+  location: {x: 200, y: 205}
+  skill_levels: {smithing: 40, mining: 36, strength: 30, health: 30}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 14}
+    - {item: "coal", count: 4}
+    - {item: "ironore", count: 4}
+  equipped_items:
+    - {item: "hammer", count: 1, enchant: 0}
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "ShieldWall_76v1"
+  new_character: true
+  location: {x: 205, y: 205}
+  skill_levels: {defense: 40, strength: 36, health: 40, accuracy: 18}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 14}
+    - {item: "cure", count: 2}
+  equipped_items:
+    - {item: "heavysword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "Scout_76v1"
+  new_character: true
+  location: {x: 200, y: 210}
+  skill_levels: {accuracy: 32, fishing: 26, foraging: 24, health: 26}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 10}
+  equipped_items:
+    - {item: "woodenbow", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "Medic_76v1"
+  new_character: true
+  location: {x: 205, y: 210}
+  skill_levels: {magic: 30, cooking: 28, crafting: 24, health: 32}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "manaflask", count: 6}
+    - {item: "blueberry", count: 10}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Arbiter hosts kickoff meeting and assigns squads before Round 5"
+  - "Ice Squad delivers >=12 icelogs and >=3 icebead"
+  - "FlameSmith crafts >=12 ironbar plus 3 pickaxe and 3 silverring"
+  - "Two elemental staffs crafted and assigned to squad leads"
+  - "Both shrine fights handled with attack_entity and post-combat HP report"
+  - "Mission completes between Rounds 38-40"

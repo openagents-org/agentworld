@@ -1,0 +1,172 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+
+task:
+  name: "Legendary Golden Tribute - The Royal Commission"
+  description: "A high-stakes industrial operation to produce a set of legendary golden armaments for the King's Guard within a strict timeframe."
+
+objectives:
+  primary: "Produce 3 Golden Bows and 1 Golden Sword, then present them to the Royal Tribute Master."
+  secondary:
+    - "Miners: Mine 60 Gold Ore from the rocky deposits"
+    - "Hunters: Provide 30 String and 6 Logs (Scout the area or use supplies)"
+    - "Smiths: Smelt 60 Gold Bars (using Coal + Gold Ore)"
+    - "Smiths: Craft 3 Golden Bows (15 Gold Bars + 10 String + 2 Logs each)"
+    - "Smiths: Craft 1 Golden Sword (15 Gold Bars + 1 Hilt)"
+    - "Tribute Master (Smith_1): Hold all 4 Legendary Items at the end"
+
+relevant_game_context: |
+  THE ROYAL DECREE
+
+  The King demands a tribute of Golden Weaponry.
+  You are stationed at the Golden Peaks (Region 2-0).
+
+  PRODUCTION CHAIN:
+  1. MINING TEAM (Agents 1-10):
+     - Target: Gold Deposits (Level 25 Mining).
+     - Goal: 60 Gold Ore total.
+     - Action: Drop Ore at the Smelter (Smith_1's location) every 10 rounds.
+
+  2. HUNTER TEAM (Agents 11-15):
+     - You carry the rare 'String' needed for bowstrings.
+     - You must also harvest 'Oak Trees' for the Bow staves (Logs).
+     - Goal: Transfer 30 String and 6 Logs to the Smiths.
+     - Support: Protect the miners from Vultures if needed.
+
+  3. SMITH TEAM (Agents 16-20):
+     - You hold the Coal (Fuel).
+     - Task 1: Smelt Gold Ore -> Gold Bars.
+     - Task 2: Craft the Items.
+       - Golden Bow: 15 Gold Bars, 10 String, 2 Logs. (Requires Fletching Lvl 32)
+       - Golden Sword: 15 Gold Bars, 1 Hilt. (Requires Smithing Lvl 62)
+     - Note: Smith_1 is the designated "Tribute Master". Consolidate final items with them.
+
+  DEADLOCK PREVENTION:
+  - Miners must NOT hoard ore. Transfer it!
+  - Smiths must share Gold Bars if one smith has the skills/recipe.
+  - Designate ONE crafter for Bows and ONE for Swords if skills differ, or all work together.
+  - CHECK SKILLS:
+    - Smith_1 has High Smithing (Sword).
+    - Smith_2 has High Fletching (Bows).
+
+  LIMITATIONS:
+  - Time is short. 48 Rounds.
+  - Gold Ore mining is slow. 10 Miners x 6 Ore each = 60. Perfect efficiency required.
+
+limitations:
+  max_action_steps: 48
+
+# MINERS (1-10)
+agent_1: &miner_agent
+  username: "Gold_Miner_1"
+  new_character: true
+  location: {x: 230, y: 45}
+  skill_levels: {mining: 55, strength: 45, health: 55}
+  inventory_items: [{item: "flask", count: 15}, {item: "apple", count: 15}, {item: "goldore", count: 3}]
+  equipped_items: [{item: "pickaxe", count: 1}, {item: "leatherarmor", count: 1}]
+agent_2:
+  <<: *miner_agent
+  username: "Gold_Miner_2"
+  location: {x: 231, y: 45}
+agent_3:
+  <<: *miner_agent
+  username: "Gold_Miner_3"
+  location: {x: 232, y: 45}
+agent_4:
+  <<: *miner_agent
+  username: "Gold_Miner_4"
+  location: {x: 230, y: 46}
+agent_5:
+  <<: *miner_agent
+  username: "Gold_Miner_5"
+  location: {x: 231, y: 46}
+agent_6:
+  <<: *miner_agent
+  username: "Gold_Miner_6"
+  location: {x: 232, y: 46}
+agent_7:
+  <<: *miner_agent
+  username: "Gold_Miner_7"
+  location: {x: 230, y: 44}
+agent_8:
+  <<: *miner_agent
+  username: "Gold_Miner_8"
+  location: {x: 231, y: 44}
+agent_9:
+  <<: *miner_agent
+  username: "Gold_Miner_9"
+  location: {x: 232, y: 44}
+agent_10:
+  <<: *miner_agent
+  username: "Gold_Miner_10"
+  location: {x: 233, y: 45}
+
+# HUNTERS (11-15) - Logistics/Suppliers
+agent_11: &hunter_agent
+  username: "Supply_Hunter_1"
+  new_character: true
+  location: {x: 235, y: 45}
+  skill_levels: {woodcutting: 45, strength: 45, health: 55}
+  inventory_items:
+    - {item: "string", count: 6}
+    - {item: "logs", count: 2}
+    - {item: "flask", count: 15}
+    - {item: "apple", count: 15}
+  equipped_items: [{item: "axe", count: 1}, {item: "woodenbow", count: 1}, {item: "leatherarmor", count: 1}]
+agent_12:
+  <<: *hunter_agent
+  username: "Supply_Hunter_2"
+  location: {x: 235, y: 46}
+agent_13:
+  <<: *hunter_agent
+  username: "Supply_Hunter_3"
+  location: {x: 235, y: 44}
+agent_14:
+  <<: *hunter_agent
+  username: "Supply_Hunter_4"
+  location: {x: 236, y: 45}
+agent_15:
+  <<: *hunter_agent
+  username: "Supply_Hunter_5"
+  location: {x: 236, y: 46}
+
+# SMITHS (16-20)
+agent_16: &smith_agent
+  username: "Tribute_Master"
+  new_character: true
+  location: {x: 234, y: 45}
+  skill_levels: {smithing: 75, crafting: 75, fletching: 75, strength: 45}
+  inventory_items:
+    - {item: "coal", count: 50}
+    - {item: "hilt2", count: 1}
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 25}
+  equipped_items: [{item: "heavysword", count: 1}, {item: "platearmor", count: 1}]
+agent_17:
+  <<: *smith_agent
+  username: "Master_Smith_2"
+  inventory_items: [{item: "coal", count: 50}, {item: "flask", count: 25}, {item: "apple", count: 25}]
+  location: {x: 234, y: 46}
+agent_18:
+  <<: *smith_agent
+  username: "Master_Smith_3"
+  inventory_items: [{item: "coal", count: 50}, {item: "flask", count: 25}, {item: "apple", count: 25}]
+  location: {x: 234, y: 44}
+agent_19:
+  <<: *smith_agent
+  username: "Master_Smith_4"
+  inventory_items: [{item: "coal", count: 50}, {item: "flask", count: 25}, {item: "apple", count: 25}]
+  location: {x: 233, y: 46}
+agent_20:
+  <<: *smith_agent
+  username: "Master_Smith_5"
+  inventory_items: [{item: "coal", count: 50}, {item: "flask", count: 25}, {item: "apple", count: 25}]
+  location: {x: 233, y: 44}
+
+success_criteria:
+  - "Team Mines 60 Gold Ore"
+  - "Team Smelts 60 Gold Bars"
+  - "Team Crafts 3 Golden Bows"
+  - "Team Crafts 1 Golden Sword"
+  - "Tribute_Master (Agent 16) holds all 4 legendary items"
+  - "All agents survive"

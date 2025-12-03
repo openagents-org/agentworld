@@ -1,0 +1,114 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simplified 6-agent relief convoy
+
+task:
+  name: "Continental Relief Convoy - Core Aid Escort"
+  description: "Six specialists assemble supplies and escort them to the flooded coast over ~38 rounds"
+
+# Task objectives
+objectives:
+  primary: "Deliver medical and engineering supplies to the coastal refugee pier in 36-38 rounds"
+  secondary:
+    - "Phase 1 (Rounds 1-10): Stage and gather logs, ore, coal, food"
+    - "Phase 2 (Rounds 11-20): Smelt 15 iron bars, craft tools, cook 15 meals"
+    - "Phase 3 (Rounds 21-30): Move convoy across terrain with escorts"
+    - "Phase 4 (Rounds 31-38): Hand off supplies at coast, verify inventories"
+
+# Relevant game context
+relevant_game_context: |
+  MISSION FLOW (~38 ROUNDS)
+  - Phase 1: gather quotas near staging area — >=15 iron + >=15 coal, >=20 logs, >=10 rawshrimp, >=25 berries — transfer to Quartermaster.
+  - Phase 2: smelt 15+ iron bars, forge pickaxes/axes; Cook prepares 15 cookedshrimp; bundle aid kits.
+  - Phase 3: split into scout/payload/rearguard, leapfrog via move_character hops <=32 tiles.
+  - Phase 4: reach coastal pier, transfer aid crates, verify HP >25%, broadcast delivery summary.
+
+  EXECUTION NOTES
+  - Transfers only count when both agents confirm via verify_inventory.
+  - Keep payload agents within 10 tiles of escorts during movement.
+# Limitations
+max_action_steps: 38
+
+# Agent configurations
+agent_1:
+  username: "Quartermaster_75v1"
+  new_character: true
+  location: {x: 200, y: 200}
+  skill_levels: {crafting: 35, smithing: 30, strength: 28, health: 33}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 16}
+    - {item: "string", count: 15}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "Pathfinder_75v1"
+  new_character: true
+  location: {x: 205, y: 200}
+  skill_levels: {lumberjacking: 32, strength: 30, defense: 26, health: 32}
+  inventory_items:
+    - {item: "flask", count: 10}
+    - {item: "apple", count: 12}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "Engineer_75v1"
+  new_character: true
+  location: {x: 200, y: 205}
+  skill_levels: {mining: 38, smithing: 35, strength: 28, health: 30}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "Cook_75v1"
+  new_character: true
+  location: {x: 205, y: 205}
+  skill_levels: {cooking: 35, fishing: 30, foraging: 24, health: 26}
+  inventory_items:
+    - {item: "flask", count: 10}
+    - {item: "apple", count: 10}
+    - {item: "rawshrimp", count: 8}
+  equipped_items:
+    - {item: "fishingpole", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "Shield_75v1"
+  new_character: true
+  location: {x: 200, y: 210}
+  skill_levels: {defense: 38, strength: 36, health: 38, accuracy: 22}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "heavysword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "Diplomat_75v1"
+  new_character: true
+  location: {x: 205, y: 210}
+  skill_levels: {magic: 28, accuracy: 26, strength: 22, health: 28}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "manaflask", count: 6}
+    - {item: "apple", count: 10}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "All six agents meet and confirm assigned roles before Round 5"
+  - "Quartermaster verifies stockpile of >=20 logs, >=15 ironbar, >=25 blueberries, >=15 cookedshrimp"
+  - "Engineer crafts >=15 ironbar plus 2 pickaxe and 2 axe"
+  - "Convoy successfully reaches coastal pier with supplies intact"
+  - "Diplomat confirms receipt of supplies via verify_inventory"
+  - "Mission completes between Rounds 36-38"

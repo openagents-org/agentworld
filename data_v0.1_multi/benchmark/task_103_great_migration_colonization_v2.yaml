@@ -1,0 +1,151 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+
+task:
+  name: "The Great Migration - Castle Reclamation"
+  description: "A convoy mission where 20 agents must escort a supply train of Settlers through a hostile Castle region to reclaim the Throne Room."
+
+objectives:
+  primary: "Escort all 8 Settlers and their supplies to the Castle Throne Room (X:712, Y:717) while neutralizing Ice Knight threats."
+  secondary:
+    - "Vanguard: Clear the path of Ice Knights (Defeat 5)"
+    - "Settlers: Transport 200 Logs to the Throne Room (Do not drop or lose items)"
+    - "Rear Guard: Protect the Settlers from flanking attacks"
+    - "Team: Consolidate all 200 Logs with the Colony Governor (Settler_1) at the destination"
+    - "Survival: Ensure no Settlers die during the transit"
+
+relevant_game_context: |
+  CONVOY OPERATIONS ORDER
+
+  Mission: Reclaim the Frozen Fortress.
+  Start Point: Outskirts (700, 700)
+  End Point: Throne Room (712, 717)
+
+  THREAT ASSESSMENT:
+  - Region 7-7: Castle/Fortress
+  - Hostiles: Ice Knights (Level 62). High Damage, Freeze attacks.
+  - Risk: Settlers have minimal combat training. If they die, the mission fails.
+
+  FORMATION STRATEGY:
+  - Vanguard (Agents 1-6): Advance 3 tiles ahead of the main group. Aggro any mobs immediately.
+  - Settlers (Agents 7-14): Move in a tight pack. STAY BEHIND VANGUARD.
+  - Rear Guard (Agents 15-20): Watch the back. Ensure no stragglers.
+
+  MOVEMENT DISCIPLINE:
+  - Do not sprint. Move 1-2 tiles per turn and WAIT for formation to realign.
+  - Use 'say' to confirm "Sector Clear" before advancing.
+  - If an Ice Knight appears, Settlers must STOP and Vanguard must ENGAGE.
+
+  SUPPLY MANAGEMENT:
+  - Each Settler carries 25 Logs.
+  - Total Cargo: 200 Logs.
+  - Upon reaching (712, 717), transfer ALL Logs to Settler_Governor.
+
+  TIME LIMIT: 65 Rounds. The cold is setting in. Move with purpose.
+
+limitations:
+  max_action_steps: 65
+
+# VANGUARD (1-6) - Elite Warriors
+agent_1: &vanguard_agent
+  username: "Vanguard_Captain"
+  new_character: true
+  location: {x: 702, y: 702}
+  skill_levels: {strength: 68, defense: 68, health: 78, accuracy: 58}
+  inventory_items: [{item: "flask", count: 28}, {item: "apple", count: 28}]
+  equipped_items: [{item: "goldensword", count: 1}, {item: "platearmor", count: 1}, {item: "goldboots", count: 1}]
+agent_2:
+  <<: *vanguard_agent
+  username: "Vanguard_2"
+  location: {x: 703, y: 702}
+agent_3:
+  <<: *vanguard_agent
+  username: "Vanguard_3"
+  location: {x: 701, y: 702}
+agent_4:
+  <<: *vanguard_agent
+  username: "Vanguard_4"
+  location: {x: 702, y: 703}
+agent_5:
+  <<: *vanguard_agent
+  username: "Vanguard_5"
+  location: {x: 703, y: 703}
+agent_6:
+  <<: *vanguard_agent
+  username: "Vanguard_6"
+  location: {x: 701, y: 703}
+
+# SETTLERS (7-14) - Carriers
+agent_7: &settler_agent
+  username: "Settler_Governor"
+  new_character: true
+  location: {x: 700, y: 700}
+  skill_levels: {strength: 18, defense: 8, health: 28, woodcutting: 8}
+  inventory_items:
+    - {item: "logs", count: 25}
+    - {item: "apple", count: 8}
+  equipped_items: [{item: "leatherarmor", count: 1}]
+agent_8:
+  <<: *settler_agent
+  username: "Settler_2"
+  location: {x: 700, y: 701}
+agent_9:
+  <<: *settler_agent
+  username: "Settler_3"
+  location: {x: 699, y: 700}
+agent_10:
+  <<: *settler_agent
+  username: "Settler_4"
+  location: {x: 699, y: 701}
+agent_11:
+  <<: *settler_agent
+  username: "Settler_5"
+  location: {x: 698, y: 700}
+agent_12:
+  <<: *settler_agent
+  username: "Settler_6"
+  location: {x: 698, y: 701}
+agent_13:
+  <<: *settler_agent
+  username: "Settler_7"
+  location: {x: 697, y: 700}
+agent_14:
+  <<: *settler_agent
+  username: "Settler_8"
+  location: {x: 697, y: 701}
+
+# REAR GUARD (15-20)
+agent_15: &rearguard_agent
+  username: "RearGuard_Cmdr"
+  new_character: true
+  location: {x: 696, y: 699}
+  skill_levels: {strength: 48, defense: 48, health: 58, accuracy: 48}
+  inventory_items: [{item: "flask", count: 18}, {item: "apple", count: 18}]
+  equipped_items: [{item: "heavysword", count: 1}, {item: "platearmor", count: 1}]
+agent_16:
+  <<: *rearguard_agent
+  username: "RearGuard_2"
+  location: {x: 697, y: 699}
+agent_17:
+  <<: *rearguard_agent
+  username: "RearGuard_3"
+  location: {x: 695, y: 699}
+agent_18:
+  <<: *rearguard_agent
+  username: "RearGuard_4"
+  location: {x: 696, y: 698}
+agent_19:
+  <<: *rearguard_agent
+  username: "RearGuard_5"
+  location: {x: 697, y: 698}
+agent_20:
+  <<: *rearguard_agent
+  username: "RearGuard_6"
+  location: {x: 695, y: 698}
+
+success_criteria:
+  - "All 8 Settlers reach the Throne Room (712, 717)"
+  - "Settler_Governor holds 200 Logs (Consolidated)"
+  - "At least 5 Ice Knights are defeated by the Vanguard"
+  - "All Settlers survive the journey"
+  - "Team maintains formation (Settlers behind Vanguard)"

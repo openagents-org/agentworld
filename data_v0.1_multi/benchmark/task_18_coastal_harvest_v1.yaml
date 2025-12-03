@@ -1,0 +1,151 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Pre-gathered resources, only need to collect a bit more
+
+task:
+  name: "Coastal Harvest Mission - Quick Coastal Gathering"
+  description: "Three agents quickly complete a coastal harvest with some resources already gathered"
+
+# Task objectives
+objectives:
+  primary: "Successfully gather 4x rawshrimp and 2x icelogs with starting resources"
+  secondary: # checkpoints
+    - "Establish effective team communication"
+    - "Complete coastal resource gathering within 20 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a simplified cooperative coastal gathering scenario.
+
+  OBJECTIVE: Complete the coastal harvest quickly with pre-gathered resources.
+
+  CRITICAL: Some resources are already collected!
+  - shrimp_fisher_agent starts with 2x rawshrimp
+  - ice_logger_agent starts with 1x icelogs
+
+  MISSION REQUIREMENTS:
+  - Collect remaining 2x rawshrimp and 1x icelogs
+  - Keep all team members alive
+  - Use teamwork for efficient completion
+
+  TEAM COORDINATION:
+  - Coordinate movements for efficient resource gathering
+  - Share information about resource locations
+  - Work together to ensure mission success
+
+  GATHERING MECHANICS:
+  🎣 Fishing - rawshrimp:
+    - harvest_resource on shrimp fishing spots to get rawshrimp
+    - Level required: 1+ (Fishing skill)
+    - Target: 4x rawshrimp total (already have 2x)
+
+  ❄️ Lumberjacking - icelogs:
+    - harvest_resource on ice oak tree instances to get icelogs
+    - Level required: 10+ (Lumberjacking skill)
+    - Target: 2x icelogs total (already have 1x)
+
+# Limitations
+max_action_steps: 20
+
+# Agent configurations
+agent_1:
+  username: "coastal_guardian_agent"
+  new_character: true
+
+  location:
+    x: 200
+    y: 200
+
+  skill_levels:
+    archery: 30
+    fletching: 20
+    strength: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+    - item: "arrow"
+      count: 50
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+
+agent_2:
+  username: "shrimp_fisher_agent"
+  new_character: true
+
+  location:
+    x: 205
+    y: 200
+
+  skill_levels:
+    fishing: 20
+    defense: 15
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+    - item: "rawshrimp"
+      count: 2
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+
+agent_3:
+  username: "ice_logger_agent"
+  new_character: true
+
+  location:
+    x: 210
+    y: 200
+
+  skill_levels:
+    lumberjacking: 30
+    defense: 18
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+    - item: "icelogs"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+
+# Success criteria
+success_criteria:
+  - "shrimp_fisher_agent has at least 4x rawshrimp in inventory"
+  - "ice_logger_agent has at least 2x icelogs in inventory"
+  - "All agents remain alive throughout the mission"

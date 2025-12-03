@@ -1,0 +1,195 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Extended 12-agent grand tunnel network restoration
+
+task:
+  name: "Underground Railway Restoration - Grand Cavern Transit Network"
+  description: "Twelve spelunkers reopen the expanded railway network, clearing five blockages, laying six signal beacons, and testing multiple supply carts within 65 rounds."
+
+# Task objectives
+objectives:
+  primary: "Reconnect the North Shaft (230,60), West Junction (150,300), East Junction (550,300), and South Exit (480,620), then escort supply carts along all routes."
+  secondary:
+    - "Phase 1 (Rounds 1-12): Survey team charts all collapsed corridors and junctions."
+    - "Phase 2 (Rounds 13-28): Excavation team clears five blockages with lumber support."
+    - "Phase 3 (Rounds 29-42): Beacon team crafts and installs six signal staffs."
+    - "Phase 4 (Rounds 43-54): Security team removes hostile mobs at checkpoints."
+    - "Phase 5 (Rounds 55-65): Logistics teams push two supply carts along different routes."
+
+# Relevant game context
+relevant_game_context: |
+  MAP OVERVIEW
+  - North Shaft (230,60) ↔ Mid Hub (350,320) ↔ South Exit (480,620)
+  - West Junction (150,300) ↔ Mid Hub (350,320) ↔ East Junction (550,300)
+  - Keep at least two agents stationed at each hub during operations.
+
+  BLOCKAGE CLEARING
+  - Each collapse consumes ~6 pickaxe swings. Gather 20 ironore + 20 coal, smelt into 20 ironbar, and craft four replacement pickaxes.
+  - TimberJack supplies 16+ logs to brace tunnels; confirm "Brace ready" before mining.
+
+  SIGNAL BEACONS
+  - BeaconSmith crafts three lightningstaff (direction markers) and three firestaff (hazard markers).
+  - Plant beacons at North Shaft, West Junction, East Junction, Mid Hub, South Exit, and one underground junction.
+
+  SECURITY + CARTS
+  - TunnelGuard squad patrols ahead, attacking spectres/scorpions.
+  - Two QuarterCarts: one runs North→South, one runs West→East.
+  - At least three escorts per cart within 5 tiles at all times.
+
+  COMPLETION
+  - Need chat log of five cleared blockages, six active beacons, and both cart arrivals.
+
+# Limitations
+max_action_steps: 65
+
+# Agent configurations
+agent_1:
+  username: "SurveyLead_84v2"
+  new_character: true
+  location: {x: 230, y: 60}
+  skill_levels: {mining: 36, defense: 32, accuracy: 30, health: 34}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 12}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "MapRunner_84v2"
+  new_character: true
+  location: {x: 232, y: 62}
+  skill_levels: {accuracy: 34, magic: 30, health: 30, defense: 30}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 12}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_3:
+  username: "DigMaster_84v2"
+  new_character: true
+  location: {x: 240, y: 70}
+  skill_levels: {mining: 42, smelting: 38, smithing: 34, health: 36}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "TimberJack_84v2"
+  new_character: true
+  location: {x: 242, y: 72}
+  skill_levels: {lumberjacking: 38, strength: 32, health: 34, defense: 32}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 12}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_5:
+  username: "MineAssist_84v2"
+  new_character: true
+  location: {x: 245, y: 75}
+  skill_levels: {mining: 36, smithing: 30, strength: 28, health: 32}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 12}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "BeaconSmith_84v2"
+  new_character: true
+  location: {x: 350, y: 320}
+  skill_levels: {crafting: 38, magic: 36, smithing: 32, health: 32}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "manaflask", count: 12}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_7:
+  username: "SignalRunner_84v2"
+  new_character: true
+  location: {x: 354, y: 324}
+  skill_levels: {magic: 32, crafting: 32, accuracy: 30, health: 30}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 12}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_8:
+  username: "TunnelGuard_84v2"
+  new_character: true
+  location: {x: 360, y: 330}
+  skill_levels: {defense: 40, strength: 36, health: 36, accuracy: 30}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "heavysword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_9:
+  username: "ShadowCleaver_84v2"
+  new_character: true
+  location: {x: 365, y: 335}
+  skill_levels: {accuracy: 36, defense: 34, magic: 30, health: 34}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_10:
+  username: "QuarterCart1_84v2"
+  new_character: true
+  location: {x: 230, y: 60}
+  skill_levels: {crafting: 34, defense: 32, strength: 30, health: 32}
+  inventory_items:
+    - {item: "flask", count: 18}
+    - {item: "apple", count: 18}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_11:
+  username: "QuarterCart2_84v2"
+  new_character: true
+  location: {x: 150, y: 300}
+  skill_levels: {crafting: 32, defense: 30, strength: 28, health: 30}
+  inventory_items:
+    - {item: "flask", count: 16}
+    - {item: "apple", count: 16}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_12:
+  username: "MedicLamp_84v2"
+  new_character: true
+  location: {x: 480, y: 620}
+  skill_levels: {magic: 38, crafting: 34, health: 36, defense: 32}
+  inventory_items:
+    - {item: "flask", count: 18}
+    - {item: "manaflask", count: 14}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Five blockages cleared with chat logs referencing tool usage and verify_inventory screenshots"
+  - "20 ironbar produced, four replacement pickaxes crafted, and structural braces confirmed"
+  - "Three lightningstaff and three firestaff beacons crafted, planted at specified hubs"
+  - "Security team documents at least six hostile eliminations plus loot redistribution"
+  - "Both QuarterCart inventories show complete transfer with escorts present"
+  - "All agents stand at designated exits to declare the tunnel network safe"
+  - "Mission completes in 62-65 rounds"

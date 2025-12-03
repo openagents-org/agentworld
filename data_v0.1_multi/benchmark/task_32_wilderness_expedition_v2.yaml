@@ -1,0 +1,136 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Only foraging and exploration, no combat
+
+task:
+  name: "Wilderness Expedition - Foraging Adventure"
+  description: "Three agents work together to explore wilderness and gather 6x blueberry and 4x apple"
+
+# Task objectives
+objectives:
+  primary: "Explore wilderness and gather 6x blueberry and 4x apple"
+  secondary: # checkpoints
+    - "Establish wilderness exploration coordination"
+    - "Complete foraging expedition within 25 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a peaceful wilderness foraging scenario without combat.
+
+  OBJECTIVE: Explore wilderness and gather fruits through foraging.
+
+  MISSION REQUIREMENTS:
+  - Navigate wilderness areas
+  - Gather 6x blueberry from blueberry bushes
+  - Gather 4x apple from apple trees
+  - Coordinate foraging efforts
+
+  TEAM COORDINATION:
+  - Share information about resource locations
+  - Coordinate gathering to avoid overlap
+  - Focus on efficient foraging routes
+
+  FORAGING KNOWLEDGE:
+  🫐 Foraging - blueberry:
+    - harvest_resource on blueberry instances
+    - Level required: 1+ (Foraging skill)
+    - Target: 6x blueberry total
+
+  🍎 Foraging - apple:
+    - harvest_resource on apple tree instances
+    - Level required: 1+ (Foraging skill)
+    - Target: 4x apple total
+
+  DO NOT use complete() until all resources are gathered!
+
+# Limitations
+max_action_steps: 25
+
+# Agent configurations
+agent_1:
+  username: "berry_forager_agent"
+  new_character: true
+
+  location:
+    x: 180
+    y: 200
+
+  skill_levels:
+    foraging: 25
+    strength: 30
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 10
+    - item: "blueberry"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fruit_collector_agent"
+  new_character: true
+
+  location:
+    x: 185
+    y: 205
+
+  skill_levels:
+    foraging: 22
+    strength: 28
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "blueberry"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "wilderness_explorer_agent"
+  new_character: true
+
+  location:
+    x: 190
+    y: 210
+
+  skill_levels:
+    foraging: 20
+    strength: 30
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 5
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team gathers at least 6x blueberry total"
+  - "Team gathers at least 4x apple total"
+  - "All agents explore wilderness safely"

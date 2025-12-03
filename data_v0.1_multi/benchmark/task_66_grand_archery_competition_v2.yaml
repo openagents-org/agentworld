@@ -1,0 +1,141 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Extended 8-agent archery production with gold bows
+
+task:
+  name: "Grand Archery Competition - Ultimate Arsenal Production"
+  description: "Eight archery specialists mass-produce arrows, craft multiple bow types, and prepare for grand competition"
+
+# Task objectives
+objectives:
+  primary: "Produce archery arsenal: 80+ arrows, 8+ bows including golden bows"
+  secondary:
+    - "Materials (Rounds 1-18): Gather feathers, logs, strings, gold ore"
+    - "Production (Rounds 19-40): Craft sticks, strings, base items, smelt gold"
+    - "Assembly (Rounds 41-55): Mass arrow production, bow crafting"
+    - "Competition (Rounds 56-60): Display complete archery arsenal"
+
+# Context and guidance for agents
+relevant_game_context: |
+  COMPETITION OVERVIEW
+  - Produce ≥80 arrows and ≥8 bows (including 2 golden bows) for the grand event by Round 60. Two hunters collect feathers, two lumberjacks harvest logs, one miner gets gold, and the hub trio converts everything.
+
+  TIMELINE
+  1. R1-18 Gathering: Feather teams hunt until 80+ feathers. Lumberjacks log for 20+ logs. Gold miner extracts 20+ gold ore + coal.
+  2. R19-40 Delivery & Smelting: All gatherers march to hub. Transfer materials. Smelt gold bars.
+  3. R41-55 Production: Arrow_Crafter turns logs → sticks → 80 arrows. Bow_Crafters create 6 wooden bows + 2 golden bows.
+  4. R56-60 Verification: Publish final counts.
+
+  EXECUTION NOTES
+  - Keep a running group checklist ("Feathers 50/80", "Gold bars 8/10").
+  - Golden bow requires gold bars + string + logs.
+# Limitations
+max_action_steps: 60
+
+# Agent configurations
+agent_1:
+  username: "Feather_Hunter_1"
+  new_character: true
+  location: {x: 350, y: 250}
+  skill_levels: {strength: 43, accuracy: 40, health: 50}
+  inventory_items:
+    - {item: "flask", count: 32}
+    - {item: "apple", count: 38}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "Feather_Hunter_2"
+  new_character: true
+  location: {x: 352, y: 252}
+  skill_levels: {strength: 40, accuracy: 38, health: 48}
+  inventory_items:
+    - {item: "flask", count: 32}
+    - {item: "apple", count: 38}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "Master_Lumberjack"
+  new_character: true
+  location: {x: 250, y: 350}
+  skill_levels: {lumberjacking: 48, strength: 35, health: 42}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "Wood_Harvester"
+  new_character: true
+  location: {x: 252, y: 352}
+  skill_levels: {lumberjacking: 45, strength: 33, health: 40}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "Gold_Miner"
+  new_character: true
+  location: {x: 230, y: 38}
+  skill_levels: {mining: 45, smithing: 35, health: 38}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "Arrow_Crafter"
+  new_character: true
+  location: {x: 528, y: 384}
+  skill_levels: {fletching: 45, crafting: 35, health: 35}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_7:
+  username: "Bow_Crafter"
+  new_character: true
+  location: {x: 530, y: 386}
+  skill_levels: {fletching: 50, crafting: 40, health: 38}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+    - {item: "string", count: 20}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_8:
+  username: "Golden_Bow_Specialist"
+  new_character: true
+  location: {x: 532, y: 388}
+  skill_levels: {fletching: 55, smithing: 40, crafting: 38, health: 36}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Materials: Feather Hunters collect 80+ feathers from birds"
+  - "Materials: Lumberjacks harvest 20+ logs"
+  - "Materials: Gold Miner extracts 20+ gold ore and coal"
+  - "Production: Arrow Crafter crafts 80+ sticks from logs"
+  - "Production: Gold Miner smelts 10+ gold bars"
+  - "Production: String gathered/available for bows (20+)"
+  - "Assembly: Arrow Crafter produces 80 arrows"
+  - "Assembly: Bow Crafter creates 6 wooden bows"
+  - "Assembly: Golden Bow Specialist creates 2 golden bows"
+  - "Competition: Complete archery arsenal verified (80 arrows, 8 bows)"
+  - "Completed in 57-60 rounds"

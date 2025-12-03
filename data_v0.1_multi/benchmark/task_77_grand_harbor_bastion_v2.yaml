@@ -1,0 +1,203 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Extended 12-agent harbor defense with six towers
+
+task:
+  name: "Grand Harbor Bastion - Ultimate Coastal Fortress"
+  description: "Twelve harbor specialists rebuild six ballista towers, fortify the entire seawall, and repel multiple coastal assaults within 65 rounds"
+
+# Task objectives
+objectives:
+  primary: "Construct six functional ballista towers at the coastal harbor and survive three waves of merfolk assaults"
+  secondary:
+    - "Phase 1 (Rounds 1-14): Stockpile massive resources"
+    - "Phase 2 (Rounds 15-32): Smelt 36 iron bars, craft 8 ballista frames + 100 arrows, cook 40 meals"
+    - "Phase 3 (Rounds 33-45): Install six towers along the seawall, assign crews"
+    - "Phase 4 (Rounds 46-55): First and second wave defense"
+    - "Phase 5 (Rounds 56-65): Final wave and victory verification"
+
+# Relevant game context
+relevant_game_context: |
+  BASTION PLAN
+  - Twelve defenders rebuild six ballista towers and survive three waves of coastal assault within 65 rounds.
+  - Phase 1: timber teams cut >=90 logs + >=60 feathers, miners pull >=40 ironore/coal, coastal team harvests >=30 palmlogs + >=20 kelp.
+  - Phase 2: smelt 36 iron bars, forge 6 pickaxes/axes, craft 8 woodenbow frames + 100 arrows, prepare 40 cookedshrimp.
+  - Phase 3: install six towers at designated coordinates.
+  - Phase 4-5: defend against three waves.
+
+  EXECUTION NOTES
+  - Transfers require sender and marshal to confirm inventories.
+  - Keep formation references in chat.
+# Limitations
+max_action_steps: 65
+
+# Agent configurations
+agent_1:
+  username: "GrandMarshal_77v2"
+  new_character: true
+  location: {x: 200, y: 200}
+  skill_levels: {defense: 42, strength: 34, health: 42, crafting: 30}
+  inventory_items:
+    - {item: "flask", count: 18}
+    - {item: "apple", count: 20}
+    - {item: "cure", count: 3}
+  equipped_items:
+    - {item: "heavysword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "TimberLead1_77v2"
+  new_character: true
+  location: {x: 205, y: 200}
+  skill_levels: {lumberjacking: 42, fletching: 32, strength: 32, health: 34}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 16}
+    - {item: "logs", count: 8}
+    - {item: "string", count: 12}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "TimberLead2_77v2"
+  new_character: true
+  location: {x: 210, y: 200}
+  skill_levels: {lumberjacking: 40, fletching: 30, strength: 30, health: 32}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "OreChief1_77v2"
+  new_character: true
+  location: {x: 200, y: 205}
+  skill_levels: {mining: 44, smithing: 38, strength: 34, health: 36}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 18}
+    - {item: "ironore", count: 6}
+    - {item: "coal", count: 6}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "hammer", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "OreChief2_77v2"
+  new_character: true
+  location: {x: 205, y: 205}
+  skill_levels: {mining: 40, smithing: 34, strength: 32, health: 34}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "Bowmaster1_77v2"
+  new_character: true
+  location: {x: 210, y: 205}
+  skill_levels: {fletching: 40, accuracy: 36, lumberjacking: 28, health: 30}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 14}
+    - {item: "feather", count: 25}
+    - {item: "string", count: 18}
+  equipped_items:
+    - {item: "woodenbow", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_7:
+  username: "Bowmaster2_77v2"
+  new_character: true
+  location: {x: 200, y: 210}
+  skill_levels: {fletching: 38, accuracy: 34, crafting: 30, health: 28}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 14}
+    - {item: "feather", count: 20}
+  equipped_items:
+    - {item: "woodenbow", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_8:
+  username: "Cook1_77v2"
+  new_character: true
+  location: {x: 205, y: 210}
+  skill_levels: {cooking: 38, fishing: 34, foraging: 30, health: 32}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 12}
+    - {item: "rawshrimp", count: 12}
+    - {item: "kelp", count: 8}
+  equipped_items:
+    - {item: "fishingpole", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_9:
+  username: "Cook2_77v2"
+  new_character: true
+  location: {x: 210, y: 210}
+  skill_levels: {cooking: 34, fishing: 30, foraging: 26, health: 28}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 12}
+  equipped_items:
+    - {item: "fishingpole", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_10:
+  username: "Medic1_77v2"
+  new_character: true
+  location: {x: 200, y: 215}
+  skill_levels: {magic: 38, crafting: 28, health: 40, defense: 30}
+  inventory_items:
+    - {item: "flask", count: 20}
+    - {item: "manaflask", count: 10}
+    - {item: "blueberry", count: 14}
+    - {item: "cure", count: 2}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_11:
+  username: "StormMage_77v2"
+  new_character: true
+  location: {x: 205, y: 215}
+  skill_levels: {magic: 42, accuracy: 34, health: 36, crafting: 30}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "manaflask", count: 12}
+    - {item: "lightningbead", count: 3}
+    - {item: "firebead", count: 2}
+  equipped_items:
+    - {item: "lightningstaff", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_12:
+  username: "Defender_77v2"
+  new_character: true
+  location: {x: 210, y: 215}
+  skill_levels: {defense: 38, strength: 36, health: 40, accuracy: 26}
+  inventory_items:
+    - {item: "flask", count: 16}
+    - {item: "apple", count: 18}
+    - {item: "cure", count: 2}
+  equipped_items:
+    - {item: "heavysword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "GrandMarshal confirms resource quotas (>=90 logs, >=60 feathers, >=40 ironore/coal, >=30 palmlogs)"
+  - "OreChiefs craft 36 ironbar plus 6 pickaxe and 6 axe"
+  - "Bowmasters produce 8 woodenbow and 100 arrows"
+  - "All six tower positions receive complete kits and crews post confirmation"
+  - "Cooks deliver >=40 cookedshrimp to medics"
+  - "Three waves of coastal enemies defeated via coordinated attack_entity calls"
+  - "All frontliners report post-fight HP after each wave"
+  - "Mission completes between Rounds 62-65"

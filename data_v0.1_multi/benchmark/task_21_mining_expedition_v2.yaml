@@ -1,0 +1,191 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Craft 2 gold rings with 4 agents for efficient mining
+
+task:
+  name: "Deep Mining Expedition - Dual Ring Production Line"
+  description: "Four agents work together to establish an efficient mining and crafting operation for two golden rings"
+
+# Task objectives
+objectives:
+  primary: "Successfully mine rare ores and craft TWO golden rings through coordinated team operations"
+  secondary: # checkpoints
+    - "Establish effective mining team coordination"
+    - "Execute ore extraction and smelting operations"
+    - "Complete dual precious metal crafting within 40 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent mining expedition with expanded team and targets.
+
+  OBJECTIVE: Establish mining operations to extract rare ores and craft TWO golden rings.
+
+  MISSION REQUIREMENTS:
+  - Find and extract 2x Gold Ore from Gold Rock deposits
+  - Gather sufficient coal for smelting operations
+  - Smelt 2x Gold Bars and craft 2x Golden Rings
+  - Coordinate heavy ore transportation between team members
+
+  TEAM COORDINATION:
+  - Two miners work together for efficient ore extraction
+  - Dedicated fuel gatherer ensures coal supply
+  - Master smith handles all smelting and crafting
+  - Share heavy materials efficiently
+
+  CRAFTING RECIPES:
+  ⛏️ Mining - Gold Ore (RARE):
+    - harvest_resource on Gold Rock instances to get goldore
+    - Level required: 30+ (Mining skill)
+
+  ⚫ Mining - Coal:
+    - harvest_resource on Coal Rock instances to get coal
+    - Level required: 10+ (Mining skill)
+
+  🔥 Smelting Recipe - goldbar:
+    - craft_item skill=Smelting itemKey=goldbar
+    - Materials: 1x goldore + 1x coal → 1x goldbar
+
+  💍 Smithing Recipe - goldring:
+    - craft_item skill=Smithing itemKey=goldring
+    - Materials: 1x goldbar → 1x goldring
+
+  DO NOT use complete() until 2x goldring is crafted!
+
+# Limitations
+max_action_steps: 40
+
+# Agent configurations
+agent_1:
+  username: "lead_prospector_agent"
+  new_character: true
+
+  location:
+    x: 600
+    y: 500
+
+  skill_levels:
+    mining: 40
+    lumberjacking: 20
+    strength: 45
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "goldaxe"
+      count: 1
+      enchant: 0
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "junior_prospector_agent"
+  new_character: true
+
+  location:
+    x: 605
+    y: 505
+
+  skill_levels:
+    mining: 35
+    strength: 40
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 18
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "fuel_gatherer_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 480
+
+  skill_levels:
+    mining: 25
+    strength: 40
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "coal"
+      count: 1
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "master_smith_agent"
+  new_character: true
+
+  location:
+    x: 620
+    y: 520
+
+  skill_levels:
+    smithing: 55
+    mining: 20
+    strength: 35
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Prospectors successfully extract 2x Gold Ore"
+  - "fuel_gatherer_agent provides 2x coal for smelting"
+  - "master_smith_agent successfully smelts 2x Gold Bars"
+  - "master_smith_agent successfully crafts 2x Golden Rings"
+  - "master_smith_agent has 2x goldring in inventory"
+  - "All agents coordinate mining operations effectively"

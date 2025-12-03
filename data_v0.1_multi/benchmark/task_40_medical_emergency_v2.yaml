@@ -1,0 +1,139 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Gather healing materials (blueberry) and coordinate health
+
+task:
+  name: "Medical Emergency - Healing Supply Gathering"
+  description: "Three agents gather 6x blueberry for healing supplies and coordinate team health"
+
+# Task objectives
+objectives:
+  primary: "Gather 6x blueberry as healing supplies and maintain team health"
+  secondary: # checkpoints
+    - "Coordinate foraging and health management"
+    - "Complete medical operations within 22 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a medical supply gathering scenario.
+
+  OBJECTIVE: Gather healing supplies and maintain team health.
+
+  MISSION REQUIREMENTS:
+  - Gather 6x blueberry for healing supplies
+  - Share food resources between agents
+  - Maintain all agents at healthy levels
+  - Coordinate medical operations
+
+  TEAM COORDINATION:
+  - Foragers gather blueberry
+  - Coordinator manages health distribution
+  - Share resources as needed
+
+  GATHERING:
+  🫐 Foraging - blueberry:
+    - harvest_resource on blueberry instances
+    - Target: 6x blueberry total
+    - Blueberry provides healing benefits
+
+  DO NOT use complete() until objectives are achieved!
+
+# Limitations
+max_action_steps: 22
+
+# Agent configurations
+agent_1:
+  username: "medical_forager_1"
+  new_character: true
+
+  location:
+    x: 180
+    y: 200
+
+  skill_levels:
+    foraging: 22
+    health: 45
+    strength: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "blueberry"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "medical_forager_2"
+  new_character: true
+
+  location:
+    x: 185
+    y: 205
+
+  skill_levels:
+    foraging: 20
+    health: 42
+    strength: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "blueberry"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "health_coordinator_agent"
+  new_character: true
+
+  location:
+    x: 190
+    y: 210
+
+  skill_levels:
+    health: 48
+    magic: 32
+    defense: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+    - item: "healthpotion"
+      count: 5
+
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team gathers at least 6x blueberry total"
+  - "Health resources shared effectively"
+  - "All agents maintain good health"
+  - "Medical operations coordinated"

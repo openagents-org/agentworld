@@ -1,0 +1,121 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simplified 6-agent polar relief mission
+
+task:
+  name: "Frostveil Lifeline Convoy - Core Polar Relief"
+  description: "Six specialists rebuild the frozen supply line between Ridge Camp and the Ice Guardian Outpost, delivering beacon staffs and medical kits within 40 rounds."
+
+# Task objectives
+objectives:
+  primary: "Deliver the convoy manifest (logs, iron bars, one lightningstaff, one icestaff, medical rations) from Ridge Camp (232,148) to the Ice Guardian Outpost (260,156)."
+  secondary:
+    - "Phase 1 (Rounds 1-10): Stage at Ridge Camp, assign squads."
+    - "Phase 2 (Rounds 11-22): Resource squad harvests 12 icelogs, mines 8 ironore + 8 coal."
+    - "Phase 3 (Rounds 23-32): Beacon squad smelts 6 ironbar, crafts staffs."
+    - "Phase 4 (Rounds 33-40): Escort squad guides convoy to outpost."
+
+# Relevant game context
+relevant_game_context: |
+  RIDGE CAMP PROTOCOL
+  - Keep everyone within 6 tiles when staging; confirm roles in chat.
+  - Use harvest_resource target=iceoak for icelogs.
+  - Mine iron/coal veins along the ridge.
+
+  BEACON FABRICATION
+  - Craft chain: craft_item skill=Crafting itemKey=staff → upgrade to lightningstaff/icestaff.
+  - Use transfer_items with witnesses.
+
+  CONVOY & ESCORTS
+  - Designate Quartermaster as sole holder of convoy items.
+  - Escort moves in formation around Quartermaster.
+
+  CHECKPOINT CALLS
+  - At each waypoint, recite location, HP status, and item counts.
+  - Install beacons at (250,152) and the outpost gate (260,156).
+
+# Limitations
+max_action_steps: 40
+
+# Agent configurations
+agent_1:
+  username: "ConvoyLead_85v1"
+  new_character: true
+  location: {x: 232, y: 148}
+  skill_levels: {defense: 34, strength: 30, accuracy: 26, health: 32}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 12}
+  equipped_items:
+    - {item: "heavysword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "GlacierMiner_85v1"
+  new_character: true
+  location: {x: 234, y: 150}
+  skill_levels: {mining: 36, smithing: 30, strength: 28, health: 30}
+  inventory_items:
+    - {item: "flask", count: 10}
+    - {item: "apple", count: 10}
+    - {item: "coal", count: 2}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "FrostCarver_85v1"
+  new_character: true
+  location: {x: 230, y: 146}
+  skill_levels: {lumberjacking: 36, crafting: 26, strength: 26, health: 28}
+  inventory_items:
+    - {item: "flask", count: 10}
+    - {item: "apple", count: 10}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_4:
+  username: "BeaconSmith_85v1"
+  new_character: true
+  location: {x: 233, y: 149}
+  skill_levels: {crafting: 34, magic: 30, smithing: 26, health: 28}
+  inventory_items:
+    - {item: "string", count: 2}
+    - {item: "flask", count: 10}
+    - {item: "apple", count: 8}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "Quartermaster_85v1"
+  new_character: true
+  location: {x: 231, y: 149}
+  skill_levels: {crafting: 30, defense: 30, strength: 26, health: 30}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_6:
+  username: "PolarMedic_85v1"
+  new_character: true
+  location: {x: 232, y: 150}
+  skill_levels: {magic: 32, crafting: 30, health: 32, defense: 28}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "manaflask", count: 8}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Resource squad delivers 12+ icelogs, 8+ iron ore, 8+ coal"
+  - "Beacon squad crafts one lightningstaff and one icestaff"
+  - "Quartermaster alone holds the convoy manifest and confirms totals"
+  - "Escort squad keeps all agents within 5 tiles during transit"
+  - "Beacons installed at (250,152) and (260,156)"
+  - "Mission completes in 38-40 rounds"

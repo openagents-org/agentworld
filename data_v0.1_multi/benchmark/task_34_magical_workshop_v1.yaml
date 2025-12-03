@@ -1,0 +1,116 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Only gather materials, no crafting required
+
+task:
+  name: "Magical Workshop - Material Gathering"
+  description: "Two agents work together to gather materials for magical crafting"
+
+# Task objectives
+objectives:
+  primary: "Gather 3x beryl gems and 4x logs for magical crafting"
+  secondary: # checkpoints
+    - "Locate beryl rocks and oak trees"
+    - "Complete material gathering within 20 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a simplified material gathering scenario for magical workshop.
+
+  OBJECTIVE: Gather materials needed for magical staff crafting.
+
+  MISSION REQUIREMENTS:
+  - Mine 3x beryl gems from beryl rocks
+  - Harvest 4x logs from oak trees
+  - Coordinate gathering efforts
+
+  TEAM COORDINATION:
+  - Miner focuses on beryl gems
+  - Lumberjack focuses on logs
+  - Share location information
+
+  GATHERING:
+  💎 Mining - beryl:
+    - harvest_resource on Beryl Rock instances
+    - Level required: 25+ (Mining skill)
+    - Target: 3x beryl total
+
+  🌲 Lumberjacking - logs:
+    - harvest_resource on Oak Tree instances
+    - Level required: 1+ (Lumberjacking skill)
+    - Target: 4x logs total
+
+  DO NOT use complete() until materials are gathered!
+
+# Limitations
+max_action_steps: 20
+
+# Agent configurations
+agent_1:
+  username: "gem_miner_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 310
+
+  skill_levels:
+    mining: 30
+    strength: 35
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "beryl"
+      count: 1
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "wood_gatherer_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 3
+
+  skill_levels:
+    lumberjacking: 25
+    strength: 35
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "logs"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "gem_miner_agent mines at least 3x beryl"
+  - "wood_gatherer_agent harvests at least 4x logs"
+  - "Team coordinates material gathering effectively"

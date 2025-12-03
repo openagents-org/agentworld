@@ -1,0 +1,110 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Only lumberjacking, gather 6 logs
+
+task:
+  name: "Resource Expedition - Lumber Collection"
+  description: "Two agents work together to gather 6x logs from trees"
+
+# Task objectives
+objectives:
+  primary: "Gather 6x logs through coordinated lumberjacking"
+  secondary: # checkpoints
+    - "Locate and harvest oak trees"
+    - "Complete lumber collection within 15 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a simple lumber gathering expedition.
+
+  OBJECTIVE: Gather logs efficiently through teamwork.
+
+  MISSION REQUIREMENTS:
+  - Navigate to tree areas
+  - Harvest 6x logs from oak trees
+  - Coordinate harvesting efforts
+
+  TEAM COORDINATION:
+  - Both agents have lumberjacking skills
+  - Share tree locations
+  - Avoid harvesting same trees
+
+  LUMBERJACKING:
+  🌲 Lumberjacking - logs:
+    - harvest_resource on Oak Tree instances
+    - Level required: 1+ (Lumberjacking skill)
+    - Target: 6x logs total
+
+  DO NOT use complete() until 6x logs are gathered!
+
+# Limitations
+max_action_steps: 15
+
+# Agent configurations
+agent_1:
+  username: "lumber_agent_1"
+  new_character: true
+
+  location:
+    x: 388
+    y: 3
+
+  skill_levels:
+    lumberjacking: 25
+    strength: 35
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+    - item: "logs"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "lumber_agent_2"
+  new_character: true
+
+  location:
+    x: 390
+    y: 5
+
+  skill_levels:
+    lumberjacking: 22
+    strength: 32
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+    - item: "logs"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team gathers at least 6x logs total"
+  - "Agents coordinate harvesting effectively"

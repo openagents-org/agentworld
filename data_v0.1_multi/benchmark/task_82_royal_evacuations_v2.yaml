@@ -1,0 +1,194 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Extended 12-agent quad-corridor evacuation
+
+task:
+  name: "Royal Evacuation Command - Grand Corridor Defense"
+  description: "Twelve officers evacuate civilians through four escape corridors, repairing three bridges, and escorting convoys to safe zones within 65 rounds."
+
+# Task objectives
+objectives:
+  primary: "Evacuate four civilian groups from (528,384) toward northern mountains, eastern coast, western forest, and southern desert while keeping supply wagons intact."
+  secondary:
+    - "Phase 1 (Rounds 1-14): Recon squad charts all four corridors."
+    - "Phase 2 (Rounds 15-28): Engineers repair Northbridge, East Crossing, and South Causeway."
+    - "Phase 3 (Rounds 29-42): Support hub prepares four convoys with supplies."
+    - "Phase 4 (Rounds 43-56): Escort teams move all convoys simultaneously."
+    - "Phase 5 (Rounds 57-65): Final muster with casualty report."
+
+# Relevant game context
+relevant_game_context: |
+  TEAM STRUCTURE
+  - Recon: Agents 1-2 sweep all four corridors using observe_environment radius=48.
+  - Engineers: Agents 3-5 gather 16 logs + 16 ironore/coal, smelt bars, repair three bridges.
+  - Support Hub: Agents 6-7 collect food/medicine, assemble four identical supply bundles.
+  - Escorts: Agents 8-12 attach to convoys. Each convoy must have at least two escorts.
+
+  CRITICAL DETAILS
+  1. Resource plan:
+     • 16 logs + 16 ironbar → structural supplies for three bridges.
+     • Each convoy kit: 12 flasks, 12 food items, 2 strengthpotion.
+  2. Movement rules:
+     • Convoys pause every two moves for regroup checks.
+     • If mobs spawn, escorts attack before resuming.
+     • Recon provides waypoint headings for each corridor.
+  3. Communication:
+     • Bridge repairs announced with resource counts.
+     • Support hub shares inventory snapshots before handoffs.
+  4. Completion: complete() after all four convoys check in and bridges certified.
+
+# Limitations
+max_action_steps: 65
+
+# Agent configurations
+agent_1:
+  username: "NorthScout_82v2"
+  new_character: true
+  location: {x: 180, y: 200}
+  skill_levels: {accuracy: 34, magic: 32, strength: 28, health: 32}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_2:
+  username: "EastScout_82v2"
+  new_character: true
+  location: {x: 185, y: 200}
+  skill_levels: {accuracy: 36, magic: 30, health: 30, defense: 30}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "bow", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "Bridgewright1_82v2"
+  new_character: true
+  location: {x: 190, y: 200}
+  skill_levels: {lumberjacking: 36, smithing: 35, smelting: 34, health: 34}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 12}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "pickaxe", count: 1, enchant: 0}
+
+agent_4:
+  username: "Bridgewright2_82v2"
+  new_character: true
+  location: {x: 180, y: 205}
+  skill_levels: {lumberjacking: 32, smithing: 32, crafting: 30, defense: 32}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 12}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_5:
+  username: "CausewayEngineer_82v2"
+  new_character: true
+  location: {x: 185, y: 205}
+  skill_levels: {mining: 34, smithing: 32, crafting: 30, health: 32}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 12}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "Quartermaster_82v2"
+  new_character: true
+  location: {x: 190, y: 205}
+  skill_levels: {crafting: 34, trading: 32, defense: 30, health: 30}
+  inventory_items:
+    - {item: "flask", count: 24}
+    - {item: "apple", count: 24}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_7:
+  username: "FieldMedic_82v2"
+  new_character: true
+  location: {x: 180, y: 210}
+  skill_levels: {magic: 36, crafting: 30, health: 34, defense: 28}
+  inventory_items:
+    - {item: "flask", count: 18}
+    - {item: "manaflask", count: 12}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_8:
+  username: "NorthEscort_82v2"
+  new_character: true
+  location: {x: 185, y: 210}
+  skill_levels: {defense: 40, strength: 36, health: 38, accuracy: 30}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "heavysword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_9:
+  username: "EastEscort_82v2"
+  new_character: true
+  location: {x: 190, y: 210}
+  skill_levels: {accuracy: 38, strength: 34, defense: 32, health: 34}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "bluesword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_10:
+  username: "WestEscort_82v2"
+  new_character: true
+  location: {x: 180, y: 215}
+  skill_levels: {defense: 38, strength: 36, health: 36, accuracy: 28}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_11:
+  username: "SouthEscort_82v2"
+  new_character: true
+  location: {x: 185, y: 215}
+  skill_levels: {defense: 36, strength: 34, health: 34, accuracy: 26}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "heavysword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_12:
+  username: "ReserveEscort_82v2"
+  new_character: true
+  location: {x: 190, y: 215}
+  skill_levels: {defense: 36, magic: 32, health: 34, crafting: 28}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 12}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Recon squad reports at least two checkpoints per corridor plus every mob cluster discovered"
+  - "Three bridges each receive 5+ logs + 5+ ironbar with repair confirmations in chat"
+  - "Support hub documents inventory contents for each of four convoy bundles"
+  - "All four convoys arrive at target coordinates with escorts present and >50% HP"
+  - "Any hostile encounters resolved with explicit attack logs and post-battle inventory checks"
+  - "Final muster lists remaining supplies, evacuee counts, and bridge status"
+  - "Mission completes in 62-65 rounds"

@@ -1,0 +1,205 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Extended 12-agent quad-shrine stabilization
+
+task:
+  name: "Elemental Nexus Stabilization - Grand Quad-Shrine Containment"
+  description: "Twelve elemental specialists gather rare resources, craft pylons, and defend four shrines to seal planar rifts within 65 rounds"
+
+# Task objectives
+objectives:
+  primary: "Stabilize the Ice, Stone, Tidal, and Desert conduits by supplying each shrine with its catalyst set and defeating their guardians"
+  secondary:
+    - "Phase 1 (Rounds 1-12): Meet at Magical Nexus, assign four squads, audit tools"
+    - "Phase 2 (Rounds 13-28): Harvest elemental materials from four biomes"
+    - "Phase 3 (Rounds 29-42): Craft 30 iron bars, 8 pickaxes, 8 silver rings, four elemental staffs"
+    - "Phase 4 (Rounds 43-55): Deploy to all four shrines and activate pylons"
+    - "Phase 5 (Rounds 56-65): Re-sync at Nexus, verify conduit inventories"
+
+# Relevant game context
+relevant_game_context: |
+  MISSION OUTLINE
+  - Twelve specialists seal four elemental shrines within 65 rounds.
+  - Shrines: Ice (259,151), Stone (238,48), Tidal (197,633), Desert (720,150).
+  - Phase 1: meet at nexus, assign Ice/Stone/Tidal/Desert squads (3 agents each).
+  - Phase 2: each squad harvests their biome materials.
+  - Phase 3: smelt 30+ iron bars, forge tools and rings, craft four elemental staffs.
+  - Phase 4: deploy squads to shrines, defeat guardians, activate pylons.
+  - Phase 5: regroup at nexus for final verification.
+
+  EXECUTION NOTES
+  - Each squad must carry its catalyst kit before leaving the nexus.
+  - Transfers require both sides to verify_inventory.
+# Limitations
+max_action_steps: 65
+
+# Agent configurations
+agent_1:
+  username: "GrandArbiter_76v2"
+  new_character: true
+  location: {x: 200, y: 200}
+  skill_levels: {magic: 44, crafting: 38, health: 38, defense: 30}
+  inventory_items:
+    - {item: "flask", count: 18}
+    - {item: "manaflask", count: 12}
+    - {item: "bead", count: 5}
+    - {item: "cure", count: 2}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "IceBinder_76v2"
+  new_character: true
+  location: {x: 205, y: 200}
+  skill_levels: {magic: 34, lumberjacking: 32, health: 34, defense: 28}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 14}
+    - {item: "icebead", count: 2}
+    - {item: "icelogs", count: 5}
+  equipped_items:
+    - {item: "icestaff", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "IceHarvester_76v2"
+  new_character: true
+  location: {x: 210, y: 200}
+  skill_levels: {lumberjacking: 38, strength: 32, health: 32, defense: 26}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "FlameSmith_76v2"
+  new_character: true
+  location: {x: 200, y: 205}
+  skill_levels: {smithing: 44, mining: 40, strength: 34, health: 34}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 16}
+    - {item: "coal", count: 6}
+    - {item: "ironore", count: 6}
+    - {item: "firebead", count: 2}
+  equipped_items:
+    - {item: "hammer", count: 1, enchant: 0}
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "StoneMiner_76v2"
+  new_character: true
+  location: {x: 205, y: 205}
+  skill_levels: {mining: 40, smithing: 34, strength: 32, health: 32}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "TidalHarvester_76v2"
+  new_character: true
+  location: {x: 210, y: 205}
+  skill_levels: {fishing: 36, foraging: 32, accuracy: 30, health: 30}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 12}
+    - {item: "rawshrimp", count: 8}
+    - {item: "kelp", count: 6}
+  equipped_items:
+    - {item: "fishingpole", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_7:
+  username: "TidalMage_76v2"
+  new_character: true
+  location: {x: 200, y: 210}
+  skill_levels: {magic: 36, crafting: 32, fishing: 28, health: 30}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "manaflask", count: 8}
+  equipped_items:
+    - {item: "naturestaff", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_8:
+  username: "DesertGatherer_76v2"
+  new_character: true
+  location: {x: 205, y: 210}
+  skill_levels: {lumberjacking: 34, foraging: 32, strength: 30, health: 32}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 14}
+    - {item: "palmlogs", count: 5}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_9:
+  username: "ShieldCommander_76v2"
+  new_character: true
+  location: {x: 210, y: 210}
+  skill_levels: {defense: 44, strength: 40, health: 46, accuracy: 22}
+  inventory_items:
+    - {item: "flask", count: 16}
+    - {item: "apple", count: 18}
+    - {item: "cure", count: 3}
+  equipped_items:
+    - {item: "heavysword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_10:
+  username: "EscortGuard_76v2"
+  new_character: true
+  location: {x: 200, y: 215}
+  skill_levels: {defense: 40, strength: 38, health: 42, accuracy: 20}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 16}
+  equipped_items:
+    - {item: "heavysword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_11:
+  username: "ChiefMedic_76v2"
+  new_character: true
+  location: {x: 205, y: 215}
+  skill_levels: {magic: 38, cooking: 34, crafting: 30, health: 38}
+  inventory_items:
+    - {item: "flask", count: 18}
+    - {item: "manaflask", count: 10}
+    - {item: "blueberry", count: 14}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_12:
+  username: "Archivist_76v2"
+  new_character: true
+  location: {x: 210, y: 215}
+  skill_levels: {magic: 32, crafting: 32, fletching: 26, health: 32}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 14}
+    - {item: "palmlogs", count: 6}
+    - {item: "bead", count: 3}
+  equipped_items:
+    - {item: "lightningstaff", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "GrandArbiter hosts kickoff meeting and assigns four squads before Round 8"
+  - "Ice Squad delivers >=25 icelogs and >=8 icebead"
+  - "Stone Squad delivers >=35 ironore/coal"
+  - "Tidal Squad gathers >=20 palmlogs + >=15 kelp + >=25 rawshrimp"
+  - "Desert Squad gathers >=20 palmlogs"
+  - "FlameSmith crafts >=30 ironbar plus 8 pickaxe and 8 silverring"
+  - "Four elemental staffs crafted and assigned to squad leads"
+  - "All four shrine fights handled with attack_entity and post-combat HP reports"
+  - "Mission completes between Rounds 62-65"

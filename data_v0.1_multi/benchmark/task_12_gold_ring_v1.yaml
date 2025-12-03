@@ -1,0 +1,148 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Already has goldbar, just need to craft ring
+
+task:
+  name: "Cooperative Gold Ring Forging - Premium Metallurgy"
+  description: "Three agents work together to create a gold ring through gold processing and precious metal smithing"
+
+# Task objectives
+objectives:
+  primary: "Create a gold ring through coordinated gold processing and premium metallurgy"
+  secondary: # checkpoints
+    - "Coordinate gold bar processing"
+    - "Execute gold ring smithing techniques"
+    - "Complete premium ring smithing within 20 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent premium metallurgy scenario.
+
+  OBJECTIVE: Create a gold ring. gold_smith_agent ALREADY HAS the required materials!
+
+  CRITICAL: gold_smith_agent ALREADY HAS 2x goldbar in inventory - ready to craft!
+
+  TEAM COORDINATION:
+  - Use global chat to coordinate
+  - gold_smith_agent should craft the gold ring immediately
+  - Other agents can assist or observe
+
+  SMITHING RECIPE (CRITICAL - USE THIS EXACT COMMAND):
+  🟨 Smithing Recipe - goldring:
+    - Command: craft_item skill=Smithing itemKey=goldring
+    - Materials: 2x goldbar → 1x goldring
+    - Level required: 1 (Smithing skill)
+    - gold_smith_agent has Smithing skill and goldbar ready!
+
+  SIMPLE STEPS:
+  1. gold_smith_agent should use: craft_item skill=Smithing itemKey=goldring
+  2. This will convert 2 goldbar into 1 goldring
+  3. Once goldring exists in inventory, the team can complete()
+
+  DO NOT use complete() until goldring is in inventory!
+
+# Limitations
+max_action_steps: 20
+
+# Agent configurations
+agent_1:
+  username: "gold_miner_agent"
+  new_character: true
+
+  location:
+    x: 212
+    y: 650
+
+  skill_levels:
+    mining: 35
+    strength: 35
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "goldnugget"
+      count: 2
+    - item: "coal"
+      count: 2
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "coal_supplier_agent"
+  new_character: true
+
+  location:
+    x: 216
+    y: 315
+
+  skill_levels:
+    mining: 25
+    strength: 30
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+    - item: "coal"
+      count: 2
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "gold_smith_agent"
+  new_character: true
+
+  location:
+    x: 242
+    y: 336
+
+  skill_levels:
+    smithing: 30
+    mining: 15
+    strength: 25
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 18
+    - item: "goldbar"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "gold_smith_agent successfully creates gold ring"
+  - "gold_smith_agent successfully equips the gold ring"
+  - "All agents handle precious materials with appropriate care"
+  - "Premium metallurgy operations complete within time limit"

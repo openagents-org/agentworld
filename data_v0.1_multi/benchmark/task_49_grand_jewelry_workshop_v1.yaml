@@ -1,0 +1,125 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simple silver ring crafting only
+
+task:
+  name: "Grand Jewelry Workshop - Silver Ring Production"
+  description: "Two agents smelt iron bars and craft 2x silver rings"
+
+# Task objectives
+objectives:
+  primary: "Smelt iron bars and craft 2x silver rings"
+  secondary: # checkpoints
+    - "Coordinate smelting and ring crafting"
+    - "Complete ring production within 22 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a simplified ring crafting scenario.
+
+  OBJECTIVE: Produce 2x silver rings from iron materials.
+
+  MISSION REQUIREMENTS:
+  - Smelt iron ore into iron bars
+  - Craft 2x silver rings from iron bars
+  - Each silver ring needs iron bars
+
+  TEAM COORDINATION:
+  - Smelter converts ore to bars
+  - Jeweler crafts the rings
+
+  STARTING RESOURCES:
+  - Miner has 3x ironore + 4x coal
+  - Smelter has 2x ironore + 3x coal
+
+  CRAFTING:
+  🔥 Smelting - ironbar:
+    - 1x ironore + 1x coal → 1x ironbar
+
+  💍 Smithing - silverring:
+    - craft_item skill=Smithing itemKey=silverring
+    - Materials: ironbar → silverring
+
+  DO NOT use complete() until 2x silverring is crafted!
+
+# Limitations
+max_action_steps: 22
+
+# Agent configurations
+agent_1:
+  username: "iron_smelter_agent"
+  new_character: true
+
+  location:
+    x: 250
+    y: 180
+
+  skill_levels:
+    smithing: 32
+    mining: 22
+    strength: 35
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "ironore"
+      count: 3
+    - item: "coal"
+      count: 4
+
+  equipped_items:
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "ring_jeweler_agent"
+  new_character: true
+
+  location:
+    x: 252
+    y: 182
+
+  skill_levels:
+    smithing: 28
+    crafting: 25
+    accuracy: 28
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "ironore"
+      count: 2
+    - item: "coal"
+      count: 3
+
+  equipped_items:
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team smelts enough iron bars"
+  - "Team crafts at least 2x silverring"
+  - "Silver ring production completed"

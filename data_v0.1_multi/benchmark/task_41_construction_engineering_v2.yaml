@@ -1,0 +1,161 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Craft construction tools (pickaxe and axe)
+
+task:
+  name: "Construction Engineering - Tool Crafting"
+  description: "Three agents gather materials and craft a pickaxe and axe for construction"
+
+# Task objectives
+objectives:
+  primary: "Gather materials and craft 1x pickaxe and 1x axe"
+  secondary: # checkpoints
+    - "Coordinate mining, smelting, and crafting"
+    - "Complete tool crafting within 30 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a construction tool production scenario.
+
+  OBJECTIVE: Craft essential construction tools.
+
+  MISSION REQUIREMENTS:
+  - Mine iron ore and coal
+  - Smelt iron bars
+  - Gather logs for tool handles
+  - Craft 1x pickaxe (5 ironbar + 1 logs)
+  - Craft 1x axe (3 ironbar + 1 logs)
+
+  TEAM COORDINATION:
+  - Miner gathers iron ore and coal
+  - Lumberjack gathers logs
+  - Smith smelts and crafts tools
+
+  CRAFTING RECIPES:
+  🔥 Smelting - ironbar:
+    - craft_item skill=Smelting itemKey=ironbar
+    - Materials: 1x ironore + 1x coal → 1x ironbar
+    - Need 8x ironbar total
+
+  🔨 Smithing - pickaxe:
+    - Materials: 5x ironbar + 1x logs → 1x pickaxe
+
+  🔨 Smithing - axe:
+    - Materials: 3x ironbar + 1x logs → 1x axe
+
+  DO NOT use complete() until tools are crafted!
+
+# Limitations
+max_action_steps: 30
+
+# Agent configurations
+agent_1:
+  username: "ore_miner_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 38
+
+  skill_levels:
+    mining: 28
+    strength: 40
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "ironore"
+      count: 3
+    - item: "coal"
+      count: 4
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "wood_gatherer_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 3
+
+  skill_levels:
+    lumberjacking: 25
+    strength: 35
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "logs"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "tool_smith_agent"
+  new_character: true
+
+  location:
+    x: 232
+    y: 40
+
+  skill_levels:
+    smithing: 30
+    mining: 15
+    strength: 35
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "ironore"
+      count: 2
+    - item: "coal"
+      count: 2
+
+  equipped_items:
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team gathers enough iron ore and coal"
+  - "tool_smith_agent smelts at least 8x ironbar"
+  - "Team crafts 1x pickaxe"
+  - "Team crafts 1x axe"
+  - "Construction tools ready for use"

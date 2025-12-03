@@ -1,0 +1,117 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Already has gold ore, just need to smelt and craft
+
+task:
+  name: "Deep Mining Expedition - Quick Jewelry Completion"
+  description: "Two agents work together to complete jewelry crafting with pre-mined gold ore"
+
+# Task objectives
+objectives:
+  primary: "Smelt gold ore and craft a golden ring with pre-gathered materials"
+  secondary: # checkpoints
+    - "Coordinate smelting and crafting operations"
+    - "Complete precious metal crafting within 15 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a simplified mining expedition with pre-gathered materials.
+
+  OBJECTIVE: Complete golden ring crafting using pre-mined gold ore.
+
+  CRITICAL: Materials already available!
+  - ore_prospector_agent has 1x goldore
+  - master_smith_agent has 2x coal for smelting
+
+  TEAM COORDINATION:
+  - Transfer gold ore to master smith for processing
+  - Smelt gold ore into gold bar
+  - Craft golden ring
+
+  CRAFTING RECIPES:
+  🔥 Smelting Recipe - goldbar:
+    - craft_item skill=Smelting itemKey=goldbar
+    - Materials: 1x goldore + 1x coal → 1x goldbar
+    - Level required: 40 (Smithing skill)
+
+  💍 Smithing Recipe - goldring:
+    - craft_item skill=Smithing itemKey=goldring
+    - Materials: 1x goldbar → 1x goldring
+    - Level required: 45 (Smithing skill)
+
+  DO NOT use complete() until goldring is crafted!
+
+# Limitations
+max_action_steps: 15
+
+# Agent configurations
+agent_1:
+  username: "ore_prospector_agent"
+  new_character: true
+
+  location:
+    x: 600
+    y: 500
+
+  skill_levels:
+    mining: 35
+    strength: 40
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+    - item: "goldore"
+      count: 1
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "master_smith_agent"
+  new_character: true
+
+  location:
+    x: 605
+    y: 505
+
+  skill_levels:
+    smithing: 50
+    mining: 20
+    strength: 35
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+    - item: "coal"
+      count: 2
+
+  equipped_items:
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "ore_prospector_agent transfers gold ore to master smith"
+  - "master_smith_agent successfully smelts Gold Bar"
+  - "master_smith_agent successfully crafts Golden Ring"
+  - "master_smith_agent has 1x goldring in inventory"

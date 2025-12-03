@@ -1,0 +1,169 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, easier completion
+
+task:
+  name: "Cooperative Heavy Sword Forging - Warrior Weapon Crafting"
+  description: "Three agents work together to create a heavy sword through mining, smelting, and advanced smithing"
+
+# Task objectives
+objectives:
+  primary: "Forge a heavy sword through coordinated material processing and weapon smithing"
+  secondary: # checkpoints
+    - "Coordinate complex multi-step metallurgy operations"
+    - "Execute precise component crafting for weapon assembly"
+    - "Complete warrior weapon forging within 30 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent weapon crafting scenario requiring advanced metallurgy and smithing.
+
+  OBJECTIVE: Forge a heavy sword through coordinated material processing and advanced weapon smithing.
+
+  TEAM COORDINATION:
+  - Use global chat to coordinate complex multi-step metallurgy operations
+  - Share materials and intermediate products between processing stages
+  - Coordinate timing for efficient smelting and smithing workflow
+  - Work together to complete advanced weapon crafting chain
+
+  GENERAL STRATEGY:
+  - The team needs to extract raw materials for advanced metallurgy
+  - Materials must be processed through smelting operations into refined components
+  - Multiple intermediate components must be crafted and assembled
+  - Final weapon assembly requires advanced smithing expertise
+  - Coordinate complex material flow and processing timing
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  CRAFTING RECIPES (CRITICAL KNOWLEDGE):
+  ⛏️ Mining - iron ore and coal:
+    - harvest_resource on iron rock instances to get ironore (level 10+)
+    - harvest_resource on coal deposits to get coal (level 1+)
+
+  🔥 Smelting Recipe - ironbar:
+    - craft_item skill=Smelting itemKey=ironbar
+    - Materials: 1x ironore + 1x coal → 1x ironbar
+    - Level required: 20 (uses Smithing skill level)
+
+  🔨 Smithing Recipe - hilt2:
+    - craft_item skill=Smithing itemKey=hilt2
+    - Materials: 1x ironbar + 1x logs → 1x hilt2
+    - Level required: 1 (Smithing skill)
+
+  ⚔️ Smithing Recipe - sword2 (heavy sword):
+    - craft_item skill=Smithing itemKey=sword2
+    - Materials: 2x ironbar + 1x hilt2 → 1x heavy sword
+    - Level required: 1 (Smithing skill)
+
+# Limitations
+max_action_steps: 30
+
+# Agent configurations
+agent_1:
+  username: "miner_agent"
+  new_character: true
+
+  location:
+    x: 229
+    y: 37
+
+  skill_levels:
+    mining: 25
+    lumberjacking: 15   # For logs if needed
+    strength: 30
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 18
+    - item: "ironore"
+      count: 3
+    - item: "coal"
+      count: 4
+    - item: "logs"
+      count: 1
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "smelter_agent"
+  new_character: true
+
+  location:
+    x: 233
+    y: 175
+
+  skill_levels:
+    smithing: 25      # For smelting and hilt crafting
+    strength: 25
+    health: 20
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 14
+    - item: "ironore"
+      count: 1
+    - item: "coal"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "weapon_smith_agent"
+  new_character: true
+
+  location:
+    x: 259
+    y: 184
+
+  skill_levels:
+    smithing: 30      # For heavy sword crafting
+    strength: 35
+    health: 25
+    defense: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 18
+    - item: "hilt2"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "miner_agent successfully extracts and transfers all required materials"
+  - "smelter_agent successfully creates sword components and transfers to smith"
+  - "weapon_smith_agent receives components and forges heavy sword"
+  - "weapon_smith_agent successfully equips the heavy sword"
+  - "All agents coordinate complex metallurgy operations effectively"
+  - "Advanced weapon crafting completes within time limit"

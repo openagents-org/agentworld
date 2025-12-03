@@ -1,0 +1,129 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simplified 6-agent boss hunting expedition
+
+task:
+  name: "Elite Dragon Hunt Expedition - Core Boss Campaign"
+  description: "Six elite warriors hunt bosses across 3 biomes, culminating in a dragon battle"
+
+# Task objectives
+objectives:
+  primary: "Complete a boss hunting campaign where 6 agents travel across 3 biomes, defeat 2-3 bosses, and defeat a dragon"
+  secondary:
+    - "Phase 1 (Rounds 1-8): Equipment Preparation & Team Assembly"
+    - "Phase 2 (Rounds 9-18): Forest Expedition - Hunt forest boss"
+    - "Phase 3 (Rounds 19-28): Mountain Assault - Hunt mountain boss"
+    - "Phase 4 (Rounds 29-38): Dragon Hunt Finale"
+
+# Relevant game context
+relevant_game_context: |
+  EXPEDITION STRUCTURE (~38 ROUNDS)
+  - Six warriors run four phases: prep -> forest boss -> mountain boss -> dragon finale.
+  - Phase 1: gather logs/ores, smelt ~10 iron bars, craft heavy swords, stock >=35 heals.
+  - Phase 2: travel to forest (~200,400), defeat a L15-20 boss.
+  - Phase 3: travel to mountain (~238,48), beat a L25-30 boss.
+  - Phase 4: scout for dragon, execute coordinated assault.
+
+  EXECUTION NOTES
+  - Tanks initiate attack_entity, DPS follows, supports heal.
+  - Stay within 15 tiles during combat.
+  - Heal to >=85% HP before engaging any boss.
+# Limitations
+max_action_steps: 38
+
+# Agent configurations
+agent_1:
+  username: "DragonTank_79v1"
+  new_character: true
+  location: {x: 350, y: 300}
+  skill_levels: {defense: 48, strength: 38, health: 56, accuracy: 28, mining: 14}
+  inventory_items:
+    - {item: "flask", count: 18}
+    - {item: "apple", count: 22}
+    - {item: "bigflask", count: 8}
+  equipped_items:
+    - {item: "heavysword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+    - {item: "plateboots", count: 1, enchant: 0}
+
+agent_2:
+  username: "DragonDPS1_79v1"
+  new_character: true
+  location: {x: 352, y: 302}
+  skill_levels: {strength: 52, accuracy: 48, health: 44, defense: 34, lumberjacking: 14}
+  inventory_items:
+    - {item: "flask", count: 16}
+    - {item: "apple", count: 20}
+    - {item: "bigflask", count: 6}
+  equipped_items:
+    - {item: "goldensword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_3:
+  username: "DragonDPS2_79v1"
+  new_character: true
+  location: {x: 348, y: 298}
+  skill_levels: {strength: 50, accuracy: 46, health: 42, defense: 32}
+  inventory_items:
+    - {item: "flask", count: 16}
+    - {item: "apple", count: 20}
+    - {item: "bigflask", count: 6}
+  equipped_items:
+    - {item: "bluesword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_4:
+  username: "DragonRanger_79v1"
+  new_character: true
+  location: {x: 354, y: 304}
+  skill_levels: {accuracy: 52, strength: 46, health: 42, defense: 32}
+  inventory_items:
+    - {item: "flask", count: 16}
+    - {item: "apple", count: 20}
+    - {item: "bigflask", count: 6}
+    - {item: "arrow", count: 80}
+  equipped_items:
+    - {item: "bow2", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_5:
+  username: "DragonSupport_79v1"
+  new_character: true
+  location: {x: 350, y: 304}
+  skill_levels: {smithing: 24, crafting: 20, lumberjacking: 18, mining: 18, strength: 28, health: 38, defense: 28}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 18}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "DragonScout_79v1"
+  new_character: true
+  location: {x: 346, y: 296}
+  skill_levels: {accuracy: 38, strength: 32, health: 42, defense: 28}
+  inventory_items:
+    - {item: "flask", count: 16}
+    - {item: "apple", count: 20}
+    - {item: "arrow", count: 40}
+  equipped_items:
+    - {item: "bow1", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Phase 1: Team gathers 8+ logs and mines 12+ iron ore and coal"
+  - "Phase 1: Team smelts 10 iron bars and crafts 2 Heavy Swords"
+  - "Phase 1: All 6 agents assembled, equipped and ready with 35+ heals"
+  - "Phase 2: Forest boss (Level 15-20) defeated"
+  - "Phase 3: Mountain boss (Level 25-30) defeated"
+  - "Phase 4: Dragon or Hell Hound (Level 50+) defeated"
+  - "At least 3 bosses defeated total"
+  - "All 6 warriors survive with HP > 0"
+  - "Campaign completed in 36-38 rounds"

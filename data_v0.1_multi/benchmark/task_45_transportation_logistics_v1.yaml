@@ -1,0 +1,113 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simple resource transport between agents
+
+task:
+  name: "Transportation Logistics - Resource Delivery"
+  description: "Two agents practice logistics by transporting resources between locations"
+
+# Task objectives
+objectives:
+  primary: "Gather resources and transport 3x logs and 3x coal to destination agent"
+  secondary: # checkpoints
+    - "Coordinate resource gathering and transport"
+    - "Complete logistics within 20 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a simple logistics and transport scenario.
+
+  OBJECTIVE: Practice resource transportation between team members.
+
+  MISSION REQUIREMENTS:
+  - Supplier gathers 3x logs and 3x coal
+  - Supplier transports resources to receiver
+  - Receiver confirms receipt
+  - Practice logistics coordination
+
+  TEAM COORDINATION:
+  - Coordinate gathering and transport
+  - Announce when ready for delivery
+  - Confirm resource receipt
+
+  LOGISTICS:
+  - Gather resources at source locations
+  - Move to receiver location
+  - Transfer items and verify
+
+  DO NOT use complete() until delivery is confirmed!
+
+# Limitations
+max_action_steps: 20
+
+# Agent configurations
+agent_1:
+  username: "resource_supplier_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 3
+
+  skill_levels:
+    lumberjacking: 25
+    mining: 20
+    strength: 40
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "logs"
+      count: 1
+    - item: "coal"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "resource_receiver_agent"
+  new_character: true
+
+  location:
+    x: 280
+    y: 190
+
+  skill_levels:
+    crafting: 25
+    strength: 30
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "resource_supplier_agent gathers 3x logs and 3x coal"
+  - "Resources are transported to resource_receiver_agent"
+  - "resource_receiver_agent confirms receipt of resources"
+  - "Logistics exercise completed"

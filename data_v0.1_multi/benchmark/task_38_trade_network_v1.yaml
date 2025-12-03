@@ -1,0 +1,114 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Only gather resources for trade, no actual trading
+
+task:
+  name: "Trade Network - Resource Preparation"
+  description: "Two agents gather 5x logs and 3x coal to prepare for trading"
+
+# Task objectives
+objectives:
+  primary: "Gather 5x logs and 3x coal for trade preparation"
+  secondary: # checkpoints
+    - "Locate trees and coal deposits"
+    - "Complete resource preparation within 18 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a trade preparation scenario focusing on resource gathering.
+
+  OBJECTIVE: Gather resources that can be used for trading.
+
+  MISSION REQUIREMENTS:
+  - Gather 5x logs from oak trees
+  - Mine 3x coal from coal rocks
+  - Coordinate gathering efforts
+
+  TEAM COORDINATION:
+  - Lumberjack focuses on logs
+  - Miner focuses on coal
+  - Share location information
+
+  GATHERING:
+  🌲 Lumberjacking - logs:
+    - harvest_resource on Oak Tree instances
+    - Target: 5x logs total
+
+  ⚫ Mining - coal:
+    - harvest_resource on Coal Rock instances
+    - Target: 3x coal total
+
+  DO NOT use complete() until resources are gathered!
+
+# Limitations
+max_action_steps: 18
+
+# Agent configurations
+agent_1:
+  username: "trade_lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 3
+
+  skill_levels:
+    lumberjacking: 25
+    strength: 35
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "logs"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "trade_miner_agent"
+  new_character: true
+
+  location:
+    x: 600
+    y: 500
+
+  skill_levels:
+    mining: 22
+    strength: 35
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "coal"
+      count: 1
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "trade_lumberjack_agent gathers at least 5x logs"
+  - "trade_miner_agent mines at least 3x coal"
+  - "Team coordinates gathering effectively"

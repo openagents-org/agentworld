@@ -1,0 +1,180 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Extended 11-agent ultimate legendary forge
+
+task:
+  name: "Legendary Equipment Forge - Ultimate Arsenal Empire"
+  description: "Eleven master craftsmen unite to create the ultimate equipment collection: legendary golden items, magical staffs, and complete elite arsenal"
+
+# Task objectives
+objectives:
+  primary: "Forge ultimate legendary set: 7+ golden items, 6+ magical staffs, 8+ elite weapons for 21+ total legendary pieces"
+  secondary:
+    - "Conquest 1 (Rounds 1-20): Massive Resource Gathering - Mine 140+ ores, gather all magical components"
+    - "Conquest 2 (Rounds 21-36): Industrial Smelting - Produce 110+ bars from ores"
+    - "Conquest 3 (Rounds 37-54): Legendary Crafting - Forge all legendary items"
+    - "Conquest 4 (Rounds 55-60): Grand Arsenal Exhibition - Display complete legendary empire"
+
+# Context and guidance for agents
+relevant_game_context: |
+  LEGENDARY GOAL
+  - Eleven specialists must gather massive material quotas (70 gold ore, 30 iron ore, 100 coal, logs, strings, hilts, 12 beads) and craft 21 legendary items (7 golden pieces, 6 elemental staffs, 8 elite weapons/tools) within ~60 rounds. Mining teams and hunters work remotely while the forge trio at (528,384) handles smelting and crafting.
+
+  ROADMAP
+  1. R1-20 Extraction: Gold team (4 miners) splits the 70-ore requirement; Iron/Coal team (2 miners) digs 30 iron + 100 coal; component hunters secure beads/strings/logs/hilts.
+  2. R21-32 Caravan: all gatherers march to the forge (<=32-tile hops). Transfer ores/coal to Master_Smelter; hand beads/string/logs/hilts to the crafters.
+  3. R33-54 Production: Smelters process 70 gold bars and 30 iron bars. Crafters build golden sword/bow/boots/helmet/rings, craft sticks/staffs, and forge heavy swords, pickaxes, axes.
+  4. R55-60 Exhibition: list the final arsenal, confirm counts per category (golden items, staffs, elite weapons).
+
+  EXECUTION NOTES
+  - Keep a shared checklist ("Gold 45/70", "Beads 8/12") so the forge knows when each material stream is ready.
+  - Transfers only succeed within ~10 tiles—announce both send and receive events.
+# Limitations
+max_action_steps: 60
+
+# Agent configurations
+agent_1:
+  username: "Gold_Extractor_Prime"
+  new_character: true
+  location: {x: 230, y: 38}
+  skill_levels: {mining: 58, strength: 38, health: 44}
+  inventory_items:
+    - {item: "flask", count: 38}
+    - {item: "apple", count: 42}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "Gold_Extractor_Alpha"
+  new_character: true
+  location: {x: 238, y: 48}
+  skill_levels: {mining: 55, strength: 36, health: 42}
+  inventory_items:
+    - {item: "flask", count: 38}
+    - {item: "apple", count: 42}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "Gold_Extractor_Beta"
+  new_character: true
+  location: {x: 236, y: 46}
+  skill_levels: {mining: 52, strength: 34, health: 40}
+  inventory_items:
+    - {item: "flask", count: 38}
+    - {item: "apple", count: 42}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "Gold_Extractor_Gamma"
+  new_character: true
+  location: {x: 232, y: 40}
+  skill_levels: {mining: 50, strength: 32, health: 38}
+  inventory_items:
+    - {item: "flask", count: 38}
+    - {item: "apple", count: 42}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "Iron_Specialist"
+  new_character: true
+  location: {x: 234, y: 44}
+  skill_levels: {mining: 50, strength: 32, health: 38}
+  inventory_items:
+    - {item: "flask", count: 35}
+    - {item: "apple", count: 40}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "Coal_Master_Supreme"
+  new_character: true
+  location: {x: 240, y: 50}
+  skill_levels: {mining: 48, strength: 30, health: 36}
+  inventory_items:
+    - {item: "flask", count: 35}
+    - {item: "apple", count: 40}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_7:
+  username: "Arcane_Bead_Hunter"
+  new_character: true
+  location: {x: 350, y: 250}
+  skill_levels: {strength: 46, accuracy: 42, foraging: 40, health: 52}
+  inventory_items:
+    - {item: "flask", count: 42}
+    - {item: "apple", count: 48}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_8:
+  username: "Component_Master"
+  new_character: true
+  location: {x: 250, y: 350}
+  skill_levels: {foraging: 45, lumberjacking: 42, health: 40}
+  inventory_items:
+    - {item: "flask", count: 32}
+    - {item: "apple", count: 38}
+    - {item: "hilt2", count: 4}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_9:
+  username: "Master_Smelter_Supreme"
+  new_character: true
+  location: {x: 528, y: 384}
+  skill_levels: {crafting: 70, smithing: 50, health: 40}
+  inventory_items:
+    - {item: "flask", count: 32}
+    - {item: "apple", count: 38}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_10:
+  username: "Legendary_Crafter"
+  new_character: true
+  location: {x: 530, y: 386}
+  skill_levels: {smithing: 75, fletching: 55, crafting: 65, health: 42}
+  inventory_items:
+    - {item: "flask", count: 32}
+    - {item: "apple", count: 38}
+    - {item: "hilt2", count: 3}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_11:
+  username: "Staff_Specialist"
+  new_character: true
+  location: {x: 532, y: 388}
+  skill_levels: {crafting: 60, fletching: 50, smithing: 45, health: 38}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Conquest 1: Gold team mines 70+ gold ore"
+  - "Conquest 1: Iron & Coal team extracts 30 iron ore + 100 coal"
+  - "Conquest 1: Magical hunters gather 12 beads (6 regular + 6 special)"
+  - "Conquest 1: Component master gathers 15 string, 8 logs, 8 hilts"
+  - "Conquest 2: Smelters produce 70 gold bars"
+  - "Conquest 2: Smelters produce 30 iron bars"
+  - "Conquest 3: Legendary Crafter forges Golden Sword, Bow, Boots, Helmet"
+  - "Conquest 3: Legendary Crafter creates 3 Gold Rings"
+  - "Conquest 3: Staff Specialist crafts 6 magical staffs (2 lightning, 2 fire, 2 ice)"
+  - "Conquest 3: Legendary Crafter forges 8 elite weapons (3 swords, 3 pickaxes, 2 axes)"
+  - "Total 21 legendary items created"
+  - "All 11 master craftsmen participate in ultimate forge"
+  - "Complete legendary arsenal empire in 57-60 rounds"

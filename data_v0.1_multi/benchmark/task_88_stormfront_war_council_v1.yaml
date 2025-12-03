@@ -1,0 +1,295 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Reduced to 2 bosses, more initial resources
+
+task:
+  name: "Stormfront War Council - Multi-Front Offensive"
+  description: "Ten commanders orchestrate two synchronized assaults (Ogre Guardian and Water Guardian) while maintaining a roving logistics line within 50 rounds."
+
+# Task objectives
+objectives:
+  primary: "Hold a war council at (350,300), forge the war stockpile, and defeat the Ogre Guardian (291,644) and Water Guardian (197,633) in a coordinated campaign."
+  secondary:
+    - "Phase 1: Council & intel — assemble all ten agents at (350,300), assign Vanguard, Skirmish, Logistics squads, and log enemy intel."
+    - "Phase 2: Logistics gather 15 ironore, 10 coal, 8 logs, 5 string, and at least 3 lightningbeads, sharing counts after verify_inventory."
+    - "Phase 3: Forge 2 heavy swords, 2 axes, 1 pickaxe, 2 lightningstaff, plus 25 healing food items; designate carriers for each front."
+    - "Phase 4: Execute two offensives ensuring every front has at least three agents present and HP >80% before attack_mob calls."
+    - "Phase 5: After each victory, capture loot, restock from Logistics, and regroup; complete() only after both bosses fall and everyone debriefs at (350,300)."
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  COMMAND STRUCTURE
+  - Vanguard (2-3 tanks), Skirmish (3 damage dealers), Logistics (4 support) — swap members as needed but keep rosters posted in chat. CouncilScribe records every decision.
+  - Use call signs (e.g., [VAN-Lead]) in chat so squads can parse updates quickly.
+
+  RESOURCE & FORGE DETAILS
+  - Mine iron/coal near (230,40) or along cavern veins; fell logs near (320,320); gather string from coastal plants (197,633). Lightningbeads drop from Water Guardian adds or coastal mimics.
+  - Crafting order: smelt ironbar → craft_item Smithing sword2 and axe; keep spare ironbar for pickaxe repairs.
+
+  OFFENSIVE PLAYBOOK
+  - Before engaging any boss, run a readiness checklist: positions, HP >80, weapon/staff counts, bead reserves, escape route.
+  - Attack order: Water Guardian (south) → Ogre Guardian (north) to minimize travel, but adapt if needed.
+  - During combat, only one agent issues attack_mob per target to avoid double pulls.
+
+  POST-FIGHT & DEADLOCK SAFETY
+  - After each victory, gather around the dropped beacon/loot pile, verify_inventory totals, then redistribute.
+  - complete() only when all agents reunite at the original council site and confirm no crafted gear is missing.
+
+# Limitations
+max_action_steps: 50
+
+# Agent configurations
+agent_1:
+  username: "CouncilScribe"
+  new_character: true
+  location:
+    x: 350
+    y: 300
+  skill_levels:
+    magic: 34
+    crafting: 32
+    defense: 32
+    health: 34
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "manaflask"
+      count: 12
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "VanguardA"
+  new_character: true
+  location:
+    x: 348
+    y: 302
+  skill_levels:
+    defense: 38
+    strength: 36
+    health: 38
+    accuracy: 30
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 18
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "VanguardB"
+  new_character: true
+  location:
+    x: 352
+    y: 298
+  skill_levels:
+    defense: 36
+    strength: 34
+    health: 36
+    accuracy: 30
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 15
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "Skirmisher1"
+  new_character: true
+  location:
+    x: 349
+    y: 299
+  skill_levels:
+    accuracy: 36
+    strength: 32
+    magic: 30
+    health: 32
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 15
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "Skirmisher2"
+  new_character: true
+  location:
+    x: 351
+    y: 301
+  skill_levels:
+    accuracy: 34
+    crafting: 30
+    magic: 30
+    health: 32
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 15
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "Skirmisher3"
+  new_character: true
+  location:
+    x: 347
+    y: 301
+  skill_levels:
+    accuracy: 34
+    strength: 32
+    defense: 30
+    health: 32
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 12
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "Logistics1"
+  new_character: true
+  location:
+    x: 353
+    y: 303
+  skill_levels:
+    mining: 36
+    smithing: 34
+    strength: 32
+    health: 34
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 15
+    - item: "ironore"
+      count: 4
+    - item: "coal"
+      count: 4
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "Logistics2"
+  new_character: true
+  location:
+    x: 354
+    y: 304
+  skill_levels:
+    lumberjacking: 34
+    crafting: 32
+    defense: 30
+    health: 32
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 15
+    - item: "logs"
+      count: 4
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "Logistics3"
+  new_character: true
+  location:
+    x: 346
+    y: 297
+  skill_levels:
+    fishing: 32
+    cooking: 32
+    foraging: 30
+    health: 30
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 15
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "Logistics4"
+  new_character: true
+  location:
+    x: 355
+    y: 305
+  skill_levels:
+    crafting: 34
+    magic: 32
+    defense: 30
+    health: 32
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "manaflask"
+      count: 10
+    - item: "lightningbead"
+      count: 2
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "All ten agents attend the initial council, publish squad assignments, and record gathered intel."
+  - "Logistics team documents the required raw materials (15 ironore, 10 coal, 8 logs, 5 string, 3 lightningbeads) with verify_inventory before crafting."
+  - "Forged items (2 heavy swords, 2 axes, 1 pickaxe, 2 lightningstaff, 25 food items) are produced and assigned to carriers."
+  - "Each boss (Water Guardian, Ogre Guardian) is defeated with HP >80% threshold respected before engagement and post-battle regroup logged."
+  - "Campaign concludes at (350,300) with loot summary and confirmation that no crafted weapon/staff is missing before complete()."

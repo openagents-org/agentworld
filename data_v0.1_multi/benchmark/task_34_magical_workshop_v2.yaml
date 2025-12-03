@@ -1,0 +1,141 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Craft fire staff with pre-gathered materials
+
+task:
+  name: "Magical Workshop - Fire Staff Crafting"
+  description: "Three agents with pre-gathered materials work together to craft a fire staff"
+
+# Task objectives
+objectives:
+  primary: "Craft a fire staff using pre-gathered materials"
+  secondary: # checkpoints
+    - "Process logs into sticks"
+    - "Complete fire staff crafting within 20 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a magical crafting scenario with materials already available.
+
+  OBJECTIVE: Craft a fire staff using pre-gathered ruby and logs.
+
+  CRITICAL: Materials already available!
+  - gem_holder_agent has 1x ruby
+  - wood_processor_agent has 2x logs
+
+  TEAM COORDINATION:
+  - Process logs into sticks
+  - Combine sticks and ruby for fire staff
+  - Coordinate crafting steps
+
+  CRAFTING RECIPES:
+  🪄 Fletching Recipe - stick:
+    - craft_item skill=Fletching itemKey=stick
+    - Materials: 1x logs → 4x stick
+
+  🔥 Fletching Recipe - firestaff:
+    - craft_item skill=Fletching itemKey=firestaff
+    - Materials: 4x stick + 1x ruby → 1x firestaff
+    - Level required: 30 (Fletching skill)
+
+  DO NOT use complete() until firestaff is crafted!
+
+# Limitations
+max_action_steps: 20
+
+# Agent configurations
+agent_1:
+  username: "gem_holder_agent"
+  new_character: true
+
+  location:
+    x: 280
+    y: 190
+
+  skill_levels:
+    magic: 35
+    strength: 25
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "ruby"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "wood_processor_agent"
+  new_character: true
+
+  location:
+    x: 285
+    y: 195
+
+  skill_levels:
+    fletching: 20
+    lumberjacking: 25
+    strength: 30
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "logs"
+      count: 2
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "staff_crafter_agent"
+  new_character: true
+
+  location:
+    x: 290
+    y: 200
+
+  skill_levels:
+    fletching: 35
+    crafting: 30
+    magic: 25
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "wood_processor_agent crafts sticks from logs"
+  - "staff_crafter_agent receives materials"
+  - "staff_crafter_agent crafts 1x firestaff"
+  - "Team coordinates crafting pipeline"

@@ -1,0 +1,122 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Only 2 agents, both collectors share protection duties, reduced targets
+
+task:
+  name: "Forest Gathering Mission - Self-Reliant Collector Team"
+  description: "Two collectors work together to gather forest resources while protecting each other"
+
+# Task objectives
+objectives:
+  primary: "Successfully gather 3x palmlogs and 3x peach through mutual cooperation"
+  secondary: # checkpoints
+    - "Establish effective team communication"
+    - "Complete forest resource gathering within 20 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent forest gathering scenario without a dedicated guardian.
+
+  OBJECTIVE: Successfully gather required forest resources through teamwork.
+
+  MISSION REQUIREMENTS:
+  - Collect 3x palmlogs and 3x peach
+  - Both agents help each other and watch for threats
+  - Use teamwork to complete resource gathering efficiently
+
+  TEAM COORDINATION:
+  - Share information about resource locations
+  - Both collectors have basic defense capabilities
+  - Work together to ensure mission success
+
+  GENERAL STRATEGY:
+  - No dedicated guardian - collectors protect themselves
+  - Focus on efficient resource gathering
+  - Use global chat for coordination
+
+  DO NOT use complete() until ALL objectives are achieved!
+
+  GATHERING MECHANICS:
+  🌴 Lumberjacking - palmlogs:
+    - harvest_resource on palm tree instances to get palmlogs
+    - Level required: 5+ (Lumberjacking skill)
+    - Target: 3x palmlogs total
+    - IMPORTANT: Look for "Palm" trees, NOT regular oak trees!
+
+  🍑 Foraging - peach:
+    - harvest_resource on peach instances
+    - Level required: 5+ (Foraging skill)
+    - Target: 3x peach total
+    - IMPORTANT: Look for "Peach" trees!
+
+# Limitations
+max_action_steps: 20
+
+# Agent configurations
+agent_1:
+  username: "palm_logger_agent"
+  new_character: true
+
+  location:
+    x: 65
+    y: 130
+
+  skill_levels:
+    lumberjacking: 30
+    defense: 20
+    archery: 15
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+    - item: "palmlogs"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+
+agent_2:
+  username: "peach_forager_agent"
+  new_character: true
+
+  location:
+    x: 70
+    y: 130
+
+  skill_levels:
+    foraging: 25
+    defense: 20
+    archery: 15
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+    - item: "peach"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+
+# Success criteria
+success_criteria:
+  - "palm_logger_agent has at least 3x palmlogs in inventory"
+  - "peach_forager_agent has at least 3x peach in inventory"
+  - "All agents remain alive throughout the mission"

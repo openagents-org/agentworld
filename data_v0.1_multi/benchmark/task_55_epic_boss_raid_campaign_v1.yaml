@@ -1,0 +1,152 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Epic Boss Raid Campaign - Shortened 3-Boss Conquest"
+  description: "Three elite warriors embark on a focused boss raid campaign, defeating 3 bosses across regions with preparation phases between encounters"
+
+# Task objectives
+objectives:
+  primary: "Complete a 5-phase boss raid campaign with crafting, resource gathering, and 3 boss battles spanning 40 rounds"
+  secondary: # checkpoints (5 phases)
+    - "Phase 1 (Rounds 1-8): Equipment Preparation - Craft weapons and tools"
+    - "Phase 2 (Rounds 9-15): First Boss - Defeat Goblin"
+    - "Phase 3 (Rounds 16-23): Resource Expansion & Recovery"
+    - "Phase 4 (Rounds 24-32): Second Boss - Defeat Skeleton"
+    - "Phase 5 (Rounds 33-40): Final Boss - Defeat Ogre"
+    - "Complete ALL 5 phases in sequence over 35-40 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  RAID ROADMAP (40 ROUNDS, 5 PHASES)
+  1. R1-8 Prep: cut 4 logs, mine 8 iron + 8 coal at (230,38), smelt 8 bars, craft 2 heavy swords, stock healing items.
+  2. R9-15 Goblin: travel (~350,250), locate a level 10-15 goblin via observation/mob list, ensure HP>80%, all three attack_mob the same ID.
+  3. R16-23 Recovery: heal to >90%, gather bonus materials and extra food; share totals in chat.
+  4. R24-32 Skeleton: hunt cemetery/dungeon zones (~200,100 or 350,200), repeat synchronized attack procedure.
+  5. R33-40 Ogre: head back near (238,48), run full ready check (HP>90%, healing stocked) before attacking.
+
+  EXECUTION RULES
+  - After every phase, post "Phase X complete – [summary]". Use transfer_items to funnel ore/bars to whoever crafts. attack_mob is preferred for bosses so loot and combat reporting are automatic.
+  - Never engage a boss with HP<80%; if supplies dip, pause the campaign and restock even if it delays the schedule.
+  - Minimum success still requires Phase 1 gear, at least two bosses (Goblin, Ogre), and the run lasting ≥35 rounds.
+
+  COMPLETION CHECK
+  - By Round 38-40 each agent states: crafted gear, bosses defeated, current HP/healing. Only after all confirm may one agent call complete() summarizing all five phases.
+# Limitations
+max_action_steps: 40
+
+# Agent configurations
+agent_1:
+  username: "RaidTank"
+  new_character: true
+
+  location:
+    x: 350
+    y: 300
+
+  skill_levels:
+    defense: 45        # Maximum tanking capability
+    strength: 40       # Strong attacks
+    health: 55         # Maximum survivability
+    accuracy: 30       # Combat precision
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "RaidDPS"
+  new_character: true
+
+  location:
+    x: 352
+    y: 302
+
+  skill_levels:
+    strength: 50       # Maximum damage output
+    accuracy: 45       # High precision
+    health: 45         # Good survivability
+    defense: 35        # Moderate protection
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "RaidSupport"
+  new_character: true
+
+  location:
+    x: 354
+    y: 304
+
+  skill_levels:
+    magic: 45          # Magical support and damage
+    accuracy: 40       # Magical precision
+    health: 45         # Support survivability
+    defense: 35        # Protection
+    strength: 30       # Backup physical combat
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "manaflask"
+      count: 15
+
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "Phase 1 completed: Team crafts 2x Heavy Swords and 8+ iron bars"
+  - "Phase 1: Team gathers 4+ logs and mines 8+ iron ore and coal"
+  - "Phase 2 completed: Goblin boss (Level 10-15) defeated"
+  - "Phase 2: Team coordinates attack with proper positioning and HP checks"
+  - "Phase 3 completed: Team heals and gathers additional materials"
+  - "Phase 4 completed: Skeleton boss (Level 15-20) defeated"
+  - "Phase 4: Team searches dark areas and locates skeleton successfully"
+  - "Phase 5 completed: Ogre boss (Level 25-30) defeated"
+  - "Phase 5: Team manages difficult boss fight with healing and coordination"
+  - "All 3 bosses defeated: Goblin, Skeleton, and Ogre"
+  - "All three warriors survive entire 40-round campaign with HP > 0"
+  - "Campaign takes 35-40 rounds (NOT completed in under 30 rounds)"
+  - "Team uses chat extensively to coordinate all 5 phases"
+  - "5-phase boss raid campaign successfully completed"

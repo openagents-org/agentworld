@@ -1,0 +1,191 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Extended 12-agent grand festival preparation
+
+task:
+  name: "Grand Festival Preparation - Ultimate Celebration Empire"
+  description: "Twelve specialized agents coordinate to prepare a grand festival with multiple food stations, diverse prizes, and elaborate decorations"
+
+# Task objectives
+objectives:
+  primary: "Prepare an ultimate festival where 12 agents gather diverse resources, cook multiple dishes, craft competition prizes, and create decorative items"
+  secondary:
+    - "Phase 1 (Rounds 1-18): Resource Expedition across multiple regions"
+    - "Phase 2 (Rounds 19-32): Material Processing and Cooking multiple dishes"
+    - "Phase 3 (Rounds 33-44): Prize Crafting and Decoration Creation"
+    - "Phase 4 (Rounds 45-55): Festival Setup and Verification"
+
+# Relevant game context
+relevant_game_context: |
+  FESTIVAL PLAN
+  - Twelve specialists gather seafood, meats, produce, ores, gems, and logs; cooks prepare feast dishes, smith/fletcher craft competition prizes, decorator builds showpieces, everyone meets at the plaza (450,300) within 55 rounds.
+  - Phase 1: fishers catch 15 shrimp + 10 tuna, hunters collect 15 meat, foragers gather fruits/veg, smith/decorator mine ores/gems, fletcher cuts logs.
+  - Phase 2: transfer ingredients; cooks prepare 20+ dishes; smith smelts 15 iron + 8 gold bars.
+  - Phase 3: fletcher crafts 2 wooden bows + arrows; smith forges 5 silver rings and 2 golden rings; decorator crafts pendants and magic staff.
+  - Phase 4: all agents travel to festival grounds and verify items.
+
+  EXECUTION NOTES
+  - Use chat to track progress.
+  - Transfers require verify_inventory.
+# Limitations
+max_action_steps: 55
+
+# Agent configurations
+agent_1:
+  username: "FestivalFisher1_80v2"
+  new_character: true
+  location: {x: 200, y: 200}
+  skill_levels: {fishing: 36, strength: 24, health: 34}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 18}
+  equipped_items:
+    - {item: "fishingpole", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "FestivalFisher2_80v2"
+  new_character: true
+  location: {x: 205, y: 200}
+  skill_levels: {fishing: 34, strength: 22, health: 32}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 16}
+  equipped_items:
+    - {item: "fishingpole", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "FestivalHunter_80v2"
+  new_character: true
+  location: {x: 210, y: 200}
+  skill_levels: {strength: 38, accuracy: 34, health: 38}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 18}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "FestivalForager1_80v2"
+  new_character: true
+  location: {x: 200, y: 205}
+  skill_levels: {foraging: 34, strength: 24, health: 34}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 16}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "FestivalForager2_80v2"
+  new_character: true
+  location: {x: 205, y: 205}
+  skill_levels: {foraging: 32, strength: 22, health: 32}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 16}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "FestivalCook1_80v2"
+  new_character: true
+  location: {x: 210, y: 205}
+  skill_levels: {cooking: 36, strength: 24, health: 34}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 18}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_7:
+  username: "FestivalCook2_80v2"
+  new_character: true
+  location: {x: 200, y: 210}
+  skill_levels: {cooking: 34, fletching: 24, strength: 22, health: 32}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 16}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_8:
+  username: "FestivalSmith_80v2"
+  new_character: true
+  location: {x: 205, y: 210}
+  skill_levels: {mining: 36, crafting: 32, smithing: 32, strength: 28, health: 34}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 18}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_9:
+  username: "FestivalFletcher_80v2"
+  new_character: true
+  location: {x: 210, y: 210}
+  skill_levels: {lumberjacking: 32, fletching: 32, strength: 24, health: 34}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 18}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_10:
+  username: "FestivalDecorator_80v2"
+  new_character: true
+  location: {x: 200, y: 215}
+  skill_levels: {mining: 34, crafting: 30, strength: 24, health: 34}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 18}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_11:
+  username: "FestivalCoordinator_80v2"
+  new_character: true
+  location: {x: 205, y: 215}
+  skill_levels: {crafting: 30, magic: 28, health: 36}
+  inventory_items:
+    - {item: "flask", count: 16}
+    - {item: "apple", count: 20}
+    - {item: "bead", count: 3}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_12:
+  username: "FestivalGuard_80v2"
+  new_character: true
+  location: {x: 210, y: 215}
+  skill_levels: {defense: 34, strength: 32, health: 38, accuracy: 26}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 18}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Phase 1: Fishers catch 15x Shrimp and 10x Tuna"
+  - "Phase 1: Hunter hunts 15x meat"
+  - "Phase 1: Foragers forage 12x Blueberries, 8x Peaches, 10x Tomatoes, 6x Corn"
+  - "Phase 1: Smith mines 15x iron ore, 10x gold ore, 25x coal"
+  - "Phase 1: Decorator mines 8x beryl gems and 4x topaz gems"
+  - "Phase 1: Fletcher gathers 12x logs"
+  - "Phase 2: Cooks cook 15x Cooked Shrimp, 10x Cooked Tuna, Stew dishes"
+  - "Phase 2: Smith smelts 15x iron bars and 10x gold bars"
+  - "Phase 3: Fletcher crafts 2x Wooden Bows and 30+ arrows"
+  - "Phase 3: Smith crafts 5x Silver Rings and 2x Golden Rings"
+  - "Phase 4: Decorator crafts 2x Beryl Pendant, 1x Topaz Pendant, 1x Magic Staff"
+  - "Phase 4: All 12 agents travel to Festival Grounds"
+  - "At least 25 cooked food items created"
+  - "At least 7 competition prizes crafted"
+  - "At least 4 decorative items created"
+  - "Festival completed within 52-55 rounds"

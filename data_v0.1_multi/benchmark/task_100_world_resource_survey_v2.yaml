@@ -1,0 +1,553 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+
+task:
+  name: "World Resource Survey - Continental Exploration & Mapping"
+  description: "Sixteen agents conduct comprehensive survey of all major regions, documenting resources, creatures, and establishing observation posts"
+
+# Task objectives
+objectives:
+  primary: "Complete world resource survey covering 10+ major regions with 120+ documented findings and 8+ observation posts within 70 rounds"
+  secondary:
+    - "Phase 1 (Rounds 1-18): Team Formation - Organize 4 survey teams and plan routes"
+    - "Phase 2 (Rounds 19-42): Continental Exploration - Survey 10+ major biomes"
+    - "Phase 3 (Rounds 43-58): Resource Documentation - Catalog 120+ findings"
+    - "Phase 4 (Rounds 59-70): Report Compilation - Establish posts and finalize survey"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  WORLD RESOURCE SURVEY OVERVIEW:
+
+  Sixteen explorers must document the entire known world's resources and creatures.
+
+  SURVEY REGIONS:
+
+  ===============================================================
+  TEAM ALPHA (Agents 1-4) - Forest & Plains Survey
+  ===============================================================
+  **Regions**:
+  - Forest Region (380, 20)
+  - Central Plains (400, 300)
+  - Outer Forest (350, 50)
+
+  **Document**:
+  - Tree types and locations (15+ trees)
+  - Plains creatures (6+ mob types)
+  - Herb and plant resources (12+ items)
+
+  **Establish**: 2 observation posts
+
+  ===============================================================
+  TEAM BETA (Agents 5-8) - Mountain & Ice Survey
+  ===============================================================
+  **Regions**:
+  - Mountain Range (230, 40)
+  - Ice Caverns (260, 154)
+  - Mountain Peaks (220, 60)
+
+  **Document**:
+  - Ore deposit locations (18+ rocks)
+  - Mountain creatures (6+ mob types)
+  - Ice region resources (12+ items)
+
+  **Establish**: 2 observation posts
+
+  ===============================================================
+  TEAM GAMMA (Agents 9-12) - Coastal & Ocean Survey
+  ===============================================================
+  **Regions**:
+  - Coastal Region (580, 750)
+  - Underwater Areas
+  - Deep Sea Zone
+
+  **Document**:
+  - Fishing spots (12+ locations)
+  - Marine creatures (6+ types)
+  - Coastal resources (12+ items)
+
+  **Establish**: 2 observation posts
+
+  ===============================================================
+  TEAM DELTA (Agents 13-16) - Desert & Volcanic Survey
+  ===============================================================
+  **Regions**:
+  - Desert Plains (400, 680)
+  - Volcanic Border regions
+  - Oasis Areas
+
+  **Document**:
+  - Desert creatures (6+ types)
+  - Special minerals (12+ finds)
+  - Heat zone resources (12+ items)
+
+  **Establish**: 2 observation posts
+
+  ===============================================================
+  SURVEY PROTOCOL
+  ===============================================================
+
+  **Phase 1: Team Formation (Rounds 1-18)**
+  - Organize into 4 specialized teams
+  - Plan exploration routes
+  - Gather survey equipment
+  - Initial reconnaissance
+
+  **Phase 2: Continental Exploration (Rounds 19-42)**
+  - Each team explores assigned regions
+  - Use observe_environment extensively
+  - Photograph (document) all findings
+  - Report via global chat every 5 rounds
+
+  **Phase 3: Resource Documentation (Rounds 43-58)**
+  - Catalog all trees, rocks, fishing spots
+  - Document all mob types and locations
+  - Collect sample resources (1-2 of each type)
+  - Cross-reference findings between teams
+
+  **Phase 4: Report Compilation (Rounds 59-70)**
+  - Establish observation posts at key locations
+  - Compile comprehensive findings list
+  - Share knowledge across all teams
+  - Final survey verification
+
+  **Documentation Requirements**:
+  - Format: "[Team X] Region Y: Found Z at (coordinates)"
+  - Example: "[Alpha] Forest: Oak Tree at (385, 22)"
+  - Minimum 120 total documented findings
+  - Each team must document 30+ unique findings
+
+  **Observation Posts**:
+  - Forest Post: (385, 25)
+  - Mountain Post: (235, 45)
+  - Ice Post: (260, 156)
+  - Coastal Post: (585, 752)
+  - Desert Post: (405, 685)
+  - Central Post: (400, 15)
+  - Outer Forest Post: (355, 55)
+  - Deep Sea Post: (590, 760)
+
+  ===============================================================
+  SUCCESS CRITERIA
+  ===============================================================
+  1. Survey 10+ major regions
+  2. Document 120+ unique findings
+  3. Catalog 25+ mob types
+  4. Catalog 35+ resource nodes
+  5. Catalog 25+ tree types
+  6. Establish 8+ observation posts
+  7. All teams report continuously
+  8. Complete within 70 rounds
+
+# Limitations
+max_action_steps: 70
+
+# Agent configurations
+agent_1:
+  username: "alpha_expedition_lead"
+  new_character: true
+  location:
+    x: 200
+    y: 200
+  skill_levels:
+    foraging: 42
+    lumberjacking: 38
+    strength: 38
+    health: 42
+  inventory_items:
+    - item: "flask"
+      count: 32
+    - item: "apple"
+      count: 36
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "alpha_scout_1"
+  new_character: true
+  location:
+    x: 205
+    y: 200
+  skill_levels:
+    foraging: 40
+    strength: 36
+    health: 40
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 32
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "alpha_scout_2"
+  new_character: true
+  location:
+    x: 210
+    y: 200
+  skill_levels:
+    lumberjacking: 38
+    strength: 36
+    health: 38
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 32
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "alpha_documenter"
+  new_character: true
+  location:
+    x: 200
+    y: 205
+  skill_levels:
+    crafting: 38
+    health: 36
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 32
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "beta_expedition_lead"
+  new_character: true
+  location:
+    x: 205
+    y: 205
+  skill_levels:
+    mining: 48
+    strength: 42
+    health: 42
+  inventory_items:
+    - item: "flask"
+      count: 32
+    - item: "apple"
+      count: 36
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "beta_scout_1"
+  new_character: true
+  location:
+    x: 210
+    y: 205
+  skill_levels:
+    mining: 42
+    strength: 40
+    health: 40
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 32
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "beta_scout_2"
+  new_character: true
+  location:
+    x: 200
+    y: 210
+  skill_levels:
+    mining: 40
+    strength: 38
+    health: 38
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 32
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "beta_documenter"
+  new_character: true
+  location:
+    x: 205
+    y: 210
+  skill_levels:
+    crafting: 38
+    health: 36
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 32
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "gamma_expedition_lead"
+  new_character: true
+  location:
+    x: 210
+    y: 210
+  skill_levels:
+    fishing: 48
+    health: 42
+  inventory_items:
+    - item: "flask"
+      count: 32
+    - item: "apple"
+      count: 36
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "gamma_scout_1"
+  new_character: true
+  location:
+    x: 200
+    y: 215
+  skill_levels:
+    fishing: 42
+    health: 40
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 32
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_11:
+  username: "gamma_scout_2"
+  new_character: true
+  location:
+    x: 205
+    y: 215
+  skill_levels:
+    fishing: 40
+    strength: 36
+    health: 38
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 32
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_12:
+  username: "gamma_documenter"
+  new_character: true
+  location:
+    x: 210
+    y: 215
+  skill_levels:
+    crafting: 38
+    health: 36
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 32
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_13:
+  username: "delta_expedition_lead"
+  new_character: true
+  location:
+    x: 200
+    y: 220
+  skill_levels:
+    strength: 42
+    accuracy: 40
+    health: 42
+  inventory_items:
+    - item: "flask"
+      count: 32
+    - item: "apple"
+      count: 36
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_14:
+  username: "delta_scout_1"
+  new_character: true
+  location:
+    x: 205
+    y: 220
+  skill_levels:
+    strength: 40
+    health: 40
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 32
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_15:
+  username: "delta_scout_2"
+  new_character: true
+  location:
+    x: 210
+    y: 220
+  skill_levels:
+    mining: 38
+    strength: 38
+    health: 38
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 32
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_16:
+  username: "delta_documenter"
+  new_character: true
+  location:
+    x: 200
+    y: 225
+  skill_levels:
+    crafting: 38
+    health: 36
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 32
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team Alpha surveys Forest and Plains regions completely"
+  - "Team Beta surveys Mountain and Ice regions completely"
+  - "Team Gamma surveys Coastal and Ocean regions completely"
+  - "Team Delta surveys Desert and Volcanic regions completely"
+  - "Total 10+ major regions surveyed"
+  - "Document 120+ unique findings across all teams"
+  - "Catalog 25+ different mob types"
+  - "Catalog 35+ resource node locations"
+  - "Catalog 25+ tree varieties"
+  - "Establish 8 observation posts at designated locations"
+  - "All teams communicate findings continuously"
+  - "World resource survey completed within 70 rounds"

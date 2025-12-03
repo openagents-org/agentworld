@@ -1,0 +1,149 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Extended 9-agent potion empire
+
+task:
+  name: "Alchemist Guild - Grand Potion Empire"
+  description: "Nine alchemists gather rare herbs, hunt for ingredients, fish exotic seafood, and brew diverse potions and consumables"
+
+# Task objectives
+objectives:
+  primary: "Brew complete potion collection: 15+ different consumables including healing, food, and specialty items"
+  secondary:
+    - "Gathering (Rounds 1-22): Collect herbs, hunt animals, fish for ingredients"
+    - "Preparation (Rounds 23-38): Process and consolidate ingredients"
+    - "Brewing (Rounds 39-55): Cook and craft all consumables"
+    - "Guild Hall (Rounds 56-60): Display potion collection"
+
+# Context and guidance for agents
+relevant_game_context: |
+  GUILD OVERVIEW
+  - Nine alchemists must present ≥15 consumables (stews, cooked meats, seafood dishes, smoothies) by Round 60. Three herbalists forage vegetables/mushrooms, two hunters collect meat, two fishers gather seafood, and two Master Brewers at (528,384) handle all cooking.
+
+  TIMELINE
+  1. R1-22 Gathering: each squad works its region, announcing ingredient counts and healing whenever HP < 70%.
+  2. R23-38 Delivery: all gatherers move toward the guild hall, then transfer ingredients to the brewers.
+  3. R39-55 Brewing: the Brewers cook the menu—2x corn stew, 2x tomato stew, 3x cooked chicken, 2x cooked beef, 2x cooked shrimp, tuna sushi, 2x jellyfish smoothie.
+  4. R56-60 Exhibition: list the finished dishes, confirm total ≥15.
+
+  EXECUTION NOTES
+  - Keep per-team checklists in chat so the brewers know when to begin cooking.
+  - If certain ingredients refuse to drop, announce substitutions early.
+# Limitations
+max_action_steps: 60
+
+# Agent configurations
+agent_1:
+  username: "Herb_Master"
+  new_character: true
+  location: {x: 250, y: 350}
+  skill_levels: {foraging: 48, health: 38}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "Plant_Gatherer"
+  new_character: true
+  location: {x: 252, y: 352}
+  skill_levels: {foraging: 45, health: 36}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "Mushroom_Forager"
+  new_character: true
+  location: {x: 254, y: 354}
+  skill_levels: {foraging: 42, health: 35}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+    - {item: "bowlmedium", count: 4}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "Beast_Hunter"
+  new_character: true
+  location: {x: 350, y: 250}
+  skill_levels: {strength: 45, accuracy: 42, health: 52}
+  inventory_items:
+    - {item: "flask", count: 35}
+    - {item: "apple", count: 40}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "Meat_Provider"
+  new_character: true
+  location: {x: 352, y: 252}
+  skill_levels: {strength: 43, accuracy: 40, health: 50}
+  inventory_items:
+    - {item: "flask", count: 35}
+    - {item: "apple", count: 40}
+  equipped_items:
+    - {item: "heavysword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "Master_Fisher"
+  new_character: true
+  location: {x: 900, y: 400}
+  skill_levels: {fishing: 45, health: 40}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_7:
+  username: "Seafood_Catcher"
+  new_character: true
+  location: {x: 902, y: 402}
+  skill_levels: {fishing: 42, health: 38}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+    - {item: "jellyfish", count: 2}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_8:
+  username: "Master_Brewer"
+  new_character: true
+  location: {x: 528, y: 384}
+  skill_levels: {cooking: 55, crafting: 40, health: 35}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_9:
+  username: "Assistant_Brewer"
+  new_character: true
+  location: {x: 530, y: 386}
+  skill_levels: {cooking: 48, crafting: 35, health: 33}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Gathering: Herbalists forage 30+ vegetables and herbs"
+  - "Gathering: Hunters kill 12+ animals for meat"
+  - "Gathering: Fishers catch 20+ fish and seafood"
+  - "Preparation: All ingredients consolidated with Brewers"
+  - "Brewing: Brewers cook 2x Tomato Stew and 2x Corn Stew"
+  - "Brewing: Brewers cook 3x Cooked Chicken, 2x Cooked Beef, 2x Cooked Shrimp"
+  - "Brewing: Brewers cook Tuna Sushi"
+  - "Brewing: Brewers craft 2x Jellyfish Smoothie"
+  - "Total 15+ consumables created"
+  - "Completed in 57-60 rounds"

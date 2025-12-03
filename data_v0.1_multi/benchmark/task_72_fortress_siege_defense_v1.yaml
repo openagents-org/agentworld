@@ -1,0 +1,118 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simplified 5-agent 2-wave defense
+
+task:
+  name: "Fortress Siege Defense - Core Defense"
+  description: "Five defenders prepare fortifications and withstand 2 waves of enemy attacks"
+
+# Task objectives
+objectives:
+  primary: "Defend a fortress against 2 progressive enemy waves over 38 rounds with preparation phases"
+  secondary:
+    - "Phase 1 (Rounds 1-12): Fortress Preparation - Build defenses and craft equipment"
+    - "Phase 2 (Rounds 13-22): First Wave - Repel Goblin assault (Level 10-15)"
+    - "Phase 3 (Rounds 23-30): Reinforcement - Upgrade defenses for harder wave"
+    - "Phase 4 (Rounds 31-38): Second Wave - Survive Skeleton invasion (Level 18-25)"
+
+# Relevant game context
+relevant_game_context: |
+  DEFENSE OVERVIEW
+  - Five defenders must hold the fortress at (~355,305) through two escalating waves (goblins -> skeletons) with preparation breaks between phases.
+
+  PHASE QUICK GUIDE
+  1. R1-12 Setup: assign roles, gather logs/ore/coal nearby, craft swords, bows, arrows, stock ~60 heals. Establish formation.
+  2. R13-22 Wave 1 (Goblins L10-15): verify HP, then focus-fire each goblin using attack_mob while staying in formation. Heal back to >=90% afterward.
+  3. R23-30 Reinforcement: regroup, gather extra materials, craft axes, rings, more arrows; redistribute gear.
+  4. R31-38 Wave 2 (Skeletons L18-25): return to formation at full HP, burn down each skeleton together, healing between fights.
+
+  EXECUTION NOTES
+  - After every transfer/craft, run verify_inventory and post status.
+  - Keep formation references in chat so re-positioning stays consistent.
+# Limitations
+max_action_steps: 38
+
+# Agent configurations
+agent_1:
+  username: "DefenderGuard"
+  new_character: true
+  location: {x: 352, y: 302}
+  skill_levels: {defense: 40, health: 48, strength: 36, mining: 28, smithing: 18}
+  inventory_items:
+    - {item: "flask", count: 32}
+    - {item: "apple", count: 36}
+    - {item: "hilt2", count: 2}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_2:
+  username: "DefenderArcher"
+  new_character: true
+  location: {x: 358, y: 305}
+  skill_levels: {accuracy: 40, archery: 36, fletching: 30, health: 38, strength: 26}
+  inventory_items:
+    - {item: "flask", count: 24}
+    - {item: "apple", count: 28}
+    - {item: "string", count: 6}
+    - {item: "feather", count: 16}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_3:
+  username: "DefenderCommander"
+  new_character: true
+  location: {x: 357, y: 305}
+  skill_levels: {strength: 36, defense: 33, accuracy: 33, health: 42, smithing: 20, crafting: 22}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+    - {item: "hilt2", count: 1}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_4:
+  username: "DefenderMedic"
+  new_character: true
+  location: {x: 362, y: 307}
+  skill_levels: {crafting: 36, magic: 32, health: 38, strength: 26, smithing: 22}
+  inventory_items:
+    - {item: "flask", count: 26}
+    - {item: "apple", count: 30}
+    - {item: "bead", count: 2}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_5:
+  username: "DefenderSmith"
+  new_character: true
+  location: {x: 365, y: 310}
+  skill_levels: {smithing: 36, crafting: 32, mining: 30, strength: 28, health: 36}
+  inventory_items:
+    - {item: "flask", count: 26}
+    - {item: "apple", count: 30}
+    - {item: "hilt2", count: 1}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Phase 1 completed: Fortress prepared, defensive formation established"
+  - "Phase 1: Equipment crafted (3 swords, 1 bow, 2 pickaxes, 25 arrows)"
+  - "Phase 1: 60+ healing items stockpiled, all defenders equipped"
+  - "Phase 2 completed: Wave 1 defeated (Goblins Level 10-15)"
+  - "Phase 2: Formation held, all defenders survived first wave"
+  - "Phase 3 completed: Reinforcement successful (enhanced equipment crafted)"
+  - "Phase 3: 2 axes, 3 silver rings created and distributed"
+  - "Phase 3: Ammunition increased to 40+ arrows, healing at 80+"
+  - "Phase 4 completed: Wave 2 defeated (Skeletons Level 18-25)"
+  - "Phase 4: Formation maintained, all defenders intact"
+  - "Both waves defeated in sequence"
+  - "All 5 defenders survived entire 38-round siege with HP > 0"
+  - "Fortress defense: VICTORY"

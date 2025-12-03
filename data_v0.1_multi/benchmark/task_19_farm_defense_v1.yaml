@@ -1,0 +1,123 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Reduced targets, one collector handles both crops
+
+task:
+  name: "Farm Defense Mission - Solo Farmer with Guard"
+  description: "Two agents work together where one guardian protects a single versatile farmer gathering both crops"
+
+# Task objectives
+objectives:
+  primary: "Successfully protect the farmer while gathering 4x corn and 2x tomato"
+  secondary: # checkpoints
+    - "Establish effective team communication"
+    - "Guardian successfully defends farmer from threats"
+    - "Complete farm produce gathering within 20 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a simplified cooperative farm protection scenario.
+
+  OBJECTIVE: Successfully gather farm produce while protecting the single farmer.
+
+  MISSION REQUIREMENTS:
+  - Collect 4x corn and 2x tomato with one versatile farmer
+  - Keep both agents alive throughout the mission
+  - Use teamwork to balance gathering with security
+
+  TEAM COORDINATION:
+  - Guardian watches for threats while farmer gathers
+  - Farmer has skills for both corn and tomato harvesting
+  - Share information about resource locations and dangers
+
+  GENERAL STRATEGY:
+  - One farmer handles all gathering efficiently
+  - Guardian provides dedicated protection
+  - Use global chat for coordination
+
+  DO NOT use complete() until ALL objectives are achieved safely!
+
+  GATHERING MECHANICS:
+  🌽 Foraging - corn:
+    - harvest_resource on corn instances to get corn
+    - Level required: 5+ (Foraging skill)
+    - Target: 4x corn total
+
+  🍅 Foraging - tomato:
+    - harvest_resource on tomato instances to get tomato
+    - Level required: 15+ (Foraging skill)
+    - Target: 2x tomato total
+
+# Limitations
+max_action_steps: 20
+
+# Agent configurations
+agent_1:
+  username: "farm_guardian_agent"
+  new_character: true
+
+  location:
+    x: 180
+    y: 200
+
+  skill_levels:
+    archery: 35
+    fletching: 25
+    strength: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+    - item: "arrow"
+      count: 60
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+
+agent_2:
+  username: "versatile_farmer_agent"
+  new_character: true
+
+  location:
+    x: 185
+    y: 200
+
+  skill_levels:
+    foraging: 30
+    defense: 20
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 18
+    - item: "corn"
+      count: 1
+    - item: "tomato"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+
+# Success criteria
+success_criteria:
+  - "versatile_farmer_agent has at least 4x corn in inventory"
+  - "versatile_farmer_agent has at least 2x tomato in inventory"
+  - "All agents remain alive throughout the mission"
+  - "Farm guardian successfully protects farmer from threats"

@@ -1,0 +1,232 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Grand Jewelry Expedition - Simplified 6-Agent Gemstone Collection"
+  description: "Six agents coordinate a jewelry expedition involving mob hunting, gemstone gathering, ore mining, and jewelry crafting"
+
+# Task objectives
+objectives:
+  primary: "Complete a 4-stage jewelry production expedition creating 2x Ruby Rings, 1x Emerald Pendant, and 1x Beryl Pendant"
+  secondary:
+    - "Stage 1 (Rounds 1-10): Mob Hunting Brigade - Hunt specific mobs for gem drops"
+    - "Stage 2 (Rounds 11-20): Mining Operations - Extract gold and special ores"
+    - "Stage 3 (Rounds 21-32): Intermediate Crafting & Assembly"
+    - "Stage 4 (Rounds 33-45): Quality Control & Distribution - Verify and distribute jewelry"
+
+# Context and guidance for agents
+relevant_game_context: |
+  EXPEDITION OVERVIEW
+  - Six specialists complete four stages in ~45 rounds to deliver: 2 rubyring, 1 emeraldpendant, 1 berylpendant. Hunters gather gemstones, miners collect gold + coal + string, and jewelers craft everything at the mountain rendezvous (~230,38).
+
+  STAGE SUMMARY
+  1. R1-10 Mob hunting & foraging (Agents 1-2)
+     • Ruby_Hunter: chase lvl 15–20 mobs near (350,250) until 2 rubies drop.
+     • Combat_Support: forage 1 beryl + 1 emerald, then assist kills and consolidate all gems via transfer_items.
+  2. R11-20 Mining (Agents 3-4)
+     • Gold_Miner extracts ≥4 gold ore; Coal_Miner gathers ≥6 coal and 2 string.
+     • Rather than dragging ore to the hub, have Smelter travel toward the mines for pickup.
+  3. R21-32 Transit & smelting
+     • Smelter reaches the mines, smelts 4 goldbars → crafts 2 goldrings.
+     • Jeweler marches from (528,384) toward the mines while Combat_Support carries the gems there.
+  4. R33-45 Jewelry assembly at the mountain camp
+     • Once all crafters are co-located, run a quick transfer log.
+     • Jeweler crafts 2 rubyring + 1 emeraldpendant + 1 berylpendant.
+
+  EXECUTION NOTES
+  - Use ≤32-tile move_character hops, announcing coordinates at each checkpoint so the team can converge.
+  - attack_entity handles combat; heal whenever HP < 60%.
+
+  COMPLETION
+  - Before complete(), list final inventory totals for all four jewelry pieces and note which agent carries each.
+# Limitations
+max_action_steps: 45
+
+# Agent configurations
+agent_1:
+  username: "Ruby_Hunter"
+  new_character: true
+
+  location:
+    x: 180
+    y: 200
+
+  skill_levels:
+    strength: 40
+    accuracy: 35
+    health: 50
+    defense: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "Combat_Support"
+  new_character: true
+
+  location:
+    x: 190
+    y: 200
+
+  skill_levels:
+    strength: 35
+    foraging: 30
+    health: 45
+    defense: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "Gold_Miner"
+  new_character: true
+
+  location:
+    x: 180
+    y: 205
+
+  skill_levels:
+    mining: 40
+    strength: 30
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "Coal_Miner"
+  new_character: true
+
+  location:
+    x: 185
+    y: 205
+
+  skill_levels:
+    mining: 25
+    foraging: 20
+    strength: 28
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "Smelter"
+  new_character: true
+
+  location:
+    x: 190
+    y: 205
+
+  skill_levels:
+    smithing: 30
+    crafting: 20
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "Jeweler"
+  new_character: true
+
+  location:
+    x: 180
+    y: 210
+
+  skill_levels:
+    crafting: 45
+    smithing: 25
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "string"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "Stage 1: Hunting Brigade kills 10+ mobs for gemstone drops"
+  - "Stage 1: Collected 2 rubies from mob drops (Ruby_Hunter)"
+  - "Stage 1: Foraged 1 emerald and 1 beryl (Combat_Support)"
+  - "Stage 1: All gemstones consolidated with Combat_Support"
+  - "Stage 2: Mined 4+ gold ore from Northern Mountains (Gold_Miner)"
+  - "Stage 2: Mined 6+ coal from Northern Mountains (Coal_Miner)"
+  - "Stage 2: Foraged 2+ string for pendant crafting (Coal_Miner)"
+  - "Stage 2: Smelter travels to mountains and receives materials"
+  - "Stage 3: Smelter smelts 4 gold bars from gold ore and coal"
+  - "Stage 3: Smelter crafts 2 gold rings from 4 gold bars"
+  - "Stage 3: Jeweler travels to mountains"
+  - "Stage 3: Combat_Support delivers all gemstones to mountains"
+  - "Stage 4: Jeweler crafts 2 ruby rings using 2 rubies and 2 gold rings"
+  - "Stage 4: Jeweler crafts 1 emerald pendant using 1 emerald and 1 string"
+  - "Stage 4: Jeweler crafts 1 beryl pendant using 1 beryl and 1 string"
+  - "Stage 4: Final verification confirms all 4 jewelry pieces"
+  - "All agents use chat extensively for stage coordination"
+  - "Expedition completed in 42-45 rounds"
+  - "All agents survive the expedition with HP > 0"

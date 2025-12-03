@@ -1,0 +1,205 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - 4 agents, defeat Dark Wolf and harvest special dark forest resources
+
+task:
+  name: "Dark Forest Cleansing - Complete Shadow Realm Expedition"
+  description: "Four agents work together to defeat Dark Wolf and harvest rare shadow resources"
+
+# Task objectives
+objectives:
+  primary: "Defeat Dark Wolf and harvest 5x shadow wood from dark forest"
+  secondary: # checkpoints
+    - "Establish dark forest coordination"
+    - "Execute boss combat and resource gathering"
+    - "Complete expedition within 40 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a full dark forest expedition with combat and resource gathering.
+
+  OBJECTIVE: Complete forest cleansing and gather rare shadow resources.
+
+  MISSION REQUIREMENTS:
+  - Navigate to Dark Forest region (1016, 682)
+  - Defeat the Dark Wolf boss
+  - Harvest 5x shadow wood from corrupted trees
+  - Cleanse the forest area
+
+  TEAM COORDINATION:
+  - Combat specialists handle Dark Wolf
+  - Lumberjacks gather shadow wood
+  - Light mages provide magical support
+  - Share light sources for visibility
+
+  COMBAT & GATHERING:
+  🐺 Boss Combat - Dark Wolf:
+    - Location: (1016, 682)
+    - Use light-based magic for advantage
+
+  🌲 Shadow Wood Harvesting:
+    - harvest_resource on shadow trees
+    - Target: 5x shadow wood total
+
+  DO NOT use complete() until all objectives are achieved!
+
+# Limitations
+max_action_steps: 40
+
+# Agent configurations
+agent_1:
+  username: "shadow_hunter_agent"
+  new_character: true
+
+  location:
+    x: 1005
+    y: 680
+
+  skill_levels:
+    strength: 50
+    accuracy: 45
+    magic: 35
+    health: 55
+    defense: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "healthpotion"
+      count: 18
+    - item: "manapotion"
+      count: 12
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "light_bringer_agent"
+  new_character: true
+
+  location:
+    x: 1010
+    y: 675
+
+  skill_levels:
+    magic: 55
+    accuracy: 40
+    health: 50
+    strength: 30
+    defense: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "manapotion"
+      count: 25
+    - item: "healthpotion"
+      count: 12
+
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "shadow_lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 1015
+    y: 685
+
+  skill_levels:
+    lumberjacking: 30
+    strength: 40
+    health: 50
+    defense: 35
+    magic: 20
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "healthpotion"
+      count: 15
+
+  equipped_items:
+    - item: "goldaxe"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "forest_guardian_agent"
+  new_character: true
+
+  location:
+    x: 1020
+    y: 690
+
+  skill_levels:
+    lumberjacking: 25
+    magic: 40
+    health: 50
+    strength: 35
+    defense: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "manapotion"
+      count: 15
+    - item: "healthpotion"
+      count: 10
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team defeats Dark Wolf boss"
+  - "Lumberjacks harvest at least 5x shadow wood"
+  - "Forest is cleansed of corruption"
+  - "All agents survive the expedition"

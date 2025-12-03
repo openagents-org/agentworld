@@ -1,0 +1,114 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simple material gathering for construction
+
+task:
+  name: "Construction Engineering - Material Preparation"
+  description: "Two agents gather 6x logs and 4x coal as construction materials"
+
+# Task objectives
+objectives:
+  primary: "Gather 6x logs and 4x coal for construction projects"
+  secondary: # checkpoints
+    - "Coordinate material gathering"
+    - "Complete material preparation within 20 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a simplified construction preparation scenario.
+
+  OBJECTIVE: Gather basic materials needed for construction.
+
+  MISSION REQUIREMENTS:
+  - Gather 6x logs from oak trees
+  - Mine 4x coal from coal rocks
+  - Coordinate resource gathering
+
+  TEAM COORDINATION:
+  - Lumberjack focuses on wood gathering
+  - Miner focuses on coal extraction
+  - Share location information
+
+  GATHERING:
+  🌲 Lumberjacking - logs:
+    - harvest_resource on Oak Tree instances
+    - Target: 6x logs total
+
+  ⚫ Mining - coal:
+    - harvest_resource on Coal Rock instances
+    - Target: 4x coal total
+
+  DO NOT use complete() until materials are gathered!
+
+# Limitations
+max_action_steps: 20
+
+# Agent configurations
+agent_1:
+  username: "construction_lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 3
+
+  skill_levels:
+    lumberjacking: 30
+    strength: 40
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "logs"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "construction_miner_agent"
+  new_character: true
+
+  location:
+    x: 600
+    y: 500
+
+  skill_levels:
+    mining: 25
+    strength: 38
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "coal"
+      count: 1
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "construction_lumberjack_agent gathers at least 6x logs"
+  - "construction_miner_agent mines at least 4x coal"
+  - "Materials prepared for construction projects"

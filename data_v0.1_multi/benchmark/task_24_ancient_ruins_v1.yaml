@@ -1,0 +1,118 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Only defeat Golden Golem, no spider boss
+
+task:
+  name: "Ancient Ruins Exploration - Golden Golem Hunt"
+  description: "Two agents work together to explore ancient ruins and defeat the Golden Golem guardian"
+
+# Task objectives
+objectives:
+  primary: "Successfully explore ancient ruins and defeat the Golden Golem guardian"
+  secondary: # checkpoints
+    - "Navigate to Ancient Ruins region"
+    - "Defeat Golden Golem within 20 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a simplified archaeological expedition focusing on one boss.
+
+  OBJECTIVE: Explore ancient ruins and defeat the Golden Golem guardian.
+
+  MISSION REQUIREMENTS:
+  - Navigate to Ancient Ruins region (~775, 665)
+  - Locate the Golden Golem at coordinates (784, 676)
+  - Defeat the Golden Golem guardian
+  - No need to defeat Big Baby Spooder
+
+  TEAM COORDINATION:
+  - Two combat agents work together
+  - Coordinate physical and magical attacks
+  - Share healing resources
+
+  COMBAT KNOWLEDGE:
+  🥇 Combat - Golden Golem:
+    - Location: coordinates (784, 676)
+    - Despite Level 0, may have special defensive properties
+    - Coordinate attacks to test weaknesses
+
+  DO NOT use complete() until Golden Golem is defeated!
+
+# Limitations
+max_action_steps: 20
+
+# Agent configurations
+agent_1:
+  username: "ruins_warrior_agent"
+  new_character: true
+
+  location:
+    x: 775
+    y: 665
+
+  skill_levels:
+    strength: 45
+    accuracy: 35
+    health: 50
+    defense: 35
+    magic: 20
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "healthpotion"
+      count: 10
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "ruins_mage_agent"
+  new_character: true
+
+  location:
+    x: 778
+    y: 668
+
+  skill_levels:
+    magic: 40
+    accuracy: 35
+    health: 45
+    defense: 30
+    strength: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "manapotion"
+      count: 10
+    - item: "healthpotion"
+      count: 8
+
+  equipped_items:
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team successfully navigates to Ancient Ruins region"
+  - "Team successfully defeats Golden Golem guardian"
+  - "All agents survive the guardian encounter"

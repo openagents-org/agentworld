@@ -1,0 +1,190 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Extended 12-agent quad-pylon energy empire
+
+task:
+  name: "Cryothermal Grid Stabilization - Grand Energy Empire"
+  description: "Twelve specialists connect ice, lava, coastal, and volcanic resources by building four synchronized pylons"
+
+# Task objectives
+objectives:
+  primary: "Stabilize the grand cryothermal grid by collecting resources and activating pylons at 4 locations within 65 rounds"
+  secondary:
+    - "Phase 1 (Rounds 1-14): Ice squad harvests icelogs and icebeads"
+    - "Phase 2 (Rounds 1-14): Lava squad harvests bloodwoodlogs and firebeads"
+    - "Phase 3 (Rounds 15-30): Alloy squads mine and smelt 20 ironbar, craft 4 silverring connectors"
+    - "Phase 4 (Rounds 31-45): Coastal squad collects lightningbeads from coastal mobs"
+    - "Phase 5 (Rounds 46-55): Craft four elemental staffs"
+    - "Phase 6 (Rounds 56-65): Assembly and activate four pylons sequentially"
+
+# Relevant game context
+relevant_game_context: |
+  WORKFLOW SNAPSHOT
+  - Agents 1-3 (Ice Stabilizers) harvest ice resources.
+  - Agents 4-6 (Lava Stabilizers) control heat vents and collect bloodwood + firebeads.
+  - Agents 7-9 (Metalworks) gather ores, smelt bars, craft staffs and rings.
+  - Agents 10-12 (Grid Pilots) coordinate installation and activation.
+
+  KEY TASK DETAILS
+  1. Ice squad harvests >=16 icelogs + >=4 icebeads.
+  2. Lava squad harvests >=16 bloodwoodlogs + >=4 firebeads.
+  3. Coastal squad secures >=2 lightningbeads.
+  4. Metalworks smelts 20 ironbar, crafts 4 silverring + 4 staffs.
+  5. Activate pylons at North, Central-East, Central-West, South positions.
+# Limitations
+max_action_steps: 65
+
+# Agent configurations
+agent_1:
+  username: "FrostArchitect_81v2"
+  new_character: true
+  location: {x: 500, y: 120}
+  skill_levels: {lumberjacking: 48, crafting: 32, strength: 30, health: 34}
+  inventory_items:
+    - {item: "flask", count: 16}
+    - {item: "apple", count: 22}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "IceSurveyor_81v2"
+  new_character: true
+  location: {x: 505, y: 120}
+  skill_levels: {lumberjacking: 38, crafting: 28, magic: 28, health: 32}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 20}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_3:
+  username: "CryoRunner_81v2"
+  new_character: true
+  location: {x: 510, y: 120}
+  skill_levels: {magic: 34, crafting: 30, accuracy: 32, health: 32}
+  inventory_items:
+    - {item: "manaflask", count: 12}
+    - {item: "flask", count: 12}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "EmberMarshal_81v2"
+  new_character: true
+  location: {x: 500, y: 125}
+  skill_levels: {lumberjacking: 44, strength: 38, health: 38, defense: 32}
+  inventory_items:
+    - {item: "flask", count: 20}
+    - {item: "apple", count: 18}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_5:
+  username: "LavaWarden_81v2"
+  new_character: true
+  location: {x: 505, y: 125}
+  skill_levels: {lumberjacking: 36, defense: 40, strength: 36, health: 36}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 18}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "VentForger_81v2"
+  new_character: true
+  location: {x: 510, y: 125}
+  skill_levels: {crafting: 38, magic: 34, strength: 30, health: 32}
+  inventory_items:
+    - {item: "manaflask", count: 12}
+    - {item: "flask", count: 12}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_7:
+  username: "AlloyCommander_81v2"
+  new_character: true
+  location: {x: 500, y: 130}
+  skill_levels: {mining: 46, smithing: 42, crafting: 36, health: 38}
+  inventory_items:
+    - {item: "flask", count: 18}
+    - {item: "apple", count: 20}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_8:
+  username: "RelayScout_81v2"
+  new_character: true
+  location: {x: 505, y: 130}
+  skill_levels: {accuracy: 38, magic: 34, crafting: 28, health: 32}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "manaflask", count: 10}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_9:
+  username: "AssistantSmith_81v2"
+  new_character: true
+  location: {x: 510, y: 130}
+  skill_levels: {mining: 40, smithing: 36, crafting: 32, health: 34}
+  inventory_items:
+    - {item: "flask", count: 16}
+    - {item: "apple", count: 18}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_10:
+  username: "GridPilot1_81v2"
+  new_character: true
+  location: {x: 500, y: 135}
+  skill_levels: {crafting: 40, magic: 38, defense: 34, health: 36}
+  inventory_items:
+    - {item: "flask", count: 16}
+    - {item: "apple", count: 18}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_11:
+  username: "GridPilot2_81v2"
+  new_character: true
+  location: {x: 505, y: 135}
+  skill_levels: {crafting: 38, magic: 36, defense: 32, health: 34}
+  inventory_items:
+    - {item: "flask", count: 16}
+    - {item: "apple", count: 18}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_12:
+  username: "HarmonicAnchor_81v2"
+  new_character: true
+  location: {x: 510, y: 135}
+  skill_levels: {crafting: 42, magic: 42, health: 38, strength: 30}
+  inventory_items:
+    - {item: "manaflask", count: 14}
+    - {item: "flask", count: 12}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Ice Stabilizers harvest at least 16 icelogs + 4 icebeads"
+  - "Lava Stabilizers deliver 16 bloodwoodlogs + 4 firebeads"
+  - "RelayScout secures 2 lightningbeads from coastal mobs"
+  - "AlloyCommander produces 20 ironbar and 4 silverring connectors"
+  - "Four elemental staffs (icestaff, firestaff, 2x lightningstaff) crafted and assigned"
+  - "All four pylon activations broadcast with remaining resource counts"
+  - "All agents regroup for final verification"
+  - "Mission completes in 62-65 rounds"

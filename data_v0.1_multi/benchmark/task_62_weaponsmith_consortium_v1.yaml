@@ -1,0 +1,134 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Weaponsmith Consortium - Complete Arsenal Production (Extended)"
+  description: "Seven master weaponsmiths create a complete arsenal: 5+ swords, 3+ axes, 2+ bows, and specialty weapons through coordinated production"
+
+# Task objectives
+objectives:
+  primary: "Forge complete weapon arsenal: 5 swords (including golden), 3 axes, 2 bows, 1 pickaxe for total of 11+ weapons"
+  secondary:
+    - "Forge 1 (Rounds 1-18): Material Procurement - Mine ores, harvest lumber, gather components"
+    - "Forge 2 (Rounds 19-33): Bar Production - Smelt all metals at central forge"
+    - "Forge 3 (Rounds 34-52): Weapon Forging - Craft all weapon types"
+    - "Forge 4 (Rounds 53-60): Arsenal Completion - Final weapons and verification"
+
+# Context and guidance for agents
+relevant_game_context: |
+  ARSENAL PLAN
+  - Seven smiths build an 11-piece arsenal (golden sword/bow, heavy swords, battle axes, wooden bow, pickaxe) by Round 60. Mountain miners supply ore, forest suppliers bring logs + string, and the central forge team smelts/crafts everything.
+
+  FLOW
+  1. R1-18 Procurement: Iron_Master (30 iron ore), Gold_Master (30 gold ore), Coal_Master (60 coal) mine around (230-240,40). Lumber_Jack harvests 12 logs near (250,350); String_Maker gathers 12 string. Forge team stays at (528,384) monitoring counts.
+  2. R19-33 Transport & Consolidation: all gatherers travel toward the forge in ≤32-tile hops, transferring resources via transfer_items (ores/coal → Master_Forger, logs/string → Weaponsmith). When observe_environment is unavailable, rely on grid movement plus harvest confirmations.
+  3. R34-52 Production: Master_Forger smelts ~30 iron + ~30 gold bars (announce milestones). Weaponsmith crafts in order: pickaxe, axes, wooden bow, heavy swords, golden sword, golden bow; ensure hilts/strings/logs are allocated before crafting each recipe.
+  4. R53-60 Verification: verify_inventory shows every weapon, and the consortium announces "Arsenal complete" before calling complete().
+
+  EXECUTION NOTES
+  - Keep a shared progress log ("Gold 18/30", "String 8/12") so the forge can plan smelting batches.
+  - If smelting lags, prioritize the bars required for non-gold weapons first so counts progress toward the objective.
+  - Transfers only succeed within ~10 tiles; both parties must acknowledge receipt and run verify_inventory.
+# Limitations
+max_action_steps: 60
+
+# Agent configurations
+agent_1:
+  username: "Iron_Master"
+  new_character: true
+  location: {x: 230, y: 38}
+  skill_levels: {mining: 50, strength: 32, health: 38}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "Gold_Master"
+  new_character: true
+  location: {x: 238, y: 48}
+  skill_levels: {mining: 45, strength: 30, health: 36}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "Coal_Master"
+  new_character: true
+  location: {x: 232, y: 40}
+  skill_levels: {mining: 35, strength: 28, health: 34}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "Lumber_Jack"
+  new_character: true
+  location: {x: 250, y: 350}
+  skill_levels: {lumberjacking: 45, strength: 30, health: 32}
+  inventory_items:
+    - {item: "flask", count: 20}
+    - {item: "apple", count: 25}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "String_Maker"
+  new_character: true
+  location: {x: 252, y: 352}
+  skill_levels: {foraging: 35, crafting: 25, health: 30}
+  inventory_items:
+    - {item: "flask", count: 20}
+    - {item: "apple", count: 25}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "Master_Forger"
+  new_character: true
+  location: {x: 528, y: 384}
+  skill_levels: {crafting: 60, smithing: 40, health: 32}
+  inventory_items:
+    - {item: "flask", count: 20}
+    - {item: "apple", count: 25}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_7:
+  username: "Weaponsmith"
+  new_character: true
+  location: {x: 530, y: 386}
+  skill_levels: {smithing: 65, fletching: 45, crafting: 35, health: 34}
+  inventory_items:
+    - {item: "flask", count: 20}
+    - {item: "apple", count: 25}
+    - {item: "hilt2", count: 4}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Forge 1: Iron Master mines 30+ iron ore"
+  - "Forge 1: Gold Master mines 30+ gold ore"
+  - "Forge 1: Coal Master mines 60+ coal"
+  - "Forge 1: Lumber Jack harvests 12+ logs"
+  - "Forge 1: String Maker gathers 12+ string"
+  - "Forge 2: All materials consolidated at Central Forge"
+  - "Forge 3: Master Forger smelts 30 iron bars"
+  - "Forge 3: Master Forger smelts 30 gold bars"
+  - "Forge 3: Weaponsmith crafts Golden Sword"
+  - "Forge 3: Weaponsmith crafts Golden Bow"
+  - "Forge 3: Weaponsmith crafts 2 Heavy Swords"
+  - "Forge 3: Weaponsmith crafts 3 Battle Axes"
+  - "Forge 3: Weaponsmith crafts Wooden Bow"
+  - "Forge 3: Weaponsmith crafts Pickaxe"
+  - "Total 9-11 weapons forged"
+  - "Complete arsenal in 57-60 rounds"

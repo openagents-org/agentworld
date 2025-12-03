@@ -1,0 +1,410 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Reduced bosses and crafting targets
+
+task:
+  name: "Grand Royal Tournament - Multi-Arena Championship Challenge"
+  description: "Twelve agents form three specialized teams to compete in the tournament: Combat Arena (boss battles), Crafting Masters (equipment), and Resource Champions (gathering & feast preparation)"
+
+# Task objectives
+objectives:
+  primary: "Successfully complete all three tournament challenges: defeat 2+ bosses, craft 4+ equipment items, gather rare resources and prepare a royal feast with 15+ food items"
+  secondary:
+    - "Phase 1 (Rounds 1-12): Team Formation & Initial Resource Gathering"
+    - "Phase 2 (Rounds 13-30): Parallel Challenge Execution - Combat, Crafting, Gathering"
+    - "Phase 3 (Rounds 31-45): Final Boss Battle & Grand Feast Celebration"
+    - "Complete all three tournament challenges within 45 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  The Grand Royal Tournament requires TWELVE champions to work as THREE specialized teams:
+  - COMBAT ARENA TEAM (4 agents): Defeat multiple bosses in battle
+  - CRAFTING MASTERS TEAM (4 agents): Forge equipment
+  - RESOURCE CHAMPIONS TEAM (4 agents): Gather rare resources & prepare royal feast
+
+  CHALLENGE 1: COMBAT ARENA (Agents 1-4)
+  - Defeat at least 2 different boss-level creatures
+  - Target: Dark Wolf (1016, 682) and Mermaid (580, 755)
+  - Execute synchronized combat with role specialization
+
+  CHALLENGE 2: CRAFTING MASTERS (Agents 5-8)
+  - Craft at least 4 items from different categories
+  - Items: 1x Heavy Sword, 1x Golden Ring, 1x Silver Ring, 1x Axe
+  - Mining, smelting, crafting pipeline
+
+  CHALLENGE 3: RESOURCE CHAMPIONS (Agents 9-12)
+  - Gather 6+ different resource types
+  - Prepare 15+ food items for the feast
+  - Cooked shrimp, chicken, beef, jellyfishsmoothie
+
+  INTER-TEAM COORDINATION:
+  - Combat Team → Others: Share boss drops
+  - Crafting Team → Combat: Provide crafted weapons
+  - Resource Team → Combat: Supply healing foods
+  - All teams use global chat for status updates
+
+# Limitations
+max_action_steps: 45
+
+# Agent configurations
+agent_1:
+  username: "arena_tank_champion"
+  new_character: true
+  location:
+    x: 200
+    y: 200
+  skill_levels:
+    strength: 55
+    defense: 50
+    health: 70
+    accuracy: 35
+    magic: 25
+  inventory_items:
+    - item: "flask"
+      count: 55
+    - item: "apple"
+      count: 45
+    - item: "healthpotion"
+      count: 18
+  equipped_items:
+    - item: "ironarmor"
+      count: 1
+      enchant: 0
+    - item: "ironboots"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "arena_warrior_dps"
+  new_character: true
+  location:
+    x: 205
+    y: 200
+  skill_levels:
+    strength: 60
+    accuracy: 50
+    defense: 40
+    health: 65
+    magic: 20
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 40
+    - item: "healthpotion"
+      count: 15
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "arena_archer_sniper"
+  new_character: true
+  location:
+    x: 210
+    y: 200
+  skill_levels:
+    accuracy: 65
+    fletching: 35
+    strength: 45
+    defense: 35
+    health: 60
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 35
+    - item: "arrow"
+      count: 55
+    - item: "healthpotion"
+      count: 12
+  equipped_items:
+    - item: "bow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "arena_support_healer"
+  new_character: true
+  location:
+    x: 200
+    y: 205
+  skill_levels:
+    magic: 50
+    health: 70
+    defense: 45
+    strength: 35
+    crafting: 30
+  inventory_items:
+    - item: "flask"
+      count: 65
+    - item: "apple"
+      count: 55
+    - item: "healthpotion"
+      count: 25
+    - item: "cookedshrimp"
+      count: 18
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "crafting_master_miner"
+  new_character: true
+  location:
+    x: 205
+    y: 205
+  skill_levels:
+    mining: 55
+    strength: 45
+    health: 55
+    defense: 35
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 40
+    - item: "ironore"
+      count: 5
+    - item: "coal"
+      count: 5
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "crafting_master_smelter"
+  new_character: true
+  location:
+    x: 210
+    y: 205
+  skill_levels:
+    smithing: 40
+    crafting: 30
+    health: 50
+  inventory_items:
+    - item: "flask"
+      count: 40
+    - item: "apple"
+      count: 35
+    - item: "coal"
+      count: 8
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "crafting_material_gatherer"
+  new_character: true
+  location:
+    x: 200
+    y: 210
+  skill_levels:
+    lumberjacking: 40
+    foraging: 35
+    strength: 40
+    health: 50
+    accuracy: 35
+  inventory_items:
+    - item: "flask"
+      count: 40
+    - item: "apple"
+      count: 35
+    - item: "logs"
+      count: 4
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "crafting_legendary_smith"
+  new_character: true
+  location:
+    x: 205
+    y: 210
+  skill_levels:
+    smithing: 45
+    crafting: 45
+    fletching: 30
+    health: 50
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 40
+    - item: "hilt2"
+      count: 1
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "resource_master_forager"
+  new_character: true
+  location:
+    x: 210
+    y: 210
+  skill_levels:
+    foraging: 50
+    lumberjacking: 35
+    health: 55
+    strength: 35
+  inventory_items:
+    - item: "flask"
+      count: 40
+    - item: "apple"
+      count: 35
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "resource_elite_hunter"
+  new_character: true
+  location:
+    x: 200
+    y: 215
+  skill_levels:
+    strength: 50
+    accuracy: 45
+    defense: 40
+    health: 60
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 40
+    - item: "rawchicken"
+      count: 3
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "bow"
+      count: 1
+      enchant: 0
+    - item: "arrow"
+      count: 35
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_11:
+  username: "resource_coastal_fisher"
+  new_character: true
+  location:
+    x: 205
+    y: 215
+  skill_levels:
+    fishing: 50
+    cooking: 30
+    health: 50
+    strength: 30
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 30
+    - item: "rawshrimp"
+      count: 5
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_12:
+  username: "resource_royal_chef"
+  new_character: true
+  location:
+    x: 210
+    y: 215
+  skill_levels:
+    cooking: 50
+    crafting: 35
+    foraging: 30
+    health: 50
+  inventory_items:
+    - item: "flask"
+      count: 40
+    - item: "apple"
+      count: 35
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "Combat Arena Team successfully defeats at least 2 different boss-level creatures"
+  - "Crafting Masters Team successfully crafts at least 4 items from different categories"
+  - "Resource Champions Team collects at least 6 different types of rare resources"
+  - "Royal Chef prepares at least 15 food items for the grand feast"
+  - "All three teams coordinate effectively using global chat throughout tournament"
+  - "Successful inter-team resource sharing and support demonstrated"
+  - "All tournament challenges completed within 45 rounds time limit"

@@ -1,0 +1,155 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simple mining, just smelt iron bars (no equipment crafting)
+
+task:
+  name: "Grand Mining Expedition - Iron Smelting Operation"
+  description: "Three agents mine iron ore and coal, then smelt 6x iron bars"
+
+# Task objectives
+objectives:
+  primary: "Mine resources and smelt 6x iron bars through coordination"
+  secondary: # checkpoints
+    - "Coordinate mining and smelting"
+    - "Complete smelting within 25 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a simplified mining and smelting scenario.
+
+  OBJECTIVE: Mine ore and coal, then smelt iron bars.
+
+  MISSION REQUIREMENTS:
+  - Mine 6x iron ore from iron rocks
+  - Mine 6x coal from coal rocks
+  - Smelt 6x iron bars
+
+  TEAM COORDINATION:
+  - Iron miner focuses on iron ore
+  - Coal miner focuses on coal
+  - Smelter combines materials
+
+  STARTING RESOURCES:
+  - Iron miner starts with 2x ironore
+  - Coal miner starts with 3x coal
+  - Smelter starts with 1x ironore + 1x coal
+
+  SMELTING:
+  🔥 Smelting - ironbar:
+    - craft_item skill=Smelting itemKey=ironbar
+    - Materials: 1x ironore + 1x coal → 1x ironbar
+    - Target: 6x ironbar total
+
+  DO NOT use complete() until 6x ironbar is produced!
+
+# Limitations
+max_action_steps: 25
+
+# Agent configurations
+agent_1:
+  username: "iron_miner_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 38
+
+  skill_levels:
+    mining: 25
+    strength: 38
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "ironore"
+      count: 2
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "coal_miner_agent"
+  new_character: true
+
+  location:
+    x: 232
+    y: 40
+
+  skill_levels:
+    mining: 22
+    strength: 35
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "coal"
+      count: 3
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "smelter_agent"
+  new_character: true
+
+  location:
+    x: 235
+    y: 42
+
+  skill_levels:
+    smithing: 28
+    mining: 15
+    strength: 32
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "ironore"
+      count: 1
+    - item: "coal"
+      count: 1
+
+  equipped_items:
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team mines enough iron ore"
+  - "Team mines enough coal"
+  - "smelter_agent produces at least 6x ironbar"
+  - "Mining expedition completed"

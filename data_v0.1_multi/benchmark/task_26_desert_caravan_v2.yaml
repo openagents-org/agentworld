@@ -1,0 +1,200 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - 4 agents with combat and full trading circuit
+
+task:
+  name: "Desert Caravan Trading - Full Commerce Expedition"
+  description: "Four agents work together to establish complete trading circuit with combat and resource operations"
+
+# Task objectives
+objectives:
+  primary: "Establish profitable trading operations, defeat desert creatures, and gather rare resources"
+  secondary: # checkpoints
+    - "Establish desert survival coordination"
+    - "Execute trading and combat operations"
+    - "Complete desert commerce within 40 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a full-scale desert expedition with trading, combat, and resource gathering.
+
+  OBJECTIVE: Establish complete desert trading operations with expanded team.
+
+  MISSION REQUIREMENTS:
+  - Navigate to Southern Desert region (200-600, 600-768)
+  - Defeat desert creatures (Vultures and predators)
+  - Gather rare desert resources
+  - Trade with at least 2 desert NPCs (Miner, Billey)
+  - Complete profitable trading circuit
+
+  TEAM COORDINATION:
+  - Caravan leader coordinates operations
+  - Combat specialist handles desert creatures
+  - Trader manages NPC interactions
+  - Gatherer collects resources for trading
+
+  DESERT ACTIVITIES:
+  🦅 Desert Combat:
+    - Expect Vultures and desert predators
+    - Coordinate ranged attacks
+
+  💰 Desert Trading NPCs:
+    - Miner: Located in mining areas
+    - Billey: Desert merchant
+
+  ⛏️ Desert Mining:
+    - Unique ore deposits in desert
+    - Resources for trading
+
+  DO NOT use complete() until trading circuit is completed!
+
+# Limitations
+max_action_steps: 40
+
+# Agent configurations
+agent_1:
+  username: "caravan_leader_agent"
+  new_character: true
+
+  location:
+    x: 180
+    y: 200
+
+  skill_levels:
+    strength: 40
+    health: 50
+    defense: 35
+    accuracy: 30
+    crafting: 20
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+    - item: "healthpotion"
+      count: 12
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "bow"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "desert_warrior_agent"
+  new_character: true
+
+  location:
+    x: 185
+    y: 205
+
+  skill_levels:
+    strength: 45
+    accuracy: 40
+    defense: 40
+    health: 50
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "healthpotion"
+      count: 15
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "desert_trader_agent"
+  new_character: true
+
+  location:
+    x: 190
+    y: 200
+
+  skill_levels:
+    crafting: 35
+    strength: 30
+    health: 40
+    accuracy: 20
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "coins"
+      count: 150
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "resource_gatherer_agent"
+  new_character: true
+
+  location:
+    x: 195
+    y: 205
+
+  skill_levels:
+    mining: 30
+    foraging: 25
+    strength: 40
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "healthpotion"
+      count: 10
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team navigates to desert region successfully"
+  - "desert_warrior_agent defeats desert creatures"
+  - "desert_trader_agent trades with at least 2 NPCs"
+  - "resource_gatherer_agent gathers desert resources"
+  - "Team completes profitable trading circuit"
+  - "All agents survive desert expedition"

@@ -1,0 +1,166 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Reduced arrow target (60 instead of 80)
+
+task:
+  name: "Grand Archery Academy - Bow and Arrow Production (Reduced Target)"
+  description: "Six fletchers establish an archery academy with reduced arrow production"
+
+objectives:
+  primary: "Establish archery academy: gather 25+ logs, craft 60+ arrows, produce 5+ bows within 50 rounds"
+  secondary:
+    - "Phase 1 (Rounds 1-15): Resource gathering - logs, feathers, string"
+    - "Phase 2 (Rounds 16-30): Arrow production - mass craft arrows"
+    - "Phase 3 (Rounds 31-42): Bow crafting - create quality bows"
+    - "Phase 4 (Rounds 43-50): Final production and quality check"
+
+relevant_game_context: |
+  ARCHERY ACADEMY:
+  Six agents establish a full archery production facility with reduced targets.
+
+  ROLES:
+  - Lumberjacks (Agents 1-2): Gather logs
+  - Hunters (Agents 3-4): Collect feathers
+  - Fletchers (Agents 5-6): Craft bows and arrows
+
+max_action_steps: 50
+
+agent_1:
+  username: "archery_lumber1_v2"
+  new_character: true
+  location:
+    x: 380
+    y: 20
+  skill_levels:
+    lumberjacking: 45
+    strength: 40
+    health: 42
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "archery_lumber2_v2"
+  new_character: true
+  location:
+    x: 382
+    y: 22
+  skill_levels:
+    lumberjacking: 43
+    strength: 38
+    health: 40
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "archery_hunter1_v2"
+  new_character: true
+  location:
+    x: 350
+    y: 250
+  skill_levels:
+    accuracy: 45
+    strength: 38
+    health: 42
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 30
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "archery_hunter2_v2"
+  new_character: true
+  location:
+    x: 352
+    y: 252
+  skill_levels:
+    accuracy: 43
+    strength: 36
+    health: 40
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 30
+  equipped_items:
+    - item: "bow"
+      count: 1
+      enchant: 0
+    - item: "arrow"
+      count: 20
+
+agent_5:
+  username: "archery_fletcher1_v2"
+  new_character: true
+  location:
+    x: 385
+    y: 25
+  skill_levels:
+    fletching: 50
+    crafting: 40
+    health: 38
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "string"
+      count: 10
+    - item: "feather"
+      count: 20
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "archery_fletcher2_v2"
+  new_character: true
+  location:
+    x: 387
+    y: 27
+  skill_levels:
+    fletching: 48
+    crafting: 38
+    health: 36
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "string"
+      count: 8
+    - item: "feather"
+      count: 15
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Lumberjacks gather 25+ logs"
+  - "Hunters collect 50+ feathers"
+  - "Fletchers craft 60+ arrows"
+  - "Fletchers craft 5+ bows"
+  - "Team coordinates using global chat"
+  - "Academy established within 50 rounds"

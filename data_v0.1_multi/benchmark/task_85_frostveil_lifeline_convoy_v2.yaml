@@ -1,0 +1,206 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Extended 12-agent grand polar relief expedition
+
+task:
+  name: "Frostveil Lifeline Convoy - Grand Polar Relief Expedition"
+  description: "Twelve specialists rebuild the frozen supply line network, delivering multiple beacon staffs, medical kits, and spare tools across three checkpoints within 65 rounds."
+
+# Task objectives
+objectives:
+  primary: "Deliver the reinforced convoy manifest (30 icelogs, 20 iron bars, three lightningstaff, three icestaff, medical rations) from Ridge Camp (232,148) through multiple checkpoints to the Ice Guardian Outpost (260,156) and beyond."
+  secondary:
+    - "Phase 1 (Rounds 1-12): Stage at Ridge Camp, assign four squads (Resource, Beacon, Escort, Medical)."
+    - "Phase 2 (Rounds 13-28): Resource squad harvests 30 icelogs, mines 24 ironore + 24 coal, fishes 12 jellyfish, forages 12 bluelily."
+    - "Phase 3 (Rounds 29-42): Beacon squad smelts 20 ironbar, crafts 4 pickaxe replacements, 6 staff blanks, upgrades three lightningstaff + three icestaff."
+    - "Phase 4 (Rounds 43-52): Quartermaster consolidates all convoy items, verifies inventory."
+    - "Phase 5 (Rounds 53-65): Escort squad guides convoy through five checkpoints, defeats roaming Ice Guardians, installs all beacon staffs."
+
+# Relevant game context
+relevant_game_context: |
+  RIDGE CAMP PROTOCOL
+  - Keep everyone within 6 tiles when staging; confirm roles in chat before splitting up.
+  - Use harvest_resource target=iceoak or pine variants around (232-240,146-154) for icelogs.
+  - Mine iron/coal veins along the ridge (x 228-238, y 140-150). Smelt only after 24 ore + 24 coal stockpiled.
+
+  BEACON FABRICATION
+  - Craft chain: craft_item skill=Crafting itemKey=staff → upgrade with lightningbead → lightningstaff.
+  - Craft icestaff using icebead drops from ice mobs.
+  - Lightning beads drop from coastal mimics near (224,359) if ridge mobs refuse.
+  - Use transfer_items in front of witnesses; SignalRunner must confirm counts.
+
+  CONVOY & ESCORTS
+  - Designate Quartermaster as sole holder of icelogs, ironbar, crafted staffs, and medical stock.
+  - Escort squad (Lead, ScoutSkier1, ScoutSkier2, SledgeGuard1, SledgeGuard2, PolarMedic) moves in diamond around Quartermaster.
+  - If any escort drifts >5 tiles away, halt and regroup.
+  - When mobs appear, Lead tags target in chat, all combatants attack.
+
+  CHECKPOINT CALLS
+  - Five checkpoints: (236,150), (240,150), (250,152), (259,151), (260,156).
+  - At each waypoint, recite location, convoy HP status, item counts, and next heading.
+  - Install beacons at (240,150), (250,152), (259,151) and outpost gates.
+
+# Limitations
+max_action_steps: 65
+
+# Agent configurations
+agent_1:
+  username: "ConvoyLead_85v2"
+  new_character: true
+  location: {x: 232, y: 148}
+  skill_levels: {defense: 40, strength: 36, accuracy: 32, health: 38}
+  inventory_items:
+    - {item: "flask", count: 18}
+    - {item: "apple", count: 18}
+  equipped_items:
+    - {item: "heavysword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_2:
+  username: "GlacierMiner1_85v2"
+  new_character: true
+  location: {x: 234, y: 150}
+  skill_levels: {mining: 44, smithing: 36, strength: 34, health: 36}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 14}
+    - {item: "coal", count: 4}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "GlacierMiner2_85v2"
+  new_character: true
+  location: {x: 236, y: 152}
+  skill_levels: {mining: 40, smithing: 32, strength: 30, health: 32}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 12}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "FrostCarver_85v2"
+  new_character: true
+  location: {x: 230, y: 146}
+  skill_levels: {lumberjacking: 42, crafting: 32, strength: 32, health: 34}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_5:
+  username: "BeaconSmith_85v2"
+  new_character: true
+  location: {x: 233, y: 149}
+  skill_levels: {crafting: 40, magic: 36, smithing: 32, health: 34}
+  inventory_items:
+    - {item: "string", count: 6}
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 12}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "SignalRunner_85v2"
+  new_character: true
+  location: {x: 236, y: 152}
+  skill_levels: {magic: 36, accuracy: 34, crafting: 32, health: 32}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 14}
+    - {item: "manaflask", count: 8}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_7:
+  username: "PolarMedic_85v2"
+  new_character: true
+  location: {x: 232, y: 150}
+  skill_levels: {magic: 38, crafting: 36, health: 38, defense: 34}
+  inventory_items:
+    - {item: "flask", count: 18}
+    - {item: "manaflask", count: 12}
+    - {item: "bluelily", count: 2}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_8:
+  username: "ScoutSkier1_85v2"
+  new_character: true
+  location: {x: 235, y: 145}
+  skill_levels: {accuracy: 36, defense: 34, magic: 30, health: 34}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_9:
+  username: "ScoutSkier2_85v2"
+  new_character: true
+  location: {x: 229, y: 151}
+  skill_levels: {accuracy: 34, defense: 32, magic: 28, health: 32}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 12}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_10:
+  username: "ShelterCook_85v2"
+  new_character: true
+  location: {x: 228, y: 152}
+  skill_levels: {fishing: 38, cooking: 36, foraging: 32, health: 32}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 12}
+    - {item: "fishingbait", count: 8}
+  equipped_items:
+    - {item: "fishingpole", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_11:
+  username: "Quartermaster_85v2"
+  new_character: true
+  location: {x: 231, y: 149}
+  skill_levels: {crafting: 36, defense: 36, strength: 32, health: 36}
+  inventory_items:
+    - {item: "flask", count: 18}
+    - {item: "apple", count: 18}
+    - {item: "string", count: 3}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_12:
+  username: "SledgeGuard_85v2"
+  new_character: true
+  location: {x: 233, y: 147}
+  skill_levels: {strength: 38, defense: 38, health: 38, accuracy: 32}
+  inventory_items:
+    - {item: "flask", count: 18}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "heavysword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Resource squad delivers 30+ icelogs, 24+ iron ore, 24+ coal, 12 jellyfish, 12 bluelily"
+  - "Beacon squad crafts 4 pickaxe replacements, six staff blanks, upgrades three lightningstaff + three icestaff"
+  - "Each craft is reported with verify_inventory evidence"
+  - "Quartermaster alone holds the convoy manifest and confirms totals at each of five checkpoints"
+  - "Escort squad calls out every mob engagement and keeps all agents within 5 tiles of convoy"
+  - "Beacons installed at (240,150), (250,152), (259,151), (260,156), plus one additional position"
+  - "Ration handoff to outpost confirmed before complete()"
+  - "Mission completes in 62-65 rounds"

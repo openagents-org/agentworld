@@ -1,0 +1,152 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simplified 3-phase survival with 3 agents
+
+task:
+  name: "Extended Survival Challenge - Simplified Three-Phase Expedition"
+  description: "Three agents undertake a survival challenge requiring resource gathering, equipment crafting, and combat encounters over 40 rounds"
+
+# Task objectives
+objectives:
+  primary: "Complete a survival challenge with three phases of resource gathering, crafting, and combat over 40 rounds"
+  secondary: # checkpoints
+    - "Execute Phase 1: Initial resource gathering and base equipment"
+    - "Execute Phase 2: Advanced resource acquisition and tool crafting"
+    - "Execute Phase 3: Combat preparation and enemy encounters"
+    - "Complete all survival phases within 40 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  THREE-PHASE SURVIVAL PLAN (40 ROUNDS)
+  1. Phase 1 (R1-12) – Forest camp: harvest ≥4 logs, craft sticks, build a magic staff (5 sticks + SurvivalLeader's bead) and stock food. Stay within 10 tiles around (388,4) so transfers via transfer_items are easy.
+  2. Phase 2 (R13-28) – Mountain mining: travel to (230,38), mine ≥8 ironore and ≥8 coal, consolidate with CraftingExpert, smelt 6 ironbars, and craft pickaxe (5 bars + log). Grab extra logs before leaving.
+  3. Phase 3 (R29-40) – Combat: hunt low-level mobs (rats/bats/crabs) using attack_mob, coordinate attacks, and confirm victories together.
+
+  COORDINATION RULES
+  - After every gather/craft/transfer, announce inventory via chat and run verify_inventory when receiving materials.
+  - Travel as a group when switching regions; SurvivalLeader calls waypoints, CombatSpecialist escorts.
+  - CraftingExpert handles all smelting/smithing; other agents funnel materials via transfer_items.
+  - Use attack_mob for combat to guarantee auto-loot and clear combat logs.
+
+  COMPLETION CHECKLIST
+  - Crafted items verified in order: magic staff → pickaxe.
+  - At least 3 mobs defeated during Phase 3 with chat confirmation ("Combat complete, HP summary…").
+  - All three agents alive and standing together when complete() is called.
+# Limitations
+max_action_steps: 40
+
+# Agent configurations
+agent_1:
+  username: "SurvivalLeader"
+  new_character: true
+
+  location:
+    x: 388
+    y: 4
+
+  skill_levels:
+    lumberjacking: 25
+    mining: 20
+    strength: 35
+    health: 40
+    defense: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "bead"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "CraftingExpert"
+  new_character: true
+
+  location:
+    x: 390
+    y: 4
+
+  skill_levels:
+    crafting: 30
+    smithing: 25
+    fletching: 25
+    strength: 30
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "CombatSpecialist"
+  new_character: true
+
+  location:
+    x: 392
+    y: 4
+
+  skill_levels:
+    strength: 40
+    accuracy: 35
+    defense: 35
+    health: 45
+    magic: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "SurvivalLeader successfully coordinates all survival phases"
+  - "Team successfully completes Phase 1: Basic Survival (Rounds 1-12)"
+  - "Magic Staff is crafted during Phase 1"
+  - "Team successfully completes Phase 2: Resource Expansion (Rounds 13-28)"
+  - "Pickaxe is crafted during Phase 2"
+  - "CraftingExpert successfully produces all required equipment"
+  - "Team successfully completes Phase 3: Combat (Rounds 29-40)"
+  - "Team defeats at least 3 mobs during Phase 3"
+  - "CombatSpecialist leads combat operations effectively"
+  - "All three agents survive entire 40-round challenge"
+  - "Team demonstrates coordination throughout all phases"
+  - "All phase objectives are completed in sequence within 40 rounds"

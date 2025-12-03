@@ -1,0 +1,107 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Only foraging, gather fruits and vegetables
+
+task:
+  name: "Agricultural Development - Harvest Gathering"
+  description: "Two agents work together to gather 4x corn and 3x apple"
+
+# Task objectives
+objectives:
+  primary: "Gather 4x corn and 3x apple through foraging"
+  secondary: # checkpoints
+    - "Locate corn and apple trees"
+    - "Complete harvest within 18 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a simple agricultural gathering scenario.
+
+  OBJECTIVE: Gather crops and fruits for food supply.
+
+  MISSION REQUIREMENTS:
+  - Gather 4x corn from corn plants
+  - Gather 3x apple from apple trees
+  - Coordinate foraging efforts
+
+  TEAM COORDINATION:
+  - Share crop locations
+  - Coordinate gathering routes
+  - Efficient harvest collection
+
+  FORAGING:
+  🌽 Foraging - corn:
+    - harvest_resource on corn instances
+    - Level required: 5+ (Foraging skill)
+    - Target: 4x corn total
+
+  🍎 Foraging - apple:
+    - harvest_resource on apple tree instances
+    - Target: 3x apple total
+
+  DO NOT use complete() until harvest is gathered!
+
+# Limitations
+max_action_steps: 18
+
+# Agent configurations
+agent_1:
+  username: "crop_harvester_agent"
+  new_character: true
+
+  location:
+    x: 180
+    y: 200
+
+  skill_levels:
+    foraging: 25
+    strength: 32
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 10
+    - item: "corn"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fruit_gatherer_agent"
+  new_character: true
+
+  location:
+    x: 185
+    y: 205
+
+  skill_levels:
+    foraging: 22
+    strength: 30
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 5
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team gathers at least 4x corn total"
+  - "Team gathers at least 3x apple total"
+  - "Harvest gathering completed successfully"

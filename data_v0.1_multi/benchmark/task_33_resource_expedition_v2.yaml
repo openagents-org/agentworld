@@ -1,0 +1,147 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Mining expedition, gather coal and iron ore
+
+task:
+  name: "Resource Expedition - Mining Operation"
+  description: "Three agents work together to mine 4x coal and 3x iron ore"
+
+# Task objectives
+objectives:
+  primary: "Mine 4x coal and 3x iron ore through coordinated mining"
+  secondary: # checkpoints
+    - "Locate coal and iron rock deposits"
+    - "Complete mining expedition within 25 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative mining expedition.
+
+  OBJECTIVE: Gather mining resources efficiently through teamwork.
+
+  MISSION REQUIREMENTS:
+  - Navigate to mining areas
+  - Mine 4x coal from coal rocks
+  - Mine 3x iron ore from iron rocks
+  - Coordinate mining efforts
+
+  TEAM COORDINATION:
+  - Share rock deposit locations
+  - Coordinate mining to cover more area
+  - Share resources as needed
+
+  MINING:
+  ⚫ Mining - coal:
+    - harvest_resource on Coal Rock instances
+    - Level required: 10+ (Mining skill)
+    - Target: 4x coal total
+
+  🔩 Mining - iron ore:
+    - harvest_resource on Iron Rock instances
+    - Level required: 15+ (Mining skill)
+    - Target: 3x iron ore total
+
+  DO NOT use complete() until objectives are achieved!
+
+# Limitations
+max_action_steps: 25
+
+# Agent configurations
+agent_1:
+  username: "coal_miner_agent"
+  new_character: true
+
+  location:
+    x: 600
+    y: 500
+
+  skill_levels:
+    mining: 25
+    strength: 38
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "coal"
+      count: 1
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "iron_miner_agent"
+  new_character: true
+
+  location:
+    x: 605
+    y: 505
+
+  skill_levels:
+    mining: 28
+    strength: 40
+    health: 44
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "support_miner_agent"
+  new_character: true
+
+  location:
+    x: 610
+    y: 510
+
+  skill_levels:
+    mining: 22
+    strength: 35
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "ironore"
+      count: 1
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team mines at least 4x coal total"
+  - "Team mines at least 3x iron ore total"
+  - "Agents coordinate mining effectively"

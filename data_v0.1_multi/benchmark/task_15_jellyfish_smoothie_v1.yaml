@@ -1,0 +1,109 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Already has jellyfish and bowl, just need to combine
+
+task:
+  name: "Cooperative Jellyfish Smoothie - Quick Exotic Beverage"
+  description: "Two agents work together to create a jellyfish smoothie with pre-gathered materials"
+
+# Task objectives
+objectives:
+  primary: "Create a jellyfish smoothie through coordinated beverage preparation"
+  secondary: # checkpoints
+    - "Transfer materials to beverage specialist"
+    - "Complete exotic beverage creation within 15 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a simplified cooperative multi-agent exotic beverage creation scenario.
+
+  OBJECTIVE: Create a jellyfish smoothie using pre-gathered materials.
+
+  CRITICAL: Materials are already available!
+  - marine_fisher_agent has 1x jellyfish
+  - container_maker_agent has 1x bowlsmall
+
+  TEAM COORDINATION:
+  - Transfer jellyfish and bowl to beverage_specialist_agent
+  - beverage_specialist_agent crafts the smoothie
+
+  CRAFTING RECIPE:
+  🎐 Cooking Recipe - jellyfishsmoothie:
+    - craft_item skill=Cooking itemKey=jellyfishsmoothie
+    - Materials: 1x jellyfish + 1x bowlsmall → 1x jellyfishsmoothie
+    - Level required: 10 (Cooking skill) - ADVANCED COOKING!
+
+  DO NOT use complete() until jellyfishsmoothie is created!
+
+# Limitations
+max_action_steps: 15
+
+# Agent configurations
+agent_1:
+  username: "marine_fisher_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 750
+
+  skill_levels:
+    fishing: 25
+    strength: 25
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 18
+    - item: "jellyfish"
+      count: 1
+
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "beverage_specialist_agent"
+  new_character: true
+
+  location:
+    x: 582
+    y: 752
+
+  skill_levels:
+    cooking: 25
+    fishing: 15
+    crafting: 10
+    strength: 20
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 18
+    - item: "bowlsmall"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "marine_fisher_agent successfully transfers jellyfish"
+  - "beverage_specialist_agent receives components and creates smoothie"
+  - "beverage_specialist_agent successfully prepares jellyfish smoothie"
+  - "Exotic beverage creation completes within time limit"

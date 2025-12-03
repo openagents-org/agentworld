@@ -1,0 +1,102 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simplified 5-agent 4-biome caravan
+
+task:
+  name: "Multi-Biome Resource Caravan - Focused Trading Route"
+  description: "Five traders establish trading routes across 4 biomes, gathering unique resources from each region"
+
+# Task objectives
+objectives:
+  primary: "Establish trading route visiting 4 biomes, gather 50+ resources, craft 8+ regional specialty items"
+  secondary:
+    - "Route 1 (Rounds 1-12): Forest & Plains - Lumber and herbs"
+    - "Route 2 (Rounds 13-25): Mountains & Coast - Ores and seafood"
+    - "Route 3 (Rounds 26-38): Return & Processing - Craft regional items"
+
+# Context and guidance for agents
+relevant_game_context: |
+  CARAVAN OVERVIEW
+  - Five traders must visit four biomes (forest, plains, mountains, coast), collect ≥50 total resources, then craft ≥8 regional goods back at the hub by Round 38.
+
+  ROUTE PLAN
+  1. R1-12 Forest + Plains: start at (350,250), swing west to (250,350) for logs/herbs, then through the plains for animal/plant goods.
+  2. R13-25 Mountains + Coast: push to (230,38) for ores/coal, then march to (900,400) for seafood.
+  3. R26-38 Return & Craft: converge on the central hub (528,384), hand off materials to the crafter, and produce the regional specialties.
+
+  EXECUTION NOTES
+  - Use chat threads to record travel checkpoints and resource totals.
+  - Transfers only work within ~10 tiles.
+# Limitations
+max_action_steps: 38
+
+# Agent configurations
+agent_1:
+  username: "Caravan_Leader"
+  new_character: true
+  location: {x: 350, y: 250}
+  skill_levels: {strength: 38, health: 48, defense: 35}
+  inventory_items:
+    - {item: "flask", count: 35}
+    - {item: "apple", count: 40}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "Resource_Collector"
+  new_character: true
+  location: {x: 354, y: 254}
+  skill_levels: {mining: 35, lumberjacking: 35, strength: 32, health: 40}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "Forager_Fisher"
+  new_character: true
+  location: {x: 348, y: 248}
+  skill_levels: {foraging: 40, fishing: 35, health: 38}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "Master_Processor"
+  new_character: true
+  location: {x: 346, y: 252}
+  skill_levels: {crafting: 45, cooking: 40, health: 35}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "Regional_Crafter"
+  new_character: true
+  location: {x: 352, y: 248}
+  skill_levels: {crafting: 45, smithing: 40, fletching: 35, health: 36}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+    - {item: "hilt2", count: 1}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Route 1: Visit Forest biome and gather 12+ materials"
+  - "Route 1: Visit Plains biome and gather 10+ materials"
+  - "Route 2: Visit Mountains biome and mine 12+ ores"
+  - "Route 2: Visit Coast biome and fish 10+ seafood"
+  - "Total 50+ resources gathered across 4 biomes"
+  - "Route 3: All agents return to central hub"
+  - "Route 3: Crafters process materials into 8+ items"
+  - "Trading route established successfully"
+  - "Completed in 36-38 rounds"

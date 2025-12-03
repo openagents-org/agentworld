@@ -1,0 +1,151 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Formation training, defeat 1 Wolf as final test
+
+task:
+  name: "Combat Training - Wolf Hunting Graduation"
+  description: "Three agents complete combat training by defeating one Wolf"
+
+# Task objectives
+objectives:
+  primary: "Complete combat training by defeating 1 Wolf (Level 55)"
+  secondary: # checkpoints
+    - "Establish combat formation"
+    - "Complete training within 25 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is advanced combat training with a challenging final target.
+
+  OBJECTIVE: Graduate from combat training by defeating a Wolf.
+
+  MISSION REQUIREMENTS:
+  - Navigate to wilderness area
+  - Locate and engage a Wolf (Level 55)
+  - Use coordinated tactics to defeat it
+  - Demonstrate combat proficiency
+
+  TEAM COORDINATION:
+  - Combat leader directs the attack
+  - Mage provides magical support
+  - Guardian protects the team
+  - Coordinate timing for maximum damage
+
+  COMBAT KNOWLEDGE:
+  🐺 Combat - Wolf:
+    - Level 55 creature
+    - Requires coordinated attacks
+    - Use magical and physical attacks together
+
+  DO NOT use complete() until Wolf is defeated!
+
+# Limitations
+max_action_steps: 25
+
+# Agent configurations
+agent_1:
+  username: "combat_leader_agent"
+  new_character: true
+
+  location:
+    x: 280
+    y: 200
+
+  skill_levels:
+    strength: 45
+    accuracy: 40
+    health: 50
+    defense: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "healthpotion"
+      count: 8
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "tactical_mage_agent"
+  new_character: true
+
+  location:
+    x: 285
+    y: 205
+
+  skill_levels:
+    magic: 42
+    health: 45
+    accuracy: 38
+    defense: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+    - item: "manapotion"
+      count: 8
+
+  equipped_items:
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "combat_guardian_agent"
+  new_character: true
+
+  location:
+    x: 290
+    y: 210
+
+  skill_levels:
+    defense: 42
+    health: 52
+    strength: 40
+    accuracy: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 32
+    - item: "healthpotion"
+      count: 8
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team locates Wolf in wilderness"
+  - "Team defeats Wolf through coordinated combat"
+  - "All agents survive the training exercise"

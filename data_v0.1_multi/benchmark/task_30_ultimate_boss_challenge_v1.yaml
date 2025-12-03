@@ -1,0 +1,123 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Only defeat Mermaid boss, no multi-region travel
+
+task:
+  name: "Ultimate Boss Challenge - Mermaid Encounter"
+  description: "Two agents work together to defeat the Mermaid boss in coastal region"
+
+# Task objectives
+objectives:
+  primary: "Successfully defeat the Mermaid (Level 55) boss in coordinated combat"
+  secondary: # checkpoints
+    - "Navigate to coastal region"
+    - "Defeat Mermaid within 20 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a simplified boss challenge focusing on Mermaid combat.
+
+  OBJECTIVE: Defeat the Mermaid boss in the coastal region.
+
+  MISSION REQUIREMENTS:
+  - Navigate to Coastal/Ocean region (580, 755)
+  - Locate and engage the Mermaid boss
+  - Defeat Mermaid using coordinated attacks
+  - Agents already start near the boss location
+
+  TEAM COORDINATION:
+  - Both agents focus on combat
+  - Coordinate magical and physical attacks
+  - Share healing resources
+
+  COMBAT KNOWLEDGE:
+  🧜‍♀️ Legendary Combat - Mermaid (Level 55):
+    - Location: Coastal/Ocean region (580, 755)
+    - Expect water-based attacks and healing abilities
+    - Use coordinated land-based attacks
+
+  DO NOT use complete() until Mermaid is defeated!
+
+# Limitations
+max_action_steps: 20
+
+# Agent configurations
+agent_1:
+  username: "legendary_warrior_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 752
+
+  skill_levels:
+    strength: 55
+    accuracy: 50
+    defense: 50
+    health: 65
+    magic: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+    - item: "healthpotion"
+      count: 20
+    - item: "manapotion"
+      count: 15
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "master_mage_agent"
+  new_character: true
+
+  location:
+    x: 582
+    y: 754
+
+  skill_levels:
+    magic: 55
+    accuracy: 45
+    strength: 40
+    defense: 45
+    health: 60
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 40
+    - item: "manapotion"
+      count: 25
+    - item: "healthpotion"
+      count: 18
+
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team navigates to coastal region"
+  - "Team defeats Mermaid (Level 55) boss"
+  - "All agents survive the legendary encounter"

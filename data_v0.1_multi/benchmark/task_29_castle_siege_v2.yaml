@@ -1,0 +1,207 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - 4 agents, defeat Ice Knight and secure castle
+
+task:
+  name: "Castle Siege Warfare - Complete Fortress Conquest"
+  description: "Four agents work together for full castle siege, defeat Ice Knight, and secure the fortress"
+
+# Task objectives
+objectives:
+  primary: "Defeat Ice Knight commander and secure complete control of the castle"
+  secondary: # checkpoints
+    - "Establish siege warfare coordination"
+    - "Execute tactical assault and boss combat"
+    - "Complete castle conquest within 45 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a full-scale castle siege with expanded team and objectives.
+
+  OBJECTIVE: Complete fortress conquest through coordinated siege warfare.
+
+  MISSION REQUIREMENTS:
+  - Navigate to Castle/Fortress region (~712, 717)
+  - Conduct reconnaissance and plan assault
+  - Defeat Ice Knight (Level 62) commander
+  - Secure strategic control of entire castle
+
+  TEAM COORDINATION:
+  - Siege commander coordinates operations
+  - Breacher leads assault on defenses
+  - Warriors handle Ice Knight combat
+  - Tactician provides magical support
+
+  COMBAT KNOWLEDGE:
+  ⚔️ Boss Combat - Ice Knight:
+    - Location: (712, 717)
+    - Level 62 elite commander
+    - Heavy armor, ice attacks
+
+  🏰 Castle Conquest:
+    - Secure key strategic positions
+    - Eliminate all major threats
+
+  DO NOT use complete() until castle is secured!
+
+# Limitations
+max_action_steps: 45
+
+# Agent configurations
+agent_1:
+  username: "siege_commander_agent"
+  new_character: true
+
+  location:
+    x: 700
+    y: 710
+
+  skill_levels:
+    strength: 55
+    accuracy: 50
+    defense: 50
+    health: 65
+    magic: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+    - item: "healthpotion"
+      count: 25
+    - item: "manapotion"
+      count: 15
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fortress_breacher_agent"
+  new_character: true
+
+  location:
+    x: 705
+    y: 715
+
+  skill_levels:
+    strength: 60
+    accuracy: 45
+    defense: 45
+    health: 60
+    magic: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "healthpotion"
+      count: 22
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "ice_slayer_agent"
+  new_character: true
+
+  location:
+    x: 710
+    y: 712
+
+  skill_levels:
+    strength: 55
+    accuracy: 45
+    defense: 45
+    health: 58
+    magic: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "healthpotion"
+      count: 20
+    - item: "manapotion"
+      count: 10
+
+  equipped_items:
+    - item: "sidesword"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "castle_tactician_agent"
+  new_character: true
+
+  location:
+    x: 715
+    y: 720
+
+  skill_levels:
+    magic: 55
+    accuracy: 45
+    strength: 40
+    defense: 45
+    health: 55
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "manapotion"
+      count: 25
+    - item: "healthpotion"
+      count: 18
+
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "sidesword"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team conducts fortress reconnaissance"
+  - "fortress_breacher_agent breaches castle defenses"
+  - "Team defeats Ice Knight (Level 62) commander"
+  - "Team secures strategic control of castle"
+  - "All agents survive the siege"

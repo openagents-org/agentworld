@@ -1,0 +1,156 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Extended 9-agent toolsmith empire
+
+task:
+  name: "Master Toolsmith Consortium - Grand Industrial Tool Empire"
+  description: "Nine toolsmiths create comprehensive tool collection: pickaxes, axes, buckets, and specialty implements"
+
+# Task objectives
+objectives:
+  primary: "Forge complete tool collection: 12+ pickaxes, 12+ axes, 8+ buckets, 8+ specialty tools for 40+ total implements"
+  secondary:
+    - "Extraction (Rounds 1-20): Mine massive iron and coal reserves"
+    - "Lumber Supply (Rounds 1-20): Harvest wood for tool handles"
+    - "Smelting (Rounds 21-42): Produce 130+ iron bars"
+    - "Forging (Rounds 43-60): Craft all tools and implements"
+
+# Context and guidance for agents
+relevant_game_context: |
+  FACTORY PLAN
+  - Produce 40 tools (12 pickaxes, 12 axes, 8 buckets, 8 heavy swords) by Round 60. Six miners collect 130 iron ore + 130 coal, two lumberjacks supply 24 logs, and the Master Toolsmith stationed at (528,384) smelts/forges everything.
+
+  SCHEDULE
+  1. R1-20 Extraction: iron miners split the 130 ore quota; coal miners do the same for coal; Handle team logs the forest.
+  2. R21-32 Transport: gatherers march to the forge, transfer ore/coal/logs via transfer_items.
+  3. R33-48 Smelting: Master Toolsmith and Assistant smelt 130 bars, announcing milestones every 20 bars.
+  4. R49-60 Forging: craft pickaxes first, then axes, buckets, and finally heavy swords.
+
+  EXECUTION NOTES
+  - Maintain a shared checklist ("Iron 80/130", "Coal 100/130") so the forge knows when to expect loads.
+  - Transfers succeed only within ~10 tiles.
+# Limitations
+max_action_steps: 60
+
+# Agent configurations
+agent_1:
+  username: "Iron_Miner_Alpha"
+  new_character: true
+  location: {x: 230, y: 38}
+  skill_levels: {mining: 55, strength: 38, health: 45}
+  inventory_items:
+    - {item: "flask", count: 32}
+    - {item: "apple", count: 38}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "Iron_Miner_Beta"
+  new_character: true
+  location: {x: 232, y: 40}
+  skill_levels: {mining: 52, strength: 36, health: 43}
+  inventory_items:
+    - {item: "flask", count: 32}
+    - {item: "apple", count: 38}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "Iron_Miner_Gamma"
+  new_character: true
+  location: {x: 234, y: 42}
+  skill_levels: {mining: 50, strength: 34, health: 41}
+  inventory_items:
+    - {item: "flask", count: 32}
+    - {item: "apple", count: 38}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "Coal_Miner_Prime"
+  new_character: true
+  location: {x: 232, y: 38}
+  skill_levels: {mining: 48, strength: 32, health: 40}
+  inventory_items:
+    - {item: "flask", count: 32}
+    - {item: "apple", count: 38}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "Coal_Miner_Secondary"
+  new_character: true
+  location: {x: 234, y: 40}
+  skill_levels: {mining: 45, strength: 30, health: 38}
+  inventory_items:
+    - {item: "flask", count: 32}
+    - {item: "apple", count: 38}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "Coal_Miner_Tertiary"
+  new_character: true
+  location: {x: 236, y: 42}
+  skill_levels: {mining: 43, strength: 28, health: 36}
+  inventory_items:
+    - {item: "flask", count: 32}
+    - {item: "apple", count: 38}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_7:
+  username: "Handle_Harvester_1"
+  new_character: true
+  location: {x: 250, y: 350}
+  skill_levels: {lumberjacking: 55, strength: 35, health: 42}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_8:
+  username: "Handle_Harvester_2"
+  new_character: true
+  location: {x: 252, y: 352}
+  skill_levels: {lumberjacking: 50, strength: 33, health: 40}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_9:
+  username: "Master_Toolsmith"
+  new_character: true
+  location: {x: 528, y: 384}
+  skill_levels: {crafting: 70, smithing: 80, health: 40}
+  inventory_items:
+    - {item: "flask", count: 28}
+    - {item: "apple", count: 32}
+    - {item: "hilt2", count: 8}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Extraction: Iron Miners mine 130+ iron ore total"
+  - "Extraction: Coal Miners mine 130+ coal total"
+  - "Extraction: Lumberjacks harvest 24+ logs"
+  - "Smelting: All materials consolidated at Central Forge"
+  - "Smelting: Master Toolsmith smelts 130 iron bars"
+  - "Forging: Master Toolsmith crafts 12 pickaxes"
+  - "Forging: Master Toolsmith crafts 12 axes"
+  - "Forging: Master Toolsmith crafts 8 buckets"
+  - "Forging: Master Toolsmith crafts 8 heavy swords"
+  - "Total 40 implements forged"
+  - "Industrial-scale tool production completed"
+  - "Completed in 57-60 rounds"

@@ -1,0 +1,122 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Only harvest Ice Oak logs, no combat required
+
+task:
+  name: "Ice Cavern Challenge - Frozen Lumber Gathering"
+  description: "Two agents work together to harvest rare Ice Oak logs from frozen regions"
+
+# Task objectives
+objectives:
+  primary: "Successfully harvest 4x Ice Oak logs from frozen biome"
+  secondary: # checkpoints
+    - "Navigate to frozen ice region"
+    - "Complete frozen lumber gathering within 20 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a simplified ice region expedition focusing on resource gathering.
+
+  OBJECTIVE: Harvest rare Ice Oak logs from frozen areas.
+
+  MISSION REQUIREMENTS:
+  - Navigate to Frozen/Ice region (228-260, 151-156)
+  - Locate and harvest Ice Oak trees
+  - Collect 4x Ice Oak logs total
+  - Manage freezing environmental damage
+
+  TEAM COORDINATION:
+  - Both agents focus on lumberjacking
+  - Share healing supplies for cold damage
+  - Coordinate efficient harvesting routes
+
+  RESOURCE GATHERING:
+  🌲 Lumberjacking - Ice Oak:
+    - harvest_resource on Ice Oak Tree instances
+    - Level required: 20+ (Lumberjacking skill)
+    - Target: 4x iceoaklogs total
+
+  🧊 Environmental Hazards:
+    - Freezing causes continuous cold damage
+    - Use healing items frequently
+
+  DO NOT use complete() until 4x iceoaklogs are collected!
+
+# Limitations
+max_action_steps: 20
+
+# Agent configurations
+agent_1:
+  username: "frost_lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 240
+    y: 150
+
+  skill_levels:
+    lumberjacking: 30
+    strength: 40
+    health: 50
+    defense: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "healthpotion"
+      count: 12
+    - item: "iceoaklogs"
+      count: 1
+
+  equipped_items:
+    - item: "goldaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "ice_gatherer_agent"
+  new_character: true
+
+  location:
+    x: 245
+    y: 155
+
+  skill_levels:
+    lumberjacking: 25
+    strength: 38
+    health: 48
+    defense: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "healthpotion"
+      count: 12
+    - item: "iceoaklogs"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team successfully harvests at least 4x iceoaklogs total"
+  - "All agents survive freezing environmental damage"
+  - "Frozen lumber gathering completed within time limit"

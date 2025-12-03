@@ -1,0 +1,201 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - 4 agents, defeat both bosses and collect treasure
+
+task:
+  name: "Ancient Ruins Exploration - Full Archaeological Expedition"
+  description: "Four agents work together to explore ruins, defeat both guardians, and recover all treasures"
+
+# Task objectives
+objectives:
+  primary: "Successfully defeat Golden Golem and Big Baby Spooder, then recover ancient treasures"
+  secondary: # checkpoints
+    - "Establish ruins exploration with full team coordination"
+    - "Execute dual guardian combat operations"
+    - "Complete full archaeological expedition within 45 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a full-scale archaeological expedition with expanded team and objectives.
+
+  OBJECTIVE: Complete comprehensive ruins exploration with dual boss fights and treasure recovery.
+
+  MISSION REQUIREMENTS:
+  - Navigate to Ancient Ruins region (769-784, 657-676)
+  - Defeat Golden Golem (Level 0) at (784, 676)
+  - Defeat Big Baby Spooder (Level 45) at (769, 657)
+  - Explore ruins for treasure chambers
+  - Recover ancient artifacts from ruins
+
+  TEAM COORDINATION:
+  - Combat specialists handle the two guardians
+  - Explorer identifies treasure locations
+  - Support provides healing and magical assistance
+  - Coordinate timing for sequential boss fights
+
+  COMBAT KNOWLEDGE:
+  🥇 Combat - Golden Golem:
+    - Location: (784, 676)
+    - May have special defensive properties
+
+  🕷️ Combat - Big Baby Spooder:
+    - Location: (769, 657)
+    - Level 45 with web attacks and high mobility
+
+  💎 Treasure Recovery:
+    - Multiple hidden chambers in ruins
+    - Search thoroughly after defeating guardians
+
+  DO NOT use complete() until both bosses are defeated!
+
+# Limitations
+max_action_steps: 45
+
+# Agent configurations
+agent_1:
+  username: "golem_slayer_agent"
+  new_character: true
+
+  location:
+    x: 780
+    y: 670
+
+  skill_levels:
+    strength: 55
+    accuracy: 40
+    health: 55
+    defense: 45
+    magic: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "healthpotion"
+      count: 15
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "spider_hunter_agent"
+  new_character: true
+
+  location:
+    x: 770
+    y: 660
+
+  skill_levels:
+    strength: 50
+    accuracy: 45
+    health: 55
+    defense: 40
+    magic: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "healthpotion"
+      count: 15
+
+  equipped_items:
+    - item: "sidesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "bow"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "ruins_explorer_agent"
+  new_character: true
+
+  location:
+    x: 775
+    y: 665
+
+  skill_levels:
+    strength: 35
+    accuracy: 35
+    health: 50
+    defense: 35
+    magic: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "healthpotion"
+      count: 10
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "support_mage_agent"
+  new_character: true
+
+  location:
+    x: 778
+    y: 668
+
+  skill_levels:
+    magic: 45
+    health: 50
+    defense: 35
+    strength: 30
+    accuracy: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "manapotion"
+      count: 15
+    - item: "healthpotion"
+      count: 10
+
+  equipped_items:
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "golem_slayer_agent defeats Golden Golem"
+  - "spider_hunter_agent defeats Big Baby Spooder"
+  - "ruins_explorer_agent locates treasure chambers"
+  - "Team recovers ancient artifacts from ruins"
+  - "All agents survive both guardian encounters"

@@ -1,0 +1,184 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - 4 agents with dual collectors for each resource type
+
+task:
+  name: "Coastal Harvest Mission - Large Coastal Expedition"
+  description: "Four agents work together with two fishers and two loggers for an efficient coastal harvest"
+
+# Task objectives
+objectives:
+  primary: "Successfully gather 8x rawshrimp and 4x icelogs with larger team"
+  secondary: # checkpoints
+    - "Establish effective team communication for threat alerts"
+    - "Guardian successfully defends team from hostile sea creatures"
+    - "Complete large coastal resource gathering within 35 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent coastal protection scenario with expanded team.
+
+  OBJECTIVE: Successfully gather larger quantities of coastal resources with dual collector teams.
+
+  MISSION REQUIREMENTS:
+  - Collect 8x rawshrimp and 4x icelogs
+  - Keep all team members alive throughout the mission
+  - Use the larger team for efficient resource gathering
+
+  TEAM COORDINATION:
+  - Two fishers work together on shrimp spots
+  - Two loggers work together on ice oak trees
+  - Guardian protects all collectors
+  - Share information about resource locations
+
+  GENERAL STRATEGY:
+  - The expanded team allows for faster gathering
+  - Sea creature threats may appear and must be dealt with
+  - Balance efficiency with safety
+  - Use global chat for real-time coordination
+
+  DO NOT use complete() until ALL objectives are achieved safely!
+
+  GATHERING MECHANICS:
+  🎣 Fishing - rawshrimp:
+    - harvest_resource on shrimp fishing spots to get rawshrimp
+    - Level required: 1+ (Fishing skill)
+    - Target: 8x rawshrimp total (split between two fishers)
+
+  ❄️ Lumberjacking - icelogs:
+    - harvest_resource on ice oak tree instances to get icelogs
+    - Level required: 10+ (Lumberjacking skill)
+    - Target: 4x icelogs total (split between two loggers)
+
+# Limitations
+max_action_steps: 35
+
+# Agent configurations
+agent_1:
+  username: "coastal_guardian_agent"
+  new_character: true
+
+  location:
+    x: 200
+    y: 200
+
+  skill_levels:
+    archery: 35
+    fletching: 25
+    strength: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 18
+    - item: "arrow"
+      count: 70
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+
+agent_2:
+  username: "lead_fisher_agent"
+  new_character: true
+
+  location:
+    x: 205
+    y: 200
+
+  skill_levels:
+    fishing: 25
+    defense: 15
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+
+agent_3:
+  username: "junior_fisher_agent"
+  new_character: true
+
+  location:
+    x: 207
+    y: 202
+
+  skill_levels:
+    fishing: 20
+    defense: 12
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+
+agent_4:
+  username: "ice_logger_agent"
+  new_character: true
+
+  location:
+    x: 210
+    y: 200
+
+  skill_levels:
+    lumberjacking: 35
+    defense: 18
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+
+# Success criteria
+success_criteria:
+  - "Team collects at least 8x rawshrimp total"
+  - "ice_logger_agent has at least 4x icelogs in inventory"
+  - "All agents remain alive throughout the mission"
+  - "Coastal guardian successfully protects team from sea creature threats"

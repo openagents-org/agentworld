@@ -1,0 +1,301 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Reduced crafting targets, more initial resources
+
+task:
+  name: "Tri-Forge Vanguard - Continental Counteroffensive"
+  description: "Ten artisans split across mountain, desert, and coastal forges to craft a coordinated war stockpile, then converge on Castle Vanguard (712,717) within 55 rounds."
+
+# Task objectives
+objectives:
+  primary: "Activate all three forge hubs, craft 3 heavy swords, 2 golden bows, 1 lightningstaff, 1 firestaff, and deliver every finished item plus 25 healing supplies to Castle Vanguard for inspection."
+  secondary:
+    - "Phase 1: Deploy to hubs (Mountain 230,40 / Desert 420,650 / Coastal 197,633) and confirm squads + communication relays."
+    - "Phase 2: Mountain squad mines 18 ironore + 18 coal, smelts 9 ironbar, and crafts 3 heavy swords + 1 pickaxe spare."
+    - "Phase 3: Desert squad fells 6 bloodwoodlogs, gathers 8 goldore, smelts 6 goldbar, and crafts 2 golden bows."
+    - "Phase 4: Coastal squad fishes 8 rawtuna, harvests 8 string-bearing plants, defeats mimics for lightningbeads, and crafts 1 lightningstaff + 1 firestaff."
+    - "Phase 5: Logistics chain meets at Tri-Forge Plaza (350,320) to bundle gear, then deliver to Castle Vanguard."
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  TRI-FORGE COMMUNICATION
+  - Use chat labels [Mountain], [Desert], [Coastal], [Central] when broadcasting updates. MountainLead keeps the global checklist.
+  - Before leaving any hub, run verify_inventory and state "Hub ready" along with ore/log counts.
+
+  RESOURCE & CRAFTING NOTES
+  - Mountain: harvest_resource on oak near 230,40 if logs needed for tools. mine_resource on coal/iron nodes; smelt at the ridge furnace, then craft_item Smithing sword2 for heavy swords.
+  - Desert: harvest_resource target=bloodwood near dunes, mine_resource for gold ore, smelt into goldbar, craft_item Fletching goldenbow.
+  - Coastal: fish_resource at 197,633 for rawtuna. Lightningbeads drop from Water Guardian adds; firebeads drop from Fire Spooders around 769,657.
+
+  LOGISTICS
+  - All finished items move through Tri-Forge Plaza (350,320). Use transfer_items so CentralCoordinator can group shipments.
+  - Deliver final gear + 25 combined food/healing items to Castle Vanguard before complete().
+
+# Limitations
+max_action_steps: 55
+
+# Agent configurations
+agent_1:
+  username: "MountainLead"
+  new_character: true
+  location:
+    x: 200
+    y: 200
+  skill_levels:
+    mining: 42
+    smithing: 36
+    strength: 34
+    health: 36
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 15
+    - item: "ironore"
+      count: 4
+    - item: "coal"
+      count: 4
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "ForgeSmelter"
+  new_character: true
+  location:
+    x: 205
+    y: 200
+  skill_levels:
+    smithing: 38
+    crafting: 36
+    defense: 32
+    health: 34
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 12
+    - item: "coal"
+      count: 6
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "RidgeRunner"
+  new_character: true
+  location:
+    x: 210
+    y: 200
+  skill_levels:
+    defense: 32
+    accuracy: 30
+    magic: 28
+    health: 32
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 12
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "DesertArtisan"
+  new_character: true
+  location:
+    x: 200
+    y: 205
+  skill_levels:
+    lumberjacking: 36
+    smithing: 34
+    strength: 32
+    health: 34
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 12
+    - item: "goldore"
+      count: 2
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "SandFletcher"
+  new_character: true
+  location:
+    x: 205
+    y: 205
+  skill_levels:
+    fletching: 36
+    crafting: 32
+    accuracy: 34
+    health: 32
+  inventory_items:
+    - item: "string"
+      count: 5
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 10
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "DuneGuardian"
+  new_character: true
+  location:
+    x: 210
+    y: 205
+  skill_levels:
+    defense: 34
+    strength: 34
+    health: 36
+    accuracy: 30
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 12
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "CoastHarvester2"
+  new_character: true
+  location:
+    x: 200
+    y: 210
+  skill_levels:
+    fishing: 38
+    cooking: 34
+    foraging: 32
+    health: 32
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 12
+    - item: "manaflask"
+      count: 6
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "BeaconCrafter"
+  new_character: true
+  location:
+    x: 205
+    y: 210
+  skill_levels:
+    crafting: 38
+    magic: 36
+    accuracy: 32
+    health: 32
+  inventory_items:
+    - item: "string"
+      count: 3
+    - item: "flask"
+      count: 12
+    - item: "manaflask"
+      count: 8
+    - item: "lightningbead"
+      count: 1
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "CentralCoordinator"
+  new_character: true
+  location:
+    x: 210
+    y: 210
+  skill_levels:
+    crafting: 36
+    defense: 34
+    magic: 30
+    health: 34
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 15
+    - item: "string"
+      count: 2
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "StrikeScout"
+  new_character: true
+  location:
+    x: 200
+    y: 215
+  skill_levels:
+    accuracy: 36
+    defense: 32
+    strength: 32
+    health: 34
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 12
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "Mountain hub reports 18+ iron ore, 18+ coal, 9 ironbar smelted, and crafts 3 heavy swords plus 1 pickaxe."
+  - "Desert hub logs 6+ bloodwoodlogs, 8+ gold ore, 6 goldbar smelted, and crafts 2 golden bows."
+  - "Coastal hub produces 8 rawtuna, supplies 8 string, acquires lightning/fire beads, and crafts 1 lightningstaff plus 1 firestaff."
+  - "CentralCoordinator consolidates all items at (350,320) with verify_inventory snapshots."
+  - "Final delivery at Castle Vanguard includes 25+ edible healing items before complete()."

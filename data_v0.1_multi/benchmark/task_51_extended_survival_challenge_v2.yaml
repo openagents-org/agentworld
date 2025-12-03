@@ -1,0 +1,200 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Extended 5-phase survival with 4 agents and boss fight
+
+task:
+  name: "Extended Survival Challenge - Five-Phase Expedition with Boss"
+  description: "Four agents undertake an extended survival challenge requiring resource gathering, equipment crafting, combat encounters, and a boss fight over 55 rounds"
+
+# Task objectives
+objectives:
+  primary: "Complete an extended survival challenge with five phases of resource gathering, crafting, combat, and boss battle over 55 rounds"
+  secondary: # checkpoints
+    - "Execute Phase 1: Initial resource gathering and base equipment"
+    - "Execute Phase 2: Advanced resource acquisition and tool upgrades"
+    - "Execute Phase 3: Combat preparation and practice fights"
+    - "Execute Phase 4: Final equipment enhancement"
+    - "Execute Phase 5: Boss challenge"
+    - "Complete all survival phases within 55 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  FIVE-PHASE SURVIVAL PLAN (55 ROUNDS)
+  1. Phase 1 (R1-12) – Forest camp: harvest ≥5 logs, craft sticks, build a magic staff (5 sticks + SurvivalLeader's bead) and stock food. Stay within 10 tiles around (388,4) so transfers via transfer_items are easy.
+  2. Phase 2 (R13-25) – Mountain mining: travel to (230,38), mine ≥12 ironore and ≥12 coal, consolidate with CraftingExpert, smelt 10 ironbars, and craft pickaxe (5 bars + log) plus axe (3 bars + log). Grab extra logs before leaving.
+  3. Phase 3 (R26-35) – Combat prep: craft a heavy sword (2 bars + hilt2), hunt low-level mobs (rats/bats/crabs) using attack_mob to rehearse coordination, and restock healing items between fights.
+  4. Phase 4 (R36-45) – Equipment enhancement: craft silverrings (2 bars each), gather additional resources if needed, ensure everyone >80% HP.
+  5. Phase 5 (R46-55) – Boss run: scout for a goblin/skeleton/ogre boss, ensure everyone >80% HP, then execute a coordinated attack_mob call and confirm victory.
+
+  COORDINATION RULES
+  - After every gather/craft/transfer, announce inventory via chat and run verify_inventory when receiving materials.
+  - Travel as a group when switching regions; SurvivalLeader calls waypoints, CombatSpecialist escorts.
+  - CraftingExpert handles all smelting/smithing; other agents funnel materials via transfer_items.
+  - ResourceGatherer focuses on mining and foraging support.
+  - Use attack_mob for combat to guarantee auto-loot and clear combat logs.
+
+  COMPLETION CHECKLIST
+  - Crafted items verified in order: magic staff → pickaxe + axe → heavy sword → silverrings.
+  - Boss defeated during Phase 5 with chat confirmation ("Boss down, HP summary…").
+  - All four agents alive and standing together when complete() is called.
+# Limitations
+max_action_steps: 55
+
+# Agent configurations
+agent_1:
+  username: "SurvivalLeader"
+  new_character: true
+
+  location:
+    x: 388
+    y: 4
+
+  skill_levels:
+    lumberjacking: 28
+    mining: 22
+    strength: 38
+    health: 45
+    defense: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 32
+    - item: "apple"
+      count: 38
+    - item: "bead"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "CraftingExpert"
+  new_character: true
+
+  location:
+    x: 390
+    y: 4
+
+  skill_levels:
+    crafting: 35
+    smithing: 30
+    fletching: 28
+    strength: 32
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 32
+    - item: "apple"
+      count: 38
+    - item: "hilt2"
+      count: 1
+
+  equipped_items:
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "CombatSpecialist"
+  new_character: true
+
+  location:
+    x: 392
+    y: 4
+
+  skill_levels:
+    strength: 45
+    accuracy: 40
+    defense: 38
+    health: 50
+    magic: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 38
+    - item: "apple"
+      count: 42
+
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "ResourceGatherer"
+  new_character: true
+
+  location:
+    x: 394
+    y: 4
+
+  skill_levels:
+    mining: 30
+    lumberjacking: 25
+    foraging: 25
+    strength: 30
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 32
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "SurvivalLeader successfully coordinates all survival phases"
+  - "Team successfully completes Phase 1: Basic Survival (Rounds 1-12)"
+  - "Magic Staff is crafted during Phase 1"
+  - "Team successfully completes Phase 2: Resource Expansion (Rounds 13-25)"
+  - "Pickaxe and Axe are crafted during Phase 2"
+  - "CraftingExpert successfully produces all required equipment"
+  - "Team successfully completes Phase 3: Combat Readiness (Rounds 26-35)"
+  - "Heavy Sword is crafted during Phase 3"
+  - "Team engages and practices with basic enemies during Phase 3"
+  - "Team successfully completes Phase 4: Enhancement (Rounds 36-45)"
+  - "Silverrings are crafted during Phase 4"
+  - "CombatSpecialist leads combat operations effectively"
+  - "Team successfully completes Phase 5: Boss Challenge (Rounds 46-55)"
+  - "Boss enemy is located and engaged during Phase 5"
+  - "Boss enemy is defeated through coordinated team combat"
+  - "All four agents survive entire 55-round extended challenge"
+  - "Team demonstrates mastery of long-term survival coordination"
+  - "All phase objectives are completed in sequence within 55 rounds"

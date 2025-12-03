@@ -1,0 +1,90 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simplified 4-agent jewelry workshop
+
+task:
+  name: "Enchanted Jewelry Workshop - Focused Gemstone Collection"
+  description: "Four jewelry artisans gather gems, craft base jewelry, and create 8+ enchanted pieces"
+
+# Task objectives
+objectives:
+  primary: "Create jewelry collection: 8+ pieces including 3 rings, 3 pendants, 2 base items"
+  secondary:
+    - "Gem Hunt (Rounds 1-12): Hunt mobs and forage for 10+ gemstones"
+    - "Metal Works (Rounds 13-25): Mine and smelt metals for base jewelry"
+    - "Crafting (Rounds 26-38): Create all jewelry pieces"
+    - "Exhibition (Rounds 39-42): Display complete collection"
+
+# Context and guidance for agents
+relevant_game_context: |
+  WORKSHOP SNAPSHOT
+  - Four artisans must finish 8 jewelry pieces (3 rings, 3 pendants, 2 base pieces) by Round 42. Gem hunter operates near (350,250), forager in the western forest, and the Master Jeweler assembles everything at (528,384).
+
+  GAME PLAN
+  1. R1-12 Gem Hunt: Agent 1 farms goblins for rubies/emeralds; Agent 2 forages beryl and string; Agent 3 mines gold/iron + coal. Report tallies every few drops.
+  2. R13-25 Delivery & Smelting: all gatherers converge on the hub (≤32-tile hops), hand over materials via transfer_items. Metal_Artisan smelts 4 gold bars and 6 iron bars.
+  3. R26-38 Crafting: Master Jeweler crafts base rings (gold/silver) then upgrades with gemstones; pendants consume beryl/emerald + string.
+  4. R39-42 Exhibition: verify_inventory shows at least 8 finished pieces, list the set in chat, then call complete().
+
+  EXECUTION NOTES
+  - Transfer only within ~10 tiles and require both sender/receiver confirmations.
+  - If certain gems refuse to drop, communicate substitution plans early.
+# Limitations
+max_action_steps: 42
+
+# Agent configurations
+agent_1:
+  username: "Gem_Hunter"
+  new_character: true
+  location: {x: 350, y: 250}
+  skill_levels: {strength: 42, accuracy: 38, health: 48}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "Beryl_Forager"
+  new_character: true
+  location: {x: 250, y: 350}
+  skill_levels: {foraging: 45, health: 35}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+    - {item: "string", count: 3}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "Metal_Artisan"
+  new_character: true
+  location: {x: 230, y: 38}
+  skill_levels: {mining: 45, smithing: 35, health: 36}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "Master_Jeweler"
+  new_character: true
+  location: {x: 528, y: 384}
+  skill_levels: {crafting: 50, smithing: 45, health: 32}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Gem Hunt: Collect 2 rubies, 2 emeralds from mobs"
+  - "Gem Hunt: Forage 5 beryl and 5 string"
+  - "Metal Works: Mine and smelt 4 gold bars, 6 iron bars"
+  - "Crafting: Create 1 gold ring, 2 silver rings"
+  - "Crafting: Create 2 emerald pendants, 1 beryl pendant"
+  - "Total 8 jewelry pieces crafted"
+  - "Completed in 40-42 rounds"

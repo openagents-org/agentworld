@@ -1,0 +1,110 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Only 2 agents, simple wood harvesting and stick crafting
+
+task:
+  name: "Woodworking Coordination - Simple Stick Crafting"
+  description: "Two agents work together to harvest wood and craft sticks"
+
+# Task objectives
+objectives:
+  primary: "Harvest 4x logs and craft 8x sticks through team coordination"
+  secondary: # checkpoints
+    - "Execute coordinated wood harvesting"
+    - "Complete stick crafting within 20 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a simplified woodworking coordination scenario.
+
+  OBJECTIVE: Harvest wood and craft sticks efficiently.
+
+  MISSION REQUIREMENTS:
+  - Harvest 4x logs from oak trees
+  - Craft 8x sticks using fletching skill
+  - Coordinate harvesting and crafting
+
+  TEAM COORDINATION:
+  - resource_gatherer harvests wood
+  - crafter makes sticks from logs
+
+  CRAFTING RECIPES:
+  🌲 Lumberjacking - logs:
+    - harvest_resource on Oak Tree instances
+    - Level required: 1+ (Lumberjacking skill)
+
+  🪄 Fletching Recipe - stick:
+    - craft_item skill=Fletching itemKey=stick
+    - Materials: 1x logs → 4x stick
+    - Level required: 1 (Fletching skill)
+
+  DO NOT use complete() until objectives are achieved!
+
+# Limitations
+max_action_steps: 20
+
+# Agent configurations
+agent_1:
+  username: "resource_gatherer_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 3
+
+  skill_levels:
+    lumberjacking: 25
+    strength: 35
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "logs"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "crafter_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 5
+
+  skill_levels:
+    fletching: 20
+    crafting: 25
+    strength: 30
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "resource_gatherer_agent harvests at least 4x logs"
+  - "crafter_agent crafts at least 8x sticks"
+  - "Team coordinates harvesting and crafting effectively"

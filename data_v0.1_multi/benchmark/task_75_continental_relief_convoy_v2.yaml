@@ -1,0 +1,199 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Extended 12-agent relief convoy with multiple destinations
+
+task:
+  name: "Continental Relief Convoy - Grand Multi-Region Aid Campaign"
+  description: "Twelve specialists assemble supplies and deliver them to three refugee destinations over ~62 rounds"
+
+# Task objectives
+objectives:
+  primary: "Deliver consolidated supplies to three coastal refugee sites after executing a five-phase convoy plan in 60-62 rounds"
+  secondary:
+    - "Phase 1 (Rounds 1-14): Stage at central farm and gather massive resources"
+    - "Phase 2 (Rounds 15-30): Smelt 45 iron bars, craft repair tools, cook 45 meals, bundle aid kits"
+    - "Phase 3 (Rounds 31-44): Split into three convoy teams heading to different destinations"
+    - "Phase 4 (Rounds 45-55): Each convoy reaches its destination and delivers supplies"
+    - "Phase 5 (Rounds 56-62): All teams regroup at central point for final summary"
+
+# Relevant game context
+relevant_game_context: |
+  MISSION FLOW (~62 ROUNDS)
+  - Phase 1: gather massive quotas — >=45 iron + >=45 coal, >=60 logs + >=60 feathers, >=30 rawshrimp, >=80 berries.
+  - Phase 2: smelt 45+ iron bars, forge pickaxes/axes/buckets; Cooks prepare 45 cookedshrimp; Rangers craft 90 arrows.
+  - Phase 3: split into North/East/South convoy teams, each with 4 agents.
+  - Phase 4: convoys reach their destinations and deliver aid crates.
+  - Phase 5: all agents regroup for final status report.
+
+  EXECUTION NOTES
+  - Three destinations: North pier, East harbor, South beach.
+  - Each convoy needs at least one escort, one medic, one quartermaster role.
+  - Transfers only count when both agents confirm via verify_inventory.
+# Limitations
+max_action_steps: 62
+
+# Agent configurations
+agent_1:
+  username: "ChiefQuartermaster_75v2"
+  new_character: true
+  location: {x: 200, y: 200}
+  skill_levels: {crafting: 42, smithing: 36, strength: 32, health: 38}
+  inventory_items:
+    - {item: "flask", count: 15}
+    - {item: "apple", count: 20}
+    - {item: "string", count: 25}
+    - {item: "bead", count: 4}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "NorthPathfinder_75v2"
+  new_character: true
+  location: {x: 205, y: 200}
+  skill_levels: {lumberjacking: 36, strength: 34, defense: 30, health: 36}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 16}
+    - {item: "logs", count: 6}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "EastPathfinder_75v2"
+  new_character: true
+  location: {x: 210, y: 200}
+  skill_levels: {lumberjacking: 34, strength: 32, defense: 28, health: 34}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 16}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "ChiefEngineer_75v2"
+  new_character: true
+  location: {x: 200, y: 205}
+  skill_levels: {mining: 44, smithing: 42, strength: 32, health: 34}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 18}
+    - {item: "coal", count: 6}
+    - {item: "ironore", count: 6}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "hammer", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "AssistantEngineer_75v2"
+  new_character: true
+  location: {x: 205, y: 205}
+  skill_levels: {mining: 38, smithing: 35, strength: 30, health: 32}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "ChiefCook_75v2"
+  new_character: true
+  location: {x: 210, y: 205}
+  skill_levels: {cooking: 42, fishing: 36, foraging: 30, health: 30}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 12}
+    - {item: "rawshrimp", count: 15}
+  equipped_items:
+    - {item: "fishingpole", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_7:
+  username: "AssistantCook_75v2"
+  new_character: true
+  location: {x: 200, y: 210}
+  skill_levels: {cooking: 36, fishing: 32, foraging: 28, health: 28}
+  inventory_items:
+    - {item: "flask", count: 10}
+    - {item: "apple", count: 12}
+  equipped_items:
+    - {item: "fishingpole", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_8:
+  username: "NorthShield_75v2"
+  new_character: true
+  location: {x: 205, y: 210}
+  skill_levels: {defense: 42, strength: 40, health: 44, accuracy: 26}
+  inventory_items:
+    - {item: "flask", count: 16}
+    - {item: "apple", count: 18}
+    - {item: "cure", count: 2}
+  equipped_items:
+    - {item: "heavysword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_9:
+  username: "EastShield_75v2"
+  new_character: true
+  location: {x: 210, y: 210}
+  skill_levels: {defense: 40, strength: 38, health: 42, accuracy: 24}
+  inventory_items:
+    - {item: "flask", count: 16}
+    - {item: "apple", count: 18}
+  equipped_items:
+    - {item: "heavysword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_10:
+  username: "SouthShield_75v2"
+  new_character: true
+  location: {x: 200, y: 215}
+  skill_levels: {defense: 38, strength: 36, health: 40, accuracy: 22}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 16}
+  equipped_items:
+    - {item: "heavysword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_11:
+  username: "ChiefMedic_75v2"
+  new_character: true
+  location: {x: 205, y: 215}
+  skill_levels: {magic: 38, crafting: 28, cooking: 32, health: 40}
+  inventory_items:
+    - {item: "flask", count: 20}
+    - {item: "manaflask", count: 10}
+    - {item: "blueberry", count: 15}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_12:
+  username: "ChiefDiplomat_75v2"
+  new_character: true
+  location: {x: 210, y: 215}
+  skill_levels: {magic: 34, accuracy: 30, strength: 26, health: 32}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "manaflask", count: 8}
+    - {item: "apple", count: 14}
+    - {item: "bead", count: 3}
+  equipped_items:
+    - {item: "firestaff", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "All twelve agents meet and confirm three convoy team assignments before Round 8"
+  - "ChiefQuartermaster verifies stockpile of >=60 logs, >=45 ironbar, >=80 blueberries, >=45 cookedshrimp"
+  - "Engineers craft >=45 ironbar plus 4 pickaxe, 4 axe, and 4 bucket"
+  - "Rangers craft and consolidate >=90 arrows for escorts"
+  - "All three convoys successfully reach their destinations"
+  - "Each destination receives >=15 cookedshrimp, >=10 flasks, >=10 ironbar, >=30 arrows"
+  - "All agents regroup for final summary with HP >25%"
+  - "Mission completes between Rounds 60-62"

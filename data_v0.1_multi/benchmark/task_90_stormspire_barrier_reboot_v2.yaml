@@ -1,0 +1,293 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, adjusted targets
+
+task:
+  name: "Stormspire Barrier Reboot - Continental Skyshield Reactivation"
+  description: "Ten specialists relight the Stormspire barrier network by synchronizing three relay towers, charging them with crafted relics, and repelling one elite mob within 60 rounds."
+
+# Task objectives
+objectives:
+  primary: "Craft the Storm Relic set (4 goldbar pylons, 2 lightningstaff, 1 firestaff, 2 rings), install them at the North/Mid/South towers ((320,120), (350,300), (380,520)), and defeat the Spectre (230,30) to seal the grid."
+  secondary:
+    - "Phase 1: Muster at Central Relay (350,300), assign three tower squads (North, Mid, South) plus a roaming Strike pair; log the formation before splitting."
+    - "Phase 2: Resource sweep — Mountain cell mines 18 goldore + 18 ironore, Coastal cell harvests 14 willowlogs + 10 string, Marsh cell gathers 8 bluelily + 8 corn, Arctic cell fishes 8 rawtuna."
+    - "Phase 3: Forge & Alchemy — Smelt 9 goldbar + 9 ironbar, craft 4 pylons, 2 lightningstaff, 1 firestaff, 2 rings."
+    - "Phase 4: Tower activation — Move in convoys to each tower, plant lightningstaff + ring at North, pylons + firestaff at Mid, pylons + lightningstaff at South."
+    - "Phase 5: Strike missions — Roaming pair eliminates Spectre (230,30), then all squads regroup at Mid tower for clockwise barrier sync before complete()."
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  STAGING & COMMS
+  - Keep everyone within 4 tiles at (350,300) until roles are declared. Use call signs [NORTH], [MID], [SOUTH], [STRIKE], [LOGI].
+  - Before any team departs, broadcast verify_inventory results for tools and food.
+
+  RESOURCE PATHING
+  - Mountain cell operates near (238,48); harvest_resource for logs if pickaxe repairs needed. Mine gold/iron there.
+  - Coastal cell collects willowlogs at (175,635) and string from shoreline plants. Marsh cell forages bluelily + corn around (400,520).
+  - Arctic cell (250,150) fishes rawtuna (healing) and farms Ice Guardians for lightningbead drops.
+
+  CRAFTING QUEUE
+  - Use the forge at (350,300) for all smelting/crafting to centralize verification.
+  - Staff pipeline: craft_item Crafting staff for blanks, then use lightningbead/firebead to upgrade.
+
+  TOWER INSTALLATION
+  - Travel as convoys (minimum 3 agents). Upon arrival, plant relics by transferring required items to the designated tower captain.
+  - Towers must stay staffed: at least two guardians remain within 3 tiles after placement until final sync.
+
+  STRIKE PROTOCOL
+  - Strike pair escorts by SignalCaller for heals. Before attacking Spectre, run HP>80% check.
+  - After elite falls, everyone regroups at Mid tower. Run clockwise lap: Mid → North → South → Mid before complete().
+
+# Limitations
+max_action_steps: 60
+
+# Agent configurations
+agent_1:
+  username: "CommandLead"
+  new_character: true
+  location:
+    x: 200
+    y: 200
+  skill_levels:
+    defense: 36
+    magic: 34
+    crafting: 34
+    health: 36
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "manaflask"
+      count: 12
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "MountainSmith"
+  new_character: true
+  location:
+    x: 205
+    y: 200
+  skill_levels:
+    mining: 42
+    smithing: 36
+    strength: 34
+    health: 34
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 15
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "CavernHauler"
+  new_character: true
+  location:
+    x: 210
+    y: 200
+  skill_levels:
+    defense: 32
+    accuracy: 30
+    magic: 28
+    health: 32
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 15
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "CoastalWeaver"
+  new_character: true
+  location:
+    x: 200
+    y: 205
+  skill_levels:
+    lumberjacking: 36
+    foraging: 34
+    crafting: 30
+    health: 32
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 15
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "StringBinder"
+  new_character: true
+  location:
+    x: 205
+    y: 205
+  skill_levels:
+    crafting: 34
+    magic: 30
+    defense: 30
+    health: 30
+  inventory_items:
+    - item: "string"
+      count: 5
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 12
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "MarshForager"
+  new_character: true
+  location:
+    x: 210
+    y: 205
+  skill_levels:
+    foraging: 36
+    cooking: 34
+    magic: 28
+    health: 32
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 15
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "ArcticFisher"
+  new_character: true
+  location:
+    x: 200
+    y: 210
+  skill_levels:
+    fishing: 36
+    magic: 32
+    defense: 30
+    health: 32
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 15
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "StormStriker"
+  new_character: true
+  location:
+    x: 205
+    y: 210
+  skill_levels:
+    defense: 34
+    strength: 36
+    health: 36
+    accuracy: 30
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 18
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "ShadowArcher"
+  new_character: true
+  location:
+    x: 210
+    y: 210
+  skill_levels:
+    accuracy: 36
+    fletching: 34
+    magic: 30
+    health: 32
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 15
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "SignalCaller"
+  new_character: true
+  location:
+    x: 200
+    y: 215
+  skill_levels:
+    magic: 36
+    crafting: 34
+    defense: 32
+    health: 32
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "manaflask"
+      count: 12
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "Central Relay muster recorded with role assignments and verify_inventory snapshots before any travel."
+  - "Resource sweep meets targets (18 goldore, 18 ironore, 14 willowlogs, 10 string, 8 bluelily, 8 corn, 8 rawtuna) and totals are confirmed in chat."
+  - "Craft queue produces 4 pylon bundles, 2 lightningstaff, 1 firestaff, 2 rings at the central forge with log evidence."
+  - "North/Mid/South towers receive their assigned relics, remain guarded by 2+ agents, and SignalCaller confirms placements."
+  - "Spectre is defeated by the Strike team, all agents regroup for the clockwise sync lap, and CommandLead verifies relic placement before complete()."

@@ -1,0 +1,108 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simplified 5-agent ice expedition
+
+task:
+  name: "Ice Region Survival Expedition - Focused Cold Weather Gathering"
+  description: "Five explorers venture into frozen regions to gather ice materials, hunt arctic creatures, and craft cold-weather equipment"
+
+# Task objectives
+objectives:
+  primary: "Complete ice expedition: gather 30+ ice materials, hunt 8+ ice creatures, craft 5+ cold-weather items"
+  secondary:
+    - "Expedition (Rounds 1-12): Travel to ice regions and establish base"
+    - "Harvesting (Rounds 13-30): Gather ice logs, mine frozen ores, hunt ice mobs"
+    - "Processing (Rounds 31-40): Return and craft ice-themed items"
+    - "Completion (Rounds 41-45): Verify expedition success"
+
+# Context and guidance for agents
+relevant_game_context: |
+  MISSION OUTLINE
+  - Five explorers leave (350,250), establish a camp near (259,151), collect ≥30 ice materials (ice logs, ice palm logs, coal), hunt ≥8 arctic mobs, then return to the hub (528,384) to craft 5+ cold-weather items before Round 45.
+
+  PHASES
+  1. R1-12 Trek north-west together; scouts call waypoints every hop.
+  2. R13-30 Split duties inside the ice biome:
+     • Lumberjack harvests ice/ice-palm logs via harvest_resource.
+     • Hunters clear icerat/icebat/icecrab spawns with attack_entity.
+     • Support mines coal and watches HP levels.
+  3. R31-40 Caravan home: regroup, march back toward the hub, consolidate materials with the crafter.
+  4. R41-45 Verification: list material totals and crafted items before complete().
+
+  EXECUTION NOTES
+  - Keep everyone within ~15 tiles so hunters can assist lumberjacks if mobs approach.
+  - Transfers happen only after the return journey.
+# Limitations
+max_action_steps: 45
+
+# Agent configurations
+agent_1:
+  username: "Lead_Scout"
+  new_character: true
+  location: {x: 350, y: 250}
+  skill_levels: {strength: 38, accuracy: 35, health: 50, defense: 35}
+  inventory_items:
+    - {item: "flask", count: 35}
+    - {item: "apple", count: 40}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_2:
+  username: "Ice_Lumberjack"
+  new_character: true
+  location: {x: 354, y: 254}
+  skill_levels: {lumberjacking: 40, strength: 32, health: 42}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "Arctic_Hunter"
+  new_character: true
+  location: {x: 348, y: 248}
+  skill_levels: {strength: 45, accuracy: 40, health: 52, defense: 36}
+  inventory_items:
+    - {item: "flask", count: 35}
+    - {item: "apple", count: 40}
+  equipped_items:
+    - {item: "heavysword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "Expedition_Miner"
+  new_character: true
+  location: {x: 346, y: 252}
+  skill_levels: {mining: 35, strength: 30, health: 38}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "Expedition_Crafter"
+  new_character: true
+  location: {x: 352, y: 248}
+  skill_levels: {crafting: 40, smithing: 35, health: 35}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+    - {item: "logs", count: 3}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Expedition: All 5 agents travel to ice region (259, 151)"
+  - "Harvesting: Lumberjack gathers 20+ ice logs total"
+  - "Harvesting: Hunter kills 8+ ice creatures"
+  - "Harvesting: Support team mines 6+ coal"
+  - "Processing: All agents return to hub safely"
+  - "Processing: Crafter creates 5+ expedition items"
+  - "All agents survive ice region (HP > 0)"
+  - "Complete expedition in 43-45 rounds"

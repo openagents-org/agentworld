@@ -1,0 +1,108 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simple resource sharing exercise
+
+task:
+  name: "Communication Network - Resource Sharing Coordination"
+  description: "Two agents practice communication by gathering and sharing resources"
+
+# Task objectives
+objectives:
+  primary: "Gather 4x logs and 4x coal, then share between agents"
+  secondary: # checkpoints
+    - "Coordinate resource gathering and sharing"
+    - "Complete communication exercise within 18 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a communication and resource sharing scenario.
+
+  OBJECTIVE: Practice team communication through resource sharing.
+
+  MISSION REQUIREMENTS:
+  - Agent 1 gathers 4x logs
+  - Agent 2 mines 4x coal
+  - Transfer resources so each agent has 2x logs and 2x coal
+  - Use chat to coordinate transfers
+
+  TEAM COORDINATION:
+  - Communicate gathering progress via chat
+  - Coordinate meeting for transfer
+  - Verify received items
+
+  COMMUNICATION PROTOCOL:
+  - Announce when gathering complete
+  - Request transfers clearly
+  - Confirm receipt of items
+
+  DO NOT use complete() until resources are shared!
+
+# Limitations
+max_action_steps: 18
+
+# Agent configurations
+agent_1:
+  username: "comm_lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 3
+
+  skill_levels:
+    lumberjacking: 25
+    strength: 35
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "comm_miner_agent"
+  new_character: true
+
+  location:
+    x: 600
+    y: 500
+
+  skill_levels:
+    mining: 22
+    strength: 35
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "comm_lumberjack_agent gathers 4x logs"
+  - "comm_miner_agent mines 4x coal"
+  - "Agents share resources via transfer"
+  - "Communication exercise completed"

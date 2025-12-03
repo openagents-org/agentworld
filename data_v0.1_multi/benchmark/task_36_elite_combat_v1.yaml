@@ -1,0 +1,116 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Hunt multiple Worker Ants instead of high-level creatures
+
+task:
+  name: "Elite Combat - Ant Colony Assault"
+  description: "Two agents coordinate to defeat 5 Worker Ants"
+
+# Task objectives
+objectives:
+  primary: "Defeat 5 Worker Ants through elite combat coordination"
+  secondary: # checkpoints
+    - "Locate Worker Ant colony"
+    - "Complete assault within 22 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is an elite combat scenario focusing on multiple targets.
+
+  OBJECTIVE: Demonstrate elite combat skills by defeating multiple ants.
+
+  MISSION REQUIREMENTS:
+  - Navigate to ant territory
+  - Defeat 5 Worker Ants efficiently
+  - Use coordinated tactics
+
+  TEAM COORDINATION:
+  - Coordinate attacks for efficiency
+  - Share healing resources
+  - Focus fire on one target at a time
+
+  COMBAT KNOWLEDGE:
+  🐜 Combat - Worker Ants:
+    - Level 46 creatures
+    - Multiple targets require coordination
+    - Efficient elimination is key
+
+  DO NOT use complete() until 5 Worker Ants are defeated!
+
+# Limitations
+max_action_steps: 22
+
+# Agent configurations
+agent_1:
+  username: "elite_warrior_agent"
+  new_character: true
+
+  location:
+    x: 280
+    y: 190
+
+  skill_levels:
+    strength: 50
+    accuracy: 45
+    defense: 45
+    health: 60
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "healthpotion"
+      count: 10
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "elite_mage_agent"
+  new_character: true
+
+  location:
+    x: 285
+    y: 195
+
+  skill_levels:
+    magic: 52
+    accuracy: 42
+    health: 55
+    defense: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 32
+    - item: "manapotion"
+      count: 12
+
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team defeats at least 5 Worker Ants"
+  - "Agents coordinate attacks efficiently"
+  - "All agents survive the assault"

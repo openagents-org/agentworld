@@ -1,0 +1,115 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simplified 6-agent tunnel restoration
+
+task:
+  name: "Underground Railway Restoration - Core Tunnel Revival"
+  description: "Six spelunkers reopen the abandoned railway, clearing debris, laying signal beacons, and testing a supply cart within 40 rounds."
+
+# Task objectives
+objectives:
+  primary: "Reconnect the North Shaft (230,60) and South Exit (480,620) through the underground tunnel, then escort a supply cart end-to-end."
+  secondary:
+    - "Phase 1 (Rounds 1-10): Survey team charts collapsed corridors."
+    - "Phase 2 (Rounds 11-22): Excavation team clears two blockages."
+    - "Phase 3 (Rounds 23-32): Beacon team crafts and installs two signal staffs."
+    - "Phase 4 (Rounds 33-40): Logistics team pushes supply cart from north to south."
+
+# Relevant game context
+relevant_game_context: |
+  MAP OVERVIEW
+  - North Shaft (230,60) ↔ Mid Hub (350,320) ↔ South Exit (480,620).
+
+  BLOCKAGE CLEARING
+  - Each collapse consumes ~6 pickaxe swings. Gather 8 ironore + 8 coal, smelt into 8 ironbar, and craft one replacement pickaxe.
+  - TimberJack supplies logs to brace tunnels; confirm "Brace ready" before mining.
+
+  SIGNAL BEACONS
+  - BeaconSmith crafts one lightningstaff and one firestaff using sticks + beads.
+  - Plant beacons at North Shaft and South Exit.
+
+  COMPLETION
+  - Need chat log of two cleared blockages, two active beacons, and cart arrival.
+
+# Limitations
+max_action_steps: 40
+
+# Agent configurations
+agent_1:
+  username: "SurveyLead_84v1"
+  new_character: true
+  location: {x: 230, y: 60}
+  skill_levels: {mining: 30, defense: 26, accuracy: 24, health: 28}
+  inventory_items:
+    - {item: "flask", count: 10}
+    - {item: "apple", count: 10}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "DigMaster_84v1"
+  new_character: true
+  location: {x: 235, y: 65}
+  skill_levels: {mining: 36, smelting: 30, smithing: 28, health: 30}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 12}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "TimberJack_84v1"
+  new_character: true
+  location: {x: 240, y: 70}
+  skill_levels: {lumberjacking: 32, strength: 26, health: 28, defense: 26}
+  inventory_items:
+    - {item: "flask", count: 10}
+    - {item: "apple", count: 10}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_4:
+  username: "BeaconSmith_84v1"
+  new_character: true
+  location: {x: 350, y: 320}
+  skill_levels: {crafting: 32, magic: 30, smithing: 26, health: 28}
+  inventory_items:
+    - {item: "flask", count: 10}
+    - {item: "manaflask", count: 8}
+  equipped_items:
+    - {item: "staff", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "TunnelGuard_84v1"
+  new_character: true
+  location: {x: 355, y: 325}
+  skill_levels: {defense: 34, strength: 30, health: 32, accuracy: 26}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 12}
+  equipped_items:
+    - {item: "heavysword", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "QuarterCart_84v1"
+  new_character: true
+  location: {x: 230, y: 60}
+  skill_levels: {crafting: 28, defense: 26, strength: 24, health: 28}
+  inventory_items:
+    - {item: "flask", count: 14}
+    - {item: "apple", count: 14}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Two blockages cleared with chat logs referencing tool usage"
+  - "8 ironbar produced, one replacement pickaxe crafted"
+  - "One lightningstaff and one firestaff beacon crafted and planted"
+  - "Security eliminates at least two hostile mobs"
+  - "QuarterCart inventory shows transfer from North Shaft → South Exit"
+  - "Mission completes in 38-40 rounds"

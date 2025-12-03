@@ -1,0 +1,111 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Basic skill practice by gathering resources
+
+task:
+  name: "Educational Training - Resource Gathering Practice"
+  description: "Two agents practice skills by gathering 5x blueberry and 4x logs"
+
+# Task objectives
+objectives:
+  primary: "Practice foraging and lumberjacking by gathering resources"
+  secondary: # checkpoints
+    - "Coordinate skill practice"
+    - "Complete training within 18 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a basic skill training scenario.
+
+  OBJECTIVE: Practice gathering skills through resource collection.
+
+  MISSION REQUIREMENTS:
+  - Practice foraging: gather 5x blueberry
+  - Practice lumberjacking: gather 4x logs
+  - Coordinate training efforts
+
+  TEAM COORDINATION:
+  - Forager practices berry picking
+  - Lumberjack practices wood cutting
+  - Share progress updates
+
+  SKILL PRACTICE:
+  🫐 Foraging Practice:
+    - harvest_resource on blueberry instances
+    - Target: 5x blueberry total
+
+  🌲 Lumberjacking Practice:
+    - harvest_resource on Oak Tree instances
+    - Target: 4x logs total
+
+  DO NOT use complete() until training is complete!
+
+# Limitations
+max_action_steps: 18
+
+# Agent configurations
+agent_1:
+  username: "foraging_trainee_agent"
+  new_character: true
+
+  location:
+    x: 180
+    y: 200
+
+  skill_levels:
+    foraging: 20
+    strength: 28
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+    - item: "blueberry"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "lumber_trainee_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 3
+
+  skill_levels:
+    lumberjacking: 18
+    strength: 30
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+    - item: "logs"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "foraging_trainee_agent gathers at least 5x blueberry"
+  - "lumber_trainee_agent gathers at least 4x logs"
+  - "Training practice completed successfully"

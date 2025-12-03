@@ -1,0 +1,159 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - Craft silver ring and one gem ring
+
+task:
+  name: "Grand Jewelry Workshop - Gem Ring Creation"
+  description: "Three agents smelt bars, craft 1x silver ring, and enhance to 1x emerald ring"
+
+# Task objectives
+objectives:
+  primary: "Craft 1x silver ring and 1x emerald ring (ring1)"
+  secondary: # checkpoints
+    - "Coordinate smelting, ring crafting, and gem enhancement"
+    - "Complete jewelry production within 30 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a gem ring creation scenario.
+
+  OBJECTIVE: Create 1x silver ring and 1x emerald ring.
+
+  MISSION REQUIREMENTS:
+  - Smelt iron bars
+  - Craft 2x silver rings
+  - Enhance 1 silver ring with emerald to create ring1
+
+  TEAM COORDINATION:
+  - Smelter converts ore to bars
+  - Ring crafter makes silver rings
+  - Jeweler enhances with gem
+
+  STARTING RESOURCES:
+  - Miner has 3x ironore + 4x coal
+  - Smelter has 2x ironore + 3x coal
+  - Jeweler has 1x emerald
+
+  CRAFTING:
+  🔥 ironbar: 1x ironore + 1x coal
+  💍 silverring: from ironbar
+  💎 ring1: 1x emerald + 1x silverring → 1x emerald ring
+
+  DO NOT use complete() until both rings are crafted!
+
+# Limitations
+max_action_steps: 30
+
+# Agent configurations
+agent_1:
+  username: "bar_smelter_agent"
+  new_character: true
+
+  location:
+    x: 250
+    y: 180
+
+  skill_levels:
+    smithing: 35
+    mining: 25
+    strength: 38
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+    - item: "ironore"
+      count: 3
+    - item: "coal"
+      count: 4
+
+  equipped_items:
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "ring_crafter_agent"
+  new_character: true
+
+  location:
+    x: 252
+    y: 180
+
+  skill_levels:
+    smithing: 30
+    crafting: 28
+    accuracy: 30
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "ironore"
+      count: 2
+    - item: "coal"
+      count: 3
+
+  equipped_items:
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "gem_jeweler_agent"
+  new_character: true
+
+  location:
+    x: 248
+    y: 180
+
+  skill_levels:
+    crafting: 32
+    smithing: 25
+    mining: 22
+    accuracy: 32
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "emerald"
+      count: 1
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team smelts enough iron bars"
+  - "Team crafts at least 2x silverring"
+  - "gem_jeweler_agent crafts 1x ring1 (emerald ring)"
+  - "Jewelry workshop production completed"

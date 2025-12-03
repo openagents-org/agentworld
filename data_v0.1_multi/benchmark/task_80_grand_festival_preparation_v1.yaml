@@ -1,0 +1,117 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simplified 6-agent festival preparation
+
+task:
+  name: "Grand Festival Preparation - Core Celebration Event"
+  description: "Six specialized agents coordinate to prepare a festival by fishing, foraging, cooking, and crafting items"
+
+# Task objectives
+objectives:
+  primary: "Prepare a festival where 6 agents gather resources, cook dishes, and craft competition prizes"
+  secondary:
+    - "Phase 1 (Rounds 1-12): Resource Expedition"
+    - "Phase 2 (Rounds 13-24): Material Processing and Cooking"
+    - "Phase 3 (Rounds 25-32): Prize Crafting"
+    - "Phase 4 (Rounds 33-38): Festival Setup"
+
+# Relevant game context
+relevant_game_context: |
+  FESTIVAL PLAN
+  - Six specialists gather seafood, produce, ores; cooks turn them into dishes; smith crafts prizes; everyone meets at plaza (450,300) within 38 rounds.
+  - Phase 1: fisher catches 8 shrimp, hunter collects 6 meat, forager gathers fruits/veg, smith mines ores.
+  - Phase 2: transfer ingredients to cooks; smith smelts 6 iron + 3 gold bars.
+  - Phase 3: smith forges 2 silver rings and 1 golden ring.
+  - Phase 4: all agents travel to festival grounds and verify items.
+
+  EXECUTION NOTES
+  - Use chat to track progress.
+  - Transfers require verify_inventory.
+# Limitations
+max_action_steps: 38
+
+# Agent configurations
+agent_1:
+  username: "FestivalFisher_80v1"
+  new_character: true
+  location: {x: 200, y: 200}
+  skill_levels: {fishing: 32, strength: 22, health: 32}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 16}
+  equipped_items:
+    - {item: "fishingpole", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "FestivalHunter_80v1"
+  new_character: true
+  location: {x: 205, y: 200}
+  skill_levels: {strength: 34, accuracy: 30, health: 34}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 16}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "FestivalForager_80v1"
+  new_character: true
+  location: {x: 200, y: 205}
+  skill_levels: {foraging: 32, strength: 22, health: 32}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 16}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "FestivalCook_80v1"
+  new_character: true
+  location: {x: 205, y: 205}
+  skill_levels: {cooking: 32, fletching: 22, strength: 22, health: 32}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 16}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "FestivalSmith_80v1"
+  new_character: true
+  location: {x: 200, y: 210}
+  skill_levels: {mining: 32, crafting: 28, smithing: 28, strength: 26, health: 32}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 16}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "FestivalFletcher_80v1"
+  new_character: true
+  location: {x: 205, y: 210}
+  skill_levels: {lumberjacking: 28, fletching: 28, strength: 22, health: 32}
+  inventory_items:
+    - {item: "flask", count: 12}
+    - {item: "apple", count: 16}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Phase 1: FestivalFisher catches 8x Shrimp"
+  - "Phase 1: FestivalHunter hunts 6x meat"
+  - "Phase 1: FestivalForager forages 6x Blueberries and 4x Tomatoes"
+  - "Phase 1: FestivalSmith mines 8x iron ore, 4x gold ore, 12x coal"
+  - "Phase 1: FestivalFletcher gathers 6x logs"
+  - "Phase 2: FestivalCook cooks 8x Cooked Shrimp"
+  - "Phase 2: FestivalSmith smelts 6x iron bars and 4x gold bars"
+  - "Phase 3: FestivalSmith crafts 2x Silver Rings and 1x Golden Ring"
+  - "Phase 3: FestivalFletcher crafts 1x Wooden Bow"
+  - "Phase 4: All 6 agents travel to Festival Grounds"
+  - "At least 8 cooked food items created"
+  - "At least 3 competition prizes crafted"
+  - "Festival completed within 36-38 rounds"

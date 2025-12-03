@@ -1,0 +1,104 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simple survival, gather food resources only
+
+task:
+  name: "Survival Expedition - Food Gathering"
+  description: "Two agents work together to gather 5x apple and 3x blueberry for survival"
+
+# Task objectives
+objectives:
+  primary: "Gather 5x apple and 3x blueberry for team survival"
+  secondary: # checkpoints
+    - "Locate fruit trees and bushes"
+    - "Complete food gathering within 18 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a simple survival scenario focused on food gathering.
+
+  OBJECTIVE: Gather enough food for team survival.
+
+  MISSION REQUIREMENTS:
+  - Gather 5x apple from apple trees
+  - Gather 3x blueberry from blueberry bushes
+  - Coordinate foraging efforts
+
+  TEAM COORDINATION:
+  - Share food source locations
+  - Coordinate gathering routes
+  - Ensure team nutrition
+
+  FORAGING:
+  🍎 Foraging - apple:
+    - harvest_resource on apple tree instances
+    - Target: 5x apple total
+
+  🫐 Foraging - blueberry:
+    - harvest_resource on blueberry instances
+    - Target: 3x blueberry total
+
+  DO NOT use complete() until food is gathered!
+
+# Limitations
+max_action_steps: 18
+
+# Agent configurations
+agent_1:
+  username: "survival_forager_1"
+  new_character: true
+
+  location:
+    x: 180
+    y: 200
+
+  skill_levels:
+    foraging: 22
+    strength: 30
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "survival_forager_2"
+  new_character: true
+
+  location:
+    x: 185
+    y: 205
+
+  skill_levels:
+    foraging: 20
+    strength: 28
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "blueberry"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team gathers at least 5x apple total"
+  - "Team gathers at least 3x blueberry total"
+  - "All agents survive the expedition"

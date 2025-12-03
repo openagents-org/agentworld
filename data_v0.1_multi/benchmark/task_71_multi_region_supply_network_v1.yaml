@@ -1,0 +1,114 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simplified 5-agent 3-region supply network
+
+task:
+  name: "Multi-Region Supply Network - Core Trade System"
+  description: "Five agents establish a supply chain spanning 3 regions to create crafted goods"
+
+# Task objectives
+objectives:
+  primary: "Create a functioning 3-region supply network with gathering teams, transport, and centralized crafting over 40 rounds"
+  secondary:
+    - "Phase 1 (Rounds 1-8): Network Planning - Scout regions and establish roles"
+    - "Phase 2 (Rounds 9-18): Resource Gathering - Teams gather region-specific materials"
+    - "Phase 3 (Rounds 19-28): Transport Operations - Coordinate material transfers to hub"
+    - "Phase 4 (Rounds 29-40): Production & Validation - Craft equipment and verify network"
+
+# Relevant game context
+relevant_game_context: |
+  NETWORK GOAL
+  - Five agents run a three-region supply chain over ~40 rounds: forest logs/sticks, mountain ores, and a central hub that smelts/crafts. Success requires synchronized gathering, transport, and production.
+
+  PHASE OVERVIEW
+  1. R1-8 Planning: assign teams (Forest, Mountain, Hub), scout their regions, set chat protocols.
+  2. R9-18 Gathering: Forest team gets 30 logs + 50 sticks; Mountain team mines 25 iron/25 coal. Hub monitors progress.
+  3. R19-28 Transport: execute delivery waves. After each arrival, transfer via transfer_items.
+  4. R29-40 Production: hub crafter smelts bars, crafts weapons/tools using delivered materials.
+
+  EXECUTION NOTES
+  - Keep a running logistics board in chat ("Forest 20/30 logs") so the hub can time smelting.
+  - Transfers only work within ~10 tiles; both sender and receiver must confirm.
+# Limitations
+max_action_steps: 40
+
+# Agent configurations
+agent_1:
+  username: "SupplyLogger"
+  new_character: true
+  location: {x: 200, y: 200}
+  skill_levels: {lumberjacking: 38, fletching: 30, strength: 34, health: 40}
+  inventory_items:
+    - {item: "flask", count: 22}
+    - {item: "apple", count: 28}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_2:
+  username: "SupplyMiner1"
+  new_character: true
+  location: {x: 210, y: 200}
+  skill_levels: {mining: 40, smithing: 30, strength: 36, health: 42}
+  inventory_items:
+    - {item: "flask", count: 24}
+    - {item: "apple", count: 30}
+    - {item: "hilt2", count: 1}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_3:
+  username: "SupplyMiner2"
+  new_character: true
+  location: {x: 200, y: 205}
+  skill_levels: {mining: 36, smithing: 26, strength: 34, health: 40}
+  inventory_items:
+    - {item: "flask", count: 24}
+    - {item: "apple", count: 30}
+    - {item: "hilt2", count: 1}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_4:
+  username: "SupplyCrafter"
+  new_character: true
+  location: {x: 200, y: 210}
+  skill_levels: {crafting: 44, smithing: 38, fletching: 34, health: 42}
+  inventory_items:
+    - {item: "flask", count: 26}
+    - {item: "apple", count: 32}
+    - {item: "hilt2", count: 2}
+    - {item: "bead", count: 2}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+agent_5:
+  username: "SupplyCoordinator"
+  new_character: true
+  location: {x: 205, y: 210}
+  skill_levels: {crafting: 38, smithing: 32, strength: 32, health: 38}
+  inventory_items:
+    - {item: "flask", count: 24}
+    - {item: "apple", count: 28}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "leatherboots", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Phase 1 completed: Network planned, 3 teams assigned, all regions scouted"
+  - "Phase 2 completed: Forest Team gathers 30+ logs, 50+ sticks"
+  - "Phase 2: Mountain Team mines 25+ iron ore, 25+ coal"
+  - "Phase 3 completed: All transport waves successful"
+  - "Phase 3: All materials consolidated at Central Hub with verified transfers"
+  - "Phase 4 completed: 25 iron bars crafted"
+  - "Phase 4: 6 weapons crafted (3 swords, 2 axes, 1 bow)"
+  - "Phase 4: 3 rings crafted and 25 arrows produced"
+  - "All 4 phases completed in sequence over 38-40 rounds"
+  - "All 5 agents coordinated successfully"
+  - "Core Trade System: OPERATIONAL"

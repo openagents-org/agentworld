@@ -1,0 +1,103 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Simplified 5-agent potion brewing
+
+task:
+  name: "Alchemist Guild - Focused Potion Brewing"
+  description: "Five alchemists gather herbs, hunt for ingredients, and brew diverse potions and consumables"
+
+# Task objectives
+objectives:
+  primary: "Brew potion collection: 6+ different consumables including healing, food, and specialty items"
+  secondary:
+    - "Gathering (Rounds 1-15): Collect herbs, hunt animals, fish for ingredients"
+    - "Preparation (Rounds 16-28): Process and consolidate ingredients"
+    - "Brewing (Rounds 29-40): Cook and craft all consumables"
+    - "Guild Hall (Rounds 41-44): Display potion collection"
+
+# Context and guidance for agents
+relevant_game_context: |
+  GUILD OVERVIEW
+  - Five alchemists must present ≥6 consumables (stews, cooked meats, smoothie) by Round 44. One herbalist forages vegetables, one hunter collects meat, one fisher gathers seafood, and the Master Brewer at (528,384) handles all cooking.
+
+  TIMELINE
+  1. R1-15 Gathering: each team works its region, announcing ingredient counts.
+  2. R16-28 Delivery: all gatherers move toward the guild hall, then transfer ingredients to the Master Brewer.
+  3. R29-40 Brewing: the Master Brewer cooks the menu—tomato stew, cooked chicken ×2, cooked shrimp, jellyfish smoothie.
+  4. R41-44 Exhibition: list the finished dishes, confirm total ≥6.
+
+  EXECUTION NOTES
+  - Keep per-team checklists in chat so the brewer knows when to begin cooking.
+  - If certain ingredients refuse to drop, announce substitutions early.
+# Limitations
+max_action_steps: 44
+
+# Agent configurations
+agent_1:
+  username: "Herb_Master"
+  new_character: true
+  location: {x: 250, y: 350}
+  skill_levels: {foraging: 45, health: 35}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+    - {item: "bowlmedium", count: 2}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "Beast_Hunter"
+  new_character: true
+  location: {x: 350, y: 250}
+  skill_levels: {strength: 42, accuracy: 38, health: 48}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "Master_Fisher"
+  new_character: true
+  location: {x: 900, y: 400}
+  skill_levels: {fishing: 40, health: 36}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "Ingredient_Runner"
+  new_character: true
+  location: {x: 400, y: 350}
+  skill_levels: {foraging: 35, strength: 30, health: 38}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+    - {item: "jellyfish", count: 1}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "Master_Brewer"
+  new_character: true
+  location: {x: 528, y: 384}
+  skill_levels: {cooking: 50, crafting: 35, health: 32}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+# Success criteria
+success_criteria:
+  - "Gathering: Herbalist forages 12+ vegetables and herbs"
+  - "Gathering: Hunter kills 5+ animals for meat"
+  - "Gathering: Fisher catches 8+ fish and seafood"
+  - "Preparation: All ingredients consolidated with Master Brewer"
+  - "Brewing: Master Brewer cooks Tomato Stew"
+  - "Brewing: Master Brewer cooks 2x Cooked Chicken, 1x Cooked Shrimp"
+  - "Brewing: Master Brewer crafts Jellyfish Smoothie"
+  - "Total 6+ consumables created"
+  - "Completed in 42-44 rounds"

@@ -1,0 +1,198 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - 4 agents, harvest materials and craft fire-enchanted sword
+
+task:
+  name: "Volcanic Forge Mastery - Fire Sword Creation"
+  description: "Four agents work together to harvest volcanic materials and craft a fire-enchanted sword"
+
+# Task objectives
+objectives:
+  primary: "Harvest volcanic materials and craft a fire-enchanted sword using volcanic forge"
+  secondary: # checkpoints
+    - "Establish extreme heat survival coordination"
+    - "Execute volcanic harvesting and forge operations"
+    - "Complete legendary crafting within 40 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a full volcanic expedition with mining and crafting objectives.
+
+  OBJECTIVE: Create a fire-enchanted sword using volcanic forge and materials.
+
+  MISSION REQUIREMENTS:
+  - Navigate to Volcanic/Lava region (~200, 600)
+  - Harvest volcanic ore and coal for smelting
+  - Smelt materials into refined volcanic metal
+  - Use volcanic forge to craft fire-enchanted sword
+  - Survive extreme heat throughout operations
+
+  TEAM COORDINATION:
+  - Navigators establish safe routes
+  - Miners extract volcanic materials
+  - Smith operates the volcanic forge
+  - All share healing for heat survival
+
+  CRAFTING OPERATIONS:
+  ⛏️ Volcanic Mining:
+    - Harvest volcanic ore from lava deposits
+    - Gather coal for fuel
+
+  🔥 Volcanic Forge:
+    - Smelt materials using volcanic heat
+    - Craft fire-enchanted equipment
+
+  DO NOT use complete() until fire sword is crafted!
+
+# Limitations
+max_action_steps: 40
+
+# Agent configurations
+agent_1:
+  username: "lava_navigator_agent"
+  new_character: true
+
+  location:
+    x: 200
+    y: 600
+
+  skill_levels:
+    health: 60
+    defense: 45
+    strength: 35
+    accuracy: 30
+    magic: 20
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 45
+    - item: "healthpotion"
+      count: 25
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "volcanic_miner_agent"
+  new_character: true
+
+  location:
+    x: 202
+    y: 602
+
+  skill_levels:
+    mining: 45
+    smithing: 30
+    health: 55
+    strength: 40
+    defense: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 40
+    - item: "healthpotion"
+      count: 20
+    - item: "coal"
+      count: 2
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "coal_gatherer_agent"
+  new_character: true
+
+  location:
+    x: 198
+    y: 598
+
+  skill_levels:
+    mining: 35
+    health: 55
+    strength: 40
+    defense: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 40
+    - item: "healthpotion"
+      count: 20
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "forge_master_agent"
+  new_character: true
+
+  location:
+    x: 204
+    y: 604
+
+  skill_levels:
+    smithing: 55
+    crafting: 45
+    health: 50
+    strength: 35
+    magic: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 40
+    - item: "healthpotion"
+      count: 18
+    - item: "manapotion"
+      count: 12
+
+  equipped_items:
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team harvests volcanic ore and coal"
+  - "forge_master_agent uses volcanic forge"
+  - "Team crafts fire-enchanted sword"
+  - "All agents survive extreme heat damage"
+  - "Volcanic forge mastery completed within time limit"

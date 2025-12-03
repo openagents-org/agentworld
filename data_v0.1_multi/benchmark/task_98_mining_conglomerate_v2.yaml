@@ -1,0 +1,475 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: Adjusted version - more finished products (30 instead of 20)
+
+task:
+  name: "Mining Conglomerate Expansion - Multi-Site Industrial Mining (More Products)"
+  description: "Fifteen miners establish a vast mining empire with multiple excavation sites, smelting operations, and increased product manufacturing"
+
+# Task objectives
+objectives:
+  primary: "Establish mining conglomerate operating 4 mine sites, producing 100+ bars and 30+ finished products within 55 rounds"
+  secondary:
+    - "Phase 1 (Rounds 1-14): Mine Establishment - Open 4 excavation sites"
+    - "Phase 2 (Rounds 15-32): Mass Extraction - Mine 120+ ores across all sites"
+    - "Phase 3 (Rounds 33-45): Industrial Smelting - Produce 100+ metal bars"
+    - "Phase 4 (Rounds 46-55): Manufacturing - Craft 30+ metal products"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  MINING CONGLOMERATE OVERVIEW:
+
+  Fifteen mining professionals must establish a multi-site industrial mining operation.
+
+  MINING DIVISIONS:
+
+  EXCAVATION TEAMS
+
+  **Site Alpha (Agents 1-3)**: Iron Mine at (230, 38)
+  - Goal: 50+ ironore
+
+  **Site Beta (Agents 4-6)**: Gold Mine at (230, 42)
+  - Goal: 30+ goldore
+
+  **Site Gamma (Agents 7-9)**: Coal Mine at (235, 40)
+  - Goal: 60+ coal (fuel)
+
+  SMELTING OPERATIONS (Agents 10-12)
+  **Mission**: Smelt 100+ bars
+
+  **Production**:
+  - 50+ ironbar
+  - 30+ goldbar
+  - 20+ other bars
+
+  MANUFACTURING (Agents 13-15)
+  **Mission**: Craft 30+ metal products
+
+  **Products**:
+  - 8+ heavy swords
+  - 8+ axes
+  - 8+ gold rings
+  - 6+ other items
+
+  SUCCESS CRITERIA:
+  1. Mine 120+ total ores
+  2. Smelt 100+ metal bars
+  3. Craft 30+ finished products
+  4. 4 mine sites operational
+  5. Complete within 55 rounds
+
+# Limitations
+max_action_steps: 55
+
+# Agent configurations
+agent_1:
+  username: "iron_site_chief"
+  new_character: true
+  location:
+    x: 230
+    y: 38
+  skill_levels:
+    mining: 50
+    strength: 45
+    health: 45
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "ironore"
+      count: 5
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "iron_miner_alpha"
+  new_character: true
+  location:
+    x: 232
+    y: 40
+  skill_levels:
+    mining: 48
+    strength: 43
+    health: 43
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 33
+    - item: "ironore"
+      count: 3
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "iron_miner_beta"
+  new_character: true
+  location:
+    x: 234
+    y: 42
+  skill_levels:
+    mining: 46
+    strength: 41
+    health: 41
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 33
+    - item: "ironore"
+      count: 2
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "gold_site_chief"
+  new_character: true
+  location:
+    x: 228
+    y: 42
+  skill_levels:
+    mining: 50
+    strength: 45
+    health: 45
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "goldore"
+      count: 3
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "gold_miner_alpha"
+  new_character: true
+  location:
+    x: 226
+    y: 44
+  skill_levels:
+    mining: 48
+    strength: 43
+    health: 43
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 33
+    - item: "goldore"
+      count: 2
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "gold_miner_beta"
+  new_character: true
+  location:
+    x: 224
+    y: 46
+  skill_levels:
+    mining: 46
+    strength: 41
+    health: 41
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 33
+    - item: "goldore"
+      count: 1
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "coal_site_chief"
+  new_character: true
+  location:
+    x: 235
+    y: 40
+  skill_levels:
+    mining: 48
+    strength: 43
+    health: 43
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "coal"
+      count: 10
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "coal_miner_alpha"
+  new_character: true
+  location:
+    x: 237
+    y: 42
+  skill_levels:
+    mining: 46
+    strength: 41
+    health: 41
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 33
+    - item: "coal"
+      count: 8
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "coal_miner_beta"
+  new_character: true
+  location:
+    x: 239
+    y: 44
+  skill_levels:
+    mining: 44
+    strength: 40
+    health: 40
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 33
+    - item: "coal"
+      count: 7
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "smelter_chief"
+  new_character: true
+  location:
+    x: 240
+    y: 45
+  skill_levels:
+    smithing: 55
+    health: 40
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "coal"
+      count: 20
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_11:
+  username: "smelter_alpha"
+  new_character: true
+  location:
+    x: 242
+    y: 47
+  skill_levels:
+    smithing: 50
+    health: 38
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "coal"
+      count: 15
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_12:
+  username: "smelter_beta"
+  new_character: true
+  location:
+    x: 244
+    y: 49
+  skill_levels:
+    smithing: 48
+    health: 36
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "coal"
+      count: 15
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_13:
+  username: "manufacturer_chief"
+  new_character: true
+  location:
+    x: 246
+    y: 46
+  skill_levels:
+    smithing: 50
+    crafting: 45
+    health: 38
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "hilt2"
+      count: 8
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_14:
+  username: "manufacturer_alpha"
+  new_character: true
+  location:
+    x: 248
+    y: 48
+  skill_levels:
+    smithing: 48
+    crafting: 43
+    health: 36
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "logs"
+      count: 10
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_15:
+  username: "manufacturer_beta"
+  new_character: true
+  location:
+    x: 250
+    y: 50
+  skill_levels:
+    smithing: 46
+    crafting: 41
+    health: 36
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Site Alpha mines 50+ ironore"
+  - "Site Beta mines 30+ goldore"
+  - "Site Gamma mines 60+ coal"
+  - "Total 120+ ores extracted"
+  - "Smelting Operations produce 50+ ironbar"
+  - "Smelting Operations produce 30+ goldbar"
+  - "Total 100+ bars smelted"
+  - "Manufacturing crafts 8+ heavy swords"
+  - "Manufacturing crafts 8+ axes"
+  - "Manufacturing crafts 8+ gold rings"
+  - "Total 30+ finished products crafted"
+  - "All divisions coordinate effectively"
+  - "Mining conglomerate established within 55 rounds"

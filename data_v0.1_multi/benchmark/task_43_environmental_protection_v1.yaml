@@ -1,0 +1,104 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Gather fruits for environmental sustainability
+
+task:
+  name: "Environmental Protection - Sustainable Foraging"
+  description: "Two agents gather 6x apple and 4x blueberry through sustainable foraging"
+
+# Task objectives
+objectives:
+  primary: "Gather 6x apple and 4x blueberry sustainably"
+  secondary: # checkpoints
+    - "Practice sustainable foraging"
+    - "Complete gathering within 18 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a sustainable resource gathering scenario.
+
+  OBJECTIVE: Demonstrate sustainable foraging practices.
+
+  MISSION REQUIREMENTS:
+  - Gather 6x apple from apple trees
+  - Gather 4x blueberry from blueberry bushes
+  - Practice sustainable harvesting
+
+  TEAM COORDINATION:
+  - Both agents focus on foraging
+  - Share resource locations
+  - Coordinate gathering routes
+
+  SUSTAINABLE FORAGING:
+  🍎 Foraging - apple:
+    - harvest_resource on apple tree instances
+    - Target: 6x apple total
+
+  🫐 Foraging - blueberry:
+    - harvest_resource on blueberry instances
+    - Target: 4x blueberry total
+
+  DO NOT use complete() until resources are gathered!
+
+# Limitations
+max_action_steps: 18
+
+# Agent configurations
+agent_1:
+  username: "apple_forager_agent"
+  new_character: true
+
+  location:
+    x: 180
+    y: 200
+
+  skill_levels:
+    foraging: 22
+    strength: 30
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "berry_forager_agent"
+  new_character: true
+
+  location:
+    x: 185
+    y: 205
+
+  skill_levels:
+    foraging: 20
+    strength: 28
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "blueberry"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team gathers at least 6x apple total"
+  - "Team gathers at least 4x blueberry total"
+  - "Sustainable foraging demonstrated"

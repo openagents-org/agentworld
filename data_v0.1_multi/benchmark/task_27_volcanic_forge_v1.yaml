@@ -1,0 +1,118 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - Only harvest volcanic materials, no crafting
+
+task:
+  name: "Volcanic Forge Mastery - Volcanic Resource Gathering"
+  description: "Two agents work together to harvest rare volcanic materials from lava regions"
+
+# Task objectives
+objectives:
+  primary: "Successfully harvest 4x volcanic ore from volcanic region"
+  secondary: # checkpoints
+    - "Navigate to volcanic/lava region"
+    - "Complete volcanic material gathering within 20 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a simplified volcanic expedition focusing on resource gathering.
+
+  OBJECTIVE: Harvest rare volcanic materials while surviving extreme heat.
+
+  MISSION REQUIREMENTS:
+  - Navigate to Volcanic/Lava region (~200, 600)
+  - Harvest volcanic ore from lava rock deposits
+  - Collect 4x volcanic ore total
+  - Survive extreme heat with healing supplies
+
+  TEAM COORDINATION:
+  - Both agents mine volcanic resources
+  - Share healing supplies for heat damage
+  - Coordinate efficient gathering routes
+
+  VOLCANIC GATHERING:
+  ⛏️ Volcanic Mining:
+    - harvest_resource on volcanic rock deposits
+    - Target: 4x volcanic ore total
+    - Use healing constantly to survive heat
+
+  🌋 Environmental Hazards:
+    - Lava flows cause continuous fire damage
+    - Use healing items frequently
+
+  DO NOT use complete() until volcanic ore is collected!
+
+# Limitations
+max_action_steps: 20
+
+# Agent configurations
+agent_1:
+  username: "volcanic_miner_agent"
+  new_character: true
+
+  location:
+    x: 200
+    y: 600
+
+  skill_levels:
+    mining: 40
+    health: 55
+    strength: 40
+    defense: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "healthpotion"
+      count: 20
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "lava_survivor_agent"
+  new_character: true
+
+  location:
+    x: 205
+    y: 605
+
+  skill_levels:
+    mining: 35
+    health: 55
+    strength: 38
+    defense: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "healthpotion"
+      count: 20
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team successfully harvests at least 4x volcanic ore"
+  - "All agents survive extreme heat damage"
+  - "Volcanic material gathering completed within time limit"
