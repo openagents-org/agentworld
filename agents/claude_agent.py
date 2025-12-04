@@ -14,94 +14,42 @@ class ClaudeAgent(BaseAgent):
         # Initialize parent class
         super().__init__(username, password, base_url, dump_prompts)
         
-        # Claude-specific configuration
-        self.api_key = api_key
+        # Claude-specific configuration (using model gateway)
+        self.api_key = api_key or 'agentworld'
         self.model = model
-        self.base_url = "https://api.anthropic.com/v1"
+        self.base_url = "https://model-gateway.acenta.ai/v1"
         self.provider = "claude"
         self.session = requests.Session()
         self.session.headers.update({
-            "x-api-key": self.api_key,
-            "Content-Type": "application/json",
-            "anthropic-version": "2023-06-01"
+            "X-API-Key": self.api_key,
+            "Content-Type": "application/json"
         })
 
     def _make_api_call(self, messages: List[Dict[str, str]]) -> Dict[str, Any]:
-        """Make API call to Claude model"""
-        url = f"{self.base_url}/messages"
-        
-        # Convert messages to Claude format
-        claude_messages = []
-        system_message = None
-        
-        for msg in messages:
-            if msg["role"] == "system":
-                system_message = msg["content"]
-            elif msg["role"] == "tool":
-                # Claude expects tool_use messages as user messages with tool_result content
-                claude_messages.append({
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "tool_result",
-                            "tool_use_id": msg.get("tool_call_id", ""),
-                            "content": msg["content"]
-                        }
-                    ]
-                })
-            elif msg["role"] == "assistant" and "tool_calls" in msg:
-                # Convert OpenAI tool calls to Claude tool_use format
-                content = []
-                if msg.get("content"):
-                    content.append({"type": "text", "text": msg["content"]})
-                
-                for tool_call in msg["tool_calls"]:
-                    function_info = tool_call.get("function", {})
-                    content.append({
-                        "type": "tool_use",
-                        "id": tool_call.get("id", ""),
-                        "name": function_info.get("name", ""),
-                        "input": json.loads(function_info.get("arguments", "{}"))
-                    })
-                
-                claude_messages.append({
-                    "role": "assistant",
-                    "content": content
-                })
-            else:
-                claude_messages.append({
-                    "role": msg["role"],
-                    "content": msg["content"]
-                })
-        
-        # Convert tools to Claude format
-        claude_tools = []
-        for tool in self.tools:
-            claude_tools.append({
-                "name": tool["function"]["name"],
-                "description": tool["function"]["description"],
-                "input_schema": tool["function"]["parameters"]
-            })
-        
+        """Make API call to Claude model via OpenAI-compatible gateway"""
+        url = f"{self.base_url}/chat/completions"
         data = {
             "model": self.model,
-            "max_tokens": 4096,
-            "messages": claude_messages,
-            "tools": claude_tools
+            "messages": messages,
+            "tools": self.tools,
+            "tool_choice": "auto",
+            "max_tokens": 4096
         }
-        
-        if system_message:
-            data["system"] = system_message
-        
+
         try:
             response = self.session.post(url, json=data, timeout=60)
             response.raise_for_status()
-            claude_response = response.json()
-            
-            # Convert Claude response to OpenAI format
-            return self._convert_claude_response_to_openai(claude_response)
+            return response.json()
         except requests.exceptions.RequestException as e:
-            return {"error": f"API call failed: {str(e)}"}
+            error_detail = ""
+            if hasattr(e, 'response') and e.response is not None:
+                try:
+                    error_detail = e.response.text
+                    print(f"\n❌ CLAUDE API ERROR: {e}")
+                    print(f"❌ RESPONSE BODY: {error_detail}\n")
+                except:
+                    pass
+            return {"error": f"API call failed: {str(e)} Response: {error_detail}"}
     
     def _convert_claude_response_to_openai(self, claude_response: Dict[str, Any]) -> Dict[str, Any]:
         """Convert Claude response format to OpenAI format for compatibility"""

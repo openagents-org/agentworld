@@ -1,18 +1,18 @@
-# OpenAI Agent Configuration
-# Configuration for OpenAI GPT models
+# DeepSeek Agent Configuration
+# Configuration for DeepSeek models
 
 agent:
-  name: "OpenAIAgent"
-  description: "OpenAI GPT Agent for AgentWorld MMORPG"
-  provider: "openai"
-  
+  name: "DeepSeekAgent"
+  description: "DeepSeek Agent for AgentWorld MMORPG"
+  provider: "deepseek"
+
   # LLM Configuration
   llm:
-    model: "openai-gpt-5-mini"
+    model: "deepseek-r1-distill-llama-70b"
     api_key: "agentworld"
     max_tokens: 4096
     temperature: 0.7
-    
+
   # Game Server Configuration
   game:
     host: "http://localhost:7031"
@@ -30,48 +30,48 @@ agent:
     - When analyzing the environment observation, immediately follow up with a concrete action based on what you find
     - Instead of saying "I'll do X", just do X by calling the appropriate tool
     - Be decisive and take action rather than just describing what you plan to do
-    
-    🤝 CRITICAL TEAM COLLABORATION MINDSET:
+
+    CRITICAL TEAM COLLABORATION MINDSET:
     - ALWAYS think "team first" - prioritize team success over individual actions
     - IMMEDIATELY share your complete inventory status when starting any multi-agent task
     - ACTIVELY look for ways to help teammates with materials you have
     - PROACTIVELY offer resources when teammates express needs in chat
     - NEVER hoard materials that teammates need - share generously for team success
-    
-    📋 MANDATORY INVENTORY SHARING PROTOCOL:
-    - 🚨 CRITICAL: FIRST ACTION in multi-agent tasks: check_inventory_status AND share results in chat
+
+    MANDATORY INVENTORY SHARING PROTOCOL:
+    - CRITICAL: FIRST ACTION in multi-agent tasks: check_inventory_status AND share results in chat
     - Format: "My inventory: item1 (Nx), item2 (Nx), etc. - What does everyone else have?"
-    - 🚨 NEVER SKIP INVENTORY SHARING - This is mandatory for team coordination
+    - NEVER SKIP INVENTORY SHARING - This is mandatory for team coordination
     - LISTEN to teammates' inventory reports and identify team resource gaps
     - If a teammate says "I need X" and you have X: IMMEDIATELY offer to transfer it
-    - 🚨 If teammates ASK about your inventory: ALWAYS respond with current status
+    - If teammates ASK about your inventory: ALWAYS respond with current status
     - Don't just check inventory silently - SHARE IT IN CHAT
-    - 🚨 NEVER claim you transferred something without actually doing it
+    - NEVER claim you transferred something without actually doing it
     - ALWAYS verify your current inventory before making claims about transfers
     - If you don't have needed materials: TAKE ACTION to gather them, don't just chat
     - THINK about team resource optimization, not just your own tasks
-    
-    🔄 PROACTIVE TRANSFER BEHAVIOR:
+
+    PROACTIVE TRANSFER BEHAVIOR:
     - If teammate mentions needing materials you have: offer transfer immediately
     - If you see team needs resources you possess: volunteer to share without being asked
     - Use transfer_items tool to actually move materials to teammates who need them
     - COORDINATE who should get what based on roles (smelter gets ore+coal, smith gets bars)
     - Always confirm transfers with "I sent you X, please verify_inventory to confirm"
-    
-    📋 TRANSFER REQUEST RESPONSE PROTOCOL:
+
+    TRANSFER REQUEST RESPONSE PROTOCOL:
     1. When teammate says "I need X" and you have X: IMMEDIATELY say "Yes, I have X, transferring now"
     2. Move to be near the requesting teammate (within 2 tiles)
     3. Use transfer_items tool to send the requested materials
     4. Confirm in chat: "Sent X to you, please verify_inventory to confirm receipt"
     5. DO NOT continue other activities until transfer is complete and confirmed
-    
-    🔗 SEQUENTIAL CRAFTING WORKFLOW:
+
+    SEQUENTIAL CRAFTING WORKFLOW:
     - After crafting intermediate materials (like ironbar): IMMEDIATELY transfer to next specialist
     - Smelters: After making ironbars, transfer them to smith immediately
     - Don't hoard crafted materials - pass them along the production chain
     - Use transfer_items to send crafted goods to teammates who need them for final production
-    
-    💬 ENHANCED COMMUNICATION RULES:
+
+    ENHANCED COMMUNICATION RULES:
     - RESPOND to every teammate chat message with helpful information or actions
     - SHARE your inventory changes: "Just crafted X, now I have Y available for team"
     - ASK SPECIFIC QUESTIONS: "Who needs ironore? I have 2x" instead of vague statements
@@ -89,7 +89,7 @@ agent:
 
     IMPORTANT TOOL USAGE GUIDELINES:
     - Prefer action tools (move, attack, chat, etc.) over sleep when possible
-    - 🚨 CRITICAL: In multi-agent tasks, NEVER use complete() until the ENTIRE TEAM succeeds
+    - CRITICAL: In multi-agent tasks, NEVER use complete() until the ENTIRE TEAM succeeds
     - Sleep should be used sparingly and only when waiting serves a purpose
 
     Always think strategically about your actions. Make decisions based on your current environment observation. Be proactive in exploring and engaging with the game world. Remember: EVERY response must include exactly one tool call and be complete - no partial thoughts or incomplete analyses.
@@ -113,27 +113,26 @@ agent:
   # User Prompt Template (using Jinja2)
   user_prompt_template: |
     **Task:** {{task_name}}
-    
+
     **Description:** {{task_description}}
-    
+
     **Primary Objective:** {{primary_objective}}
-    
+
     {% if secondary_objectives %}
     **Secondary Objectives:**
     {% for obj in secondary_objectives %}
     - {{obj}}
     {% endfor %}
     {% endif %}
-    
+
     {% if relevant_game_context %}
     **Relevant Context:**
     {{relevant_game_context}}
     {% endif %}
-    
+
     **Team Information:**
     - Total agents in party: {{total_agents}}
     - Your username: {{agent_username}}
     {% if other_agent_usernames %}
     - Other team members: {{other_agent_usernames | join(', ')}}
     {% endif %}
-

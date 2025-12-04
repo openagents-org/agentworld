@@ -15,13 +15,13 @@ class OpenAIAgent(BaseAgent):
         super().__init__(username, password, base_url, dump_prompts)
         
         # OpenAI-specific configuration
-        self.api_key = 'directly paste key here'
+        self.api_key = api_key or 'agentworld'
         self.model = model
-        self.base_url = "https://model.acenta.ai/v1"
+        self.base_url = "https://model-gateway.acenta.ai/v1"
         self.provider = "openai"
         self.session = requests.Session()
         self.session.headers.update({
-            "Authorization": f"Bearer {self.api_key}",
+            "X-API-Key": self.api_key,
             "Content-Type": "application/json"
         })
 
