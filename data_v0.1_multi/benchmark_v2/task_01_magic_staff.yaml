@@ -1,0 +1,129 @@
+task:
+  name: Cooperative Magic Staff Crafting - Wizard Equipment Preparation (Variant 2 - Spread Locations)
+  description: Three agents work together to gather materials and craft a magical staff for spellcasting
+objectives:
+  primary: Prepare wizard_agent with crafted magic staff for magical combat
+  secondary:
+  - Establish effective team communication through global chat
+  - Ensure safe material transfer between agents
+  - Complete all steps within 40 rounds
+relevant_game_context: |
+  This is a cooperative multi-agent scenario where teamwork is essential.
+
+  OBJECTIVE: Work together to create a magic staff for the wizard_agent to prepare for magical combat.
+
+  TEAM COORDINATION:
+  - Use global chat to communicate and coordinate your actions
+  - Share resources and materials between team members as needed
+  - Leverage each agent's specialized skills effectively
+  - Stay within reasonable distance for successful item transfers
+  - Complete the objective within the time limit
+
+  GENERAL STRATEGY:
+  - The team needs to gather wood materials and craft components in sequence
+  - Coordinate locations to enable successful material transfers between agents
+  - Someone needs to collect logs, someone needs to craft sticks, someone assembles the staff
+  - Work together to determine who does what based on your skills and current situation
+  - Stay close enough for transfers - use coordination and positioning wisely
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  CRAFTING RECIPES (CRITICAL KNOWLEDGE):
+  🪵 Lumberjacking - logs:
+    - harvest_resource on OAK TREE instances to get logs (NOT Willow trees!)
+    - Level required: 1+ (Lumberjacking skill)
+    - IMPORTANT: Look for "Oak", "Oak2", "Oak3", "Oak4", or "Oak5" tree types
+    - AVOID: Willow trees (Level 30, produces willowlogs), Pine trees, etc.
+
+  🪄 Fletching Recipe - stick:
+    - craft_item skill=Fletching itemKey=stick
+    - Materials: 1x logs → 4x stick
+    - Level required: 1 (Fletching skill)
+    - IMPORTANT: Need minimum 2x logs to get enough sticks for the staff!
+
+  ⚡ Crafting Recipe - staff:
+    - craft_item skill=Crafting itemKey=staff
+    - Materials: 5x stick + 1x bead → 1x staff
+    - Level required: 1 (Crafting skill)
+    - CRITICAL: Requires exactly 5x stick (from 2x logs) + magic bead!
+max_action_steps: 40
+agent_1:
+  username: lumberjack_agent
+  new_character: true
+  location:
+    x: 230
+    y: 153
+  skill_levels:
+    lumberjacking: 25
+    strength: 25
+    health: 25
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: woodworker_agent
+  new_character: true
+  location:
+    x: 251
+    y: 352
+  skill_levels:
+    fletching: 15
+    crafting: 10
+    strength: 20
+    health: 20
+  inventory_items:
+  - item: flask
+    count: 8
+  - item: apple
+    count: 12
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: wizard_agent
+  new_character: true
+  location:
+    x: 405
+    y: 675
+  skill_levels:
+    crafting: 15
+    magic: 25
+    health: 25
+    strength: 15
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  - item: bead
+    count: 1
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- lumberjack_agent successfully gathers and transfers logs to woodworker_agent
+- woodworker_agent successfully crafts sticks and transfers to wizard_agent
+- wizard_agent receives materials and crafts a magic staff
+- wizard_agent successfully equips the magic staff
+- All agents use global chat for coordination throughout the process
+- wizard_agent declares readiness for magical combat

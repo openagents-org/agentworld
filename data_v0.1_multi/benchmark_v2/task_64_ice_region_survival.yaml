@@ -1,0 +1,224 @@
+task:
+  name: Ice Region Survival Expedition - Cold Weather Resource Gathering (Variant 2 - Spread Locations)
+  description: Eight explorers venture into frozen regions to gather ice materials, hunt arctic creatures, and craft cold-weather
+    equipment
+objectives:
+  primary: 'Complete ice expedition: gather 50+ ice materials, hunt 15+ ice creatures, craft 8+ cold-weather items'
+  secondary:
+  - 'Expedition (Rounds 1-15): Travel to ice regions and establish base'
+  - 'Harvesting (Rounds 16-35): Gather ice logs, mine frozen ores, hunt ice mobs'
+  - 'Processing (Rounds 36-48): Return and craft ice-themed items'
+  - 'Completion (Rounds 49-53): Verify expedition success'
+relevant_game_context: |
+  MISSION OUTLINE
+  - Eight explorers leave (350,250), establish a camp near (259,151), collect ≥50 ice materials (ice logs, ice palm logs, coal, specials), hunt ≥15 arctic mobs, then return to the hub (528,384) to craft 8+ cold-weather items before Round 53.
+
+  PHASES
+  1. R1-15 Trek north-west together; scouts call waypoints every hop and mark safe clearings. Heal aggressively if cold damage ticks HP down.
+  2. R16-35 Split duties inside the ice biome:
+     • Lumberjacks harvest ice/ice-palm logs via harvest_resource, logging counts in chat.
+     • Hunters clear icerat/icebat/icecrab/icegoblin spawns with attack_entity; confirm kills and loot with verify_inventory.
+     • Support duo mines coal/special drops and watches HP levels.
+  3. R36-48 Caravan home: regroup, march back toward the hub (≤32-tile moves), consolidate materials with the crafter, and craft tools/weapons/gear from the haul.
+  4. R49-53 Verification: list material totals, crafted items, and survival status before complete().
+
+  EXECUTION NOTES
+  - If observe_environment isn’t callable, sweep the ice grid manually and rely on harvest/attack feedback; use sleep(1s) after long moves to avoid “too far” errors.
+  - Keep everyone within ~15 tiles so hunters can assist lumberjacks if mobs approach.
+  - Transfers happen only after the return journey; bundle materials per type (logs, coal, trophies) before handing them to Expedition_Crafter.
+max_action_steps: 94
+agent_1:
+  username: Lead_Scout
+  new_character: true
+  location:
+    x: 1012
+    y: 680
+  skill_levels:
+    strength: 38
+    accuracy: 35
+    health: 50
+    defense: 35
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: Scout_Navigator
+  new_character: true
+  location:
+    x: 259
+    y: 186
+  skill_levels:
+    strength: 36
+    accuracy: 33
+    health: 48
+    defense: 33
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: Ice_Lumberjack_1
+  new_character: true
+  location:
+    x: 898
+    y: 402
+  skill_levels:
+    lumberjacking: 40
+    strength: 32
+    health: 42
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_4:
+  username: Ice_Lumberjack_2
+  new_character: true
+  location:
+    x: 304
+    y: 403
+  skill_levels:
+    lumberjacking: 38
+    strength: 30
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_5:
+  username: Arctic_Hunter_1
+  new_character: true
+  location:
+    x: 230
+    y: 158
+  skill_levels:
+    strength: 45
+    accuracy: 40
+    health: 52
+    defense: 36
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: heavysword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+agent_6:
+  username: Arctic_Hunter_2
+  new_character: true
+  location:
+    x: 405
+    y: 685
+  skill_levels:
+    strength: 43
+    accuracy: 38
+    health: 50
+    defense: 34
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+agent_7:
+  username: Expedition_Miner
+  new_character: true
+  location:
+    x: 458
+    y: 728
+  skill_levels:
+    mining: 35
+    strength: 30
+    health: 38
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_8:
+  username: Expedition_Crafter
+  new_character: true
+  location:
+    x: 680
+    y: 667
+  skill_levels:
+    crafting: 40
+    smithing: 35
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  - item: logs
+    count: 3
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+success_criteria:
+- 'Expedition: All 8 agents travel to ice region (259, 151)'
+- 'Expedition: Establish base and scout resources'
+- 'Harvesting: Lumberjacks gather 35+ ice logs total'
+- 'Harvesting: Hunters kill 15+ ice creatures'
+- 'Harvesting: Support team mines 10+ coal'
+- 'Processing: All agents return to hub safely'
+- 'Processing: Crafters create 8+ expedition items'
+- All agents survive ice region (HP > 0)
+- Complete expedition in 50-53 rounds

@@ -1,0 +1,538 @@
+task:
+  name: Grand Royal Tournament - Multi-Arena Championship Challenge (Variant 1)
+  description: 'Twelve agents form three specialized teams to compete in the ultimate tournament: Combat Arena (boss battles),
+    Crafting Masters (legendary equipment), and Resource Champions (rare gathering & feast preparation)'
+objectives:
+  primary: 'Successfully complete all three tournament challenges: defeat 3+ bosses, craft 5+ legendary items, gather rare
+    resources and prepare a royal feast with 20+ food items'
+  secondary:
+  - 'Phase 1 (Rounds 1-15): Team Formation & Initial Resource Gathering'
+  - 'Phase 2 (Rounds 16-35): Parallel Challenge Execution - Combat, Crafting, Gathering'
+  - 'Phase 3 (Rounds 36-50): Final Boss Battle & Grand Feast Celebration'
+  - Complete all three tournament challenges within 45 rounds
+relevant_game_context: |
+  The Grand Royal Tournament is the ultimate test of multi-agent coordination requiring three specialized teams working in parallel.
+
+  🏆 TOURNAMENT OVERVIEW:
+
+  The kingdom hosts an annual tournament requiring TWELVE champions to work as THREE specialized teams:
+  - COMBAT ARENA TEAM (4 agents): Defeat multiple bosses in battle
+  - CRAFTING MASTERS TEAM (4 agents): Forge legendary equipment
+  - RESOURCE CHAMPIONS TEAM (4 agents): Gather rare resources & prepare royal feast
+
+  Each team must complete their challenge while coordinating with other teams for resource sharing and timing.
+
+  ═══════════════════════════════════════════════════════════
+  🗡️ CHALLENGE 1: COMBAT ARENA (Agents 1-4)
+  ═══════════════════════════════════════════════════════════
+
+  **OBJECTIVE**: Defeat at least 3 different boss-level creatures
+
+  **TARGET BOSSES**:
+  - Ice Knight (Level 62) - Miniboss at coordinates (712, 717)
+  - Dark Wolf (Level 58) - Miniboss at coordinates (1016, 682)
+  - Mermaid (Level 45) - Miniboss at coordinates (580, 755)
+
+  **TEAM ROLES**:
+  - Agent 1 (Tank): High defense & health, leads combat engagement
+  - Agent 2 (DPS Warrior): High strength & accuracy, primary damage dealer
+  - Agent 3 (Ranged): Archery specialist, ranged support
+  - Agent 4 (Support): Healing & buff support, resource management
+
+  **COMBAT STRATEGY**:
+  - Phase 1: Scout boss locations using observe_environment
+  - Phase 2: Coordinate attack timing using global chat
+  - Phase 3: Execute synchronized combat with role specialization
+  - Use attack_target, ranged_attack, and healing items
+  - Share equipment and healing supplies between team members
+  - Retreat and regroup if health drops below 30%
+
+  **COORDINATION**:
+  - Chat every 3 rounds: "Combat Team: Boss X defeated/in progress"
+  - Request healing supplies from Resource Team if needed
+  - Share victory announcements with all teams
+
+  ═══════════════════════════════════════════════════════════
+  ⚒️ CHALLENGE 2: CRAFTING MASTERS (Agents 5-8)
+  ═══════════════════════════════════════════════════════════
+
+  **OBJECTIVE**: Craft at least 5 legendary items from different categories
+
+  **LEGENDARY ITEMS TO CRAFT** (Choose 5+):
+  - 1x Heavy Sword (2 ironbar + hilt2) - Epic weapon
+  - 1x Golden Ring (2 goldbar) - Luxury jewelry
+  - 1x Ice Staff (staff + icebead) - Magical weapon
+  - 1x Silver Ring (2 ironbar) - Fine jewelry
+  - 1x Axe (3 ironbar + logs) - Combat weapon
+  - 1x Emerald Pendant (emerald + string) - Rare accessory
+
+  **TEAM ROLES**:
+  - Agent 5 (Miner): Mine iron ore, gold ore, coal (40+ ores total)
+  - Agent 6 (Smelter): Smelt all bars at forge (20+ bars needed)
+  - Agent 7 (Material Gatherer): Collect hilts, beads, gems, sticks
+  - Agent 8 (Master Crafter): Final assembly of all legendary items
+
+  **PRODUCTION CHAIN**:
+  - Phase 1 (Rounds 1-15): Mining Operations
+    * Agent 5 mines at Mountains (230-240, 38-50): 15 ironore, 8 goldore, 25 coal
+    * observe_environment to locate ore deposits
+    * harvest_resource on iron rocks, gold rocks, coal rocks
+    * Recommended mining locations in Northern Mountain Range
+
+  - Phase 2 (Rounds 16-28): Material Collection & Smelting
+    * Agent 6 travels to forge, smelts bars: craft_item skill=Smelting itemKey=ironbar/goldbar
+    * Agent 7 gathers: 3 hilt2, 2 beads (regular bead), 1 emerald, 1 icebead, 10+ sticks, 1+ string
+    * Hunt mobs (Wizard, Dark Mage) for beads/gems, chop Oak trees for logs→craft sticks
+
+  - Phase 3 (Rounds 29-40): Legendary Crafting
+    * Agent 8 receives all materials via transfer_items
+    * Crafts all 5+ legendary items at appropriate workstations
+    * craft_item skill=Smithing (for rings, sword, axe) or Crafting (for staffs, pendants)
+
+  **COORDINATION**:
+  - Chat every 5 rounds: "Craft Team: X/5 items completed, Y bars ready"
+  - Share ore/bar counts after each smelting batch
+  - Announce each legendary item completion to all teams
+
+  ═══════════════════════════════════════════════════════════
+  🌾 CHALLENGE 3: RESOURCE CHAMPIONS & FEAST (Agents 9-12)
+  ═══════════════════════════════════════════════════════════
+
+  **OBJECTIVE**: Gather rare resources AND prepare royal feast with 20+ food items
+
+  **RARE RESOURCES TO COLLECT** (8+ different types):
+  - 5x Various Items: Feathers, Beads, Gems (from mob drops)
+  - 5x Raw Foods: Eggs, Raw Chicken, Raw Beef (from mobs)
+  - 12x Logs: Oak logs from different forest areas
+  - 12x Seafood: Shrimp, Crab, Jellyfish (from fishing)
+  - Total: At least 8 different resource types
+
+  **ROYAL FEAST MENU** (20+ food items minimum):
+  - 5x Cooked Shrimp (rawshrimp → cookedshrimp via Cooking)
+  - 6x Cooked Chicken (rawchicken → cookedchicken via Cooking)
+  - 5x Cooked Beef (rawbeef → cookedbeef via Cooking)
+  - 6x Jellyfish Smoothie (jellyfish → jellyfishsmoothie via Cooking)
+  - Alternative: Tomato Stew (bowlmedium + mushroom1 + tomato)
+
+  **TEAM ROLES**:
+  - Agent 9 (Master Forager): Gather plants, flowers, berries across all biomes
+  - Agent 10 (Hunter): Hunt creatures for rare drops and meat
+  - Agent 11 (Fisher): Catch fish and seafood at coastal regions
+  - Agent 12 (Chef): Cook all food items for the feast
+
+  **GATHERING STRATEGY**:
+  - Phase 1 (Rounds 1-15): Multi-Biome Exploration
+    * Agent 9: Plains (350, 250) → Forest (380, 20) for foraging resources
+    * Agent 10: Hunt Roosters/Cows for rawchicken/rawbeef, collect eggs
+    * Agent 11: Coastal (580, 755) fishing for rawshrimp, jellyfish
+    * Use observe_environment radius=48 to scout resources
+
+  - Phase 2 (Rounds 16-30): Intensive Gathering
+    * harvest_resource on fishing spots for rawshrimp, jellyfish
+    * attack_target on Rooster (rawchicken) and Cow Warrior (rawbeef)
+    * Collect minimum 20 raw food items total for cooking
+    * Use verify_inventory to track collection progress
+
+  - Phase 3 (Rounds 31-45): Feast Preparation
+    * Agent 12 receives all ingredients via transfer_items
+    * Cooks seafood: craft_item skill=Cooking itemKey=cookedshrimp
+    * Cooks meats: craft_item skill=Cooking itemKey=cookedchicken/cookedbeef
+    * Makes smoothies: craft_item skill=Cooking itemKey=jellyfishsmoothie
+    * Coordinates final feast assembly with 20+ total cooked items
+
+  **COORDINATION**:
+  - Chat every 4 rounds: "Resource Team: X/8 rare types, Y/20 foods ready"
+  - Share surplus healing items with Combat Team
+  - Provide gems/beads to Crafting Team if needed
+  - Announce feast completion to trigger celebration
+
+  ═══════════════════════════════════════════════════════════
+  🤝 INTER-TEAM COORDINATION (CRITICAL!)
+  ═══════════════════════════════════════════════════════════
+
+  **RESOURCE SHARING PROTOCOL**:
+  - Combat Team → Others: Share boss drops (rare items)
+  - Crafting Team → Combat: Provide crafted weapons/armor upgrades
+  - Resource Team → Combat: Supply healing foods and potions
+  - Resource Team → Crafting: Supply gems and beads for legendary items
+
+  **COMMUNICATION REQUIREMENTS**:
+  - ALL teams use global chat for status updates every 3-5 rounds
+  - Format: "[Team Name] Update: [Status] - Round X"
+  - Coordinate transfer meetings: "Meeting at (X, Y) for item exchange"
+  - Announce milestone completions: "MILESTONE: Challenge X completed!"
+
+  **TIMING COORDINATION**:
+  - Rounds 1-15: All teams operate independently, build foundations
+  - Rounds 16-35: Inter-team exchanges begin, parallel execution
+  - Rounds 36-45: Final push, last boss battle, feast finale
+  - Rounds 46-50: Grand celebration, verify all objectives met
+
+  **EMERGENCY PROTOCOLS**:
+  - If Combat Team struggles: Resource Team provides emergency healing
+  - If Crafting Team short on materials: Resource Team assists mining
+  - If Resource Team needs protection: Combat Team escorts gatherers
+
+  ═══════════════════════════════════════════════════════════
+  🎯 SUCCESS CRITERIA (ALL MUST BE MET)
+  ═══════════════════════════════════════════════════════════
+
+  1. **Combat Arena**: 3+ different bosses defeated by Combat Team
+  2. **Crafting Masters**: 5+ legendary items crafted from different categories
+  3. **Resource Champions**: 8+ rare resource types collected
+  4. **Royal Feast**: 20+ food items prepared and ready
+  5. **Team Coordination**: Successful resource sharing between all teams
+  6. **Communication**: Regular status updates throughout tournament
+  7. **Time Management**: All objectives within 50 rounds
+
+  DO NOT use complete() until ALL criteria are verified!
+
+  **VICTORY ANNOUNCEMENT FORMAT**:
+  "TOURNAMENT COMPLETE! Combat: X bosses | Crafting: Y items | Resources: Z types | Feast: W foods | Total Rounds: R"
+
+  🏅 AGENT SKILL RECOMMENDATIONS:
+
+  Combat Team needs: High Strength (50+), Defense (40+), Health (60+), Accuracy (40+)
+  Crafting Team needs: Mining (40+), Smithing (30+), Crafting (30+), Smelting (25+)
+  Resource Team needs: Foraging (30+), Fishing (25+), Cooking (25+), Lumberjacking (25+)
+max_action_steps: 55
+agent_1:
+  username: arena_tank_champion
+  new_character: true
+  location:
+    x: 200
+    y: 200
+  skill_levels:
+    strength: 55
+    defense: 50
+    health: 70
+    accuracy: 35
+    magic: 25
+  inventory_items:
+  - item: flask
+    count: 50
+  - item: apple
+    count: 40
+  - item: healthpotion
+    count: 15
+  equipped_items:
+  - item: ironarmor
+    count: 1
+    enchant: 0
+  - item: ironboots
+    count: 1
+    enchant: 0
+  - item: sword
+    count: 1
+    enchant: 0
+agent_2:
+  username: arena_warrior_dps
+  new_character: true
+  location:
+    x: 205
+    y: 200
+  skill_levels:
+    strength: 60
+    accuracy: 50
+    defense: 40
+    health: 65
+    magic: 20
+  inventory_items:
+  - item: flask
+    count: 45
+  - item: apple
+    count: 35
+  - item: healthpotion
+    count: 12
+  equipped_items:
+  - item: heavysword
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: arena_archer_sniper
+  new_character: true
+  location:
+    x: 210
+    y: 200
+  skill_levels:
+    accuracy: 65
+    fletching: 35
+    strength: 45
+    defense: 35
+    health: 60
+  inventory_items:
+  - item: flask
+    count: 40
+  - item: apple
+    count: 30
+  - item: arrow
+    count: 50
+  - item: healthpotion
+    count: 10
+  equipped_items:
+  - item: bow
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_4:
+  username: arena_support_healer
+  new_character: true
+  location:
+    x: 200
+    y: 205
+  skill_levels:
+    magic: 50
+    health: 70
+    defense: 45
+    strength: 35
+    crafting: 30
+  inventory_items:
+  - item: flask
+    count: 60
+  - item: apple
+    count: 50
+  - item: healthpotion
+    count: 20
+  - item: cookedshrimp
+    count: 15
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_5:
+  username: crafting_master_miner
+  new_character: true
+  location:
+    x: 205
+    y: 205
+  skill_levels:
+    mining: 55
+    strength: 45
+    health: 55
+    defense: 35
+  inventory_items:
+  - item: flask
+    count: 40
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_6:
+  username: crafting_master_smelter
+  new_character: true
+  location:
+    x: 210
+    y: 205
+  skill_levels:
+    smithing: 40
+    crafting: 30
+    health: 50
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 30
+  - item: coal
+    count: 5
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_7:
+  username: crafting_material_gatherer
+  new_character: true
+  location:
+    x: 200
+    y: 210
+  skill_levels:
+    lumberjacking: 40
+    foraging: 35
+    strength: 40
+    health: 50
+    accuracy: 35
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: sword
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_8:
+  username: crafting_legendary_smith
+  new_character: true
+  location:
+    x: 205
+    y: 210
+  skill_levels:
+    smithing: 45
+    crafting: 45
+    fletching: 30
+    health: 50
+  inventory_items:
+  - item: flask
+    count: 40
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_9:
+  username: resource_master_forager
+  new_character: true
+  location:
+    x: 210
+    y: 210
+  skill_levels:
+    foraging: 50
+    lumberjacking: 35
+    health: 55
+    strength: 35
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_10:
+  username: resource_elite_hunter
+  new_character: true
+  location:
+    x: 200
+    y: 215
+  skill_levels:
+    strength: 50
+    accuracy: 45
+    defense: 40
+    health: 60
+  inventory_items:
+  - item: flask
+    count: 40
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: sword
+    count: 1
+    enchant: 0
+  - item: bow
+    count: 1
+    enchant: 0
+  - item: arrow
+    count: 30
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_11:
+  username: resource_coastal_fisher
+  new_character: true
+  location:
+    x: 205
+    y: 215
+  skill_levels:
+    fishing: 50
+    cooking: 30
+    health: 50
+    strength: 30
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 25
+  equipped_items:
+  - item: fishingrod
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_12:
+  username: resource_royal_chef
+  new_character: true
+  location:
+    x: 210
+    y: 215
+  skill_levels:
+    cooking: 50
+    crafting: 35
+    foraging: 30
+    health: 50
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- Combat Arena Team successfully defeats at least 3 different boss-level creatures
+- Crafting Masters Team successfully crafts at least 5 legendary items from different categories
+- Resource Champions Team collects at least 8 different types of rare resources
+- Royal Chef prepares at least 20 food items for the grand feast
+- All three teams coordinate effectively using global chat throughout tournament
+- Successful inter-team resource sharing and support demonstrated
+- Teams demonstrate role specialization and parallel task execution
+- All tournament challenges completed within 50 rounds time limit
+- Regular status updates and milestone announcements maintained
+- Final victory announcement confirms all objectives met

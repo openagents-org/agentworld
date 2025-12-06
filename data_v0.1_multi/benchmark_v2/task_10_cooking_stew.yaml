@@ -1,0 +1,129 @@
+task:
+  name: Cooperative Stew Cooking - Culinary Team Production (Variant 2 - Spread Locations)
+  description: Three agents work together to prepare a hearty stew through container crafting, ingredient gathering, and cooking
+objectives:
+  primary: Prepare a delicious stew through coordinated ingredient gathering and cooking
+  secondary:
+  - Coordinate container crafting and ingredient collection
+  - Execute safe food preparation and cooking operations
+  - Complete culinary production within 40 rounds
+relevant_game_context: |
+  This is a cooperative multi-agent culinary scenario requiring food preparation expertise.
+
+  OBJECTIVE: Prepare a delicious stew through coordinated container crafting, ingredient gathering, and cooking.
+
+  TEAM COORDINATION:
+  - Use global chat to share locations of ingredients and crafting materials
+  - Coordinate between container creation and ingredient collection activities
+  - Share materials and components for food preparation
+  - Work together to complete culinary production chain
+
+  GENERAL STRATEGY:
+  - The team needs to create cooking containers from wood materials
+  - Someone needs to gather food ingredients from foraging areas
+  - Final cooking requires combining container, ingredients, and cooking expertise
+  - Coordinate material gathering, container crafting, and food preparation
+  - Each agent contributes different skills to the culinary process
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  CRAFTING RECIPES (CRITICAL KNOWLEDGE):
+  🪄 Fletching Recipe - stick:
+    - craft_item skill=Fletching itemKey=stick
+    - Materials: 1x logs → 4x stick
+    - Level required: 1 (Fletching skill)
+
+  🥣 Fletching Recipe - bowlmedium:
+    - craft_item skill=Fletching itemKey=bowlmedium
+    - Materials: 4x stick → 1x bowlmedium
+    - Level required: 5 (Fletching skill)
+
+  🍄 Foraging - mushrooms and vegetables:
+    - harvest_resource on mushroom instances to get mushroom2
+    - harvest_resource on corn instances to get corn
+    - Level required: varies (Foraging skill)
+
+  🍲 Cooking Recipe - stew2:
+    - craft_item skill=Cooking itemKey=stew2
+    - Materials: 1x bowlmedium + 1x mushroom2 + 1x corn → 1x stew2
+    - Level required: 1 (Cooking skill)
+max_action_steps: 40
+agent_1:
+  username: container_crafter_agent
+  new_character: true
+  location:
+    x: 764
+    y: 654
+  skill_levels:
+    lumberjacking: 20
+    fletching: 15
+    strength: 25
+    health: 25
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: ingredient_gatherer_agent
+  new_character: true
+  location:
+    x: 504
+    y: 101
+  skill_levels:
+    foraging: 20
+    strength: 20
+    health: 25
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: chef_agent
+  new_character: true
+  location:
+    x: 850
+    y: 454
+  skill_levels:
+    cooking: 15
+    foraging: 10
+    crafting: 10
+    strength: 20
+    health: 25
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- container_crafter_agent successfully creates and transfers cooking bowl
+- ingredient_gatherer_agent successfully collects and transfers ingredients
+- chef_agent receives all components and cooks stew
+- chef_agent successfully prepares hearty stew
+- All agents coordinate culinary operations effectively
+- Food preparation completes within time limit

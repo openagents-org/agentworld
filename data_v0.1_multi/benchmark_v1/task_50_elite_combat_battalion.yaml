@@ -1,0 +1,186 @@
+task:
+  name: Elite Combat Battalion - Five-Warrior Progressive Combat Campaign (Variant 1)
+  description: Five combat specialists work together to defeat multiple enemies in sequence, starting with weaker foes and
+    progressing to higher-level threats
+objectives:
+  primary: Form an elite combat battalion of five warriors to defeat multiple enemies in progressive difficulty sequence
+  secondary:
+  - Coordinate five-warrior formation and combat preparation
+  - Execute coordinated combat against multiple enemy types
+  - Progress through increasing difficulty tiers of encounters
+  - Complete entire combat campaign within 31 rounds
+relevant_game_context: |
+  CAMPAIGN SUMMARY
+  - Five warriors fight a four-tier gauntlet: Goblin → Skeleton → Ogre → Spectre. Each tier must be cleared in order within 35 rounds while keeping the squad together around (400,300).
+  - Roles: TankCommander soaks hits, DamageDealer & MagicArtillery provide DPS, CombatMedic keeps HP above 50%, TacticalCoordinator calls targets and positioning.
+
+  COMBAT LOOP
+  1. Formation (R1-5): assemble within 5 tiles, report HP/healing stocks, scout mobs array for nearby targets.
+  2. Tier fights (R6-35): move_character to the reported coordinates, announce target instance ID, then all agents attack_entity/attack_mob the same ID on the coordinator’s count. Heal between fights before advancing.
+     • Goblin & Skeleton near the forest spawn; Ogre around (300,150); Spectre in darker zones—spread 3-4 tiles to dodge AoE.
+  3. After each kill post “Tier X clear – HP summary” and confirm everyone is alive before hunting the next enemy.
+
+  EXECUTION RULES
+  - Always cite the exact targetInstance from observation before attacking; never invent IDs.
+  - Focus fire: no new targets until the current one dies. If two warriors drop below 30% HP, retreat, heal with flasks/apples, and re-engage.
+  - CombatMedic calls out healing actions; all agents announce when HP crosses critical thresholds or when using items.
+
+  COMPLETION CHECKLIST
+  - Chat log shows four tier confirmations and final positions.
+  - Spectre must be defeated last; only then may TacticalCoordinator call complete() with a status summary including remaining HP and loot distribution.
+max_action_steps: 42
+agent_1:
+  username: TankCommander
+  new_character: true
+  location:
+    x: 400
+    y: 300
+  skill_levels:
+    defense: 40
+    strength: 35
+    health: 50
+    accuracy: 25
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: sword2
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: DamageDealer
+  new_character: true
+  location:
+    x: 402
+    y: 300
+  skill_levels:
+    strength: 45
+    accuracy: 40
+    health: 40
+    defense: 30
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: bluesword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: MagicArtillery
+  new_character: true
+  location:
+    x: 404
+    y: 300
+  skill_levels:
+    magic: 45
+    accuracy: 35
+    health: 35
+    defense: 25
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  - item: manaflask
+    count: 15
+  equipped_items:
+  - item: lightningstaff
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_4:
+  username: CombatMedic
+  new_character: true
+  location:
+    x: 401
+    y: 302
+  skill_levels:
+    magic: 30
+    defense: 35
+    health: 40
+    strength: 25
+    accuracy: 25
+  inventory_items:
+  - item: flask
+    count: 40
+  - item: apple
+    count: 45
+  - item: manaflask
+    count: 10
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_5:
+  username: TacticalCoordinator
+  new_character: true
+  location:
+    x: 403
+    y: 302
+  skill_levels:
+    accuracy: 40
+    strength: 35
+    defense: 35
+    health: 40
+    magic: 25
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: sword2
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- TankCommander successfully leads all combat engagements
+- 'Battalion successfully completes Phase 1: Formation & Preparation'
+- Battalion successfully defeats Goblin (Tier 1 Enemy)
+- Team uses chat tool to coordinate all combat actions
+- Battalion successfully defeats Skeleton (Tier 2 Enemy)
+- DamageDealer successfully maximizes damage output across all fights
+- MagicArtillery provides effective magical support in all engagements
+- Battalion successfully defeats Ogre (Tier 3 Enemy)
+- CombatMedic successfully supports team throughout campaign
+- Battalion successfully defeats Spectre (Tier 4 Elite Enemy)
+- TacticalCoordinator successfully coordinates all combat operations
+- Team uses actual tools (attack_entity, move_character) instead of just talking
+- All warriors maintain coordination within 5-10 tiles throughout campaign
+- At least 4 out of 5 warriors survive entire combat campaign
+- Battalion completes progressive combat campaign within 35 rounds
+- Team demonstrates elite five-warrior combat coordination
+- All four enemy tiers are defeated in sequence
+- Team confirms completion together before calling complete()

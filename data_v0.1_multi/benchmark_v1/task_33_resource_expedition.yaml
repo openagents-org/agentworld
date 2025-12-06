@@ -1,0 +1,161 @@
+task:
+  name: Resource Gathering Expedition - Coordinated Collection and Distribution (Variant 1)
+  description: Three agents work together to gather resources efficiently, coordinate collection efforts, and distribute materials
+    for team objectives
+objectives:
+  primary: Successfully coordinate resource gathering operations, collect available materials, and distribute resources among
+    team members
+  secondary:
+  - Establish coordinated resource collection and distribution systems
+  - Execute efficient gathering operations and resource sharing
+  - Complete resource gathering expedition within 31 rounds
+relevant_game_context: |
+  This is a cooperative multi-agent resource gathering operation requiring coordination and teamwork.
+
+  OBJECTIVE: Gather available resources efficiently, coordinate collection efforts, and share materials among team members.
+
+  MISSION REQUIREMENTS:
+  - Collect resources from available sources in the area (trees, rocks, etc.)
+  - Coordinate gathering efforts to maximize efficiency
+  - Share collected resources among team members as needed
+  - Explore different areas to find diverse resource types
+
+  TEAM COORDINATION:
+  - Use global chat to coordinate resource locations and collection progress
+  - Coordinate between exploration, gathering, and resource distribution
+  - Share gathering duties and provide support during collection
+  - Work together to optimize resource collection efficiency
+
+  GENERAL STRATEGY:
+  - The team needs to explore areas and locate available resource nodes
+  - Efficient gathering requires coordination and proper positioning
+  - Different areas may have different types of resources available
+  - Team support ensures safety during resource collection operations
+  - Balance exploration with focused gathering for maximum efficiency
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  RESOURCE GATHERING OPERATIONS (CRITICAL KNOWLEDGE):
+  🌲 Resource Collection:
+    - Use harvest_resource on available resource nodes (trees, rocks, etc.)
+    - Coordinate inventory space for collected materials
+    - Balance different resource types for diverse collection
+    - Manage positioning to efficiently access resource nodes
+
+  🗺️ Area Exploration:
+    - Use observe_environment to scout for available resources
+    - Plan efficient paths to cover different resource locations
+    - Coordinate movement to avoid overlapping collection areas
+    - Share discovered resource locations with team members
+
+  📦 Resource Types (Available Materials):
+    - Wood resources: Available from tree nodes in the area
+    - Other materials: Based on actual game resource availability
+    - Focus on resources that exist in the current game mechanics
+    - Adapt collection strategy based on what's actually available
+
+  🤝 Team Coordination:
+    - Maintain communication about resource locations and status
+    - Coordinate collection efforts to avoid conflicts
+    - Share resources among team members as needed
+    - Provide mutual support during gathering operations
+
+  📊 Collection Strategy:
+    - Focus on efficient resource node access and harvesting
+    - Optimize positioning to minimize travel between resources
+    - Coordinate timing to maximize collection efficiency
+    - Document successful gathering patterns for optimization
+max_action_steps: 29
+agent_1:
+  username: resource_coordinator_agent
+  new_character: true
+  location:
+    x: 280
+    y: 190
+  skill_levels:
+    lumberjacking: 30
+    strength: 35
+    health: 45
+    defense: 30
+    accuracy: 25
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: sword
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: gathering_support_agent
+  new_character: true
+  location:
+    x: 290
+    y: 200
+  skill_levels:
+    mining: 25
+    strength: 40
+    accuracy: 35
+    defense: 38
+    health: 42
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  equipped_items:
+  - item: bluesword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+  - item: lightningstaff
+    count: 1
+    enchant: 0
+agent_3:
+  username: exploration_specialist_agent
+  new_character: true
+  location:
+    x: 300
+    y: 210
+  skill_levels:
+    foraging: 25
+    accuracy: 30
+    health: 40
+    strength: 28
+    magic: 25
+  inventory_items:
+  - item: flask
+    count: 22
+  - item: apple
+    count: 28
+  equipped_items:
+  - item: lightningstaff
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- resource_coordinator_agent successfully coordinates resource gathering operations
+- gathering_support_agent provides effective support during resource collection
+- exploration_specialist_agent successfully explores areas and identifies resources
+- Team successfully collects resources from available sources in the area
+- Team successfully shares collected resources among members
+- All agents survive resource gathering expedition
+- Team demonstrates effective resource collection coordination
+- Resource gathering operations completed within time limit with materials collected

@@ -1,0 +1,553 @@
+task:
+  name: Agricultural Empire Development - Farming & Food Production (Variant 2 - Spread Locations)
+  description: Fourteen agents establish a comprehensive agricultural system with fishing, hunting, gathering, cooking, and
+    food distribution operations
+objectives:
+  primary: Establish agricultural empire producing 150+ food items across fishing, hunting, and cooking operations within
+    55 rounds
+  secondary:
+  - 'Phase 1 (Rounds 1-15): Resource Survey - Scout biomes for food sources and establish fishing operations'
+  - 'Phase 2 (Rounds 16-30): Mass Harvesting - Fish and hunt for 100+ raw ingredients'
+  - 'Phase 3 (Rounds 31-45): Industrial Cooking - Process 80+ cooked meals'
+  - 'Phase 4 (Rounds 46-55): Distribution Network - Distribute food empire-wide'
+relevant_game_context: |
+  AGRICULTURAL EMPIRE PROJECT:
+
+  Fourteen specialists must create a complete food production system from coastal fishing to distribution.
+
+  🌾 AGRICULTURAL DIVISIONS:
+
+  ═══════════════════════════════════════════════════════════
+  🎣 COASTAL FISHING FLEET (Agents 1-5) - Seafood Operations
+  ═══════════════════════════════════════════════════════════
+  **Mission**: Establish coastal fishing operations for 60+ seafood
+  **Starting Location**: Coastal Region (580, 750)
+
+  **Team Composition**:
+  - Agent 1 (Fleet Captain): Coordinate fishing operations
+  - Agent 2 (Shrimp Fisher): Specialize in shrimp catches
+  - Agent 3 (Deep Fisher): Hunt jellyfish and diverse catches
+  - Agent 4 (Coastal Hunter): Catch crabs and coastal fish
+  - Agent 5 (Harbor Master): Organize catch transfers
+
+  **Fishing Targets**:
+  - rawshrimp: 30+ (primary seafood)
+  - jellyfish: 20+ (for smoothies)
+  - crab: 10+ (supplementary)
+  - Total: 60+ raw seafood items
+
+  **Fishing Strategy**:
+  - Scout coastal fishing spots: observe_environment radius=48
+  - Use harvest_resource on fishSpots for rawshrimp
+  - Hunt jellyfish in deeper water areas
+  - Coordinate catches via chat: "[Fleet] Captain: 20/60 seafood collected"
+  - Transfer to culinary team at (585, 752)
+
+  **IMPORTANT Fishing Notes**:
+  - fishSpots appear in coastal water areas
+  - Multiple agents can fish simultaneously at different spots
+  - Use verify_inventory to track fishing progress
+
+  ═══════════════════════════════════════════════════════════
+  🏹 PLAINS HUNTING TEAM (Agents 6-8) - Meat Production
+  ═══════════════════════════════════════════════════════════
+  **Mission**: Hunt plains animals for 40+ meat items
+  **Starting Location**: Plains Region (400, 300)
+
+  **Team Composition**:
+  - Agent 6 (Hunt Master): Lead hunting expeditions
+  - Agent 7 (Tracker): Scout and hunt game animals
+  - Agent 8 (Provision Carrier): Transport meat to kitchen
+
+  **Hunting Targets** (flexible based on available mobs):
+  - Priority: Hunt any food-dropping animals in plains/grassland
+  - Look for: Roosters (rawchicken), Cows (rawbeef), or similar
+  - Secondary: Hunt any mobs that drop food items
+  - Total: 40+ meat/food items
+
+  **Hunting Strategy**:
+  - Scout plains area: observe_environment to find mobs
+  - Use attack_entity on food-bearing creatures
+  - Be flexible: if Roosters not found, hunt alternative mobs
+  - Coordinate via chat: "[Hunt] Master: Found X mobs at coordinates"
+  - Share locations of productive hunting grounds
+
+  **IMPORTANT Hunting Notes**:
+  - Different biomes have different mob spawns
+  - Adapt strategy based on available mobs in the area
+  - Multiple small hunts better than waiting for specific mobs
+
+  ═══════════════════════════════════════════════════════════
+  🌿 FOREST GATHERING CORPS (Agents 9-10) - Plant Collection
+  ═══════════════════════════════════════════════════════════
+  **Mission**: Gather 30+ plant materials and berries
+  **Starting Location**: Forest Region (388, 5)
+
+  **Team Composition**:
+  - Agent 9 (Foraging Expert): Lead plant gathering
+  - Agent 10 (Herbalist): Collect herbs and berries
+
+  **Gathering Targets** (flexible):
+  - berries: 15+ (if available via foraging)
+  - mushroom1: 10+ (if available)
+  - Other forageable plants: 5+
+  - Total: 30+ plant items
+
+  **Gathering Strategy**:
+  - Scout for foraging spots: observe_environment
+  - Use harvest_resource on any available foraging spots
+  - If foraging spots limited, focus on assisting other divisions
+  - Coordinate via chat about foraging spot locations
+
+  **IMPORTANT Gathering Notes**:
+  - Foraging availability varies by location
+  - Be flexible and adaptive to available resources
+  - If limited foraging, can assist fishing or hunting teams
+
+  ═══════════════════════════════════════════════════════════
+  👨‍🍳 CULINARY FACTORY (Agents 11-12) - Food Processing
+  ═══════════════════════════════════════════════════════════
+  **Mission**: Cook 80+ prepared meals from raw ingredients
+  **Starting Location**: Central Kitchen (400, 15)
+
+  **Team Composition**:
+  - Agent 11 (Master Chef): Lead all cooking operations
+  - Agent 12 (Line Cook): Assist with mass food production
+
+  **Cooking Products** (80+ total):
+  - cookedshrimp: 25+ (from rawshrimp)
+  - jellyfishsmoothie: 15+ (from jellyfish)
+  - cookedchicken: 10+ (from rawchicken if available)
+  - Other cooked foods: 30+ (from various ingredients)
+
+  **Cooking Recipes**:
+  - craft_item skill=Cooking itemKey=cookedshrimp (1 rawshrimp → 1 cookedshrimp)
+  - craft_item skill=Cooking itemKey=jellyfishsmoothie (1 jellyfish → 1 smoothie)
+  - craft_item skill=Cooking itemKey=cookedchicken (1 rawchicken → 1 cookedchicken)
+  - craft_item skill=Cooking itemKey=cookedbeef (1 rawbeef → 1 cookedbeef)
+
+  **Cooking Workflow**:
+  1. Receive raw ingredients from Fishing Fleet and Hunting Team
+  2. Verify ingredients: verify_inventory
+  3. Cook in batches (10+ items at a time)
+  4. Announce production: "[Culinary] Chef: 40/80 meals cooked"
+  5. Transfer to Distribution Team
+
+  ═══════════════════════════════════════════════════════════
+  🚚 DISTRIBUTION NETWORK (Agents 13-14) - Food Delivery
+  ═══════════════════════════════════════════════════════════
+  **Mission**: Distribute food across 3+ empire locations
+  **Starting Location**: Central Hub (410, 20)
+
+  **Team Composition**:
+  - Agent 13 (Distribution Chief): Coordinate all deliveries
+  - Agent 14 (Logistics Agent): Execute food transfers
+
+  **Distribution Goals**:
+  - Collect cooked food from Culinary Factory
+  - Distribute to 3+ regional locations:
+    * Coastal Post: (585, 752)
+    * Plains Post: (405, 305)
+    * Forest Post: (390, 8)
+  - Ensure 30+ items delivered to each location
+  - Maintain inventory tracking
+
+  **Distribution Protocol**:
+  - Use transfer_items to move food between locations
+  - Use verify_inventory to confirm deliveries
+  - Chat format: "[Distribution] Chief: Delivered X items to Y location"
+
+  ═══════════════════════════════════════════════════════════
+  📋 COORDINATION & PHASES
+  ═══════════════════════════════════════════════════════════
+
+  **Phase 1: Resource Survey (Rounds 1-15)**
+  - Fishing Fleet establishes coastal operations
+  - Hunting Team scouts plains for game animals
+  - Gathering Corps explores forest foraging spots
+  - All teams report findings via chat every 5 rounds
+
+  **Phase 2: Mass Harvesting (Rounds 16-30)**
+  - Fishing Fleet targets 60+ seafood
+  - Hunting Team targets 40+ meat items
+  - Gathering Corps targets 30+ plants (if available)
+  - Regular progress updates via chat
+
+  **Phase 3: Industrial Cooking (Rounds 31-45)**
+  - Culinary Factory receives all raw ingredients
+  - Cook 80+ meals from available ingredients
+  - Prioritize cooking highest-volume items first
+  - Quality control and counting
+
+  **Phase 4: Distribution (Rounds 46-55)**
+  - Distribution Team collects cooked food
+  - Delivers to 3+ regional posts
+  - Verifies final inventory counts
+  - Empire-wide food availability confirmed
+
+  **Inter-Division Transfers**:
+  - Fishing Fleet → Culinary: 60+ seafood
+  - Hunting Team → Culinary: 40+ meat items
+  - Gathering Corps → Culinary: 30+ plants (if available)
+  - Culinary → Distribution: 80+ cooked meals
+  - Distribution → Regional Posts: food allocation
+
+  **Communication Protocol**:
+  - Format: "[Division] Agent: Status update"
+  - Report every 5 rounds with specific counts
+  - Share resource locations and findings
+  - Coordinate transfers between divisions
+
+  ═══════════════════════════════════════════════════════════
+  🎯 SUCCESS CRITERIA (ALL MUST BE MET)
+  ═══════════════════════════════════════════════════════════
+
+  1. **Coastal Fishing**: 60+ seafood items caught (shrimp, jellyfish, crab)
+  2. **Plains Hunting**: 40+ meat/food items hunted
+  3. **Forest Gathering**: 30+ plant items gathered (flexible based on availability)
+  4. **Total Raw Ingredients**: 130+ items collected
+  5. **Cooking Production**: 80+ cooked meals prepared
+  6. **Total Food Produced**: 150+ food items (raw + cooked)
+  7. **Distribution**: Food delivered to 3+ regional locations
+  8. **Coordination**: All divisions communicate effectively
+  9. **Time Management**: Complete within 55 rounds
+
+  DO NOT call complete() until agricultural empire is fully operational!
+
+  **Victory Announcement**:
+  "AGRICULTURAL EMPIRE ESTABLISHED! Fishing: X seafood | Hunting: Y meat | Cooking: Z meals | Distribution: 3 posts | EMPIRE OPERATIONAL"
+max_action_steps: 79
+agent_1:
+  username: fleet_captain
+  new_character: true
+  location:
+    x: 501
+    y: 97
+  skill_levels:
+    fishing: 52
+    health: 45
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: fishingrod
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: shrimp_fisher
+  new_character: true
+  location:
+    x: 459
+    y: 724
+  skill_levels:
+    fishing: 50
+    health: 42
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: fishingrod
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: deep_fisher
+  new_character: true
+  location:
+    x: 551
+    y: 404
+  skill_levels:
+    fishing: 48
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: fishingrod
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_4:
+  username: coastal_hunter
+  new_character: true
+  location:
+    x: 905
+    y: 402
+  skill_levels:
+    fishing: 46
+    strength: 38
+    health: 42
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: fishingrod
+    count: 1
+    enchant: 0
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_5:
+  username: harbor_master
+  new_character: true
+  location:
+    x: 262
+    y: 185
+  skill_levels:
+    fishing: 44
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_6:
+  username: hunt_master
+  new_character: true
+  location:
+    x: 55
+    y: 311
+  skill_levels:
+    strength: 50
+    accuracy: 45
+    health: 50
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_7:
+  username: plains_tracker
+  new_character: true
+  location:
+    x: 1020
+    y: 685
+  skill_levels:
+    strength: 48
+    accuracy: 43
+    health: 48
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: bow
+    count: 1
+    enchant: 0
+  - item: arrow
+    count: 30
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_8:
+  username: provision_carrier
+  new_character: true
+  location:
+    x: 853
+    y: 454
+  skill_levels:
+    strength: 46
+    health: 46
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_9:
+  username: foraging_expert
+  new_character: true
+  location:
+    x: 386
+    y: 1
+  skill_levels:
+    foraging: 50
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_10:
+  username: forest_herbalist
+  new_character: true
+  location:
+    x: 227
+    y: 156
+  skill_levels:
+    foraging: 48
+    health: 38
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_11:
+  username: empire_master_chef
+  new_character: true
+  location:
+    x: 170
+    y: 634
+  skill_levels:
+    cooking: 55
+    crafting: 40
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_12:
+  username: empire_line_cook
+  new_character: true
+  location:
+    x: 247
+    y: 347
+  skill_levels:
+    cooking: 50
+    health: 38
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_13:
+  username: empire_distribution_chief
+  new_character: true
+  location:
+    x: 529
+    y: 384
+  skill_levels:
+    strength: 45
+    health: 50
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_14:
+  username: empire_logistics_agent
+  new_character: true
+  location:
+    x: 710
+    y: 557
+  skill_levels:
+    strength: 43
+    health: 48
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- Coastal Fishing Fleet catches 60+ seafood items (shrimp, jellyfish, crab)
+- Plains Hunting Team hunts 40+ meat/food items
+- Forest Gathering Corps gathers 30+ plant items (flexible based on availability)
+- Total 130+ raw ingredients collected
+- Culinary Factory cooks 80+ prepared meals
+- Total 150+ food items produced (raw + cooked)
+- Distribution Network delivers food to 3+ regional locations
+- All divisions coordinate effectively via communication
+- Agricultural empire established within 55 rounds

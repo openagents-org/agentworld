@@ -1,0 +1,240 @@
+task:
+  name: Legendary Equipment Forge - Ultimate Gear Creation (Variant 1)
+  description: 'Nine master craftsmen unite to create the ultimate equipment set: legendary golden items, magical staffs,
+    and complete combat gear'
+objectives:
+  primary: 'Forge legendary equipment set: 5+ golden items, 4+ magical staffs, 6+ elite weapons/armor for complete legendary
+    arsenal'
+  secondary:
+  - 'Conquest 1 (Rounds 1-18): Massive Resource Gathering - Mine 100+ ores, gather magical components'
+  - 'Conquest 2 (Rounds 19-32): Industrial Smelting - Produce 80+ bars from ores'
+  - 'Conquest 3 (Rounds 33-48): Legendary Crafting - Forge all legendary items'
+  - 'Conquest 4 (Rounds 49-54): Arsenal Exhibition - Display complete legendary set'
+relevant_game_context: |
+  LEGENDARY GOAL
+  - Nine specialists must gather huge material quotas (49 gold ore, 20 iron ore, 69 coal, logs, strings, hilts, 8 beads) and craft 15 legendary items (5 golden pieces, 4 elemental staffs, 6 elite weapons/tools) within ~54 rounds. Miners and hunters work remotely while the forge duo at (528,384) handles smelting and crafting.
+
+  ROADMAP
+  1. R1-18 Extraction: Gold team splits the 49-ore requirement; Iron/Coal team digs 20 iron + 69 coal; component hunters secure beads/strings/logs/hilts. Everyone reports tallies frequently.
+  2. R19-28 Caravan: all gatherers march to the forge (≤32-tile hops). Transfer ores/coal to Master_Smelter; hand beads/string/logs/hilts to the Legendary Crafter. Verify inventories after each handoff.
+  3. R29-48 Production: Master_Smelter smelts 49 gold bars and 20 iron bars (announce milestones every ~10 bars). The crafter then builds in phases: golden sword/bow/boots/rings, crafts sticks/staffs for elemental upgrades, and forges heavy swords, pickaxes, and battle axes.
+  4. R49-54 Exhibition: list the final arsenal, confirm counts per category (golden items, staffs, elite weapons), and deliver the completion summary.
+
+  EXECUTION NOTES
+  - If observe_environment isn’t available, sweep the mining/plains grids manually; rely on harvest_resource and verify_inventory for confirmation.
+  - Keep a shared checklist (“Gold 30/49”, “Beads special 3/4”) so the forge knows when each material stream is ready.
+  - Transfers only succeed within ~10 tiles—announce both send and receive events to avoid missing materials.
+max_action_steps: 50
+agent_1:
+  username: Gold_Extractor_Prime
+  new_character: true
+  location:
+    x: 230
+    y: 38
+  skill_levels:
+    mining: 55
+    strength: 36
+    health: 42
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_2:
+  username: Gold_Extractor_Alpha
+  new_character: true
+  location:
+    x: 238
+    y: 48
+  skill_levels:
+    mining: 52
+    strength: 34
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_3:
+  username: Gold_Extractor_Beta
+  new_character: true
+  location:
+    x: 236
+    y: 46
+  skill_levels:
+    mining: 50
+    strength: 32
+    health: 38
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_4:
+  username: Iron_Specialist
+  new_character: true
+  location:
+    x: 232
+    y: 40
+  skill_levels:
+    mining: 48
+    strength: 30
+    health: 36
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_5:
+  username: Coal_Master_Supreme
+  new_character: true
+  location:
+    x: 234
+    y: 42
+  skill_levels:
+    mining: 45
+    strength: 28
+    health: 34
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_6:
+  username: Arcane_Bead_Hunter
+  new_character: true
+  location:
+    x: 350
+    y: 250
+  skill_levels:
+    strength: 44
+    accuracy: 40
+    foraging: 38
+    health: 50
+  inventory_items:
+  - item: flask
+    count: 40
+  - item: apple
+    count: 45
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+agent_7:
+  username: Component_Master
+  new_character: true
+  location:
+    x: 250
+    y: 350
+  skill_levels:
+    foraging: 42
+    lumberjacking: 40
+    health: 38
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  - item: hilt2
+    count: 3
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_8:
+  username: Master_Smelter_Supreme
+  new_character: true
+  location:
+    x: 528
+    y: 384
+  skill_levels:
+    crafting: 65
+    smithing: 45
+    health: 38
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_9:
+  username: Legendary_Crafter
+  new_character: true
+  location:
+    x: 530
+    y: 386
+  skill_levels:
+    smithing: 70
+    fletching: 50
+    crafting: 60
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  - item: hilt2
+    count: 2
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+success_criteria:
+- 'Conquest 1: Gold team mines 49+ gold ore'
+- 'Conquest 1: Iron & Coal team extracts 20 iron ore + 69 coal'
+- 'Conquest 1: Magical hunters gather 8 beads (4 regular + 4 special)'
+- 'Conquest 1: Component master gathers 10 string, 5 logs, 5 hilts'
+- 'Conquest 2: Master Smelter produces 49 gold bars'
+- 'Conquest 2: Master Smelter produces 20 iron bars'
+- 'Conquest 3: Legendary Crafter forges Golden Sword, Bow, Boots'
+- 'Conquest 3: Legendary Crafter creates 2 Gold Rings'
+- 'Conquest 3: Legendary Crafter crafts 4 magical staffs (lightning, fire, ice, nature)'
+- 'Conquest 3: Legendary Crafter forges 6 elite weapons (2 swords, 2 pickaxes, 2 axes)'
+- Total 15 legendary items created
+- All 9 master craftsmen participate in epic forge
+- Complete legendary arsenal in 52-54 rounds
+- Ultimate equipment challenge conquered

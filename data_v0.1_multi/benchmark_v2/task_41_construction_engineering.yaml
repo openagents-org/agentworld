@@ -1,0 +1,173 @@
+task:
+  name: Construction Engineering - Infrastructure Development and Building Operations (Variant 2 - Spread Locations)
+  description: Three agents work together to establish construction operations, develop infrastructure projects, and build
+    sustainable community facilities
+objectives:
+  primary: Successfully establish construction operations, develop infrastructure projects, and build sustainable community
+    facilities
+  secondary:
+  - Establish construction coordination and infrastructure development planning
+  - Execute coordinated building operations and community facility construction
+  - Complete construction engineering projects within 65 rounds
+relevant_game_context: |
+  This is a cooperative multi-agent construction engineering scenario requiring building coordination and infrastructure development.
+
+  OBJECTIVE: Establish construction operations, develop infrastructure projects, and build sustainable community facilities.
+
+  MISSION REQUIREMENTS:
+  - Establish construction operations in suitable areas for infrastructure development
+  - Coordinate building projects and community facility construction
+  - Develop sustainable infrastructure using available resources and construction techniques
+  - Create multiple community facilities through coordinated construction efforts
+
+  TEAM COORDINATION:
+  - Use global chat for complex construction coordination and project management
+  - Coordinate between resource gathering, construction planning, and building operations
+  - Share construction materials and provide support during building projects
+  - Work together to handle complex construction challenges and infrastructure development
+
+  GENERAL STRATEGY:
+  - This requires advanced coordination and construction management skills
+  - Infrastructure development needs efficient resource utilization and project planning
+  - Construction operations require coordinated teamwork and building expertise
+  - Community facility creation needs strategic planning and construction coordination
+  - Balance construction efficiency with infrastructure sustainability and quality
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  CONSTRUCTION ENGINEERING OPERATIONS (CRITICAL KNOWLEDGE):
+  🏗️ Construction Planning and Coordination:
+    - Use observe_environment to scout areas suitable for construction and infrastructure development
+    - Establish construction coordination positions for building operations and project management
+    - Navigate construction sites while maintaining team safety and project efficiency
+    - Coordinate construction activities to optimize building effectiveness and resource utilization
+
+  🔨 Building Operations and Infrastructure Development:
+    - Use available resources for construction projects and infrastructure building
+    - Focus on efficient resource utilization for building operations and facility construction
+    - Coordinate construction activities to maximize building effectiveness and project success
+    - Practice construction techniques and infrastructure development methods
+
+  🏘️ Community Facility Construction:
+    - Use available skills for community building and infrastructure coordination
+    - Coordinate construction resource sharing and distribution among team members
+    - Focus on sustainable construction practices and infrastructure resource conservation
+    - Balance immediate construction needs with long-term infrastructure planning
+
+  🛠️ Infrastructure Management Operations:
+    - Use observe_environment to identify construction needs and infrastructure opportunities
+    - Coordinate infrastructure development and construction project management
+    - Practice team construction strategies using available resources and building skills
+    - Execute coordinated construction operations and provide mutual building support
+
+  🏢 Construction Project Strategy:
+    - Use coordinated construction techniques for effective infrastructure development
+    - Practice efficient building management and construction resource coordination
+    - Focus on developing construction capabilities through team coordination
+    - Use safety-first approaches during construction and infrastructure operations
+max_action_steps: 65
+agent_1:
+  username: construction_manager_agent
+  new_character: true
+  location:
+    x: 388
+    y: 1
+  skill_levels:
+    strength: 50
+    accuracy: 45
+    defense: 40
+    health: 55
+    crafting: 60
+  inventory_items:
+  - item: flask
+    count: 50
+  - item: apple
+    count: 60
+  equipped_items:
+  - item: heavysword
+    count: 1
+    enchant: 1
+  - item: platearmor
+    count: 1
+    enchant: 1
+  - item: leatherboots
+    count: 1
+    enchant: 0
+  - item: smithinghammer
+    count: 1
+    enchant: 1
+agent_2:
+  username: infrastructure_developer_agent
+  new_character: true
+  location:
+    x: 675
+    y: 676
+  skill_levels:
+    crafting: 55
+    lumberjacking: 40
+    mining: 35
+    accuracy: 45
+    strength: 40
+  inventory_items:
+  - item: flask
+    count: 45
+  - item: apple
+    count: 55
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 1
+  - item: goldpickaxe
+    count: 1
+    enchant: 1
+  - item: smithinghammer
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: building_specialist_agent
+  new_character: true
+  location:
+    x: 769
+    y: 655
+  skill_levels:
+    crafting: 65
+    smithing: 50
+    strength: 45
+    accuracy: 40
+    health: 50
+  inventory_items:
+  - item: flask
+    count: 55
+  - item: apple
+    count: 65
+  equipped_items:
+  - item: bluesword
+    count: 1
+    enchant: 1
+  - item: platearmor
+    count: 1
+    enchant: 1
+  - item: leatherboots
+    count: 1
+    enchant: 0
+  - item: smithinghammer
+    count: 1
+    enchant: 1
+  - item: lightningstaff
+    count: 1
+    enchant: 0
+success_criteria:
+- construction_manager_agent successfully establishes construction coordination and project management operations
+- construction_manager_agent demonstrates effective construction planning and building coordination
+- infrastructure_developer_agent successfully develops infrastructure projects and community facilities
+- infrastructure_developer_agent demonstrates effective resource gathering and infrastructure coordination
+- building_specialist_agent successfully provides specialized building services and construction expertise
+- Team successfully completes multiple construction projects and infrastructure development
+- All agents demonstrate coordinated construction capabilities and building expertise
+- Construction engineering operations completed with sustainable infrastructure development achieved

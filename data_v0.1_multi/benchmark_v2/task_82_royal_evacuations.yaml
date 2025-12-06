@@ -1,0 +1,269 @@
+task:
+  name: Royal Evacuation Command - Multi-Convoy Defense (Variant 2 - Spread Locations)
+  description: Ten officers evacuate civilians from the Central Kingdom, opening three escape corridors, repairing bridges,
+    and escorting convoys to safe zones within 55 rounds.
+objectives:
+  primary: Evacuate three civilian groups from (528,384) toward the northern mountains, eastern coast, and southern desert
+    while keeping supply wagons intact.
+  secondary:
+  - 'Phase 1: Recon duo charts mobs, choke points, and rest stops on each corridor.'
+  - 'Phase 2: Engineers repair Northbridge (510,320) and South Causeway (500,460) using logs + ironbar.'
+  - 'Phase 3: Support hub prepares three convoys with food, flasks, and battle tonics.'
+  - 'Phase 4: Escort teams move all convoys simultaneously, clearing ambushes and reporting checkpoints.'
+  - 'Phase 5: Final muster at (540,360) with casualty report and inventory proof.'
+relevant_game_context: |
+  TEAM STRUCTURE
+  - Recon: Agents 1-2 sweep ahead using observe_environment radius=48, tag mob clusters, and keep chat updated with “Sector (x,y) clear / unsafe”.
+  - Engineers: Agents 3-4 gather 8 logs + 8 ironore/coal, smelt into bars, and repair the bridge tiles before convoys depart.
+  - Support Hub: Agents 5-6 stay in the market square to collect food/medicine (foraging, purchase, mob drops), assembling three identical supply bundles.
+  - Escorts: Agents 7-10 attach to convoys (North/East/South). Each convoy must have at least two escorts within 6 tiles at all times.
+
+  CRITICAL DETAILS
+  1. Resource plan:
+     • Logs from nearby oaks (harvest_resource) + iron bars (craft_item Smelting ironbar) → structural supplies.
+     • Convoy kit requires: 10 flasks, 10 food items, 2 strengthpotion (or equivalent buff item). Track counts per convoy.
+  2. Movement rules:
+     • convoys pause every two move_character calls for regroup checks.
+     • If mobs spawn, escorts use stop_action then attack_entity targetInstance=<mob> before resuming.
+     • Recon provides heading such as “North route waypoint (460,260) safe, proceed”.
+  3. Communication:
+     • bridge repairs announced as “Bridgewright: Northbridge reinforced (logs 0/8, bars 0/4 remaining)”.
+     • Support hub shares inventory snapshots before handing bundles via transfer_items.
+     • Arrival pings: “North convoy arrived (420,180) – supplies intact”.
+  4. Completion guard:
+     • complete() only after all three convoys check in, engineers certify bridges, and support hub reports leftover supplies.
+max_action_steps: 85
+agent_1:
+  username: NorthScout
+  new_character: true
+  location:
+    x: 770
+    y: 657
+  skill_levels:
+    accuracy: 32
+    magic: 30
+    strength: 26
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 12
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: EastScout
+  new_character: true
+  location:
+    x: 225
+    y: 161
+  skill_levels:
+    accuracy: 35
+    magic: 28
+    health: 29
+    defense: 28
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 12
+  equipped_items:
+  - item: bow
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_3:
+  username: Bridgewright
+  new_character: true
+  location:
+    x: 546
+    y: 398
+  skill_levels:
+    lumberjacking: 35
+    smithing: 34
+    smelting: 32
+    health: 32
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 10
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: pickaxe
+    count: 1
+    enchant: 0
+agent_4:
+  username: CausewayEngineer
+  new_character: true
+  location:
+    x: 397
+    y: 684
+  skill_levels:
+    lumberjacking: 30
+    smithing: 30
+    crafting: 28
+    defense: 30
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 10
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_5:
+  username: Quartermaster
+  new_character: true
+  location:
+    x: 495
+    y: 97
+  skill_levels:
+    crafting: 32
+    trading: 30
+    defense: 28
+    health: 28
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 20
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_6:
+  username: FieldMedic
+  new_character: true
+  location:
+    x: 681
+    y: 675
+  skill_levels:
+    magic: 34
+    crafting: 28
+    health: 32
+    defense: 26
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: manaflask
+    count: 10
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_7:
+  username: NorthEscort
+  new_character: true
+  location:
+    x: 298
+    y: 397
+  skill_levels:
+    defense: 38
+    strength: 34
+    health: 36
+    accuracy: 28
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 12
+  equipped_items:
+  - item: heavysword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+agent_8:
+  username: EastEscort
+  new_character: true
+  location:
+    x: 905
+    y: 398
+  skill_levels:
+    accuracy: 36
+    strength: 32
+    defense: 30
+    health: 32
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 12
+  equipped_items:
+  - item: bluesword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+agent_9:
+  username: SouthEscort
+  new_character: true
+  location:
+    x: 161
+    y: 341
+  skill_levels:
+    defense: 36
+    strength: 34
+    health: 34
+    accuracy: 26
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 12
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+agent_10:
+  username: ReserveEscort
+  new_character: true
+  location:
+    x: 1014
+    y: 681
+  skill_levels:
+    defense: 34
+    magic: 30
+    health: 32
+    crafting: 26
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 10
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+success_criteria:
+- Recon squad reports at least two checkpoints per corridor plus every mob cluster discovered.
+- Northbridge and South Causeway each receive 4 logs + 4 ironbar, with repair confirmations in chat.
+- Support hub documents the inventory contents for each convoy bundle before handoff.
+- All three convoys arrive at target coordinates with escorts present and >50% HP.
+- Any hostile encounters are resolved with explicit attack logs and post-battle inventory checks.
+- Final muster at (540,360) lists remaining supplies, evacuee counts, and bridge status before complete().

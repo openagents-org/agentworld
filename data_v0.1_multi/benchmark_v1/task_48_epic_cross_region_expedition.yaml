@@ -1,0 +1,142 @@
+task:
+  name: Epic Cross-Region Expedition - Long-Distance Resource Quest (Variant 1)
+  description: Three agents embark on an epic cross-region journey to gather diverse resources, craft advanced equipment,
+    and establish trade networks across multiple biomes
+objectives:
+  primary: Complete an epic cross-region expedition gathering resources from forest, mountain, and coastal regions to craft
+    multiple advanced equipment pieces
+  secondary:
+  - Execute long-distance travel across three major regions
+  - Gather diverse resources from forest (wood), mountain (ore), and coastal (special materials)
+  - Complete complex multi-stage crafting operations
+  - Establish equipment production across all three regions within 45 rounds
+relevant_game_context: |
+  EXPEDITION SNAPSHOT
+  - Three specialists travel Forest → Mountain → Coast. Forest supplies 8 logs (enough for 16 sticks and future tool handles), mountains deliver 8+ ironbars, coast is the regroup point.
+  - Starting items: ExpeditionLeader holds the bead, MasterCraftsman holds hilt2, ResourceGatherer begins with 2 ironore + 2 coal.
+
+  PHASE FLOW
+  1. Forest (R1-15): harvest_resource on oaks for 8 logs, craft sticks via craft_item(Fletching, stick), then craft one magic staff (5 sticks + bead). Reserve six logs for later tool handles.
+  2. Mountains (R16-35): move_character to (230,38). Mine 12+ ironore and 12+ coal (expect smelting failure). Smelt with craft_item(Smelting, ironbar) until ≥8 successes. Use 5 bars + 1 log for pickaxe, 3 bars + 1 log for axe.
+  3. Coast (R36-50): travel to (900,400), verify each agent carries the crafted staff/pickaxe/axe, redistribute gear, and document expedition summary.
+
+  KEY RULES
+  - Smelting succeeds ~60%; track counts in chat (“Bars 3/8”). Mine extra ore/coal before leaving the mountains.
+  - Transfers happen through transfer_items with verify_inventory confirmations. Announce every harvest, smelt, craft, and region change in global chat.
+  - Everyone travels together between regions; ExpeditionLeader calls routes, ResourceGatherer focuses on mining, MasterCraftsman handles all crafting.
+
+  COMPLETION CHECKLIST
+  - 1x magic staff (forest), 1x pickaxe and 1x axe (mountain) confirmed at the coast.
+  - Chat log shows phase transitions, smelting totals, and transfer receipts.
+  - Team is assembled in the coastal region before complete().
+max_action_steps: 46
+agent_1:
+  username: ExpeditionLeader
+  new_character: true
+  location:
+    x: 202
+    y: 200
+  skill_levels:
+    lumberjacking: 25
+    mining: 20
+    fletching: 25
+    strength: 30
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  - item: bead
+    count: 1
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: MasterCraftsman
+  new_character: true
+  location:
+    x: 200
+    y: 200
+  skill_levels:
+    crafting: 30
+    smithing: 25
+    fletching: 20
+    strength: 25
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  - item: hilt2
+    count: 1
+  equipped_items:
+  - item: smithinghammer
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: ResourceGatherer
+  new_character: true
+  location:
+    x: 200
+    y: 202
+  skill_levels:
+    mining: 25
+    lumberjacking: 20
+    smithing: 25
+    strength: 35
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  - item: coal
+    count: 2
+  - item: ironore
+    count: 2
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- ExpeditionLeader successfully navigates team across all three regions
+- Team successfully completes Forest Region objectives (Phase 1)
+- Magic Staff is crafted from forest resources
+- Team successfully travels to Mountain Region
+- MasterCraftsman coordinates all crafting operations across regions
+- Team successfully completes Mountain Region objectives (Phase 2)
+- Pickaxe and Axe are crafted from mountain resources
+- ResourceGatherer successfully gathers resources from all regions
+- Team successfully travels to Coastal Region
+- Team completes final equipment distribution in Coastal Region
+- All three agents survive entire cross-region expedition
+- Team demonstrates mastery of long-distance coordination
+- Epic expedition completed within 50-round timeframe
+- Multiple equipment pieces crafted from diverse regional resources

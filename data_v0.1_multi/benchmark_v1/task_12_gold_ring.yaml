@@ -1,0 +1,134 @@
+task:
+  name: Cooperative Gold Ring Forging - Premium Metallurgy (Variant 1)
+  description: Three agents work together to create a gold ring through gold mining, advanced smelting, and precious metal
+    smithing
+objectives:
+  primary: Create a 2x gold rings through coordinated gold extraction and premium metallurgy
+  secondary:
+  - Execute precious metal mining operations
+  - Coordinate advanced gold smelting techniques
+  - Complete premium ring smithing within 25 rounds
+relevant_game_context: |
+  This is a cooperative multi-agent premium metallurgy scenario requiring gold materials.
+
+  OBJECTIVE: Create a gold ring through coordinated precious metal extraction and premium metallurgy.
+
+  TEAM COORDINATION:
+  - Use global chat to share locations of precious metals and smelting materials
+  - Coordinate high-level mining operations and premium metallurgy
+  - Handle valuable materials with extreme care during transfers
+  - Work together to complete challenging gold metallurgy processes
+
+  GENERAL STRATEGY:
+  - The team needs to extract precious gold ore (requires high-level mining skills)
+  - Someone needs to gather smelting fuel for gold processing
+  - Gold processing has very challenging success rates requiring skill and preparation
+  - Final ring creation requires premium smithing expertise
+  - Coordinate high-level mining with advanced metallurgy operations
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  CRAFTING RECIPES (CRITICAL KNOWLEDGE):
+  🟨 Mining - gold ore:
+    - harvest_resource on gold rock instances to get goldore
+    - Level required: 25+ (Mining skill) - HIGH LEVEL!
+
+  ⛏️ Mining - coal:
+    - harvest_resource on coal deposits to get coal
+    - Level required: 1+ (Mining skill)
+
+  🟨 Smelting Recipe - goldbar:
+    - craft_item skill=Smelting itemKey=goldbar
+    - Materials: 1x goldore + 1x coal → 1x goldbar
+    - Level required: 20 (uses Smithing skill level)
+    - Success chance: 40% - VERY CHALLENGING!
+
+  🟨 Smithing Recipe - goldring:
+    - craft_item skill=Smithing itemKey=goldring
+    - Materials: 2x goldbar → 1x goldring
+    - Level required: 1 (Smithing skill)
+max_action_steps: 25
+agent_1:
+  username: gold_miner_agent
+  new_character: true
+  location:
+    x: 212
+    y: 650
+  skill_levels:
+    mining: 35
+    strength: 35
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+  - item: goldnugget
+    count: 2
+  - item: coal
+    count: 2
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: coal_supplier_agent
+  new_character: true
+  location:
+    x: 216
+    y: 315
+  skill_levels:
+    mining: 25
+    strength: 30
+    health: 25
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: gold_smith_agent
+  new_character: true
+  location:
+    x: 242
+    y: 336
+  skill_levels:
+    smithing: 30
+    mining: 15
+    strength: 25
+    health: 25
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- gold_miner_agent successfully mines and transfers gold ore
+- coal_supplier_agent successfully collects and transfers coal
+- gold_smith_agent receives materials and creates gold ring
+- gold_smith_agent successfully equips the gold ring
+- All agents handle precious materials with appropriate care
+- Premium metallurgy operations complete within time limit

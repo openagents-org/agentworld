@@ -1,0 +1,162 @@
+task:
+  name: Grand Archery Competition - Arrow & Bow Production (Variant 1)
+  description: Six archery specialists mass-produce arrows, craft bows, and prepare for grand competition
+objectives:
+  primary: 'Produce archery arsenal: 50+ arrows, 5+ bows, all supporting equipment'
+  secondary:
+  - 'Materials (Rounds 1-15): Gather feathers, logs, strings, ores'
+  - 'Production (Rounds 16-35): Craft sticks, strings, base items'
+  - 'Assembly (Rounds 36-47): Mass arrow production, bow crafting'
+  - 'Competition (Rounds 48-50): Display complete archery arsenal'
+relevant_game_context: |
+  COMPETITION OVERVIEW
+  - Produce ≥50 arrows and ≥5 bows for the grand event by Round 50. Two hunters collect feathers, two lumberjacks harvest logs, and the hub pair (Arrow_Crafter + Bow_Crafter) converts everything into sticks/arrows/bows.
+
+  TIMELINE
+  1. R1-15 Gathering: Feather teams hunt chickens/birds near (350,250) until the shared feather tally hits 50+. Lumberjacks log the western forest (~250,350) for at least 15 logs while confirming whether extra string or logs are needed.
+  2. R16-28 Delivery: All gatherers march to the hub (528,384) in ≤32-tile hops, announcing positions. Transfer logs + feathers to Arrow_Crafter; strings/logs destined for bows go to Bow_Crafter. Run verify_inventory after every transfer.
+  3. R29-45 Production: Arrow_Crafter turns logs → sticks (craft_item Fletching stick) then crafts arrows in 10-piece batches until 50+ arrows exist, reporting progress per batch. Bow_Crafter uses string/logs to craft wooden bows (and optional golden bows if gold bars happen to exist).
+  4. R46-50 Verification: Publish final counts (“Arrows 50+, Bows 5+”), stage them for the competition, then call complete().
+
+  EXECUTION NOTES
+  - Without observe_environment, sweep the hunting/forest grids manually; rely on harvest_resource/attack_entity feedback to confirm success.
+  - Keep a running group checklist (“Feathers 35/50”, “Logs 10/15”) to synchronize harvesting efforts.
+  - If string shortages appear, assign one lumberjack to hunt spiders or forage vines mid-way and announce when the quota is reached.
+max_action_steps: 42
+agent_1:
+  username: Feather_Hunter_1
+  new_character: true
+  location:
+    x: 350
+    y: 250
+  skill_levels:
+    strength: 40
+    accuracy: 38
+    health: 46
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+agent_2:
+  username: Feather_Hunter_2
+  new_character: true
+  location:
+    x: 352
+    y: 252
+  skill_levels:
+    strength: 38
+    accuracy: 36
+    health: 44
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_3:
+  username: Master_Lumberjack
+  new_character: true
+  location:
+    x: 250
+    y: 350
+  skill_levels:
+    lumberjacking: 45
+    strength: 32
+    health: 38
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_4:
+  username: Wood_Harvester
+  new_character: true
+  location:
+    x: 252
+    y: 352
+  skill_levels:
+    lumberjacking: 40
+    strength: 30
+    health: 36
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_5:
+  username: Arrow_Crafter
+  new_character: true
+  location:
+    x: 528
+    y: 384
+  skill_levels:
+    fletching: 40
+    crafting: 30
+    health: 32
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_6:
+  username: Bow_Crafter
+  new_character: true
+  location:
+    x: 530
+    y: 386
+  skill_levels:
+    fletching: 45
+    crafting: 35
+    health: 34
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  - item: string
+    count: 15
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+success_criteria:
+- 'Materials: Feather Hunters collect 50+ feathers from birds'
+- 'Materials: Lumberjacks harvest 15+ logs'
+- 'Production: Arrow Crafter crafts 50+ sticks from logs'
+- 'Production: String gathered/available for bows (15+)'
+- 'Assembly: Arrow Crafter produces 50 arrows'
+- 'Assembly: Bow Crafter creates 5+ bows (wooden/golden)'
+- 'Competition: Complete archery arsenal verified'
+- Completed in 48-50 rounds

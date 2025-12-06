@@ -1,0 +1,278 @@
+task:
+  name: Grand Citadel Construction - Wilderness Fortress (Variant 2 - Spread Locations)
+  description: A massive 20-agent operation to establish a fortress in the dangerous Wilderness. Teams must coordinate resource
+    gathering, construction, and defense against high-level threats.
+objectives:
+  primary: Construct the Citadel Foundation by gathering resources, processing materials, and securing the perimeter.
+  secondary:
+  - 'Resource Team: Gather 40 Logs and 40 Iron Ore'
+  - 'Construction Team: Smelt 40 Iron Bars and consolidate construction materials'
+  - 'Defense Team: Defeat 5 High-Level Mimics (Level 84) to secure the area'
+  - Consolidate all final materials (40 Iron Bars, 40 Logs) into the Site Foreman's inventory (Builder_1)
+relevant_game_context: |
+  🏰 OPERATION CITADEL COMMAND
+
+  Teams and Roles:
+  1. RESOURCE TEAM (Agents 1-8):
+     - Primary Goal: Gather raw materials.
+     - Targets: Oak Trees (Logs) and Iron Deposits (Iron Ore).
+     - Warning: Do not engage combat unless attacked. Flee to Defense Team if targeted.
+
+  2. CONSTRUCTION TEAM (Agents 9-14):
+     - Primary Goal: Process materials and Logistics.
+     - Task: Receive Iron Ore from Resource Team -> Smelt into Iron Bars.
+     - Task: Consolidate all Logs and Iron Bars with Builder_1 (Site Foreman).
+     - Location: Establish a safe 'Smithing Zone' behind the Defense Team.
+
+  3. DEFENSE TEAM (Agents 15-20):
+     - Primary Goal: Perimeter Defense.
+     - Task: Patrol the immediate area (Radius 5 tiles).
+     - Task: Intercept and eliminate Mimics (Level 84).
+     - Strategy: Focus fire! Do not fight 1v1. Use 'attack_mob' on the same target.
+
+  COORDINTATION PROTOCOLS:
+  - 📦 TRANSFERS: Resource Team must frequently drop off materials to Construction Team to stay light and safe.
+  - ⚔️ COMBAT: Defense Team must announce targets ("Attacking Mimic ID 123").
+  - 📊 REPORTING: Builder_1 must announce total consolidated materials every 5 rounds.
+
+  CRITICAL SUCCESS PATH:
+  1. Rounds 1-15: Resource gathering and Perimeter setup.
+  2. Rounds 16-35: Smelting operations and Defensive skirmishes.
+  3. Rounds 36-50: Final consolidation and verification.
+  4. Rounds 51-55: Final headcount and complete().
+
+  ⚠️ DANGER: This is a High-Level Wilderness (Region 4-7). Mobs are Level 84.
+  - Resource/Construction agents: STAY BEHIND THE GUARDS.
+  - Guards: Keep HP > 60%. Use food/flasks liberally.
+limitations:
+  max_action_steps: 55
+agent_1:
+  username: Citadel_Miner_1
+  new_character: true
+  location:
+    x: 523
+    y: 385
+  skill_levels: &id001
+    mining: 60
+    lumberjacking: 60
+    strength: 50
+    health: 50
+  inventory_items: &id002
+  - item: flask
+    count: 20
+  - item: apple
+    count: 20
+  equipped_items: &id003
+  - item: pickaxe
+    count: 1
+  - item: axe
+    count: 1
+  - item: leatherarmor
+    count: 1
+agent_2:
+  username: Citadel_Miner_2
+  new_character: true
+  location:
+    x: 162
+    y: 336
+  skill_levels: *id001
+  inventory_items: *id002
+  equipped_items: *id003
+agent_3:
+  username: Citadel_Miner_3
+  new_character: true
+  location:
+    x: 582
+    y: 755
+  skill_levels: *id001
+  inventory_items: *id002
+  equipped_items: *id003
+agent_4:
+  username: Citadel_Miner_4
+  new_character: true
+  location:
+    x: 845
+    y: 452
+  skill_levels: *id001
+  inventory_items: *id002
+  equipped_items: *id003
+agent_5:
+  username: Citadel_Miner_5
+  new_character: true
+  location:
+    x: 765
+    y: 656
+  skill_levels: *id001
+  inventory_items: *id002
+  equipped_items: *id003
+agent_6:
+  username: Citadel_Miner_6
+  new_character: true
+  location:
+    x: 505
+    y: 97
+  skill_levels: *id001
+  inventory_items: *id002
+  equipped_items: *id003
+agent_7:
+  username: Citadel_Miner_7
+  new_character: true
+  location:
+    x: 178
+    y: 640
+  skill_levels: *id001
+  inventory_items: *id002
+  equipped_items: *id003
+agent_8:
+  username: Citadel_Miner_8
+  new_character: true
+  location:
+    x: 383
+    y: 8
+  skill_levels: *id001
+  inventory_items: *id002
+  equipped_items: *id003
+agent_9:
+  username: Citadel_Builder_1
+  new_character: true
+  location:
+    x: 298
+    y: 405
+  skill_levels: &id004
+    smithing: 70
+    crafting: 70
+    strength: 50
+    health: 50
+  inventory_items: &id005
+  - item: coal
+    count: 50
+  - item: flask
+    count: 20
+  - item: apple
+    count: 20
+  equipped_items: &id006
+  - item: heavysword
+    count: 1
+  - item: platearmor
+    count: 1
+agent_10:
+  username: Citadel_Builder_2
+  new_character: true
+  location:
+    x: 245
+    y: 354
+  skill_levels: *id004
+  inventory_items: *id005
+  equipped_items: *id006
+agent_11:
+  username: Citadel_Builder_3
+  new_character: true
+  location:
+    x: 457
+    y: 722
+  skill_levels: *id004
+  inventory_items: *id005
+  equipped_items: *id006
+agent_12:
+  username: Citadel_Builder_4
+  new_character: true
+  location:
+    x: 677
+    y: 671
+  skill_levels: *id004
+  inventory_items: *id005
+  equipped_items: *id006
+agent_13:
+  username: Citadel_Builder_5
+  new_character: true
+  location:
+    x: 895
+    y: 399
+  skill_levels: *id004
+  inventory_items: *id005
+  equipped_items: *id006
+agent_14:
+  username: Citadel_Builder_6
+  new_character: true
+  location:
+    x: 55
+    y: 302
+  skill_levels: *id004
+  inventory_items: *id005
+  equipped_items: *id006
+agent_15:
+  username: Citadel_Guard_1
+  new_character: true
+  location:
+    x: 709
+    y: 557
+  skill_levels: &id007
+    strength: 80
+    defense: 80
+    health: 90
+    accuracy: 75
+  inventory_items: &id008
+  - item: flask
+    count: 40
+  - item: apple
+    count: 40
+  equipped_items: &id009
+  - item: goldensword
+    count: 1
+  - item: platearmor
+    count: 1
+  - item: goldboots
+    count: 1
+agent_16:
+  username: Citadel_Guard_2
+  new_character: true
+  location:
+    x: 1020
+    y: 677
+  skill_levels: *id007
+  inventory_items: *id008
+  equipped_items: *id009
+agent_17:
+  username: Citadel_Guard_3
+  new_character: true
+  location:
+    x: 707
+    y: 720
+  skill_levels: *id007
+  inventory_items: *id008
+  equipped_items: *id009
+agent_18:
+  username: Citadel_Guard_4
+  new_character: true
+  location:
+    x: 260
+    y: 179
+  skill_levels: *id007
+  inventory_items: *id008
+  equipped_items: *id009
+agent_19:
+  username: Citadel_Guard_5
+  new_character: true
+  location:
+    x: 397
+    y: 682
+  skill_levels: *id007
+  inventory_items: *id008
+  equipped_items: *id009
+agent_20:
+  username: Citadel_Guard_6
+  new_character: true
+  location:
+    x: 550
+    y: 401
+  skill_levels: *id007
+  inventory_items: *id008
+  equipped_items: *id009
+success_criteria:
+- Resource Team gathers at least 40 Logs total
+- Resource Team gathers at least 40 Iron Ore total
+- Construction Team smells at least 40 Iron Bars (using Coal provided + gathered Ore)
+- Defense Team defeats at least 5 Level 84 Mimics
+- Citadel_Builder_1 (Foreman) holds 40 Iron Bars and 40 Logs at the end
+- All 20 agents survive the operation
+- Team communicates coordinates of threats and resource deposits

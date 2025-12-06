@@ -1,0 +1,282 @@
+task:
+  name: Astral Beacon Calibration - Celestial Signal Array (Variant 1)
+  description: Ten channelers gather reagents from four biomes to light the Astral Array around the Skywell Plateau (520,420),
+    synchronizing three beacon rings within 55 rounds.
+objectives:
+  primary: Calibrate the Astral Array by crafting four attunement relics (Beryl Pendant, Ruby Pendant, Emerald Ring, Lightning
+    Staff), installing them at the North/East/South pedestals, and running a full synchronization loop before Round 55.
+  secondary:
+  - 'Phase 1: Reconvene at Skywell Plateau (520,420), assign four biome teams (Forest, Desert, Coastal, Frozen) plus two Anchors,
+    and note the rotation order.'
+  - 'Phase 2: Forest team harvests logs, mines beryl, crafts a Beryl Pendant, and guards the North pedestal.'
+  - 'Phase 3: Desert team cuts bloodwood, mines ruby, crafts a Ruby Pendant, and escorts the Ember core to the East pedestal.'
+  - 'Phase 4: Coastal team fishes rawtuna, mines emerald (if unavailable trade with Frozen team), crafts an Emerald Ring,
+    and stabilizes the South pedestal.'
+  - 'Phase 5: Frozen team defeats Ice Guardians for lightningbeads, crafts a Lightning Staff, then Anchors coordinate a clockwise
+    synchronization (North → East → South) with verify_inventory + chat confirmations before complete().'
+relevant_game_context: |
+  ARRAY GEOMETRY
+  - Pedestals: North (520,430), East (540,420), South (520,400). Anchors (ArrayWarden & PulseCaller) stay at the plateau center to read resonance levels and keep timers.
+  - Each pedestal requires one relic plus two guardians within 3 tiles while syncing. Never leave a pedestal unattended once a relic is slotted.
+
+  BIOME RUNS
+  - Forest (x: 300-320, y: 360-380): harvest_resource for logs, mine_resource for beryl, craft_item Crafting berylpendant (needs string). Carry extra logs back for pedestal fuel.
+  - Desert (x: 420-450, y: 640-660): harvest bloodwoodlogs, mine ruby nodes, craft_item Crafting rubypendant. Expect ambushes from sand mobs; use attack_mob defensively.
+  - Coastal (x: 200-220, y: 360-380): fish_resource for rawtuna (healing) and mine_resource for emerald if gem nodes spawn; otherwise Frozen team trades a spare. craft_item Crafting emeraldring (requires goldring from Desert team — coordinate transfers!).
+  - Frozen (x: 250-260, y: 150-160): defeat Ice Guardians / Mimics for lightningbeads, gather icelogs if staff blanks are short, craft_item Crafting staff then lightningstaff.
+
+  TRANSFERS & DEADLOCK AVOIDANCE
+  - Use transfer_items only when both parties stand still and have announced inventories. Anchors log every transfer sequence "Forest → Anchor" etc.
+  - If a team fails to find its gem within 8 rounds, ping Anchors for reroute (swap objectives or trade existing gems). Keep at least one relic crafting at all times to avoid idle rounds.
+  - Should any pedestal desync (e.g., guardian walks away), restart the synchronization by recalling Anchors and repeating clockwise placement.
+
+  SYNC PROCEDURE
+  1. Slot relic at North pedestal; Anchor records "North lit" with verify_inventory showing empty hands.
+  2. Within 3 rounds, East pedestal team slots Ruby Pendant while North guardians remain. Anchors confirm resonance.
+  3. Within 3 more rounds, South pedestal slots Emerald Ring and Frozen team plants Lightning Staff in the center. Everyone runs clockwise lap touching each pedestal in turn, then Anchors declare "Array stable".
+  4. Remove no relics after sync; remain in guard positions until complete().
+max_action_steps: 63
+agent_1:
+  username: ArrayWarden
+  new_character: true
+  location:
+    x: 200
+    y: 200
+  skill_levels:
+    magic: 38
+    crafting: 34
+    defense: 34
+    health: 36
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: manaflask
+    count: 12
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+agent_2:
+  username: PulseCaller
+  new_character: true
+  location:
+    x: 205
+    y: 200
+  skill_levels:
+    magic: 36
+    crafting: 32
+    accuracy: 32
+    health: 34
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: manaflask
+    count: 10
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_3:
+  username: ForestHarvester
+  new_character: true
+  location:
+    x: 210
+    y: 200
+  skill_levels:
+    lumberjacking: 38
+    crafting: 32
+    strength: 32
+    health: 34
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 12
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_4:
+  username: BerylBinder
+  new_character: true
+  location:
+    x: 200
+    y: 205
+  skill_levels:
+    crafting: 36
+    magic: 30
+    defense: 30
+    health: 32
+  inventory_items:
+  - item: string
+    count: 3
+  - item: flask
+    count: 10
+  - item: apple
+    count: 10
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_5:
+  username: DesertLogger
+  new_character: true
+  location:
+    x: 205
+    y: 205
+  skill_levels:
+    lumberjacking: 36
+    strength: 34
+    defense: 32
+    health: 34
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 12
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_6:
+  username: RubyCaster
+  new_character: true
+  location:
+    x: 210
+    y: 205
+  skill_levels:
+    crafting: 36
+    magic: 32
+    accuracy: 30
+    health: 32
+  inventory_items:
+  - item: string
+    count: 2
+  - item: flask
+    count: 10
+  - item: manaflask
+    count: 8
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_7:
+  username: CoastAngler
+  new_character: true
+  location:
+    x: 200
+    y: 210
+  skill_levels:
+    fishing: 36
+    cooking: 34
+    foraging: 32
+    health: 32
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 12
+  equipped_items:
+  - item: fishingpole
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_8:
+  username: GemBroker
+  new_character: true
+  location:
+    x: 205
+    y: 210
+  skill_levels:
+    crafting: 34
+    magic: 30
+    defense: 30
+    health: 30
+  inventory_items:
+  - item: string
+    count: 2
+  - item: flask
+    count: 10
+  - item: apple
+    count: 10
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_9:
+  username: FrostHunter
+  new_character: true
+  location:
+    x: 210
+    y: 210
+  skill_levels:
+    defense: 34
+    magic: 32
+    accuracy: 32
+    health: 34
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: manaflask
+    count: 10
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_10:
+  username: IceChanneler
+  new_character: true
+  location:
+    x: 200
+    y: 215
+  skill_levels:
+    magic: 38
+    crafting: 34
+    health: 34
+    defense: 32
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: manaflask
+    count: 10
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- All ten agents meet at Skywell Plateau, publish team assignments, and state the clockwise activation order.
+- Forest team crafts a Beryl Pendant and guards the North pedestal with logs for fuel; proof via verify_inventory.
+- Desert team crafts a Ruby Pendant and delivers it to the East pedestal with escorts, confirming any goldring transfers.
+- Coastal team crafts an Emerald Ring (goldring supplied by Desert team if needed) and slots it at the South pedestal while
+  Frozen team produces a Lightning Staff.
+- Anchors oversee a successful clockwise synchronization (North → East → South) with relics left in place and everyone reporting
+  final resonance before complete().

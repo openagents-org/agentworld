@@ -1,0 +1,276 @@
+task:
+  name: Cryothermal Grid Stabilization - Dual-Biome Energy Project (Variant 2 - Spread Locations)
+  description: Ten specialists connect the northern ice shelf with the southern lava vents by building three synchronized
+    pylons powered by crafted elemental foci.
+objectives:
+  primary: Stabilize the cryothermal grid by collecting ice and lava resources, forging conduits, and activating pylons at
+    (260,150), (320,360), and (180,620) within 55 rounds.
+  secondary:
+  - 'Phase 1: Ice squad harvests 12 icelogs and 3 icebeads near (259,151) while scouting safe transit routes.'
+  - 'Phase 2: Lava squad harvests 12 bloodwoodlogs and 3 firebeads around (160,610) and secures vent access.'
+  - 'Phase 3: Alloy squad mines 12 ironore + 12 coal, smelts 12 ironbar, and crafts 3 silverring connectors.'
+  - 'Phase 4: Logistics convoy moves materials to the three pylons, verifying inventories before installation.'
+  - 'Phase 5: Assembly team crafts icestaff, firestaff, lightningstaff, and sequentially activates pylons with full chat logs.'
+relevant_game_context: |
+  WORKFLOW SNAPSHOT
+  - Agents 1-3 (Ice Stabilizers) stay within the ice plateau until quotas are complete, then escort resources south.
+  - Agents 4-6 (Lava Stabilizers) control heat vents, collect bloodwood + firebeads, and prepare the southern pylon site.
+  - Agents 7-8 (Metalworks + Scout) gather ores, smelt bars at (250,50), and retrieve lightningbead from coastal mobs near (520,420).
+  - Agents 9-10 (Grid Pilots) coordinate installation at the central basin, keeping all pylons within line-of-sight during activation.
+
+  KEY TASK DETAILS
+  1. Gathering rules:
+     • use observe_environment radius=32 to find tree/ore nodes, then harvest_resource targetInstance=<id>.
+     • lightningbead can be looted from coastal mobs; RelayScout (Agent 8) handles combat + pickup_resource.
+     • convert logs → sticks via craft_item Fletching stick when preparing staff shafts.
+  2. Crafting chain:
+     • icestaff: craft 5 sticks + bead to staff, then combine with icebead.
+     • firestaff: same flow using firebead.
+     • lightningstaff: assemble staff + lightningbead after RelayScout returns.
+     • silverring connectors: craft_item Smithing silverring using ironbar pairs.
+  3. Logistics:
+     • All transfers happen at staging points (ice camp, smeltery, or central basin) via transfer_items.
+     • Every shipment must be confirmed with verify_inventory in chat.
+     • Before activating a pylon, ensure one staff + four matching logs + one silverring sit in the same inventory.
+  4. Activation order:
+     • North → Central → South. After each activation, post “Pylon X online – resources remaining Y”.
+     • complete() only after all three pylons report active and both Grid Pilots confirm zero unplaced staffs.
+max_action_steps: 87
+agent_1:
+  username: FrostArchitect
+  new_character: true
+  location:
+    x: 246
+    y: 355
+  skill_levels:
+    lumberjacking: 45
+    crafting: 30
+    strength: 28
+    health: 32
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_2:
+  username: IceSurveyor
+  new_character: true
+  location:
+    x: 161
+    y: 334
+  skill_levels:
+    lumberjacking: 35
+    crafting: 25
+    magic: 25
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 18
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: CryoRunner
+  new_character: true
+  location:
+    x: 773
+    y: 656
+  skill_levels:
+    magic: 32
+    crafting: 28
+    accuracy: 30
+    health: 30
+  inventory_items:
+  - item: manaflask
+    count: 10
+  - item: flask
+    count: 10
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_4:
+  username: EmberMarshal
+  new_character: true
+  location:
+    x: 55
+    y: 309
+  skill_levels:
+    lumberjacking: 40
+    strength: 35
+    health: 35
+    defense: 30
+  inventory_items:
+  - item: flask
+    count: 18
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_5:
+  username: LavaWarden
+  new_character: true
+  location:
+    x: 224
+    y: 155
+  skill_levels:
+    lumberjacking: 32
+    defense: 38
+    strength: 33
+    health: 34
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_6:
+  username: VentForger
+  new_character: true
+  location:
+    x: 171
+    y: 633
+  skill_levels:
+    crafting: 35
+    magic: 30
+    strength: 28
+    health: 30
+  inventory_items:
+  - item: manaflask
+    count: 10
+  - item: flask
+    count: 10
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_7:
+  username: AlloyCommander
+  new_character: true
+  location:
+    x: 848
+    y: 447
+  skill_levels:
+    mining: 42
+    smelting: 38
+    smithing: 32
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 18
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+agent_8:
+  username: RelayScout
+  new_character: true
+  location:
+    x: 716
+    y: 721
+  skill_levels:
+    accuracy: 34
+    magic: 30
+    crafting: 24
+    health: 28
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: manaflask
+    count: 8
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_9:
+  username: GridPilot
+  new_character: true
+  location:
+    x: 1015
+    y: 677
+  skill_levels:
+    crafting: 36
+    magic: 34
+    defense: 30
+    health: 32
+  inventory_items:
+  - item: flask
+    count: 14
+  - item: apple
+    count: 16
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_10:
+  username: HarmonicAnchor
+  new_character: true
+  location:
+    x: 236
+    y: 47
+  skill_levels:
+    crafting: 38
+    magic: 38
+    health: 34
+    strength: 28
+  inventory_items:
+  - item: manaflask
+    count: 12
+  - item: flask
+    count: 10
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+success_criteria:
+- Ice Stabilizers document harvesting at least 12 icelogs + 3 icebeads and announce departure from the plateau.
+- Lava Stabilizers deliver 12 bloodwoodlogs + 3 firebeads to the southern staging point and confirm vent safety.
+- AlloyCommander produces 12 ironbar and 3 silverring connectors; RelayScout secures 1 lightningbead.
+- Every transfer is validated at staging points with verify_inventory screenshots in chat.
+- Icestaff, firestaff, and lightningstaff are crafted and assigned to GridPilot/HarmonicAnchor before activation.
+- Each pylon activation is broadcast with remaining resource counts and all agents regroup at (300-320,340-360) before calling
+  complete().

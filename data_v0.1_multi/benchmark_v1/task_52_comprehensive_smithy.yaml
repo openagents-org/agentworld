@@ -1,0 +1,182 @@
+task:
+  name: Comprehensive Smithy Operations - Five-Smith Complete Metalworking Pipeline (Variant 1)
+  description: Five specialized smiths work together to establish a complete metalworking operation from raw ore extraction
+    through advanced equipment production and distribution
+objectives:
+  primary: Establish a comprehensive five-smith metalworking operation producing complete equipment sets for entire team
+  secondary:
+  - Coordinate five-smith specialization and role assignment
+  - Execute complete ore-to-equipment production pipeline
+  - 'Produce diverse equipment types: tools, weapons, and accessories'
+  - Distribute complete equipment sets to all team members within 31 rounds
+relevant_game_context: |
+  OVERVIEW
+  - Five smiths split the ore→bar→equipment pipeline. MasterMiner feeds ores, SmeltingMaster turns them into bars, ToolForge builds pickaxes/axes, WeaponForge crafts heavy swords, JewelryArtisan handles rings. Target output in 35 rounds: 2 pickaxes, 2 axes, 2 sword2, and 4 rings (silver or gold).
+
+  FLOW BY ROLE
+  1. MasterMiner (230,38): harvest_resource iron/coal (≥15 each) plus optional gold, reporting totals in chat. When ready, travel to the smelter’s hut (260,184) and transfer the entire haul.
+  2. SmeltingMaster: craft_item(Smelting, ironbar) until ~24 bars exist; smelt goldbar if ore arrived. Hand out bars in batches: 10→ToolForge, 6 more→ToolForge after pickaxes, 4→WeaponForge, 4→JewelryArtisan (+gold bars if available).
+  3. ToolForge: gather a few logs, craft two pickaxes (5 bars + log each) then two axes (3 bars + log each). Confirm outputs before requesting more bars.
+  4. WeaponForge: already has two hilt2; combine with 4 ironbars to forge two sword2.
+  5. JewelryArtisan: turn 4 ironbars into two silverrings, plus optional goldrings if gold bars arrived. Extra bars can become more silverrings to reach four total.
+
+  COORDINATION NOTES
+  - Transfers must occur within ~10 tiles using transfer_items; both sides run verify_inventory and acknowledge via chat.
+  - Every craft or smelt should be announced (“SmeltingMaster: iron bars 6/24”). Keep a running checklist of produced items so all divisions know when they are done.
+  - If gold ore is missing, state it early and substitute the jewelry quota with additional silverrings.
+
+  COMPLETION CHECK
+  - Inventory review shows: 2 pickaxes, 2 axes, 2 sword2, and ≥4 rings. Each role states “Division complete – holding X”.
+  - Final chat message summarizes total equipment before any agent calls complete().
+max_action_steps: 32
+agent_1:
+  username: MasterMiner
+  new_character: true
+  location:
+    x: 230
+    y: 38
+  skill_levels:
+    mining: 35
+    strength: 40
+    health: 35
+    defense: 25
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  - item: ironore
+    count: 3
+  - item: coal
+    count: 3
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: SmeltingMaster
+  new_character: true
+  location:
+    x: 260
+    y: 184
+  skill_levels:
+    smithing: 40
+    mining: 20
+    strength: 30
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  - item: ironore
+    count: 2
+  - item: coal
+    count: 4
+  equipped_items:
+  - item: smithinghammer
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: ToolForgeSpecialist
+  new_character: true
+  location:
+    x: 232
+    y: 175
+  skill_levels:
+    smithing: 25
+    lumberjacking: 25
+    strength: 30
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_4:
+  username: WeaponForgeSpecialist
+  new_character: true
+  location:
+    x: 235
+    y: 177
+  skill_levels:
+    smithing: 30
+    strength: 35
+    accuracy: 25
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  - item: hilt2
+    count: 2
+  equipped_items:
+  - item: smithinghammer
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_5:
+  username: JewelryArtisan
+  new_character: true
+  location:
+    x: 238
+    y: 180
+  skill_levels:
+    smithing: 25
+    crafting: 25
+    accuracy: 30
+    health: 35
+    mining: 20
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- MasterMiner successfully extracts all required ores
+- SmeltingMaster successfully smelts all required metal bars
+- ToolForgeSpecialist successfully crafts 2x pickaxes and 2x axes
+- WeaponForgeSpecialist successfully crafts 2x heavy swords
+- JewelryArtisan successfully crafts 2x silver rings and 2x gold rings
+- All five divisions coordinate effectively using global chat
+- Resources flow efficiently from mining → smelting → crafting
+- Complete equipment sets are produced and distributed
+- Minimum 10 total equipment pieces are crafted
+- All five smiths demonstrate specialized expertise
+- Comprehensive smithy operations completed within time limit
+- Team demonstrates mastery of complex five-smith coordination

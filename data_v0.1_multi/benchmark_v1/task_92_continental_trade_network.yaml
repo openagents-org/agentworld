@@ -1,0 +1,254 @@
+task:
+  name: Continental Trade Network - Multi-City Commercial Empire (Variant 1)
+  description: Twelve agents establish a complex trade network spanning multiple regions, producing specialized goods in different
+    cities and coordinating long-distance commerce
+objectives:
+  primary: Establish a functioning continental trade network with 4 specialized trade hubs producing and exchanging goods
+    across 50 rounds
+  secondary:
+  - 'Phase 1 (Rounds 1-12): Hub Establishment - Set up 4 specialized production centers'
+  - 'Phase 2 (Rounds 13-25): Initial Production - Each hub produces their specialty goods'
+  - 'Phase 3 (Rounds 26-38): Trade Route Activation - Coordinate inter-hub resource exchanges'
+  - 'Phase 4 (Rounds 39-50): Market Fulfillment - Complete trade orders and verify economic success'
+relevant_game_context: |
+  Continental trade network with 4 specialized hubs coordinating production and exchanges.
+
+  STRATEGY:
+  - Rounds 1-12: Establish hubs, gather resources
+  - Rounds 13-25: Produce specialty goods
+  - Rounds 26-38: Execute inter-hub trades
+  - Rounds 39-50: Verify completion
+
+  PRODUCTION TARGETS:
+  Hub 1 (380,20): 30 logs, 20 sticks, 2 bows
+  Hub 2 (580,750): 20 cookedshrimp, 8 jellyfishsmoothie
+  Hub 3 (230,40): 15 ironbar, 8 goldbar, 3 gold rings
+  Hub 4 (235,45): 2 heavy swords, 2 axes, 20 arrows
+
+  TRADES: Hub1→Hub4 (lumber), Hub3→Hub4 (iron), Hub2→All (food), Hub4→All (weapons)
+
+  Use global chat to coordinate. Complete 6+ exchanges. Do NOT call complete() until all goals verified!
+max_action_steps: 62
+agent_1:
+  username: forest_lumber_master
+  new_character: true
+  location:
+    x: 380
+    y: 20
+  skill_levels:
+    lumberjacking: 40
+    strength: 35
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+agent_2:
+  username: forest_woodworker
+  new_character: true
+  location:
+    x: 382
+    y: 22
+  skill_levels:
+    fletching: 35
+    crafting: 30
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+  - item: string
+    count: 5
+agent_3:
+  username: forest_trader
+  new_character: true
+  location:
+    x: 384
+    y: 24
+  skill_levels:
+    strength: 40
+    health: 45
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+agent_4:
+  username: coastal_master_fisher
+  new_character: true
+  location:
+    x: 580
+    y: 750
+  skill_levels:
+    fishing: 45
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  equipped_items:
+  - item: fishingrod
+    count: 1
+    enchant: 0
+agent_5:
+  username: coastal_chef
+  new_character: true
+  location:
+    x: 582
+    y: 752
+  skill_levels:
+    cooking: 45
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+agent_6:
+  username: coastal_trader
+  new_character: true
+  location:
+    x: 584
+    y: 754
+  skill_levels:
+    strength: 40
+    health: 50
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+agent_7:
+  username: mountain_ore_miner
+  new_character: true
+  location:
+    x: 230
+    y: 40
+  skill_levels:
+    mining: 45
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  - item: coal
+    count: 5
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+agent_8:
+  username: mountain_smelter
+  new_character: true
+  location:
+    x: 232
+    y: 42
+  skill_levels:
+    smithing: 45
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+  - item: coal
+    count: 10
+agent_9:
+  username: mountain_jeweler
+  new_character: true
+  location:
+    x: 234
+    y: 44
+  skill_levels:
+    smithing: 40
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+agent_10:
+  username: forge_master_smith
+  new_character: true
+  location:
+    x: 235
+    y: 45
+  skill_levels:
+    smithing: 45
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+  - item: hilt2
+    count: 2
+agent_11:
+  username: forge_master_fletcher
+  new_character: true
+  location:
+    x: 237
+    y: 47
+  skill_levels:
+    fletching: 45
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+  - item: feather
+    count: 20
+agent_12:
+  username: forge_arms_dealer
+  new_character: true
+  location:
+    x: 239
+    y: 49
+  skill_levels:
+    strength: 40
+    health: 45
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+success_criteria:
+- Hub 1 successfully produces 30+ logs through coordinated harvesting
+- Hub 1 crafts 20+ sticks and 2+ wooden bows for export
+- Hub 2 catches 25+ rawshrimp and 10+ jellyfish
+- Hub 2 cooks 20+ cookedshrimp and 8+ jellyfishsmoothie
+- Hub 3 mines 15+ ironore and 10+ goldore
+- Hub 3 smelts 15+ ironbar and 8+ goldbar
+- Hub 3 crafts 3+ gold rings and 2+ silver rings
+- Hub 4 crafts 2+ heavy swords and 2+ axes
+- Hub 4 crafts 20+ arrows from imported materials
+- 'Successful trade: Hub 1 exports lumber to Hub 4'
+- 'Successful trade: Hub 3 exports iron bars to Hub 4'
+- 'Successful trade: Hub 2 distributes food to all hubs'
+- 'Successful trade: Hub 4 distributes weapons to other hubs'
+- At least 6 documented inter-hub exchanges completed
+- Each hub receives goods from minimum 2 other hubs
+- All twelve agents coordinate using global chat throughout
+- Regular status updates from all hubs during all phases
+- Continental trade network fully established within 50 rounds

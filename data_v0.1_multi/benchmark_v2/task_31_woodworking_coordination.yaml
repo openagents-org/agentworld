@@ -1,0 +1,152 @@
+task:
+  name: Advanced Woodworking and Equipment Crafting Coordination (Variant 2 - Spread Locations)
+  description: Three agents work together to establish coordinated resource gathering, advanced crafting, and equipment enhancement
+    operations
+objectives:
+  primary: Establish coordinated resource gathering and advanced crafting operations using available game resources
+  secondary:
+  - Execute coordinated wood harvesting and resource collection operations
+  - Establish advanced crafting coordination and equipment enhancement procedures
+  - Complete resource gathering and crafting operations within 43 rounds
+relevant_game_context: |
+  This is a cooperative multi-agent advanced crafting scenario using realistic game resources.
+
+  OBJECTIVE: Create advanced equipment and coordinate resource gathering using available game materials.
+
+  MISSION REQUIREMENTS:
+  - Harvest wood resources from trees (Willow, Pine, Snowoak available in area)
+  - Craft advanced wooden components and tools
+  - Create multiple pieces of equipment for the team
+  - Coordinate between harvesting, crafting, and equipment distribution
+
+  TEAM COORDINATION:
+  - Use global chat to share resource locations and harvesting progress
+  - Coordinate between resource gathering and crafting operations
+  - Share materials and provide support for equipment creation
+  - Work together to handle resource scarcity and optimize efficiency
+
+  GENERAL STRATEGY:
+  - The team needs to locate and harvest available tree resources efficiently
+  - Advanced crafting requires coordination and material sharing
+  - Equipment creation requires proper skill levels and materials
+  - Balance harvesting efficiency with team coordination
+  - Coordinate material distribution with equipment needs
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  RESOURCE GATHERING (CRITICAL KNOWLEDGE):
+  🌲 Wood Harvesting:
+    - harvest_resource on tree instances to get wood materials
+    - Level required: 15+ (Lumberjacking skill)
+    - Tool required: Axe for wood harvesting
+    - Look for "Willow Tree", "Pine Tree", or "Snowoak Tree" instances
+
+  🔨 Crafting - wooden items:
+    - craft_item skill=Crafting itemKey=<wooden_item>
+    - Materials: wood materials → crafted items
+    - Level required: 20+ (Crafting skill)
+    - IMPORTANT: Focus on items that exist in the game
+
+  ⚔️ Equipment Enhancement:
+    - Use available game mechanics for equipment improvement
+    - Level required: 25+ (appropriate skill)
+    - Materials: base equipment + enhancement materials
+    - CRITICAL: Focus on realistic equipment upgrades
+
+  🛠️ Advanced Equipment Creation:
+    - Create multiple useful items for team equipment upgrade
+    - Coordinate item types based on team needs
+    - Balance resource investment with practical equipment needs
+max_action_steps: 43
+agent_1:
+  username: resource_gatherer_agent
+  new_character: true
+  location:
+    x: 766
+    y: 661
+  skill_levels:
+    lumberjacking: 35
+    strength: 40
+    health: 45
+    defense: 35
+    accuracy: 25
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: sword
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: master_crafter_agent
+  new_character: true
+  location:
+    x: 386
+    y: 4
+  skill_levels:
+    crafting: 35
+    magic: 30
+    strength: 30
+    health: 40
+    defense: 25
+  inventory_items:
+  - item: flask
+    count: 18
+  - item: apple
+    count: 22
+  equipped_items:
+  - item: smithinghammer
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: equipment_enhancer_agent
+  new_character: true
+  location:
+    x: 849
+    y: 445
+  skill_levels:
+    magic: 40
+    crafting: 25
+    health: 40
+    defense: 30
+    strength: 25
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  equipped_items:
+  - item: lightningstaff
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- resource_gatherer_agent successfully harvests wood resources and shares with team
+- master_crafter_agent successfully creates useful items from gathered materials
+- equipment_enhancer_agent successfully enhances or improves team equipment
+- Team creates at least 2 useful crafted items or equipment improvements
+- All agents survive and coordinate effectively during operations
+- Resource gathering operations demonstrate effective team coordination
+- Advanced crafting and equipment enhancement completed within time limit

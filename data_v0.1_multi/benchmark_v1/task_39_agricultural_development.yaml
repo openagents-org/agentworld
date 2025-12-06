@@ -1,0 +1,164 @@
+task:
+  name: Agricultural Development - Farming Coordination and Food Production (Variant 1)
+  description: Three agents work together to establish agricultural operations, coordinate farming activities, and develop
+    sustainable food production systems
+objectives:
+  primary: Successfully establish agricultural operations, coordinate farming activities, and develop sustainable food production
+    systems
+  secondary:
+  - Establish farming coordination and agricultural area development
+  - Execute coordinated food production and crop management operations
+  - Complete agricultural development within 33 rounds
+relevant_game_context: |
+  This is a cooperative multi-agent agricultural development scenario requiring farming coordination and food production management.
+
+  OBJECTIVE: Establish agricultural operations, coordinate farming activities, and develop sustainable food production systems.
+
+  MISSION REQUIREMENTS:
+  - Establish agricultural operations in suitable farming areas
+  - Coordinate crop cultivation, livestock management, and food processing
+  - Develop sustainable farming practices and efficient resource utilization
+  - Create reliable food production systems for long-term sustainability
+
+  TEAM COORDINATION:
+  - Use global chat for complex agricultural coordination and production status updates
+  - Coordinate between crop cultivation, resource management, and food processing
+  - Share agricultural knowledge and provide support during farming operations
+  - Work together to handle seasonal challenges and resource optimization
+
+  GENERAL STRATEGY:
+  - This requires resource management skills and agricultural coordination
+  - Sustainable farming requires efficient resource utilization and planning
+  - Agricultural development involves crop management and food processing
+  - Food production requires coordination between different farming activities
+  - Balance immediate food needs with long-term agricultural sustainability
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  AGRICULTURAL DEVELOPMENT OPERATIONS (CRITICAL KNOWLEDGE):
+  🌾 Crop Cultivation:
+    - Use observe_environment to scout areas suitable for farming and crop cultivation
+    - Establish farming positions for coordinated agricultural development
+    - Navigate farming areas while maintaining team coordination and resource efficiency
+    - Coordinate farming activities to optimize crop production and food yield
+
+  📦 Resource Management:
+    - Use available gathering skills for agricultural resource collection
+    - Focus on efficient resource utilization for sustainable farming practices
+    - Coordinate resource sharing and distribution for optimal farming operations
+    - Practice resource conservation techniques for long-term agricultural sustainability
+
+  🍽️ Food Production:
+    - Use available crafting abilities for food processing and preparation
+    - Coordinate food production activities to maximize nutritional value and storage
+    - Focus on creating sustainable food systems for reliable nutrition supply
+    - Balance food production with resource conservation and efficiency
+
+  🎯 Agricultural Coordination:
+    - Use observe_environment to locate farming opportunities and resource sources
+    - Coordinate crop cultivation, resource management, and food processing
+    - Practice team agricultural strategies using complementary farming roles
+    - Execute coordinated farming operations and provide mutual agricultural support
+
+  🌱 Sustainable Farming Strategy:
+    - Use coordinated farming techniques for effective agricultural development
+    - Practice efficient crop management and resource utilization
+    - Focus on developing sustainable farming practices through team coordination
+    - Use environmentally-friendly approaches during agricultural operations
+max_action_steps: 47
+agent_1:
+  username: crop_cultivator_agent
+  new_character: true
+  location:
+    x: 280
+    y: 190
+  skill_levels:
+    lumberjacking: 40
+    strength: 35
+    health: 45
+    accuracy: 30
+    defense: 25
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: sword
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: resource_manager_agent
+  new_character: true
+  location:
+    x: 290
+    y: 200
+  skill_levels:
+    foraging: 35
+    mining: 30
+    strength: 40
+    health: 35
+    accuracy: 30
+  inventory_items:
+  - item: flask
+    count: 28
+  - item: apple
+    count: 32
+  equipped_items:
+  - item: bluesword
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: food_processor_agent
+  new_character: true
+  location:
+    x: 300
+    y: 210
+  skill_levels:
+    crafting: 35
+    smithing: 25
+    accuracy: 35
+    health: 40
+    strength: 30
+  inventory_items:
+  - item: flask
+    count: 32
+  - item: apple
+    count: 38
+  equipped_items:
+  - item: smithinghammer
+    count: 1
+    enchant: 0
+  - item: heavysword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- crop_cultivator_agent successfully establishes crop cultivation operations and coordinates farming activities
+- crop_cultivator_agent demonstrates effective agricultural planning and resource coordination
+- resource_manager_agent successfully collects and manages agricultural resources
+- resource_manager_agent provides efficient resource distribution for farming operations
+- food_processor_agent successfully processes agricultural products into food supplies
+- All agents maintain effective coordination and achieve agricultural sustainability
+- Team successfully develops sustainable food production systems
+- Agricultural development completed within time limit with food security achieved

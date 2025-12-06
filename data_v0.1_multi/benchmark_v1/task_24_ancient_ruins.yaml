@@ -1,0 +1,173 @@
+task:
+  name: Ancient Ruins Exploration - Archaeological Treasure Discovery (Variant 1)
+  description: Three agents work together to explore dangerous ancient ruins, defeat guardian creatures, and recover legendary
+    artifacts
+objectives:
+  primary: Successfully explore ancient ruins, defeat Golden Golem and Big Baby Spooder, and recover ancient treasures
+  secondary:
+  - Establish ruins exploration coordination and creature threat assessment
+  - Execute safe artifact recovery and guardian combat operations
+  - Complete archaeological expedition within 35 rounds
+relevant_game_context: |
+  This is a cooperative multi-agent archaeological expedition requiring advanced combat and exploration coordination.
+
+  OBJECTIVE: Explore dangerous ancient ruins to defeat guardian creatures and recover legendary artifacts.
+
+  MISSION REQUIREMENTS:
+  - Navigate to Ancient Ruins region (Region 7-6: coordinates 769-784, 657-676)
+  - Defeat Golden Golem (Level 0) and Big Baby Spooder (Level 45) guardian creatures
+  - Explore ruins architecture and locate hidden treasure chambers
+  - Recover ancient artifacts and archaeological treasures from ruins
+
+  TEAM COORDINATION:
+  - Use global chat to share ruins entrance locations and guardian creature positions
+  - Coordinate between exploration, combat, and treasure recovery operations
+  - Share combat responsibilities based on creature threat levels
+  - Work together to solve ruins puzzles and navigate ancient architecture
+
+  GENERAL STRATEGY:
+  - The team needs to locate Ancient Ruins region in the southeastern area
+  - Combat coordination essential for defeating both guardian creatures
+  - Golden Golem may be easier (Level 0) but could have special mechanics
+  - Big Baby Spooder (Level 45) requires coordinated high-level combat
+  - Balance exploration speed with thorough treasure searching
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  ANCIENT RUINS EXPLORATION & COMBAT (CRITICAL KNOWLEDGE):
+  🏛️ Ruins Navigation:
+    - Use move_to action to reach Ancient Ruins region (coordinates ~775, 665)
+    - Ancient Ruins biome contains unique architecture and hidden passages
+    - Look for stone structures, ancient pillars, and weathered monuments
+
+  🥇 Combat - Golden Golem:
+    - Use observe_environment to locate Golden Golem at coordinates (784, 676)
+    - Despite Level 0, may have special defensive properties or mechanics
+    - Coordinate physical attacks and magic to test weaknesses
+    - Expect unique combat patterns from ancient guardian creature
+
+  🕷️ Combat - Big Baby Spooder:
+    - Use observe_environment to locate Big Baby Spooder at coordinates (769, 657)
+    - Level 45 creature requiring coordinated high-level combat
+    - Expect web attacks, poison damage, and high mobility
+    - Use ranged attacks and positioning to avoid spider abilities
+
+  💎 Treasure Recovery:
+    - Use observe_environment to locate treasure chests and artifact locations
+    - Ancient ruins may contain multiple hidden treasure chambers
+    - Look for archaeological artifacts, ancient weapons, and rare materials
+    - Some treasures may be protected by additional puzzles or mechanisms
+
+  🏺 Archaeological Exploration:
+    - Explore thoroughly for hidden passages and secret chambers
+    - Ancient ruins architecture may contain clues to treasure locations
+    - Document findings through global chat for team coordination
+max_action_steps: 31
+agent_1:
+  username: ruins_explorer_agent
+  new_character: true
+  location:
+    x: 750
+    y: 650
+  skill_levels:
+    strength: 35
+    accuracy: 30
+    health: 45
+    defense: 30
+    magic: 20
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  - item: healthpotion
+    count: 8
+  equipped_items:
+  - item: sword
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+  - item: bow
+    count: 1
+    enchant: 0
+agent_2:
+  username: guardian_slayer_agent
+  new_character: true
+  location:
+    x: 770
+    y: 660
+  skill_levels:
+    strength: 50
+    accuracy: 40
+    defense: 40
+    health: 55
+    magic: 25
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  - item: healthpotion
+    count: 12
+  - item: manapotion
+    count: 8
+  equipped_items:
+  - item: bluesword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+  - item: firestaff
+    count: 1
+    enchant: 0
+agent_3:
+  username: artifact_hunter_agent
+  new_character: true
+  location:
+    x: 780
+    y: 670
+  skill_levels:
+    strength: 40
+    accuracy: 35
+    health: 50
+    defense: 35
+    magic: 30
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  - item: healthpotion
+    count: 10
+  - item: manapotion
+    count: 6
+  equipped_items:
+  - item: sidesword
+    count: 1
+    enchant: 0
+  - item: greenwingarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+  - item: plasticbow
+    count: 1
+    enchant: 0
+success_criteria:
+- ruins_explorer_agent successfully navigates to Ancient Ruins region
+- guardian_slayer_agent successfully defeats Golden Golem guardian creature
+- guardian_slayer_agent successfully defeats Big Baby Spooder guardian creature
+- artifact_hunter_agent successfully explores ruins and locates treasure chambers
+- Team successfully recovers ancient artifacts from ruins treasure locations
+- All agents survive the dangerous guardian encounters
+- Ancient ruins archaeological expedition completed within time limit

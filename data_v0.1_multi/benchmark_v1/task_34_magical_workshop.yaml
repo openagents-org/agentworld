@@ -1,0 +1,156 @@
+task:
+  name: Magical Workshop Collaboration - Advanced Crafting and Enchantment (Variant 1)
+  description: Three agents work together to establish a magical workshop, craft advanced items, and perform enchantment operations
+objectives:
+  primary: Successfully establish magical workshop operations, craft advanced items, and coordinate enchantment procedures
+  secondary:
+  - Establish workshop coordination and magical crafting procedures
+  - Execute advanced item crafting and magical enhancement operations
+  - Complete magical workshop collaboration within 25 rounds
+relevant_game_context: |
+  This is a cooperative multi-agent magical crafting scenario requiring coordination, crafting skills, and magical expertise.
+
+  OBJECTIVE: Establish a magical workshop, craft advanced items, and perform coordinated enchantment operations.
+
+  MISSION REQUIREMENTS:
+  - Establish workshop operations in a suitable location
+  - Craft advanced items using available crafting mechanics
+  - Coordinate magical operations and enchantment procedures
+  - Create multiple enhanced items through team collaboration
+
+  TEAM COORDINATION:
+  - Use global chat to coordinate crafting activities and resource allocation
+  - Coordinate between resource gathering, crafting, and magical enhancement
+  - Share crafting materials and provide mutual support during operations
+  - Work together to optimize workshop efficiency and item quality
+
+  GENERAL STRATEGY:
+  - The team needs to establish efficient workshop operations
+  - Crafting requires proper materials, skills, and coordination
+  - Different items have different crafting requirements and enhancement potential
+  - Coordinate crafting sequence for maximum efficiency
+  - Balance individual specialization with collaborative workshop goals
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  MAGICAL WORKSHOP PROCEDURES (CRITICAL KNOWLEDGE):
+  🏗️ Workshop Setup:
+    - Use observe_environment to find suitable workshop locations
+    - Establish centralized crafting operations in accessible areas
+    - Coordinate positioning for efficient material sharing and crafting
+    - Set up workshop areas for different crafting specializations
+
+  🔨 Advanced Crafting:
+    - Use craft_item skill=Crafting to create advanced items
+    - Focus on items that exist in the game crafting system
+    - Coordinate crafting sequence based on material availability
+    - Share crafting materials and coordinate production timing
+
+  ⚡ Magical Enhancement:
+    - Use available magical abilities to enhance crafted items
+    - Coordinate magical operations between team members
+    - Focus on realistic enhancement mechanics available in game
+    - Balance magical energy usage across team operations
+
+  📦 Resource Management:
+    - Coordinate resource gathering for crafting materials
+    - Share materials efficiently between workshop participants
+    - Manage inventory space for optimal crafting operations
+    - Coordinate material distribution based on crafting priorities
+
+  🛠️ Workshop Protocols:
+    - Maintain organized crafting operations and clear communication
+    - Coordinate crafting timing to avoid conflicts and optimize efficiency
+    - Share workshop space and tools effectively
+    - Balance individual crafting goals with collaborative objectives
+max_action_steps: 32
+agent_1:
+  username: master_smith_agent
+  new_character: true
+  location:
+    x: 280
+    y: 190
+  skill_levels:
+    crafting: 40
+    smithing: 35
+    strength: 30
+    health: 28
+    accuracy: 15
+  inventory_items:
+  - item: flask
+    count: 18
+  - item: apple
+    count: 25
+  equipped_items:
+  - item: sword
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: enchantment_specialist_agent
+  new_character: true
+  location:
+    x: 290
+    y: 200
+  skill_levels:
+    magic: 42
+    crafting: 30
+    health: 32
+    accuracy: 28
+    defense: 20
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 20
+  equipped_items:
+  - item: smithinghammer
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: resource_coordinator_agent
+  new_character: true
+  location:
+    x: 300
+    y: 210
+  skill_levels:
+    lumberjacking: 35
+    foraging: 30
+    strength: 38
+    health: 25
+    accuracy: 18
+  inventory_items:
+  - item: flask
+    count: 22
+  - item: apple
+    count: 25
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- master_smith_agent successfully establishes workshop operations and crafting procedures
+- master_smith_agent successfully crafts at least one advanced item using smithing skills
+- enchantment_specialist_agent successfully performs magical enhancement operations
+- enchantment_specialist_agent demonstrates coordinated magical abilities
+- resource_coordinator_agent provides effective material gathering and resource coordination
+- Team successfully manages workshop operations and resource sharing
+- Team successfully completes collaborative crafting and enchantment projects
+- Magical workshop collaboration completed within time limit with successful item creation

@@ -1,0 +1,265 @@
+task:
+  name: The Great Migration - Castle Reclamation (Variant 1)
+  description: A convoy mission where 20 agents must escort a supply train of Settlers through a hostile Castle region to
+    reclaim the Throne Room.
+objectives:
+  primary: Escort all 8 Settlers and their supplies to the Castle Throne Room (X:712, Y:717) while neutralizing Ice Knight
+    threats.
+  secondary:
+  - 'Vanguard: Clear the path of Ice Knights (Defeat 3)'
+  - 'Settlers: Transport 160 Logs to the Throne Room (Do not drop or lose items)'
+  - 'Rear Guard: Protect the Settlers from flanking attacks'
+  - 'Team: Consolidate all 160 Logs with the Colony Governor (Settler_1) at the destination'
+  - 'Survival: Ensure no Settlers die during the transit'
+relevant_game_context: |
+  🏰 CONVOY OPERATIONS ORDER
+
+  Mission: Reclaim the Frozen Fortress.
+  Start Point: Outskirts (700, 700)
+  End Point: Throne Room (712, 717)
+
+  THREAT ASSESSMENT:
+  - Region 7-7: Castle/Fortress
+  - Hostiles: Ice Knights (Level 62). High Damage, Freeze attacks.
+  - Risk: Settlers have minimal combat training. If they die, the mission fails.
+
+  FORMATION STRATEGY:
+  - Vanguard (Agents 1-6): Advance 3 tiles ahead of the main group. Aggro any mobs immediately.
+  - Settlers (Agents 7-14): Move in a tight pack. STAY BEHIND VANGUARD.
+  - Rear Guard (Agents 15-20): Watch the back. Ensure no stragglers.
+
+  MOVEMENT DISCIPLINE:
+  - Do not sprint. Move 1-2 tiles per turn and WAIT for formation to realign.
+  - Use 'say' to confirm "Sector Clear" before advancing.
+  - If an Ice Knight appears, Settlers must STOP and Vanguard must ENGAGE.
+
+  SUPPLY MANAGEMENT:
+  - Each Settler carries 20 Logs.
+  - Total Cargo: 160 Logs.
+  - Upon reaching (712, 717), transfer ALL Logs to Settler_1 (Governor).
+
+  TIME LIMIT: 55 Rounds. The cold is setting in. Move with purpose.
+limitations:
+  max_action_steps: 55
+agent_1:
+  username: Vanguard_Captain
+  new_character: true
+  location:
+    x: 702
+    y: 702
+  skill_levels: &id001
+    strength: 70
+    defense: 70
+    health: 80
+    accuracy: 60
+  inventory_items: &id002
+  - item: flask
+    count: 30
+  - item: apple
+    count: 30
+  equipped_items: &id003
+  - item: goldensword
+    count: 1
+  - item: platearmor
+    count: 1
+  - item: goldboots
+    count: 1
+agent_2:
+  username: Vanguard_2
+  new_character: true
+  location:
+    x: 703
+    y: 702
+  skill_levels: *id001
+  inventory_items: *id002
+  equipped_items: *id003
+agent_3:
+  username: Vanguard_3
+  new_character: true
+  location:
+    x: 701
+    y: 702
+  skill_levels: *id001
+  inventory_items: *id002
+  equipped_items: *id003
+agent_4:
+  username: Vanguard_4
+  new_character: true
+  location:
+    x: 702
+    y: 703
+  skill_levels: *id001
+  inventory_items: *id002
+  equipped_items: *id003
+agent_5:
+  username: Vanguard_5
+  new_character: true
+  location:
+    x: 703
+    y: 703
+  skill_levels: *id001
+  inventory_items: *id002
+  equipped_items: *id003
+agent_6:
+  username: Vanguard_6
+  new_character: true
+  location:
+    x: 701
+    y: 703
+  skill_levels: *id001
+  inventory_items: *id002
+  equipped_items: *id003
+agent_7:
+  username: Settler_Governor
+  new_character: true
+  location:
+    x: 700
+    y: 700
+  skill_levels: &id004
+    strength: 20
+    defense: 10
+    health: 30
+    woodcutting: 10
+  inventory_items: &id005
+  - item: logs
+    count: 20
+  - item: apple
+    count: 10
+  equipped_items: &id006
+  - item: leatherarmor
+    count: 1
+agent_8:
+  username: Settler_2
+  new_character: true
+  location:
+    x: 700
+    y: 701
+  skill_levels: *id004
+  inventory_items: *id005
+  equipped_items: *id006
+agent_9:
+  username: Settler_3
+  new_character: true
+  location:
+    x: 699
+    y: 700
+  skill_levels: *id004
+  inventory_items: *id005
+  equipped_items: *id006
+agent_10:
+  username: Settler_4
+  new_character: true
+  location:
+    x: 699
+    y: 701
+  skill_levels: *id004
+  inventory_items: *id005
+  equipped_items: *id006
+agent_11:
+  username: Settler_5
+  new_character: true
+  location:
+    x: 698
+    y: 700
+  skill_levels: *id004
+  inventory_items: *id005
+  equipped_items: *id006
+agent_12:
+  username: Settler_6
+  new_character: true
+  location:
+    x: 698
+    y: 701
+  skill_levels: *id004
+  inventory_items: *id005
+  equipped_items: *id006
+agent_13:
+  username: Settler_7
+  new_character: true
+  location:
+    x: 697
+    y: 700
+  skill_levels: *id004
+  inventory_items: *id005
+  equipped_items: *id006
+agent_14:
+  username: Settler_8
+  new_character: true
+  location:
+    x: 697
+    y: 701
+  skill_levels: *id004
+  inventory_items: *id005
+  equipped_items: *id006
+agent_15:
+  username: RearGuard_Cmdr
+  new_character: true
+  location:
+    x: 696
+    y: 699
+  skill_levels: &id007
+    strength: 50
+    defense: 50
+    health: 60
+    accuracy: 50
+  inventory_items: &id008
+  - item: flask
+    count: 20
+  - item: apple
+    count: 20
+  equipped_items: &id009
+  - item: heavysword
+    count: 1
+  - item: platearmor
+    count: 1
+agent_16:
+  username: RearGuard_2
+  new_character: true
+  location:
+    x: 697
+    y: 699
+  skill_levels: *id007
+  inventory_items: *id008
+  equipped_items: *id009
+agent_17:
+  username: RearGuard_3
+  new_character: true
+  location:
+    x: 695
+    y: 699
+  skill_levels: *id007
+  inventory_items: *id008
+  equipped_items: *id009
+agent_18:
+  username: RearGuard_4
+  new_character: true
+  location:
+    x: 696
+    y: 698
+  skill_levels: *id007
+  inventory_items: *id008
+  equipped_items: *id009
+agent_19:
+  username: RearGuard_5
+  new_character: true
+  location:
+    x: 697
+    y: 698
+  skill_levels: *id007
+  inventory_items: *id008
+  equipped_items: *id009
+agent_20:
+  username: RearGuard_6
+  new_character: true
+  location:
+    x: 695
+    y: 698
+  skill_levels: *id007
+  inventory_items: *id008
+  equipped_items: *id009
+success_criteria:
+- All 8 Settlers reach the Throne Room (712, 717)
+- Settler_Governor holds 160 Logs (Consolidated)
+- At least 3 Ice Knights are defeated by the Vanguard
+- All Settlers survive the journey
+- Team maintains formation (Settlers behind Vanguard)

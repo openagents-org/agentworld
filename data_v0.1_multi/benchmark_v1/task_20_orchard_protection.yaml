@@ -1,0 +1,104 @@
+task:
+  name: Orchard Protection Mission - Fruit Grove Team Defense (Variant 1)
+  description: Three agents work together where one guardian protects two collectors gathering orchard fruits from wildlife
+    and pest threats
+objectives:
+  primary: Successfully protect collectors while they gather 6x blueberry and 3x rawtuna under orchard threat conditions
+  secondary:
+  - Establish effective team communication for threat alerts
+  - Guardian successfully defends team from hostile wildlife and pests
+  - Complete orchard resource gathering without casualties within 25 rounds
+relevant_game_context: "This is a cooperative multi-agent orchard protection scenario requiring tactical coordination.\n\n\
+  OBJECTIVE: Successfully gather required orchard resources while protecting the team from wildlife and pest threats.\n\n\
+  MISSION REQUIREMENTS:\n- Collect 6x blueberry and 3x rawtuna while under potential wildlife and pest threat\n- Keep all\
+  \ team members alive throughout the mission\n- Use teamwork to balance resource gathering with orchard security\n\nTEAM\
+  \ COORDINATION:\n- Establish communication protocols for wildlife and pest detection and warnings\n- Coordinate movements\
+  \ between protection and orchard resource gathering\n- Share information about resource locations and environmental dangers\n\
+  - Work together to ensure both safety and mission success\n\nGENERAL STRATEGY:\n- The team has complementary roles in combat,\
+  \ foraging, and fishing\n- Wildlife and pest threats may appear and must be dealt with appropriately\n- Orchard resource\
+  \ gathering requires moving to specific locations\n- Balance efficiency with safety - casualties will cause mission failure\n\
+  - Use global chat for real-time coordination and threat alerts\n\nDO NOT use complete() until ALL objectives are achieved\
+  \ safely!\n\nCOMBAT MECHANICS (CRITICAL KNOWLEDGE):\n\U0001F3F9 Combat - Attack threats:\n  - Use observe_environment to\
+  \ detect hostile wildlife and pests\n  - Use attack command on hostile targets\n  - Use bow for ranged combat advantage\n\
+  \n\U0001FAD0 Foraging - blueberry:\n  - harvest_resource on blueberry instances to get blueberry\n  - Level required: 1+\
+  \ (Foraging skill)\n  - Target: 6x blueberry total\n  - IMPORTANT: Look for \"Blueberry\" bushes in orchard areas!\n\n\U0001F41F\
+  \ Fishing - rawtuna:\n  - harvest_resource on tuna fishing spots to get rawtuna\n  - Level required: 1+ (Fishing skill)\
+  \  \n  - Target: 3x rawtuna total\n  - IMPORTANT: Look for \"Tuna\" fishing spots near orchard water sources!\n"
+max_action_steps: 21
+agent_1:
+  username: orchard_guardian_agent
+  new_character: true
+  location:
+    x: 200
+    y: 200
+  skill_levels:
+    archery: 45
+    fletching: 35
+    strength: 40
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  - item: arrow
+    count: 90
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: woodenbow
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: berry_picker_agent
+  new_character: true
+  location:
+    x: 205
+    y: 200
+  skill_levels:
+    foraging: 20
+    defense: 15
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: pond_fisher_agent
+  new_character: true
+  location:
+    x: 210
+    y: 200
+  skill_levels:
+    fishing: 25
+    defense: 18
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: fishingpole
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- berry_picker_agent has at least 6x blueberry in inventory
+- pond_fisher_agent has at least 3x rawtuna in inventory
+- All agents remain alive throughout the mission
+- Orchard guardian successfully protects team from wildlife and pest threats

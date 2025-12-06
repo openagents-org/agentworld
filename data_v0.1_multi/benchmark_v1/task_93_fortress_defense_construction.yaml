@@ -1,0 +1,569 @@
+task:
+  name: Fortress Defense Construction - Multi-Stage Defensive Fortification (Variant 1)
+  description: Fifteen agents work together to build a complete fortress defense system, gathering materials, crafting equipment,
+    and defending against simulated attacks
+objectives:
+  primary: Construct a fully operational fortress defense system with walls, weapons, and trained defenders over 55 rounds
+  secondary:
+  - 'Phase 1 (Rounds 1-15): Foundation - Gather raw materials (100+ logs, 50+ iron ore, 50+ coal)'
+  - 'Phase 2 (Rounds 16-28): Construction - Craft defensive equipment (10+ weapons, 5+ armor sets)'
+  - 'Phase 3 (Rounds 29-40): Armament - Produce ammunition and supplies (50+ arrows, 100+ healing items)'
+  - 'Phase 4 (Rounds 41-55): Defense Drill - Position defenders and execute coordinated defense simulation'
+relevant_game_context: |
+  FORTRESS DEFENSE PROJECT OVERVIEW:
+
+  The kingdom faces imminent threats. Fifteen citizens must unite to construct a fortress defense system
+  capable of protecting the realm. This requires resource gathering, equipment crafting, and military coordination.
+
+  🏰 FORTRESS CONSTRUCTION TEAMS:
+
+  ═══════════════════════════════════════════════════════════
+  🪵 CONSTRUCTION CORPS (Agents 1-5) - Material Gathering
+  ═══════════════════════════════════════════════════════════
+
+  **Mission**: Gather massive quantities of construction materials
+  **Starting Location**: Oak Forest Region (388, 3)
+
+  **Team Composition**:
+  - Agent 1 (Chief Lumberjack): Lead wood harvesting operations
+  - Agent 2 (Lumberjack Alpha): Support wood collection
+  - Agent 3 (Lumberjack Beta): Transport logs to fortress
+  - Agent 4 (Stone Mason): Mine stone and coal for smelting
+  - Agent 5 (Resource Coordinator): Manage material distribution
+
+  **Material Goals**:
+  - 134x logs (fortress structure framework)
+  - 63x coal (smelting fuel)
+  - 39x ironore (weapon production)
+  - 69x sticks (crafted from logs for arrows)
+
+  **Workflow**:
+  - Agents 1-3: Harvest Oak trees continuously (aim for 35+ logs each)
+  - IMPORTANT: Look for "Oak", "Oak2", "Oak3", "Oak4", or "Oak5" tree types
+  - AVOID: Willow trees (Level 30, produces willowlogs, not usable)
+  - Agent 4: Mine at (230, 40) for ironore and coal
+  - Agent 5: Coordinate transfers to other teams
+  - Use verify_inventory every 5 rounds to track progress
+
+  **Oak Tree Locations**:
+  - Primary oak forest: (388-392, 3-8) area
+  - Use observe_environment to scout for "Oak" tree types
+  - harvest_resource on Oak tree instances
+
+  ═══════════════════════════════════════════════════════════
+  ⚔️ ARMORY DIVISION (Agents 6-10) - Equipment Crafting
+  ═══════════════════════════════════════════════════════════
+
+  **Mission**: Craft complete equipment sets for defenders
+  **Starting Location**: Mountain Forge (235, 45)
+
+  **Team Composition**:
+  - Agent 6 (Master Blacksmith): Craft swords and axes
+  - Agent 7 (Weapon Smith): Craft heavy weapons and tools
+  - Agent 8 (Armor Smith): Craft protective equipment
+  - Agent 9 (Smelting Master): Smelt all ore into bars
+  - Agent 10 (Armory Quartermaster): Manage equipment distribution
+
+  **Equipment Goals**:
+  - 6x heavy swords (primary weapons)
+  - 3x axes (backup weapons)
+  - 2x pickaxes (mining/repair tools)
+  - 3x iron armor sets (if materials allow)
+  - 50+ ironbar (smelted from ore)
+
+  **Crafting Chain**:
+  1. Agent 9 receives 30+ ironore + 30+ coal from Construction Corps
+  2. Agent 9 smelts minimum 69x ironbar
+  3. Agents 6-7 receive ironbar + logs for weapon crafting
+  4. Agent 8 crafts armor if excess materials available
+  5. Agent 10 distributes equipment to Defense Battalion
+
+  **Recipes Needed**:
+  - Heavy Sword: 2 ironbar + 1 hilt2 (5 total swords)
+  - Axe: 3 ironbar + 1 logs (3 total axes)
+  - Pickaxe: 5 ironbar + 1 logs (2 total)
+
+  ═══════════════════════════════════════════════════════════
+  🏹 ARCHERY CORPS (Agents 11-12) - Ranged Weapons
+  ═══════════════════════════════════════════════════════════
+
+  **Mission**: Produce massive arrow stockpile for defense
+  **Starting Location**: Near Forest (390, 8)
+
+  **Team Composition**:
+  - Agent 11 (Master Fletcher): Craft arrows and bows
+  - Agent 12 (Feather Collector): Hunt birds for feathers
+
+  **Production Goals**:
+  - 55x arrows (requires 50 sticks + 50 feathers)
+  - 2x wooden bows (requires 2 logs + 2 string)
+
+  **Workflow**:
+  - Agent 12: Hunt Roosters/Bats for feathers (need 50+ feathers)
+  - Agent 11: Receive 50 sticks from Construction Corps
+  - Agent 11: Craft arrows in batches (10 sticks + 10 feathers → 10 arrows)
+  - Agent 11: Craft 2 wooden bows from imported logs
+
+  ═══════════════════════════════════════════════════════════
+  🛡️ DEFENSE BATTALION (Agents 13-15) - Combat Force
+  ═══════════════════════════════════════════════════════════
+
+  **Mission**: Train and prepare for fortress defense
+  **Starting Location**: Fortress Center (400, 10)
+
+  **Team Composition**:
+  - Agent 13 (Defense Commander): Coordinate all defense operations
+  - Agent 14 (Elite Warrior): Front-line combat specialist
+  - Agent 15 (Archer Sentinel): Ranged defense specialist
+
+  **Equipment Loadout** (received from Armory):
+  - Commander: 1 heavy sword + iron armor + 30 healing items
+  - Warrior: 1 heavy sword + 1 axe + 30 healing items
+  - Archer: 1 wooden bow + 50 arrows + 25 healing items
+
+  **Defense Drill** (Phase 4):
+  - Position at strategic coordinates
+  - Execute coordinated attack on practice target (Goblin Level 10)
+  - Demonstrate formation tactics in chat
+  - Verify all equipment functional
+
+  ═══════════════════════════════════════════════════════════
+  📋 COORDINATION & COMMUNICATION
+  ═══════════════════════════════════════════════════════════
+
+  **Phase 1: Foundation (Rounds 1-15)**
+  - Construction Corps spreads across oak forest and mines
+  - Announce every 10 logs/ore collected
+  - Format: "[Construction] Agent X: 20/100 logs collected"
+  - Establish central collection point at (390, 15)
+
+  **Phase 2: Construction (Rounds 16-28)**
+  - Armory Division begins receiving materials
+  - Smelter announces bar production: "10/50 ironbar smelted"
+  - Smiths craft weapons simultaneously
+  - Distribute equipment to Defense Battalion
+
+  **Phase 3: Armament (Rounds 29-40)**
+  - Archery Corps produces arrow stockpile
+  - Medical teams gather/cook healing supplies
+  - Verify all defenders equipped
+  - Conduct equipment checks
+
+  **Phase 4: Defense Drill (Rounds 41-55)**
+  - Commander positions all defenders
+  - Execute coordinated mock battle
+  - Test communication and tactics
+  - Final fortress inspection
+
+  **Inter-Team Transfers**:
+  - Construction → Armory: logs, ironore, coal
+  - Construction → Archery: sticks (50+)
+  - Armory → Defense: weapons and armor
+  - Archery → Defense: bows and arrows
+  - All → Defense: healing items
+
+  **Emergency Protocols**:
+  - If materials shortage: Construction Corps intensifies gathering
+  - If crafting delayed: Redistribute smiths to priority items
+  - If defender injured in drill: Medical support immediate response
+
+  ═══════════════════════════════════════════════════════════
+  🎯 SUCCESS CRITERIA (ALL MUST BE MET)
+  ═══════════════════════════════════════════════════════════
+
+  1. **Materials Gathered**: 100+ logs, 50+ ironore, 50+ coal
+  2. **Bars Smelted**: 50+ ironbar produced
+  3. **Weapons Crafted**: 5+ heavy swords, 3+ axes, 2+ pickaxes
+  4. **Ammunition Ready**: 50+ arrows, 2+ wooden bows
+  5. **Defenders Equipped**: All 3 battalion members fully armed
+  6. **Healing Stockpile**: 100+ total healing items across team
+  7. **Defense Drill**: Successfully execute coordinated mock battle
+  8. **Communication**: Continuous updates from all teams
+  9. **Time Management**: Complete within 55 rounds
+
+  DO NOT call complete() until fortress defense system is fully operational!
+
+  **Victory Announcement**:
+  "FORTRESS DEFENSE COMPLETE! Materials: X logs/Y ore | Equipment: Z weapons | Defenders: 3 armed | Drill: SUCCESS"
+max_action_steps: 51
+agent_1:
+  username: chief_lumberjack
+  new_character: true
+  location:
+    x: 388
+    y: 3
+  skill_levels:
+    lumberjacking: 45
+    strength: 40
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: lumberjack_alpha
+  new_character: true
+  location:
+    x: 390
+    y: 5
+  skill_levels:
+    lumberjacking: 40
+    strength: 38
+    health: 38
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: lumberjack_beta
+  new_character: true
+  location:
+    x: 392
+    y: 7
+  skill_levels:
+    lumberjacking: 38
+    strength: 40
+    health: 42
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_4:
+  username: stone_mason
+  new_character: true
+  location:
+    x: 230
+    y: 40
+  skill_levels:
+    mining: 45
+    strength: 40
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  - item: coal
+    count: 10
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_5:
+  username: resource_coordinator
+  new_character: true
+  location:
+    x: 390
+    y: 15
+  skill_levels:
+    strength: 40
+    health: 45
+    defense: 35
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_6:
+  username: master_blacksmith
+  new_character: true
+  location:
+    x: 235
+    y: 45
+  skill_levels:
+    smithing: 50
+    strength: 35
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  - item: hilt2
+    count: 3
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_7:
+  username: weapon_smith
+  new_character: true
+  location:
+    x: 237
+    y: 47
+  skill_levels:
+    smithing: 45
+    strength: 35
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  - item: hilt2
+    count: 2
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_8:
+  username: armor_smith
+  new_character: true
+  location:
+    x: 239
+    y: 49
+  skill_levels:
+    smithing: 40
+    crafting: 35
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_9:
+  username: smelting_master
+  new_character: true
+  location:
+    x: 233
+    y: 43
+  skill_levels:
+    smithing: 50
+    mining: 30
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  - item: coal
+    count: 15
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_10:
+  username: armory_quartermaster
+  new_character: true
+  location:
+    x: 240
+    y: 46
+  skill_levels:
+    strength: 40
+    health: 45
+    defense: 35
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_11:
+  username: master_fletcher
+  new_character: true
+  location:
+    x: 390
+    y: 8
+  skill_levels:
+    fletching: 50
+    crafting: 40
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  - item: feather
+    count: 15
+  - item: string
+    count: 5
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_12:
+  username: feather_collector
+  new_character: true
+  location:
+    x: 392
+    y: 10
+  skill_levels:
+    accuracy: 40
+    strength: 38
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  - item: feather
+    count: 10
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_13:
+  username: defense_commander
+  new_character: true
+  location:
+    x: 400
+    y: 10
+  skill_levels:
+    strength: 45
+    defense: 45
+    health: 50
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_14:
+  username: elite_warrior
+  new_character: true
+  location:
+    x: 402
+    y: 12
+  skill_levels:
+    strength: 50
+    accuracy: 40
+    health: 45
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_15:
+  username: archer_sentinel
+  new_character: true
+  location:
+    x: 404
+    y: 14
+  skill_levels:
+    accuracy: 50
+    archery: 45
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- Construction Corps successfully gathers 100+ logs from oak forest operations
+- Stone Mason successfully mines 50+ ironore and 50+ coal
+- Smelting Master successfully smelts 50+ ironbar
+- Armory Division crafts 5+ heavy swords for defenders
+- Armory Division crafts 3+ axes and 2+ pickaxes
+- Archery Corps produces 50+ arrows from gathered materials
+- Archery Corps crafts 2+ wooden bows
+- Defense Battalion receives complete equipment loadout
+- All defenders equipped with weapons, armor, and 25+ healing items
+- Team stockpiles 100+ total healing items for fortress
+- Defense drill successfully executed with coordinated tactics
+- All five teams communicate effectively throughout all phases
+- Materials transferred efficiently between teams
+- Commander demonstrates tactical coordination in Phase 4
+- Fortress defense system fully operational within 55 rounds

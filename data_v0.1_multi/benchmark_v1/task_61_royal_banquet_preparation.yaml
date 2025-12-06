@@ -1,0 +1,204 @@
+task:
+  name: Royal Banquet Preparation - Gourmet Multi-Course Feast (Variant 1)
+  description: Eight culinary specialists coordinate to prepare an elaborate royal banquet with 12+ gourmet dishes, rare ingredients,
+    and exquisite presentation
+objectives:
+  primary: 'Prepare a complete royal banquet: 8+ cooked dishes, 4+ specialty items, 60+ rare ingredients for the royal feast'
+  secondary:
+  - 'Course 1 (Rounds 1-15): Rare Ingredient Gathering - Hunt, fish, and forage premium ingredients'
+  - 'Course 2 (Rounds 16-28): Ingredient Processing - Transport and prepare ingredients'
+  - 'Course 3 (Rounds 29-45): Gourmet Cooking - Create all banquet dishes'
+  - 'Course 4 (Rounds 46-53): Banquet Assembly - Present complete feast'
+relevant_game_context: |
+  BANQUET OVERVIEW
+  - Eight chefs split into hunting, fishing, foraging, and kitchen crews to deliver by Round 53: 8 cooked dishes (corn stew ×2, cooked beef, tuna sushi, cooked shrimp ×2, cooked chicken, jellyfish smoothie) plus 4 decorative gifts (2 beryl pendants, 2 silver rings) using at least 60 premium ingredients.
+
+  WORKFLOW
+  1. R1-15 Gathering
+     • Hunters near (350,250) farm chickens/cows for meat.
+     • Fishers on the eastern coast (~900,400) net tuna, shrimp, jellyfish.
+     • Foragers in the western forest (~250,350) collect corn, mushrooms, herbs, beryl, string.
+     • Kitchen duo at (528,384) monitors chat and checks starting bowls/iron bars.
+  2. R16-28 Delivery
+     • All gatherers march toward the royal kitchen in ≤32-tile hops and transfer ingredients via transfer_items (meat/veg → Head_Chef, gems/strings → Decorator). After each transfer, both parties verify_inventory and log totals.
+  3. R29-45 Cooking & Crafting
+     • Head_Chef cooks the eight dishes consecutively once ingredients arrive; mention each completion (“Corn stew 1/2”).
+     • Decorator uses the supplied beryl/string/iron bars to craft pendants and silver rings (smelt extra iron if needed).
+  4. R46-53 Assembly
+     • Team reviews inventories, plates the courses, and records a final menu summary before complete().
+
+  EXECUTION NOTES
+  - Without observe_environment, sweep the suggested coordinate bands manually; rely on harvest_resource/attack_entity results and verify_inventory counts.
+  - Healing: hunters/fishers should eat apples/flasks when HP < 70% so ingredient loss is avoided.
+  - Keep a rolling checklist in chat ("Seafood 5/8", "Decor 1/4") so the kitchen knows when to start each dish.
+
+  COMPLETION CHECK
+  - Final message must list all cooked dishes and decorative pieces with the carrier. Only call complete() after the feast inventory is confirmed and everyone is at the kitchen.
+max_action_steps: 58
+agent_1:
+  username: Master_Hunter
+  new_character: true
+  location:
+    x: 350
+    y: 250
+  skill_levels:
+    strength: 40
+    accuracy: 35
+    health: 45
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+agent_2:
+  username: Beast_Slayer
+  new_character: true
+  location:
+    x: 352
+    y: 252
+  skill_levels:
+    strength: 38
+    accuracy: 33
+    health: 43
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: heavysword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+agent_3:
+  username: Expert_Fisher
+  new_character: true
+  location:
+    x: 900
+    y: 400
+  skill_levels:
+    fishing: 35
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_4:
+  username: Sea_Harvester
+  new_character: true
+  location:
+    x: 902
+    y: 402
+  skill_levels:
+    fishing: 30
+    health: 33
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_5:
+  username: Herb_Master
+  new_character: true
+  location:
+    x: 250
+    y: 350
+  skill_levels:
+    foraging: 40
+    health: 32
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_6:
+  username: Vegetable_Gatherer
+  new_character: true
+  location:
+    x: 252
+    y: 352
+  skill_levels:
+    foraging: 35
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_7:
+  username: Head_Chef
+  new_character: true
+  location:
+    x: 528
+    y: 384
+  skill_levels:
+    cooking: 45
+    crafting: 25
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_8:
+  username: Banquet_Decorator
+  new_character: true
+  location:
+    x: 530
+    y: 386
+  skill_levels:
+    crafting: 35
+    smithing: 30
+    health: 28
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  - item: ironbar
+    count: 4
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+success_criteria:
+- 'Course 1: Hunting Brigade hunts 5+ chickens and 3+ beef'
+- 'Course 1: Fishing Fleet catches 3+ tuna, 8+ shrimp, 5+ jellyfish'
+- 'Course 1: Foraging Team gathers 10+ corn, 8+ mushrooms, 2+ beryl'
+- 'Course 2: All teams travel to Royal Kitchen'
+- 'Course 2: Perfect ingredient consolidation'
+- 'Course 3: Head Chef cooks all 8 dishes'
+- 'Course 3: Decorator crafts 4 specialty items'
+- 'Course 4: Complete banquet assembled'
+- Total 12+ items created for royal feast
+- Completed in 50-53 rounds

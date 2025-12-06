@@ -1,0 +1,128 @@
+task:
+  name: Cooperative Beryl Pendant Crafting - Elegant Jewelry (Variant 2 - Spread Locations)
+  description: Three agents work together to create a beryl pendant through foraging, gem mining, and jewelry crafting
+objectives:
+  primary: Create a beryl pendant by combining beryl gem with crafted string
+  secondary:
+  - Coordinate foraging and mining operations
+  - Execute safe transfers of delicate materials
+  - Complete elegant jewelry crafting within 37 rounds
+relevant_game_context: |
+  This is a cooperative multi-agent jewelry crafting scenario requiring both foraging and mining skills.
+
+  OBJECTIVE: Create a beryl pendant by combining beryl gem with crafted string from natural materials.
+
+  TEAM COORDINATION:
+  - Use global chat to share locations of foraging and mining resources
+  - Coordinate between plant gathering and gem mining operations
+  - Share materials for intermediate crafting steps
+  - Work together to complete elegant jewelry crafting
+
+  GENERAL STRATEGY:
+  - The team needs to gather plant materials for string crafting
+  - Someone needs to locate and collect specific flowers for string crafting
+  - Beryl gem is already provided in gem_miner_agent's inventory
+  - Materials must be processed into components and assembled into jewelry
+  - Focus on foraging and crafting activities for efficient completion
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  CRAFTING RECIPES (CRITICAL KNOWLEDGE):
+  🌸 Foraging - bluelily:
+    - harvest_resource on bluelily instances to get bluelily
+    - Level required: 10+ (Foraging skill)
+
+  💎 Beryl gem:
+    - Already provided in gem_miner_agent's initial inventory
+    - No mining required for this task
+
+  🧵 Crafting Recipe - string:
+    - craft_item skill=Crafting itemKey=string
+    - Materials: 1x bluelily → 1x string
+    - Level required: 1 (Crafting skill)
+
+  📿 Crafting Recipe - beryl pendant:
+    - craft_item skill=Crafting itemKey=berylpendant
+    - Materials: 1x beryl + 1x string → 1x beryl pendant
+    - Level required: 1 (Crafting skill)
+max_action_steps: 37
+agent_1:
+  username: forager_agent
+  new_character: true
+  location:
+    x: 904
+    y: 397
+  skill_levels:
+    foraging: 20
+    strength: 20
+    health: 25
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: gem_miner_agent
+  new_character: true
+  location:
+    x: 52
+    y: 308
+  skill_levels:
+    mining: 25
+    strength: 30
+    health: 25
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  - item: beryl
+    count: 1
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: jeweler_agent
+  new_character: true
+  location:
+    x: 168
+    y: 344
+  skill_levels:
+    crafting: 25
+    foraging: 10
+    mining: 5
+    strength: 20
+    health: 25
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- forager_agent successfully collects and transfers blue lily
+- gem_miner_agent successfully transfers beryl to jeweler
+- jeweler_agent receives materials and crafts string
+- jeweler_agent successfully crafts and equips beryl pendant
+- All agents coordinate material gathering and crafting efficiently
+- Elegant jewelry production completes within time limit

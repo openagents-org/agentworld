@@ -1,0 +1,169 @@
+task:
+  name: Elite Combat Operations - Advanced Creature Hunting and Resource Mastery (Variant 1)
+  description: Three agents work together to conduct elite combat operations, hunt challenging creatures, and master advanced
+    resource collection techniques
+objectives:
+  primary: Successfully execute elite combat operations, hunt challenging creatures, and demonstrate mastery of advanced resource
+    collection
+  secondary:
+  - Establish elite combat coordination and challenging creature hunting operations
+  - Execute coordinated high-level creature combat with advanced tactical coordination
+  - Complete elite combat operations within 34 rounds
+relevant_game_context: |
+  This is a cooperative multi-agent elite combat scenario requiring maximum coordination and advanced tactical skills.
+
+  OBJECTIVE: Execute elite combat operations, hunt challenging creatures, and master advanced resource collection techniques.
+
+  MISSION REQUIREMENTS:
+  - Establish elite combat operations in challenging areas
+  - Hunt and defeat high-level creatures using coordinated tactics
+  - Execute advanced resource collection and combat mastery techniques
+  - Demonstrate elite-level team coordination and combat proficiency
+
+  TEAM COORDINATION:
+  - Use global chat for complex combat coordination and tactical status updates
+  - Coordinate between creature hunting, combat operations, and resource collection
+  - Share combat expertise and provide maximum tactical support
+  - Work together to handle the most challenging combat encounters available
+
+  GENERAL STRATEGY:
+  - This requires expert-level coordination and advanced combat skills
+  - High-level creatures require sophisticated tactical approaches
+  - Elite operations demand precise coordination and timing
+  - Advanced combat techniques require specialized positioning and resource management
+  - Balance aggressive tactics with strategic positioning and team survival
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  ELITE COMBAT OPERATIONS (CRITICAL KNOWLEDGE):
+  🎯 Tactical Positioning:
+    - Use observe_environment to scout areas and locate high-level creatures
+    - Establish strategic positions for coordinated elite combat operations
+    - Navigate challenging terrain while maintaining team coordination
+    - Coordinate movement to optimize tactical advantages
+
+  ⚔️ Combat - High-Level Creatures:
+    - Use observe_environment to locate challenging creatures in the operational area
+    - Focus on high-level creatures that provide significant combat challenges
+    - Expect sophisticated combat patterns requiring advanced tactical responses
+    - Use appropriate weapon and magic combinations for maximum effectiveness
+    - Requires coordinated burst damage and precise tactical positioning
+
+  📦 Advanced Resource Collection:
+    - Locate and collect valuable resources during combat operations
+    - Coordinate resource gathering while maintaining combat readiness
+    - Focus on resources that demonstrate mastery of collection techniques
+    - Balance resource collection with tactical combat objectives
+
+  🛡️ Elite Combat Strategy:
+    - Use lightning and fire magic for maximum tactical effectiveness
+    - Coordinate positioning to optimize team combat advantages
+    - Focus on coordinated tactics that demonstrate elite combat proficiency
+    - Use strategic positioning and tactical coordination for team survival
+    - Coordinate timing for maximum effectiveness during combat encounters
+
+  🏆 Advanced Tactical Operations:
+    - Elite operations require sophisticated coordination and timing
+    - Use environmental advantages and tactical positioning
+    - Coordinate magical abilities and combat techniques
+    - Focus team coordination for handling multiple challenging encounters
+max_action_steps: 35
+agent_1:
+  username: elite_hunter_agent
+  new_character: true
+  location:
+    x: 280
+    y: 190
+  skill_levels:
+    strength: 55
+    accuracy: 50
+    defense: 48
+    health: 65
+    magic: 35
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: heavysword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 1
+  - item: leatherboots
+    count: 1
+    enchant: 0
+  - item: icestaff
+    count: 1
+    enchant: 0
+agent_2:
+  username: elite_battlemage_agent
+  new_character: true
+  location:
+    x: 290
+    y: 200
+  skill_levels:
+    magic: 58
+    accuracy: 45
+    health: 60
+    defense: 42
+    strength: 30
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: icestaff
+    count: 1
+    enchant: 1
+  - item: lightningstaff
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: resource_master_agent
+  new_character: true
+  location:
+    x: 300
+    y: 210
+  skill_levels:
+    defense: 52
+    health: 68
+    strength: 48
+    accuracy: 42
+    magic: 32
+  inventory_items:
+  - item: flask
+    count: 40
+  - item: apple
+    count: 45
+  equipped_items:
+  - item: heavysword
+    count: 1
+    enchant: 1
+  - item: platearmor
+    count: 1
+    enchant: 1
+  - item: leatherboots
+    count: 1
+    enchant: 0
+  - item: lightningstaff
+    count: 1
+    enchant: 0
+success_criteria:
+- elite_hunter_agent successfully establishes elite combat operations and coordinates team
+- elite_hunter_agent engages high-level creatures in challenging combat encounters
+- elite_battlemage_agent provides expert magical support during elite combat operations
+- Team successfully defeats multiple challenging creatures using coordinated tactics
+- resource_master_agent successfully demonstrates advanced resource collection mastery
+- All agents survive challenging elite combat encounters
+- Team demonstrates mastery of elite creature combat tactics and coordination
+- Elite combat operations completed within time limit with tactical objectives achieved

@@ -1,0 +1,270 @@
+task:
+  name: Grand Festival Preparation - Multi-Skill Celebration Event (Variant 2 - Spread Locations)
+  description: Ten specialized agents coordinate to prepare a grand festival celebration by fishing, hunting, foraging, cooking,
+    smithing, fletching, and crafting diverse items for the event
+objectives:
+  primary: Prepare a complete festival celebration where 10 agents gather diverse resources, cook multiple dishes, craft competition
+    prizes, and create decorative items - demonstrating coordination across all skill types
+  secondary:
+  - 'Phase 1: Resource Expedition (Fishing, hunting, foraging, mining, lumberjacking across multiple regions)'
+  - 'Phase 2: Material Processing (Cooking dishes, smelting bars for crafting)'
+  - 'Phase 3: Prize Crafting (Smith crafts competition prizes, Fletcher crafts archery equipment)'
+  - 'Phase 4: Decoration Creation (Crafter makes decorative items for festival)'
+  - 'Phase 5: Festival Setup (All agents consolidate items at festival grounds)'
+  - Complete within 73 rounds with all festival items ready
+relevant_game_context: |
+  FESTIVAL PLAN
+  - Ten specialists gather seafood, meats, produce, ores, gems, and logs; cooks turn them into feast dishes, smith/fletcher craft competition prizes, decorator builds showpieces, and everyone meets at the plaza (450,300) with a complete inventory within 50 rounds.
+
+  PHASE SUMMARY
+  1. R1-15 Resource expedition: fishers catch shrimp/tuna, hunter collects 10 meat, foragers gather fruits/veg, smith/decorator mine ores/gems, fletcher cuts logs. Announce progress in chat and verify_inventory after each quota.
+  2. R16-28 Processing: gatherers travel to the cooking hub (~400,300) to hand ingredients to cooks; smith smelts 10 iron + 5 gold bars. Cooks prepare seafood dishes, stew, cooked meat, and smoothies while reporting counts.
+  3. R29-37 Prizes: fletcher crafts a wooden bow (plus arrows if feathers exist); smith forges three silver rings and one golden ring.
+  4. R38-44 Decorations: decorator uses gems/logs/berries to craft pendants and a magic staff. Transfer materials via transfer_items with verify_inventory confirmations.
+  5. R45-50 Festival setup: all ten agents travel to (450,300), list their items (foods, prizes, decor), and confirm the checklist before calling complete().
+
+  EXECUTION NOTES
+  - Use chat to track “Food/Prizes/Decor” progress, e.g., “Seafood 6/10, Rings 2/4”.
+  - Transfers require both sender and receiver to verify inventories immediately.
+  - Substitute ingredients if a resource is missing, but ensure minimum counts (≥8 cooked dishes, ≥3 prizes, ≥2 decorations) before final verification.
+max_action_steps: 73
+agent_1:
+  username: FestivalFisher1
+  new_character: true
+  location:
+    x: 50
+    y: 309
+  skill_levels:
+    fishing: 30
+    strength: 20
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: fishingpole
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_2:
+  username: FestivalFisher2
+  new_character: true
+  location:
+    x: 500
+    y: 105
+  skill_levels:
+    fishing: 30
+    strength: 20
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: fishingpole
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_3:
+  username: FestivalHunter
+  new_character: true
+  location:
+    x: 529
+    y: 384
+  skill_levels:
+    strength: 35
+    accuracy: 30
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_4:
+  username: FestivalForager1
+  new_character: true
+  location:
+    x: 174
+    y: 640
+  skill_levels:
+    foraging: 30
+    strength: 20
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_5:
+  username: FestivalForager2
+  new_character: true
+  location:
+    x: 847
+    y: 447
+  skill_levels:
+    foraging: 30
+    strength: 20
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_6:
+  username: FestivalCook1
+  new_character: true
+  location:
+    x: 895
+    y: 400
+  skill_levels:
+    cooking: 30
+    strength: 20
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_7:
+  username: FestivalCook2
+  new_character: true
+  location:
+    x: 264
+    y: 180
+  skill_levels:
+    cooking: 30
+    fletching: 20
+    strength: 20
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_8:
+  username: FestivalSmith
+  new_character: true
+  location:
+    x: 399
+    y: 679
+  skill_levels:
+    mining: 30
+    crafting: 25
+    smithing: 25
+    strength: 25
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_9:
+  username: FestivalFletcher
+  new_character: true
+  location:
+    x: 161
+    y: 334
+  skill_levels:
+    lumberjacking: 25
+    fletching: 25
+    strength: 20
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_10:
+  username: FestivalDecorator
+  new_character: true
+  location:
+    x: 581
+    y: 757
+  skill_levels:
+    mining: 30
+    crafting: 25
+    strength: 20
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+success_criteria:
+- 'Phase 1: FestivalFisher1 catches 10x Shrimp from coastal fishing spots'
+- 'Phase 1: FestivalFisher2 catches 8x Tuna from coastal fishing spots'
+- 'Phase 1: FestivalHunter hunts animals and collects 10x meat'
+- 'Phase 1: FestivalForager1 forages 8x Blueberries and 5x Peaches'
+- 'Phase 1: FestivalForager2 forages 8x Tomatoes and 5x Corn'
+- 'Phase 1: FestivalSmith mines 10x iron ore, 5x gold ore, 15x coal'
+- 'Phase 1: FestivalDecorator mines 5x beryl gems and 3x topaz gems'
+- 'Phase 1: FestivalFletcher gathers 8x logs from Oak Trees'
+- 'Phase 2: All gatherers travel to Cooking Hub and transfer resources to cooks'
+- 'Phase 2: FestivalCook1 receives fish and cooks 10x Cooked Shrimp, 8x Cooked Tuna'
+- 'Phase 2: FestivalCook2 receives meat and vegetables, cooks dishes including Stew'
+- 'Phase 2: FestivalSmith smelts 10x iron bars and 5x gold bars'
+- 'Phase 3: FestivalFletcher crafts 1x Wooden Bow for archery competition'
+- 'Phase 3: FestivalSmith crafts 3x Silver Rings and 1x Golden Ring as competition prizes'
+- 'Phase 4: FestivalDecorator crafts 1x Beryl Pendant, 1x Topaz Pendant, 1x Magic Staff'
+- 'Phase 4: Material transfers coordinated for decoration crafting'
+- 'Phase 5: All 10 agents travel to Festival Grounds at (450, 300)'
+- 'Phase 5: Complete festival inventory verified (foods, prizes, decorations)'
+- 'Team demonstrates coordination across all skill types: Fishing, Hunting, Foraging, Mining, Lumberjacking, Cooking, Smelting,
+  Smithing, Fletching, Crafting'
+- At least 10+ cooked food items created for feast
+- At least 4 competition prizes crafted (3 silver rings + 1 golden ring minimum)
+- At least 3 decorative items created (2 pendants + 1 staff)
+- Team uses chat extensively throughout all phases for coordination
+- Team demonstrates resource logistics and material transfers
+- Grand Festival Preparation completed within 50 rounds with all items ready

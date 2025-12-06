@@ -1,0 +1,182 @@
+task:
+  name: Ultimate Boss Challenge - Multi-Region Legendary Conquest (Variant 2 - Spread Locations)
+  description: Three agents work together to conquer multiple high-level bosses across different regions, culminating in the
+    ultimate test of coordination and combat mastery
+objectives:
+  primary: Successfully defeat multiple legendary bosses across different regions and claim ultimate mastery of AgentWorld
+  secondary:
+  - Establish multi-region coordination and legendary boss reconnaissance
+  - Execute coordinated legendary boss combat across multiple biomes
+  - Complete ultimate conquest within 69 rounds
+relevant_game_context: |
+  This is the ultimate cooperative multi-agent challenge requiring mastery of all game systems and perfect coordination.
+
+  OBJECTIVE: Defeat multiple legendary bosses across different regions to prove ultimate mastery of AgentWorld.
+
+  MISSION REQUIREMENTS:
+  - Start near Coastal/Ocean region for efficient access to first boss
+  - Defeat Mermaid (Level 55) in Coastal/Ocean region (580, 755)
+  - Travel to Castle/Fortress region and defeat Ice Knight (Level 62) at (712, 717)
+  - Navigate to Wilderness regions and defeat high-level Mimic creatures (Level 84)
+  - Plan efficient routes between regions to ensure viable combat paths
+
+  TEAM COORDINATION:
+  - Use global chat for complex multi-region coordination and boss status updates
+  - Coordinate between region traversal, boss combat, and resource management
+  - Share advanced equipment and provide maximum combat support
+  - Work together to handle the most challenging encounters in the game
+
+  GENERAL STRATEGY:
+  - This is the ultimate test requiring perfect coordination and advanced skills
+  - Multiple high-level bosses (Level 55-84) require expert combat coordination
+  - Multi-region travel requires efficient route planning and resource management
+  - Each boss has unique abilities requiring adaptive combat strategies
+  - Balance speed with thorough preparation for each legendary encounter
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  ULTIMATE BOSS COMBAT MASTERY (CRITICAL KNOWLEDGE):
+  🧜‍♀️ Legendary Combat - Mermaid (Level 55):
+    - Location: Coastal/Ocean region at coordinates (580, 755)
+    - Expect water-based attacks, healing abilities, and high mobility
+    - Use coordinated land-based attacks and magical support
+    - Mermaid may have aquatic terrain advantages
+
+  ❄️ Elite Combat - Ice Knight (Level 62):
+    - Location: Castle/Fortress region at coordinates (712, 717)
+    - Expect heavy armor, ice attacks, and fortress defender bonuses
+    - Use fire-based attacks and coordinated flanking maneuvers
+    - Fortress combat requires tactical positioning
+
+  👹 Master Combat - Mimic Creatures (Level 84):
+    - Locations: Multiple Wilderness regions (677,671), (855,611), (460,725)
+    - Highest level regular creatures in the game
+    - Expect shapeshifting, surprise attacks, and extreme durability
+    - Require maximum coordination and advanced equipment
+
+  🌍 Multi-Region Navigation:
+    - Plan efficient routes between distant boss locations
+    - Start near coastal region (580, 755) for immediate Mermaid access
+    - Travel to castle region (712, 717) for Ice Knight encounter
+    - Navigate to wilderness areas for Mimic creature locations
+    - Manage resources for extended multi-region expedition
+    - Coordinate timing for sequential boss engagements
+
+  ⚔️ Ultimate Combat Strategy:
+    - Each agent specializes in different aspects of multi-boss combat
+    - Coordinate equipment sharing for optimal boss matchups
+    - Use environmental advantages specific to each region
+    - Plan retreat and regrouping strategies for failed attempts
+max_action_steps: 69
+agent_1:
+  username: legendary_warrior_agent
+  new_character: true
+  location:
+    x: 679
+    y: 676
+  skill_levels:
+    strength: 60
+    accuracy: 50
+    defense: 50
+    health: 70
+    magic: 40
+  inventory_items:
+  - item: flask
+    count: 40
+  - item: apple
+    count: 50
+  - item: healthpotion
+    count: 25
+  - item: manapotion
+    count: 20
+  equipped_items:
+  - item: bluesword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+  - item: lightningstaff
+    count: 1
+    enchant: 0
+agent_2:
+  username: master_tactician_agent
+  new_character: true
+  location:
+    x: 171
+    y: 635
+  skill_levels:
+    magic: 60
+    accuracy: 45
+    strength: 45
+    defense: 45
+    health: 65
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 45
+  - item: healthpotion
+    count: 25
+  - item: manapotion
+    count: 30
+  equipped_items:
+  - item: lightningstaff
+    count: 1
+    enchant: 0
+  - item: firestaff
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: ultimate_champion_agent
+  new_character: true
+  location:
+    x: 235
+    y: 43
+  skill_levels:
+    strength: 55
+    accuracy: 50
+    defense: 50
+    health: 70
+    magic: 45
+  inventory_items:
+  - item: flask
+    count: 40
+  - item: apple
+    count: 50
+  - item: healthpotion
+    count: 30
+  - item: manapotion
+    count: 25
+  equipped_items:
+  - item: heavysword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+  - item: trident
+    count: 1
+    enchant: 0
+success_criteria:
+- legendary_warrior_agent successfully navigates to multiple boss regions
+- Team successfully defeats Mermaid (Level 55) in coastal region
+- master_tactician_agent provides expert magical support for all boss encounters
+- Team successfully defeats Ice Knight (Level 62) in castle fortress
+- ultimate_champion_agent leads successful assault against Level 84 Mimic creatures
+- Team successfully defeats at least 2 different Level 84 Mimic bosses
+- All agents survive all legendary boss encounters
+- Team demonstrates mastery of multi-region coordination and ultimate combat
+- Ultimate boss challenge completed within time limit - LEGENDARY ACHIEVEMENT

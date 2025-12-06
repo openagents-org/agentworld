@@ -1,0 +1,167 @@
+task:
+  name: Strategic Combat Training - Advanced Team Coordination and Skill Development (Variant 2 - Spread Locations)
+  description: Three agents work together to practice advanced combat techniques, coordinate tactical maneuvers, and develop
+    team fighting skills
+objectives:
+  primary: Successfully execute advanced combat training, coordinate tactical maneuvers, and demonstrate team fighting proficiency
+  secondary:
+  - Establish combat formation coordination and tactical positioning
+  - Execute coordinated combat training exercises against available creatures
+  - Complete strategic combat training within 54 rounds
+relevant_game_context: |
+  This is a cooperative multi-agent strategic combat training scenario requiring tactical coordination and skill development.
+
+  OBJECTIVE: Execute advanced combat training, coordinate tactical maneuvers, and develop team fighting proficiency.
+
+  MISSION REQUIREMENTS:
+  - Establish training operations in suitable combat areas
+  - Practice coordinated combat techniques against available creatures
+  - Develop tactical formations and combat coordination
+  - Demonstrate advanced team fighting capabilities
+
+  TEAM COORDINATION:
+  - Use global chat to coordinate combat formations and tactical positions
+  - Coordinate between different combat roles and tactical responsibilities
+  - Share combat experience and provide mutual support during training
+  - Work together to execute complex tactical maneuvers
+
+  GENERAL STRATEGY:
+  - The team needs to coordinate tactical combat training exercises
+  - Available creatures provide opportunities for combat skill development
+  - Combat training requires coordination between different fighting styles
+  - Team coordination is essential for advanced tactical maneuvers
+  - Balance individual skill development with team coordination objectives
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  STRATEGIC COMBAT TRAINING (CRITICAL KNOWLEDGE):
+  🎯 Combat Formation:
+    - Use observe_environment to scout training areas and locate available creatures
+    - Establish tactical positions for coordinated combat exercises
+    - Practice different formation patterns for various combat scenarios
+    - Coordinate movement and positioning for optimal team effectiveness
+
+  ⚔️ Combat Training - Available Creatures:
+    - Use observe_environment to locate creatures in the training area
+    - Focus on creatures like Wolves (Level 55) or Worker Ants (Level 46) for training
+    - Practice coordinated attacks and defensive maneuvers
+    - Use appropriate weapons and magic combinations for different creature types
+    - Coordinate timing and targeting for maximum training effectiveness
+
+  🛡️ Tactical Coordination:
+    - Practice switching between offensive and defensive formations
+    - Coordinate combat roles between different team members
+    - Use magical abilities strategically to support team combat
+    - Plan tactical movements and positioning during combat encounters
+
+  📈 Skill Development:
+    - Focus on improving individual combat skills through practice
+    - Coordinate training exercises to develop team synergy
+    - Practice using different weapon and magic combinations
+    - Develop tactical communication and coordination skills
+
+  🎖️ Training Objectives:
+    - Successfully execute coordinated combat maneuvers
+    - Demonstrate effective tactical positioning and formation control
+    - Complete multiple combat training exercises with team coordination
+    - Show improvement in individual and team combat effectiveness
+max_action_steps: 54
+agent_1:
+  username: combat_leader_agent
+  new_character: true
+  location:
+    x: 171
+    y: 635
+  skill_levels:
+    strength: 42
+    accuracy: 38
+    health: 48
+    defense: 35
+    magic: 25
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: heavysword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+  - item: lightningstaff
+    count: 1
+    enchant: 0
+agent_2:
+  username: tactical_mage_agent
+  new_character: true
+  location:
+    x: 261
+    y: 187
+  skill_levels:
+    magic: 45
+    health: 42
+    accuracy: 35
+    defense: 30
+    strength: 25
+  inventory_items:
+  - item: flask
+    count: 22
+  - item: apple
+    count: 28
+  equipped_items:
+  - item: lightningstaff
+    count: 1
+    enchant: 0
+  - item: firestaff
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: combat_guardian_agent
+  new_character: true
+  location:
+    x: 547
+    y: 404
+  skill_levels:
+    defense: 40
+    health: 50
+    strength: 38
+    accuracy: 32
+    magic: 28
+  inventory_items:
+  - item: flask
+    count: 28
+  - item: apple
+    count: 32
+  equipped_items:
+  - item: bluesword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+  - item: firestaff
+    count: 1
+    enchant: 0
+success_criteria:
+- combat_leader_agent successfully establishes combat training operations and coordinates team
+- combat_leader_agent successfully leads tactical formation exercises
+- Team successfully locates and engages available creatures for combat training
+- tactical_mage_agent provides effective magical support during combat exercises
+- Team successfully executes coordinated combat maneuvers against multiple creatures
+- combat_guardian_agent provides effective defensive support during training
+- Team successfully demonstrates advanced tactical coordination and combat proficiency
+- Strategic combat training completed within time limit with skill development achieved

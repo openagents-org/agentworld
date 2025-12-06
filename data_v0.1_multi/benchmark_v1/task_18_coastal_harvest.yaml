@@ -1,0 +1,107 @@
+task:
+  name: Coastal Harvest Mission - Seaside Team Protection (Variant 1)
+  description: Three agents work together where one guardian protects two collectors gathering coastal resources from sea
+    creatures and threats
+objectives:
+  primary: Successfully protect collectors while they gather 9x rawshrimp and 4x icelogs under coastal threat conditions
+  secondary:
+  - Establish effective team communication for threat alerts
+  - Guardian successfully defends team from hostile sea creatures
+  - Complete coastal resource gathering without casualties within 25 rounds
+relevant_game_context: "This is a cooperative multi-agent coastal protection scenario requiring tactical coordination.\n\n\
+  OBJECTIVE: Successfully gather required coastal resources while protecting the team from sea creature threats.\n\nMISSION\
+  \ REQUIREMENTS:\n- Collect 6x rawshrimp and 3x icelogs while under potential sea creature threat\n- Keep all team members\
+  \ alive throughout the mission\n- Use teamwork to balance resource gathering with coastal security\n\nTEAM COORDINATION:\n\
+  - Establish communication protocols for sea creature detection and warnings\n- Coordinate movements between protection and\
+  \ coastal resource gathering\n- Share information about resource locations and environmental dangers\n- Work together to\
+  \ ensure both safety and mission success\n\nGENERAL STRATEGY:\n- The team has complementary roles in combat, fishing, and\
+  \ lumberjacking\n- Sea creature threats may appear and must be dealt with appropriately\n- Coastal resource gathering requires\
+  \ moving to specific locations near water\n- Balance efficiency with safety - casualties will cause mission failure\n- Use\
+  \ global chat for real-time coordination and threat alerts\n\nDO NOT use complete() until ALL objectives are achieved safely!\n\
+  \nCOMBAT MECHANICS (CRITICAL KNOWLEDGE):\n\U0001F3F9 Combat - Attack threats:\n  - Use observe_environment to detect hostile\
+  \ sea creatures\n  - Use attack command on hostile targets\n  - Use bow for ranged combat advantage\n\n\U0001F3A3 Fishing\
+  \ - rawshrimp:\n  - harvest_resource on shrimp fishing spots to get rawshrimp\n  - Level required: 1+ (Fishing skill)\n\
+  \  - Target: 6x rawshrimp total\n  - IMPORTANT: Look for \"Shrimp\" fishing spots near water!\n\n❄️ Lumberjacking - icelogs:\n\
+  \  - harvest_resource on ice oak tree instances to get icelogs\n  - Level required: 10+ (Lumberjacking skill)  \n  - Target:\
+  \ 3x icelogs total\n  - IMPORTANT: Look for \"Ice Oak\" trees, NOT regular oak trees!\n"
+max_action_steps: 25
+agent_1:
+  username: coastal_guardian_agent
+  new_character: true
+  location:
+    x: 200
+    y: 200
+  skill_levels:
+    archery: 35
+    fletching: 25
+    strength: 30
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  - item: arrow
+    count: 70
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: woodenbow
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: shrimp_fisher_agent
+  new_character: true
+  location:
+    x: 205
+    y: 200
+  skill_levels:
+    fishing: 20
+    defense: 15
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: fishingpole
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: ice_logger_agent
+  new_character: true
+  location:
+    x: 210
+    y: 200
+  skill_levels:
+    lumberjacking: 35
+    defense: 18
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- shrimp_fisher_agent has at least 6x rawshrimp in inventory
+- ice_logger_agent has at least 3x icelogs in inventory
+- All agents remain alive throughout the mission
+- Coastal guardian successfully protects team from sea creature threats

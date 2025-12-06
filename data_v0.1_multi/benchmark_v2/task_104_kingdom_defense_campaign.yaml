@@ -1,0 +1,293 @@
+task:
+  name: Kingdom Defense Campaign - The Two-Front War (Variant 2 - Spread Locations)
+  description: A synchronized military operation where 20 agents split into two squads to defend the Kingdom's Northern and
+    Eastern borders simultaneously against elite threats.
+objectives:
+  primary: Simultaneously secure the Northern Border (Ice Guardians) and Eastern Border (Golden Golems).
+  secondary:
+  - 'North Squad: Defeat 3 Ice Guardians (Level 35 Minibosses)'
+  - 'East Squad: Defeat 3 Golden Golems (Level 0? No, Level 45+ typically, checking docs... Docs say Level 0 but it''s a Miniboss,
+    likely scales or is tough. I''ll assume it''s a threat)'
+  - 'Support Units: Keep frontline warriors healed (HP > 50%)'
+  - 'Commanders: Coordinate the final kill count to ensure both fronts succeed'
+relevant_game_context: |
+  ⚔️ OPERATION TWIN SHIELDS
+
+  The Kingdom is under attack from two directions. You must hold the line.
+
+  NORTHERN FRONT (Agents 1-10)
+  - Location: Frozen Expanse (Region 2-1, X:259, Y:151)
+  - Threat: Ice Guardians (Freezing attacks, high durability).
+  - Strategy: Use Fire weapons if available. Support units must heal the Tank.
+
+  EASTERN FRONT (Agents 11-20)
+  - Location: Ancient Ruins (Region 7-6, X:784, Y:676)
+  - Threat: Golden Golems (High Defense, Crush damage).
+  - Strategy: Sunder armor (Pickaxes/Warhammers). Magical attacks are effective.
+
+  SQUAD ROLES:
+  - Commander (x1): Calls targets, tracks kills.
+  - Vanguard (x6): Frontline combat.
+  - Support (x3): Healers/Suppliers. Keep distance, use flasks on Vanguard if possible (transfer).
+
+  VICTORY CONDITION:
+  - Both fronts must report 3 confirmed kills.
+  - Total 6 Minibosses defeated.
+  - Minimal casualties (Supporters must survive).
+limitations:
+  max_action_steps: 55
+agent_1:
+  username: North_Cmdr
+  new_character: true
+  location:
+    x: 224
+    y: 151
+  skill_levels:
+    strength: 60
+    defense: 60
+    health: 70
+    accuracy: 50
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 20
+  equipped_items:
+  - item: goldensword
+    count: 1
+  - item: platearmor
+    count: 1
+agent_2:
+  username: North_Van_1
+  new_character: true
+  location:
+    x: 504
+    y: 100
+  skill_levels: &id001
+    strength: 50
+    defense: 50
+    health: 60
+    accuracy: 40
+  inventory_items: &id002
+  - item: flask
+    count: 10
+  - item: apple
+    count: 10
+  equipped_items: &id003
+  - item: heavysword
+    count: 1
+  - item: chainmail
+    count: 1
+agent_3:
+  username: North_Van_2
+  new_character: true
+  location:
+    x: 249
+    y: 355
+  skill_levels: *id001
+  inventory_items: *id002
+  equipped_items: *id003
+agent_4:
+  username: North_Van_3
+  new_character: true
+  location:
+    x: 172
+    y: 638
+  skill_levels: *id001
+  inventory_items: *id002
+  equipped_items: *id003
+agent_5:
+  username: North_Van_4
+  new_character: true
+  location:
+    x: 528
+    y: 380
+  skill_levels: *id001
+  inventory_items: *id002
+  equipped_items: *id003
+agent_6:
+  username: North_Van_5
+  new_character: true
+  location:
+    x: 585
+    y: 754
+  skill_levels: *id001
+  inventory_items: *id002
+  equipped_items: *id003
+agent_7:
+  username: North_Van_6
+  new_character: true
+  location:
+    x: 851
+    y: 454
+  skill_levels: *id001
+  inventory_items: *id002
+  equipped_items: *id003
+agent_8:
+  username: North_Sup_1
+  new_character: true
+  location:
+    x: 703
+    y: 550
+  skill_levels: &id004
+    magic: 40
+    healing: 40
+    health: 40
+  inventory_items: &id005
+  - item: flask
+    count: 50
+  - item: apple
+    count: 50
+  equipped_items: &id006
+  - item: firestaff
+    count: 1
+  - item: leatherarmor
+    count: 1
+agent_9:
+  username: North_Sup_2
+  new_character: true
+  location:
+    x: 241
+    y: 50
+  skill_levels: *id004
+  inventory_items: *id005
+  equipped_items: *id006
+agent_10:
+  username: North_Sup_3
+  new_character: true
+  location:
+    x: 773
+    y: 658
+  skill_levels: *id004
+  inventory_items: *id005
+  equipped_items: *id006
+agent_11:
+  username: East_Cmdr
+  new_character: true
+  location:
+    x: 896
+    y: 404
+  skill_levels:
+    strength: 60
+    defense: 60
+    health: 70
+    accuracy: 50
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 20
+  equipped_items:
+  - item: pickaxe
+    count: 1
+  - item: platearmor
+    count: 1
+agent_12:
+  username: East_Van_1
+  new_character: true
+  location:
+    x: 389
+    y: -1
+  skill_levels: &id007
+    strength: 50
+    defense: 50
+    health: 60
+    accuracy: 40
+  inventory_items: &id008
+  - item: flask
+    count: 10
+  - item: apple
+    count: 10
+  equipped_items: &id009
+  - item: pickaxe
+    count: 1
+  - item: chainmail
+    count: 1
+agent_13:
+  username: East_Van_2
+  new_character: true
+  location:
+    x: 402
+    y: 675
+  skill_levels: *id007
+  inventory_items: *id008
+  equipped_items: *id009
+agent_14:
+  username: East_Van_3
+  new_character: true
+  location:
+    x: 675
+    y: 676
+  skill_levels: *id007
+  inventory_items: *id008
+  equipped_items: *id009
+agent_15:
+  username: East_Van_4
+  new_character: true
+  location:
+    x: 551
+    y: 395
+  skill_levels: *id007
+  inventory_items: *id008
+  equipped_items: *id009
+agent_16:
+  username: East_Van_5
+  new_character: true
+  location:
+    x: 54
+    y: 309
+  skill_levels: *id007
+  inventory_items: *id008
+  equipped_items: *id009
+agent_17:
+  username: East_Van_6
+  new_character: true
+  location:
+    x: 1020
+    y: 680
+  skill_levels: *id007
+  inventory_items: *id008
+  equipped_items: *id009
+agent_18:
+  username: East_Sup_1
+  new_character: true
+  location:
+    x: 460
+    y: 722
+  skill_levels: &id010
+    magic: 40
+    health: 40
+  inventory_items: &id011
+  - item: flask
+    count: 50
+  - item: apple
+    count: 50
+  equipped_items: &id012
+  - item: icestaff
+    count: 1
+  - item: leatherarmor
+    count: 1
+agent_19:
+  username: East_Sup_2
+  new_character: true
+  location:
+    x: 716
+    y: 721
+  skill_levels: *id010
+  inventory_items: *id011
+  equipped_items: *id012
+agent_20:
+  username: East_Sup_3
+  new_character: true
+  location:
+    x: 301
+    y: 398
+  skill_levels: *id010
+  inventory_items: *id011
+  equipped_items: *id012
+success_criteria:
+- North Squad defeats 3 Ice Guardians
+- East Squad defeats 3 Golden Golems
+- All Commanders and Vanguards survive
+- North Squad Support units maintain distance (>3 tiles from bosses)
+- East Squad uses Pickaxes/Magic effectively against Golems

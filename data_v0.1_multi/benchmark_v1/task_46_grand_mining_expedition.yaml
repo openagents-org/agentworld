@@ -1,0 +1,381 @@
+task:
+  name: Grand Mining Expedition - Five-Team Advanced Ore Processing (Variant 1)
+  description: Five agents work together to establish a complete mining and smelting operation, producing advanced metal equipment
+    through coordinated resource gathering and crafting
+objectives:
+  primary: Establish a complete mining-to-crafting pipeline with five specialized agents to produce advanced metal equipment
+  secondary:
+  - Coordinate five-agent mining expedition across multiple ore types
+  - Execute advanced smelting operations with proper fuel management
+  - Complete coordinated crafting of multiple equipment pieces
+  - Achieve all objectives within 45 rounds with five-agent coordination
+relevant_game_context: |
+  This is a large-scale cooperative multi-agent mining and crafting scenario requiring complex five-agent coordination.
+
+  GRAND OBJECTIVE: Work together as a team of 5 agents to establish a complete mining operation:
+  1. Mine iron ore and coal from different locations
+  2. Smelt iron bars through coordinated fuel management
+  3. Craft multiple equipment pieces (pickaxe, axe, heavy sword)
+  4. Distribute equipment among team members for enhanced capabilities
+
+  🚨 CRITICAL AWARENESS: Check your actual inventory state before making claims!
+  - Use verify_inventory to see what you really have in your inventory
+  - Use check_inventory_status frequently to track your current materials
+  - DO NOT assume you have materials that aren't verified
+  - DO NOT claim transfers happened without actually using transfer_items tool
+  - DO NOT just talk about helping - USE THE ACTUAL TOOLS to help!
+
+  📋 REQUIRED MATERIALS FOR SUCCESS (TOTAL):
+  - EXACTLY 13x ironore needed (mine from Iron Rock instances)
+  - EXACTLY 11x coal needed (mine from Coal Rock instances, used as smelting fuel)
+  - EXACTLY 3x logs needed (harvest from Oak Trees for tool handles)
+  - EXACTLY 12x ironbar needed (smelt from ironore + coal)
+  - EXACTLY 1x hilt2 needed (Agent 4 starts with this)
+
+  🧮 MATERIAL MATH (CRITICAL - READ CAREFULLY):
+  For 1 pickaxe + 1 axe + 1 heavy sword, you need:
+  - 13x ironore + 12x coal → smelt 10 times → 11x ironbar
+  - 5x ironbar + 1x logs → 1x pickaxe (Agent 4 crafts)
+  - 4x ironbar + 1x logs → 1x axe (Agent 4 crafts)
+  - 2x ironbar + 1x hilt2 → 1x heavy sword (Agent 4 crafts)
+  - Final result: 1x pickaxe + 1x axe + 1x heavy sword
+
+  FIVE-AGENT COORDINATION REQUIREMENTS:
+  - 📍 STAY CLOSE: Work within reasonable distance for coordination
+  - 💬 Use global chat (NOT local send_chat_message) to communicate with ALL team members
+  - 🔧 USE TOOLS, NOT JUST WORDS: When someone needs items, USE transfer_items immediately
+  - ✅ transfer_items automatically: checks inventory, transfers items, sends chat notification
+  - 🎯 Be flexible: adapt roles and help wherever needed
+  - 🤝 Team must actively transfer items, not just talk about it
+
+  MINING OPERATIONS:
+  ⛏️ Mining - Iron Ore:
+    - harvest_resource on Iron Rock instances to get ironore
+    - Level required: 10+ (Mining skill)
+    - Tool required: Pickaxe (MUST be equipped)
+    - Iron rocks found in mountain regions - look for "Iron Rock" in your observations
+    - NOTE: Nisoc Rocks produce nisocore, NOT ironore - find the correct rock type
+    - If no Iron Rocks visible at starting location, explore nearby mountain areas
+
+  ⛏️ Mining - Coal:
+    - harvest_resource on Coal Rock instances to get coal
+    - Level required: 1+ (Mining skill)
+    - Tool required: Pickaxe (MUST be equipped)
+    - Coal rocks commonly found in mountain regions
+    - Multiple pieces needed for smelting all iron ore
+
+  SMELTING OPERATIONS:
+  🔥 Smelting Recipe - ironbar:
+    - craft_item skill=Smelting itemKey=ironbar (NO count parameter!)
+    - Materials: 1x ironore + 1x coal → 1x ironbar (automatically)
+    - Level required: 20 (uses Smithing skill level)
+    - Need to produce 13x iron bars total for all equipment
+    - Craft syntax: craft_item(skill="Smelting", itemKey="ironbar")
+
+  CRAFTING OPERATIONS:
+  🔨 Smithing Recipe - pickaxe:
+    - craft_item skill=Smithing itemKey=pickaxe (NO count parameter!)
+    - Materials: 5x ironbar + 1x logs → 1x pickaxe (automatically)
+    - Level required: 5 (Smithing skill)
+    - Craft syntax: craft_item(skill="Smithing", itemKey="pickaxe")
+
+  🔨 Smithing Recipe - axe:
+    - craft_item skill=Smithing itemKey=axe (NO count parameter!)
+    - Materials: 3x ironbar + 1x logs → 1x axe (automatically)
+    - Level required: 3 (Smithing skill)
+    - Craft syntax: craft_item(skill="Smithing", itemKey="axe")
+
+  🔨 Smithing Recipe - sword2 (Heavy Sword):
+    - craft_item skill=Smithing itemKey=sword2 (NO count parameter!)
+    - Materials: 2x ironbar + 1x hilt2 → 1x heavy sword (automatically)
+    - Level required: 1 (Smithing skill)
+    - Craft syntax: craft_item(skill="Smithing", itemKey="sword2")
+
+  🚨 CRITICAL CRAFT SYNTAX:
+  - DO NOT use count parameter in any craft_item calls!
+  - Recipes automatically consume the correct materials and produce items
+  - Wrong: craft_item(skill="Smelting", itemKey="ironbar", count=10)
+  - Right: craft_item(skill="Smelting", itemKey="ironbar")
+  - If you need 10 ironbars, call craft_item 10 times
+
+  🪵 Lumberjacking - logs:
+    - harvest_resource on Oak Tree or Oak2 Tree instances to get logs
+    - Level required: 1+ (Lumberjacking skill)
+    - Tool required: Axe (MUST be equipped)
+    - Need 3x logs for tool handles (pickaxe, axe, and sword handle requirements)
+    - Look for "Oak", "Oak2", "Oak3", "Oak5" tree types near spawn
+    - harvest_resource automatically: moves closer if needed, completes entire harvesting process, collects items
+    - If one tree doesn't drop logs, try a different tree nearby
+    - Tool provides detailed report of items collected
+
+  💎 Starting inventory resources (CHECK YOUR INVENTORY):
+    - IronMinerAlpha (Agent1): 4x ironore + 2x coal (head start on mining!)
+    - CoalMinerBeta (Agent2): 6x coal + 1x logs (fuel specialist!)
+    - MasterSmelterGamma (Agent3): 3x ironore + 3x coal (ready to smelt!)
+    - EquipmentCrafterDelta (Agent4): 1x hilt2 (needed for heavy sword!)
+    - LogisticsCoordinatorEpsilon (Agent5): (gathers logs from scratch)
+    - Total starting resources: 6x ironore + 12x coal + 1x logs + 1x hilt2
+
+  FIVE-AGENT TEAM ORGANIZATION (Suggested Roles - Be Flexible!):
+  - Agent 1 (IronMinerAlpha): Mine iron ore, transfer to smelter
+  - Agent 2 (CoalMinerBeta): Mine coal, gather logs, transfer to smelter
+  - Agent 3 (MasterSmelterGamma): Collect ore+coal, smelt ironbar, transfer to crafter
+  - Agent 4 (EquipmentCrafterDelta): Receive ironbar+logs, craft all equipment
+  - Agent 5 (LogisticsCoordinatorEpsilon): Gather logs, coordinate transfers between agents
+
+  🚨 KEY INSIGHT: You don't need to gather ALL resources before smelting!
+  - Strategy: Start smelting as soon as you have some ore and coal
+  - As soon as Agent3 has 5x ironbar + Agent4 has 1x logs → craft pickaxe immediately
+  - Continue mining and smelting while Agent4 works on equipment
+  - Parallel work = faster completion!
+
+  🤝 AFTER YOU FINISH YOUR PERSONAL TASK:
+  - DON'T just sit idle or call complete()!
+  - Help your teammates: gather more resources, transfer materials, coordinate logistics
+  - Example: After Agent1 mines enough iron, help Agent2 mine coal or help Agent5 gather logs
+  - Example: After Agent3 smelts 5 bars, keep smelting more for the next equipment
+  - Team wins together - no one succeeds alone!
+
+  🤝 CRITICAL COORDINATION & ITEM TRANSFERS:
+  - 📦 USE transfer_items TOOL to actually move items between agents!
+    * Syntax: transfer_items(targetPlayer="EquipmentCrafterDelta", itemKey="ironbar", count=5)
+    * Transfer TO the player who NEEDS the items, not FROM
+    * Example: If Agent4 needs ironbar, Agent3 should call transfer_items to Agent4
+    * transfer_items automatically: checks inventory, removes from sender, adds to receiver, sends chat notification
+  - 💬 Announce in global chat AFTER every action: "I now have: X ironore, Y coal, Z ironbar"
+  - ✅ Always verify_inventory before claiming to have or need items
+  - 🔄 Receiver confirms receipt: "Confirmed received: 6x ironbar - inventory verified"
+  - 🎯 TRACK TEAM PROGRESS: Regularly check what's been completed:
+    * "Team status: Pickaxe ✓, Axe ✓, Heavy Sword ✗ (in progress)"
+    * Share this status in chat so everyone knows what's left to do
+
+  ⚠️ REALITY CHECK RULES - EXTREMELY IMPORTANT:
+  - ALWAYS use verify_inventory before claiming to have items
+  - NEVER claim to have done something without actually using the tool
+  - NEVER assume other agents sent you items unless you verify your inventory
+  - If someone needs items and you have them: USE transfer_items immediately, don't just talk!
+  - Use actual game tools (harvest_resource, transfer_items, craft_item) instead of just chatting
+  - harvest_resource: Automatically completes entire harvesting process and collects items
+  - transfer_items: Automatically handles inventory checks, transfer, and chat notification
+  - craft_item: Automatically validates materials and provides detailed error messages
+  - ACTIONS > WORDS: One transfer_items call is worth 100 chat messages!
+
+  🔄 STATUS SHARING PROTOCOL:
+  - After EVERY action, announce in chat: "I now have: X ironore, Y coal, Z ironbar, W logs"
+  - transfer_items automatically notifies via chat - receiver should verify and confirm
+  - When receiving transfers, confirm: "Confirmed received: 6x ironbar - inventory verified"
+  - Before crafting, announce: "Ready to craft pickaxe, I have: 5 ironbar + 1 logs"
+  - Track team totals: "Team status: 8/10 ironore mined, 6/10 ironbar smelted"
+
+  MINING & CRAFTING RESOURCE REQUIREMENTS:
+  - Iron ore: 12x pieces (for smelting into bars)
+  - Coal: 11x pieces (for smelting fuel - 1 coal per ironbar)
+  - Logs: 3x pieces (1 for pickaxe, 1 for axe, 1 extra for backup)
+  - Iron bars: 12x pieces (5 for pickaxe, 3 for axe, 2 for heavy sword)
+  - Hilt2: 1x piece (Agent4 already HAS this!)
+
+  🚨 COMPLETION REQUIREMENTS:
+  - DO NOT use complete() until you verify ALL required equipment exists
+  - Required final equipment (minimum):
+    * 1x pickaxe - must be crafted by Agent4
+    * 1x axe - must be crafted by Agent4
+    * 1x heavy sword (sword2) - must be crafted by Agent4
+  - DO NOT complete if crafting fails - troubleshoot and retry together
+  - DO NOT complete if team is scattered - coordinate first
+  - Only complete when verified: team has produced all required equipment
+  - If you encounter errors or obstacles, work together to solve them!
+
+  💡 WORKFLOW EXAMPLE (Follow This Pattern!):
+  1. ALL AGENTS: Use check_inventory_status to verify starting resources
+  2. Agent1: Mine 4x more ironore (already has 3x, need 9x total to contribute)
+  3. Agent2 & Agent5: harvest_resource on Oak Tree (need 2x more logs, Agent2 already has 1x)
+  4. Agent1 & Agent3: Move close to each other
+  5. Agent1: transfer_items to Agent3 (send ironore)
+  6. Agent2: transfer_items to Agent3 (send coal if needed)
+  7. Agent3: Verify has 13x ironore + 12x coal (should already have enough coal!)
+  8. Agent3: craft_item skill=Smelting itemKey=ironbar (repeat 10 times for 12x ironbar) ✅
+  9. Agent2 & Agent5: transfer_items to Agent4 (send total 3x logs)
+  10. Agent3: Move close to Agent4
+  11. Agent3: transfer_items to Agent4 (send 11x ironbar)
+  12. Agent4: Verify has 12x ironbar + 4x logs + 1x hilt2
+  13. Agent4: craft_item skill=Smithing itemKey=pickaxe (uses 5 ironbar + 1 logs) ✅
+  14. Agent4: craft_item skill=Smithing itemKey=axe (uses 3 ironbar + 1 logs) ✅
+  15. Agent4: craft_item skill=Smithing itemKey=sword2 (uses 2 ironbar + 1 hilt2) ✅
+  16. SUCCESS! Team has: 1 pickaxe + 1 axe + 1 heavy sword
+
+  🎯 KEY OPTIMIZATION: Team already starts with 12x coal - focus on getting ironore and logs!
+
+  Remember: Adapt this workflow as needed, but ALWAYS use the actual tools!
+max_action_steps: 43
+agent_1:
+  username: IronMinerAlpha
+  new_character: true
+  location:
+    x: 230
+    y: 38
+  skill_levels:
+    mining: 25
+    strength: 35
+    health: 30
+    defense: 25
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+  - item: ironore
+    count: 3
+  - item: coal
+    count: 2
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: CoalMinerBeta
+  new_character: true
+  location:
+    x: 232
+    y: 40
+  skill_levels:
+    mining: 20
+    lumberjacking: 15
+    strength: 30
+    health: 30
+    defense: 20
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+  - item: coal
+    count: 5
+  - item: logs
+    count: 1
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: MasterSmelterGamma
+  new_character: true
+  location:
+    x: 235
+    y: 42
+  skill_levels:
+    smithing: 30
+    mining: 15
+    lumberjacking: 10
+    strength: 30
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+  - item: ironore
+    count: 3
+  - item: coal
+    count: 3
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_4:
+  username: EquipmentCrafterDelta
+  new_character: true
+  location:
+    x: 237
+    y: 44
+  skill_levels:
+    smithing: 25
+    crafting: 20
+    strength: 25
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+  - item: hilt2
+    count: 1
+  equipped_items:
+  - item: smithinghammer
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_5:
+  username: LogisticsCoordinatorEpsilon
+  new_character: true
+  location:
+    x: 240
+    y: 35
+  skill_levels:
+    lumberjacking: 25
+    strength: 30
+    health: 30
+    defense: 20
+    mining: 10
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- IronMinerAlpha successfully mines iron ore and shares with team
+- CoalMinerBeta successfully mines coal and distributes for smelting
+- MasterSmelterGamma successfully smelts iron bars from ore and coal
+- EquipmentCrafterDelta successfully crafts pickaxe, axe, and heavy sword
+- LogisticsCoordinatorEpsilon successfully gathers logs and coordinates transfers
+- Team produces 1x pickaxe through coordinated effort
+- Team produces 1x axe through coordinated effort
+- Team produces 1x heavy sword through coordinated effort
+- All five agents coordinate effectively using global chat
+- Resources are shared efficiently among all team members
+- Team completes entire mining-to-crafting pipeline within time limit
+- All agents demonstrate effective five-agent coordination throughout operation

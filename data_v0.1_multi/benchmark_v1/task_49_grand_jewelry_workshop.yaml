@@ -1,0 +1,152 @@
+task:
+  name: Grand Jewelry Workshop - Multi-Stage Gem Processing and Ring Crafting (Variant 1)
+  description: Three agents establish a complete jewelry production pipeline using admin tools to obtain materials, then coordinate
+    smelting and crafting to create multiple enchanted rings
+objectives:
+  primary: Establish a complete jewelry workshop producing multiple types of rings through coordinated material acquisition,
+    smelting, gem processing, and crafting
+  secondary:
+  - Use admin tools to acquire raw materials (ironore, goldnugget, coal, gems)
+  - Execute multi-stage metal production (ore → bars → base rings)
+  - Coordinate gem-enchanted ring crafting
+  - Complete entire jewelry production pipeline within 45 rounds
+relevant_game_context: |
+  WORKSHOP OVERVIEW
+  - Three artisans use admin set_inventory to spawn materials, then run a ring pipeline: iron → silverring, gold → goldring, and gem infusions for emerald/topaz rings.
+  - Final deliverables: ≥1 silverring, ≥1 goldring, 1 emerald ring (ring1), 1 topazring.
+
+  QUICK RESOURCE PLAN
+  - MasterMiner: set_inventory([{ironore:6},{coal:7}]), then move to (250,180) and hand everything to SmeltingSpecialist.
+  - SmeltingSpecialist: set_inventory([{goldnugget:8},{coal:7}]); smelt 6 ironbars + 8 goldbars, craft 3 silverrings + 4 goldrings, pass one of each to JewelryArtisan.
+  - JewelryArtisan: set_inventory([{emerald:1},{topaz:1}]); receive base rings, craft ring1 and topazring.
+
+  TOOL REMINDERS
+  - set_inventory items=[{"key":"item", "count":N}], clearFirst=False keeps starting food. Verify with check_inventory_status and announce results.
+  - craft_item has no count parameter. Run it once per bar/ring: craft_item(skill="Smelting", itemKey="ironbar") etc.
+  - transfer_items handles all handoffs; both sender and receiver must confirm via chat + verify_inventory.
+
+  STAGE CHECKLIST
+  1. Acquisition (R1-5): everyone spawns materials, meets at (250,180), shares inventories.
+  2. Iron line (R6-20): MasterMiner transfers ore/coal → SmeltingSpecialist smelts 6 bars, crafts 3 silverrings, sends one to JewelryArtisan.
+  3. Gold line (R21-35): SmeltingSpecialist smelts 8 goldbars, crafts 4 goldrings, sends one to JewelryArtisan.
+  4. Gem infusion (R36-50): JewelryArtisan crafts ring1 (emerald+silverring) and topazring (topaz+goldring); team verifies extras remain.
+
+  COMPLETION RULES
+  - Chat log must show every set_inventory call, each smelt/craft, and every transfer confirmation.
+  - Before complete(), list final holdings (who carries silverring, goldring, ring1, topazring) and ensure all three agents acknowledge success.
+max_action_steps: 60
+agent_1:
+  username: MasterMiner
+  new_character: true
+  location:
+    x: 250
+    y: 180
+  skill_levels:
+    mining: 35
+    strength: 35
+    health: 35
+    defense: 25
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  - item: ironore
+    count: 2
+  - item: coal
+    count: 3
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: SmeltingSpecialist
+  new_character: true
+  location:
+    x: 252
+    y: 180
+  skill_levels:
+    smithing: 40
+    mining: 20
+    crafting: 20
+    strength: 30
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  - item: ironore
+    count: 2
+  - item: goldore
+    count: 1
+  - item: coal
+    count: 4
+  equipped_items:
+  - item: smithinghammer
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: JewelryArtisan
+  new_character: true
+  location:
+    x: 248
+    y: 180
+  skill_levels:
+    crafting: 30
+    smithing: 25
+    mining: 25
+    accuracy: 30
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  - item: emerald
+    count: 1
+  - item: topaz
+    count: 1
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- MasterMiner uses set_inventory to acquire ironore and coal
+- SmeltingSpecialist uses set_inventory to acquire goldnugget and coal
+- JewelryArtisan uses set_inventory to acquire emerald and topaz
+- Team verifies inventory after material acquisition
+- MasterMiner transfers ironore and coal to SmeltingSpecialist
+- SmeltingSpecialist successfully smelts 7x ironbar from ironore
+- SmeltingSpecialist successfully smelts 10x goldbar from goldnugget
+- SmeltingSpecialist successfully crafts 3x silverring from ironbar
+- SmeltingSpecialist successfully crafts 5x goldring from goldbar
+- SmeltingSpecialist transfers base rings to JewelryArtisan
+- JewelryArtisan successfully receives base rings and verifies inventory
+- JewelryArtisan successfully crafts 1x Emerald Ring (ring1) from emerald + silverring
+- JewelryArtisan successfully crafts 1x Topaz Ring from topaz + goldring
+- Team communicates inventory status after every major action using chat tool
+- Team uses actual tools (set_inventory, craft_item, transfer_items) effectively
+- All agents coordinate within proximity for transfers
+- Team verifies completion together before calling complete()
+- 'Final inventory contains: at least 1x silverring, 1x goldring, 1x ring1, 1x topazring'
+- Entire jewelry production pipeline completed within 50 rounds
+- Team demonstrates mastery of admin tools and complex crafting operations

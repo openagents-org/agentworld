@@ -1,0 +1,167 @@
+task:
+  name: Educational Training - Knowledge Transfer and Skill Development Program (Variant 2 - Spread Locations)
+  description: Three agents work together to establish educational programs, provide training services, and develop comprehensive
+    skill development systems
+objectives:
+  primary: Successfully establish educational programs, provide effective training services, and develop comprehensive skill
+    development systems
+  secondary:
+  - Establish educational coordination and training program development procedures
+  - Execute coordinated knowledge transfer and skill development training sessions
+  - Complete educational training program within 65 rounds
+relevant_game_context: |
+  This is a cooperative multi-agent educational training scenario requiring knowledge transfer and skill development coordination.
+
+  OBJECTIVE: Establish educational programs, provide effective training services, and develop comprehensive skill development systems.
+
+  MISSION REQUIREMENTS:
+  - Establish educational operations in suitable areas for training and knowledge transfer
+  - Coordinate training programs and skill development services for team members and others
+  - Provide educational assistance and knowledge transfer using available resources and teaching methods
+  - Develop sustainable training systems for ongoing educational needs
+
+  TEAM COORDINATION:
+  - Use global chat for complex educational coordination and training program management
+  - Coordinate between knowledge transfer, skill development, and educational service delivery
+  - Share educational knowledge and provide support during training sessions
+  - Work together to handle complex educational challenges and coordinate skill development
+
+  GENERAL STRATEGY:
+  - This requires educational coordination skills and knowledge management expertise
+  - Training programs need efficient resource utilization and coordinated instruction
+  - Educational services require coordinated teaching and mutual learning support
+  - Skill development needs strategic planning and educational coordination
+  - Balance immediate training needs with long-term educational sustainability
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  EDUCATIONAL TRAINING OPERATIONS (CRITICAL KNOWLEDGE):
+  🏫 Educational Program Development:
+    - Use observe_environment to scout areas suitable for educational operations and training facilities
+    - Establish educational coordination positions for training service delivery and knowledge management
+    - Navigate training areas while maintaining team safety and educational effectiveness
+    - Coordinate educational activities to optimize training effectiveness and knowledge transfer
+
+  🎓 Training Service Coordination:
+    - Use available resources for educational programs and skill development training
+    - Focus on efficient resource utilization for training operations and educational service delivery
+    - Coordinate training activities to maximize educational effectiveness and skill development success
+    - Practice teaching techniques and educational coordination methods
+
+  📚 Knowledge Transfer Management:
+    - Use available skills for educational coordination and training assistance
+    - Coordinate educational resource sharing and distribution among team members
+    - Focus on sustainable educational practices and training resource conservation
+    - Balance immediate training needs with long-term educational planning
+
+  🎨 Skill Development Operations:
+    - Use observe_environment to identify training needs and educational opportunities
+    - Coordinate skill development assistance and educational program management
+    - Practice team teaching strategies using available resources and educational skills
+    - Execute coordinated training operations and provide mutual educational support
+
+  🎯 Educational Coordination Strategy:
+    - Use coordinated teaching techniques for effective skill development
+    - Practice efficient educational management and training resource coordination
+    - Focus on developing educational capabilities through team coordination
+    - Use collaborative approaches during training and educational operations
+max_action_steps: 65
+agent_1:
+  username: education_coordinator_agent
+  new_character: true
+  location:
+    x: 296
+    y: 400
+  skill_levels:
+    magic: 50
+    health: 55
+    accuracy: 50
+    strength: 35
+    defense: 40
+  inventory_items:
+  - item: flask
+    count: 45
+  - item: apple
+    count: 50
+  equipped_items:
+  - item: lightningstaff
+    count: 1
+    enchant: 1
+  - item: firestaff
+    count: 1
+    enchant: 1
+  - item: leatherarmor
+    count: 1
+    enchant: 1
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: training_specialist_agent
+  new_character: true
+  location:
+    x: 702
+    y: 556
+  skill_levels:
+    crafting: 55
+    magic: 45
+    accuracy: 45
+    health: 50
+    strength: 40
+  inventory_items:
+  - item: flask
+    count: 50
+  - item: apple
+    count: 55
+  equipped_items:
+  - item: smithinghammer
+    count: 1
+    enchant: 1
+  - item: lightningstaff
+    count: 1
+    enchant: 1
+  - item: platearmor
+    count: 1
+    enchant: 1
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: knowledge_manager_agent
+  new_character: true
+  location:
+    x: 1012
+    y: 683
+  skill_levels:
+    lumberjacking: 45
+    foraging: 40
+    accuracy: 45
+    health: 50
+    strength: 35
+  inventory_items:
+  - item: flask
+    count: 48
+  - item: apple
+    count: 53
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 1
+  - item: sword
+    count: 1
+    enchant: 1
+  - item: leatherarmor
+    count: 1
+    enchant: 1
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- education_coordinator_agent successfully establishes educational coordination and training program management
+- education_coordinator_agent demonstrates effective educational planning and training coordination
+- training_specialist_agent successfully provides training services and skill development programs
+- training_specialist_agent demonstrates effective training delivery and educational support
+- knowledge_manager_agent successfully manages educational resources and knowledge transfer systems
+- Team successfully develops comprehensive educational programs and training services
+- Educational operations provide effective knowledge transfer and skill development
+- Educational training program completed with comprehensive skill development achieved

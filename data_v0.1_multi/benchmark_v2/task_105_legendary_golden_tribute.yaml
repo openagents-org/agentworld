@@ -1,0 +1,305 @@
+task:
+  name: Legendary Golden Tribute - The Royal Commission (Variant 2 - Spread Locations)
+  description: A high-stakes industrial operation to produce a set of legendary golden armaments for the King's Guard within
+    a strict timeframe.
+objectives:
+  primary: Produce 5 Golden Bows and 1 Golden Sword, then present them to the Royal Tribute Master.
+  secondary:
+  - 'Miners: Mine 100 Gold Ore from the rocky deposits'
+  - 'Hunters: Provide 50 String and 10 Logs (Scout the area or use supplies)'
+  - 'Smiths: Smelt 100 Gold Bars (using Coal + Gold Ore)'
+  - 'Smiths: Craft 5 Golden Bows (15 Gold Bars + 10 String + 2 Logs each)'
+  - 'Smiths: Craft 1 Golden Sword (15 Gold Bars + 1 Hilt)'
+  - 'Tribute Master (Smith_1): Hold all 6 Legendary Items at the end'
+relevant_game_context: |
+  👑 THE ROYAL DECREE
+
+  The King demands a tribute of Golden Weaponry.
+  You are stationed at the Golden Peaks (Region 2-0).
+
+  PRODUCTION CHAIN:
+  1. MINING TEAM (Agents 1-10):
+     - Target: Gold Deposits (Level 25 Mining).
+     - Goal: 100 Gold Ore total.
+     - Action: Drop Ore at the Smelter (Smith_1's location) every 10 rounds.
+
+  2. HUNTER TEAM (Agents 11-15):
+     - You carry the rare 'String' needed for bowstrings.
+     - You must also harvest 'Oak Trees' for the Bow staves (Logs).
+     - Goal: Transfer 50 String and 10 Logs to the Smiths.
+     - Support: Protect the miners from Vultures if needed.
+
+  3. SMITH TEAM (Agents 16-20):
+     - You hold the Coal (Fuel).
+     - Task 1: Smelt Gold Ore -> Gold Bars.
+     - Task 2: Craft the Items.
+       - Golden Bow: 15 Gold Bars, 10 String, 2 Logs. (Requires Fletching Lvl 32)
+       - Golden Sword: 15 Gold Bars, 1 Hilt. (Requires Smithing Lvl 62)
+     - Note: Smith_1 is the designated "Tribute Master". Consolidate final items with them.
+
+  DEADLOCK PREVENTION:
+  - Miners must NOT hoard ore. Transfer it!
+  - Smiths must share Gold Bars if one smith has the skills/recipe.
+  - Designate ONE crafter for Bows and ONE for Swords if skills differ, or all work together.
+  - CHECK SKILLS:
+    - Smith_1 has High Smithing (Sword).
+    - Smith_2 has High Fletching (Bows).
+
+  LIMITATIONS:
+  - Time is short. 55 Rounds.
+  - Gold Ore mining is slow. 10 Miners x 10 Ore each = 100. Perfect efficiency required.
+limitations:
+  max_action_steps: 55
+agent_1:
+  username: Gold_Miner_1
+  new_character: true
+  location:
+    x: 228
+    y: 155
+  skill_levels: &id001
+    mining: 50
+    strength: 40
+    health: 50
+  inventory_items: &id002
+  - item: flask
+    count: 10
+  - item: apple
+    count: 10
+  equipped_items: &id003
+  - item: pickaxe
+    count: 1
+  - item: leatherarmor
+    count: 1
+agent_2:
+  username: Gold_Miner_2
+  new_character: true
+  location:
+    x: 680
+    y: 671
+  skill_levels: *id001
+  inventory_items: *id002
+  equipped_items: *id003
+agent_3:
+  username: Gold_Miner_3
+  new_character: true
+  location:
+    x: 178
+    y: 630
+  skill_levels: *id001
+  inventory_items: *id002
+  equipped_items: *id003
+agent_4:
+  username: Gold_Miner_4
+  new_character: true
+  location:
+    x: 549
+    y: 401
+  skill_levels: *id001
+  inventory_items: *id002
+  equipped_items: *id003
+agent_5:
+  username: Gold_Miner_5
+  new_character: true
+  location:
+    x: 58
+    y: 304
+  skill_levels: *id001
+  inventory_items: *id002
+  equipped_items: *id003
+agent_6:
+  username: Gold_Miner_6
+  new_character: true
+  location:
+    x: 295
+    y: 396
+  skill_levels: *id001
+  inventory_items: *id002
+  equipped_items: *id003
+agent_7:
+  username: Gold_Miner_7
+  new_character: true
+  location:
+    x: 714
+    y: 717
+  skill_levels: *id001
+  inventory_items: *id002
+  equipped_items: *id003
+agent_8:
+  username: Gold_Miner_8
+  new_character: true
+  location:
+    x: 528
+    y: 381
+  skill_levels: *id001
+  inventory_items: *id002
+  equipped_items: *id003
+agent_9:
+  username: Gold_Miner_9
+  new_character: true
+  location:
+    x: 705
+    y: 550
+  skill_levels: *id001
+  inventory_items: *id002
+  equipped_items: *id003
+agent_10:
+  username: Gold_Miner_10
+  new_character: true
+  location:
+    x: 242
+    y: 52
+  skill_levels: *id001
+  inventory_items: *id002
+  equipped_items: *id003
+agent_11:
+  username: Supply_Hunter_1
+  new_character: true
+  location:
+    x: 582
+    y: 758
+  skill_levels: &id004
+    woodcutting: 40
+    strength: 40
+    health: 50
+  inventory_items: &id005
+  - item: string
+    count: 10
+  - item: flask
+    count: 10
+  - item: apple
+    count: 10
+  equipped_items: &id006
+  - item: axe
+    count: 1
+  - item: woodenbow
+    count: 1
+  - item: leatherarmor
+    count: 1
+agent_12:
+  username: Supply_Hunter_2
+  new_character: true
+  location:
+    x: 158
+    y: 337
+  skill_levels: *id004
+  inventory_items: *id005
+  equipped_items: *id006
+agent_13:
+  username: Supply_Hunter_3
+  new_character: true
+  location:
+    x: 1020
+    y: 680
+  skill_levels: *id004
+  inventory_items: *id005
+  equipped_items: *id006
+agent_14:
+  username: Supply_Hunter_4
+  new_character: true
+  location:
+    x: 383
+    y: -1
+  skill_levels: *id004
+  inventory_items: *id005
+  equipped_items: *id006
+agent_15:
+  username: Supply_Hunter_5
+  new_character: true
+  location:
+    x: 463
+    y: 728
+  skill_levels: *id004
+  inventory_items: *id005
+  equipped_items: *id006
+agent_16:
+  username: Tribute_Master
+  new_character: true
+  location:
+    x: 403
+    y: 682
+  skill_levels: &id007
+    smithing: 70
+    crafting: 70
+    fletching: 70
+    strength: 40
+  inventory_items:
+  - item: coal
+    count: 40
+  - item: hilt2
+    count: 1
+  - item: flask
+    count: 20
+  - item: apple
+    count: 20
+  equipped_items: &id008
+  - item: heavysword
+    count: 1
+  - item: platearmor
+    count: 1
+agent_17:
+  username: Master_Smith_2
+  new_character: true
+  location:
+    x: 252
+    y: 350
+  skill_levels: *id007
+  inventory_items:
+  - item: coal
+    count: 40
+  - item: flask
+    count: 20
+  - item: apple
+    count: 20
+  equipped_items: *id008
+agent_18:
+  username: Master_Smith_3
+  new_character: true
+  location:
+    x: 851
+    y: 451
+  skill_levels: *id007
+  inventory_items:
+  - item: coal
+    count: 40
+  - item: flask
+    count: 20
+  - item: apple
+    count: 20
+  equipped_items: *id008
+agent_19:
+  username: Master_Smith_4
+  new_character: true
+  location:
+    x: 503
+    y: 98
+  skill_levels: *id007
+  inventory_items:
+  - item: coal
+    count: 40
+  - item: flask
+    count: 20
+  - item: apple
+    count: 20
+  equipped_items: *id008
+agent_20:
+  username: Master_Smith_5
+  new_character: true
+  location:
+    x: 764
+    y: 659
+  skill_levels: *id007
+  inventory_items:
+  - item: coal
+    count: 40
+  - item: flask
+    count: 20
+  - item: apple
+    count: 20
+  equipped_items: *id008
+success_criteria:
+- Team Mines 100 Gold Ore
+- Team Smelts 100 Gold Bars
+- Team Crafts 5 Golden Bows
+- Team Crafts 1 Golden Sword
+- Tribute_Master (Agent 16) holds all 6 legendary items
+- All agents survive

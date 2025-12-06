@@ -1,0 +1,184 @@
+task:
+  name: Grand Archery Academy - Five-Archer Equipment and Training Program (Variant 1)
+  description: Five archery specialists work together to gather materials, craft archery equipment, and complete coordinated
+    training exercises
+objectives:
+  primary: Establish a complete archery academy with five archers producing bows, arrows, and conducting coordinated training
+  secondary:
+  - Coordinate five-archer material gathering operations
+  - Execute bow and arrow production pipeline
+  - Complete archery training exercises with coordinated shooting
+  - Achieve all archery objectives within 31 rounds
+relevant_game_context: |
+  TARGET OUTPUT
+  - In 35 rounds produce at least 3 wooden bows and ~30 arrows, then hand them out so all five archers are equipped and ready for a short training shoot. The team already holds 23 feathers and 3 strings, so the main work is chopping logs, crafting sticks, and coordinating handoffs.
+
+  SIMPLE PLAN
+  1. WoodGatheringSpecialist harvests 8 logs near (250,350), converts most into sticks via craft_item(Fletching, stick), keeps 3 logs reserved for bows.
+  2. BowCraftsman receives 3 logs + 3 strings (already owned) through transfer_items and crafts three woodenbows.
+  3. ArrowFletcher gathers 30 sticks + pooled feathers (transfer from FeatherHunter + MasterInstructor) and runs craft_item(Fletching, arrow) until ~30 arrows exist.
+  4. FeatherHunter only needs to top up feathers if extras are desired—attack_mob bats near the clearing if so.
+  5. MasterInstructor coordinates distribution and optional live-fire practice on a low-level mob using attack_mob once everyone is armed.
+
+  COORDINATION RULES
+  - Stay within ~10 tiles when transferring; both sides verify_inventory and report in chat.
+  - Track totals after every craft (“Sticks 24/30”, “Arrows batch 2 complete”).
+  - If feathers stay at 23, two arrow batches (20 arrows) are acceptable; log clearly if the team stops below 30.
+
+  COMPLETION CHECKLIST
+  - Bow inventory shows ≥3 new woodenbows, ArrowFletcher reports total arrows made, and every archer states their equipped bow/arrow count.
+  - Training message logged (“All five archers fired on target X”). Only then may MasterInstructor call complete().
+max_action_steps: 32
+agent_1:
+  username: WoodGatheringSpecialist
+  new_character: true
+  location:
+    x: 250
+    y: 350
+  skill_levels:
+    lumberjacking: 30
+    fletching: 25
+    accuracy: 25
+    strength: 30
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarcherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: FeatherHunter
+  new_character: true
+  location:
+    x: 252
+    y: 352
+  skill_levels:
+    accuracy: 35
+    strength: 30
+    health: 40
+    defense: 25
+    fletching: 15
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  - item: feather
+    count: 5
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: leatherarcherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: BowCraftsman
+  new_character: true
+  location:
+    x: 254
+    y: 354
+  skill_levels:
+    fletching: 30
+    accuracy: 30
+    crafting: 25
+    strength: 25
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  - item: string
+    count: 3
+  equipped_items:
+  - item: leatherarcherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_4:
+  username: ArrowFletcher
+  new_character: true
+  location:
+    x: 256
+    y: 356
+  skill_levels:
+    fletching: 35
+    accuracy: 30
+    crafting: 20
+    strength: 25
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  - item: feather
+    count: 8
+  equipped_items:
+  - item: leatherarcherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_5:
+  username: MasterInstructor
+  new_character: true
+  location:
+    x: 258
+    y: 358
+  skill_levels:
+    accuracy: 40
+    fletching: 25
+    strength: 30
+    health: 40
+    defense: 30
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  - item: feather
+    count: 10
+  equipped_items:
+  - item: woodenbow
+    count: 1
+    enchant: 0
+  - item: arrow
+    count: 20
+  - item: leatherarcherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- WoodGatheringSpecialist successfully gathers logs and crafts sticks
+- FeatherHunter successfully collects feathers for arrow production
+- BowCraftsman successfully crafts wooden bows for academy
+- ArrowFletcher successfully mass produces arrows
+- MasterInstructor successfully coordinates training exercises
+- Minimum 4x wooden bows are crafted and distributed
+- Minimum 37x arrows are crafted and distributed
+- All five archers are equipped with bows and arrows
+- Training exercises completed with coordinated archery
+- All five archers coordinate effectively using global chat
+- Materials flow efficiently through production pipeline
+- Archery academy operations completed within time limit
+- Team demonstrates mastery of five-archer coordination

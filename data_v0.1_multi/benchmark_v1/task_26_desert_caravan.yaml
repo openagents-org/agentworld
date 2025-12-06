@@ -1,0 +1,166 @@
+task:
+  name: Desert Caravan Trading - Survival Commerce Expedition (Variant 1)
+  description: Three agents work together to establish a trading caravan through dangerous desert regions, gather rare desert
+    resources, and complete profitable trade routes
+objectives:
+  primary: Successfully establish desert trading operations, gather rare desert materials, and complete a profitable trade
+    circuit
+  secondary:
+  - Establish desert survival coordination and resource mapping
+  - Execute safe caravan trading and desert resource gathering
+  - Complete profitable desert commerce within 30 rounds
+relevant_game_context: |
+  This is a cooperative multi-agent desert trading expedition requiring survival and commerce coordination.
+
+  OBJECTIVE: Establish profitable trading operations through dangerous desert regions while gathering rare materials.
+
+  MISSION REQUIREMENTS:
+  - Navigate to Southern Desert region (coordinates ≈200-600, 600-768)
+  - Gather rare desert resources (cactus materials, desert creatures, mining opportunities)
+  - Establish trading relationships with desert NPCs (Miner, Billey, Dying Soldier)
+  - Transport valuable goods safely across desert trade routes
+
+  TEAM COORDINATION:
+  - Use global chat to share desert resource locations and trading opportunities
+  - Coordinate between resource gathering, trading negotiations, and caravan protection
+  - Share water and food supplies for desert survival
+  - Work together to navigate desert hazards and environmental dangers
+
+  GENERAL STRATEGY:
+  - The team needs to reach southern desert areas efficiently
+  - Desert survival requires careful resource management (water, food)
+  - Trading with desert NPCs can provide unique items and profitable exchanges
+  - Desert creatures and environmental hazards require combat readiness
+  - Balance exploration speed with thorough resource gathering
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  DESERT SURVIVAL & TRADING (CRITICAL KNOWLEDGE):
+  🌵 Desert Resource Gathering:
+    - Use observe_environment to locate cactus and desert plants
+    - Cactus creatures can be defeated for unique desert materials
+    - Look for mining opportunities in desert rocky areas
+    - Desert foraging may yield rare herbs and survival materials
+
+  🏜️ Environmental Survival:
+    - Desert regions have extreme heat and limited water sources
+    - Maintain high food and water supplies for extended expeditions
+    - Look for oasis points as safe rest areas during long journeys
+    - Plan efficient routes to minimize exposure to desert hazards
+
+  💰 Desert Trading NPCs:
+    - Miner: Located in mining areas, trades ore and mining equipment
+    - Billey: Desert merchant, may offer unique desert goods and supplies
+    - Dying Soldier: Near lava border, may have urgent trading needs
+
+  🦅 Desert Combat:
+    - Expect Vultures and other desert predators
+    - Desert creatures adapted to heat and harsh conditions
+    - Use ranged attacks to avoid desert creature abilities
+    - Coordinate combat to handle multiple desert threats
+
+  ⛏️ Desert Mining Opportunities:
+    - Desert rocky areas may contain unique ore deposits
+    - Mining in desert provides materials for trading and crafting
+    - Desert mines may be more dangerous but offer rare materials
+max_action_steps: 30
+agent_1:
+  username: caravan_leader_agent
+  new_character: true
+  location:
+    x: 180
+    y: 200
+  skill_levels:
+    strength: 35
+    health: 45
+    defense: 30
+    accuracy: 25
+    crafting: 20
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  - item: healthpotion
+    count: 10
+  equipped_items:
+  - item: sword
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+  - item: bow
+    count: 1
+    enchant: 0
+agent_2:
+  username: desert_trader_agent
+  new_character: true
+  location:
+    x: 185
+    y: 200
+  skill_levels:
+    crafting: 30
+    strength: 30
+    health: 40
+    accuracy: 20
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  - item: coins
+    count: 100
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+  - item: sword
+    count: 1
+    enchant: 0
+agent_3:
+  username: resource_gatherer_agent
+  new_character: true
+  location:
+    x: 190
+    y: 200
+  skill_levels:
+    mining: 25
+    foraging: 20
+    strength: 40
+    health: 45
+    accuracy: 25
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  - item: healthpotion
+    count: 8
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- caravan_leader_agent successfully navigates to desert region and establishes base operations
+- desert_trader_agent successfully locates and trades with at least one desert NPC
+- resource_gatherer_agent successfully gathers rare desert resources (cactus materials or desert ores)
+- Team successfully defeats desert creatures and handles environmental challenges
+- Team completes profitable trading circuit with net positive resource gain
+- All agents survive the harsh desert expedition conditions
+- Desert caravan trading mission completed within time limit

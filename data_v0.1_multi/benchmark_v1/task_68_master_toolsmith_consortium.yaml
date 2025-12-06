@@ -1,0 +1,194 @@
+task:
+  name: Master Toolsmith Consortium - Complete Tool & Implement Production (Variant 1)
+  description: 'Seven toolsmiths create comprehensive tool collection: pickaxes, axes, buckets, and specialty implements'
+objectives:
+  primary: 'Forge complete tool collection: 8+ pickaxes, 8+ axes, 5+ buckets, 5+ specialty tools for 25+ total implements'
+  secondary:
+  - 'Extraction (Rounds 1-16): Mine massive iron and coal reserves'
+  - 'Lumber Supply (Rounds 1-16): Harvest wood for tool handles'
+  - 'Smelting (Rounds 17-36): Produce 100+ iron bars'
+  - 'Forging (Rounds 37-51): Craft all tools and implements'
+relevant_game_context: |
+  FACTORY PLAN
+  - Produce 25 tools (8 pickaxes, 8 axes, 5 buckets, 4 heavy swords) by Round 51. Five miners collect 87 iron ore + 87 coal, a lumberjack supplies 16 logs, and the Master Toolsmith stationed at (528,384) smelts/forges everything.
+
+  SCHEDULE
+  1. R1-16 Extraction: iron miners split the 87 ore quota; coal miners do the same for coal; Handle_Harvester logs the forest. Post running totals in chat and verify inventories before leaving the mountains/forest.
+  2. R17-27 Transport & Consolidation: gatherers march to the forge (≤32-tile hops), then transfer ore/coal/logs via transfer_items to the Master Toolsmith. Confirm receipt (“Received 30/30 iron ore”).
+  3. R28-36 Smelting: Master Toolsmith executes craft_item(Smelting, ironbar) repeatedly until 87 bars exist, announcing milestones every 10 bars.
+  4. R37-51 Forging: craft pickaxes first (5 bars + 1 log each), then axes, buckets, and finally heavy swords using the stored hilts. After each batch, log progress and remaining bars/logs.
+
+  EXECUTION NOTES
+  - If observe_environment is unavailable, sweep the mining grid manually; rely on harvest_resource output and verify_inventory counts.
+  - Maintain a shared checklist (“Iron 60/87”, “Coal 70/87”) so the forge knows when to expect more loads.
+  - Transfers succeed only within ~10 tiles; both sender and receiver must log the transaction.
+
+  COMPLETION CHECK
+  - Final verify_inventory must list all 25 implements; one agent posts the breakdown before complete().
+max_action_steps: 43
+agent_1:
+  username: Iron_Miner_Alpha
+  new_character: true
+  location:
+    x: 230
+    y: 38
+  skill_levels:
+    mining: 50
+    strength: 34
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_2:
+  username: Iron_Miner_Beta
+  new_character: true
+  location:
+    x: 232
+    y: 40
+  skill_levels:
+    mining: 48
+    strength: 32
+    health: 38
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_3:
+  username: Iron_Miner_Gamma
+  new_character: true
+  location:
+    x: 234
+    y: 42
+  skill_levels:
+    mining: 46
+    strength: 30
+    health: 36
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_4:
+  username: Coal_Miner_Prime
+  new_character: true
+  location:
+    x: 232
+    y: 38
+  skill_levels:
+    mining: 40
+    strength: 28
+    health: 36
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_5:
+  username: Coal_Miner_Secondary
+  new_character: true
+  location:
+    x: 234
+    y: 40
+  skill_levels:
+    mining: 38
+    strength: 26
+    health: 34
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_6:
+  username: Handle_Harvester
+  new_character: true
+  location:
+    x: 250
+    y: 350
+  skill_levels:
+    lumberjacking: 50
+    strength: 32
+    health: 38
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_7:
+  username: Master_Toolsmith
+  new_character: true
+  location:
+    x: 528
+    y: 384
+  skill_levels:
+    crafting: 60
+    smithing: 70
+    health: 36
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  - item: hilt2
+    count: 4
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+success_criteria:
+- 'Extraction: Iron Miners mine 87+ iron ore total'
+- 'Extraction: Coal Miners mine 87+ coal total'
+- 'Extraction: Lumberjack harvests 16+ logs'
+- 'Smelting: All materials consolidated at Central Forge'
+- 'Smelting: Master Toolsmith smelts 87 iron bars'
+- 'Forging: Master Toolsmith crafts 8 pickaxes'
+- 'Forging: Master Toolsmith crafts 8 axes'
+- 'Forging: Master Toolsmith crafts 5 buckets'
+- 'Forging: Master Toolsmith crafts 4 heavy swords'
+- Total 25 implements forged
+- Industrial-scale tool production completed
+- Completed in 49-51 rounds

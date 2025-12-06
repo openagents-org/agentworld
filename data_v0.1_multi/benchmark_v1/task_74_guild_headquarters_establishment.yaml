@@ -1,0 +1,218 @@
+task:
+  name: Guild Headquarters Establishment - Complete Base Construction (Variant 1)
+  description: Six guild founders collaborate to build a fully-functional headquarters with crafting stations, armory, and
+    equipment for all members
+objectives:
+  primary: Establish a complete guild headquarters over 50 rounds with specialized facilities and full equipment for all 6
+    guild members
+  secondary:
+  - 'Phase 1 (Rounds 1-12): Foundation & Resources - Gather massive material stockpile for construction'
+  - 'Phase 2 (Rounds 13-24): Armory Construction - Craft weapons and armor for all members'
+  - 'Phase 3 (Rounds 25-36): Workshop Development - Create crafting stations and utility equipment'
+  - 'Phase 4 (Rounds 37-46): Member Outfitting - Produce specialized equipment for each guild role'
+  - 'Phase 5 (Rounds 47-50): Grand Opening - Test facilities and celebrate guild establishment'
+relevant_game_context: |
+  HQ PLAYBOOK
+  - Six founders build a functional “headquarters” by crafting and organizing gear, not placing buildings. The project runs through five phases (Foundation, Armory, Workshops, Role Outfitting, Grand Opening) and hinges on role specialization: lumberjack gathers wood, miner handles ore, smith/fletcher/crafter craft, and the master coordinates.
+
+  PHASE SNAPSHOT
+  1. R1-12 Foundation: travel to (410,325), assign roles, and split up to gather ≥50 logs, ≥60 iron/coal, ≥20 gold, ≥80 feathers, ≥40 string plus food/gems. Return to HQ, transfer everything to GuildMaster, and verify the stockpile.
+  2. R13-24 Armory: smith + miner smelt 60 iron bars and ~20 gold bars (grab extra coal if needed), forge 6 heavy swords, 4 axes, 3 pickaxes, 6 silver rings, 3 gold rings, then equip everyone.
+  3. R25-36 Workshops: fletcher turns logs/feathers/string into bows and 60 arrows; crafter builds staffs/pendants/enhanced rings using beads/gems; master keeps distribution logs. Stockpiles of ammo, healing items, and utility tools should be recorded in chat.
+  4. R37-46 Outfitting: tailor loadouts per role (e.g., lumberjack gets bow + axe, miner keeps pickaxe + heavy sword, crafter equips staff + pendant). Run verify_inventory after each redistribution and note coverage gaps to fill.
+  5. R47-50 Grand Opening: run a mock drill (short combat or crafting test), confirm every role has primary/backup gear plus consumables, and announce HQ completion before calling complete().
+
+  EXECUTION NOTES
+  - If observe_environment is unavailable, sweep resource zones manually and rely on harvest_resource output plus verify_inventory counts.
+  - Track inventories centrally: after every transfer, GuildMaster posts totals (“Iron 62, Gold 21, Feathers 88”) so crafting plans stay accurate.
+max_action_steps: 42
+agent_1:
+  username: GuildLumberjack
+  new_character: true
+  location:
+    x: 408
+    y: 320
+  skill_levels:
+    lumberjacking: 42
+    fletching: 32
+    strength: 35
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: GuildMiner
+  new_character: true
+  location:
+    x: 412
+    y: 323
+  skill_levels:
+    mining: 42
+    smithing: 28
+    strength: 36
+    health: 42
+    crafting: 25
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  - item: hilt2
+    count: 2
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: GuildSmith
+  new_character: true
+  location:
+    x: 416
+    y: 326
+  skill_levels:
+    smithing: 45
+    crafting: 32
+    strength: 38
+    health: 40
+    mining: 25
+  inventory_items:
+  - item: flask
+    count: 28
+  - item: apple
+    count: 32
+  - item: hilt2
+    count: 2
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_4:
+  username: GuildFletcher
+  new_character: true
+  location:
+    x: 420
+    y: 329
+  skill_levels:
+    fletching: 42
+    crafting: 30
+    lumberjacking: 28
+    accuracy: 35
+    health: 38
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 28
+  - item: string
+    count: 10
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_5:
+  username: GuildCrafter
+  new_character: true
+  location:
+    x: 410
+    y: 332
+  skill_levels:
+    crafting: 48
+    magic: 38
+    fletching: 28
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 28
+  - item: apple
+    count: 32
+  - item: bead
+    count: 3
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_6:
+  username: GuildMaster
+  new_character: true
+  location:
+    x: 414
+    y: 335
+  skill_levels:
+    strength: 35
+    crafting: 35
+    smithing: 30
+    fletching: 30
+    mining: 28
+    lumberjacking: 28
+    health: 42
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  - item: hilt2
+    count: 1
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- 'Phase 1 completed: Foundation resources gathered (50+ logs, 60+ iron ore, 60+ coal, 20+ gold ore, 80+ feathers, 40+ string)'
+- 'Phase 1: All materials consolidated with GuildMaster, headquarters established'
+- 'Phase 2 completed: Complete armory constructed'
+- 'Phase 2: 60+ iron bars and 20+ gold bars smelted'
+- 'Phase 2: 6 Heavy Swords, 4 Axes, 3 Pickaxes forged'
+- 'Phase 2: 6 Silver Rings, 3 Gold Rings crafted'
+- 'Phase 2: All members receive basic combat equipment'
+- 'Phase 3 completed: Fletching Workshop operational'
+- 'Phase 3: 5 Wooden Bows and 60 arrows produced'
+- 'Phase 3: Enchantment Workshop operational'
+- 'Phase 3: 3+ Magic Staffs, 2-3 Pendants, enhanced rings crafted'
+- 'Phase 4 completed: All 6 members outfitted with specialized equipment'
+- 'Phase 4: Each member has role-optimized loadout (specialist equipment)'
+- 'Phase 4: Guild reserves stockpiled (40+ healing items, 24+ arrows, spare equipment)'
+- 'Phase 5 completed: All facilities tested and demonstrated operational'
+- 'Phase 5: Mock combat drill conducted successfully'
+- 'Phase 5: Grand opening ceremony performed'
+- 'Total items crafted: 80+ (weapons, armor, bows, arrows, staffs, pendants)'
+- All 6 guild founders equipped and ready
+- Headquarters location established and functional
+- All 5 phases completed in proper sequence over 48-50 rounds
+- Guild demonstrates resource gathering, production, and combat capabilities
+- 'Guild Headquarters: OFFICIALLY OPEN'

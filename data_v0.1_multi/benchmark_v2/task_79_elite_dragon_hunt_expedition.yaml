@@ -1,0 +1,357 @@
+task:
+  name: Elite Dragon Hunt Expedition - Multi-Region Boss Campaign (Variant 2 - Spread Locations)
+  description: Ten elite warriors form an expedition force to hunt bosses across multiple biomes, culminating in an epic dragon
+    battle
+objectives:
+  primary: Complete a multi-region boss hunting campaign where 10 agents travel across 5 different biomes, defeat 4-5 bosses,
+    craft equipment between battles, and ultimately defeat a dragon or legendary beast
+  secondary:
+  - 'Phase 1: Equipment Preparation & Team Assembly (Gather materials, craft weapons)'
+  - 'Phase 2: Forest Expedition (Travel to forest, hunt forest boss Level 15-20)'
+  - 'Phase 3: Desert Campaign (Travel to desert, hunt desert boss Level 20-25)'
+  - 'Phase 4: Mountain Assault (Travel to mountains, hunt mountain boss Level 25-30)'
+  - 'Phase 5: Ice Cavern Preparation (Gather ice region materials, upgrade equipment)'
+  - 'Phase 6: Volcanic Battleground (Travel to volcanic region, defeat volcanic enemies)'
+  - 'Phase 7: Dragon Hunt Finale (Locate and defeat Forest Dragon Level 60+ or Hell Hound Level 50+)'
+  - Complete campaign within 73 rounds with all warriors surviving
+relevant_game_context: |
+  EXPEDITION STRUCTURE (≈52 ROUNDS)
+  - Run seven phases: prep → forest boss → desert boss → mountain boss → ice upgrades → volcanic skirmishes → dragon finale. Survival and coordination matter more than clearing every optional fight.
+
+  KEY PRINCIPLES
+  - Always verify_inventory for HP/items before and after each battle.
+  - Tanks initiate attack_entity, DPS follows, supports heal/craft between fights, scout locates bosses via observe_environment.
+  - Stay within 15 tiles during combat and heal to ≥85% HP before engaging any boss; for the dragon, everyone must be at 100% with ≥8 heals.
+
+  PHASE SNAPSHOT
+  1. R1-8 Prep: gather logs/ores, smelt ~15 iron bars, craft heavy swords/axes, stock ≥50 heals.
+  2. R9-15 Forest: travel (~200,400), scout a L15-20 boss, defeat it, heal.
+  3. R16-22 Desert: long trek to (~720,150), defeat a L20-25 boss, heal.
+  4. R23-30 Mountain: head to (~238,48), beat a L25-30 boss (hardest mid-fight), recover fully.
+  5. R31-37 Ice: gather ice logs/gems, craft rings/pendants, rebalance heals.
+  6. R38-43 Volcanic: practice vs. fire mobs, optional mini-boss if team is healthy.
+  7. R44-52 Dragon: scout for Forest Dragon or Hell Hound, regroup, run a full ready check, and execute the final coordinated assault.
+
+  COMPLETION
+  - Only call complete() after confirming at least three regional bosses plus the final dragon/hell hound are defeated, all agents survived, and a final chat log summarizes HP status and loot.
+max_action_steps: 73
+agent_1:
+  username: DragonTank1
+  new_character: true
+  location:
+    x: 530
+    y: 388
+  skill_levels:
+    defense: 50
+    strength: 40
+    health: 60
+    accuracy: 30
+    mining: 15
+    smithing: 15
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  - item: bigflask
+    count: 10
+  equipped_items:
+  - item: heavysword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: plateboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: DragonTank2
+  new_character: true
+  location:
+    x: 167
+    y: 336
+  skill_levels:
+    defense: 48
+    strength: 38
+    health: 58
+    accuracy: 28
+    mining: 15
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  - item: bigflask
+    count: 10
+  equipped_items:
+  - item: bluesword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: plateboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: DragonTank3
+  new_character: true
+  location:
+    x: 386
+    y: -2
+  skill_levels:
+    defense: 48
+    strength: 38
+    health: 58
+    accuracy: 28
+    mining: 15
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  - item: bigflask
+    count: 10
+  equipped_items:
+  - item: heavysword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: plateboots
+    count: 1
+    enchant: 0
+agent_4:
+  username: DragonDPS1
+  new_character: true
+  location:
+    x: 898
+    y: 401
+  skill_levels:
+    strength: 55
+    accuracy: 50
+    health: 45
+    defense: 35
+    lumberjacking: 15
+  inventory_items:
+  - item: flask
+    count: 18
+  - item: apple
+    count: 22
+  - item: bigflask
+    count: 8
+  equipped_items:
+  - item: goldensword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+  - item: axe
+    count: 1
+    enchant: 0
+agent_5:
+  username: DragonDPS2
+  new_character: true
+  location:
+    x: 773
+    y: 660
+  skill_levels:
+    strength: 53
+    accuracy: 48
+    health: 45
+    defense: 35
+    lumberjacking: 15
+  inventory_items:
+  - item: flask
+    count: 18
+  - item: apple
+    count: 22
+  - item: bigflask
+    count: 8
+  equipped_items:
+  - item: bluesword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_6:
+  username: DragonDPS3
+  new_character: true
+  location:
+    x: 173
+    y: 639
+  skill_levels:
+    strength: 53
+    accuracy: 48
+    health: 45
+    defense: 35
+    lumberjacking: 15
+  inventory_items:
+  - item: flask
+    count: 18
+  - item: apple
+    count: 22
+  - item: bigflask
+    count: 8
+  equipped_items:
+  - item: heavysword
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_7:
+  username: DragonDPS4
+  new_character: true
+  location:
+    x: 682
+    y: 674
+  skill_levels:
+    accuracy: 55
+    strength: 50
+    health: 45
+    defense: 35
+  inventory_items:
+  - item: flask
+    count: 18
+  - item: apple
+    count: 22
+  - item: bigflask
+    count: 8
+  - item: arrow
+    count: 100
+  equipped_items:
+  - item: bow2
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_8:
+  username: DragonSupport1
+  new_character: true
+  location:
+    x: 263
+    y: 188
+  skill_levels:
+    smithing: 25
+    crafting: 20
+    lumberjacking: 20
+    mining: 20
+    strength: 30
+    health: 40
+    defense: 30
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_9:
+  username: DragonSupport2
+  new_character: true
+  location:
+    x: 552
+    y: 395
+  skill_levels:
+    crafting: 25
+    fletching: 25
+    lumberjacking: 20
+    foraging: 20
+    strength: 30
+    health: 40
+    defense: 30
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_10:
+  username: DragonScout
+  new_character: true
+  location:
+    x: 228
+    y: 151
+  skill_levels:
+    accuracy: 40
+    strength: 35
+    health: 45
+    defense: 30
+  inventory_items:
+  - item: flask
+    count: 18
+  - item: apple
+    count: 22
+  - item: arrow
+    count: 50
+  equipped_items:
+  - item: bow1
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- 'Phase 1 completed: Team gathers 10+ logs and mines 15+ iron ore and coal'
+- 'Phase 1: Team smelts 15 iron bars and crafts 3 Heavy Swords or Axes'
+- 'Phase 1: All 10 agents assemble, roles confirmed, equipped and ready'
+- 'Phase 2 completed: Forest boss (Treant/Troll Level 15-20) defeated'
+- 'Phase 2: Scout successfully locates boss, team travels and coordinates attack'
+- 'Phase 3 completed: Desert boss (Scorpion/Raider Level 20-25) defeated'
+- 'Phase 3: Team successfully travels long distance (560+ tiles) to desert region'
+- 'Phase 4 completed: Mountain boss (Ogre/Giant Level 25-30) defeated'
+- 'Phase 4: Team handles difficult boss fight with healing and coordination'
+- 'Phase 5 completed: Ice materials gathered (5+ Ice Oak logs, gems if available)'
+- 'Phase 5: Equipment upgraded with additional crafted items (rings, pendants, or weapons)'
+- 'Phase 6 completed: Team hunts 2-3 volcanic enemies in volcanic region'
+- 'Phase 6: Team tests upgraded equipment and prepares for dragon'
+- 'Phase 7 completed: DRAGON or LEGENDARY BEAST defeated (Forest Dragon Level 60+ or Hell Hound Level 50+)'
+- 'Phase 7: Scout locates dragon, team executes coordinated assault'
+- At least 4-5 bosses defeated total across all phases
+- All 10 warriors survive expedition with HP > 0 (or at least 8/10 survive)
+- Expedition spans 5+ different regions (Forest, Desert, Mountain, Ice, Volcanic)
+- Team travels 1000+ total tiles across all phases
+- Team uses chat extensively for coordination throughout 52 rounds
+- Campaign takes 45-52 rounds (shows proper pacing and preparation)
+- Elite Dragon Hunt Expedition successfully completed with legendary victory

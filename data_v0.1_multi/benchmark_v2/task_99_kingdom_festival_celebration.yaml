@@ -1,0 +1,713 @@
+task:
+  name: Kingdom Festival Celebration - Multi-Guild Coordination Spectacular (Variant 2 - Spread Locations)
+  description: Twenty agents from different guilds coordinate to prepare the kingdom's grandest festival, featuring combat
+    exhibitions, culinary masterpieces, artisan showcases, and entertainment
+objectives:
+  primary: Successfully prepare and execute kingdom festival with 4 exhibition arenas, 60+ prepared items, and coordinated
+    performances within 60 rounds
+  secondary:
+  - 'Phase 1 (Rounds 1-15): Guild Assembly - Organize 4 guild teams and gather initial resources'
+  - 'Phase 2 (Rounds 16-30): Preparation Stage - Craft exhibition items and train performers'
+  - 'Phase 3 (Rounds 31-45): Arena Construction - Set up 4 festival exhibition areas'
+  - 'Phase 4 (Rounds 46-60): Grand Festival - Execute coordinated celebration and performances'
+relevant_game_context: |
+  KINGDOM FESTIVAL CELEBRATION OVERVIEW:
+
+  Twenty guild members unite to create the realm's most magnificent festival celebration.
+
+  🎪 FESTIVAL STRUCTURE:
+
+  ═══════════════════════════════════════════════════════════
+  ⚔️ WARRIORS GUILD (Agents 1-5) - Combat Exhibition Arena
+  ═══════════════════════════════════════════════════════════
+
+  **Mission**: Prepare combat demonstrations and defeat exhibition monsters
+  **Starting Location**: Various combat zones
+
+  **Team Composition**:
+  - Agent 1 (Champion Gladiator): Lead combat demonstrations
+  - Agent 2 (Berserker Warrior): Power attack specialist
+  - Agent 3 (Swift Duelist): Speed combat performer
+  - Agent 4 (Shield Guardian): Defensive techniques demonstrator
+  - Agent 5 (Combat Coordinator): Organize exhibition matches
+
+  **Combat Exhibition Goals**:
+  - Defeat 5+ different monster types for demonstrations
+  - Gather 10+ combat trophies (mob drops)
+  - Coordinate 3+ synchronized combat performances
+  - Train for exhibition battles
+
+  **Exhibition Monsters** (choose 5+):
+  - Wizard (Level 7) at (350, 250)
+  - Ice Knight (Level 62) at (712, 717)
+  - Snow Wolf (Level 18) at (350, 180)
+  - Dark Wolf (Level 58) at (1016, 682)
+  - Various other challenging creatures
+
+  **Strategy**:
+  - Scout monster locations: observe_environment
+  - Coordinate attacks: attack_entity
+  - Collect trophies for festival display
+  - Chat format: "[Warriors] Champion: Defeated X for exhibition!"
+
+  ═══════════════════════════════════════════════════════════
+  🍳 CULINARY GUILD (Agents 6-10) - Grand Feast Preparation
+  ═══════════════════════════════════════════════════════════
+
+  **Mission**: Prepare 30+ gourmet dishes for festival feast
+  **Starting Location**: Coastal (580, 750) and Forest regions
+
+  **Team Composition**:
+  - Agent 6 (Master Chef): Oversee all cooking operations
+  - Agent 7 (Fishing Specialist): Catch 15+ seafood
+  - Agent 8 (Game Hunter): Hunt 10+ meat items
+  - Agent 9 (Pastry Artist): Prepare specialty dishes
+  - Agent 10 (Feast Coordinator): Organize banquet setup
+
+  **Feast Menu Goals** (30+ total dishes):
+  - 10x cooked shrimp (rawshrimp → cookedshrimp)
+  - 5x jellyfish smoothie (jellyfish → jellyfishsmoothie)
+  - 8x cooked chicken (rawchicken → cookedchicken)
+  - 7x cooked beef (rawbeef → cookedbeef)
+
+  **Production Workflow**:
+  1. Agent 7: Fish for rawshrimp, jellyfish at coast
+  2. Agent 8: Hunt Roosters for rawchicken, Cows for rawbeef
+  3. Agent 6: Cook seafood: craft_item skill=Cooking
+  4. Agent 9: Cook meats: craft_item skill=Cooking
+  5. Agent 10: Organize feast display
+
+  ═══════════════════════════════════════════════════════════
+  💍 ARTISANS GUILD (Agents 11-15) - Craftsmanship Exhibition
+  ═══════════════════════════════════════════════════════════
+
+  **Mission**: Create 20+ masterwork items for artisan showcase
+  **Starting Location**: Mountain (230, 40) and crafting areas
+
+  **Team Composition**:
+  - Agent 11 (Smithing Grandmaster): Craft weapons and armor
+  - Agent 12 (Mining Prodigy): Extract ores and minerals
+  - Agent 13 (Jewelry Artisan): Create ornamental pieces
+  - Agent 14 (Woodworking Master): Craft tools and items
+  - Agent 15 (Exhibition Curator): Organize artisan displays
+
+  **Masterwork Goals** (20+ items):
+  - 5x Heavy Swords (2 ironbar + hilt2 each)
+  - 3x Golden Rings (2 goldbar each)
+  - 4x Silver Rings (2 ironbar each)
+  - 3x Emerald Pendants (emerald + string)
+  - 5x Axes (3 ironbar + logs)
+
+  **Material Requirements**:
+  - 35x ironore → 35x ironbar
+  - 10x goldore → 10x goldbar
+  - 50x coal for smelting
+  - 5x emerald from hunting
+  - 10x logs for handles
+
+  **Crafting Sequence**:
+  1. Agent 12: Mine at (230, 40): ironore, goldore, coal
+  2. Agent 11: Smelt bars: craft_item skill=Smelting
+  3. Agent 14: Harvest logs, craft handles
+  4. Agent 13: Hunt gems, craft jewelry
+  5. Agent 11: Craft weapons: craft_item skill=Smithing
+  6. Agent 15: Organize exhibition display
+
+  ═══════════════════════════════════════════════════════════
+  🎭 ENTERTAINERS GUILD (Agents 16-20) - Performance Coordination
+  ═══════════════════════════════════════════════════════════
+
+  **Mission**: Coordinate festival logistics and entertainment
+  **Starting Location**: Central Hub (400, 15)
+
+  **Team Composition**:
+  - Agent 16 (Festival Director): Overall coordination
+  - Agent 17 (Stage Manager): Set up exhibition areas
+  - Agent 18 (Props Master): Gather display items
+  - Agent 19 (Herald Announcer): Coordinate communications
+  - Agent 20 (Finale Orchestrator): Execute grand finale
+
+  **Coordination Goals**:
+  - Establish 4 exhibition areas (Combat, Feast, Artisan, Central)
+  - Collect items from all guilds for displays
+  - Coordinate timing of performances
+  - Execute synchronized grand finale
+
+  **Exhibition Area Locations**:
+  - Combat Arena: (712, 715) - Near Ice Knight territory
+  - Feast Hall: (585, 752) - Coastal banquet area
+  - Artisan Plaza: (235, 45) - Mountain workshop display
+  - Central Stage: (400, 15) - Main festival grounds
+
+  **Coordination Tasks**:
+  - Collect exhibition items from each guild
+  - Transport items to appropriate areas
+  - Verify all guild preparations complete
+  - Synchronize festival opening and finale
+  - Use verify_inventory to track all festival items
+
+  ═══════════════════════════════════════════════════════════
+  🎯 FESTIVAL PHASES
+  ═══════════════════════════════════════════════════════════
+
+  **Phase 1: Guild Assembly (Rounds 1-15)**
+  - Each guild forms and plans operations
+  - Initial resource gathering begins
+  - Warriors scout combat zones
+  - Culinary starts fishing/hunting
+  - Artisans begin mining operations
+  - Entertainers coordinate logistics
+
+  **Phase 2: Preparation (Rounds 16-30)**
+  - Warriors: Train and defeat exhibition monsters
+  - Culinary: Cook 30+ feast dishes
+  - Artisans: Craft 20+ masterwork items
+  - Entertainers: Set up exhibition areas
+  - Regular updates via chat every 5 rounds
+
+  **Phase 3: Arena Construction (Rounds 31-45)**
+  - Transport items to exhibition areas
+  - Set up Combat Arena displays
+  - Arrange Feast Hall banquet
+  - Organize Artisan Plaza showcases
+  - Prepare Central Stage for finale
+
+  **Phase 4: Grand Festival (Rounds 46-60)**
+  - Execute combat demonstrations
+  - Serve grand feast
+  - Display artisan masterworks
+  - Coordinated guild performances
+  - Grand finale celebration
+
+  **Communication Protocol**:
+  - Format: "[Guild Name] Agent: Status update"
+  - Example: "[Warriors] Champion: 3/5 monsters defeated for exhibition"
+  - Report every 5 rounds with progress
+  - Coordinate inter-guild item transfers
+  - Final announcement: "FESTIVAL READY! All guilds prepared!"
+
+  ═══════════════════════════════════════════════════════════
+  🏆 SUCCESS CRITERIA (ALL MUST BE MET)
+  ═══════════════════════════════════════════════════════════
+
+  1. **Warriors Guild**: Defeat 5+ different monster types
+  2. **Culinary Guild**: Prepare 30+ cooked dishes
+  3. **Artisans Guild**: Craft 20+ masterwork items
+  4. **Total Items**: 60+ festival items (trophies + food + crafts)
+  5. **Exhibition Areas**: 4 areas established and stocked
+  6. **Coordination**: All guilds communicate and collaborate
+  7. **Performances**: Coordinated demonstrations executed
+  8. **Festival Completion**: Within 60 rounds
+
+  DO NOT call complete() until all guilds confirm festival ready!
+
+  **Victory Announcement**:
+  "KINGDOM FESTIVAL SUCCESS! Warriors: X monsters | Culinary: Y dishes | Artisans: Z items | Areas: 4 | CELEBRATION COMPLETE!"
+max_action_steps: 105
+agent_1:
+  username: champion_gladiator_supreme
+  new_character: true
+  location:
+    x: 304
+    y: 404
+  skill_levels:
+    strength: 58
+    accuracy: 50
+    defense: 48
+    health: 65
+  inventory_items:
+  - item: flask
+    count: 40
+  - item: apple
+    count: 45
+  - item: healthpotion
+    count: 10
+  equipped_items:
+  - item: heavysword
+    count: 1
+    enchant: 0
+  - item: ironarmor
+    count: 1
+    enchant: 0
+  - item: ironboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: berserker_warrior_elite
+  new_character: true
+  location:
+    x: 234
+    y: 44
+  skill_levels:
+    strength: 62
+    accuracy: 45
+    health: 60
+  inventory_items:
+  - item: flask
+    count: 40
+  - item: apple
+    count: 45
+  - item: healthpotion
+    count: 8
+  equipped_items:
+  - item: sword
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: swift_duelist_master
+  new_character: true
+  location:
+    x: 551
+    y: 404
+  skill_levels:
+    accuracy: 60
+    strength: 50
+    defense: 42
+    health: 58
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  - item: healthpotion
+    count: 8
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_4:
+  username: shield_guardian_protector
+  new_character: true
+  location:
+    x: 167
+    y: 335
+  skill_levels:
+    defense: 58
+    strength: 52
+    health: 70
+  inventory_items:
+  - item: flask
+    count: 45
+  - item: apple
+    count: 50
+  - item: healthpotion
+    count: 12
+  equipped_items:
+  - item: sword
+    count: 1
+    enchant: 0
+  - item: ironarmor
+    count: 1
+    enchant: 0
+  - item: ironboots
+    count: 1
+    enchant: 0
+agent_5:
+  username: combat_coordinator_general
+  new_character: true
+  location:
+    x: 1017
+    y: 682
+  skill_levels:
+    strength: 48
+    health: 60
+    defense: 45
+  inventory_items:
+  - item: flask
+    count: 40
+  - item: apple
+    count: 45
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_6:
+  username: festival_master_chef
+  new_character: true
+  location:
+    x: 504
+    y: 101
+  skill_levels:
+    cooking: 60
+    crafting: 42
+    health: 45
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_7:
+  username: oceanic_fishing_specialist
+  new_character: true
+  location:
+    x: 708
+    y: 715
+  skill_levels:
+    fishing: 55
+    health: 45
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: fishingrod
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_8:
+  username: wilderness_game_hunter
+  new_character: true
+  location:
+    x: 583
+    y: 757
+  skill_levels:
+    strength: 50
+    accuracy: 48
+    health: 52
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: sword
+    count: 1
+    enchant: 0
+  - item: bow
+    count: 1
+    enchant: 0
+  - item: arrow
+    count: 40
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_9:
+  username: gourmet_pastry_artist
+  new_character: true
+  location:
+    x: 902
+    y: 404
+  skill_levels:
+    cooking: 55
+    crafting: 40
+    health: 42
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_10:
+  username: banquet_feast_coordinator
+  new_character: true
+  location:
+    x: 678
+    y: 671
+  skill_levels:
+    cooking: 48
+    health: 45
+    strength: 35
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_11:
+  username: legendary_smithing_grandmaster
+  new_character: true
+  location:
+    x: 55
+    y: 302
+  skill_levels:
+    smithing: 65
+    mining: 35
+    health: 45
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  - item: coal
+    count: 25
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_12:
+  username: mountain_mining_prodigy
+  new_character: true
+  location:
+    x: 228
+    y: 157
+  skill_levels:
+    mining: 60
+    strength: 48
+    health: 50
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  - item: coal
+    count: 10
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_13:
+  username: exhibition_jewelry_artisan
+  new_character: true
+  location:
+    x: 403
+    y: 677
+  skill_levels:
+    crafting: 60
+    smithing: 45
+    strength: 42
+    health: 42
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  - item: string
+    count: 15
+  - item: topaz
+    count: 1
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_14:
+  username: expert_woodworking_master
+  new_character: true
+  location:
+    x: 704
+    y: 557
+  skill_levels:
+    lumberjacking: 55
+    fletching: 48
+    crafting: 45
+    health: 45
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_15:
+  username: showcase_exhibition_curator
+  new_character: true
+  location:
+    x: 392
+    y: -2
+  skill_levels:
+    crafting: 45
+    health: 48
+    strength: 38
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_16:
+  username: grand_festival_director
+  new_character: true
+  location:
+    x: 526
+    y: 382
+  skill_levels:
+    strength: 42
+    health: 55
+    defense: 40
+  inventory_items:
+  - item: flask
+    count: 45
+  - item: apple
+    count: 50
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_17:
+  username: performance_stage_manager
+  new_character: true
+  location:
+    x: 462
+    y: 725
+  skill_levels:
+    strength: 40
+    health: 50
+    crafting: 38
+  inventory_items:
+  - item: flask
+    count: 40
+  - item: apple
+    count: 45
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_18:
+  username: celebration_props_master
+  new_character: true
+  location:
+    x: 171
+    y: 635
+  skill_levels:
+    crafting: 48
+    health: 48
+    strength: 35
+  inventory_items:
+  - item: flask
+    count: 40
+  - item: apple
+    count: 45
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_19:
+  username: kingdom_herald_announcer
+  new_character: true
+  location:
+    x: 773
+    y: 657
+  skill_levels:
+    health: 50
+    strength: 38
+  inventory_items:
+  - item: flask
+    count: 40
+  - item: apple
+    count: 45
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_20:
+  username: finale_orchestrator_supreme
+  new_character: true
+  location:
+    x: 249
+    y: 353
+  skill_levels:
+    crafting: 45
+    health: 52
+    magic: 40
+  inventory_items:
+  - item: flask
+    count: 40
+  - item: apple
+    count: 45
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- Warriors Guild defeats 5+ different monster types for exhibitions
+- Warriors Guild collects 10+ combat trophies from monster drops
+- Culinary Guild prepares 30+ cooked dishes for grand feast
+- Artisans Guild crafts 20+ masterwork items for showcase
+- Total 60+ festival items collected (trophies, food, crafts)
+- Entertainers Guild establishes 4 exhibition areas
+- All guilds coordinate item distribution to exhibition areas
+- Regular communication maintained between all guilds
+- Coordinated festival performances executed
+- Kingdom Festival celebration completed within 60 rounds

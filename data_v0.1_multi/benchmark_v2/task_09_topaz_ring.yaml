@@ -1,0 +1,142 @@
+task:
+  name: Cooperative Topaz Ring Crafting - Luxury Jewelry (Variant 2 - Spread Locations)
+  description: Three agents work together to create a topaz ring through precious gem mining, gold smelting, and luxury jewelry
+    crafting
+objectives:
+  primary: Create a topaz ring by combining topaz gem with gold ring base
+  secondary:
+  - Coordinate precious gem mining and gold metallurgy
+  - Execute luxury material transfers with high value items
+  - Complete premium jewelry crafting within 39 rounds
+relevant_game_context: |
+  This is a cooperative multi-agent luxury jewelry scenario requiring precious materials.
+
+  OBJECTIVE: Create a topaz ring by combining precious topaz gem with luxury gold ring base.
+
+  TEAM COORDINATION:
+  - Use global chat to share locations of precious and valuable resources
+  - Coordinate specialized gem mining and gold metallurgy operations
+  - Handle valuable materials with appropriate care during transfers
+  - Work together to complete premium luxury jewelry crafting
+
+  GENERAL STRATEGY:
+  - The team needs to locate and extract precious gemstones and gold materials
+  - Someone needs to process gold ore into luxury ring base components
+  - Final jewelry assembly requires combining precious materials with expertise
+  - Coordinate timing and resource management for high-value materials
+  - Each agent has specialized skills for different aspects of luxury crafting
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  CRAFTING RECIPES (CRITICAL KNOWLEDGE):
+  💎 Mining - topaz:
+    - harvest_resource on topaz deposits to get topaz
+    - Level required: 15+ (Mining skill) - MID LEVEL
+
+  🟨 Smelting Recipe - goldbar:
+    - craft_item skill=Smelting itemKey=goldbar
+    - Materials: 1x goldore + 1x coal → 1x goldbar
+    - Level required: 20 (uses Smithing skill level)
+
+  🟨 Smithing Recipe - goldring:
+    - craft_item skill=Smithing itemKey=goldring
+    - Materials: 2x goldbar → 1x goldring
+    - Level required: 1 (Smithing skill)
+
+  💍 Crafting Recipe - topaz ring:
+    - craft_item skill=Crafting itemKey=topazring
+    - Materials: 1x topaz + 1x goldring → 1x topaz ring
+    - Level required: 5 (Crafting skill)
+max_action_steps: 39
+agent_1:
+  username: gem_miner_agent
+  new_character: true
+  location:
+    x: 498
+    y: 95
+  skill_levels:
+    mining: 30
+    strength: 30
+    health: 25
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  - item: goldnugget
+    count: 2
+  - item: coal
+    count: 2
+  - item: topaz
+    count: 1
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: gold_smith_agent
+  new_character: true
+  location:
+    x: 583
+    y: 753
+  skill_levels:
+    smithing: 25
+    mining: 20
+    strength: 25
+    health: 25
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  - item: goldore
+    count: 2
+  - item: coal
+    count: 2
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: luxury_jeweler_agent
+  new_character: true
+  location:
+    x: 715
+    y: 716
+  skill_levels:
+    crafting: 25
+    smithing: 15
+    mining: 10
+    strength: 20
+    health: 25
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- gem_miner_agent successfully mines and transfers topaz
+- gold_smith_agent successfully creates and transfers gold ring base
+- luxury_jeweler_agent receives both components and crafts topaz ring
+- luxury_jeweler_agent successfully equips the topaz ring
+- All agents handle precious materials with appropriate luxury care
+- Premium jewelry production completes within time limit

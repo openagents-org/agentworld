@@ -1,0 +1,167 @@
+task:
+  name: Medical Emergency Response - Healthcare Coordination and Life Support Operations (Variant 1)
+  description: Three agents work together to establish emergency medical operations, coordinate healthcare services, and provide
+    life support assistance
+objectives:
+  primary: Successfully establish emergency medical operations, coordinate healthcare services, and provide effective life
+    support assistance
+  secondary:
+  - Establish medical coordination and emergency response preparation
+  - Execute coordinated healthcare operations and medical assistance procedures
+  - Complete medical emergency response within 31 rounds
+relevant_game_context: |
+  This is a cooperative multi-agent medical emergency response scenario requiring healthcare coordination and life support skills.
+
+  OBJECTIVE: Establish emergency medical operations, coordinate healthcare services, and provide effective life support assistance.
+
+  MISSION REQUIREMENTS:
+  - Establish medical operations in suitable areas for emergency response
+  - Coordinate medical assistance and healthcare services for team members and others
+  - Provide life support assistance and emergency medical care using available resources
+  - Develop sustainable medical response systems for ongoing healthcare needs
+
+  TEAM COORDINATION:
+  - Use global chat for complex medical coordination and emergency response updates
+  - Coordinate between medical assistance, resource management, and emergency response
+  - Share medical knowledge and provide support during healthcare operations
+  - Work together to handle medical emergencies and coordinate healthcare delivery
+
+  GENERAL STRATEGY:
+  - This requires resource management skills and medical coordination knowledge
+  - Medical operations need efficient resource utilization and coordinated response
+  - Healthcare services require coordinated assistance and mutual support
+  - Emergency response needs quick decision-making and effective team coordination
+  - Balance immediate medical needs with long-term healthcare sustainability
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  MEDICAL EMERGENCY RESPONSE OPERATIONS (CRITICAL KNOWLEDGE):
+  🏥 Medical Operations Setup:
+    - Use observe_environment to scout areas suitable for medical operations and emergency response
+    - Establish medical coordination positions for healthcare service delivery
+    - Navigate operational areas while maintaining team safety and medical readiness
+    - Coordinate medical activities to optimize healthcare effectiveness and response time
+
+  🚑 Emergency Response Coordination:
+    - Use available resources for emergency medical assistance and life support
+    - Focus on efficient resource utilization for medical operations and healthcare delivery
+    - Coordinate emergency response activities to maximize medical effectiveness
+    - Practice emergency procedures and medical coordination techniques
+
+  📊 Healthcare Service Management:
+    - Use available skills for healthcare coordination and medical assistance
+    - Coordinate medical resource sharing and distribution among team members
+    - Focus on sustainable healthcare practices and medical resource conservation
+    - Balance immediate medical needs with long-term healthcare planning
+
+  🩹 Life Support Operations:
+    - Use observe_environment to identify medical needs and emergency situations
+    - Coordinate life support assistance and emergency medical care
+    - Practice team medical strategies using available resources and skills
+    - Execute coordinated medical operations and provide mutual healthcare support
+
+  🎯 Medical Coordination Strategy:
+    - Use coordinated medical techniques for effective emergency response
+    - Practice efficient healthcare management and resource coordination
+    - Focus on developing medical response capabilities through team coordination
+    - Use safety-first approaches during medical emergency operations
+max_action_steps: 39
+agent_1:
+  username: medical_coordinator_agent
+  new_character: true
+  location:
+    x: 280
+    y: 190
+  skill_levels:
+    health: 50
+    magic: 35
+    accuracy: 40
+    strength: 35
+    defense: 30
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: sword
+    count: 1
+    enchant: 0
+  - item: lightningstaff
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: emergency_responder_agent
+  new_character: true
+  location:
+    x: 290
+    y: 200
+  skill_levels:
+    strength: 45
+    health: 45
+    accuracy: 40
+    defense: 35
+    magic: 25
+  inventory_items:
+  - item: flask
+    count: 28
+  - item: apple
+    count: 32
+  equipped_items:
+  - item: bluesword
+    count: 1
+    enchant: 0
+  - item: firestaff
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: life_support_specialist_agent
+  new_character: true
+  location:
+    x: 300
+    y: 210
+  skill_levels:
+    health: 55
+    magic: 40
+    defense: 40
+    accuracy: 35
+    strength: 30
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: lightningstaff
+    count: 1
+    enchant: 1
+  - item: heavysword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 1
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- medical_coordinator_agent successfully establishes medical coordination operations and healthcare management
+- medical_coordinator_agent demonstrates effective medical planning and emergency response coordination
+- emergency_responder_agent successfully provides emergency response services and medical assistance
+- emergency_responder_agent demonstrates effective emergency procedures and response capabilities
+- life_support_specialist_agent successfully provides life support assistance and advanced medical care
+- Team demonstrates coordinated medical response and healthcare delivery capabilities
+- Medical operations provide effective healthcare services and emergency response
+- Medical emergency response completed within time limit with successful healthcare delivery

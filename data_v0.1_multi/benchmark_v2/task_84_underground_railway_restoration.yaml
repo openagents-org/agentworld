@@ -1,0 +1,267 @@
+task:
+  name: Underground Railway Restoration - Cavern Transit Revival (Variant 2 - Spread Locations)
+  description: Ten spelunkers reopen the abandoned railway beneath the Central Kingdom, clearing debris, laying signal beacons,
+    and testing a supply cart within 55 rounds.
+objectives:
+  primary: Reconnect the North Shaft (230,60) and South Exit (480,620) through the underground tunnel, then escort a supply
+    cart end-to-end while keeping comms online.
+  secondary:
+  - 'Phase 1: Survey team charts collapsed corridors and marks detours.'
+  - 'Phase 2: Excavation team clears three blockages using mining and lumber support.'
+  - 'Phase 3: Beacon team crafts and installs four signal staffs for navigation.'
+  - 'Phase 4: Security team removes hostile mobs and establishes safe checkpoints.'
+  - 'Phase 5: Logistics team pushes the supply cart from north to south without losing escorted coverage.'
+relevant_game_context: |
+  MAP OVERVIEW
+  - North Shaft (230,60) ↔ Mid Hub (350,320) ↔ South Exit (480,620). Keep at least two agents stationed at each hub while others travel.
+
+  BLOCKAGE CLEARING
+  - Each collapse consumes ~6 pickaxe swings worth of effort. Gather 12 ironore + 12 coal, smelt into 12 ironbar, and craft_item Smithing pickaxe (two replacements) before starting.
+  - TimberJack supplies planks/logs to brace tunnels; confirm “Brace ready” in chat before mining.
+
+  SIGNAL BEACONS
+  - BeaconSmith crafts two lightningstaff (direction markers) and two firestaff (hazard markers) using sticks + beads from monsters/plants along the route.
+  - Plant beacons at North Shaft, Mid Hub, South Exit, and one underground junction; SignalRunner posts activation messages.
+
+  SECURITY + CART
+  - TunnelGuard & ShadowCleaver patrol ahead, using attack_entity on spectres/scorpions and reporting loot so Beacon team can recycle beads.
+  - QuarterCart represents the supply cart inventory. Once it departs North Shaft, at least three escorts must remain within 5 tiles until arrival.
+  - Transfers happen only at hubs; verify_inventory before declaring a blockage cleared or beacon installed.
+
+  COMPLETION
+  - Need chat log of three cleared blockages, four active beacons, and cart arrival. complete() only after all agents assemble at South Exit for final inspection.
+max_action_steps: 95
+agent_1:
+  username: SurveyLead
+  new_character: true
+  location:
+    x: 525
+    y: 385
+  skill_levels:
+    mining: 34
+    defense: 30
+    accuracy: 28
+    health: 32
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 10
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_2:
+  username: MapRunner
+  new_character: true
+  location:
+    x: 896
+    y: 404
+  skill_levels:
+    accuracy: 32
+    magic: 28
+    health: 28
+    defense: 28
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 10
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: DigMaster
+  new_character: true
+  location:
+    x: 710
+    y: 555
+  skill_levels:
+    mining: 40
+    smelting: 35
+    smithing: 32
+    health: 34
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 12
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+agent_4:
+  username: TimberJack
+  new_character: true
+  location:
+    x: 765
+    y: 655
+  skill_levels:
+    lumberjacking: 36
+    strength: 30
+    health: 32
+    defense: 30
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 10
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_5:
+  username: BeaconSmith
+  new_character: true
+  location:
+    x: 167
+    y: 334
+  skill_levels:
+    crafting: 36
+    magic: 34
+    smithing: 30
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: manaflask
+    count: 10
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_6:
+  username: SignalRunner
+  new_character: true
+  location:
+    x: 252
+    y: 350
+  skill_levels:
+    magic: 30
+    crafting: 30
+    accuracy: 28
+    health: 28
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 10
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_7:
+  username: TunnelGuard
+  new_character: true
+  location:
+    x: 50
+    y: 302
+  skill_levels:
+    defense: 38
+    strength: 34
+    health: 34
+    accuracy: 28
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 12
+  equipped_items:
+  - item: heavysword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+agent_8:
+  username: ShadowCleaver
+  new_character: true
+  location:
+    x: 547
+    y: 401
+  skill_levels:
+    accuracy: 34
+    defense: 32
+    magic: 28
+    health: 32
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 12
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_9:
+  username: QuarterCart
+  new_character: true
+  location:
+    x: 583
+    y: 756
+  skill_levels:
+    crafting: 32
+    defense: 30
+    strength: 28
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_10:
+  username: MedicLamp
+  new_character: true
+  location:
+    x: 462
+    y: 724
+  skill_levels:
+    magic: 36
+    crafting: 32
+    health: 35
+    defense: 30
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: manaflask
+    count: 12
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- Three blockages cleared with chat logs referencing tool usage and verify_inventory screenshots.
+- Twelve ironbar produced, two replacement pickaxes crafted, and structural braces confirmed by TimberJack.
+- Two lightningstaff and two firestaff beacons crafted, planted at specified hubs, and announced in order.
+- Security team documents at least four hostile eliminations plus redistribution of any useful drops.
+- QuarterCart inventory shows transfer from North Shaft → Mid Hub → South Exit with escorts present.
+- All agents stand at South Exit to declare the tunnel safe before complete().

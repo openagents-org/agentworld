@@ -1,0 +1,139 @@
+task:
+  name: Epic Boss Raid Campaign - Extended Multi-Boss Conquest Journey (Variant 2 - Spread Locations)
+  description: Three elite warriors embark on an extended boss raid campaign, defeating multiple bosses across regions with
+    preparation phases between encounters
+objectives:
+  primary: Complete an EXTENDED 7-phase boss raid campaign with crafting, resource gathering, and 4 boss battles spanning
+    50 rounds
+  secondary:
+  - 'Phase 1 (Rounds 1-10): Equipment Preparation - Craft weapons and tools'
+  - 'Phase 2 (Rounds 11-15): First Boss - Defeat Goblin'
+  - 'Phase 3 (Rounds 16-23): Resource Expansion - Gather advanced materials'
+  - 'Phase 4 (Rounds 24-30): Second Boss - Defeat Skeleton'
+  - 'Phase 5 (Rounds 31-37): Weapon Upgrades - Craft enhanced equipment'
+  - 'Phase 6 (Rounds 38-44): Third Boss - Defeat Ogre'
+  - 'Phase 7 (Rounds 45-50): Final Boss - Defeat Spectre or Ice Guardian'
+  - Complete ALL 7 phases in sequence over 45-50 rounds
+relevant_game_context: |
+  RAID ROADMAP (50 ROUNDS, 7 PHASES)
+  1. R1-10 Prep: cut 5 logs, mine 10 iron + 10 coal at (230,38), smelt 10 bars, craft 2 heavy swords + 1 pickaxe, stock healing items.
+  2. R11-15 Goblin: travel (~350,250), locate a level 10-15 goblin via observation/mob list, ensure HP>80%, all three attack_mob the same ID.
+  3. R16-23 Recovery/loot run: heal to >90%, gather bonus materials (gold or gems) and extra food; share totals in chat.
+  4. R24-30 Skeleton: hunt cemetery/dungeon zones (~200,100 or 350,200), repeat synchronized attack procedure.
+  5. R31-37 Upgrades: mine/smelt another batch (≈5 bars) for replacement axes or shields and bring total healing items above 30.
+  6. R38-44 Ogre: head back near (238,48), run full ready check (HP>90%, healing stocked) before attacking.
+  7. R45-50 Final boss: Spectre (≈230,30) or Ice Guardian (≈259,151). Everyone must be at 100% HP with ≥5 heals, attack simultaneously, then record victory logs.
+
+  EXECUTION RULES
+  - After every phase, post “Phase X complete – [summary]”. Use transfer_items to funnel ore/bars to whoever crafts. attack_mob is preferred for bosses so loot and combat reporting are automatic.
+  - Never engage a boss with HP<80%; if supplies dip, pause the campaign and restock even if it delays the schedule.
+  - Minimum success still requires Phase 1 gear, at least three bosses (Goblin, Ogre, Final), and the run lasting ≥40 rounds.
+
+  COMPLETION CHECK
+  - By Round 48-50 each agent states: crafted gear, bosses defeated, current HP/healing. Only after all confirm may one agent call complete() summarizing all seven phases.
+max_action_steps: 82
+agent_1:
+  username: RaidTank
+  new_character: true
+  location:
+    x: 582
+    y: 757
+  skill_levels:
+    defense: 45
+    strength: 40
+    health: 55
+    accuracy: 30
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: heavysword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: RaidDPS
+  new_character: true
+  location:
+    x: 772
+    y: 652
+  skill_levels:
+    strength: 50
+    accuracy: 45
+    health: 45
+    defense: 35
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: bluesword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: RaidSupport
+  new_character: true
+  location:
+    x: 674
+    y: 676
+  skill_levels:
+    magic: 45
+    accuracy: 40
+    health: 45
+    defense: 35
+    strength: 30
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  - item: manaflask
+    count: 20
+  equipped_items:
+  - item: lightningstaff
+    count: 1
+    enchant: 0
+  - item: firestaff
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- 'Phase 1 completed: Team crafts 2x Heavy Swords, 1x Pickaxe, and 10+ iron bars'
+- 'Phase 1: Team gathers 5+ logs and mines 10+ iron ore and coal'
+- 'Phase 2 completed: Goblin boss (Level 10-15) defeated'
+- 'Phase 2: Team coordinates attack with proper positioning and HP checks'
+- 'Phase 3 completed: Team gathers advanced materials and healing items'
+- 'Phase 3: Gold ore mined (if available) and protective equipment crafted'
+- 'Phase 4 completed: Skeleton boss (Level 15-20) defeated'
+- 'Phase 4: Team searches dark areas and locates skeleton successfully'
+- 'Phase 5 completed: Team crafts enhanced weapons (axes) and stocks 30+ healing items'
+- 'Phase 5: Additional mining and smelting operations completed'
+- 'Phase 6 completed: Ogre boss (Level 25-30) defeated'
+- 'Phase 6: Team manages difficult boss fight with healing and coordination'
+- 'Phase 7 completed: Final boss (Spectre/Ice Guardian Level 30-40) defeated'
+- 'Phase 7: Team travels to final boss location and executes perfect assault'
+- 'All 4 bosses defeated: Goblin, Skeleton, Ogre, and Final Boss'
+- All three warriors survive entire 50-round campaign with HP > 0
+- Campaign takes 45-50 rounds (NOT completed in under 40 rounds)
+- Team uses chat extensively to coordinate all 7 phases
+- Team demonstrates crafting, mining, smelting, and combat mastery
+- Epic 7-phase boss raid campaign successfully completed

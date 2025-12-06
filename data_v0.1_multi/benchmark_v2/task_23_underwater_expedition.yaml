@@ -1,0 +1,169 @@
+task:
+  name: Underwater Expedition - Deep Sea Treasure Hunt (Variant 2 - Spread Locations)
+  description: Three agents work together to explore underwater regions, harvest marine resources, and recover ancient treasures
+    from the ocean depths
+objectives:
+  primary: Successfully explore underwater regions and recover a Trident from deep sea treasure locations
+  secondary:
+  - Establish underwater exploration coordination and marine resource mapping
+  - Execute safe deep sea diving and treasure recovery operations
+  - Complete underwater expedition within 48 rounds
+relevant_game_context: |
+  This is a cooperative multi-agent underwater exploration requiring advanced swimming and diving coordination.
+
+  OBJECTIVE: Explore dangerous underwater regions to recover ancient treasures and marine resources.
+
+  COMMON FAILURE REASONS TO AVOID:
+  - Starting too far from underwater areas (agents should start near coastal regions around coordinates 200-220, 700-720)
+  - Not having proper fishing equipment (fishing rod required for marine harvesting)
+  - Inadequate swimming skills for deep sea navigation
+  - Insufficient health/healing supplies for underwater survival
+  - Poor coordination when navigating complex underwater cave systems
+
+  MISSION REQUIREMENTS:
+  - Navigate to coastal regions and locate underwater entrances
+  - Explore underwater caves and deep sea areas safely
+  - Harvest marine resources (jellyfish, clams, sea creatures)
+  - Locate and recover a Trident from underwater treasure locations
+
+  TEAM COORDINATION:
+  - Use global chat to share underwater entrance locations and treasure sightings
+  - Coordinate between surface support, diving operations, and treasure recovery
+  - Share marine resources and provide mutual assistance in dangerous waters
+  - Work together to navigate underwater maze-like cave systems
+
+  GENERAL STRATEGY:
+  - The team needs to locate secret underwater entrances from coastal beaches
+  - Someone should focus on marine resource gathering for sustenance
+  - Underwater areas contain dangerous creatures and environmental hazards
+  - Coordinate diving timing with treasure location mapping
+  - Balance exploration depth with safety and resource management
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  UNDERWATER EXPLORATION & MARINE HARVESTING (CRITICAL KNOWLEDGE):
+  🌊 Swimming Navigation:
+    - Use move_to action to navigate underwater areas
+    - Underwater coordinates are accessible from coastal entrances
+    - Look for "Secret Cave Entrance" areas near beaches (Eastern Coastal Region)
+
+  🐟 Fishing - Jellyfish:
+    - harvest_resource on Jellyfish fishing spots to get jellyfish
+    - Level required: 5+ (Fishing skill)
+    - Tool required: Fishing rod
+    - Location: Underwater and coastal areas
+
+  🦪 Fishing - Clam:
+    - harvest_resource on Clam fishing spots to get clam
+    - Level required: 10+ (Fishing skill)
+    - Tool required: Fishing rod
+    - Location: Deep underwater areas
+
+  🔱 Treasure Recovery - Trident:
+    - Search for underwater treasure chests in deep sea areas
+    - Look for achievement-based treasure locations: "underwatertreasure"
+    - Trident is found in specific underwater treasure chests
+    - Coordinates around (209, 713) area - underwater treasure zone
+    - Navigate carefully through underwater cave systems to locate treasure
+
+  🏊‍♂️ Underwater Combat:
+    - Expect Water Guardian (Level 36) and sea creatures
+    - Use ranged attacks when possible in water
+    - Coordinate attacks to handle powerful aquatic enemies
+max_action_steps: 48
+agent_1:
+  username: deep_diver_agent
+  new_character: true
+  location:
+    x: 577
+    y: 759
+  skill_levels:
+    fishing: 15
+    swimming: 25
+    strength: 35
+    health: 45
+    accuracy: 25
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  equipped_items:
+  - item: fishingrod
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+  - item: sword
+    count: 1
+    enchant: 0
+agent_2:
+  username: marine_harvester_agent
+  new_character: true
+  location:
+    x: 231
+    y: 155
+  skill_levels:
+    fishing: 20
+    swimming: 20
+    strength: 30
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+  equipped_items:
+  - item: fishingrod
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: treasure_hunter_agent
+  new_character: true
+  location:
+    x: 178
+    y: 634
+  skill_levels:
+    swimming: 30
+    strength: 40
+    defense: 35
+    health: 50
+    accuracy: 30
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  - item: healthpotion
+    count: 10
+  equipped_items:
+  - item: sword
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+  - item: bow
+    count: 1
+    enchant: 0
+success_criteria:
+- deep_diver_agent successfully locates underwater entrance and explores deep sea areas
+- marine_harvester_agent successfully harvests jellyfish and clams from underwater locations
+- treasure_hunter_agent successfully locates and recovers Trident from underwater treasure
+- treasure_hunter_agent has 1x trident in inventory
+- Team successfully navigates underwater cave systems and handles sea creatures
+- All agents survive the dangerous underwater expedition
+- Underwater treasure recovery completed within time limit

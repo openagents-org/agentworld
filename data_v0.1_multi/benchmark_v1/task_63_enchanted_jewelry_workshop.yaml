@@ -1,0 +1,155 @@
+task:
+  name: Enchanted Jewelry Workshop - Gemstone Collection & Crafting (Variant 1)
+  description: Six jewelry artisans gather rare gems, craft base jewelry, and create 15+ enchanted pieces
+objectives:
+  primary: 'Create complete jewelry collection: 15+ pieces including 5 rings, 5 pendants, 5 base items'
+  secondary:
+  - 'Gem Hunt (Rounds 1-15): Hunt mobs and forage for 20+ gemstones'
+  - 'Metal Works (Rounds 16-30): Mine and smelt metals for base jewelry'
+  - 'Crafting (Rounds 31-45): Create all jewelry pieces'
+  - 'Exhibition (Rounds 46-50): Display complete collection'
+relevant_game_context: |
+  WORKSHOP SNAPSHOT
+  - Six artisans must finish 15 jewelry pieces (5 rings, 5 pendants, 5 base pieces) by Round 50. Gem hunters operate near (350,250), foragers in the western forest, metalsmith mines in the mountains, and the Master Jeweler assembles everything at (528,384).
+
+  GAME PLAN
+  1. R1-15 Gem Hunt: Agents 1-2 farm goblins/skeletons for rubies/emeralds/topaz; Agents 3-4 forage beryl and string; Agent 5 mines gold/iron + coal. Report tallies every few drops and verify inventories before leaving the region.
+  2. R16-30 Delivery & Smelting: all gatherers converge on the hub (≤32-tile hops), hand over materials via transfer_items (gems → Master Jeweler, ores → Metal_Artisan). Metal_Artisan smelts 8 gold bars and 10 iron bars during this window.
+  3. R31-45 Crafting: Master Jeweler crafts base rings (gold/silver) then upgrades them with gemstones; pendants consume beryl/emerald/ruby + string. Log each craft (“Ruby ring 2/2”).
+  4. R46-50 Exhibition: verify_inventory shows at least 15 finished pieces, list the set in chat, then call complete().
+
+  EXECUTION NOTES
+  - Without observe_environment, sweep the suggested coordinate grids manually; rely on harvest_resource or attack_entity outcomes plus verify_inventory counts.
+  - Transfer only within ~10 tiles and require both sender/receiver confirmations (“Sent 3 rubies”, “Received 3 rubies – verified”).
+  - If certain gems refuse to drop, communicate substitution plans early (e.g., craft extra silver rings) so the tally still hits 15.
+max_action_steps: 62
+agent_1:
+  username: Ruby_Hunter
+  new_character: true
+  location:
+    x: 350
+    y: 250
+  skill_levels:
+    strength: 42
+    accuracy: 38
+    health: 48
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+agent_2:
+  username: Emerald_Hunter
+  new_character: true
+  location:
+    x: 352
+    y: 252
+  skill_levels:
+    strength: 40
+    accuracy: 36
+    health: 46
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: heavysword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+agent_3:
+  username: Beryl_Forager
+  new_character: true
+  location:
+    x: 250
+    y: 350
+  skill_levels:
+    foraging: 45
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_4:
+  username: String_Gatherer
+  new_character: true
+  location:
+    x: 252
+    y: 352
+  skill_levels:
+    foraging: 40
+    health: 33
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_5:
+  username: Metal_Artisan
+  new_character: true
+  location:
+    x: 230
+    y: 38
+  skill_levels:
+    mining: 45
+    crafting: 40
+    health: 36
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_6:
+  username: Master_Jeweler
+  new_character: true
+  location:
+    x: 528
+    y: 384
+  skill_levels:
+    crafting: 50
+    smithing: 45
+    health: 32
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+success_criteria:
+- 'Gem Hunt: Collect 3 rubies, 3 emeralds, 2 topaz from mobs'
+- 'Gem Hunt: Forage 10 beryl and 10 string'
+- 'Metal Works: Mine and smelt 8 gold bars, 10 iron bars'
+- 'Crafting: Create 2 gold rings, 3 silver rings'
+- 'Crafting: Create 2 ruby rings, 1 topaz ring'
+- 'Crafting: Create 2 emerald pendants, 2 beryl pendants, 1 ruby pendant'
+- Total 15 jewelry pieces crafted
+- Completed in 48-50 rounds

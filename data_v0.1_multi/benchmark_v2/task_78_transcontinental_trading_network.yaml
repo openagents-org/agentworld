@@ -1,0 +1,282 @@
+task:
+  name: Transcontinental Trading Network - Multi-Region Resource Exchange (Variant 2 - Spread Locations)
+  description: Ten agents scattered across different regions must gather region-specific resources, establish trade routes,
+    and consolidate materials to craft diverse items requiring cross-continental cooperation
+objectives:
+  primary: Establish a transcontinental trading network where 10 agents gather region-specific resources, travel to consolidation
+    hubs, exchange materials, and craft 5 different items requiring materials from 6+ regions
+  secondary:
+  - 'Phase 1: Regional Resource Gathering (Each agent gathers from their assigned region)'
+  - 'Phase 2: Travel to Regional Hubs (Agents consolidate at 3 meeting points)'
+  - 'Phase 3: Inter-Hub Trading (Exchange materials between hubs)'
+  - 'Phase 4: Final Consolidation (All agents meet at central crafting location)'
+  - 'Phase 5: Coordinated Crafting (Produce Golden Bow, Beryl Pendant, Golden Ring, Silver Ring, Magic Staff)'
+  - Complete all phases within 77 rounds with full team coordination
+relevant_game_context: |
+  SUPPLY CHAIN PLAN
+  - Ten agents harvest unique materials from distant regions, regroup at three hubs (forest 400,100; mountain 250,50; coastal 500,400), relay goods to a central point (400,250), and craft five cross-regional items (golden bow, beryl pendant, golden ring, silver ring, magic staff) within ~50 rounds.
+
+  PHASE ROADMAP
+  1. R1-10 Gathering: each agent harvests their quota (logs, ores, gems, fish, berries) using observe_environment + harvest_resource and reports progress in chat.
+  2. R11-18 Travel to hubs: agents march to their assigned hub, announce positions every few hops, and wait until local teammates arrive.
+  3. R19-28 Inter-hub trade: consolidate materials per hub, smelt bars at the mountain hub, then send a representative from each hub to the central point carrying logs/bars/gems.
+  4. R29-35 Final consolidation: all agents travel to (400,250), transfer everything to ForestGatherer (logs) and GoldMiner (bars/gems), and verify inventories before crafting.
+  5. R36-45 Crafting: GoldMiner crafts golden bow, golden ring, silver ring; ForestGatherer crafts beryl pendant and magic staff (forge beads from blueberries first). After each item, run verify_inventory and log “Item X/5 complete”.
+
+  EXECUTION NOTES
+  - Use transfer_items + verify_inventory for every handoff; never rely on chat-only promises.
+  - Maintain a running manifest in chat (“Logs 25, Iron bars 10, Gold bars 8, Beryl 5, Blueberries 10”) so crafters know readiness.
+  - Keep move_character hops ≤32 tiles and announce detours if nodes are empty; swap tasks if someone finishes early.
+  - Only call complete() once all five crafts are verified and a final summary confirms every phase was executed.
+max_action_steps: 77
+agent_1:
+  username: ForestGatherer
+  new_character: true
+  location:
+    x: 232
+    y: 153
+  skill_levels:
+    lumberjacking: 25
+    crafting: 25
+    strength: 20
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_2:
+  username: MountainMiner
+  new_character: true
+  location:
+    x: 180
+    y: 640
+  skill_levels:
+    mining: 30
+    crafting: 20
+    strength: 25
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_3:
+  username: CoastalFisher
+  new_character: true
+  location:
+    x: 250
+    y: 350
+  skill_levels:
+    fishing: 30
+    cooking: 20
+    strength: 20
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+  equipped_items:
+  - item: fishingpole
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_4:
+  username: IceGatherer
+  new_character: true
+  location:
+    x: 50
+    y: 308
+  skill_levels:
+    lumberjacking: 25
+    strength: 20
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_5:
+  username: DesertGatherer
+  new_character: true
+  location:
+    x: 295
+    y: 401
+  skill_levels:
+    lumberjacking: 25
+    strength: 20
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_6:
+  username: GemMiner
+  new_character: true
+  location:
+    x: 240
+    y: 52
+  skill_levels:
+    mining: 30
+    strength: 20
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_7:
+  username: GoldMiner
+  new_character: true
+  location:
+    x: 545
+    y: 399
+  skill_levels:
+    mining: 30
+    crafting: 25
+    smithing: 25
+    fletching: 20
+    strength: 25
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_8:
+  username: Forager
+  new_character: true
+  location:
+    x: 458
+    y: 723
+  skill_levels:
+    foraging: 30
+    cooking: 20
+    strength: 20
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_9:
+  username: VolcanicGatherer
+  new_character: true
+  location:
+    x: 392
+    y: 1
+  skill_levels:
+    lumberjacking: 25
+    strength: 20
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_10:
+  username: PlainsGatherer
+  new_character: true
+  location:
+    x: 398
+    y: 683
+  skill_levels:
+    lumberjacking: 25
+    strength: 20
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 20
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+success_criteria:
+- 'Phase 1: All 10 agents successfully gather assigned resources from their regions'
+- ForestGatherer gathers 5x Oak logs, IceGatherer gathers 5x Ice Oak logs
+- DesertGatherer gathers 5x Palm logs, VolcanicGatherer gathers 5x Bloodwood logs
+- PlainsGatherer gathers 5x Willow logs
+- MountainMiner mines 10x iron ore + 10x coal
+- GoldMiner mines 8x gold ore + 8x coal
+- GemMiner mines 5x beryl gems
+- CoastalFisher catches 8x fish (Tuna or Shrimp)
+- Forager forages 10x Blueberries
+- 'Phase 2: All agents successfully travel to assigned regional hubs'
+- Forest Hub agents (4 total), Mountain Hub agents (3 total), Coastal Hub agents (3 total) arrive and regroup
+- 'Phase 3: Smelting completed - GoldMiner creates 10x ironbar and 8x goldbar'
+- 'Phase 3: Materials consolidated at each hub before inter-hub trading'
+- 'Phase 3: Representatives travel between hubs to Central Point'
+- 'Phase 4: All 10 agents travel to Central Point (400, 250)'
+- 'Phase 4: Materials consolidated with designated crafters (ForestGatherer has logs, GoldMiner has bars/gems)'
+- 'Phase 5: Golden Bow crafted from 4x goldbar + 1x logs'
+- 'Phase 5: Beryl Pendant crafted from 2x berylgem + 1x logs'
+- 'Phase 5: Golden Ring crafted from 2x goldbar'
+- 'Phase 5: Silver Ring crafted from 2x ironbar'
+- 'Phase 5: Beads crafted from 3x blueberry, then Magic Staff crafted from 2x logs + 1x beads'
+- All 5 items verified in crafter inventories (GoldMiner has 3 items, ForestGatherer has 2 items)
+- Team uses chat extensively throughout all phases for coordination
+- Team demonstrates long-distance travel coordination (up to 320 tiles)
+- Team demonstrates material trading and transfer operations
+- Transcontinental trading network established and all objectives completed within 50 rounds

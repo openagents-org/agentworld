@@ -1,0 +1,136 @@
+task:
+  name: Extended Survival Challenge - Multi-Phase Resource Management and Combat (Variant 1)
+  description: Three agents undertake an extended survival challenge requiring resource gathering, equipment crafting, combat
+    encounters, and long-term coordination over 50 rounds
+objectives:
+  primary: Complete an extended survival challenge with multiple phases of resource gathering, crafting, and combat over 50
+    rounds
+  secondary:
+  - 'Execute Phase 1: Initial resource gathering and base equipment'
+  - 'Execute Phase 2: Advanced resource acquisition and tool upgrades'
+  - 'Execute Phase 3: Combat preparation and enemy encounters'
+  - 'Execute Phase 4: Final equipment enhancement and boss challenge'
+  - Complete all survival phases within 45 rounds
+relevant_game_context: |
+  FOUR-PHASE SURVIVAL PLAN (50 ROUNDS)
+  1. Phase 1 (R1-12) – Forest camp: harvest ≥4 logs, craft sticks, build a magic staff (5 sticks + SurvivalLeader’s bead) and stock food. Stay within 10 tiles around (388,4) so transfers via transfer_items are easy.
+  2. Phase 2 (R13-25) – Mountain mining: travel to (230,38), mine ≥10 ironore and ≥10 coal, consolidate with CraftingExpert, smelt 8 ironbars, and craft pickaxe (5 bars + log) plus axe (3 bars + log). Grab extra logs before leaving.
+  3. Phase 3 (R26-38) – Combat prep: craft a heavy sword (2 bars + hilt2), hunt low-level mobs (rats/bats/crabs) using attack_mob to rehearse coordination, and restock healing items between fights.
+  4. Phase 4 (R39-50) – Boss run: scout for a goblin/skeleton/ogre boss, ensure everyone >80% HP, then execute a coordinated attack_mob call and confirm victory.
+
+  COORDINATION RULES
+  - After every gather/craft/transfer, announce inventory via chat and run verify_inventory when receiving materials.
+  - Travel as a group when switching regions; SurvivalLeader calls waypoints, CombatSpecialist escorts.
+  - CraftingExpert handles all smelting/smithing; other agents funnel materials via transfer_items.
+  - Use attack_mob for combat to guarantee auto-loot and clear combat logs.
+
+  COMPLETION CHECKLIST
+  - Crafted items verified in order: magic staff → pickaxe + axe → heavy sword.
+  - Boss defeated during Phase 4 with chat confirmation (“Boss down, HP summary…”).
+  - All three agents alive and standing together when complete() is called.
+max_action_steps: 64
+agent_1:
+  username: SurvivalLeader
+  new_character: true
+  location:
+    x: 388
+    y: 4
+  skill_levels:
+    lumberjacking: 25
+    mining: 20
+    strength: 35
+    health: 40
+    defense: 30
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  - item: bead
+    count: 1
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: CraftingExpert
+  new_character: true
+  location:
+    x: 390
+    y: 4
+  skill_levels:
+    crafting: 30
+    smithing: 25
+    fletching: 25
+    strength: 30
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  - item: hilt2
+    count: 1
+  equipped_items:
+  - item: smithinghammer
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: CombatSpecialist
+  new_character: true
+  location:
+    x: 392
+    y: 4
+  skill_levels:
+    strength: 40
+    accuracy: 35
+    defense: 35
+    health: 45
+    magic: 25
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- SurvivalLeader successfully coordinates all survival phases
+- 'Team successfully completes Phase 1: Basic Survival (Rounds 1-12)'
+- Magic Staff is crafted during Phase 1
+- 'Team successfully completes Phase 2: Resource Expansion (Rounds 13-25)'
+- Pickaxe and Axe are crafted during Phase 2
+- CraftingExpert successfully produces all required equipment
+- 'Team successfully completes Phase 3: Combat Readiness (Rounds 26-38)'
+- Heavy Sword is crafted during Phase 3
+- Team engages and practices with basic enemies during Phase 3
+- CombatSpecialist leads combat operations effectively
+- 'Team successfully completes Phase 4: Final Challenge (Rounds 39-50)'
+- Boss enemy is located and engaged during Phase 4
+- Boss enemy is defeated through coordinated team combat
+- All three agents survive entire 50-round extended challenge
+- Team demonstrates mastery of long-term survival coordination
+- All phase objectives are completed in sequence within 50 rounds

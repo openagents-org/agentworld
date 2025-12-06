@@ -1,0 +1,287 @@
+task:
+  name: Frostveil Lifeline Convoy - Polar Relief Synchronization (Variant 2 - Spread Locations)
+  description: Ten specialists rebuild the frozen supply line between Ridge Camp and the Ice Guardian Outpost, delivering
+    beacon staffs, medical kits, and spare tools within 55 rounds.
+objectives:
+  primary: Deliver the reinforced convoy manifest (logs, iron bars, two lightningstaff, two icestaff, medical rations) from
+    Ridge Camp (232,148) to the Ice Guardian Outpost (260,156) while keeping every agent accounted for.
+  secondary:
+  - 'Phase 1: Stage at Ridge Camp, assign three squads (Resource, Beacon, Escort) and broadcast the role map.'
+  - 'Phase 2: Resource squad harvests 24 icelogs, mines 16 ironore + 16 coal, fishes 8 jellyfish, and forages 8 bluelily.'
+  - 'Phase 3: Beacon squad smelts 12 ironbar, crafts 3 pickaxe replacements, 4 staff blanks, upgrades two lightningstaff +
+    two icestaff from collected beads.'
+  - 'Phase 4: Quartermaster consolidates all convoy items, verifies inventory snapshots, and declares the manifest complete.'
+  - 'Phase 5: Escort squad guides the convoy through three checkpoints ((240,150), (250,152), (259,151)), defeats roaming
+    Ice Guardians, and installs the beacon staffs at the outpost.'
+relevant_game_context: |
+  RIDGE CAMP PROTOCOL
+  - Keep everyone within 6 tiles when staging; confirm roles in chat before splitting up. Always use verify_inventory when reporting gathered amounts.
+  - Use harvest_resource target=iceoak or pine variants around (232-240,146-154) for icelogs. Resource squad should travel in pairs to avoid freeze damage.
+  - Mine iron/coal veins along the ridge (x 228-238, y 140-150). run_smelter (smelt) only after 16 ore + 16 coal are stockpiled near the portable forge.
+
+  BEACON FABRICATION
+  - Craft chain: craft_item skill=Crafting itemKey=staff to make blanks → upgrade with craft_item skill=Crafting itemKey=lightningstaff using lightningbead drops → craft_item skill=Crafting itemKey=icestaff using icebead drops.
+  - Lightning beads drop reliably from coastal mimics near (224,359) if ridge mobs refuse to drop them; send two agents if you need to detour.
+  - Use transfer_items in front of witnesses; SignalRunner must confirm "Beacon count acknowledged" each time to avoid duplicate claims.
+
+  CONVOY & ESCORTS
+  - Designate Quartermaster as the only agent holding icelogs, ironbar, crafted staffs, and medical stock once Phase 4 begins. Everyone else keeps just tools/food.
+  - Escort squad (Lead, ScoutSkier, SledgeGuard, PolarMedic) moves in a diamond around Quartermaster; if any escort drifts >5 tiles away, halt and regroup.
+  - When mobs appear, Lead tags target in chat with mob ID, then all combatants use attack_mob on that ID. Loot distribution happens only after verify_inventory confirms open slots.
+
+  CHECKPOINT CALLS
+  - At each waypoint, recite: location, convoy HP status, item counts, and next heading. Install one lightningstaff at (240,150) and (250,152); install icestaff at (259,151) and the outpost gate (260,156).
+  - Final delivery requires PolarMedic to hand over jellyfish + bluelily rations to outpost caretakers (role-played as chat confirmation). Only after beacon placements, ration transfer, and team photo (coordinates broadcast) may anyone complete().
+max_action_steps: 98
+agent_1:
+  username: ConvoyLead
+  new_character: true
+  location:
+    x: 49
+    y: 302
+  skill_levels:
+    defense: 38
+    strength: 34
+    accuracy: 30
+    health: 36
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: heavysword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: GlacierMiner
+  new_character: true
+  location:
+    x: 709
+    y: 721
+  skill_levels:
+    mining: 42
+    smithing: 34
+    strength: 32
+    health: 34
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 12
+  - item: coal
+    count: 4
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_3:
+  username: FrostCarver
+  new_character: true
+  location:
+    x: 897
+    y: 397
+  skill_levels:
+    lumberjacking: 40
+    crafting: 30
+    strength: 30
+    health: 32
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 12
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_4:
+  username: BeaconSmith
+  new_character: true
+  location:
+    x: 159
+    y: 336
+  skill_levels:
+    crafting: 38
+    magic: 34
+    smithing: 30
+    health: 32
+  inventory_items:
+  - item: string
+    count: 4
+  - item: flask
+    count: 12
+  - item: apple
+    count: 10
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_5:
+  username: SignalRunner
+  new_character: true
+  location:
+    x: 230
+    y: 158
+  skill_levels:
+    magic: 34
+    accuracy: 32
+    crafting: 30
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 12
+  - item: manaflask
+    count: 6
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_6:
+  username: PolarMedic
+  new_character: true
+  location:
+    x: 237
+    y: 52
+  skill_levels:
+    magic: 36
+    crafting: 34
+    health: 36
+    defense: 32
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: manaflask
+    count: 10
+  - item: bluelily
+    count: 2
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_7:
+  username: ScoutSkier
+  new_character: true
+  location:
+    x: 851
+    y: 448
+  skill_levels:
+    accuracy: 34
+    defense: 32
+    magic: 28
+    health: 32
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 12
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_8:
+  username: ShelterCook
+  new_character: true
+  location:
+    x: 248
+    y: 355
+  skill_levels:
+    fishing: 36
+    cooking: 34
+    foraging: 30
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 10
+  - item: fishingbait
+    count: 6
+  equipped_items:
+  - item: fishingpole
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_9:
+  username: Quartermaster
+  new_character: true
+  location:
+    x: 676
+    y: 669
+  skill_levels:
+    crafting: 34
+    defense: 34
+    strength: 30
+    health: 34
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 15
+  - item: string
+    count: 2
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_10:
+  username: SledgeGuard
+  new_character: true
+  location:
+    x: 527
+    y: 386
+  skill_levels:
+    strength: 36
+    defense: 36
+    health: 36
+    accuracy: 30
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 12
+  equipped_items:
+  - item: heavysword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+success_criteria:
+- Resource squad delivers 24+ icelogs, 16+ iron ore, 16+ coal, 8 jellyfish, and 8 bluelily before Phase 3 begins.
+- Beacon squad crafts 3 pickaxe replacements, four staff blanks, and upgrades two lightningstaff plus two icestaff; each craft
+  is reported with verify_inventory evidence.
+- Quartermaster alone holds the convoy manifest (logs, bars, staffs, medical stock) and confirms totals at each checkpoint.
+- Escort squad calls out every mob engagement and keeps all agents within 5 tiles of the convoy during transit.
+- Beacons installed at (240,150), (250,152), (259,151), and (260,156) plus ration handoff are confirmed before complete().

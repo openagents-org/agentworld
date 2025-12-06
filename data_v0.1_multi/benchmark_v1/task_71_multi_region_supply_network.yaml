@@ -1,0 +1,265 @@
+task:
+  name: Multi-Region Supply Network - Continental Trade System (Variant 1)
+  description: Eight agents establish a complex supply chain spanning forests, mountains, deserts, and coasts to create ultimate
+    crafted goods
+objectives:
+  primary: Create a functioning 5-region supply network with specialized gathering teams, transport logistics, and centralized
+    crafting over 55 rounds
+  secondary:
+  - 'Phase 1 (Rounds 1-8): Network Planning - Scout all regions and establish base camps'
+  - 'Phase 2 (Rounds 9-20): Specialized Resource Gathering - Teams gather region-specific materials simultaneously'
+  - 'Phase 3 (Rounds 21-32): Transport Operations - Coordinate long-distance material transfers to central hub'
+  - 'Phase 4 (Rounds 33-45): Mass Production - Craft advanced equipment using consolidated resources'
+  - 'Phase 5 (Rounds 46-55): Distribution & Validation - Deliver finished goods to all regions, complete network'
+relevant_game_context: |
+  NETWORK GOAL
+  - Eight agents run a five-region supply chain over ~55 rounds: forest logs/sticks, mountain ores, coast feathers/strings/food, plus a central hub that smelts/crafts and redistributes finished goods. Success requires synchronized gathering, staggered transport waves, and final deliveries back out to the regions.
+
+  PHASE OVERVIEW
+  1. R1-8 Planning: assign teams (Forest, Mountain, Coast, Hub), scout their regions, and set chat protocols plus transport routes (≤32-tile hops, centralized status calls every 2-3 rounds).
+  2. R9-20 Gathering: each remote team hits its quotas (e.g., forest 50 logs + 100 sticks, mountains 40 iron/40 coal/20 gold, coast 30 feathers + 30 string + 60 food). Hub monitors progress and preps recipes.
+  3. R21-32 Transport: execute three delivery waves (forest → hub, then mountain, then coast). After each arrival, transfer via transfer_items, run verify_inventory, and log receipts. All teams regroup at the hub by Round 32.
+  4. R33-45 Production: hub crafters smelt bars, craft weapons/bows/staffs/rings using the delivered materials, and package outbound shipments while other teams help if idle.
+  5. R46-55 Distribution: split back into regional pairs, deliver finished goods to their original biomes, and confirm that each region received the assigned equipment/food crates. Call complete() only after every deliverable is acknowledged in chat.
+
+  EXECUTION NOTES
+  - Without observe_environment, sweep the region grids manually and rely on harvest_resource/attack_mob feedback plus verify_inventory counts.
+  - Keep a running logistics board in chat ("Forest 30/50 logs", "Wave2 departure R25") so the hub can time smelting batches.
+  - Transfers only work within ~10 tiles; both sender and receiver must confirm the transaction before moving on.
+max_action_steps: 48
+agent_1:
+  username: SupplyLogger1
+  new_character: true
+  location:
+    x: 200
+    y: 200
+  skill_levels:
+    lumberjacking: 35
+    fletching: 28
+    strength: 32
+    health: 38
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: SupplyLogger2
+  new_character: true
+  location:
+    x: 205
+    y: 200
+  skill_levels:
+    lumberjacking: 37
+    fletching: 25
+    strength: 35
+    health: 36
+  inventory_items:
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: SupplyMiner1
+  new_character: true
+  location:
+    x: 210
+    y: 200
+  skill_levels:
+    mining: 38
+    smithing: 28
+    strength: 35
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 22
+  - item: apple
+    count: 28
+  - item: hilt2
+    count: 1
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_4:
+  username: SupplyMiner2
+  new_character: true
+  location:
+    x: 200
+    y: 205
+  skill_levels:
+    mining: 35
+    smithing: 25
+    strength: 33
+    health: 38
+  inventory_items:
+  - item: flask
+    count: 22
+  - item: apple
+    count: 28
+  - item: hilt2
+    count: 1
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_5:
+  username: SupplyFisher1
+  new_character: true
+  location:
+    x: 205
+    y: 205
+  skill_levels:
+    accuracy: 35
+    strength: 32
+    health: 36
+    archery: 25
+  inventory_items:
+  - item: flask
+    count: 18
+  - item: apple
+    count: 22
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_6:
+  username: SupplyFisher2
+  new_character: true
+  location:
+    x: 210
+    y: 205
+  skill_levels:
+    accuracy: 33
+    strength: 34
+    health: 35
+    archery: 22
+  inventory_items:
+  - item: flask
+    count: 18
+  - item: apple
+    count: 22
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_7:
+  username: SupplyCrafter1
+  new_character: true
+  location:
+    x: 200
+    y: 210
+  skill_levels:
+    crafting: 42
+    smithing: 35
+    fletching: 32
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  - item: hilt2
+    count: 2
+  - item: bead
+    count: 2
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_8:
+  username: SupplyCrafter2
+  new_character: true
+  location:
+    x: 205
+    y: 210
+  skill_levels:
+    crafting: 40
+    smithing: 33
+    fletching: 30
+    health: 38
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  - item: hilt2
+    count: 2
+  - item: bead
+    count: 2
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- 'Phase 1 completed: Network planned, 4 teams assigned, all regions scouted'
+- 'Phase 1: Communication protocol established, transport routes calculated'
+- 'Phase 2 completed: Forest Team gathers 50+ logs, 100+ sticks, 20+ feathers'
+- 'Phase 2: Mountain Team mines 40+ iron ore, 40+ coal, 20+ gold ore'
+- 'Phase 2: Coast Team hunts 30+ feathers, 30+ string, 60+ food items'
+- 'Phase 2: All teams gather simultaneously in separate regions (parallel operations)'
+- 'Phase 3 completed: All 3 transport waves successful (Forest, Mountain, Coast)'
+- 'Phase 3: All materials consolidated at Central Hub with verified transfers'
+- 'Phase 3: Zero materials lost during transport operations'
+- 'Phase 4 completed: 40 iron bars and 20 gold bars crafted'
+- 'Phase 4: 10 weapons crafted (5 swords, 3 axes, 2 bows)'
+- 'Phase 4: 7 rings crafted and 50 arrows produced'
+- 'Phase 4: All 8 agents receive and equip finished goods'
+- 'Phase 5 completed: Regional teams return to original zones'
+- 'Phase 5: Network validated in all 4 regions (Forest, Mountain, Coast, Central)'
+- 'Phase 5: All agents demonstrate functional equipment in their regions'
+- Multi-region supply network spans 500+ tiles across game world
+- All 5 phases completed in sequence over 50-55 rounds
+- All 8 agents coordinated successfully despite separation
+- Team demonstrates mastery of logistics, crafting, and long-distance coordination
+- 'Continental Trade System: OPERATIONAL'

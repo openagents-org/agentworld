@@ -1,0 +1,162 @@
+task:
+  name: Survival Expedition - Resource Management and Environmental Adaptation (Variant 1)
+  description: Three agents work together to survive in challenging environments, manage limited resources efficiently, and
+    adapt to environmental hazards
+objectives:
+  primary: Successfully survive in challenging environments, manage limited resources efficiently, and demonstrate environmental
+    adaptation skills
+  secondary:
+  - Establish survival coordination and resource management procedures
+  - Execute efficient resource collection and environmental adaptation strategies
+  - Complete survival expedition within 32 rounds
+relevant_game_context: |
+  This is a cooperative multi-agent survival scenario requiring resource management, environmental adaptation, and team survival skills.
+
+  OBJECTIVE: Survive in challenging environments, manage limited resources efficiently, and demonstrate environmental adaptation skills.
+
+  MISSION REQUIREMENTS:
+  - Establish survival operations in challenging environmental conditions
+  - Efficiently collect and manage limited resources for team survival
+  - Adapt to environmental hazards and challenging terrain conditions
+  - Demonstrate effective team survival coordination and resource sharing
+
+  TEAM COORDINATION:
+  - Use global chat for survival coordination and resource status updates
+  - Coordinate between resource collection, survival planning, and hazard management
+  - Share survival knowledge and provide support during challenging conditions
+  - Work together to handle environmental challenges and resource scarcity
+
+  GENERAL STRATEGY:
+  - This requires careful resource management and environmental awareness
+  - Survival requires efficient resource collection and conservation techniques
+  - Environmental challenges provide opportunities for adaptation and teamwork
+  - Effective survival techniques require coordination and resource sharing
+  - Balance resource collection with team safety and survival priorities
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  SURVIVAL EXPEDITION OPERATIONS (CRITICAL KNOWLEDGE):
+  🏥 Survival Coordination:
+    - Use observe_environment to scout areas suitable for resource collection and safe shelter
+    - Establish survival positions for coordinated resource management
+    - Navigate challenging terrain while maintaining team safety and coordination
+    - Coordinate survival activities to optimize resource collection and team safety
+
+  📦 Resource Collection and Management:
+    - Use observe_environment to locate available resources and collection opportunities
+    - Focus on efficient resource collection using available gathering skills
+    - Practice resource conservation and efficient inventory management
+    - Coordinate resource sharing and distribution among team members
+    - Balance resource collection with team survival and safety priorities
+
+  🌍 Environmental Adaptation:
+    - Adapt to challenging environmental conditions and terrain obstacles
+    - Requires survival skills and environmental awareness
+    - Coordinate team movement and positioning for optimal safety
+    - Balance exploration efficiency with environmental hazard management
+
+  🤝 Team Survival Coordination:
+    - Share survival knowledge and coordinate survival strategies between team members
+    - Coordinate survival activities to maximize team effectiveness and safety
+    - Provide mutual support during challenging environmental conditions
+    - Focus on practical survival applications and team coordination techniques
+
+  🎯 Survival Strategy:
+    - Use coordinated survival techniques for effective resource management
+    - Practice efficient resource collection and environmental navigation
+    - Focus on developing survival skills through team coordination and mutual support
+    - Use safety-first approaches during challenging environmental conditions
+max_action_steps: 30
+agent_1:
+  username: survival_coordinator_agent
+  new_character: true
+  location:
+    x: 280
+    y: 190
+  skill_levels:
+    lumberjacking: 35
+    strength: 40
+    health: 45
+    defense: 30
+    accuracy: 25
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: sword
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: resource_gatherer_agent
+  new_character: true
+  location:
+    x: 290
+    y: 200
+  skill_levels:
+    foraging: 30
+    mining: 25
+    strength: 40
+    health: 45
+    accuracy: 35
+  inventory_items:
+  - item: flask
+    count: 28
+  - item: apple
+    count: 32
+  equipped_items:
+  - item: bluesword
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: survival_specialist_agent
+  new_character: true
+  location:
+    x: 300
+    y: 210
+  skill_levels:
+    defense: 40
+    health: 50
+    strength: 35
+    accuracy: 30
+    magic: 20
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: heavysword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- survival_coordinator_agent successfully establishes survival operations and coordinates team
+- survival_coordinator_agent demonstrates effective resource management and team coordination
+- resource_gatherer_agent successfully collects resources and demonstrates gathering efficiency
+- Team successfully manages limited resources and shares materials effectively
+- survival_specialist_agent successfully navigates environmental challenges and provides team protection
+- All agents survive challenging environmental conditions and maintain team coordination
+- Team demonstrates mastery of survival skills and environmental adaptation
+- Survival expedition completed within time limit with effective resource management achieved

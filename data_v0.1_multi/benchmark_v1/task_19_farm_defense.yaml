@@ -1,0 +1,101 @@
+task:
+  name: Farm Defense Mission - Agricultural Team Protection (Variant 1)
+  description: Three agents work together where one guardian protects two collectors gathering farm produce from pest and
+    raider threats
+objectives:
+  primary: Successfully protect collectors while they gather 8x corn and 4x tomato under agricultural threat conditions
+  secondary:
+  - Establish effective team communication for threat alerts
+  - Guardian successfully defends team from hostile pests and raiders
+  - Complete farm produce gathering without casualties within 25 rounds
+relevant_game_context: "This is a cooperative multi-agent agricultural protection scenario requiring tactical coordination.\n\
+  \nOBJECTIVE: Successfully gather required farm produce while protecting the team from pest and raider threats.\n\nMISSION\
+  \ REQUIREMENTS:\n- Collect 8x corn and 4x tomato while under potential pest and raider threat\n- Keep all team members alive\
+  \ throughout the mission\n- Use teamwork to balance resource gathering with farm security\n\nTEAM COORDINATION:\n- Establish\
+  \ communication protocols for pest and raider detection and warnings\n- Coordinate movements between protection and farm\
+  \ produce gathering\n- Share information about resource locations and environmental dangers\n- Work together to ensure both\
+  \ safety and mission success\n\nGENERAL STRATEGY:\n- The team has complementary roles in combat and foraging\n- Pest and\
+  \ raider threats may appear and must be dealt with appropriately\n- Farm produce gathering requires moving to specific agricultural\
+  \ locations\n- Balance efficiency with safety - casualties will cause mission failure\n- Use global chat for real-time coordination\
+  \ and threat alerts\n\nDO NOT use complete() until ALL objectives are achieved safely!\n\nCOMBAT MECHANICS (CRITICAL KNOWLEDGE):\n\
+  \U0001F3F9 Combat - Attack threats:\n  - Use observe_environment to detect hostile pests and raiders\n  - Use attack command\
+  \ on hostile targets\n  - Use bow for ranged combat advantage\n\n\U0001F33D Foraging - corn:\n  - harvest_resource on corn\
+  \ instances to get corn\n  - Level required: 5+ (Foraging skill)\n  - Target: 8x corn total\n  - IMPORTANT: Look for \"\
+  Corn\" plants in agricultural areas!\n\n\U0001F345 Foraging - tomato:\n  - harvest_resource on tomato instances to get tomato\n\
+  \  - Level required: 15+ (Foraging skill)  \n  - Target: 4x tomato total\n  - IMPORTANT: Look for \"Tomato\" plants, NOT\
+  \ other vegetables!\n"
+max_action_steps: 20
+agent_1:
+  username: farm_guardian_agent
+  new_character: true
+  location:
+    x: 180
+    y: 200
+  skill_levels:
+    archery: 40
+    fletching: 30
+    strength: 35
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  - item: arrow
+    count: 80
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: woodenbow
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: corn_harvester_agent
+  new_character: true
+  location:
+    x: 185
+    y: 200
+  skill_levels:
+    foraging: 25
+    defense: 18
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: tomato_gatherer_agent
+  new_character: true
+  location:
+    x: 190
+    y: 200
+  skill_levels:
+    foraging: 30
+    defense: 20
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- corn_harvester_agent has at least 8x corn in inventory
+- tomato_gatherer_agent has at least 4x tomato in inventory
+- All agents remain alive throughout the mission
+- Farm guardian successfully protects team from pest and raider threats

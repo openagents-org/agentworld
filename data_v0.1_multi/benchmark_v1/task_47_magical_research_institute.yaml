@@ -1,0 +1,187 @@
+task:
+  name: Magical Research Institute - Five-Mage Elemental Staff Workshop (Variant 1)
+  description: Five magical specialists work together to create multiple elemental staffs through coordinated resource gathering,
+    component crafting, and magical enhancement
+objectives:
+  primary: Establish a magical research institute with five mages to produce multiple elemental staffs and magical equipment
+  secondary:
+  - Coordinate five-mage resource gathering across magical materials
+  - Execute multi-stage magical crafting pipeline
+  - Produce multiple elemental staffs through team coordination
+  - Complete magical research objectives within 31 rounds
+relevant_game_context: |
+  OVERVIEW
+  - Five mages run a compact workshop. Gather 4 logs, turn them into 16 sticks, craft three base staffs, then upgrade two into lightning/nature staffs. Everyone already holds the needed beads (5 regular + lightning + nature), so only lumber and coordination are required.
+
+  MATERIAL FLOW
+  1. Logs → sticks: harvest_resource on nearby oaks, then craft_item skill=Fletching itemKey=stick (four crafts produce 16 sticks).
+  2. Sticks + beads → base staffs: craft_item skill=Crafting itemKey=staff consumes 5 sticks + 1 bead. Repeat three times.
+  3. Elemental upgrades: hand a base staff to LightningEnchanter with the lightningbead to craft lightningstaff, and another to MasterCoordinator with the naturebead to craft naturestaff. Keep one base staff untouched.
+
+  ROLES (ADAPT AS NEEDED)
+  - ForestArcanist & ComponentSpecialist: harvest logs, convert to sticks, and transfer materials to StaffAssembler.
+  - StaffAssembler: receives sticks + beads, forges base staffs, redistributes them immediately.
+  - LightningEnchanter & MasterCoordinator: wait for their base staffs, attach the elemental beads, and confirm completion.
+
+  COORDINATION RULES
+  - Stay within transfer range; always use transfer_items and verify_inventory confirmations.
+  - Use global chat to publish inventory snapshots ("Assembler: 10 sticks, 2 beads ready").
+  - Work in parallel: once the first base staff is ready, send it to LightningEnchanter while additional staffs are crafted.
+
+  COMPLETION CHECKLIST
+  - 4 logs harvested, ≥15 sticks crafted, three base staffs produced.
+  - Final inventory shows 1 base staff, 1 lightningstaff, 1 naturestaff.
+  - Chat log includes confirmations for each transfer and craft.
+  - Call complete() only when all staffs are verified and the team is regrouped near the workshop.
+max_action_steps: 40
+agent_1:
+  username: ForestArcanist
+  new_character: true
+  location:
+    x: 0
+    y: 100
+  skill_levels:
+    lumberjacking: 30
+    magic: 25
+    crafting: 15
+    health: 30
+    strength: 25
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 15
+  - item: bead
+    count: 1
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: ComponentSpecialist
+  new_character: true
+  location:
+    x: 2
+    y: 100
+  skill_levels:
+    fletching: 30
+    crafting: 20
+    magic: 20
+    health: 30
+    strength: 20
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 15
+  - item: bead
+    count: 1
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: StaffAssembler
+  new_character: true
+  location:
+    x: 0
+    y: 98
+  skill_levels:
+    crafting: 30
+    magic: 30
+    fletching: 15
+    health: 30
+    strength: 20
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 15
+  - item: bead
+    count: 2
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_4:
+  username: LightningEnchanter
+  new_character: true
+  location:
+    x: 2
+    y: 98
+  skill_levels:
+    crafting: 25
+    magic: 35
+    accuracy: 25
+    health: 30
+    strength: 20
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 15
+  - item: lightningbead
+    count: 1
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_5:
+  username: MasterCoordinator
+  new_character: true
+  location:
+    x: 2
+    y: 102
+  skill_levels:
+    crafting: 30
+    magic: 35
+    fletching: 20
+    health: 35
+    strength: 25
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 18
+  - item: naturebead
+    count: 1
+  - item: bead
+    count: 1
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- ForestArcanist successfully gathers logs and shares with team
+- ComponentSpecialist successfully crafts sticks from logs
+- StaffAssembler successfully creates base magic staffs
+- LightningEnchanter successfully enhances staff to Lightning Staff
+- MasterCoordinator successfully creates Nature Staff and oversees production
+- Team produces 1x Magic Staff through coordinated effort
+- Team produces 1x Lightning Staff through coordinated enhancement
+- Team produces 1x Nature Staff through coordinated enhancement
+- All five mages coordinate effectively using global chat
+- Magical components are shared efficiently among all team members
+- Team completes entire magical research pipeline within time limit
+- Magical Research Institute demonstrates mastery of five-mage coordination

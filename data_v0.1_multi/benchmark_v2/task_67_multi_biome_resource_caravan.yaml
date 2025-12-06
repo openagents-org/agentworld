@@ -1,0 +1,212 @@
+task:
+  name: Multi-Biome Resource Caravan - Continental Trading Route (Variant 2 - Spread Locations)
+  description: Eight traders establish trading routes across 6 biomes, gathering unique resources from each region and creating
+    diverse collection
+objectives:
+  primary: Establish continental trading route visiting 6 biomes, gather 80+ unique resources, craft 12+ regional specialty
+    items
+  secondary:
+  - 'Route 1 (Rounds 1-13): Forest & Plains - Lumber and herbs'
+  - 'Route 2 (Rounds 14-26): Mountains & Coast - Ores and seafood'
+  - 'Route 3 (Rounds 27-40): Desert & Ice - Exotic materials'
+  - 'Route 4 (Rounds 41-52): Return & Processing - Craft regional items'
+relevant_game_context: |
+  CARAVAN OVERVIEW
+  - Eight traders must visit six biomes (forest, plains, mountains, coast, desert, ice), collect ≥80 total resources (≈15 per fertile biome, 10 per harsh biome), then craft ≥12 regional goods back at the hub by Round 52.
+
+  ROUTE PLAN
+  1. R1-13 Forest + Plains: start at (350,250), swing west to (250,350) for logs/herbs, then back through the plains for animal/plant goods. Track subtotals (“Forest 12/15”).
+  2. R14-26 Mountains + Coast: push north-east to (230,38) for ores/coal, then march to (900,400) for seafood/shells. Use ≤32-tile moves and keep caravan leaders posting coordinates.
+  3. R27-40 Desert + Ice: head south to (400,680) for cacti/desert drops, then north to the ice ridge (~259,151) for ice logs/palm logs. Maintain HP with flasks; avoid optional bosses.
+  4. R41-52 Return & Craft: converge on the central hub (528,384), hand off materials to the crafting duo, and produce the regional specialties (smelted goods, cooked dishes, artisan crafts). Summaries should mention which biome each item represents.
+
+  EXECUTION NOTES
+  - If observe_environment isn’t callable, rely on systematic sweeping (e.g., forest grid laps) and harvest_resource feedback plus verify_inventory counts.
+  - Use chat threads to record travel checkpoints (“Route 2 hop 3: (300,120)”), resource totals, and pending needs (“Need 3 more desert mats”).
+  - Crafting can start as soon as the caravan reaches the hub; prioritize items tied to scarce materials so later substitutions are easier.
+
+  COMPLETION CHECK
+  - Before complete(), list the six biomes visited, resource totals per region, and the 12 crafted items with their biome themes.
+max_action_steps: 83
+agent_1:
+  username: Caravan_Leader
+  new_character: true
+  location:
+    x: 167
+    y: 343
+  skill_levels:
+    strength: 38
+    health: 48
+    defense: 35
+  inventory_items:
+  - item: flask
+    count: 40
+  - item: apple
+    count: 45
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+agent_2:
+  username: Route_Navigator
+  new_character: true
+  location:
+    x: 455
+    y: 727
+  skill_levels:
+    strength: 36
+    health: 46
+    defense: 33
+  inventory_items:
+  - item: flask
+    count: 40
+  - item: apple
+    count: 45
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_3:
+  username: Resource_Collector_1
+  new_character: true
+  location:
+    x: 1019
+    y: 680
+  skill_levels:
+    mining: 35
+    lumberjacking: 35
+    strength: 32
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_4:
+  username: Resource_Collector_2
+  new_character: true
+  location:
+    x: 384
+    y: -2
+  skill_levels:
+    mining: 30
+    lumberjacking: 30
+    strength: 30
+    health: 38
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_5:
+  username: Forager_Fisher_1
+  new_character: true
+  location:
+    x: 545
+    y: 401
+  skill_levels:
+    foraging: 40
+    fishing: 35
+    health: 38
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_6:
+  username: Forager_Fisher_2
+  new_character: true
+  location:
+    x: 233
+    y: 155
+  skill_levels:
+    foraging: 38
+    fishing: 32
+    health: 36
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_7:
+  username: Master_Processor
+  new_character: true
+  location:
+    x: 674
+    y: 668
+  skill_levels:
+    crafting: 45
+    cooking: 40
+    health: 35
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_8:
+  username: Regional_Crafter
+  new_character: true
+  location:
+    x: 715
+    y: 721
+  skill_levels:
+    crafting: 45
+    smithing: 40
+    fletching: 35
+    health: 36
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+success_criteria:
+- 'Route 1: Visit Forest biome and gather 15+ materials'
+- 'Route 1: Visit Plains biome and gather 15+ materials'
+- 'Route 2: Visit Mountains biome and mine 15+ ores'
+- 'Route 2: Visit Coast biome and fish 15+ seafood'
+- 'Route 3: Visit Desert biome and gather 10+ materials'
+- 'Route 3: Visit Ice Region and gather 10+ materials'
+- Total 80+ resources gathered across 6 biomes
+- 'Route 4: All agents return to central hub'
+- 'Route 4: Crafters process materials into 12+ items'
+- Continental trading route established successfully
+- Completed in 50-52 rounds

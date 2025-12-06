@@ -1,0 +1,248 @@
+task:
+  name: Progressive Dungeon Expedition Campaign (Variant 1)
+  description: Seven adventurers embark on a multi-stage dungeon expedition, progressively crafting better equipment and exploring
+    deeper levels
+objectives:
+  primary: Complete a 6-phase progressive dungeon expedition spanning 55 rounds with equipment upgrades between each exploration
+    phase
+  secondary:
+  - 'Phase 1 (Rounds 1-10): Initial Preparation - Gather basic materials and craft starting equipment'
+  - 'Phase 2 (Rounds 11-18): Shallow Dungeon Exploration - Scout dungeon entrance and defeat low-level guardians'
+  - 'Phase 3 (Rounds 19-28): Equipment Enhancement - Gather advanced materials and craft superior weapons/armor'
+  - 'Phase 4 (Rounds 29-38): Mid-Level Dungeon - Explore deeper levels and defeat mid-tier bosses'
+  - 'Phase 5 (Rounds 39-48): Elite Equipment Crafting - Create specialized gear for final push'
+  - 'Phase 6 (Rounds 49-55): Deep Dungeon Boss Rush - Conquer final chambers and defeat dungeon lord'
+relevant_game_context: |
+  CAMPAIGN STRUCTURE (55 ROUNDS)
+  - Seven adventurers must clear six sequential phases: prep gear → shallow dungeon → mid-run upgrades → mid-depth bosses → elite crafting → final boss rush. Equipment and healing pools are upgraded between phases; no phase may be skipped.
+
+  PHASE CHEAT-SHEET
+  1. R1-10 Preparation: gather 15 logs, 20 iron/coal, smelt 15 bars, craft starter weapons (heavy swords, axes, wooden bows) and amass 50+ heals. Each agent announces their loadout before moving on.
+  2. R11-18 Shallow dungeon: move to ~200,100, scout with observe_environment (if unavailable, advance carefully and rely on visual cues), defeat low-level mobs using attack_mob, and log loot/HP after each fight.
+  3. R19-28 Enhancement: retreat to safe ground, mine extra gold/gems/feathers, craft rings/arrows, and restock heals to 70+. Rangers require ≥30 arrows before Phase 4.
+  4. R29-38 Mid-depth: push through chambers 3–5, fight skeletons and spectres only when everyone has HP>90% (spectres require 100%). Note the boss door location but don’t engage yet.
+  5. R39-48 Elite crafting: exit again, gather elite mats (extra gold, special beads), smelt/craft golden or enhanced gear, and build up to 100+ healing items. Finalize boss tactics in chat.
+  6. R49-55 Boss rush: re-enter with full HP, buffs equipped, and execute the planned attack order. All fights use shared target calls; if HP drops below 60%, heal immediately.
+
+  EXECUTION NOTES
+  - Always verify_inventory before/after crafting, transfers, or phase transitions; post summaries like “Phase 3 loadout ready: [items].”
+  - Keep everyone within ~10 tiles during dungeon runs so retreating/healing is coordinated.
+  - attack_mob handles combat best; use move_character hops of ≤32 tiles between regions.
+
+  COMPLETION CHECK
+  - Phase-by-phase chat confirmations (e.g., “Phase 5 complete – gear list: …”) are required. Only call complete() after the final boss falls and all agents report surviving with a brief final status.
+max_action_steps: 46
+agent_1:
+  username: DungeonTank1
+  new_character: true
+  location:
+    x: 380
+    y: 290
+  skill_levels:
+    defense: 40
+    strength: 35
+    health: 50
+    mining: 30
+    smithing: 20
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  - item: hilt2
+    count: 2
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: DungeonTank2
+  new_character: true
+  location:
+    x: 385
+    y: 292
+  skill_levels:
+    defense: 38
+    strength: 37
+    health: 48
+    mining: 28
+    smithing: 18
+  inventory_items:
+  - item: flask
+    count: 28
+  - item: apple
+    count: 32
+  - item: hilt2
+    count: 1
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: DungeonDPS1
+  new_character: true
+  location:
+    x: 390
+    y: 295
+  skill_levels:
+    strength: 45
+    accuracy: 38
+    health: 42
+    lumberjacking: 30
+    smithing: 15
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_4:
+  username: DungeonDPS2
+  new_character: true
+  location:
+    x: 395
+    y: 298
+  skill_levels:
+    strength: 43
+    accuracy: 40
+    health: 40
+    lumberjacking: 32
+    mining: 25
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 28
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_5:
+  username: DungeonRanger1
+  new_character: true
+  location:
+    x: 382
+    y: 300
+  skill_levels:
+    accuracy: 45
+    archery: 40
+    health: 38
+    fletching: 30
+    strength: 28
+  inventory_items:
+  - item: flask
+    count: 22
+  - item: apple
+    count: 25
+  - item: string
+    count: 5
+  - item: feather
+    count: 15
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_6:
+  username: DungeonRanger2
+  new_character: true
+  location:
+    x: 387
+    y: 303
+  skill_levels:
+    accuracy: 42
+    archery: 38
+    health: 36
+    fletching: 28
+    strength: 30
+  inventory_items:
+  - item: flask
+    count: 22
+  - item: apple
+    count: 25
+  - item: string
+    count: 5
+  - item: feather
+    count: 15
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_7:
+  username: DungeonSupport
+  new_character: true
+  location:
+    x: 392
+    y: 305
+  skill_levels:
+    magic: 40
+    crafting: 35
+    health: 38
+    strength: 28
+    fletching: 25
+    smithing: 25
+  inventory_items:
+  - item: flask
+    count: 28
+  - item: apple
+    count: 32
+  - item: bead
+    count: 3
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- 'Phase 1 completed: Team gathers 15+ logs, mines 20+ iron ore and coal, crafts 15+ iron bars'
+- 'Phase 1: Team crafts 3x Heavy Swords, 2x Axes, 2x Wooden Bows'
+- 'Phase 1: All agents equipped with appropriate weapons, 50+ healing items stockpiled'
+- 'Phase 2 completed: Team explores shallow dungeon, defeats 2-3 guardian mobs'
+- 'Phase 2: Dungeon scouted, safe paths identified, loot collected'
+- 'Phase 3 completed: Team gathers enhancement materials (gold ore, gems, feathers)'
+- 'Phase 3: Team crafts protective equipment (3x Silver Rings, 30+ arrows)'
+- 'Phase 3: Healing supplies increased to 70+ total across team'
+- 'Phase 4 completed: Team explores mid-level dungeon chambers (3rd-5th levels)'
+- 'Phase 4: Skeletons (Level 15-20) and Spectres (Level 25-30) defeated'
+- 'Phase 4: Boss chamber located, rare materials collected'
+- 'Phase 5 completed: Team gathers ultimate materials (15+ gold ore, magical beads)'
+- 'Phase 5: Elite equipment crafted (gold bars, enhanced weapons, magical staffs)'
+- 'Phase 5: Maximum healing supplies stockpiled (100+ total)'
+- 'Phase 6 completed: Team defeats miniboss in 6th chamber'
+- 'Phase 6: Team defeats final dungeon lord boss (Level 35-45)'
+- All 6 phases completed in proper sequence over 50-55 rounds
+- All 7 agents survive entire expedition with HP > 0
+- Team demonstrates progressive equipment upgrades from Phase 1 to Phase 5
+- Team uses chat extensively for coordination throughout all phases
+- Epic 6-phase dungeon expedition successfully completed

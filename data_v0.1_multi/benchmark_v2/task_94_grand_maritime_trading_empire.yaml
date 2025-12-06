@@ -1,0 +1,633 @@
+task:
+  name: Grand Maritime Trading Empire - Ocean Commerce & Fleet Operations (Variant 2 - Spread Locations)
+  description: Twenty agents establish a comprehensive maritime trading empire including fishing fleets, merchant vessels,
+    shipbuilding operations, and international trade routes
+objectives:
+  primary: Establish a fully operational maritime trading empire with 3 fishing fleets, 50+ trade goods, and active commerce
+    routes within 60 rounds
+  secondary:
+  - 'Phase 1 (Rounds 1-15): Fleet Formation - Establish fishing operations and gather seafood (30+ fish)'
+  - 'Phase 2 (Rounds 16-30): Shipyard Construction - Gather materials and craft maritime equipment (20+ tools/weapons)'
+  - 'Phase 3 (Rounds 31-45): Trade Goods Production - Craft jewelry, weapons, and food for trade (30+ items)'
+  - 'Phase 4 (Rounds 46-60): Commerce Routes - Distribute goods and establish trading posts'
+relevant_game_context: |
+  GRAND MARITIME TRADING EMPIRE OVERVIEW:
+
+  Twenty seafaring agents must build the realm's greatest trading empire from fishing to commerce.
+
+  🌊 EMPIRE STRUCTURE:
+
+  ═══════════════════════════════════════════════════════════
+  🎣 FISHING FLEET DIVISION (Agents 1-5) - Seafood Operations
+  ═══════════════════════════════════════════════════════════
+
+  **Mission**: Establish 3 fishing fleets harvesting diverse marine resources
+  **Starting Location**: Coastal Region (580, 750)
+
+  **Team Composition**:
+  - Agent 1 (Fleet Admiral): Coordinate all fishing operations
+  - Agent 2 (Shrimp Trawler): Specialize in shrimp harvesting
+  - Agent 3 (Deep Sea Fisher): Hunt jellyfish and rare catches
+  - Agent 4 (Crab Captain): Focus on crab fishing spots
+  - Agent 5 (Processing Chief): Organize catch distribution
+
+  **Fishing Goals**:
+  - 15x rawshrimp from coastal fishing spots
+  - 10x jellyfish from deep water locations
+  - 5x crab from special fishing areas
+  - Total 30+ raw seafood items
+
+  **Strategy**:
+  - Scout coastal regions: observe_environment radius=48
+  - Use harvest_resource on fishSpots
+  - Coordinate via chat: "[Fleet] Admiral: 10/30 fish collected"
+  - Transfer catches to Processing Chief
+
+  ═══════════════════════════════════════════════════════════
+  ⚒️ SHIPYARD CONSTRUCTION (Agents 6-10) - Maritime Equipment
+  ═══════════════════════════════════════════════════════════
+
+  **Mission**: Build shipyard and craft maritime tools/weapons
+  **Starting Location**: Forest (380, 20) and Mountains (230, 40)
+
+  **Team Composition**:
+  - Agent 6 (Timber Baron): Harvest 30+ logs for construction
+  - Agent 7 (Ore Overseer): Mine 20+ ironore, 15+ coal
+  - Agent 8 (Forge Master): Smelt 20+ ironbar
+  - Agent 9 (Shipwright): Craft axes, swords, tools (10+ items)
+  - Agent 10 (Armorer): Craft additional equipment (10+ items)
+
+  **Production Goals**:
+  - 30x logs → craft sticks, tools, handles
+  - 20x ironbar → craft 5+ swords, 3+ axes, 2+ pickaxes
+  - Total 20+ maritime tools and weapons
+
+  **Crafting Sequence**:
+  1. Agent 6: Harvest Oak trees at (380, 20)
+  2. Agent 7: Mine at mountains (230, 40)
+  3. Agent 8: Smelt ore: craft_item skill=Smelting itemKey=ironbar
+  4. Agent 9: Craft tools: craft_item skill=Smithing
+  5. Agent 10: Craft weapons for ship defense
+
+  ═══════════════════════════════════════════════════════════
+  💎 TRADE GOODS WORKSHOP (Agents 11-15) - Luxury Commerce
+  ═══════════════════════════════════════════════════════════
+
+  **Mission**: Craft high-value trade goods (jewelry, enchantments, food)
+  **Starting Location**: Various hunting/crafting areas
+
+  **Team Composition**:
+  - Agent 11 (Gem Prospector): Hunt for emeralds, rubies, topaz (5+ gems)
+  - Agent 12 (Bead Merchant): Collect magical beads from wizards (5+ beads)
+  - Agent 13 (Artisan Jeweler): Craft rings and pendants (8+ jewelry)
+  - Agent 14 (Culinary Trader): Cook seafood delicacies (12+ cooked foods)
+  - Agent 15 (Staff Enchanter): Craft magical staves (3+ staves)
+
+  **Trade Goods Goals**:
+  - 5x emerald rings/pendants (emerald + ring/string)
+  - 3x ruby rings (ruby + gold ring)
+  - 12x cooked seafood (cookedshrimp, jellyfishsmoothie)
+  - 3x magical staves (staff + beads)
+  - Total 30+ valuable trade items
+
+  **Workflow**:
+  1. Agent 11: Hunt mobs for gem drops
+  2. Agent 12: Hunt Wizard (350, 250) for beads
+  3. Agent 13: Craft jewelry using gems and metal rings
+  4. Agent 14: Cook seafood from Fleet Division
+  5. Agent 15: Craft staves using beads and sticks
+
+  ═══════════════════════════════════════════════════════════
+  🏪 MERCHANT GUILD (Agents 16-20) - Commerce & Distribution
+  ═══════════════════════════════════════════════════════════
+
+  **Mission**: Establish trading posts and distribute goods
+  **Starting Location**: Central hub (400, 15)
+
+  **Team Composition**:
+  - Agent 16 (Trade Master): Coordinate all commerce operations
+  - Agent 17 (Northern Envoy): Establish mountain trading post
+  - Agent 18 (Southern Delegate): Set up coastal trading post
+  - Agent 19 (Western Agent): Create forest trading post
+  - Agent 20 (Inventory Keeper): Track all empire goods
+
+  **Distribution Goals**:
+  - Collect goods from all divisions
+  - Establish 3+ trading posts across regions
+  - Distribute 50+ total items across empire
+  - Verify final inventory for victory
+
+  **Trading Post Locations**:
+  - Northern Post: (235, 45) - Mountain region
+  - Southern Post: (585, 752) - Coastal region
+  - Western Post: (385, 25) - Forest region
+
+  **Coordination Protocol**:
+  - Format: "[Merchant] Trade Master: Received 10 items from Fleet Division"
+  - Track inventory: verify_inventory for all goods
+  - Move goods between posts: transfer_items
+  - Report every 5 rounds: "Commerce update: X/50 goods distributed"
+
+  ═══════════════════════════════════════════════════════════
+  🎯 SUCCESS CRITERIA (ALL MUST BE MET)
+  ═══════════════════════════════════════════════════════════
+
+  1. **Fishing Fleet**: 30+ seafood items harvested (shrimp, jellyfish, crab)
+  2. **Shipyard**: 20+ tools/weapons crafted (axes, swords, pickaxes)
+  3. **Trade Goods**: 30+ luxury items (jewelry, cooked food, staves)
+  4. **Total Production**: 80+ items across all divisions
+  5. **Trading Posts**: 3+ posts established in different regions
+  6. **Distribution**: Goods distributed to all posts
+  7. **Communication**: All divisions report regularly
+  8. **Empire Completion**: Within 60 rounds
+
+  DO NOT call complete() until maritime empire is fully operational!
+
+  **Victory Announcement**:
+  "MARITIME EMPIRE ESTABLISHED! Fishing: X seafood | Shipyard: Y tools | Trade: Z goods | Posts: W locations | EMPIRE OPERATIONAL"
+max_action_steps: 97
+agent_1:
+  username: nautical_admiral_supreme
+  new_character: true
+  location:
+    x: 855
+    y: 453
+  skill_levels:
+    fishing: 50
+    health: 45
+    strength: 35
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: fishingrod
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: shrimp_trawler_captain
+  new_character: true
+  location:
+    x: 553
+    y: 399
+  skill_levels:
+    fishing: 48
+    health: 42
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: fishingrod
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: deepsea_fisher_elite
+  new_character: true
+  location:
+    x: 233
+    y: 45
+  skill_levels:
+    fishing: 46
+    health: 40
+    strength: 32
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: fishingrod
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_4:
+  username: crab_catcher_specialist
+  new_character: true
+  location:
+    x: 682
+    y: 674
+  skill_levels:
+    fishing: 44
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: fishingrod
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_5:
+  username: seafood_processing_chief
+  new_character: true
+  location:
+    x: 229
+    y: 153
+  skill_levels:
+    cooking: 45
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_6:
+  username: timber_baron_prime
+  new_character: true
+  location:
+    x: 259
+    y: 187
+  skill_levels:
+    lumberjacking: 50
+    strength: 45
+    health: 45
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_7:
+  username: ore_overseer_master
+  new_character: true
+  location:
+    x: 158
+    y: 343
+  skill_levels:
+    mining: 52
+    strength: 45
+    health: 45
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  - item: coal
+    count: 5
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_8:
+  username: maritime_forge_master
+  new_character: true
+  location:
+    x: 502
+    y: 99
+  skill_levels:
+    smithing: 55
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  - item: coal
+    count: 20
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_9:
+  username: shipwright_grandmaster
+  new_character: true
+  location:
+    x: 399
+    y: 685
+  skill_levels:
+    smithing: 50
+    crafting: 45
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  - item: hilt2
+    count: 2
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_10:
+  username: naval_armorer_supreme
+  new_character: true
+  location:
+    x: 388
+    y: 4
+  skill_levels:
+    smithing: 48
+    crafting: 42
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_11:
+  username: gem_prospector_elite
+  new_character: true
+  location:
+    x: 705
+    y: 555
+  skill_levels:
+    strength: 48
+    accuracy: 45
+    health: 48
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  - item: emerald
+    count: 1
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_12:
+  username: mystical_bead_merchant
+  new_character: true
+  location:
+    x: 253
+    y: 353
+  skill_levels:
+    magic: 45
+    strength: 42
+    health: 45
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  - item: bead
+    count: 1
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_13:
+  username: artisan_jeweler_master
+  new_character: true
+  location:
+    x: 464
+    y: 725
+  skill_levels:
+    crafting: 55
+    smithing: 48
+    health: 38
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  - item: string
+    count: 10
+  - item: ruby
+    count: 1
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_14:
+  username: culinary_trader_supreme
+  new_character: true
+  location:
+    x: 771
+    y: 661
+  skill_levels:
+    cooking: 52
+    crafting: 38
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_15:
+  username: maritime_staff_enchanter
+  new_character: true
+  location:
+    x: 710
+    y: 716
+  skill_levels:
+    crafting: 50
+    magic: 48
+    fletching: 42
+    health: 40
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  - item: firebead
+    count: 1
+  - item: icebead
+    count: 1
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_16:
+  username: trade_master_executive
+  new_character: true
+  location:
+    x: 172
+    y: 640
+  skill_levels:
+    strength: 40
+    health: 50
+    defense: 38
+  inventory_items:
+  - item: flask
+    count: 40
+  - item: apple
+    count: 45
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_17:
+  username: northern_envoy_diplomat
+  new_character: true
+  location:
+    x: 524
+    y: 388
+  skill_levels:
+    strength: 38
+    health: 45
+    defense: 35
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_18:
+  username: southern_delegate_agent
+  new_character: true
+  location:
+    x: 48
+    y: 305
+  skill_levels:
+    strength: 38
+    health: 45
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_19:
+  username: western_commerce_agent
+  new_character: true
+  location:
+    x: 577
+    y: 757
+  skill_levels:
+    strength: 38
+    health: 45
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_20:
+  username: empire_inventory_keeper
+  new_character: true
+  location:
+    x: 299
+    y: 402
+  skill_levels:
+    crafting: 40
+    health: 45
+  inventory_items:
+  - item: flask
+    count: 35
+  - item: apple
+    count: 40
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- Fishing Fleet Division harvests 30+ seafood items (shrimp, jellyfish, crab)
+- Shipyard Construction crafts 20+ maritime tools and weapons
+- Trade Goods Workshop creates 30+ luxury commerce items
+- Total 80+ items produced across all divisions
+- Merchant Guild establishes 3+ trading posts in different regions
+- Goods successfully distributed to all trading posts
+- All divisions communicate and coordinate effectively
+- Maritime Trading Empire fully operational within 60 rounds

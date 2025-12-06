@@ -1,0 +1,120 @@
+task:
+  name: Cooperative Silver Ring Forging - Jewelry Crafting (Variant 1)
+  description: Three agents work together to mine, smelt, and forge a silver ring
+objectives:
+  primary: Create a 2x silver rings through coordinated mining, smelting, and smithing
+  secondary:
+  - Establish mining and smelting coordination
+  - Execute safe material transfers between agents
+  - Complete jewelry crafting within 25 rounds
+relevant_game_context: |
+  This is a cooperative multi-agent jewelry crafting scenario.
+
+  OBJECTIVE: Create 2x silver rings. smith_agent ALREADY HAS the required materials!
+
+  CRITICAL: smith_agent ALREADY HAS 2x ironbar in inventory - ready to craft!
+
+  TEAM COORDINATION:
+  - Use global chat to coordinate
+  - smith_agent should craft the silver ring immediately
+  - Other agents can assist or observe
+
+  SMITHING RECIPE (CRITICAL - USE THIS EXACT COMMAND):
+  🔨 Smithing Recipe - silverring:
+    - Command: craft_item skill=Smithing itemKey=silverring
+    - Materials: 2x ironbar → 2x silverring
+    - Level required: 1 (Smithing skill)
+    - smith_agent has Smithing skill level 25 and 2x ironbar ready!
+
+  SIMPLE STEPS:
+  1. smith_agent should use: craft_item skill=Smithing itemKey=silverring
+  2. This will convert 2 ironbar into 1 silverring
+  3. Once silverring exists in inventory, the team can complete()
+
+  DO NOT use complete() until silverring is in inventory!
+max_action_steps: 25
+agent_1:
+  username: miner_agent
+  new_character: true
+  location:
+    x: 229
+    y: 37
+  skill_levels:
+    mining: 25
+    strength: 30
+    health: 25
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  - item: ironore
+    count: 1
+  - item: coal
+    count: 2
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: smelter_agent
+  new_character: true
+  location:
+    x: 233
+    y: 175
+  skill_levels:
+    smithing: 25
+    mining: 15
+    strength: 25
+    health: 20
+  inventory_items:
+  - item: flask
+    count: 8
+  - item: apple
+    count: 12
+  - item: ironore
+    count: 1
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: smith_agent
+  new_character: true
+  location:
+    x: 259
+    y: 184
+  skill_levels:
+    smithing: 25
+    strength: 30
+    health: 25
+    defense: 20
+  inventory_items:
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  - item: ironbar
+    count: 2
+  equipped_items:
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- Team successfully creates a silver ring through effective coordination
+- Agents collaborate and share resources as needed for production
+- Materials flow efficiently between team members to complete the task
+- All agents work together using their specialized skills
+- Metallurgy chain operates successfully within time limit

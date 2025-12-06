@@ -1,0 +1,277 @@
+task:
+  name: Stormfront War Council - Multi-Front Offensive (Variant 2 - Spread Locations)
+  description: Ten commanders orchestrate three synchronized assaults (Ogre Guardian, Water Guardian, Ice Guardian) while
+    maintaining a roving logistics line within 55 rounds.
+objectives:
+  primary: Hold a war council at (350,300), forge the war stockpile, and defeat the Ogre Guardian (291,644), Water Guardian
+    (197,633), and Ice Guardian (259,151) in a single coordinated campaign.
+  secondary:
+  - 'Phase 1: Council & intel — assemble all ten agents at (350,300), assign Vanguard, Skirmish, Logistics squads, and log
+    enemy intel.'
+  - 'Phase 2: Logistics gather 18 ironore, 12 coal, 10 logs, 6 string, and at least 4 lightningbeads, sharing counts after
+    verify_inventory.'
+  - 'Phase 3: Forge 3 heavy swords, 2 axes, 2 pickaxes, 2 lightningstaff, plus 30 healing food items; designate carriers for
+    each front.'
+  - 'Phase 4: Execute three offensives (order chosen by council) ensuring every front has at least three agents present and
+    HP >80% before attack_mob calls.'
+  - 'Phase 5: After each victory, capture loot, restock from Logistics, and regroup at the nearest beacon before moving to
+    the next target; complete() only after all three bosses fall and everyone debriefs at (350,300).'
+relevant_game_context: |
+  COMMAND STRUCTURE
+  - Vanguard (2-3 tanks), Skirmish (3 damage dealers), Logistics (4 support) — swap members as needed but keep rosters posted in chat for clarity. CouncilScribe records every decision.
+  - Use call signs (e.g., [VAN-Lead]) in chat so squads can parse updates quickly. Logistics must trail the active front but remain within 8 tiles of at least one combatant to transfer supplies.
+
+  RESOURCE & FORGE DETAILS
+  - Mine iron/coal near (230,40) or along cavern veins; fell logs near (320,320); gather string from coastal plants (197,633). Lightningbeads drop from Water Guardian adds or coastal mimics; farm extras before Phase 4.
+  - Crafting order: smelt ironbar → craft_item Smithing sword2 and axe; keep spare ironbar for pickaxe repairs. For staffs, craft_item Crafting staff → lightningstaff using stored beads.
+  - Cooking: fish_resource for rawtuna or shrimp, cook at campfires (cooking skill). Logistics must ensure 30 edible items exist before the first assault.
+
+  OFFENSIVE PLAYBOOK
+  - Before engaging any boss, run a readiness checklist: positions, HP >80, weapon/staff counts, bead reserves, escape route. If anyone fails, delay and fix.
+  - Attack order is flexible but all three targets must fall in one run. Recommended routes: Water Guardian (south) → Ogre Guardian (north) → Ice Guardian (east) to minimize travel, but adapt if weather or mobs block you.
+  - During combat, only one agent issues attack_mob per target to avoid double pulls. Report damage, healing, and loot in real time; Logistics stands behind to transfer flasks or swap weapons if durability drops.
+
+  POST-FIGHT & DEADLOCK SAFETY
+  - After each victory, gather around the dropped beacon/loot pile, verify_inventory totals, then redistribute. If someone dies, mission fails — keep heals ready.
+  - Should lightningbeads not drop by Round 25, send Skirmish to farm Fire/Lightning mobs while Logistics maintains forge; document the detour so others know when to regroup.
+  - complete() only when all agents reunite at the original council site, summarize loot + casualties (should be zero), and confirm no crafted gear is missing.
+max_action_steps: 77
+agent_1:
+  username: CouncilScribe
+  new_character: true
+  location:
+    x: 714
+    y: 717
+  skill_levels:
+    magic: 34
+    crafting: 32
+    defense: 32
+    health: 34
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: manaflask
+    count: 10
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_2:
+  username: VanguardA
+  new_character: true
+  location:
+    x: 178
+    y: 630
+  skill_levels:
+    defense: 38
+    strength: 36
+    health: 38
+    accuracy: 30
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 15
+  equipped_items:
+  - item: heavysword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+agent_3:
+  username: VanguardB
+  new_character: true
+  location:
+    x: 547
+    y: 402
+  skill_levels:
+    defense: 36
+    strength: 34
+    health: 36
+    accuracy: 30
+  inventory_items:
+  - item: flask
+    count: 15
+  - item: apple
+    count: 12
+  equipped_items:
+  - item: heavysword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+agent_4:
+  username: Skirmisher1
+  new_character: true
+  location:
+    x: 253
+    y: 351
+  skill_levels:
+    accuracy: 36
+    strength: 32
+    magic: 30
+    health: 32
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 12
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_5:
+  username: Skirmisher2
+  new_character: true
+  location:
+    x: 400
+    y: 678
+  skill_levels:
+    accuracy: 34
+    crafting: 30
+    magic: 30
+    health: 32
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 12
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_6:
+  username: Skirmisher3
+  new_character: true
+  location:
+    x: 299
+    y: 395
+  skill_levels:
+    accuracy: 34
+    strength: 32
+    defense: 30
+    health: 32
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 10
+  equipped_items:
+  - item: sword1
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_7:
+  username: Logistics1
+  new_character: true
+  location:
+    x: 168
+    y: 343
+  skill_levels:
+    mining: 36
+    smithing: 34
+    strength: 32
+    health: 34
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 12
+  equipped_items:
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+agent_8:
+  username: Logistics2
+  new_character: true
+  location:
+    x: 462
+    y: 726
+  skill_levels:
+    lumberjacking: 34
+    crafting: 32
+    defense: 30
+    health: 32
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 12
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_9:
+  username: Logistics3
+  new_character: true
+  location:
+    x: 236
+    y: 50
+  skill_levels:
+    fishing: 32
+    cooking: 32
+    foraging: 30
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: apple
+    count: 12
+  equipped_items:
+  - item: fishingpole
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_10:
+  username: Logistics4
+  new_character: true
+  location:
+    x: 1018
+    y: 684
+  skill_levels:
+    crafting: 34
+    magic: 32
+    defense: 30
+    health: 32
+  inventory_items:
+  - item: flask
+    count: 12
+  - item: manaflask
+    count: 8
+  equipped_items:
+  - item: staff
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+success_criteria:
+- All ten agents attend the initial council, publish squad assignments, and record gathered intel.
+- Logistics team documents the required raw materials (18 ironore, 12 coal, 10 logs, 6 string, 4 lightningbeads) with verify_inventory
+  before crafting.
+- Forged items (3 heavy swords, 2 axes, 2 pickaxes, 2 lightningstaff, 30 food items) are produced and assigned to carriers,
+  with transfers logged.
+- Each boss (Water Guardian, Ogre Guardian, Ice Guardian) is defeated with HP >80% threshold respected before engagement and
+  post-battle regroup logged.
+- Campaign concludes at (350,300) with loot summary and confirmation that no crafted weapon/staff is missing before complete().

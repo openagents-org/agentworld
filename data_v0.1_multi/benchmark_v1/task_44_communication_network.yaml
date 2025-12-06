@@ -1,0 +1,167 @@
+task:
+  name: Communication Network - Information Systems and Data Transmission Coordination (Variant 1)
+  description: Three agents work together to establish communication networks, manage information systems, and coordinate
+    data transmission operations
+objectives:
+  primary: Successfully establish communication networks, manage information systems effectively, and coordinate data transmission
+    operations
+  secondary:
+  - Establish communication coordination and information systems preparation
+  - Execute coordinated data transmission and network management operations
+  - Complete communication network establishment within 38 rounds
+relevant_game_context: |
+  This is a cooperative multi-agent communication network scenario requiring information systems management and data transmission coordination.
+
+  OBJECTIVE: Establish communication networks, manage information systems effectively, and coordinate data transmission operations.
+
+  MISSION REQUIREMENTS:
+  - Establish communication operations in suitable areas for network development and information management
+  - Coordinate information systems and data transmission services for communication enhancement
+  - Provide communication assistance and network management using available resources and transmission methods
+  - Develop sustainable communication systems for ongoing information exchange
+
+  TEAM COORDINATION:
+  - Use global chat for complex communication coordination and information systems management
+  - Coordinate between network development, data transmission, and communication service delivery
+  - Share communication knowledge and provide support during network operations
+  - Work together to handle complex communication challenges and coordinate information systems
+
+  GENERAL STRATEGY:
+  - This requires communication coordination skills and information systems management expertise
+  - Network programs need efficient resource utilization and coordinated communication action
+  - Information services require coordinated transmission and mutual network support
+  - Data management needs strategic planning and communication coordination
+  - Balance immediate network needs with long-term communication sustainability
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  COMMUNICATION NETWORK OPERATIONS (CRITICAL KNOWLEDGE):
+  📡 Network Development Planning:
+    - Use observe_environment to scout areas suitable for communication operations and network development
+    - Establish network coordination positions for information service delivery and communication management
+    - Navigate communication areas while maintaining team safety and network effectiveness
+    - Coordinate communication activities to optimize network effectiveness and information transmission
+
+  💻 Information Systems Coordination:
+    - Use available resources for communication programs and data transmission projects
+    - Focus on efficient resource utilization for network operations and communication service delivery
+    - Coordinate information activities to maximize communication effectiveness and data management success
+    - Practice network techniques and communication coordination methods
+
+  📊 Data Transmission Management:
+    - Use available skills for communication coordination and network assistance
+    - Coordinate communication resource sharing and distribution among team members
+    - Focus on sustainable network practices and communication resource conservation
+    - Balance immediate transmission needs with long-term communication planning
+
+  🌐 Network Infrastructure Operations:
+    - Use observe_environment to identify communication needs and network opportunities
+    - Coordinate information transmission assistance and communication system management
+    - Practice team network strategies using available resources and communication skills
+    - Execute coordinated communication operations and provide mutual network support
+
+  📈 Communication Coordination Strategy:
+    - Use coordinated network techniques for effective information management
+    - Practice efficient communication management and network resource coordination
+    - Focus on developing communication capabilities through team coordination
+    - Use reliable approaches during network and communication operations
+max_action_steps: 48
+agent_1:
+  username: network_coordinator_agent
+  new_character: true
+  location:
+    x: 280
+    y: 190
+  skill_levels:
+    magic: 55
+    accuracy: 50
+    health: 60
+    crafting: 45
+    strength: 35
+  inventory_items:
+  - item: flask
+    count: 55
+  - item: apple
+    count: 60
+  equipped_items:
+  - item: lightningstaff
+    count: 1
+    enchant: 2
+  - item: firestaff
+    count: 1
+    enchant: 1
+  - item: platearmor
+    count: 1
+    enchant: 1
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: information_systems_agent
+  new_character: true
+  location:
+    x: 290
+    y: 200
+  skill_levels:
+    crafting: 50
+    magic: 45
+    accuracy: 45
+    health: 50
+    strength: 35
+  inventory_items:
+  - item: flask
+    count: 58
+  - item: apple
+    count: 63
+  equipped_items:
+  - item: smithinghammer
+    count: 1
+    enchant: 2
+  - item: lightningstaff
+    count: 1
+    enchant: 1
+  - item: leatherarmor
+    count: 1
+    enchant: 1
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: data_transmission_agent
+  new_character: true
+  location:
+    x: 300
+    y: 210
+  skill_levels:
+    lumberjacking: 40
+    mining: 35
+    accuracy: 45
+    health: 50
+    strength: 40
+  inventory_items:
+  - item: flask
+    count: 60
+  - item: apple
+    count: 65
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 1
+  - item: goldpickaxe
+    count: 1
+    enchant: 1
+  - item: leatherarmor
+    count: 1
+    enchant: 1
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- network_coordinator_agent successfully establishes network coordination and communication system management
+- network_coordinator_agent demonstrates effective communication planning and network coordination
+- information_systems_agent successfully provides information services and data management programs
+- information_systems_agent demonstrates effective information delivery and communication support
+- data_transmission_agent successfully manages data transmission and communication resource systems
+- Team successfully develops comprehensive communication programs and network services
+- Communication operations provide effective information management and data transmission
+- Communication network establishment completed with comprehensive information systems achieved

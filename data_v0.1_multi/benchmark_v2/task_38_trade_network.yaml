@@ -1,0 +1,163 @@
+task:
+  name: Trade Network Operations - Commerce Coordination and Market Development (Variant 2 - Spread Locations)
+  description: Three agents work together to establish trade networks, coordinate commercial activities, and develop profitable
+    market operations
+objectives:
+  primary: Successfully establish trade networks, coordinate commercial activities, and develop profitable market operations
+  secondary:
+  - Establish trade coordination and commercial network development
+  - Execute coordinated trading activities and market development procedures
+  - Complete trade network operations within 58 rounds
+relevant_game_context: |
+  This is a cooperative multi-agent trade network scenario requiring commercial coordination and market development skills.
+
+  OBJECTIVE: Establish trade networks, coordinate commercial activities, and develop profitable market operations.
+
+  MISSION REQUIREMENTS:
+  - Establish trade coordination operations in suitable commercial areas
+  - Coordinate resource collection, item crafting, and market trading for team profit
+  - Execute coordinated commercial activities using complementary trade roles
+  - Develop profitable trade relationships and coordinate market strategies
+
+  TEAM COORDINATION:
+  - Use global chat for complex trade coordination and market status updates
+  - Coordinate between resource gathering, crafting operations, and trading activities
+  - Share commercial knowledge and provide support during trade negotiations
+  - Work together to handle market challenges and coordinate trading opportunities
+
+  GENERAL STRATEGY:
+  - This requires resource management skills and commercial coordination
+  - Each agent specializes in different trade roles for maximum team profitability
+  - Trade operations require precise timing and coordinated resource management
+  - Effective commercial coordination enhances team trading capabilities
+  - Balance individual trade specialization with team profit objectives
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  TRADE NETWORK OPERATIONS (CRITICAL KNOWLEDGE):
+  📦 Resource Collection Specialization:
+    - Use available gathering skills for team resource acquisition
+    - Focus on efficient resource collection using lumberjacking, mining, and foraging
+    - Coordinate resource gathering activities for maximum team efficiency
+    - Provide resource collection support during team trading operations
+
+  🔨 Crafting and Production Specialization:
+    - Use available crafting abilities for team item production
+    - Focus on creating valuable items for trade and market development
+    - Coordinate crafting activities to maximize item value and trade potential
+    - Provide crafted items for team trading operations
+
+  💰 Trading and Commerce Specialization:
+    - Use available trading opportunities for team profit generation
+    - Focus on identifying profitable trade routes and market opportunities
+    - Coordinate trading activities to maximize team commercial success
+    - Provide market intelligence and trading expertise during operations
+
+  🎯 Team Commercial Coordination:
+    - Use observe_environment to locate trading opportunities and resource sources
+    - Coordinate resource collection, crafting, and trading for maximum efficiency
+    - Practice team commercial strategies using complementary trade roles
+    - Execute coordinated trading operations and provide mutual commercial support
+
+  🤝 Commercial Support Operations:
+    - Coordinate trading abilities to support team members during market activities
+    - Share commercial knowledge and coordinate trading techniques
+    - Provide backup commercial support during challenging market conditions
+    - Balance individual trade specialization with team profit objectives
+max_action_steps: 58
+agent_1:
+  username: resource_trader_agent
+  new_character: true
+  location:
+    x: 457
+    y: 728
+  skill_levels:
+    lumberjacking: 35
+    strength: 40
+    accuracy: 30
+    health: 35
+    defense: 25
+  inventory_items:
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  equipped_items:
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: sword
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_2:
+  username: craft_merchant_agent
+  new_character: true
+  location:
+    x: 772
+    y: 653
+  skill_levels:
+    crafting: 40
+    smithing: 30
+    strength: 35
+    accuracy: 35
+    health: 30
+  inventory_items:
+  - item: flask
+    count: 28
+  - item: apple
+    count: 32
+  equipped_items:
+  - item: smithinghammer
+    count: 1
+    enchant: 0
+  - item: bluesword
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+agent_3:
+  username: market_coordinator_agent
+  new_character: true
+  location:
+    x: 262
+    y: 182
+  skill_levels:
+    foraging: 30
+    mining: 25
+    accuracy: 40
+    health: 35
+    strength: 35
+  inventory_items:
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
+  equipped_items:
+  - item: heavysword
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
+success_criteria:
+- resource_trader_agent successfully establishes resource collection operations and coordinates trade materials
+- craft_merchant_agent successfully establishes crafting operations and creates valuable trade items
+- market_coordinator_agent successfully establishes market coordination and identifies trading opportunities
+- Team successfully executes coordinated trading operations using complementary commercial roles
+- Team successfully develops profitable trade relationships and market activities
+- All agents maintain effective coordination and achieve commercial objectives
+- Team demonstrates mastery of multi-role commercial coordination and trade development
+- Trade network operations completed within time limit with profitable market development achieved
