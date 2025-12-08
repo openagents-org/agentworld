@@ -2,7 +2,7 @@
 OpenAI Agent for AgentWorld Game
 Implements Function Calling using OpenAI API
 """
-
+import time
 import json
 import requests
 from typing import Dict, List, Any, Optional
@@ -35,13 +35,18 @@ class OpenAIAgent(BaseAgent):
             "tool_choice": "auto",
             "parallel_tool_calls": False
         }
+
+        cnt = 0
+        while cnt < 5:
+            try:
+                response = self.session.post(url, json=data, timeout=60)
+                response.raise_for_status()
+                return response.json()
+            except requests.exceptions.RequestException as e:
+                cnt += 1
+                time.sleep(10 * (cnt + 1))
         
-        try:
-            response = self.session.post(url, json=data, timeout=60)
-            response.raise_for_status()
-            return response.json()
-        except requests.exceptions.RequestException as e:
-            return {"error": f"API call failed: {str(e)}"}
+        return {"error": f"API call failed: {str(e)}"}
     
     def _extract_tool_calls(self, assistant_message: Dict[str, Any]) -> List[Dict[str, Any]]:
         """Extract tool calls from OpenAI response message"""

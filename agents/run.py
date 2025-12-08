@@ -649,7 +649,8 @@ class TaskRunner:
             equipped_items=equipped_items,
             inventory_items=inventory_items,
             new_character=agent_data.get('new_character', False),
-            dump_prompts=self.dump_prompts
+            dump_prompts=self.dump_prompts,
+            llm_params=self.agent_config.llm
         )
         
         # Override agent with configurable system prompt if provided

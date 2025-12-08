@@ -9,6 +9,9 @@ idna>=3.0
 # openai>=1.0.0          # Official OpenAI Python client
 # anthropic>=0.25.0      # Official Anthropic Claude client
 
+# Local inference (DeepSeek via vLLM)
+vllm>=0.6.2
+
 # JSON and data handling (usually included with Python)
 # json is built-in
 

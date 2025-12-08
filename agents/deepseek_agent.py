@@ -8,6 +8,7 @@ import json
 import re
 import requests
 import uuid
+import time
 from typing import Dict, List, Any, Optional
 from base_agent import BaseAgent
 
@@ -174,26 +175,33 @@ Remember: Output ONLY the JSON block for the tool call. No other text!
                 "max_tokens": 4096
             }
 
-        try:
-            response = self.session.post(url, json=data, timeout=120)
-            response.raise_for_status()
-            result = response.json()
+        cnt = 0
+        last_error = ""
+        while cnt < 5:
+            try:
+                response = self.session.post(url, json=data, timeout=120)
+                response.raise_for_status()
+                result = response.json()
 
-            # If using JSON-based tools, convert response to tool call format
-            if not self.supports_native_tools:
-                result = self._convert_json_response_to_tool_calls(result)
+                # If using JSON-based tools, convert response to tool call format
+                if not self.supports_native_tools:
+                    result = self._convert_json_response_to_tool_calls(result)
 
-            return result
-        except requests.exceptions.RequestException as e:
-            error_detail = ""
-            if hasattr(e, 'response') and e.response is not None:
-                try:
-                    error_detail = e.response.text
-                    print(f"\n❌ DEEPSEEK API ERROR: {e}")
-                    print(f"❌ RESPONSE BODY: {error_detail}\n")
-                except:
-                    pass
-            return {"error": f"API call failed: {str(e)} Response: {error_detail}"}
+                return result
+            except requests.exceptions.RequestException as e:
+                cnt += 1
+                error_detail = ""
+                if getattr(e, "response", None) is not None:
+                    try:
+                        error_detail = e.response.text
+                        print(f"\n❌ DEEPSEEK API ERROR: {e}")
+                        print(f"❌ RESPONSE BODY: {error_detail}\n")
+                    except Exception:
+                        pass
+                last_error = f"{str(e)} Response: {error_detail}"
+                time.sleep(10 * (cnt + 1))
+
+        return {"error": f"API call failed: {last_error}"}
 
     def _convert_json_response_to_tool_calls(self, response: Dict[str, Any]) -> Dict[str, Any]:
         """Convert JSON-based response to standard tool call format"""

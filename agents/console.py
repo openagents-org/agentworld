@@ -62,7 +62,8 @@ class GameConsole:
         equipped_items: list = None,
         inventory_items: list = None,
         new_character: bool = False,
-        dump_prompts: bool = False
+        dump_prompts: bool = False,
+        llm_params: Optional[Dict[str, Any]] = None
     ):
         # Pass credentials to agent so it can use them for login prompts
         self.username = username or AGENT_USERNAME
@@ -73,6 +74,7 @@ class GameConsole:
         self.host = host
         self.output_file = output_file
         self.dump_prompts = dump_prompts
+        self.llm_params = llm_params or {}
         
         # Initial state configuration
         self.initial_location = initial_location
@@ -90,7 +92,8 @@ class GameConsole:
                 username=self.username,
                 password=self.password,
                 base_url=self.host,
-                dump_prompts=self.dump_prompts
+                dump_prompts=self.dump_prompts,
+                llm_params=self.llm_params
             )
         except ValueError as e:
             print(f"❌ Failed to create agent: {e}")

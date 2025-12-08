@@ -9,6 +9,7 @@ from qwen_agent import QwenAgent
 from openai_agent import OpenAIAgent
 from claude_agent import ClaudeAgent
 from deepseek_agent import DeepSeekAgent
+from deepseek_local_agent import DeepSeekLocalAgent
 
 
 class AgentFactory:
@@ -18,7 +19,8 @@ class AgentFactory:
         "qwen": "Alibaba Cloud Qwen (DashScope)",
         "openai": "OpenAI (GPT-4, GPT-3.5, etc.)",
         "claude": "Anthropic Claude",
-        "deepseek": "DeepSeek"
+        "deepseek": "DeepSeek",
+        "deepseek_local": "DeepSeek (Local vLLM)"
     }
     
     @classmethod
@@ -30,7 +32,8 @@ class AgentFactory:
         username: Optional[str] = None,
         password: Optional[str] = None,
         base_url: Optional[str] = None,
-        dump_prompts: bool = False
+        dump_prompts: bool = False,
+        llm_params: Optional[dict] = None
     ) -> BaseAgent:
         """
         Create an agent based on the specified provider
@@ -43,6 +46,7 @@ class AgentFactory:
             password: Game password (optional)
             base_url: Game server base URL (optional, defaults to config value)
             dump_prompts: Whether to dump prompts to /tmp/prompts folder (optional)
+            llm_params: Additional provider-specific LLM configuration (optional)
             
         Returns:
             BaseAgent: An instance of the appropriate agent class
@@ -51,6 +55,7 @@ class AgentFactory:
             ValueError: If provider is not supported or required parameters are missing
         """
         provider = provider.lower().strip()
+        llm_params = llm_params or {}
         
         if provider not in cls.SUPPORTED_PROVIDERS:
             supported = ", ".join(cls.SUPPORTED_PROVIDERS.keys())
@@ -77,6 +82,23 @@ class AgentFactory:
             default_model = model or "deepseek-chat"
             return DeepSeekAgent(api_key=api_key, model=default_model, username=username, password=password, base_url=base_url, dump_prompts=dump_prompts)
         
+        elif provider == "deepseek_local":
+            default_model = model or "deepseek-ai/DeepSeek-R1-Distill-Llama-70B"
+            return DeepSeekLocalAgent(
+                model=default_model,
+                username=username,
+                password=password,
+                base_url=base_url,
+                dump_prompts=dump_prompts,
+                tensor_parallel_size=llm_params.get("tensor_parallel_size"),
+                gpu_memory_utilization=llm_params.get("gpu_memory_utilization", 0.9),
+                max_model_len=llm_params.get("max_model_len", 32768),
+                max_tokens=llm_params.get("max_tokens", 4096),
+                temperature=llm_params.get("temperature", 0.7),
+                top_p=llm_params.get("top_p", 0.9),
+                dtype=llm_params.get("dtype", "bfloat16"),
+            )
+        
         else:
             # This should never happen due to the earlier check
             raise ValueError(f"Provider implementation not found: {provider}")
@@ -93,7 +115,8 @@ class AgentFactory:
             "qwen": "qwen-plus",
             "openai": "gpt-4o",
             "claude": "claude-3-5-sonnet-20241022",
-            "deepseek": "deepseek-chat"
+            "deepseek": "deepseek-chat",
+            "deepseek_local": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B"
         }
     
     @classmethod
@@ -115,6 +138,10 @@ class AgentFactory:
         
         # Qwen doesn't need external API key validation (uses config)
         if provider == "qwen":
+            return True
+
+        # Local DeepSeek runs fully offline
+        if provider == "deepseek_local":
             return True
         
         # All other providers require API keys
