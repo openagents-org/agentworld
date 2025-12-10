@@ -3,7 +3,11 @@ Task Verifier for AgentWorld Multi-Agent Benchmark
 Covers: Combat, Construction, Crafting, and Exploration tasks
 
 Usage:
+    # Single trajectory file
     python task_verifier.py --traj_path path/to/task_XX_trajectory.json
+    
+    # Entire folder (automatically finds all trajectory files)
+    python task_verifier.py --folder path/to/logs/folder
     
 The task ID is automatically parsed from the filename (e.g., task_10_trajectory.json -> task_10)
 """
@@ -12,7 +16,9 @@ import argparse
 import json
 import re
 import os
+import glob
 from typing import Dict, List, Any, Tuple
+from pathlib import Path
 
 
 # =============================================================================
@@ -29,6 +35,17 @@ def get_final_inventories(traj_json: Dict) -> Dict[str, List[Dict]]:
             if 'inventory' in obs and 'items' in obs['inventory']:
                 inventories[agent_name] = obs['inventory']['items']
     return inventories
+
+
+def aggregate_item_counts(inventories: Dict[str, List[Dict]]) -> Dict[str, int]:
+    """Aggregate item counts across all agents into a single dict."""
+    item_counts: Dict[str, int] = {}
+    for items in inventories.values():
+        for item in items:
+            k = item.get("key", "").lower()
+            x = item.get("count", 0)
+            item_counts[k] = item_counts.get(k, 0) + x
+    return item_counts
 
 
 def get_all_inventories(traj_json: Dict) -> Dict[str, Dict[str, List[Dict]]]:
@@ -1694,6 +1711,458 @@ def task_105_verifier(traj_json: Dict) -> Tuple[int, str]:
 
 
 # =============================================================================
+# VERSIONED OVERRIDES (v1/v2)
+# =============================================================================
+
+def task_00_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    staff = has_item_in_any_inventory(inventories, 'staff')
+    arrows = count_item_in_inventories(inventories, 'arrow')
+    silverring = has_item_in_any_inventory(inventories, 'silverring')
+    success = staff and arrows >= 15 and silverring
+    msg = f"Staff: {staff}, Arrows: {arrows}/15, Silver ring: {silverring}"
+    return (1 if success else 0, msg)
+
+
+def task_01_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    staff_count = count_item_in_inventories(inventories, 'staff')
+    msg = f"Staff count: {staff_count}/2"
+    return (1 if staff_count >= 2 else 0, msg)
+
+
+def task_02_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    arrows = count_item_in_inventories(inventories, 'arrow')
+    msg = f"Arrows: {arrows}/15"
+    return (1 if arrows >= 15 else 0, msg)
+
+
+def task_03_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    silverring = count_item_in_inventories(inventories, 'silverring')
+    msg = f"Silver rings: {silverring}/2"
+    return (1 if silverring >= 2 else 0, msg)
+
+
+def task_04_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    axes = count_item_in_inventories(inventories, 'axe')
+    msg = f"Axe count: {axes}/2"
+    return (1 if axes >= 2 else 0, msg)
+
+
+def task_05_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    berylpendant = count_item_in_inventories(inventories, 'berylpendant')
+    msg = f"Beryl pendants: {berylpendant}/2"
+    return (1 if berylpendant >= 2 else 0, msg)
+
+
+def task_06_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    heavysword = (count_item_in_inventories(inventories, 'heavysword') +
+                  count_item_in_inventories(inventories, 'sword2'))
+    msg = f"Heavy swords: {heavysword}/2"
+    return (1 if heavysword >= 2 else 0, msg)
+
+
+def task_07_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    pickaxe = count_item_in_inventories(inventories, 'pickaxe')
+    msg = f"Pickaxes: {pickaxe}/2"
+    return (1 if pickaxe >= 2 else 0, msg)
+
+
+def task_08_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    bronzebar = count_item_in_inventories(inventories, 'bronzebar')
+    msg = f"Bronze bars: {bronzebar}/4"
+    return (1 if bronzebar >= 4 else 0, msg)
+
+
+def task_09_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    topazring = count_item_in_inventories(inventories, 'topazring')
+    msg = f"Topaz rings: {topazring}/2"
+    return (1 if topazring >= 2 else 0, msg)
+
+
+def task_10_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    stew = (count_item_in_inventories(inventories, 'stew2') +
+            count_item_in_inventories(inventories, 'stew'))
+    msg = f"Stew: {stew}/3"
+    return (1 if stew >= 3 else 0, msg)
+
+
+def task_11_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    lightningstaff = count_item_in_inventories(inventories, 'lightningstaff')
+    msg = f"Lightning staffs: {lightningstaff}/2"
+    return (1 if lightningstaff >= 2 else 0, msg)
+
+
+def task_12_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    goldring = count_item_in_inventories(inventories, 'goldring')
+    msg = f"Gold rings: {goldring}/2"
+    return (1 if goldring >= 2 else 0, msg)
+
+
+def task_13_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    bucket = count_item_in_inventories(inventories, 'bucket')
+    msg = f"Buckets: {bucket}/3"
+    return (1 if bucket >= 3 else 0, msg)
+
+
+def task_14_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    cookedshrimp = count_item_in_inventories(inventories, 'cookedshrimp')
+    msg = f"Cooked shrimp: {cookedshrimp}/8"
+    return (1 if cookedshrimp >= 8 else 0, msg)
+
+
+def task_15_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    jellyfishsmoothie = count_item_in_inventories(inventories, 'jellyfishsmoothie')
+    msg = f"Jellyfish smoothie: {jellyfishsmoothie}/3"
+    return (1 if jellyfishsmoothie >= 3 else 0, msg)
+
+
+def task_16_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    logs = count_item_in_inventories(inventories, 'logs')
+    blueberry = count_item_in_inventories(inventories, 'blueberry')
+    alive = check_agents_alive(traj_json)
+    success = logs >= 7 and blueberry >= 4 and alive
+    msg = f"Logs: {logs}/7, Blueberry: {blueberry}/4, All alive: {alive}"
+    return (1 if success else 0, msg)
+
+
+def task_17_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    agent_items = get_agent_items_by_username(traj_json)
+    palm_logger_items = {}
+    for username, items in agent_items.items():
+        if "palm_logger" in username.lower():
+            palm_logger_items = items
+            break
+    peach_forager_items = {}
+    for username, items in agent_items.items():
+        if "peach_forager" in username.lower():
+            peach_forager_items = items
+            break
+    palmlogs = palm_logger_items.get("palmlogs", 0)
+    peach = peach_forager_items.get("peach", 0)
+    palm_passed = palmlogs >= 6
+    peach_passed = peach >= 8
+    msg = f"palmlogs: {palmlogs}/6, peach: {peach}/8"
+    return (1 if palm_passed and peach_passed else 0, msg)
+
+
+def task_18_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    agent_items = get_agent_items_by_username(traj_json)
+    shrimp_fisher_items = {}
+    for username, items in agent_items.items():
+        if "shrimp_fisher" in username.lower():
+            shrimp_fisher_items = items
+            break
+    ice_logger_items = {}
+    for username, items in agent_items.items():
+        if "ice_logger" in username.lower():
+            ice_logger_items = items
+            break
+    rawshrimp = shrimp_fisher_items.get("rawshrimp", 0)
+    icelogs = ice_logger_items.get("icelogs", 0)
+    shrimp_passed = rawshrimp >= 9
+    ice_passed = icelogs >= 4
+    msg = f"rawshrimp: {rawshrimp}/9, icelogs: {icelogs}/4"
+    return (1 if shrimp_passed and ice_passed else 0, msg)
+
+
+def task_38_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    agent_hp = get_final_agent_hp_simple(traj_json)
+    all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
+    num_rounds = len(traj_json.get('rounds', []))
+    within_limit = num_rounds <= 29
+    passed = all_alive and within_limit
+    msg = f"All alive: {all_alive}, Rounds: {num_rounds}/29"
+    return (1 if passed else 0, msg)
+
+
+def task_42_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    agent_hp = get_final_agent_hp_simple(traj_json)
+    all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
+    num_rounds = len(traj_json.get('rounds', []))
+    within_limit = num_rounds <= 49
+    passed = all_alive and within_limit
+    msg = f"All alive: {all_alive}, Rounds: {num_rounds}/49"
+    return (1 if passed else 0, msg)
+
+
+def task_44_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    agent_hp = get_final_agent_hp_simple(traj_json)
+    all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
+    num_rounds = len(traj_json.get('rounds', []))
+    within_limit = num_rounds <= 48
+    passed = all_alive and within_limit
+    msg = f"All alive: {all_alive}, Rounds: {num_rounds}/48"
+    return (1 if passed else 0, msg)
+
+
+def task_45_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    agent_hp = get_final_agent_hp_simple(traj_json)
+    all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
+    num_rounds = len(traj_json.get('rounds', []))
+    within_limit = num_rounds <= 57
+    passed = all_alive and within_limit
+    msg = f"All alive: {all_alive}, Rounds: {num_rounds}/57"
+    return (1 if passed else 0, msg)
+
+
+def task_57_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    counts = aggregate_item_counts(inventories)
+    ruby_rings = counts.get("rubyring", 0) + counts.get("ruby_ring", 0)
+    emerald_pendants = counts.get("emeraldpendant", 0)
+    topaz_rings = counts.get("topazring", 0)
+    beryl_pendants = counts.get("berylpendant", 0)
+    success = (ruby_rings >= 3 and emerald_pendants >= 2 and
+               topaz_rings >= 1 and beryl_pendants >= 2)
+    msg = (f"Ruby rings: {ruby_rings}/3, Emerald pendants: {emerald_pendants}/2, "
+           f"Topaz rings: {topaz_rings}/1, Beryl pendants: {beryl_pendants}/2")
+    return (1 if success else 0, msg)
+
+
+def task_58_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    counts = aggregate_item_counts(inventories)
+
+    cooked_food_keys = ["cookedshrimp", "cookedtuna", "cookedchicken", "cookedbeef",
+                        "cookedmeat", "jellyfishsmoothie", "stew", "stew2"]
+    jewelry_keys = ["silverring", "goldring", "goldenring", "topazring", "berylpendant",
+                    "emeraldpendant", "rubyring", "ruby_ring", "topazpendant"]
+    tool_keys = ["pickaxe", "axe", "bow", "goldenbow", "fishingpole", "fishingrod",
+                 "sword", "sword1", "sword2", "heavysword"]
+    resource_keys = ["logs", "oak", "palm", "ice", "coal", "ironore", "goldore",
+                     "rawshrimp", "rawtuna", "jellyfish", "crab", "fish", "herb",
+                     "apple", "peach", "blueberry", "corn", "tomato", "cactus",
+                     "feather", "string", "bead"]
+
+    cooked_food = sum(counts.get(k, 0) for k in cooked_food_keys)
+    jewelry = sum(counts.get(k, 0) for k in jewelry_keys)
+    tools = sum(counts.get(k, 0) for k in tool_keys)
+    resources = sum(counts.get(k, 0) for k in resource_keys)
+
+    success = cooked_food >= 6 and jewelry >= 4 and tools >= 2 and resources >= 50
+    msg = (f"Cooked dishes: {cooked_food}/6, Jewelry: {jewelry}/4, "
+           f"Tools: {tools}/2, Resources: {resources}/50")
+    return (1 if success else 0, msg)
+
+
+def task_59_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    golden_items = ["goldensword", "goldenbow", "goldenboots", "goldring", "goldenring"]
+    elemental_staffs = ["lightningstaff", "firestaff", "icestaff"]
+    specialty_weapons = ["pickaxe", "heavysword", "sword2"]
+
+    golden_count = 0
+    staff_count = 0
+    weapon_count = 0
+    for items in inventories.values():
+        for item in items:
+            k = item.get("key", "").lower()
+            x = item.get("count", 0)
+            if k in golden_items:
+                golden_count += x
+            elif k in elemental_staffs:
+                staff_count += x
+            elif k in specialty_weapons:
+                weapon_count += x
+
+    golden_passed = golden_count >= 5
+    staff_passed = staff_count >= 3
+    weapon_passed = weapon_count >= 2
+    success = golden_passed and staff_passed and weapon_passed
+    msg = f"Golden items: {golden_count}/5, Staffs: {staff_count}/3, Weapons: {weapon_count}/2"
+    return (1 if success else 0, msg)
+
+
+def task_60_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    ore_keys = ["ironore", "goldore", "coal", "copperore", "tinore"]
+    bar_keys = ["ironbar", "goldbar", "bronzebar", "silverbar", "steelbar"]
+    product_keys = ["heavysword", "axe", "goldring", "silverring", "pickaxe", "sword", "bow"]
+    ore_count = sum(count_item_in_inventories(inventories, o) for o in ore_keys)
+    bar_count = sum(count_item_in_inventories(inventories, b) for b in bar_keys)
+    product_count = sum(count_item_in_inventories(inventories, p) for p in product_keys)
+    success = ore_count >= 80 and bar_count >= 60 and product_count >= 10
+    msg = f"Ores: {ore_count}/80, Bars: {bar_count}/60, Products: {product_count}/10"
+    return (1 if success else 0, msg)
+
+
+def task_61_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    counts = aggregate_item_counts(inventories)
+    cooked_food_keys = ["cookedshrimp", "cookedtuna", "cookedchicken", "cookedbeef",
+                        "cookedmeat", "jellyfishsmoothie", "stew", "stew2"]
+    specialty_keys = ["silverring", "goldring", "goldenring", "berylpendant", "emeraldpendant",
+                      "topazring", "magicstaff", "lightningstaff", "firestaff", "icestaff"]
+    rare_ingredient_keys = ["rawshrimp", "rawtuna", "jellyfish", "crab", "fish", "herb",
+                            "blueberry", "corn", "tomato", "apple", "logs", "ironore", "coal"]
+    cooked_food = sum(counts.get(k, 0) for k in cooked_food_keys)
+    specialty = sum(counts.get(k, 0) for k in specialty_keys)
+    rare_ingredients = sum(counts.get(k, 0) for k in rare_ingredient_keys)
+    success = cooked_food >= 8 and specialty >= 4 and rare_ingredients >= 60
+    msg = (f"Cooked dishes: {cooked_food}/8, Specialty items: {specialty}/4, "
+           f"Rare ingredients: {rare_ingredients}/60")
+    return (1 if success else 0, msg)
+
+
+def task_62_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    counts = aggregate_item_counts(inventories)
+    sword_keys = ["sword", "sword1", "sword2", "heavysword", "goldensword"]
+    axe_keys = ["axe"]
+    bow_keys = ["bow", "woodenbow", "goldenbow"]
+    pickaxe_keys = ["pickaxe"]
+    swords = sum(counts.get(k, 0) for k in sword_keys)
+    axes = sum(counts.get(k, 0) for k in axe_keys)
+    bows = sum(counts.get(k, 0) for k in bow_keys)
+    pickaxes = sum(counts.get(k, 0) for k in pickaxe_keys)
+    total = swords + axes + bows + pickaxes
+    success = swords >= 5 and axes >= 3 and bows >= 2 and pickaxes >= 1 and total >= 11
+    msg = (f"Swords: {swords}/5, Axes: {axes}/3, Bows: {bows}/2, "
+           f"Pickaxes: {pickaxes}/1, Total: {total}/11")
+    return (1 if success else 0, msg)
+
+
+def task_63_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    counts = aggregate_item_counts(inventories)
+    ring_keys = ["silverring", "goldring", "goldenring", "topazring", "rubyring", "ruby_ring"]
+    pendant_keys = ["berylpendant", "emeraldpendant", "topazpendant", "rubypendant"]
+    base_item_keys = ["beryl", "emerald", "ruby", "topaz", "sapphire"]
+    rings = sum(counts.get(k, 0) for k in ring_keys)
+    pendants = sum(counts.get(k, 0) for k in pendant_keys)
+    base_items = sum(counts.get(k, 0) for k in base_item_keys)
+    total = rings + pendants + base_items
+    success = rings >= 5 and pendants >= 5 and base_items >= 5 and total >= 15
+    msg = (f"Rings: {rings}/5, Pendants: {pendants}/5, Base items: {base_items}/5, "
+           f"Total: {total}/15")
+    return (1 if success else 0, msg)
+
+
+def task_65_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    consumables = ["healthpotion", "manapotion", "jellyfishsmoothie",
+                   "cookedshrimp", "cookedchicken", "cookedbeef", "stew", "stew2",
+                   "cookedtuna", "cookedmeat"]
+    total = sum(count_item_in_inventories(inventories, c) for c in consumables)
+    msg = f"Consumables: {total}/10"
+    return (1 if total >= 10 else 0, msg)
+
+
+def task_66_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    arrows = count_item_in_inventories(inventories, 'arrow')
+    bows = (count_item_in_inventories(inventories, 'woodenbow') +
+            count_item_in_inventories(inventories, 'bow') +
+            count_item_in_inventories(inventories, 'goldenbow'))
+    success = arrows >= 50 and bows >= 5
+    msg = f"Arrows: {arrows}/50, Bows: {bows}/5"
+    return (1 if success else 0, msg)
+
+
+def task_68_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    pickaxes = count_item_in_inventories(inventories, 'pickaxe')
+    axes = count_item_in_inventories(inventories, 'axe')
+    buckets = count_item_in_inventories(inventories, 'bucket')
+    specialty_keys = ["fishingpole", "fishingrod", "fishingline", "hammer"]
+    specialty = sum(count_item_in_inventories(inventories, k) for k in specialty_keys)
+    success = pickaxes >= 8 and axes >= 8 and buckets >= 5 and specialty >= 5
+    msg = f"Pickaxes: {pickaxes}/8, Axes: {axes}/8, Buckets: {buckets}/5, Specialty tools: {specialty}/5"
+    return (1 if success else 0, msg)
+
+
+def task_69_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    golden_keys = ["goldensword", "goldenbow", "goldring", "goldenring", "goldenboots"]
+    staff_keys = ["lightningstaff", "firestaff", "icestaff", "naturestaff", "magicstaff"]
+    elite_weapon_keys = ["heavysword", "sword2", "axe", "goldenbow", "bow", "pickaxe"]
+    golden_count = sum(count_item_in_inventories(inventories, k) for k in golden_keys)
+    staff_count = sum(count_item_in_inventories(inventories, k) for k in staff_keys)
+    elite_count = sum(count_item_in_inventories(inventories, k) for k in elite_weapon_keys)
+    success = golden_count >= 5 and staff_count >= 4 and elite_count >= 6
+    msg = (f"Golden items: {golden_count}/5, Staffs: {staff_count}/4, "
+           f"Elite weapons/armor: {elite_count}/6")
+    return (1 if success else 0, msg)
+
+
+def task_95_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    seafood_keys = ["rawshrimp", "shrimp", "jellyfish", "crab", "rawtuna", "tuna", "fish"]
+    cooked_keys = ["cookedshrimp", "cookedtuna", "cookedfish"]
+    seafood_total = sum(count_item_in_inventories(inventories, k) for k in seafood_keys)
+    cooked_total = sum(count_item_in_inventories(inventories, k) for k in cooked_keys)
+    success = seafood_total >= 150 and cooked_total >= 60
+    msg = f"Seafood: {seafood_total}/150, Cooked: {cooked_total}/60"
+    return (1 if success else 0, msg)
+
+
+def task_97_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    inventories = get_final_inventories(traj_json)
+    food_keys = ["corn", "tomato", "blueberry", "apple", "rawshrimp", "rawtuna",
+                 "fish", "cookedshrimp", "cookedtuna", "cookedchicken", "cookedbeef",
+                 "cookedmeat", "jellyfishsmoothie", "stew", "stew2"]
+    total_food = sum(count_item_in_inventories(inventories, k) for k in food_keys)
+    success = total_food >= 150
+    msg = f"Food items: {total_food}/150"
+    return (1 if success else 0, msg)
+
+
+def task_38_verifier_v2(traj_json: Dict) -> Tuple[int, str]:
+    agent_hp = get_final_agent_hp_simple(traj_json)
+    all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
+    num_rounds = len(traj_json.get('rounds', []))
+    within_limit = num_rounds <= 58
+    passed = all_alive and within_limit
+    msg = f"All alive: {all_alive}, Rounds: {num_rounds}/58"
+    return (1 if passed else 0, msg)
+
+
+def task_42_verifier_v2(traj_json: Dict) -> Tuple[int, str]:
+    agent_hp = get_final_agent_hp_simple(traj_json)
+    all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
+    num_rounds = len(traj_json.get('rounds', []))
+    within_limit = num_rounds <= 65
+    passed = all_alive and within_limit
+    msg = f"All alive: {all_alive}, Rounds: {num_rounds}/65"
+    return (1 if passed else 0, msg)
+
+
+def task_44_verifier_v2(traj_json: Dict) -> Tuple[int, str]:
+    agent_hp = get_final_agent_hp_simple(traj_json)
+    all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
+    num_rounds = len(traj_json.get('rounds', []))
+    within_limit = num_rounds <= 62
+    passed = all_alive and within_limit
+    msg = f"All alive: {all_alive}, Rounds: {num_rounds}/62"
+    return (1 if passed else 0, msg)
+
+
+def task_45_verifier_v2(traj_json: Dict) -> Tuple[int, str]:
+    agent_hp = get_final_agent_hp_simple(traj_json)
+    all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
+    num_rounds = len(traj_json.get('rounds', []))
+    within_limit = num_rounds <= 77
+    passed = all_alive and within_limit
+    msg = f"All alive: {all_alive}, Rounds: {num_rounds}/77"
+    return (1 if passed else 0, msg)
+
+# =============================================================================
 # MAIN VERIFIER DISPATCH
 # =============================================================================
 
@@ -1817,41 +2286,191 @@ VERIFIERS = {
     'task_105': task_105_verifier,
 }
 
+VERIFIERS_V1 = {
+    'task_00': task_00_verifier_v1,
+    'task_01': task_01_verifier_v1,
+    'task_02': task_02_verifier_v1,
+    'task_03': task_03_verifier_v1,
+    'task_04': task_04_verifier_v1,
+    'task_05': task_05_verifier_v1,
+    'task_06': task_06_verifier_v1,
+    'task_07': task_07_verifier_v1,
+    'task_08': task_08_verifier_v1,
+    'task_09': task_09_verifier_v1,
+    'task_10': task_10_verifier_v1,
+    'task_11': task_11_verifier_v1,
+    'task_12': task_12_verifier_v1,
+    'task_13': task_13_verifier_v1,
+    'task_14': task_14_verifier_v1,
+    'task_15': task_15_verifier_v1,
+    'task_16': task_16_verifier_v1,
+    'task_17': task_17_verifier_v1,
+    'task_18': task_18_verifier_v1,
+    'task_38': task_38_verifier_v1,
+    'task_42': task_42_verifier_v1,
+    'task_44': task_44_verifier_v1,
+    'task_45': task_45_verifier_v1,
+    'task_57': task_57_verifier_v1,
+    'task_58': task_58_verifier_v1,
+    'task_59': task_59_verifier_v1,
+    'task_60': task_60_verifier_v1,
+    'task_61': task_61_verifier_v1,
+    'task_62': task_62_verifier_v1,
+    'task_63': task_63_verifier_v1,
+    'task_65': task_65_verifier_v1,
+    'task_66': task_66_verifier_v1,
+    'task_68': task_68_verifier_v1,
+    'task_69': task_69_verifier_v1,
+    'task_95': task_95_verifier_v1,
+    'task_97': task_97_verifier_v1,
+}
 
-def verify_task(traj_json: Dict, task_id: str = None) -> Tuple[int, str]:
+VERIFIERS_V2 = {
+    'task_38': task_38_verifier_v2,
+    'task_42': task_42_verifier_v2,
+    'task_44': task_44_verifier_v2,
+    'task_45': task_45_verifier_v2,
+}
+
+
+def get_verifier_map(version: int) -> Dict[str, Any]:
+    """Return the verifier mapping for the requested version."""
+    if version == 1:
+        merged = VERIFIERS.copy()
+        merged.update(VERIFIERS_V1)
+        return merged
+    if version == 2:
+        merged = VERIFIERS.copy()
+        merged.update(VERIFIERS_V2)
+        return merged
+    return VERIFIERS
+
+
+def verify_task(traj_json: Dict, task_id: str = None, version: int = 0) -> Tuple[int, str]:
     """Main entry point to verify a task from trajectory."""
     if task_id is None:
         task_id = traj_json.get('task_id', '')
     
-    if task_id in VERIFIERS:
-        return VERIFIERS[task_id](traj_json)
+    verifiers = get_verifier_map(version)
+    if task_id in verifiers:
+        return verifiers[task_id](traj_json)
     else:
-        return (0, f"No verifier found for {task_id}")
+        return (0, f"No verifier found for {task_id} (version {version})")
+
+
+def find_all_trajectory_files(folder_path: str) -> List[str]:
+    """
+    Find all trajectory JSON files in a folder structure.
+    Expected structure: folder/task_XX_*/run_*/task_XX_trajectory.json
+    """
+    trajectory_files = []
+    folder_path = Path(folder_path)
+    
+    # Search for all task_*_trajectory.json files recursively
+    for traj_file in folder_path.rglob("task_*_trajectory.json"):
+        trajectory_files.append(str(traj_file))
+    
+    return sorted(trajectory_files)
+
+
+def process_folder(folder_path: str, version: int = 0) -> Tuple[int, int, Dict[str, Tuple[int, str]]]:
+    """
+    Process all trajectory files in a folder and return aggregate results.
+    Returns: (total_score, total_tasks, detailed_results)
+    """
+    trajectory_files = find_all_trajectory_files(folder_path)
+    
+    if not trajectory_files:
+        print(f"未在文件夹 {folder_path} 中找到任何 trajectory 文件")
+        return 0, 0, {}
+    
+    print(f"找到 {len(trajectory_files)} 个 trajectory 文件\n")
+    print("=" * 80)
+    
+    total_score = 0
+    total_tasks = 0
+    detailed_results = {}
+    
+    for traj_path in trajectory_files:
+        try:
+            with open(traj_path, 'r') as f:
+                traj_json = json.load(f)
+            
+            # Parse task_id from filename
+            task_id = parse_task_id_from_path(traj_path)
+            if task_id is None:
+                task_id = traj_json.get('task_id', 'unknown')
+            
+            # Verify task
+            score, msg = verify_task(traj_json, task_id, version=version)
+            
+            # Update totals
+            total_score += score
+            total_tasks += 1
+            detailed_results[task_id] = (score, msg)
+            
+            # Print result for this task
+            status = "✓ 通过" if score == 1 else "✗ 失败"
+            print(f"{status} | {task_id:12s} | 得分: {score} | {msg}")
+            
+        except Exception as e:
+            print(f"✗ 错误 | {os.path.basename(traj_path):30s} | 处理失败: {str(e)}")
+            detailed_results[os.path.basename(traj_path)] = (0, f"Error: {str(e)}")
+            total_tasks += 1
+    
+    return total_score, total_tasks, detailed_results
 
 
 def main():
     parser = argparse.ArgumentParser(description='Verify AgentWorld task completion')
-    parser.add_argument('--traj_path', type=str, required=True, help='Path to trajectory JSON file')
+    parser.add_argument('--traj_path', type=str, default=None, help='Path to single trajectory JSON file')
+    parser.add_argument('--folder', type=str, default=None, help='Path to folder containing multiple task trajectories')
     parser.add_argument('--task_id', type=str, default=None, help='Override task ID (e.g., task_01)')
+    parser.add_argument('-v', '--version', type=int, default=0, choices=[0, 1, 2],
+                        help='Task version: 0 (default/base), 1 (v1), 2 (v2)')
     args = parser.parse_args()
     
-    with open(args.traj_path, 'r') as f:
-        traj_json = json.load(f)
+    # Check that either traj_path or folder is provided
+    if not args.traj_path and not args.folder:
+        parser.error("please provide either --traj_path or --folder")
     
-    # Parse task_id from filename if not provided
-    task_id = args.task_id
-    if task_id is None:
-        task_id = parse_task_id_from_path(args.traj_path)
-    if task_id is None:
-        task_id = traj_json.get('task_id', 'unknown')
+    if args.traj_path and args.folder:
+        parser.error("cannot use --traj_path and --folder at the same time")
     
-    score, msg = verify_task(traj_json, task_id)
+    # Process folder mode
+    if args.folder:
+        total_score, total_tasks, detailed_results = process_folder(args.folder, version=args.version)
+        
+        print("=" * 80)
+        print(f"\nSummar:")
+        print(f"  Total Num of Tasks: {total_tasks}")
+        print(f"  Passed Tasks: {total_score}")
+        print(f"  Failed Tasks: {total_tasks - total_score}")
+        print(f"  Overall: {total_score}/{total_tasks}")
+        if total_tasks > 0:
+            print(f"  Pass Ratio: {total_score/total_tasks*100:.1f}%")
+        
+        return total_score
     
-    print(f"Task: {task_id}")
-    print(f"Score: {score}")
-    print(f"Details: {msg}")
-    
-    return score
+    # Process single file mode
+    else:
+        with open(args.traj_path, 'r') as f:
+            traj_json = json.load(f)
+        
+        # Parse task_id from filename if not provided
+        task_id = args.task_id
+        if task_id is None:
+            task_id = parse_task_id_from_path(args.traj_path)
+        if task_id is None:
+            task_id = traj_json.get('task_id', 'unknown')
+        
+        score, msg = verify_task(traj_json, task_id, version=args.version)
+        
+        print(f"Task: {task_id}")
+        print(f"Score: {score}")
+        print(f"Details: {msg}")
+        
+        return score
 
 
 if __name__ == "__main__":
