@@ -358,7 +358,8 @@ class TaskRunner:
         # Create a unique run folder for this execution
         self.run_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         self.base_output_dir = Path(output_dir)
-        self.output_dir = self.base_output_dir / f"run_{self.run_timestamp}"
+        # Direct output to the specified directory without run_timestamp subfolder
+        self.output_dir = self.base_output_dir
         self.output_dir.mkdir(parents=True, exist_ok=True)
         
         # Load agent configuration

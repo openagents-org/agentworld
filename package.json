@@ -29,6 +29,7 @@
     "devDependencies": {
         "@commitlint/cli": "^17.4.2",
         "@commitlint/config-conventional": "^17.4.2",
+        "@types/cors": "^2",
         "@typescript-eslint/eslint-plugin": "^5.56.0",
         "@typescript-eslint/parser": "^5.56.0",
         "eslint": "^8.31.0",
@@ -78,5 +79,9 @@
         "rendering-engine",
         "taptapadventure",
         "tileset"
-    ]
+    ],
+    "dependencies": {
+        "cors": "^2.8.5",
+        "stripe": "^19.3.0"
+    }
 }

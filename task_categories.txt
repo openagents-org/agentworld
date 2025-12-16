@@ -1,23 +1,50 @@
-Category: Combat (Count: 12)
-Task IDs: 16, 28, 29, 30, 35, 36, 50, 55, 72, 77, 88, 91
+# AgentWorld Task Categories
+# Total: 106 tasks (task_00 to task_105)
+# Generated based on task primary objectives analysis
 
-Category: Construction (Count: 10)
-Task IDs: 41, 43, 74, 76, 81, 84, 87, 89, 90, 93
+Category: Combat (Count: 29)
+Task IDs: 01, 06, 16, 22, 24, 25, 28, 29, 30, 32, 35, 36, 37, 42, 50, 51, 55, 72, 76, 77, 79, 80, 82, 88, 90, 91, 93, 95, 104
+# Combat tasks involve defeating mobs, bosses, defense, and battle scenarios
 
-Category: Crafting (Count: 33)
-Task IDs: 00, 01, 02, 03, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 22, 27, 31, 34, 39, 47, 49, 52, 54, 58, 61, 62, 63, 65, 66, 68, 69, 86, 97
+Category: Construction (Count: 6)
+Task IDs: 41, 43, 81, 84, 89, 101
+# Construction tasks involve building infrastructure, fortifications, and facilities
 
-Category: Exploration (Count: 14)
-Task IDs: 100, 21, 23, 24, 33, 46, 48, 53, 57, 60, 70, 73, 79, 95
+Category: Coordination (Count: 2)
+Task IDs: 44, 83
+# Coordination tasks involve communication networks and ritual synchronization
 
-Category: Gathering (Count: 6)
-Task IDs: 15, 17, 18, 19, 20, 98
+Category: Crafting (Count: 24)
+Task IDs: 00, 03, 04, 05, 07, 08, 09, 11, 12, 13, 14, 15, 34, 47, 49, 52, 54, 61, 62, 66, 69, 86, 102, 105
+# Crafting tasks involve creating items: weapons, jewelry, tools, food, etc.
 
-Category: Other (Count: 4)
-Task IDs: 42, 80, 83, 99
+Category: Exploration (Count: 11)
+Task IDs: 21, 23, 33, 46, 48, 53, 57, 60, 70, 73, 100
+# Exploration tasks involve expeditions, surveys, and dungeon runs
 
-Category: Survival (Count: 11)
-Task IDs: 25, 26, 32, 37, 40, 51, 64, 75, 82, 85, 96
+Category: Gathering (Count: 14)
+Task IDs: 02, 10, 17, 18, 19, 20, 27, 31, 39, 58, 63, 68, 97, 98
+# Gathering tasks involve collecting resources, farming, mining operations
 
-Category: Trading (Count: 10)
-Task IDs: 38, 44, 45, 56, 59, 67, 71, 78, 92, 94
+Category: Survival (Count: 7)
+Task IDs: 40, 64, 67, 75, 85, 96, 103
+# Survival tasks involve rescue operations, convoys, and emergency response
+
+Category: Trading (Count: 13)
+Task IDs: 26, 38, 45, 56, 59, 65, 71, 74, 78, 87, 92, 94, 99
+# Trading tasks involve commerce, merchant guilds, and supply networks
+
+=== Summary ===
+Total Tasks: 106
+- Combat:       29 (27.4%)
+- Crafting:     24 (22.6%)
+- Gathering:    14 (13.2%)
+- Trading:      13 (12.3%)
+- Exploration:  11 (10.4%)
+- Survival:      7 (6.6%)
+- Construction:  6 (5.7%)
+- Coordination:  2 (1.9%)
+
+=== Notes ===
+# Task 25: Ice region has no Ice Oak Tree (only Willow Tree) - may not be completable
+# Task 26: Desert region (400, 680) missing expected NPCs - environment issues

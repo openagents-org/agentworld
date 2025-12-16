@@ -12,6 +12,9 @@ idna>=3.0
 # Local inference (DeepSeek via vLLM)
 vllm>=0.6.2
 
+# YAML parsing for task and config files
+PyYAML>=6.0.0
+
 # JSON and data handling (usually included with Python)
 # json is built-in
 

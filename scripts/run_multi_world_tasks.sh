@@ -9,8 +9,11 @@
 
 set -euo pipefail
 
-WORK_DIR="/scratch1/wmz5132/agentworld"
-AGENT_CFG="$WORK_DIR/agents/configs/openai_agent.yaml"
+WORK_DIR="/Users/houliyuan/agentworld"
+
+# 激活 Python 虚拟环境
+source "$WORK_DIR/agentworld/bin/activate"
+AGENT_CFG="$WORK_DIR/agents/configs/claude_agent.yaml"
 # 日志根路径按 agent 配置文件名的前半段（去扩展名、取第一个下划线前的片段）
 agent_base="$(basename "$AGENT_CFG")"
 agent_base="${agent_base%.*}"
@@ -92,9 +95,9 @@ if [[ -n "$TASK_START" && -n "$TASK_END" ]]; then
   # 左侧补零（两位），如 1 -> 01
   start_pad=$(printf "%02d" "$TASK_START")
   end_pad=$(printf "%02d" "$TASK_END")
-  TASK_GLOB="data_v0.1_multi/benchmark/task_{${start_pad}..${end_pad}}_*.yaml"
+  TASK_GLOB="data_v0.1_multi/benchmark_v1/task_{${start_pad}..${end_pad}}_*.yaml"
 else
-  TASK_GLOB="data_v0.1_multi/benchmark/task_*.yaml"
+  TASK_GLOB="data_v0.1_multi/benchmark_v1/task_*.yaml"
 fi
 
 # Optional: limit how many task processes per world run at once (0 = unlimited).
@@ -188,7 +191,7 @@ launch_task() {
   (
     cd "$WORK_DIR"
     AGENTWORLD_BASE_URL="http://localhost:${api}" \
-      python agents/run.py \
+      python3 agents/run.py \
       --task "$task" \
       --agent "$agent_cfg" \
       --output "$log_dir" \
@@ -229,14 +232,14 @@ sleep 15
 TASKS=()
 if [[ -n "$TASK_START" && -n "$TASK_END" ]]; then
   for num in $(seq -w "$TASK_START" "$TASK_END"); do
-    for f in data_v0.1_multi/benchmark/task_${num}_*.yaml; do
+    for f in data_v0.1_multi/benchmark_v1/task_${num}_*.yaml; do
       [[ -f "$f" ]] || continue
       [[ "$f" =~ _v[12]\.yaml$ ]] && continue
       TASKS+=("$f")
     done
   done
 else
-  for f in data_v0.1_multi/benchmark/task_*.yaml; do
+  for f in data_v0.1_multi/benchmark_v1/task_*.yaml; do
     [[ -f "$f" ]] || continue
     [[ "$f" =~ _v[12]\.yaml$ ]] && continue
     TASKS+=("$f")

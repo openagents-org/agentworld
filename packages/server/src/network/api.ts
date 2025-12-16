@@ -1193,6 +1193,9 @@ export default class API {
                 // Perform the teleport
                 player.teleport(x, y, withAnimation);
 
+                // Save position to database immediately to ensure persistence
+                player.save();
+
                 response.json({
                     status: 'success',
                     message: 'Player teleported successfully',
@@ -1408,6 +1411,9 @@ export default class API {
                     }
                 }
 
+                // Save inventory to database immediately to ensure persistence
+                player.save();
+
                 response.json({
                     status: 'success',
                     message: 'Inventory updated successfully',
@@ -1571,6 +1577,9 @@ export default class API {
 
                     // Note: Player stats will be automatically recalculated when equipment is updated
                     // The calculateStats method is called internally by the equipment system
+
+                // Save equipment to database immediately to ensure persistence
+                player.save();
 
                 response.json({
                     status: 'success',
@@ -1890,7 +1899,10 @@ export default class API {
                 
                 // Sync the skills to update player level and other stats
                 player.skills.sync();
-                
+
+                // Save skills to database immediately to ensure persistence
+                player.save();
+
                 response.json({
                     status: 'success',
                     message: `${skillEnumName} level updated successfully`,

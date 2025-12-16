@@ -307,7 +307,11 @@ def initialize_agent(agent_key: str, agent_config: dict, password: str) -> bool:
     # 6. Restore HP/MP
     if restore_hp_mp(token):
         results.append(f"   ✅ HP/MP restored")
-    time.sleep(0.1)
+
+    # Wait for database operations to complete before logout
+    # The save operations are asynchronous (bcrypt hashing), so we need to wait
+    print(f"   ⏳ Waiting for database saves to complete...")
+    time.sleep(1.5)
 
     # 7. Logout
     if logout(token):
