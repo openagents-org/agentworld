@@ -1,0 +1,348 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Elemental Bosses - Multi-Boss Combat"
+  description: "Ten agents defeat multiple elemental bosses across different regions"
+
+# Task objectives
+objectives:
+  primary: "Defeat the Ice Guardian at (259, 151), the Iron Ogre at (238, 48), and the Water Guardian at (197, 633)"
+  secondary:
+    - "Prepare combat equipment"
+    - "Travel to boss locations"
+    - "Defeat all three bosses"
+    - "Complete within 48 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent boss combat scenario.
+
+  OBJECTIVE: Defeat three elemental bosses.
+
+  TARGET BOSSES:
+  - Ice Guardian (Level 35): Located at ice region (259, 151)
+  - Iron Ogre (Level 25): Located at mountain region (238, 48)
+  - Water Guardian (Level 36): Located at coastal region (197, 633)
+
+  COMBAT STRATEGY:
+  - Split into three squads
+  - Each squad attacks their assigned boss
+  - Coordinate healing and attacks
+
+  TEAM ROLES:
+  - Ice Squad: 3 agents for Ice Guardian
+  - Mountain Squad: 3 agents for Ogre
+  - Water Squad: 4 agents for Water Guardian
+
+  DO NOT use complete() until all bosses are defeated!
+
+# Limitations
+max_action_steps: 48
+
+# Agent configurations
+agent_1:
+  username: "ice_leader_agent"
+  new_character: true
+
+  location:
+    x: 259
+    y: 155
+
+  skill_levels:
+    strength: 40
+    defense: 38
+    health: 50
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "ice_dps1_agent"
+  new_character: true
+
+  location:
+    x: 261
+    y: 153
+
+  skill_levels:
+    strength: 42
+    accuracy: 38
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "ice_support_agent"
+  new_character: true
+
+  location:
+    x: 257
+    y: 153
+
+  skill_levels:
+    magic: 35
+    health: 40
+    defense: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "mountain_leader_agent"
+  new_character: true
+
+  location:
+    x: 238
+    y: 52
+
+  skill_levels:
+    strength: 45
+    defense: 40
+    health: 52
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "mountain_dps1_agent"
+  new_character: true
+
+  location:
+    x: 240
+    y: 50
+
+  skill_levels:
+    strength: 43
+    accuracy: 40
+    health: 48
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "mountain_support_agent"
+  new_character: true
+
+  location:
+    x: 236
+    y: 50
+
+  skill_levels:
+    magic: 38
+    health: 42
+    defense: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "water_leader_agent"
+  new_character: true
+
+  location:
+    x: 197
+    y: 637
+
+  skill_levels:
+    strength: 42
+    defense: 40
+    health: 50
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "water_dps1_agent"
+  new_character: true
+
+  location:
+    x: 199
+    y: 635
+
+  skill_levels:
+    strength: 40
+    accuracy: 42
+    health: 46
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "water_dps2_agent"
+  new_character: true
+
+  location:
+    x: 195
+    y: 635
+
+  skill_levels:
+    strength: 38
+    accuracy: 40
+    health: 44
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "water_support_agent"
+  new_character: true
+
+  location:
+    x: 193
+    y: 637
+
+  skill_levels:
+    magic: 40
+    health: 45
+    defense: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Ice Guardian at (259, 151) is defeated"
+  - "Iron Ogre at (238, 48) is defeated"
+  - "Water Guardian at (197, 633) is defeated"
+  - "All agents survive the mission"

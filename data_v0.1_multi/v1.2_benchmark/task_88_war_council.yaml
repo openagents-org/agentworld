@@ -1,0 +1,324 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "War Council - Multi-Boss Campaign"
+  description: "Ten agents defeat multiple bosses in coordinated assault"
+
+# Task objectives
+objectives:
+  primary: "Defeat the Ogre Guardian at (291, 644), the Dark Wolf at (1016, 682), and the Golden Golem at (548, 232)"
+  secondary:
+    - "Defeat coastal ogre boss"
+    - "Defeat dark forest boss"
+    - "Defeat golden plains boss"
+    - "Complete within 48 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent combat scenario.
+
+  OBJECTIVE: Defeat three dangerous bosses across the realm.
+
+  COMBAT TARGETS:
+  - Ogre Guardian (Level 36) at (291, 644)
+  - Dark Wolf (Level 40) at (1016, 682)
+  - Golden Golem (Level 38) at (548, 232)
+
+  TEAM COMPOSITION:
+  - 4 Fighters with heavy weapons
+  - 3 Ranged attackers with staffs
+  - 3 Support agents
+
+  STRATEGY:
+  - Split into teams for each boss
+  - Coordinate attacks via chat
+  - Maintain HP above 50% before engaging
+
+  DO NOT use complete() until all objectives are met!
+
+# Limitations
+max_action_steps: 48
+
+# Agent configurations
+agent_1:
+  username: "fighter1_agent"
+  new_character: true
+
+  location:
+    x: 291
+    y: 648
+
+  skill_levels:
+    strength: 48
+    defense: 42
+    health: 55
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fighter2_agent"
+  new_character: true
+
+  location:
+    x: 293
+    y: 648
+
+  skill_levels:
+    strength: 45
+    defense: 40
+    health: 52
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "fighter3_agent"
+  new_character: true
+
+  location:
+    x: 1016
+    y: 686
+
+  skill_levels:
+    strength: 42
+    defense: 38
+    health: 50
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "fighter4_agent"
+  new_character: true
+
+  location:
+    x: 1018
+    y: 686
+
+  skill_levels:
+    strength: 40
+    defense: 36
+    health: 48
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "mage1_agent"
+  new_character: true
+
+  location:
+    x: 548
+    y: 236
+
+  skill_levels:
+    magic: 42
+    defense: 32
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "manaflask"
+      count: 15
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "mage2_agent"
+  new_character: true
+
+  location:
+    x: 550
+    y: 236
+
+  skill_levels:
+    magic: 40
+    defense: 30
+    health: 43
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "manaflask"
+      count: 15
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "mage3_agent"
+  new_character: true
+
+  location:
+    x: 552
+    y: 236
+
+  skill_levels:
+    magic: 38
+    defense: 28
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "manaflask"
+      count: 15
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "support1_agent"
+  new_character: true
+
+  location:
+    x: 350
+    y: 300
+
+  skill_levels:
+    strength: 30
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "support2_agent"
+  new_character: true
+
+  location:
+    x: 352
+    y: 302
+
+  skill_levels:
+    strength: 28
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "coordinator_agent"
+  new_character: true
+
+  location:
+    x: 354
+    y: 304
+
+  skill_levels:
+    strength: 25
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Ogre Guardian at (291, 644) is defeated"
+  - "Dark Wolf at (1016, 682) is defeated"
+  - "Golden Golem at (548, 232) is defeated"
+  - "All agents survive the campaign"

@@ -1,0 +1,142 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Legendary Boss Hunt - Triple Boss Elimination"
+  description: "Three agents work together to defeat three legendary bosses across different regions"
+
+# Task objectives
+objectives:
+  primary: "Defeat the Mermaid at (580, 755), the Dark Wolf at (1016, 682), and the Ice Knight at (712, 717)"
+  secondary:
+    - "Coordinate team movement across three distinct regions"
+    - "Execute tactical combat against each boss"
+    - "Complete all boss eliminations within 40 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent boss hunting scenario requiring coordinated combat across regions.
+
+  OBJECTIVE: Defeat three legendary bosses in different regions of the world.
+
+  TARGET BOSSES:
+  - Mermaid (Level 55): Located at coastal region (580, 755)
+  - Dark Wolf (Level 0): Located at dark region (1016, 682)
+  - Ice Knight (Level 62): Located at castle region (712, 717)
+
+  TEAM COORDINATION:
+  - Use global chat to coordinate boss locations and attack timing
+  - Share healing items and provide combat support
+  - Assign roles: tank, damage dealer, support
+
+  COMBAT STRATEGY:
+  - Mermaid: Water-based attacks, use ranged weapons
+  - Golden Golem: Heavy armor, use crush damage
+  - Ice Knight: Freezing attacks, maintain distance and heal frequently
+
+  DO NOT use complete() until ALL three bosses are defeated!
+
+# Limitations
+max_action_steps: 40
+
+# Agent configurations
+agent_1:
+  username: "warrior_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 750
+
+  skill_levels:
+    strength: 50
+    defense: 45
+    health: 60
+    accuracy: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 1
+    - item: "platearmor"
+      count: 1
+      enchant: 1
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "mage_agent"
+  new_character: true
+
+  location:
+    x: 585
+    y: 750
+
+  skill_levels:
+    magic: 55
+    health: 50
+    defense: 35
+    accuracy: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 1
+    - item: "leatherarmor"
+      count: 1
+      enchant: 1
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "ranger_agent"
+  new_character: true
+
+  location:
+    x: 590
+    y: 750
+
+  skill_levels:
+    archery: 50
+    accuracy: 50
+    health: 45
+    defense: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 40
+    - item: "arrow"
+      count: 100
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 1
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Mermaid at (580, 755) is defeated"
+  - "Dark Wolf at (1016, 682) is defeated"
+  - "Ice Knight at (712, 717) is defeated"
+  - "All three agents survive the boss encounters"

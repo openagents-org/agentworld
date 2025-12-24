@@ -1,0 +1,133 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Healing Supplies - Cooked Food Production"
+  description: "Three agents work together to gather ingredients and cook healing food"
+
+# Task objectives
+objectives:
+  primary: "Catch 4x rawshrimp and cook them into 4x cookedshrimp"
+  secondary:
+    - "Fish for shrimp at coastal areas"
+    - "Cook shrimp for healing supplies"
+    - "Complete within 30 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent fishing and cooking scenario.
+
+  OBJECTIVE: Create cooked shrimp for healing supplies.
+
+  PRODUCTION CHAIN:
+  1. Catch 4x rawshrimp from fishing spots (Level 1 fishing)
+  2. Cook 4x cookedshrimp (1x rawshrimp → 1x cookedshrimp)
+
+  FISHING LOCATIONS:
+  - Shrimp fishing spots: Coastal regions (550-600, 700-760)
+
+  COOKING:
+  - Cooking skill: 1x rawshrimp → 1x cookedshrimp
+  - Level 1 cooking required
+
+  TEAM COORDINATION:
+  - Fishers catch shrimp
+  - Cook processes raw shrimp
+  - Support helps with transfers
+
+  DO NOT use complete() until all shrimp are cooked!
+
+# Limitations
+max_action_steps: 30
+
+# Agent configurations
+agent_1:
+  username: "fisher1_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 740
+
+  skill_levels:
+    fishing: 20
+    strength: 20
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fisher2_agent"
+  new_character: true
+
+  location:
+    x: 585
+    y: 740
+
+  skill_levels:
+    fishing: 20
+    strength: 20
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "cook_agent"
+  new_character: true
+
+  location:
+    x: 590
+    y: 740
+
+  skill_levels:
+    cooking: 20
+    strength: 20
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team inventory contains at least 4x cookedshrimp"
+  - "All agents survive the mission"
