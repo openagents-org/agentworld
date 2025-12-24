@@ -1,0 +1,201 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Volcanic Forge Mastery - Extreme Heat Crafting"
+  description: "Three agents work together to establish operations in dangerous volcanic regions, harvest rare fire-resistant materials, and craft legendary equipment using volcanic forges"
+
+# Task objectives
+objectives:
+  primary: "Successfully establish volcanic forge operations, harvest rare volcanic materials, and craft a legendary fire-enchanted weapon"
+  secondary: # checkpoints
+    - "Establish extreme heat survival coordination and volcanic resource mapping"
+    - "Execute safe volcanic material harvesting and forge operations"
+    - "Complete legendary volcanic crafting within 35 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent volcanic expedition requiring extreme environment survival and advanced crafting.
+  
+  OBJECTIVE: Master dangerous volcanic environments to create legendary fire-enchanted equipment using natural volcanic forges.
+  
+  MISSION REQUIREMENTS:
+  - Navigate to Volcanic/Lava region (coordinates ≈150-250, 580-650, typical ~200, 600)
+  - Survive extreme heat environmental damage and lava hazards
+  - Harvest rare volcanic materials and fire-resistant resources
+  - Utilize volcanic forges for legendary equipment crafting
+  
+  TEAM COORDINATION:
+  - Use global chat to share safe routes through lava flows and volcanic entrances
+  - Coordinate between heat survival, material gathering, and forge operations
+  - Share heat-resistant equipment and provide mutual protection against fire damage
+  - Work together to navigate dangerous volcanic terrain and lava chambers
+  
+  GENERAL STRATEGY:
+  - The team needs to reach southwestern volcanic areas while managing heat damage
+  - Volcanic regions contain the most dangerous environmental hazards in the game
+  - Fire-based creatures and extreme heat require specialized survival tactics
+  - Volcanic forges provide unique crafting opportunities unavailable elsewhere
+  - Balance exploration with constant health management due to environmental damage
+  
+  DO NOT use complete() until ALL objectives are achieved by the team!
+  
+  VOLCANIC SURVIVAL & CRAFTING (CRITICAL KNOWLEDGE):
+  🌋 Environmental Hazards:
+    - Lava flows cause continuous fire damage to players
+    - Volcanic caves have extreme heat that drains health rapidly
+    - Use healing items constantly to counter environmental damage
+    - Plan efficient routes to minimize exposure to lava hazards
+  
+  🔥 Fire Creature Combat:
+    - Expect high-level fire-based creatures with fire immunity
+    - Fire creatures resistant to fire attacks, use ice/water magic if available
+    - Coordinate physical attacks and non-fire magic for effectiveness
+    - Use ranged combat to avoid close contact with burning enemies
+  
+  ⛏️ Volcanic Mining:
+    - harvest_resource on volcanic rock deposits for rare fire-resistant ores
+    - Volcanic regions contain unique materials unavailable elsewhere
+    - Advanced ore and rare material gathering opportunities
+    - Mining operations require constant health management due to heat
+  
+  🔨 Volcanic Forge Crafting:
+    - Volcanic forges allow creation of fire-enchanted equipment
+    - Use craft_item with special volcanic materials for legendary items
+    - Fire enchantments provide unique combat advantages
+    - Volcanic crafting requires advanced smithing skills and rare materials
+  
+  🧪 Heat Survival Strategy:
+    - Maintain maximum health levels through constant healing
+    - Use ice-based equipment for heat resistance if available
+    - Coordinate healing rotations among team members
+    - Plan quick in-and-out operations to minimize heat exposure
+
+# Limitations
+max_action_steps: 35
+
+# Agent configurations
+agent_1:
+  username: "lava_navigator_agent"
+  new_character: true
+  
+  location:
+    x: 200
+    y: 600
+  
+  skill_levels:
+    health: 60        # Maximum survivability for extreme heat
+    defense: 45       # Protection against fire damage
+    strength: 35      # Combat capability against fire creatures
+    accuracy: 30      # Combat precision in dangerous conditions
+    magic: 20         # Ice magic for heat resistance
+  
+  inventory_items:
+    - item: "flask"
+      count: 30        # Maximum healing supplies for heat damage
+    - item: "apple"
+      count: 40
+    - item: "healthpotion"
+      count: 20        # Extra healing for volcanic environment
+    - item: "manapotion"
+      count: 10
+  
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "firestaff"      # Ironically useful for fire creature detection
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "volcanic_miner_agent"
+  new_character: true
+  
+  location:
+    x: 202
+    y: 602
+  
+  skill_levels:
+    mining: 45        # Advanced mining for rare volcanic materials
+    smithing: 35      # Volcanic forge operation capability
+    health: 55        # Heat damage survival
+    strength: 40      # Heavy volcanic material transportation
+    defense: 35       # Fire creature protection
+  
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 35
+    - item: "healthpotion"
+      count: 18
+  
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "forge_master_agent"
+  new_character: true
+  
+  location:
+    x: 204
+    y: 604
+  
+  skill_levels:
+    smithing: 50      # Master-level volcanic forge crafting
+    crafting: 40      # Advanced equipment creation
+    health: 50        # Volcanic environment survival
+    strength: 35      # Equipment handling and combat
+    magic: 25         # Enchantment knowledge for fire weapons
+  
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 35
+    - item: "healthpotion"
+      count: 15
+    - item: "manapotion"
+      count: 12
+  
+  equipped_items:
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "lava_navigator_agent successfully navigates to volcanic region and establishes safe routes"
+  - "volcanic_miner_agent successfully harvests rare volcanic materials from lava region"
+  - "forge_master_agent successfully locates and utilizes volcanic forge for crafting"
+  - "Team successfully crafts fire-enchanted legendary equipment using volcanic materials"
+  - "forge_master_agent has legendary fire-enchanted weapon in inventory"
+  - "All agents survive extreme heat environmental damage throughout expedition"
+  - "Team successfully handles fire creature encounters in volcanic environment"
+  - "Volcanic forge mastery mission completed within time limit"

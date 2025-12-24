@@ -1,0 +1,302 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Cross-Region Trading Network - Multi-Biome Resource Consolidation"
+  description: "Seven agents establish a trading network across five different regions, gathering logs and consolidating iron resources for collaborative smithing"
+
+# Task objectives
+objectives:
+  primary: "Establish a cross-region trading network to gather resources from 5 different biomes and craft 3x Silver Rings, 2x Axes, and 1x Heavy Sword"
+  secondary:
+    - "Phase 1 (Rounds 1-12): Regional Resource Gathering - Forest team gathers logs, others explore biomes"
+    - "Phase 2 (Rounds 13-25): Cross-Region Travel & Trading - Consolidate materials with Crafter_Gold"
+    - "Phase 3 (Rounds 26-40): Collaborative Crafting - Create all smithing items"
+    - "Phase 4 (Rounds 41-50): Final Verification & Distribution - Complete all crafting objectives"
+
+# Context and guidance for agents
+relevant_game_context: |
+  GOAL SNAPSHOT
+  - Seven agents operate in specialized teams: Forest (logs), Mountain (exploration + ironbar transport), Coastal (exploration), and Crafter duo. After gathering logs and consolidating ironbars, meet at Central Hub (528,384) to craft: 3 silver rings, 2 axes, and 1 heavy sword within ~50 rounds.
+
+  CRAFTING REQUIREMENTS (All use Smithing skill)
+  - 3x Silver Rings: 6 ironbar total (Smithing L1)
+  - 2x Axes: 6 ironbar + 2 logs (Smithing L3)
+  - 1x Heavy Sword: 2 ironbar + 1 hilt2 (Smithing L1)
+  - TOTAL NEEDED: 14 ironbar, 2 logs, 1 hilt2
+
+  STARTING MATERIALS DISTRIBUTION
+  - Mountain_Miner_1: 5 ironbar
+  - Mountain_Miner_2: 5 ironbar
+  - Crafter_Gold: 4 ironbar, 2 hilt2
+  - TOTAL AVAILABLE: 14 ironbar, 2 hilt2 (logs must be gathered)
+
+  PHASE OUTLINE
+  1. R1-12 Gather & Explore
+     - Forest pair: Harvest 4+ logs from Western Forest (around 250,350) using lumberjacking
+     - Mountain pair: Explore Northern Mountain region (around 500,100), verify ironbar inventory
+     - Coastal_Forager: Explore Eastern Coast (around 900,400), scout the area
+     - Crafters: Prepare at starting location, coordinate via chat
+
+  2. R13-25 Travel + Transfers
+     - All teams move toward Central Hub (528,384) using ≤32 tiles per move
+     - Post coordinates in chat after each major move
+     - Transfer order:
+       * Forest → Crafter_Gold (2 logs)
+       * Mountain_Miner_1 → Crafter_Gold (5 ironbar)
+       * Mountain_Miner_2 → Crafter_Gold (5 ironbar)
+     - Use transfer_items with verify_inventory confirmations
+
+  3. R26-40 Crafting (Crafter_Gold executes all smithing)
+     - Verify inventory: should have 14 ironbar, 2 logs, 2 hilt2
+     - Craft 3x Silver Rings (craft_item skill="Smithing" itemKey="silverring" count=1, repeat 3x)
+     - Craft 2x Axes (craft_item skill="Smithing" itemKey="axe" count=1, repeat 2x)
+     - Craft 1x Heavy Sword (craft_item skill="Smithing" itemKey="sword2")
+
+  4. R41-50 Verification & Distribution
+     - Crafter_Gold verifies: 3 silverring, 2 axe, 1 sword2 in inventory
+     - Optionally distribute items to team members
+     - All agents report final status via chat
+     - Leader calls complete() with summary
+
+  EXECUTION NOTES
+  - Forest team: Look for oak trees (tree instances) in forest region, use harvest_resource
+  - All movement: Use move_character with x,y coordinates within 32 tiles of current position
+  - Transfers: Both players must be within proximity; use transfer_items function
+  - Chat regularly to coordinate: "Forest has 3/4 logs", "Moving to (x,y)", "Transfer complete"
+  - Crafter_Gold has Smithing:35, sufficient for all recipes (max requirement is L5 for pickaxe)
+
+  BIOME LOCATIONS FOR 5-REGION EXPLORATION
+  1. Western Forest: (200-350, 250-450) - Log gathering
+  2. Northern Mountains: (400-600, 50-150) - Team exploration
+  3. Eastern Coast: (850-950, 350-450) - Coastal exploration
+  4. Central Kingdom: (500-560, 350-420) - Trading hub
+  5. Southern Desert: (350-450, 650-720) - Optional exploration
+
+  COMPLETION CHECKLIST
+  - 4+ logs gathered from Western Forest
+  - All 7 agents visited at least 2 different biomes
+  - All ironbars consolidated with Crafter_Gold (14 total)
+  - Crafted items verified: 3 silver rings, 2 axes, 1 heavy sword
+  - Extensive chat coordination throughout all phases
+  - Task completed with complete() call including phase summary
+
+# Limitations
+max_action_steps: 50
+
+# Agent configurations
+agent_1:
+  username: "Forest_Gatherer_1"
+  new_character: true
+
+  location:
+    x: 180
+    y: 200
+
+  skill_levels:
+    lumberjacking: 30
+    strength: 20
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "Forest_Gatherer_2"
+  new_character: true
+
+  location:
+    x: 185
+    y: 200
+
+  skill_levels:
+    lumberjacking: 25
+    strength: 20
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "Mountain_Miner_1"
+  new_character: true
+
+  location:
+    x: 190
+    y: 200
+
+  skill_levels:
+    mining: 35
+    strength: 25
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "ironbar"
+      count: 5
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "Mountain_Miner_2"
+  new_character: true
+
+  location:
+    x: 180
+    y: 205
+
+  skill_levels:
+    mining: 30
+    strength: 25
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "ironbar"
+      count: 5
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "Coastal_Forager"
+  new_character: true
+
+  location:
+    x: 185
+    y: 205
+
+  skill_levels:
+    foraging: 25
+    accuracy: 20
+    strength: 25
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "Crafter_Gold"
+  new_character: true
+
+  location:
+    x: 190
+    y: 205
+
+  skill_levels:
+    smithing: 35
+    crafting: 20
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "hilt2"
+      count: 2
+    - item: "ironbar"
+      count: 4
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "Crafter_Magic"
+  new_character: true
+
+  location:
+    x: 180
+    y: 210
+
+  skill_levels:
+    crafting: 40
+    fletching: 30
+    magic: 25
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "Phase 1: Forest Team gathers 4+ logs from Western Forest region"
+  - "Phase 1: Mountain Team explores Northern Mountain region and verifies ironbar inventory"
+  - "Phase 1: Coastal_Forager explores Eastern Coast region"
+  - "Phase 1: All teams visit at least 2 different biomes during exploration"
+  - "Phase 2: All teams travel to Central Hub (528, 384) covering significant distance"
+  - "Phase 2: Teams execute sequential transfer protocol without deadlocks"
+  - "Phase 2: Forest team transfers 2 logs to Crafter_Gold"
+  - "Phase 2: Mountain_Miner_1 transfers 5 ironbar to Crafter_Gold"
+  - "Phase 2: Mountain_Miner_2 transfers 5 ironbar to Crafter_Gold"
+  - "Phase 2: Crafter_Gold consolidates: 14 ironbar, 2 logs, 2 hilt2"
+  - "Phase 3: Crafter_Gold crafts exactly 3x Silver Rings (using 6 ironbar)"
+  - "Phase 3: Crafter_Gold crafts exactly 2x Axes (using 6 ironbar + 2 logs)"
+  - "Phase 3: Crafter_Gold crafts exactly 1x Heavy Sword (using 2 ironbar + 1 hilt2)"
+  - "Phase 4: Final verification confirms 3 silver rings, 2 axes, 1 heavy sword"
+  - "All agents use chat extensively throughout all 4 phases for coordination"
+  - "All transfers completed successfully using transfer_items function"
+  - "Task completed in 45-50 rounds demonstrating efficient cross-region coordination"
+  - "Trading network successfully established across 5 different biomes"

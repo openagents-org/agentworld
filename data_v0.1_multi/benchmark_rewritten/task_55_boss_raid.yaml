@@ -1,0 +1,208 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Boss Raid - Wizard and Spectre Hunt"
+  description: "Five agents raid multiple bosses in coordinated combat"
+
+# Task objectives
+objectives:
+  primary: "Defeat the Ancient Wizard at (163, 339) and the Hermit Crab Warrior at (224, 359)"
+  secondary:
+    - "Prepare team with equipment"
+    - "Execute coordinated boss attacks"
+    - "Complete raid within 45 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent boss raid scenario.
+
+  OBJECTIVE: Defeat two dangerous bosses in sequence.
+
+  TARGET BOSSES:
+  - Ancient Wizard (Level 10): Located at magical region (163, 339)
+  - Hermit Crab Warrior (Level 30): Located at coastal region (224, 359)
+
+  COMBAT STRATEGY:
+  - Ancient Wizard: Magic attacks, spread out to avoid AoE
+  - Hermit Crab Warrior: Heavy armor, use crush damage
+
+  RAID ORDER:
+  1. First defeat Ancient Wizard (easier target)
+  2. Then move to Hermit Crab Warrior location
+  3. Coordinate attacks on Hermit Crab Warrior
+
+  TEAM ROLES:
+  - Tank: Draw aggro
+  - DPS: Deal damage
+  - Mage: Magic support
+  - Archer: Ranged damage
+  - Healer: Keep team alive
+
+  DO NOT use complete() until both bosses are defeated!
+
+# Limitations
+max_action_steps: 45
+
+# Agent configurations
+agent_1:
+  username: "tank_agent"
+  new_character: true
+
+  location:
+    x: 163
+    y: 339
+
+  skill_levels:
+    strength: 50
+    defense: 55
+    health: 65
+    accuracy: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 1
+    - item: "platearmor"
+      count: 1
+      enchant: 1
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "dps_agent"
+  new_character: true
+
+  location:
+    x: 165
+    y: 341
+
+  skill_levels:
+    strength: 55
+    accuracy: 45
+    health: 50
+    defense: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 1
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "mage_agent"
+  new_character: true
+
+  location:
+    x: 161
+    y: 337
+
+  skill_levels:
+    magic: 55
+    health: 50
+    defense: 30
+    accuracy: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "archer_agent"
+  new_character: true
+
+  location:
+    x: 167
+    y: 343
+
+  skill_levels:
+    archery: 50
+    accuracy: 55
+    health: 45
+    defense: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "arrow"
+      count: 60
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 1
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "support_agent"
+  new_character: true
+
+  location:
+    x: 159
+    y: 335
+
+  skill_levels:
+    magic: 45
+    health: 55
+    defense: 40
+    strength: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Ancient Wizard at (163, 339) is defeated"
+  - "Hermit Crab Warrior at (224, 359) is defeated"
+  - "All agents survive the raid"

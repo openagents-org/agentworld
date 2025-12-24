@@ -1,0 +1,135 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Enchanted Staff Workshop - Lightning Staff Creation"
+  description: "Three agents work together to craft a Lightning Staff through coordinated gathering and crafting"
+
+# Task objectives
+objectives:
+  primary: "Craft 1x Lightning Staff by gathering materials and coordinating crafting operations"
+  secondary:
+    - "Gather logs and craft sticks for staff base"
+    - "Obtain bead and lightning bead for enchantment"
+    - "Complete crafting within 30 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent magical crafting scenario.
+
+  OBJECTIVE: Create a Lightning Staff through coordinated material gathering and crafting.
+
+  CRAFTING CHAIN:
+  1. Harvest 2x logs from Oak trees
+  2. Craft logs into sticks (1x logs → 4x stick)
+  3. Craft basic staff (5x stick + 1x bead → 1x staff)
+  4. Upgrade to Lightning Staff (1x staff + 1x lightningbead → 1x lightningstaff)
+
+  MATERIAL SOURCES:
+  - Logs: Oak trees in forest region
+  - Bead: Provided in inventory
+  - Lightning Bead: Provided in inventory
+
+  TEAM COORDINATION:
+  - Lumberjack gathers logs
+  - Crafter makes sticks and staff
+  - Enchanter upgrades to lightning staff
+
+  DO NOT use complete() until Lightning Staff is crafted!
+
+# Limitations
+max_action_steps: 30
+
+# Agent configurations
+agent_1:
+  username: "lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 25
+    strength: 25
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "crafter_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 10
+
+  skill_levels:
+    fletching: 20
+    crafting: 25
+    strength: 20
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "bead"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "enchanter_agent"
+  new_character: true
+
+  location:
+    x: 392
+    y: 10
+
+  skill_levels:
+    crafting: 30
+    magic: 25
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "lightningbead"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team inventory contains 1x lightningstaff"
+  - "All agents survive the mission"

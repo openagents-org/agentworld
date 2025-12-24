@@ -1,0 +1,138 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Elite Skeleton Hunt - Undead Elimination"
+  description: "Three agents work together to hunt and defeat skeletons"
+
+# Task objectives
+objectives:
+  primary: "Defeat 3x Skeletons and collect 3x logs"
+  secondary:
+    - "Locate skeleton spawns in dark regions"
+    - "Execute coordinated combat and gathering"
+    - "Complete hunt within 30 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent combat and gathering scenario.
+
+  OBJECTIVE: Hunt skeletons and gather resources.
+
+  TARGETS:
+  - Defeat 3x Skeletons (Level 14, 140 HP each)
+  - Collect 3x logs from nearby Oak trees
+  - Skeletons drop: sword2 (heavy sword)
+
+  COMBAT TACTICS:
+  - Skeletons are undead melee fighters
+  - Use coordinated attacks to take them down quickly
+  - One agent can gather while others fight
+
+  SKELETON LOCATIONS:
+  - Found in wilderness and dark forest regions
+  - Often near ancient ruins areas
+
+  DO NOT use complete() until all objectives are met!
+
+# Limitations
+max_action_steps: 30
+
+# Agent configurations
+agent_1:
+  username: "warrior_agent"
+  new_character: true
+
+  location:
+    x: 500
+    y: 400
+
+  skill_levels:
+    strength: 45
+    defense: 40
+    health: 55
+    accuracy: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fighter_agent"
+  new_character: true
+
+  location:
+    x: 505
+    y: 400
+
+  skill_levels:
+    strength: 40
+    accuracy: 35
+    health: 50
+    defense: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "gatherer_agent"
+  new_character: true
+
+  location:
+    x: 510
+    y: 400
+
+  skill_levels:
+    lumberjacking: 25
+    strength: 30
+    health: 40
+    defense: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "3x Skeletons are defeated"
+  - "Team inventory contains at least 3x logs"
+  - "All agents survive the hunt"

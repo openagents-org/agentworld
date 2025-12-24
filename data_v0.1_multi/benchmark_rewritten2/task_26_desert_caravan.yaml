@@ -1,0 +1,193 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Desert Caravan Expedition - Resource Gathering and Team Exchange"
+  description: "Three agents work together to navigate to the southern desert region, gather rare desert resources through mining and combat, and share resources through coordinated team exchanges"
+
+# Task objectives
+objectives:
+  primary: "Successfully reach the desert region, gather rare desert materials through mining and combat, and complete coordinated resource exchanges between team members"
+  secondary: # checkpoints
+    - "Navigate team to the Southern Desert region (Y > 600)"
+    - "Gather desert resources through mining rocks and defeating desert creatures"
+    - "Complete resource exchanges between agents using transfer_items"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent desert expedition requiring navigation, resource gathering, and team coordination.
+
+  OBJECTIVE: Navigate to the desert, gather valuable resources, and share them between team members.
+
+  MISSION REQUIREMENTS:
+  - Navigate to Southern Desert region (coordinates approximately Y > 600)
+  - Gather desert resources through mining (rocks/ores) and combat (desert creatures)
+  - Share gathered resources between team members using transfer_items tool
+  - Coordinate movements and activities via global chat
+
+  TEAM COORDINATION:
+  - Use chat tool to communicate locations and coordinate movements
+  - Use transfer_items to share gathered resources between agents
+  - Coordinate combat against desert creatures for safety
+  - Share supplies (flasks, apples) if needed for survival
+
+  NAVIGATION STRATEGY:
+  - Starting position is around (180-190, 200) in the northern area
+  - Southern Desert is at Y coordinates 600-768
+  - Move in increments of up to 32 tiles per move_character call
+  - Coordinate team movement to stay together for safety
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  DESERT RESOURCE GATHERING (CRITICAL KNOWLEDGE):
+  ⛏️ Mining Operations:
+    - resource_gatherer_agent has mining:25 skill and pickaxe equipped
+    - Can mine Gold ore (level 25), Pythar ore (level 15), and lower level ores
+    - Use observe_environment to find rocks in the desert region
+    - Use harvest_resource with the rock's instance ID to mine
+
+  🌵 Desert Combat:
+    - Cactus (level 16): Drops cactusaxe - always aggressive
+    - Desert Scorpion (level 24): Drops steelboots
+    - Scorpion (level 38): Found in desert areas
+    - Vulture (level 25): Drops feathers (8000/10000 rate)
+    - Use attack_entity with mob instance ID to attack
+
+  📦 Resource Exchange:
+    - Use transfer_items tool to share resources between agents
+    - Parameters: targetPlayer (username), itemKey (item name), count (number)
+    - Example: transfer_items to "desert_trader_agent" with itemKey "goldnugget" count 5
+
+  💬 Team Communication:
+    - Use chat tool to broadcast messages to all team members
+    - Coordinate who gathers what and where to meet
+    - Share locations of valuable resources found
+
+  STEP-BY-STEP APPROACH:
+  1. All agents use chat to coordinate the expedition plan
+  2. Move south together in 32-tile increments toward desert (Y > 600)
+  3. Once in desert, locate resources (rocks, desert creatures)
+  4. resource_gatherer mines rocks for ores
+  5. Combat agents attack desert creatures for drops
+  6. Use transfer_items to share gathered resources between team
+  7. Call complete() after resources are gathered and exchanged
+
+# Limitations
+max_action_steps: 50
+
+# Agent configurations
+agent_1:
+  username: "caravan_leader_agent"
+  new_character: true
+
+  location:
+    x: 180
+    y: 200
+
+  skill_levels:
+    strength: 35      # Combat capability for desert creatures
+    health: 45        # Survival in harsh conditions
+    defense: 30       # Protection against desert creatures
+    accuracy: 25      # Combat accuracy
+    crafting: 20      # Basic crafting capability
+
+  inventory_items:
+    - item: "flask"
+      count: 30        # Health supplies
+    - item: "apple"
+      count: 35        # Food supplies
+    - item: "healthpotion"
+      count: 10
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "bow"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "desert_trader_agent"
+  new_character: true
+
+  location:
+    x: 185
+    y: 200
+
+  skill_levels:
+    crafting: 30      # Can craft items from gathered resources
+    strength: 30      # Combat and carrying capacity
+    health: 40        # Expedition endurance
+    accuracy: 20      # Basic combat capability
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "goldnugget"  # Starting trade goods for exchange
+      count: 10
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "resource_gatherer_agent"
+  new_character: true
+
+  location:
+    x: 190
+    y: 200
+
+  skill_levels:
+    mining: 25        # Can mine gold ore (level 25) and below
+    foraging: 20      # Plant gathering capability
+    strength: 40      # Combat and heavy resource transport
+    health: 45        # Desert survival capability
+    accuracy: 25      # Combat accuracy
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "healthpotion"
+      count: 8
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "All agents successfully navigate to the Southern Desert region (Y coordinate > 600)"
+  - "resource_gatherer_agent successfully mines at least one rock/ore deposit in the desert"
+  - "At least one agent successfully defeats a desert creature (cactus, scorpion, or vulture)"
+  - "At least one successful resource transfer between agents using transfer_items tool"
+  - "Team coordinates via chat tool at least 3 times during the expedition"
+  - "All agents survive the desert expedition"
+  - "Mission completed within the step limit"

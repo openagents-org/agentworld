@@ -1,0 +1,145 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Cooperative Shrimp Cooking - Seafood Culinary Team"
+  description: "Three agents work together to prepare cooked shrimp through fishing, fuel gathering, and cooking"
+
+# Task objectives
+objectives:
+  primary: "Prepare cooked shrimp through coordinated fishing operations and culinary preparation"
+  secondary: # checkpoints
+    - "Execute successful fishing operations for fresh seafood"
+    - "Coordinate cooking fuel preparation and culinary setup"
+    - "Complete seafood cooking within 25 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent seafood cooking scenario.
+
+  OBJECTIVE: Cook the raw shrimp that seafood_chef_agent already has in inventory.
+
+  CRITICAL: seafood_chef_agent ALREADY HAS 5x rawshrimp in inventory!
+
+  TEAM COORDINATION:
+  - Use global chat to coordinate
+  - seafood_chef_agent should cook the shrimp immediately
+  - Other agents can assist or observe
+
+  COOKING RECIPE (CRITICAL - USE THIS EXACT COMMAND):
+  🍤 Cooking Recipe - cookedshrimp:
+    - Command: craft_item skill=Cooking itemKey=cookedshrimp
+    - Materials: 1x rawshrimp → 1x cookedshrimp
+    - Level required: 1 (Cooking skill)
+    - seafood_chef_agent has Cooking skill and rawshrimp ready!
+
+  SIMPLE STEPS:
+  1. seafood_chef_agent should use: craft_item skill=Cooking itemKey=cookedshrimp
+  2. This will convert 1 rawshrimp into 1 cookedshrimp
+  3. Repeat if needed to cook more shrimp
+  4. Once at least 1 cookedshrimp exists, the team can complete()
+
+  DO NOT use complete() until cookedshrimp is in inventory!
+
+# Limitations
+max_action_steps: 25
+
+# Agent configurations
+agent_1:
+  username: "fisherman_agent"
+  new_character: true
+  
+  location:
+    x: 200
+    y: 200
+  
+  skill_levels:
+    fishing: 25       # Required for shrimp fishing
+    strength: 25
+    health: 25
+  
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+  
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+  
+agent_2:
+  username: "fuel_gatherer_agent"
+  new_character: true
+  
+  location:
+    x: 205
+    y: 200
+  
+  skill_levels:
+    foraging: 20      # For fuel material gathering
+    lumberjacking: 15 # For wood fuel if needed
+    strength: 25
+    health: 25
+  
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+  
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+  
+agent_3:
+  username: "seafood_chef_agent"
+  new_character: true
+
+  location:
+    x: 210
+    y: 200
+
+  skill_levels:
+    cooking: 20       # Required for shrimp cooking (level 1+)
+    fishing: 10       # Seafood knowledge
+    strength: 20
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+    - item: "rawshrimp"
+      count: 5
+  
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+  
+# Success criteria for multi-agent task
+success_criteria:
+  - "fisherman_agent successfully catches and transfers fresh shrimp"
+  - "fuel_gatherer_agent successfully provides cooking support"
+  - "seafood_chef_agent receives shrimp and cooks successfully"
+  - "seafood_chef_agent successfully prepares cooked shrimp"
+  - "All agents coordinate seafood operations effectively"
+  - "Fresh seafood cooking completes within time limit"

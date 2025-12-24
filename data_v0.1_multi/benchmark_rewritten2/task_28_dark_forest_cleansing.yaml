@@ -1,0 +1,193 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Dark Forest Cleansing - Dark Wolf Hunt"
+  description: "Three agents work together to hunt down and defeat the Dark Wolf boss in the dark forest region, collecting its valuable drops as proof of victory"
+
+# Task objectives
+objectives:
+  primary: "Successfully cleanse the dark forest by defeating the Dark Wolf boss and collecting its drops"
+  secondary: # checkpoints
+    - "Coordinate team positions around the Dark Wolf location"
+    - "Execute coordinated combat attack on the Dark Wolf boss"
+    - "Collect Dark Wolf drops and ensure all agents survive"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent boss hunting mission requiring coordinated combat in the dark forest.
+
+  OBJECTIVE: Hunt and defeat the powerful Dark Wolf boss to cleanse the dark forest of its threat.
+
+  MISSION REQUIREMENTS:
+  - Locate the Dark Wolf boss at coordinates (1016, 682) in the Dark Forest region
+  - Coordinate a team attack to defeat the Dark Wolf
+  - Collect the Dark Wolf's drops (wolfarmor) as proof of victory
+  - Ensure all team members survive the encounter
+
+  TEAM COORDINATION:
+  - Use global chat to coordinate attack timing and positioning
+  - Assign combat roles: primary attacker, support, backup
+  - Share health status and call for healing support when needed
+  - Coordinate equipment usage for maximum effectiveness
+
+  GENERAL STRATEGY:
+  - All agents start near the Dark Wolf location for quick engagement
+  - Use attack_entity with the Dark Wolf's instance ID to engage in combat
+  - The Dark Wolf has approximately 1050 HP - coordinate attacks for faster kill
+  - After defeating the boss, use pickup_resource to collect dropped items
+  - Use healthpotion or manapotion if HP/MP gets low during combat
+
+  DO NOT use complete() until the Dark Wolf is defeated and drops are collected!
+
+  DARK WOLF COMBAT (CRITICAL KNOWLEDGE):
+  🐺 Boss Information - Dark Wolf:
+    - Location: coordinates (1016, 682) in Dark Forest region
+    - The Dark Wolf is a miniboss with enhanced HP (approximately 1050 HP)
+    - Drops: wolfarmor (valuable armor drop)
+    - Use observe_environment to find the Dark Wolf's instance ID
+    - Use attack_entity with the instance ID to attack
+
+  ⚔️ Combat Strategy:
+    - Have all three agents attack the Dark Wolf for faster kill
+    - The attack_entity tool automatically handles positioning and looting
+    - Monitor HP during combat - use healthpotion if below 50% HP
+    - Coordinate via chat to ensure synchronized attacks
+
+  🎒 Equipment Recommendations:
+    - shadow_hunter_agent: Use bluesword for melee combat
+    - forest_guardian_agent: Use firestaff for magical attacks
+    - light_bringer_agent: Use lightningstaff for powerful magic damage
+    - Equip armor before engaging (platearmor/leatherarmor)
+
+  📦 Loot Collection:
+    - After Dark Wolf dies, drops will appear on the ground
+    - Use pickup_resource to collect the wolfarmor drop
+    - Any agent can collect the loot
+
+# Limitations
+max_action_steps: 34
+
+# Agent configurations
+agent_1:
+  username: "shadow_hunter_agent"
+  new_character: true
+
+  location:
+    x: 1000
+    y: 680
+
+  skill_levels:
+    strength: 45      # High combat power for boss encounter
+    accuracy: 40      # Precision attacks
+    magic: 35         # Magical combat capability
+    health: 50        # High survivability
+    defense: 35       # Protection against boss attacks
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "healthpotion"
+      count: 15
+    - item: "manapotion"
+      count: 12
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "forest_guardian_agent"
+  new_character: true
+
+  location:
+    x: 1020
+    y: 690
+
+  skill_levels:
+    magic: 45         # Strong magical attacks
+    lumberjacking: 25 # Forest knowledge
+    health: 45        # Good survivability
+    strength: 30      # Combat support capability
+    defense: 30       # Decent protection
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "healthpotion"
+      count: 12
+    - item: "manapotion"
+      count: 15
+
+  equipped_items:
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "light_bringer_agent"
+  new_character: true
+
+  location:
+    x: 1010
+    y: 670
+
+  skill_levels:
+    magic: 50         # Highest magical power
+    accuracy: 35      # Magical combat precision
+    health: 45        # Good survivability
+    strength: 25      # Basic physical combat
+    defense: 35       # Good protection
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "healthpotion"
+      count: 15
+    - item: "manapotion"
+      count: 20
+
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+
+# Success criteria (all must be verifiable with game mechanics)
+success_criteria:
+  - "Team locates the Dark Wolf boss at (1016, 682)"
+  - "At least one agent successfully attacks and defeats the Dark Wolf"
+  - "Team collects the Dark Wolf's dropped items (wolfarmor)"
+  - "All agents survive the Dark Wolf encounter with HP > 0"

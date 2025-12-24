@@ -1,0 +1,136 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Woodworking Production - Bow and Arrow Workshop"
+  description: "Three agents work together to harvest lumber and produce archery equipment"
+
+# Task objectives
+objectives:
+  primary: "Harvest 6x logs, craft 1x Wooden Bow, and produce 10x Arrows through coordinated woodworking"
+  secondary:
+    - "Gather lumber from oak trees in the forest region"
+    - "Process logs into sticks and craft bow"
+    - "Complete production within 30 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent crafting scenario focused on archery equipment production.
+
+  OBJECTIVE: Produce archery equipment through coordinated lumber gathering and crafting.
+
+  PRODUCTION TARGETS:
+  - Harvest 6x logs from Oak trees
+  - Craft 1x Wooden Bow (1x logs + 1x string)
+  - Craft 10x Arrows (10x stick + 10x feather = 10x arrows)
+
+  CRAFTING RECIPES:
+  - Fletching: 1x logs → 4x stick
+  - Fletching: 1x logs + 1x string → 1x Wooden Bow
+  - Fletching: 10x stick + 10x feather → 10x Arrow
+
+  TEAM COORDINATION:
+  - Lumberjack gathers logs from Oak trees
+  - Fletcher processes logs into sticks and crafts items
+  - Coordinator manages material transfers and tracks progress
+
+  DO NOT use complete() until all items are crafted!
+
+# Limitations
+max_action_steps: 30
+
+# Agent configurations
+agent_1:
+  username: "lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 30
+    strength: 30
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fletcher_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 10
+
+  skill_levels:
+    fletching: 25
+    crafting: 20
+    strength: 20
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "string"
+      count: 2
+    - item: "feather"
+      count: 15
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "coordinator_agent"
+  new_character: true
+
+  location:
+    x: 392
+    y: 10
+
+  skill_levels:
+    fletching: 15
+    strength: 25
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team inventory contains at least 6x logs harvested"
+  - "Team inventory contains 1x woodenbow"
+  - "Team inventory contains 10x arrow"
+  - "All agents survive the mission"

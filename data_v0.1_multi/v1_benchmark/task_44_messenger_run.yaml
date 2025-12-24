@@ -1,0 +1,134 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Messenger Run - Resource Delivery"
+  description: "Three agents work together to gather resources and deliver them to a meeting point"
+
+# Task objectives
+objectives:
+  primary: "Gather 3x logs, 2x coal, and transfer all to one designated agent"
+  secondary:
+    - "Gather resources from different locations"
+    - "Meet at central location for transfer"
+    - "Complete delivery within 28 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent delivery scenario.
+
+  OBJECTIVE: Gather resources and consolidate with one agent.
+
+  COLLECTION TARGETS:
+  - 3x logs (from Oak trees)
+  - 2x coal (from Coal rocks)
+
+  DELIVERY REQUIREMENT:
+  - All resources must be transferred to coordinator_agent
+  - Use transfer_items to hand over materials
+
+  RESOURCE LOCATIONS:
+  - Oak trees: Forest regions (380-400, 0-50)
+  - Coal rocks: Mountain regions (200-250, 30-60)
+
+  TEAM COORDINATION:
+  - Lumberjack gathers logs
+  - Miner gathers coal
+  - Coordinator receives all items at meeting point (300, 100)
+
+  DO NOT use complete() until coordinator has all resources!
+
+# Limitations
+max_action_steps: 28
+
+# Agent configurations
+agent_1:
+  username: "lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 25
+    strength: 25
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "miner_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 45
+
+  skill_levels:
+    mining: 20
+    strength: 25
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "coordinator_agent"
+  new_character: true
+
+  location:
+    x: 300
+    y: 100
+
+  skill_levels:
+    strength: 20
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "coordinator_agent inventory contains at least 3x logs"
+  - "coordinator_agent inventory contains at least 2x coal"
+  - "All agents survive the mission"

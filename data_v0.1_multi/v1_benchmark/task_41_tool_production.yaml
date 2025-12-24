@@ -1,0 +1,140 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Tool Production - Pickaxe and Axe Crafting"
+  description: "Three agents work together to mine ore, smelt bars, and craft tools"
+
+# Task objectives
+objectives:
+  primary: "Craft 1x Pickaxe and 1x Axe through coordinated mining and smithing"
+  secondary:
+    - "Mine iron ore and coal"
+    - "Smelt iron bars"
+    - "Craft tools within 35 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent tool crafting scenario.
+
+  OBJECTIVE: Create essential tools through mining and smithing.
+
+  PRODUCTION CHAIN:
+  1. Mine 8x ironore from Iron rocks (Level 20 mining)
+  2. Mine 8x coal from Coal rocks (Level 1 mining)
+  3. Smelt 8x ironbar (1x ironore + 1x coal → 1x ironbar)
+  4. Gather 2x logs from Oak trees
+  5. Craft 1x pickaxe (5x ironbar + 1x logs)
+  6. Craft 1x axe (3x ironbar + 1x logs)
+
+  RESOURCE LOCATIONS:
+  - Iron rocks: Mountain regions (200-250, 30-60)
+  - Coal rocks: Mountain regions
+  - Oak trees: Forest regions (380-400, 0-50)
+
+  TEAM COORDINATION:
+  - Miners gather ore and coal
+  - Smith smelts and crafts
+  - Lumberjack provides logs
+
+  DO NOT use complete() until both tools are crafted!
+
+# Limitations
+max_action_steps: 35
+
+# Agent configurations
+agent_1:
+  username: "miner_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 45
+
+  skill_levels:
+    mining: 25
+    strength: 30
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "smith_agent"
+  new_character: true
+
+  location:
+    x: 235
+    y: 45
+
+  skill_levels:
+    smithing: 25
+    mining: 20
+    strength: 25
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 25
+    strength: 25
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team inventory contains 1x pickaxe (newly crafted)"
+  - "Team inventory contains 1x axe (newly crafted)"
+  - "All agents survive the mission"

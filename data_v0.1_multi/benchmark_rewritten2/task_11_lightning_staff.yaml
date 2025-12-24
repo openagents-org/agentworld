@@ -1,0 +1,155 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Cooperative Lightning Staff Enhancement - Advanced Magic Crafting"
+  description: "Three agents work together to create an enhanced lightning staff through basic staff crafting and magical enhancement"
+
+# Task objectives
+objectives:
+  primary: "Create a lightning staff through coordinated magic staff creation and elemental enhancement"
+  secondary: # checkpoints
+    - "Coordinate basic magic staff production and enhancement materials"
+    - "Execute advanced magical enhancement techniques"
+    - "Complete high-level magic weapon crafting within 25 rounds"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent advanced magic crafting scenario requiring elemental materials.
+
+  OBJECTIVE: Create a lightning staff through coordinated basic magic staff creation and advanced elemental enhancement.
+
+  TEAM COORDINATION:
+  - Use global chat to share locations of magical and elemental resources
+  - Coordinate between basic crafting and advanced magical enhancement
+  - Share materials and magical components for weapon enhancement
+  - Work together to complete high-level magic weapon crafting
+
+  GENERAL STRATEGY:
+  - The team needs to create a basic magic staff foundation
+  - The elemental gatherer has the rare lightning bead needed for enhancement
+  - Advanced magical enhancement requires combining basic staff with elemental components
+  - Final enhancement requires advanced crafting expertise and magical knowledge
+  - Coordinate basic crafting with specialized magical enhancement operations
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  CRAFTING RECIPES (CRITICAL KNOWLEDGE):
+  🪄 Fletching Recipe - stick:
+    - craft_item skill=Fletching itemKey=stick
+    - Materials: 1x logs → 4x stick
+    - Level required: 1 (Fletching skill)
+
+  ⚡ Crafting Recipe - staff:
+    - craft_item skill=Crafting itemKey=staff
+    - Materials: 5x stick + 1x bead → 1x staff
+    - Level required: 1 (Crafting skill)
+
+  ⚡ Crafting Recipe - lightningstaff:
+    - craft_item skill=Crafting itemKey=lightningstaff
+    - Materials: 1x staff + 1x lightningbead → 1x lightningstaff
+    - Level required: 10 (Crafting skill) - ADVANCED!
+
+# Limitations
+max_action_steps: 25
+
+# Agent configurations
+agent_1:
+  username: "staff_crafter_agent"
+  new_character: true
+
+  location:
+    x: 180
+    y: 200
+
+  skill_levels:
+    lumberjacking: 20
+    fletching: 15
+    crafting: 15      # For basic staff creation
+    strength: 25
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+    - item: "bead"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "elemental_gatherer_agent"
+  new_character: true
+
+  location:
+    x: 185
+    y: 200
+
+  skill_levels:
+    foraging: 25      # For magical material search
+    magic: 20         # Elemental affinity
+    strength: 20
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+    - item: "lightningbead"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "magic_enhancer_agent"
+  new_character: true
+
+  location:
+    x: 190
+    y: 200
+
+  skill_levels:
+    crafting: 25      # Required for lightning staff (level 10+)
+    magic: 30         # Advanced magical knowledge
+    strength: 20
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "staff_crafter_agent successfully creates and transfers basic magic staff"
+  - "elemental_gatherer_agent successfully transfers lightning bead to magic_enhancer_agent"
+  - "magic_enhancer_agent receives components and crafts lightning staff"
+  - "magic_enhancer_agent successfully equips the lightning staff"
+  - "All agents coordinate advanced magical operations effectively"
+  - "High-level magic weapon enhancement completes within time limit"
