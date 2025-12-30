@@ -492,7 +492,7 @@ export default class Mob extends Character {
      */
 
     public canAggro(player: Player): boolean {
-        return false; // TODO: Remove this once we have a proper aggro system.
+        // return false; // TODO: Remove this once we have a proper aggro system.
         // Skip if mob has a target or the player targeted isn't fully loaded yet.
         if (!player.ready) return false;
 

@@ -9,7 +9,6 @@ from qwen_agent import QwenAgent
 from openai_agent import OpenAIAgent
 from claude_agent import ClaudeAgent
 from deepseek_agent import DeepSeekAgent
-from deepseek_local_agent import DeepSeekLocalAgent
 
 
 class AgentFactory:
@@ -83,6 +82,8 @@ class AgentFactory:
             return DeepSeekAgent(api_key=api_key, model=default_model, username=username, password=password, base_url=base_url, dump_prompts=dump_prompts)
         
         elif provider == "deepseek_local":
+            # Lazy import to avoid requiring vllm when not using local model
+            from deepseek_local_agent import DeepSeekLocalAgent
             default_model = model or "deepseek-ai/DeepSeek-R1-Distill-Llama-70B"
             return DeepSeekLocalAgent(
                 model=default_model,
