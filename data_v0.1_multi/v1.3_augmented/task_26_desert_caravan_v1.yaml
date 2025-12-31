@@ -1,0 +1,160 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_26_desert_caravan.yaml
+
+task:
+  name: "Desert Caravan Expedition - Resource Gathering and Team Exchange (Easier)"
+  description: "Three agents work together with pre-gathered resources to navigate desert and complete resource exchanges"
+
+objectives:
+  primary: "Successfully reach the desert region and complete resource exchanges with pre-gathered materials"
+
+relevant_game_context: |
+  This is a cooperative multi-agent desert expedition with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - resource_gatherer_agent starts with 2x goldore already mined
+  - desert_trader_agent has 15x goldnugget for trading
+  - Higher skill levels for safer combat
+  - More consumables for desert survival
+  - Reduced travel required - closer starting position
+  - No combat requirement - just resource exchanges
+
+  OBJECTIVE: Navigate to desert and complete resource exchanges between team members.
+
+  MISSION REQUIREMENTS:
+  - Navigate to Southern Desert region (Y > 600)
+  - Complete at least 2 resource transfers between team members
+  - Coordinate movements via chat
+
+  TEAM COORDINATION:
+  - Use chat tool to communicate locations
+  - Use transfer_items to share gathered resources
+  - Share supplies if needed for survival
+
+  DO NOT use complete() until resource exchanges are completed!
+
+  RESOURCE EXCHANGE:
+  📦 Transfer Items:
+    - Use transfer_items tool to share resources
+    - Parameters: targetPlayer (username), itemKey, count
+    - Example: transfer goldore to desert_trader_agent
+
+max_action_steps: 28
+
+agent_1:
+  username: "caravan_leader_agent"
+  new_character: true
+
+  location:
+    x: 180
+    y: 550
+
+  skill_levels:
+    strength: 42
+    health: 52
+    defense: 35
+    accuracy: 30
+    crafting: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+    - item: "healthpotion"
+      count: 15
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "bow"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "desert_trader_agent"
+  new_character: true
+
+  location:
+    x: 185
+    y: 550
+
+  skill_levels:
+    crafting: 35
+    strength: 35
+    health: 45
+    accuracy: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "goldnugget"
+      count: 15
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "resource_gatherer_agent"
+  new_character: true
+
+  location:
+    x: 190
+    y: 550
+
+  skill_levels:
+    mining: 32
+    foraging: 25
+    strength: 45
+    health: 52
+    accuracy: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "healthpotion"
+      count: 12
+    - item: "goldore"
+      count: 2
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "All agents successfully navigate to Southern Desert region (Y > 600)"
+  - "At least one resource transfer between agents using transfer_items"
+  - "desert_trader_agent transfers goldnugget to another agent"
+  - "resource_gatherer_agent transfers goldore to another agent"
+  - "Team coordinates via chat at least 2 times"
+  - "All agents survive the desert expedition"

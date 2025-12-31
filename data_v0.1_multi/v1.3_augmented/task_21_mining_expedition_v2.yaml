@@ -1,0 +1,194 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets, added 4th agent
+# SOURCE: task_21_mining_expedition.yaml
+
+task:
+  name: "Deep Mining Expedition - Precious Metal Extraction (Harder)"
+  description: "Four agents work together to mine multiple gold ores and craft two golden rings in a challenging mining operation"
+
+objectives:
+  primary: "Successfully mine multiple gold ores and craft 2x golden rings through coordinated mining and advanced smithing"
+
+relevant_game_context: |
+  This is a cooperative multi-agent mining expedition with increased difficulty.
+
+  CHALLENGE MODE:
+  - Must craft 2x golden rings (doubled target!)
+  - Need to mine 2x goldore from scratch (no pre-gathered materials)
+  - Need 2x coal for smelting operations
+  - Added 4th agent (mining_support_agent) for better coordination
+  - Reduced consumables - manage resources carefully
+
+  OBJECTIVE: Establish mining operations to extract multiple gold ores and craft 2 golden rings.
+
+  MISSION REQUIREMENTS:
+  - Find and extract 2x Gold Ore from Gold Rock deposits (very rare!)
+  - Gather 2x Coal for smelting operations
+  - Smelt 2x Gold Bars using advanced smithing
+  - Craft 2x Golden Rings as proof of successful mining operation
+  - Coordinate heavy ore transportation between team members
+
+  TEAM COORDINATION:
+  - Use global chat to share locations of rare ore deposits
+  - Coordinate between exploration, extraction, and processing
+  - Share heavy materials efficiently
+  - Two miners can cover more ground to find rare gold deposits
+
+  DO NOT use complete() until BOTH golden rings are crafted!
+
+  MINING & CRAFTING RECIPES (CRITICAL KNOWLEDGE):
+  ⛏️ Mining - Gold Ore (RARE):
+    - harvest_resource on Gold Rock instances to get goldore
+    - Level required: 30+ (Mining skill) - ADVANCED MINING!
+    - RARE: Gold Rocks are much scarcer than Iron Rocks!
+
+  ⚫ Mining - Coal:
+    - harvest_resource on Coal Rock instances to get coal
+    - Level required: 10+ (Mining skill)
+    - Essential fuel for smelting operations
+
+  🔥 Smelting Recipe - goldbar:
+    - craft_item skill=Smelting itemKey=goldbar
+    - Materials: 1x goldore + 1x coal → 1x goldbar
+    - Level required: 40 (Smithing skill)
+
+  💍 Smithing Recipe - goldring:
+    - craft_item skill=Smithing itemKey=goldring
+    - Materials: 1x goldbar → 1x goldring
+    - Level required: 45 (Smithing skill)
+
+max_action_steps: 45
+
+agent_1:
+  username: "ore_prospector_agent"
+  new_character: true
+
+  location:
+    x: 600
+    y: 500
+
+  skill_levels:
+    mining: 32
+    lumberjacking: 18
+    strength: 42
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "goldaxe"
+      count: 1
+      enchant: 0
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fuel_gatherer_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 480
+
+  skill_levels:
+    mining: 22
+    strength: 38
+    health: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "master_smith_agent"
+  new_character: true
+
+  location:
+    x: 620
+    y: 520
+
+  skill_levels:
+    smithing: 48
+    mining: 18
+    strength: 32
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "mining_support_agent"
+  new_character: true
+
+  location:
+    x: 590
+    y: 510
+
+  skill_levels:
+    mining: 35
+    strength: 45
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team mines at least 2x goldore from Gold Rock deposits"
+  - "Team gathers at least 2x coal for smelting"
+  - "master_smith_agent successfully smelts 2x Gold Bars"
+  - "master_smith_agent successfully crafts 2x Golden Rings"
+  - "master_smith_agent has 2x goldring in inventory"
+  - "All agents coordinate mining operations effectively"
+  - "Both miners contribute to ore extraction"

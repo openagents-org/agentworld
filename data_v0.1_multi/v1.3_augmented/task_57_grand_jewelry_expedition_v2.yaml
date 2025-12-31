@@ -1,0 +1,270 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+# SOURCE: task_57_grand_jewelry_expedition.yaml
+
+task:
+  name: "Grand Jewelry Expedition (Harder)"
+  description: "Eight agents mine gemstones and craft expanded jewelry collection"
+
+objectives:
+  primary: "Craft 4x Ruby Rings, 4x Emerald Pendants, 2x Topaz Rings, and 4x Beryl Pendants"
+
+relevant_game_context: |
+  This is a cooperative multi-agent jewelry expedition with increased difficulty.
+
+  CHALLENGE MODE:
+  - Doubled all targets
+  - Must mine all gemstones from scratch
+  - Need 4 rubies, 4 emeralds, 2 topaz, 4 beryl
+  - Need 12 gold nuggets for 6 gold rings
+  - Lower skill levels require more mining attempts
+  - Reduced consumables
+
+  PRODUCTION TARGETS (DOUBLED):
+  - 4x Ruby Ring (4 ruby + 4 goldring)
+  - 4x Emerald Pendant (4 emerald + 4 string)
+  - 2x Topaz Ring (2 topaz + 2 goldring)
+  - 4x Beryl Pendant (4 beryl + 4 string)
+
+  GEMSTONE MINING:
+  - Ruby: Mining level 62 required
+  - Emerald: Mining level 57 required
+  - Topaz: Mining level 15 required
+  - Beryl: Mining level 1 required
+
+  SMELTING CHAIN:
+  - Mine 12 gold nuggets + 12 coal
+  - Smelt 12 gold bars
+  - Craft 6 gold rings
+
+  DO NOT use complete() until ALL jewelry is crafted!
+
+max_action_steps: 70
+
+agent_1:
+  username: "Ruby_Miner"
+  new_character: true
+
+  location:
+    x: 180
+    y: 200
+
+  skill_levels:
+    mining: 62
+    strength: 32
+    health: 45
+    defense: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "Emerald_Miner"
+  new_character: true
+
+  location:
+    x: 185
+    y: 200
+
+  skill_levels:
+    mining: 57
+    strength: 30
+    health: 42
+    defense: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "Combat_Support"
+  new_character: true
+
+  location:
+    x: 190
+    y: 200
+
+  skill_levels:
+    strength: 32
+    mining: 12
+    health: 42
+    defense: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "Gold_Miner"
+  new_character: true
+
+  location:
+    x: 180
+    y: 205
+
+  skill_levels:
+    mining: 35
+    strength: 28
+    health: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "Coal_Miner"
+  new_character: true
+
+  location:
+    x: 185
+    y: 205
+
+  skill_levels:
+    mining: 22
+    strength: 25
+    health: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+    - item: "string"
+      count: 8
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "Smelter"
+  new_character: true
+
+  location:
+    x: 190
+    y: 205
+
+  skill_levels:
+    smithing: 25
+    crafting: 18
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "Jeweler_Rings"
+  new_character: true
+
+  location:
+    x: 180
+    y: 210
+
+  skill_levels:
+    crafting: 40
+    smithing: 22
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "Jeweler_Pendants"
+  new_character: true
+
+  location:
+    x: 185
+    y: 210
+
+  skill_levels:
+    crafting: 35
+    smithing: 18
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains 4x rubyring"
+  - "Team inventory contains 4x emeraldpendant"
+  - "Team inventory contains 2x topazring"
+  - "Team inventory contains 4x berylpendant"
+  - "All agents survive the expedition"

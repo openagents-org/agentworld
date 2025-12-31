@@ -1,0 +1,136 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_45_caravan_escort.yaml
+
+task:
+  name: "Caravan Escort - Protected Gathering (Easier)"
+  description: "Three powerful agents protect miner with pre-gathered gold"
+
+objectives:
+  primary: "Protect miner while they collect 1 more goldore (2 already gathered) and defeat 1x threat"
+
+relevant_game_context: |
+  This is a cooperative multi-agent escort scenario with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - miner_agent starts with 2x goldore already gathered
+  - Guards have higher combat stats
+  - Only need to defeat 1 threat (not 2)
+  - More consumables for healing
+
+  TARGETS (REDUCED):
+  - Miner collects 3x goldore total (have 2, need 1)
+  - Guards defeat 1x hostile creature
+
+  GOLD LOCATIONS:
+  - Gold rocks: Mountain regions (200-250, 30-60)
+
+  COMBAT:
+  - Guards engage any threats to protect miner
+  - With higher stats, combat is straightforward
+  - Miner focuses on final extraction
+
+  DO NOT use complete() until gold is collected and threat eliminated!
+
+max_action_steps: 18
+
+agent_1:
+  username: "guard1_agent"
+  new_character: true
+
+  location:
+    x: 225
+    y: 45
+
+  skill_levels:
+    strength: 50
+    defense: 45
+    health: 60
+    accuracy: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "guard2_agent"
+  new_character: true
+
+  location:
+    x: 240
+    y: 45
+
+  skill_levels:
+    archery: 45
+    accuracy: 50
+    health: 55
+    defense: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "arrow"
+      count: 60
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "miner_agent"
+  new_character: true
+
+  location:
+    x: 232
+    y: 45
+
+  skill_levels:
+    mining: 40
+    strength: 32
+    health: 50
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "goldore"
+      count: 2
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "miner_agent inventory contains at least 3x goldore"
+  - "At least 1 hostile creature is defeated by guards"
+  - "All agents survive the escort mission"

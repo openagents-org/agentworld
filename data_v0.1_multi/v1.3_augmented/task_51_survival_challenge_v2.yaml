@@ -1,0 +1,196 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+# SOURCE: task_51_survival_challenge.yaml
+
+task:
+  name: "Survival Challenge - Equipment Preparation (Harder)"
+  description: "Five agents must gather all materials and craft full survival kit"
+
+objectives:
+  primary: "Craft 2x Wooden Bow, 2x Axe, and collect 10x rawshrimp and 8x logs"
+
+relevant_game_context: |
+  This is a cooperative multi-agent survival preparation with increased difficulty.
+
+  CHALLENGE MODE:
+  - Doubled all targets
+  - No pre-gathered materials
+  - Lower skill levels require more attempts
+  - Must gather all logs from scratch
+  - Need 22 ironore/coal for 6 ironbars (2 axes)
+
+  PRODUCTION TARGETS (DOUBLED):
+  - 2x Wooden Bow (1x logs + 1x string each)
+  - 2x Axe (3x ironbar + 1x logs each = 6 bars, 2 logs)
+  - 10x rawshrimp (fishing)
+  - 8x logs (lumberjacking)
+
+  MATERIAL REQUIREMENTS:
+  - 4x logs for bows
+  - 2x logs for axe handles
+  - 2x logs extra for total
+  - 2x string (provided)
+  - 6x ironbar from mining
+
+  DO NOT use complete() until ALL items are ready!
+
+max_action_steps: 55
+
+agent_1:
+  username: "fisher1_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 740
+
+  skill_levels:
+    fishing: 15
+    strength: 15
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fisher2_agent"
+  new_character: true
+
+  location:
+    x: 585
+    y: 740
+
+  skill_levels:
+    fishing: 15
+    strength: 15
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "lumberjack1_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 20
+    strength: 20
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "lumberjack2_agent"
+  new_character: true
+
+  location:
+    x: 392
+    y: 10
+
+  skill_levels:
+    lumberjacking: 20
+    strength: 20
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "crafter_agent"
+  new_character: true
+
+  location:
+    x: 395
+    y: 10
+
+  skill_levels:
+    fletching: 15
+    smithing: 15
+    crafting: 15
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+    - item: "string"
+      count: 2
+    - item: "ironbar"
+      count: 6
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains 2x woodenbow"
+  - "Team inventory contains 2x axe"
+  - "Team inventory contains at least 10x rawshrimp"
+  - "Team inventory contains at least 8x logs"
+  - "All agents survive the challenge"

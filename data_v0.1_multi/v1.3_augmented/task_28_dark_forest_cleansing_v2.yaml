@@ -1,0 +1,212 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets, added 4th agent
+# SOURCE: task_28_dark_forest_cleansing.yaml
+
+task:
+  name: "Dark Forest Cleansing - Dark Wolf Hunt (Harder)"
+  description: "Four agents work together to defeat the Dark Wolf AND clear additional forest threats"
+
+objectives:
+  primary: "Successfully defeat Dark Wolf, cleanse forest of additional threats, and harvest dark forest resources"
+
+relevant_game_context: |
+  This is a cooperative multi-agent boss hunting mission with increased difficulty.
+
+  CHALLENGE MODE:
+  - Must defeat Dark Wolf boss (~1050 HP)
+  - Must also defeat at least 2 additional forest creatures
+  - Must harvest logs from dark forest trees
+  - Added 4th agent (forest_ranger_agent) for additional tasks
+  - Reduced consumables - manage resources carefully
+  - Lower skill levels require precise coordination
+
+  OBJECTIVE: Complete full forest cleansing - defeat Dark Wolf and clear additional threats.
+
+  MISSION REQUIREMENTS:
+  - Locate and defeat Dark Wolf at (1016, 682)
+  - Defeat at least 2 additional forest creatures in the dark forest area
+  - Harvest at least 2 logs from dark forest trees
+  - Collect wolfarmor and any other drops
+  - Keep all team members alive
+
+  TEAM COORDINATION:
+  - Coordinate between boss combat and creature clearing
+  - forest_ranger_agent handles tree harvesting
+  - Share combat responsibilities across threats
+
+  DO NOT use complete() until ALL objectives achieved!
+
+  DARK FOREST CHALLENGES:
+  🐺 Dark Wolf Boss at (1016, 682):
+    - HP: approximately 1050
+    - Main target - priority kill
+    - Drops: wolfarmor
+
+  🌲 Forest Tasks:
+    - Clear 2+ additional forest creatures
+    - Harvest 2+ logs from trees
+    - forest_ranger_agent has lumberjacking skills
+
+max_action_steps: 48
+
+agent_1:
+  username: "shadow_hunter_agent"
+  new_character: true
+
+  location:
+    x: 1000
+    y: 680
+
+  skill_levels:
+    strength: 42
+    accuracy: 38
+    magic: 32
+    health: 48
+    defense: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "healthpotion"
+      count: 12
+    - item: "manapotion"
+      count: 10
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "forest_guardian_agent"
+  new_character: true
+
+  location:
+    x: 1020
+    y: 690
+
+  skill_levels:
+    magic: 42
+    lumberjacking: 22
+    health: 42
+    strength: 28
+    defense: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "healthpotion"
+      count: 10
+    - item: "manapotion"
+      count: 12
+
+  equipped_items:
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "light_bringer_agent"
+  new_character: true
+
+  location:
+    x: 1010
+    y: 670
+
+  skill_levels:
+    magic: 48
+    accuracy: 32
+    health: 42
+    strength: 22
+    defense: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "healthpotion"
+      count: 12
+    - item: "manapotion"
+      count: 18
+
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "forest_ranger_agent"
+  new_character: true
+
+  location:
+    x: 1005
+    y: 675
+
+  skill_levels:
+    lumberjacking: 35
+    strength: 38
+    health: 45
+    defense: 30
+    accuracy: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "healthpotion"
+      count: 10
+
+  equipped_items:
+    - item: "goldaxe"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team locates Dark Wolf boss at (1016, 682)"
+  - "Team defeats Dark Wolf and collects wolfarmor drop"
+  - "Team defeats at least 2 additional forest creatures"
+  - "forest_ranger_agent harvests at least 2 logs from dark forest trees"
+  - "All four agents survive all encounters"
+  - "Full forest cleansing completed within time limit"

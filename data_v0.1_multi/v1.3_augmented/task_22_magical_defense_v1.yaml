@@ -1,0 +1,153 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_22_magical_defense.yaml
+
+task:
+  name: "Magical Defense - Lightning Staff Forge & Ice Guardian Battle (Easier)"
+  description: "Three agents work together with pre-crafted components to assemble a lightning staff and defeat one Ice Guardian"
+
+objectives:
+  primary: "Assemble a Lightning Staff using pre-crafted staff and defeat one Ice Guardian"
+
+relevant_game_context: |
+  This is a cooperative multi-agent magical defense scenario with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - staff_crafter_agent starts with 1x staff already crafted!
+  - Only need to combine staff + lightningbead for Lightning Staff
+  - Higher skill levels for more effective combat
+  - More consumables for survival
+  - Only need to defeat ONE Ice Guardian (not multiple)
+
+  OBJECTIVE: Assemble the Lightning Staff and defeat one Ice Guardian.
+
+  MISSION REQUIREMENTS:
+  - Craft a Lightning Staff from pre-made staff and lightning bead
+  - Locate and engage one Ice Guardian enemy
+  - Defeat at least one Ice Guardian using coordinated attacks
+  - Ensure all team members survive the encounter
+
+  CRAFTING SEQUENCE (SIMPLIFIED):
+  Step 1: Craft Lightning Staff (Crafting):
+    - craft_item skill=Crafting itemKey=lightningstaff
+    - Materials: 1x staff + 1x lightningbead -> 1x lightningstaff
+    - Level required: 10 (Crafting skill)
+    - NOTE: Staff and lightning bead are PROVIDED!
+
+  COMBAT - Ice Guardians:
+  - Ice Guardians are located at coordinates (259, 151) and (260, 156)
+  - Level 35 minibosses with ice-based attacks
+  - Use firestaff for elemental advantage
+  - Transfer Lightning Staff to battle_mage_agent for maximum damage
+
+  IMPORTANT: Only ONE Ice Guardian needs to be defeated!
+
+max_action_steps: 22
+
+agent_1:
+  username: "woodcutter_agent"
+  new_character: true
+
+  location:
+    x: 240
+    y: 160
+
+  skill_levels:
+    lumberjacking: 35
+    strength: 45
+    health: 55
+    defense: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "staff_crafter_agent"
+  new_character: true
+
+  location:
+    x: 242
+    y: 162
+
+  skill_levels:
+    fletching: 45
+    crafting: 30
+    lumberjacking: 30
+    strength: 35
+    health: 50
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "staff"
+      count: 1
+    - item: "lightningbead"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "battle_mage_agent"
+  new_character: true
+
+  location:
+    x: 244
+    y: 164
+
+  skill_levels:
+    magic: 55
+    strength: 40
+    defense: 50
+    health: 60
+    accuracy: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "manapotion"
+      count: 20
+
+  equipped_items:
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Lightning Staff is crafted from staff and lightning bead"
+  - "Lightning Staff is transferred to and equipped by battle_mage_agent"
+  - "Team locates Ice Guardian at coordinates (259, 151) or (260, 156)"
+  - "At least one Ice Guardian is defeated through coordinated combat"
+  - "All agents survive the encounter"

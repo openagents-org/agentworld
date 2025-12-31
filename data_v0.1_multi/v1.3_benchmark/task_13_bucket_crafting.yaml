@@ -1,0 +1,142 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Cooperative Bucket Crafting - Utility Container Production"
+  description: "Three agents work together to create a bucket through extensive wood gathering, processing, and advanced crafting"
+
+# Task objectives
+objectives:
+  primary: "Create a utility bucket through coordinated large-scale wood processing and crafting"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent utility crafting scenario requiring extensive wood materials.
+  
+  OBJECTIVE: Create a utility bucket through coordinated large-scale wood processing and advanced container crafting.
+  
+  TEAM COORDINATION:
+  - Use global chat to coordinate large-scale lumber operations
+  - Share wood materials and processing tasks between team members
+  - Organize extensive material gathering for advanced crafting requirements
+  - Work together to complete utility container production chain
+  
+  GENERAL STRATEGY:
+  - The team needs to gather large quantities of wood materials
+  - Materials may need processing and organization for advanced crafting
+  - Bucket crafting requires significant material quantities and advanced skills
+  - Coordinate extensive material gathering with specialized crafting expertise
+  - Balance efficient logging operations with crafting requirements
+  
+  DO NOT use complete() until ALL objectives are achieved by the team!
+  
+  CRAFTING RECIPES (CRITICAL KNOWLEDGE):
+  🪵 Lumberjacking - logs:
+    - harvest_resource on oak tree instances to get logs
+    - Level required: 1+ (Lumberjacking skill)
+  
+  🪣 Crafting Recipe - bucket:
+    - craft_item skill=Crafting itemKey=bucket
+    - Materials: 5x logs → 1x bucket
+    - Level required: 10 (Crafting skill) - ADVANCED CRAFTING!
+
+# Limitations
+max_action_steps: 25
+
+# Agent configurations
+agent_1:
+  username: "lumber_harvester_agent"
+  new_character: true
+  
+  location:
+    x: 126
+    y: 23
+  
+  skill_levels:
+    lumberjacking: 30
+    strength: 35
+    health: 30
+  
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+  
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+  
+agent_2:
+  username: "wood_processor_agent"
+  new_character: true
+  
+  location:
+    x: 183
+    y: 312
+  
+  skill_levels:
+    lumberjacking: 20
+    crafting: 15      # Wood processing knowledge
+    strength: 25
+    health: 25
+  
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+  
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+  
+agent_3:
+  username: "container_crafter_agent"
+  new_character: true
+  
+  location:
+    x: 136
+    y: 25
+  
+  skill_levels:
+    crafting: 25      # Required for bucket crafting (level 10+)
+    lumberjacking: 15 # Wood material knowledge
+    strength: 25
+    health: 25
+  
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+  
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+  
+# Success criteria for multi-agent task
+success_criteria:
+  - "lumber_harvester_agent successfully harvests and transfers 5+ logs"
+  - "wood_processor_agent successfully organizes and transfers processed logs"
+  - "container_crafter_agent receives logs and crafts bucket"
+  - "container_crafter_agent successfully creates utility bucket"
+  - "All agents coordinate large-scale lumber operations effectively"
+  - "Advanced utility container production completes within time limit"

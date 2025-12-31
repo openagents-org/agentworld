@@ -1,0 +1,312 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_91_royal_tournament.yaml
+
+task:
+  name: "Royal Tournament - Single Boss (Easier)"
+  description: "Ten agents defeat one boss for tournament"
+
+objectives:
+  primary: "Defeat the Iron Ogre at (238, 48)"
+
+relevant_game_context: |
+  This is a cooperative multi-agent combat scenario with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - Only 1 boss to defeat (instead of 3)
+  - Higher combat stats for all fighters
+  - More consumables
+  - Full team can focus on single target
+
+  TARGET BOSS (REDUCED):
+  - Iron Ogre (Level 25) at (238, 48)
+
+  TEAM COMPOSITION:
+  - 6 Fighters with heavy weapons
+  - 4 Support agents
+
+  DO NOT use complete() until boss is defeated!
+
+max_action_steps: 20
+
+agent_1:
+  username: "champion1_agent"
+  new_character: true
+
+  location:
+    x: 238
+    y: 48
+
+  skill_levels:
+    strength: 57
+    defense: 52
+    health: 66
+
+  inventory_items:
+    - item: "flask"
+      count: 55
+    - item: "apple"
+      count: 60
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "champion2_agent"
+  new_character: true
+
+  location:
+    x: 240
+    y: 50
+
+  skill_levels:
+    strength: 55
+    defense: 50
+    health: 63
+
+  inventory_items:
+    - item: "flask"
+      count: 55
+    - item: "apple"
+      count: 60
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "warrior1_agent"
+  new_character: true
+
+  location:
+    x: 236
+    y: 50
+
+  skill_levels:
+    strength: 52
+    defense: 47
+    health: 60
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "warrior2_agent"
+  new_character: true
+
+  location:
+    x: 242
+    y: 52
+
+  skill_levels:
+    strength: 50
+    defense: 45
+    health: 58
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "fighter1_agent"
+  new_character: true
+
+  location:
+    x: 234
+    y: 48
+
+  skill_levels:
+    strength: 47
+    defense: 43
+    health: 56
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "fighter2_agent"
+  new_character: true
+
+  location:
+    x: 244
+    y: 50
+
+  skill_levels:
+    strength: 45
+    defense: 41
+    health: 53
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "support1_agent"
+  new_character: true
+
+  location:
+    x: 238
+    y: 52
+
+  skill_levels:
+    strength: 37
+    health: 48
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "support2_agent"
+  new_character: true
+
+  location:
+    x: 240
+    y: 54
+
+  skill_levels:
+    strength: 35
+    health: 46
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "support3_agent"
+  new_character: true
+
+  location:
+    x: 236
+    y: 54
+
+  skill_levels:
+    strength: 33
+    health: 43
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "coordinator_agent"
+  new_character: true
+
+  location:
+    x: 242
+    y: 56
+
+  skill_levels:
+    strength: 32
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Iron Ogre at (238, 48) defeated"
+  - "All agents survive the tournament"

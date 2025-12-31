@@ -1,0 +1,164 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets, added 4th agent
+# SOURCE: task_35_combat_training.yaml
+
+task:
+  name: "Combat Training - Goblin Elimination (Harder)"
+  description: "Four agents work together to defeat multiple goblins in extended combat training"
+
+objectives:
+  primary: "Defeat 8x Goblins through coordinated team combat"
+
+relevant_game_context: |
+  This is a cooperative multi-agent combat training scenario with increased difficulty.
+
+  CHALLENGE MODE:
+  - Increased target: 8x Goblins (doubled!)
+  - Added 4th agent (flanker_agent) for additional damage
+  - Reduced consumables - manage resources carefully
+  - Lower skill levels require better coordination
+  - May need to engage multiple goblins at once
+
+  TARGETS (INCREASED):
+  - Defeat 8x Goblins (Level 7, 90 HP each)
+  - Goblins drop: leather armor, leather boots, plastic bow
+
+  COMBAT TACTICS:
+  - Tank agent draws aggro and absorbs damage
+  - DPS agents deal damage from flanking positions
+  - Flanker agent provides additional melee damage
+  - Support provides ranged backup
+
+  DO NOT use complete() until all 8 goblins are defeated!
+
+max_action_steps: 38
+
+agent_1:
+  username: "tank_agent"
+  new_character: true
+
+  location:
+    x: 420
+    y: 350
+
+  skill_levels:
+    strength: 38
+    defense: 42
+    health: 52
+    accuracy: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "dps_agent"
+  new_character: true
+
+  location:
+    x: 425
+    y: 350
+
+  skill_levels:
+    strength: 42
+    accuracy: 38
+    health: 38
+    defense: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "ranger_agent"
+  new_character: true
+
+  location:
+    x: 430
+    y: 350
+
+  skill_levels:
+    archery: 32
+    accuracy: 38
+    health: 38
+    defense: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "arrow"
+      count: 35
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "flanker_agent"
+  new_character: true
+
+  location:
+    x: 415
+    y: 350
+
+  skill_levels:
+    strength: 40
+    accuracy: 35
+    health: 42
+    defense: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "8x Goblins are defeated"
+  - "All four agents survive the combat training"

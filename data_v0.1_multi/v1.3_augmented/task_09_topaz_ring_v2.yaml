@@ -1,0 +1,162 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, full production chain required
+# SOURCE: task_09_topaz_ring.yaml
+
+task:
+  name: "Cooperative Topaz Ring Crafting - Luxury Jewelry (Harder)"
+  description: "Three agents work together to create TWO topaz rings through complete gold smelting and jewelry chain"
+
+# Task objectives
+objectives:
+  primary: "Create TWO topaz rings through full gold smelting and jewelry crafting chain"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent luxury jewelry scenario requiring precious materials.
+
+  CHALLENGE MODE:
+  - Must create TWO topaz rings (doubled target!)
+  - gold_smith_agent starts with NO goldbar - must smelt from ore
+  - Full production chain required: smelting → ring crafting → gem setting
+  - Reduced consumables - manage resources carefully
+
+  OBJECTIVE: Create 2x topaz rings through complete luxury production chain.
+
+  REQUIRED MATERIALS FOR 2 TOPAZ RINGS:
+  - 4x goldbar (2 per goldring) - must smelt from goldore + coal
+  - 2x goldring (crafted from goldbar)
+  - 2x topaz (gem_miner_agent has these)
+
+  PRODUCTION CHAIN:
+  1. Smelt 4x goldbar from goldore + coal
+  2. Craft 2x goldring from goldbar
+  3. Transfer topaz and goldrings to luxury_jeweler_agent
+  4. Craft 2x topazring
+
+  DO NOT use complete() until 2x topaz rings are created!
+
+  CRAFTING RECIPES (CRITICAL KNOWLEDGE):
+  🟨 Smelting Recipe - goldbar:
+    - craft_item skill=Smelting itemKey=goldbar
+    - Materials: 1x goldore + 1x coal → 1x goldbar
+    - Level required: 20 (uses Smithing skill level)
+
+  🟨 Smithing Recipe - goldring:
+    - craft_item skill=Smithing itemKey=goldring
+    - Materials: 2x goldbar → 1x goldring
+    - Level required: 1 (Smithing skill)
+
+  💍 Crafting Recipe - topaz ring:
+    - craft_item skill=Crafting itemKey=topazring
+    - Materials: 1x topaz + 1x goldring → 1x topaz ring
+    - Level required: 5 (Crafting skill)
+
+# Limitations
+max_action_steps: 40
+
+# Agent configurations
+agent_1:
+  username: "gem_miner_agent"
+  new_character: true
+
+  location:
+    x: 745
+    y: 579
+
+  skill_levels:
+    mining: 27
+    strength: 27
+    health: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+    - item: "topaz"
+      count: 2
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "gold_smith_agent"
+  new_character: true
+
+  location:
+    x: 250
+    y: 350
+
+  skill_levels:
+    smithing: 22
+    mining: 18
+    strength: 22
+    health: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+    - item: "goldore"
+      count: 4
+    - item: "coal"
+      count: 4
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "luxury_jeweler_agent"
+  new_character: true
+
+  location:
+    x: 749
+    y: 621
+
+  skill_levels:
+    crafting: 22
+    smithing: 12
+    mining: 8
+    strength: 18
+    health: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "gold_smith_agent smelts 4x goldbar from goldore and coal"
+  - "gold_smith_agent crafts 2x goldring"
+  - "gem_miner_agent transfers 2x topaz to luxury_jeweler_agent"
+  - "gold_smith_agent transfers 2x goldring to luxury_jeweler_agent"
+  - "luxury_jeweler_agent crafts 2x topaz ring"
+  - "Final target: 2x topaz ring in team inventory"
+  - "All agents handle precious materials with luxury care"

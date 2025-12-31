@@ -1,0 +1,190 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+# SOURCE: task_53_culinary_expedition.yaml
+
+task:
+  name: "Culinary Expedition - Seafood Feast (Harder)"
+  description: "Five agents catch and cook expanded seafood menu from scratch"
+
+objectives:
+  primary: "Cook 8x Cooked Shrimp, 4x Tuna Sushi, and 2x Jellyfish Smoothie"
+
+relevant_game_context: |
+  This is a cooperative multi-agent cooking scenario with increased difficulty.
+
+  CHALLENGE MODE:
+  - Doubled all targets
+  - Must catch all fish from scratch
+  - Lower skill levels require more attempts
+  - Need more kelp for sushi
+
+  PRODUCTION TARGETS (DOUBLED):
+  - 8x Cooked Shrimp (cook 8x rawshrimp)
+  - 4x Tuna Sushi (cook 4x rawtuna + 4x kelp)
+  - 2x Jellyfish Smoothie (cook 2x jellyfish)
+
+  FISHING REQUIREMENTS:
+  - 8x Raw Shrimp: Level 1 fishing
+  - 4x Raw Tuna: Level 1 fishing
+  - 2x Jellyfish: Level 5 fishing
+
+  COOKING RECIPES:
+  - Cooked Shrimp: 1x rawshrimp (Cooking Level 1)
+  - Tuna Sushi: 1x rawtuna + 1x kelp (Cooking Level 20)
+  - Jellyfish Smoothie: 1x jellyfish (Cooking Level 10)
+
+  DO NOT use complete() until ALL food is cooked!
+
+max_action_steps: 55
+
+agent_1:
+  username: "fisher1_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 740
+
+  skill_levels:
+    fishing: 15
+    strength: 15
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fisher2_agent"
+  new_character: true
+
+  location:
+    x: 585
+    y: 740
+
+  skill_levels:
+    fishing: 15
+    strength: 15
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "fisher3_agent"
+  new_character: true
+
+  location:
+    x: 590
+    y: 740
+
+  skill_levels:
+    fishing: 17
+    strength: 15
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "cook1_agent"
+  new_character: true
+
+  location:
+    x: 595
+    y: 745
+
+  skill_levels:
+    cooking: 15
+    strength: 15
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+    - item: "kelp"
+      count: 4
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "cook2_agent"
+  new_character: true
+
+  location:
+    x: 600
+    y: 745
+
+  skill_levels:
+    cooking: 17
+    strength: 15
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains 8x cookedshrimp"
+  - "Team inventory contains 4x tunasushi"
+  - "Team inventory contains 2x jellyfishsmoothie"
+  - "All agents survive the expedition"

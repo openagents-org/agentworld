@@ -1,0 +1,172 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_25_ice_cavern_challenge.yaml
+
+task:
+  name: "Ice Cavern Challenge - Frozen Tundra Survival (Easier)"
+  description: "Three agents work together with pre-gathered Ice Oak logs to defeat one Ice Guardian"
+
+objectives:
+  primary: "Successfully defeat one Ice Guardian and gather Ice Oak lumber with pre-gathered starting materials"
+
+relevant_game_context: |
+  This is a cooperative multi-agent cold-weather survival expedition with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - frost_lumberjack_agent starts with 2x iceoaklogs already harvested
+  - Higher skill levels for more effective combat
+  - More consumables for freezing damage survival
+  - Only need to defeat ONE Ice Guardian (not two)
+  - Pre-positioned closer to targets
+
+  OBJECTIVE: Defeat one Ice Guardian and secure Ice Oak lumber.
+
+  MISSION REQUIREMENTS:
+  - Navigate to Frozen/Ice region (coordinates 228-260, 151-156)
+  - Defeat ONE Ice Guardian (Level 35) in coordinated combat
+  - Already have Ice Oak logs - just verify collection
+  - Survive freezing environmental damage
+
+  TEAM COORDINATION:
+  - Use global chat to coordinate single guardian engagement
+  - Focus fire on one Ice Guardian at (259, 151)
+  - Share warming items and healing support
+
+  DO NOT use complete() until Ice Guardian is defeated!
+
+  ICE CAVERN SURVIVAL & COMBAT:
+  ❄️ Combat - Ice Guardian:
+    - Target Ice Guardian at (259, 151)
+    - Level 35 creature with ice-based attacks
+    - Use fire-based weapons for elemental advantage
+    - Single target makes coordination manageable
+
+  🔥 Cold Weather Survival:
+    - Maintain high health levels to counter freezing damage
+    - Use fire-based equipment for warmth
+
+max_action_steps: 22
+
+agent_1:
+  username: "ice_warrior_agent"
+  new_character: true
+
+  location:
+    x: 250
+    y: 145
+
+  skill_levels:
+    strength: 52
+    defense: 45
+    health: 60
+    accuracy: 40
+    magic: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "healthpotion"
+      count: 18
+    - item: "manapotion"
+      count: 10
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "frost_lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 255
+    y: 145
+
+  skill_levels:
+    lumberjacking: 35
+    strength: 45
+    health: 55
+    defense: 40
+    accuracy: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "healthpotion"
+      count: 15
+    - item: "iceoaklogs"
+      count: 2
+
+  equipped_items:
+    - item: "goldaxe"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "ice_guardian_agent"
+  new_character: true
+
+  location:
+    x: 260
+    y: 145
+
+  skill_levels:
+    magic: 48
+    health: 55
+    defense: 40
+    strength: 40
+    accuracy: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "healthpotion"
+      count: 18
+    - item: "manapotion"
+      count: 15
+
+  equipped_items:
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "ice_warrior_agent navigates to frozen ice cavern region"
+  - "Team defeats Ice Guardian at (259, 151)"
+  - "frost_lumberjack_agent has iceoaklogs in inventory"
+  - "All agents survive the freezing environmental damage"
+  - "Frozen tundra expedition completed within time limit"

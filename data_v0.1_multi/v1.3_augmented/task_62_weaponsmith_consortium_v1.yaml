@@ -1,0 +1,125 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_62_weaponsmith_consortium.yaml
+
+task:
+  name: "Weaponsmith Consortium - Arsenal (Easier)"
+  description: "Seven smiths craft simplified arsenal using pre-gathered materials"
+
+objectives:
+  primary: "Craft 1x Heavy Sword, 1x Axe, and 1x Pickaxe using provided bars"
+
+relevant_game_context: |
+  This is a cooperative multi-agent weapon crafting with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - Master_Forger starts with 10x ironbar already smelted
+  - Lumber_Jack starts with 4x logs
+  - All materials provided - no mining needed
+  - Higher skill levels for guaranteed success
+  - Reduced targets: 3 weapons only
+
+  PRODUCTION TARGETS (REDUCED):
+  - 1x Heavy Sword (2x ironbar + 1x hilt2)
+  - 1x Axe (3x ironbar + 1x logs)
+  - 1x Pickaxe (5x ironbar + 1x logs)
+
+  MATERIAL AVAILABILITY:
+  - 10x ironbar (need 10 for all items)
+  - 4x logs (need 2 for weapons)
+  - 1x hilt2 (provided)
+
+  DO NOT use complete() until weapons are forged!
+
+max_action_steps: 25
+
+agent_1:
+  username: "Iron_Master"
+  new_character: true
+  location: {x: 230, y: 38}
+  skill_levels: {mining: 60, strength: 40, health: 48}
+  inventory_items:
+    - {item: "flask", count: 35}
+    - {item: "apple", count: 40}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "Gold_Master"
+  new_character: true
+  location: {x: 238, y: 48}
+  skill_levels: {mining: 55, strength: 38, health: 46}
+  inventory_items:
+    - {item: "flask", count: 35}
+    - {item: "apple", count: 40}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "Coal_Master"
+  new_character: true
+  location: {x: 232, y: 40}
+  skill_levels: {mining: 45, strength: 35, health: 44}
+  inventory_items:
+    - {item: "flask", count: 35}
+    - {item: "apple", count: 40}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "Lumber_Jack"
+  new_character: true
+  location: {x: 250, y: 350}
+  skill_levels: {lumberjacking: 55, strength: 38, health: 42}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+    - {item: "logs", count: 4}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "String_Maker"
+  new_character: true
+  location: {x: 252, y: 352}
+  skill_levels: {foraging: 45, crafting: 35, health: 40}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+    - {item: "string", count: 12}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "Master_Forger"
+  new_character: true
+  location: {x: 528, y: 384}
+  skill_levels: {crafting: 70, smithing: 50, health: 42}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+    - {item: "ironbar", count: 10}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_7:
+  username: "Weaponsmith"
+  new_character: true
+  location: {x: 530, y: 386}
+  skill_levels: {smithing: 75, fletching: 55, crafting: 45, health: 44}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+    - {item: "hilt2", count: 1}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+success_criteria:
+  - "Team inventory contains 1x sword2 (heavy sword)"
+  - "Team inventory contains 1x axe"
+  - "Team inventory contains 1x pickaxe"
+  - "All agents survive the mission"

@@ -1,0 +1,184 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets, added 4th agent
+# SOURCE: task_30_legendary_boss_hunt.yaml
+
+task:
+  name: "Legendary Boss Hunt - Triple Boss Elimination (Harder)"
+  description: "Four agents work together to defeat FOUR legendary bosses across different regions"
+
+objectives:
+  primary: "Defeat Mermaid, Dark Wolf, Ice Knight, AND Water Guardian in an epic boss hunting expedition"
+
+relevant_game_context: |
+  This is a cooperative multi-agent boss hunting scenario with increased difficulty.
+
+  CHALLENGE MODE:
+  - Must defeat FOUR legendary bosses (one more than original!)
+  - Added Water Guardian as 4th target
+  - Added 4th agent (support_hunter_agent) for additional firepower
+  - Reduced consumables - manage resources carefully
+  - Lower skill levels require precise coordination
+  - Longer travel between boss locations
+
+  OBJECTIVE: Complete the ultimate boss hunt - defeat all four legendary bosses.
+
+  TARGET BOSSES (EXPANDED):
+  - Mermaid (Level 55): Located at coastal region (580, 755)
+  - Dark Wolf (Level 0): Located at dark region (1016, 682)
+  - Ice Knight (Level 62): Located at castle region (712, 717)
+  - Water Guardian (Level 36): Located at (197, 633) - ADDED!
+
+  TEAM COORDINATION:
+  - Plan efficient route between boss locations
+  - Manage healing resources across four fights
+  - Support each other with healing and damage
+
+  COMBAT STRATEGY:
+  - Mermaid: Water-based attacks, use ranged weapons
+  - Dark Wolf: Fast attacks, coordinate melee and magic
+  - Ice Knight: Freezing attacks, maintain distance
+  - Water Guardian: Water attacks, similar to Mermaid
+
+  DO NOT use complete() until ALL FOUR bosses are defeated!
+
+max_action_steps: 60
+
+agent_1:
+  username: "warrior_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 750
+
+  skill_levels:
+    strength: 48
+    defense: 42
+    health: 58
+    accuracy: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "mage_agent"
+  new_character: true
+
+  location:
+    x: 585
+    y: 750
+
+  skill_levels:
+    magic: 52
+    health: 48
+    defense: 32
+    accuracy: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "ranger_agent"
+  new_character: true
+
+  location:
+    x: 590
+    y: 750
+
+  skill_levels:
+    archery: 48
+    accuracy: 48
+    health: 42
+    defense: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 35
+    - item: "arrow"
+      count: 80
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "support_hunter_agent"
+  new_character: true
+
+  location:
+    x: 595
+    y: 750
+
+  skill_levels:
+    strength: 42
+    magic: 38
+    health: 50
+    defense: 35
+    accuracy: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 35
+    - item: "healthpotion"
+      count: 15
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Mermaid at (580, 755) is defeated"
+  - "Dark Wolf at (1016, 682) is defeated"
+  - "Ice Knight at (712, 717) is defeated"
+  - "Water Guardian at (197, 633) is defeated"
+  - "All four agents survive all four boss encounters"
+  - "Epic boss hunt completed within time limit"

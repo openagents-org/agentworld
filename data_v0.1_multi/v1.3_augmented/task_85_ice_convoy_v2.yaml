@@ -1,0 +1,302 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+# SOURCE: task_85_ice_convoy.yaml
+
+task:
+  name: "Ice Convoy - Arctic Expedition (Harder)"
+  description: "Ten agents gather ice resources and craft multiple staffs"
+
+objectives:
+  primary: "Collect 15x icelogs and 8x rawshrimp, and craft 2x Ice Staff"
+
+relevant_game_context: |
+  This is a cooperative multi-agent polar expedition with maximum difficulty.
+
+  CHALLENGE MODE:
+  - Doubled staff production
+  - Increased gathering targets
+  - Must craft staffs from scratch
+  - Lower skill levels
+
+  PRODUCTION TARGETS (DOUBLED):
+  - 15x icelogs (from ice region)
+  - 8x rawshrimp (from fishing)
+  - 2x Ice Staff (staff + icebead each)
+
+  CRAFTING CHAIN:
+  - First craft 2x Magic Staff: 5x stick + 1x bead each
+  - Then craft 2x Ice Staff: 1x staff + 1x icebead each
+
+  TEAM ROLES:
+  - Ice Loggers: Harvest ice logs
+  - Fishers: Catch shrimp
+  - Crafter: Make ice staffs
+
+  DO NOT use complete() until all objectives are met!
+
+max_action_steps: 60
+
+agent_1:
+  username: "icelogger1_agent"
+  new_character: true
+
+  location:
+    x: 259
+    y: 155
+
+  skill_levels:
+    lumberjacking: 38
+    strength: 26
+    health: 31
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "icelogger2_agent"
+  new_character: true
+
+  location:
+    x: 261
+    y: 157
+
+  skill_levels:
+    lumberjacking: 36
+    strength: 24
+    health: 29
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "icelogger3_agent"
+  new_character: true
+
+  location:
+    x: 257
+    y: 153
+
+  skill_levels:
+    lumberjacking: 34
+    strength: 22
+    health: 27
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "icelogger4_agent"
+  new_character: true
+
+  location:
+    x: 263
+    y: 159
+
+  skill_levels:
+    lumberjacking: 32
+    strength: 20
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "fisher1_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 740
+
+  skill_levels:
+    fishing: 31
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "fisher2_agent"
+  new_character: true
+
+  location:
+    x: 585
+    y: 745
+
+  skill_levels:
+    fishing: 29
+    health: 26
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "crafter_agent"
+  new_character: true
+
+  location:
+    x: 350
+    y: 250
+
+  skill_levels:
+    crafting: 55
+    magic: 31
+    health: 29
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "icebead"
+      count: 2
+    - item: "bead"
+      count: 2
+    - item: "stick"
+      count: 10
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "support1_agent"
+  new_character: true
+
+  location:
+    x: 352
+    y: 252
+
+  skill_levels:
+    strength: 24
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "support2_agent"
+  new_character: true
+
+  location:
+    x: 354
+    y: 254
+
+  skill_levels:
+    strength: 22
+    health: 26
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "coordinator_agent"
+  new_character: true
+
+  location:
+    x: 356
+    y: 256
+
+  skill_levels:
+    strength: 21
+    health: 26
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains at least 15x icelogs"
+  - "Team inventory contains at least 8x rawshrimp"
+  - "Team inventory contains 2x icestaff"
+  - "All agents survive the convoy mission"

@@ -1,0 +1,118 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_18_coastal_harvest.yaml
+
+task:
+  name: "Coastal Harvest Mission - Seaside Team Protection (Easier)"
+  description: "Three agents work together to gather coastal resources - reduced targets with pre-gathered materials"
+
+objectives:
+  primary: "Successfully protect collectors while they gather 4x rawshrimp and 2x icelogs under coastal threat conditions"
+
+relevant_game_context: |
+  This is a cooperative multi-agent coastal protection scenario.
+
+  STARTING ADVANTAGE:
+  - Reduced targets: 4x rawshrimp and 2x icelogs (easier than 6+3)
+  - shrimp_fisher_agent starts with 2x rawshrimp
+  - ice_logger_agent starts with 1x icelogs
+  - Higher skill levels and more arrows
+
+  OBJECTIVE: Gather reduced coastal resources while protecting the team.
+
+  MISSION REQUIREMENTS:
+  - Collect 4x rawshrimp and 2x icelogs (reduced targets)
+  - Keep all team members alive throughout the mission
+
+  DO NOT use complete() until ALL objectives are achieved safely!
+
+max_action_steps: 20
+
+agent_1:
+  username: "coastal_guardian_agent"
+  new_character: true
+  location:
+    x: 200
+    y: 200
+  skill_levels:
+    archery: 40
+    fletching: 28
+    strength: 33
+    defense: 25
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "arrow"
+      count: 90
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "shrimp_fisher_agent"
+  new_character: true
+  location:
+    x: 205
+    y: 200
+  skill_levels:
+    fishing: 25
+    defense: 18
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "rawshrimp"
+      count: 2
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "ice_logger_agent"
+  new_character: true
+  location:
+    x: 210
+    y: 200
+  skill_levels:
+    lumberjacking: 40
+    defense: 21
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "icelogs"
+      count: 1
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "shrimp_fisher_agent has at least 4x rawshrimp in inventory"
+  - "ice_logger_agent has at least 2x icelogs in inventory"
+  - "All agents remain alive throughout the mission"
+  - "Coastal guardian successfully protects team from threats"

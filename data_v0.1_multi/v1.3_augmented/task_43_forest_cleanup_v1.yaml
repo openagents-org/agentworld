@@ -1,0 +1,128 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_43_forest_cleanup.yaml
+
+task:
+  name: "Forest Cleanup - Rat Extermination (Easier)"
+  description: "Three agents work together with enhanced combat stats to clear rats"
+
+objectives:
+  primary: "Defeat 3x Rats and collect 3x blueberry with pre-gathered starting berries"
+
+relevant_game_context: |
+  This is a cooperative multi-agent pest control scenario with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - forager_agent starts with 2x blueberry already gathered
+  - Higher skill levels for faster combat
+  - More consumables for healing
+  - Reduced targets: 3x Rats (not 5)
+  - Only need 1 more blueberry
+
+  TARGETS (REDUCED):
+  - Defeat 3x Rats (Level 1, 34 HP each)
+  - Collect 3x blueberry total (have 2, need 1)
+
+  RAT COMBAT:
+  - Rats are weak creatures
+  - Easy to defeat with basic weapons
+
+  DO NOT use complete() until objectives are met!
+
+max_action_steps: 15
+
+agent_1:
+  username: "hunter1_agent"
+  new_character: true
+
+  location:
+    x: 380
+    y: 50
+
+  skill_levels:
+    strength: 38
+    defense: 32
+    health: 48
+    accuracy: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "hunter2_agent"
+  new_character: true
+
+  location:
+    x: 385
+    y: 50
+
+  skill_levels:
+    strength: 38
+    defense: 32
+    health: 48
+    accuracy: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "forager_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 50
+
+  skill_levels:
+    foraging: 28
+    strength: 25
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "blueberry"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "3x Rats are defeated"
+  - "Team inventory contains at least 3x blueberry"
+  - "All agents survive the cleanup"

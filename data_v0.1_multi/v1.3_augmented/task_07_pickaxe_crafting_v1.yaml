@@ -1,0 +1,158 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, easier completion
+# SOURCE: task_07_pickaxe_crafting.yaml
+
+task:
+  name: "Cooperative Pickaxe Crafting - Mining Tool Production (Easier)"
+  description: "Three agents work together to create a pickaxe - with pre-smelted ironbar ready"
+
+# Task objectives
+objectives:
+  primary: "Forge a high-quality pickaxe through coordinated metallurgy and tool crafting"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent tool crafting scenario requiring extensive metallurgy operations.
+
+  STARTING ADVANTAGE:
+  - smelter_agent already has 3x ironbar (pre-smelted!)
+  - miner_agent has materials for 2 more ironbar
+  - tool_smith_agent has 1x logs ready for the handle
+  - Higher skill levels across all agents
+
+  OBJECTIVE: Forge a high-quality pickaxe with mostly pre-processed materials.
+
+  SIMPLIFIED STRATEGY:
+  - Team already has most materials ready
+  - Need to smelt 2 more ironbar (miner has ore/coal)
+  - Transfer all 5x ironbar + 1x logs to tool_smith_agent
+  - tool_smith_agent forges the pickaxe
+
+  TEAM COORDINATION:
+  - Use global chat to coordinate transfers
+  - Consolidate 5x ironbar with tool_smith_agent
+  - tool_smith_agent crafts pickaxe
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  CRAFTING RECIPES (CRITICAL KNOWLEDGE):
+  🔥 Smelting Recipe - ironbar:
+    - craft_item skill=Smelting itemKey=ironbar
+    - Materials: 1x ironore + 1x coal → 1x ironbar
+    - Level required: 20 (uses Smithing skill level)
+
+  ⛏️ Smithing Recipe - pickaxe:
+    - craft_item skill=Smithing itemKey=pickaxe
+    - Materials: 5x ironbar + 1x logs → 1x pickaxe
+    - Level required: 5 (Smithing skill)
+
+# Limitations
+max_action_steps: 20
+
+# Agent configurations
+agent_1:
+  username: "miner_agent"
+  new_character: true
+
+  location:
+    x: 229
+    y: 37
+
+  skill_levels:
+    mining: 35
+    lumberjacking: 23
+    strength: 38
+    health: 33
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "ironore"
+      count: 2
+    - item: "coal"
+      count: 2
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "smelter_agent"
+  new_character: true
+
+  location:
+    x: 233
+    y: 175
+
+  skill_levels:
+    smithing: 35
+    mining: 18
+    strength: 28
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "ironbar"
+      count: 3
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "tool_smith_agent"
+  new_character: true
+
+  location:
+    x: 228
+    y: 188
+
+  skill_levels:
+    smithing: 35
+    mining: 23
+    strength: 33
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "logs"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "miner_agent smelts 2x additional ironbar"
+  - "smelter_agent transfers 3x ironbar to tool_smith_agent"
+  - "miner_agent transfers 2x ironbar to tool_smith_agent"
+  - "tool_smith_agent receives 5x ironbar and forges pickaxe"
+  - "tool_smith_agent successfully equips the pickaxe"
+  - "Advanced tool production completes quickly"

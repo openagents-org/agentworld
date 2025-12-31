@@ -1,0 +1,255 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_70_dungeon_expedition.yaml
+
+task:
+  name: "Dungeon Expedition - Single Boss (Easier)"
+  description: "Seven adventurers defeat one boss and craft one heavy sword"
+
+objectives:
+  primary: "Defeat the Iron Ogre at (238, 48) and craft 1x Heavy Sword"
+
+relevant_game_context: |
+  This is a cooperative multi-agent dungeon expedition with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - Higher combat stats for all fighters
+  - smith_agent has 4x ironbar and 1x hilt2 ready
+  - More consumables for survival
+  - Only 1 boss to defeat (Iron Ogre)
+  - Only 1 heavy sword required
+
+  TARGET (REDUCED):
+  - Iron Ogre (Level 25): Located at (238, 48)
+
+  PRODUCTION TARGET:
+  - 1x Heavy Sword (2x ironbar + 1x hilt2) - materials ready!
+
+  TEAM COORDINATION:
+  - All fighters engage Iron Ogre
+  - Smith crafts heavy sword
+  - Rangers provide support
+
+  DO NOT use complete() until boss is defeated and sword is crafted!
+
+max_action_steps: 22
+
+agent_1:
+  username: "tank1_agent"
+  new_character: true
+
+  location:
+    x: 380
+    y: 290
+
+  skill_levels:
+    defense: 55
+    strength: 48
+    health: 65
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "tank2_agent"
+  new_character: true
+
+  location:
+    x: 385
+    y: 292
+
+  skill_levels:
+    defense: 52
+    strength: 50
+    health: 62
+
+  inventory_items:
+    - item: "flask"
+      count: 48
+    - item: "apple"
+      count: 52
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "dps1_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 295
+
+  skill_levels:
+    strength: 60
+    accuracy: 52
+    health: 56
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "dps2_agent"
+  new_character: true
+
+  location:
+    x: 395
+    y: 298
+
+  skill_levels:
+    strength: 58
+    accuracy: 54
+    health: 54
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 48
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "ranger1_agent"
+  new_character: true
+
+  location:
+    x: 382
+    y: 300
+
+  skill_levels:
+    accuracy: 60
+    archery: 55
+    health: 52
+
+  inventory_items:
+    - item: "flask"
+      count: 42
+    - item: "apple"
+      count: 45
+    - item: "arrow"
+      count: 50
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "ranger2_agent"
+  new_character: true
+
+  location:
+    x: 387
+    y: 303
+
+  skill_levels:
+    accuracy: 57
+    archery: 52
+    health: 50
+
+  inventory_items:
+    - item: "flask"
+      count: 42
+    - item: "apple"
+      count: 45
+    - item: "arrow"
+      count: 50
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "smith_agent"
+  new_character: true
+
+  location:
+    x: 392
+    y: 305
+
+  skill_levels:
+    smithing: 55
+    crafting: 48
+    health: 52
+
+  inventory_items:
+    - item: "flask"
+      count: 48
+    - item: "apple"
+      count: 52
+    - item: "ironbar"
+      count: 4
+    - item: "hilt2"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Iron Ogre at (238, 48) is defeated"
+  - "Team inventory contains 1x sword2 (heavy sword)"
+  - "All agents survive the expedition"

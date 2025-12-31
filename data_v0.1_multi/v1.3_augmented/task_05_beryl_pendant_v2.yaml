@@ -1,0 +1,155 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, must gather and craft all materials
+# SOURCE: task_05_beryl_pendant.yaml
+
+task:
+  name: "Cooperative Beryl Pendant Crafting - Elegant Jewelry (Harder)"
+  description: "Three agents work together to create TWO beryl pendants through complete foraging and crafting chain"
+
+# Task objectives
+objectives:
+  primary: "Create TWO beryl pendants by gathering all materials from scratch"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent jewelry crafting scenario requiring both foraging and mining skills.
+
+  CHALLENGE MODE:
+  - Must create TWO beryl pendants (doubled target!)
+  - jeweler_agent has NO pre-crafted string - must craft from bluelily
+  - Full crafting chain required: foraging → string crafting → pendant assembly
+  - Reduced consumables - manage resources carefully
+
+  OBJECTIVE: Create 2x beryl pendants through the complete crafting chain.
+
+  REQUIRED MATERIALS FOR 2 PENDANTS:
+  - 2x beryl gems (gem_miner_agent has these)
+  - 2x string (must craft from 2x bluelily)
+  - Must forage bluelily and craft string first!
+
+  TEAM COORDINATION:
+  - forager_agent gathers bluelily
+  - Transfer bluelily to jeweler_agent for string crafting
+  - gem_miner_agent transfers both beryl gems
+  - jeweler_agent crafts 2x string, then 2x beryl pendant
+
+  DO NOT use complete() until 2x beryl pendants are created!
+
+  CRAFTING RECIPES (CRITICAL KNOWLEDGE):
+  🌸 Foraging - bluelily:
+    - harvest_resource on bluelily instances to get bluelily
+    - Level required: 10+ (Foraging skill)
+
+  🧵 Crafting Recipe - string:
+    - craft_item skill=Crafting itemKey=string
+    - Materials: 1x bluelily → 1x string
+    - Level required: 1 (Crafting skill)
+    - Need to craft 2x string!
+
+  📿 Crafting Recipe - beryl pendant:
+    - craft_item skill=Crafting itemKey=berylpendant
+    - Materials: 1x beryl + 1x string → 1x beryl pendant
+    - Level required: 1 (Crafting skill)
+    - Need to craft 2x pendant!
+
+# Limitations
+max_action_steps: 35
+
+# Agent configurations
+agent_1:
+  username: "forager_agent"
+  new_character: true
+
+  location:
+    x: 160
+    y: 120
+
+  skill_levels:
+    foraging: 18
+    strength: 18
+    health: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "gem_miner_agent"
+  new_character: true
+
+  location:
+    x: 170
+    y: 125
+
+  skill_levels:
+    mining: 22
+    strength: 27
+    health: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+    - item: "beryl"
+      count: 2
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "jeweler_agent"
+  new_character: true
+
+  location:
+    x: 165
+    y: 130
+
+  skill_levels:
+    crafting: 22
+    foraging: 8
+    mining: 3
+    strength: 18
+    health: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "forager_agent successfully gathers 2x bluelily"
+  - "forager_agent transfers bluelily to jeweler_agent"
+  - "gem_miner_agent transfers 2x beryl to jeweler_agent"
+  - "jeweler_agent crafts 2x string from bluelily"
+  - "jeweler_agent crafts 2x beryl pendant"
+  - "Final target: 2x beryl pendant in team inventory"
+  - "All agents coordinate full crafting chain efficiently"

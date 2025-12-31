@@ -1,0 +1,325 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+# SOURCE: task_75_relief_convoy.yaml
+
+task:
+  name: "Relief Convoy - Extended Supply Run (Harder)"
+  description: "Ten agents gather and prepare large supply shipment"
+
+objectives:
+  primary: "Cook 12x Cooked Shrimp, craft 4x Pickaxe, and collect 16x logs"
+
+relevant_game_context: |
+  This is a cooperative multi-agent supply preparation with increased difficulty.
+
+  CHALLENGE MODE:
+  - Doubled all targets
+  - Must catch all fish from scratch
+  - Must mine iron for pickaxes
+  - Lower skill levels
+  - Fewer consumables
+
+  PRODUCTION TARGETS (DOUBLED):
+  - 12x Cooked Shrimp (cook 12x rawshrimp)
+  - 4x Pickaxe (5x ironbar + 1x logs each = 20x ironbar, 4x logs)
+  - 16x logs (from forest)
+
+  MATERIAL REQUIREMENTS:
+  - 12x rawshrimp (fishing at coast)
+  - 20x ironbar = 20x ironore + 20x coal
+  - 16+ logs (for objective + pickaxe handles)
+
+  DO NOT use complete() until ALL supplies are ready!
+
+max_action_steps: 75
+
+agent_1:
+  username: "leader_agent"
+  new_character: true
+
+  location:
+    x: 200
+    y: 200
+
+  skill_levels:
+    crafting: 33
+    strength: 25
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "logger1_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 29
+    strength: 27
+    health: 29
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 13
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "logger2_agent"
+  new_character: true
+
+  location:
+    x: 392
+    y: 12
+
+  skill_levels:
+    lumberjacking: 27
+    strength: 25
+    health: 27
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 13
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "smith_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 40
+
+  skill_levels:
+    smithing: 35
+    mining: 30
+    health: 27
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 13
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "fisher1_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 740
+
+  skill_levels:
+    fishing: 29
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 13
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "fisher2_agent"
+  new_character: true
+
+  location:
+    x: 585
+    y: 745
+
+  skill_levels:
+    fishing: 27
+    health: 23
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 13
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "fisher3_agent"
+  new_character: true
+
+  location:
+    x: 590
+    y: 748
+
+  skill_levels:
+    fishing: 25
+    health: 23
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 13
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "cook_agent"
+  new_character: true
+
+  location:
+    x: 595
+    y: 750
+
+  skill_levels:
+    cooking: 33
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 13
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "support1_agent"
+  new_character: true
+
+  location:
+    x: 205
+    y: 205
+
+  skill_levels:
+    strength: 23
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 13
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "support2_agent"
+  new_character: true
+
+  location:
+    x: 210
+    y: 210
+
+  skill_levels:
+    strength: 21
+    health: 23
+
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 13
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains 12x cookedshrimp"
+  - "Team inventory contains 4x pickaxe"
+  - "Team inventory contains at least 16x logs"
+  - "All agents survive the mission"

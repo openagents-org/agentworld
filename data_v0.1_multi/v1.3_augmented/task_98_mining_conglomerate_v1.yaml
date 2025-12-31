@@ -1,0 +1,290 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_98_mining_conglomerate.yaml
+
+task:
+  name: "Mining Conglomerate - Quick Forge (Easier)"
+  description: "Ten agents mine ore and craft metal products"
+
+objectives:
+  primary: "Mine 4x ironore, 3x coal, smelt 3x ironbar, and craft 1x Heavy Sword"
+
+relevant_game_context: |
+  This is a cooperative multi-agent mining scenario with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - ironminer1_agent has 2x ironore pre-gathered
+  - smelter1_agent has coal ready
+  - smith_agent has ironbar and hilt ready
+  - Reduced production targets
+
+  PRODUCTION TARGETS (REDUCED):
+  - 4x ironore (from mountain) - 2 already gathered!
+  - 3x coal (from mountain) - coal ready!
+  - 3x ironbar (smelted) - ironbar ready!
+  - 1x Heavy Sword (2x ironbar + hilt2) - materials ready!
+
+  LOCATIONS:
+  - Mountain Mining: Around (230, 40)
+
+  DO NOT use complete() until all objectives are met!
+
+max_action_steps: 22
+
+agent_1:
+  username: "ironminer1_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 38
+
+  skill_levels:
+    mining: 55
+    strength: 45
+    health: 48
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+    - item: "ironore"
+      count: 2
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "ironminer2_agent"
+  new_character: true
+
+  location:
+    x: 232
+    y: 40
+
+  skill_levels:
+    mining: 52
+    strength: 42
+    health: 46
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "coalminer1_agent"
+  new_character: true
+
+  location:
+    x: 235
+    y: 40
+
+  skill_levels:
+    mining: 52
+    strength: 42
+    health: 46
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "smelter1_agent"
+  new_character: true
+
+  location:
+    x: 240
+    y: 45
+
+  skill_levels:
+    smithing: 57
+    health: 44
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+    - item: "coal"
+      count: 6
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "smelter2_agent"
+  new_character: true
+
+  location:
+    x: 242
+    y: 47
+
+  skill_levels:
+    smithing: 55
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "smith_agent"
+  new_character: true
+
+  location:
+    x: 244
+    y: 49
+
+  skill_levels:
+    smithing: 57
+    crafting: 49
+    health: 43
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+    - item: "ironbar"
+      count: 3
+    - item: "hilt2"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "support1_agent"
+  new_character: true
+
+  location:
+    x: 350
+    y: 250
+
+  skill_levels:
+    strength: 37
+    health: 43
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "support2_agent"
+  new_character: true
+
+  location:
+    x: 352
+    y: 252
+
+  skill_levels:
+    strength: 35
+    health: 41
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "support3_agent"
+  new_character: true
+
+  location:
+    x: 354
+    y: 254
+
+  skill_levels:
+    strength: 33
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "coordinator_agent"
+  new_character: true
+
+  location:
+    x: 356
+    y: 256
+
+  skill_levels:
+    strength: 32
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains at least 4x ironore (or smelted)"
+  - "Team inventory contains at least 3x coal (or used)"
+  - "Team inventory contains at least 3x ironbar (or used)"
+  - "Team inventory contains 1x heavysword"
+  - "All agents survive the mining conglomerate mission"

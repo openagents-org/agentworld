@@ -1,0 +1,170 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_27_volcanic_forge.yaml
+
+task:
+  name: "Southern Desert Expedition - Mining and Combat (Easier)"
+  description: "Three agents work together with pre-gathered ores to defeat one miniboss and collect equipment"
+
+objectives:
+  primary: "Successfully defeat Water Guardian and collect equipment drops with pre-gathered ore supplies"
+
+relevant_game_context: |
+  This is a cooperative multi-agent expedition with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - volcanic_miner_agent starts with 2x goldore and 1x lapisore pre-mined
+  - Higher skill levels for safer combat
+  - More consumables for survival
+  - Only need to defeat ONE miniboss (Water Guardian)
+  - Ogre Guardian is OPTIONAL
+
+  OBJECTIVE: Defeat Water Guardian and collect its equipment drops.
+
+  MISSION REQUIREMENTS:
+  - Navigate to Water Guardian at (197, 633)
+  - Defeat Water Guardian (Level 36) in coordinated combat
+  - Collect at least one equipment drop
+  - Verify pre-gathered ores in inventory
+
+  TEAM COORDINATION:
+  - Use global chat to coordinate combat
+  - Focus all agents on Water Guardian
+  - Share healing items during combat
+
+  DO NOT use complete() until Water Guardian is defeated!
+
+  COMBAT STRATEGY:
+  ⚔️ Water Guardian (Level 36) at (197, 633):
+    - Drops: redguardarmor, ring1, scimitar, watermelonbow
+    - Coordinate team attacks for faster kill
+    - Focus fire for efficiency
+
+max_action_steps: 22
+
+agent_1:
+  username: "lava_navigator_agent"
+  new_character: true
+
+  location:
+    x: 195
+    y: 630
+
+  skill_levels:
+    health: 65
+    defense: 52
+    strength: 42
+    accuracy: 35
+    magic: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 45
+    - item: "healthpotion"
+      count: 25
+    - item: "manapotion"
+      count: 12
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "volcanic_miner_agent"
+  new_character: true
+
+  location:
+    x: 198
+    y: 632
+
+  skill_levels:
+    mining: 52
+    smithing: 42
+    health: 60
+    strength: 45
+    defense: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 40
+    - item: "healthpotion"
+      count: 22
+    - item: "goldore"
+      count: 2
+    - item: "lapisore"
+      count: 1
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "forge_master_agent"
+  new_character: true
+
+  location:
+    x: 200
+    y: 634
+
+  skill_levels:
+    smithing: 55
+    crafting: 45
+    health: 55
+    strength: 40
+    magic: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 40
+    - item: "healthpotion"
+      count: 18
+    - item: "manapotion"
+      count: 15
+
+  equipped_items:
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team navigates to Water Guardian location at (197, 633)"
+  - "Team defeats Water Guardian (Level 36)"
+  - "Team collects at least one equipment drop (redguardarmor, ring1, scimitar, or watermelonbow)"
+  - "volcanic_miner_agent has goldore and lapisore verified in inventory"
+  - "All agents coordinate via chat during combat"
+  - "All agents survive the Water Guardian encounter"

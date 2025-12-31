@@ -1,0 +1,202 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Combat Battalion - Ogre Hunt"
+  description: "Five warriors work together to defeat ogres in coordinated combat"
+
+# Task objectives
+objectives:
+  primary: "Defeat 2x Ogres and 3x Goblins in coordinated team combat"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent combat scenario.
+
+  OBJECTIVE: Eliminate multiple enemy types through coordinated warfare.
+
+  TARGETS:
+  - 2x Ogres (Level 18, 150 HP each)
+  - 3x Goblins (Level 7, 90 HP each)
+
+  ENEMY CHARACTERISTICS:
+  - Ogres: Strong melee fighters, high HP
+  - Goblins: Weaker but often in groups
+
+  COMBAT TACTICS:
+  - Tank draws ogre aggro
+  - DPS focus fire on single target
+  - Archer provides ranged support
+  - Healers keep team alive
+
+  ENEMY LOCATIONS:
+  - Ogres: Mountain and wilderness regions
+  - Goblins: Forest edges and caves
+
+  DO NOT use complete() until all enemies are defeated!
+
+# Limitations
+max_action_steps: 35
+
+# Agent configurations
+agent_1:
+  username: "tank_agent"
+  new_character: true
+
+  location:
+    x: 420
+    y: 350
+
+  skill_levels:
+    strength: 45
+    defense: 50
+    health: 60
+    accuracy: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "dps1_agent"
+  new_character: true
+
+  location:
+    x: 425
+    y: 350
+
+  skill_levels:
+    strength: 50
+    accuracy: 40
+    health: 45
+    defense: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "dps2_agent"
+  new_character: true
+
+  location:
+    x: 430
+    y: 350
+
+  skill_levels:
+    strength: 48
+    accuracy: 42
+    health: 45
+    defense: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "archer_agent"
+  new_character: true
+
+  location:
+    x: 435
+    y: 355
+
+  skill_levels:
+    archery: 45
+    accuracy: 50
+    health: 40
+    defense: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "arrow"
+      count: 50
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "mage_agent"
+  new_character: true
+
+  location:
+    x: 440
+    y: 355
+
+  skill_levels:
+    magic: 45
+    health: 45
+    defense: 25
+    accuracy: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "2x Ogres are defeated"
+  - "3x Goblins are defeated"
+  - "All agents survive the combat"

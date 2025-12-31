@@ -1,0 +1,308 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+# SOURCE: task_100_resource_survey.yaml
+
+task:
+  name: "Resource Survey - Continental Expedition (Harder)"
+  description: "Ten agents gather massive resources from multiple biomes"
+
+objectives:
+  primary: "Collect 14x logs, 14x ironore, 10x icelogs, and 8x rawshrimp from different regions"
+
+relevant_game_context: |
+  This is a cooperative multi-agent survey scenario with maximum difficulty.
+
+  CHALLENGE MODE:
+  - Doubled resource targets across all biomes
+  - Lower skill levels
+  - Fewer consumables
+  - Must coordinate across four regions
+
+  PRODUCTION TARGETS (DOUBLED):
+  - 14x logs (from forest)
+  - 14x ironore (from mountain)
+  - 10x icelogs (from ice region)
+  - 8x rawshrimp (from coast)
+
+  LOCATIONS:
+  - Forest: Around (388, 10)
+  - Mountain: Around (230, 40)
+  - Ice Region: Around (259, 151)
+  - Coast: Around (580, 750)
+
+  TEAM ROLES:
+  - Forest Team: Harvest logs
+  - Mountain Team: Mine iron ore
+  - Ice Team: Harvest ice logs
+  - Coastal Team: Fish shrimp
+
+  DO NOT use complete() until all objectives are met!
+
+max_action_steps: 70
+
+agent_1:
+  username: "forest_logger1_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 38
+    strength: 28
+    health: 31
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 27
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "forest_logger2_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 12
+
+  skill_levels:
+    lumberjacking: 35
+    strength: 25
+    health: 29
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 27
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "mountain_miner1_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 40
+
+  skill_levels:
+    mining: 38
+    strength: 28
+    health: 31
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 27
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "mountain_miner2_agent"
+  new_character: true
+
+  location:
+    x: 232
+    y: 42
+
+  skill_levels:
+    mining: 35
+    strength: 25
+    health: 29
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 27
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "ice_logger1_agent"
+  new_character: true
+
+  location:
+    x: 259
+    y: 151
+
+  skill_levels:
+    lumberjacking: 35
+    strength: 25
+    health: 29
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 27
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "ice_logger2_agent"
+  new_character: true
+
+  location:
+    x: 261
+    y: 153
+
+  skill_levels:
+    lumberjacking: 33
+    strength: 23
+    health: 27
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 27
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "coastal_fisher1_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 750
+
+  skill_levels:
+    fishing: 35
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 27
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "coastal_fisher2_agent"
+  new_character: true
+
+  location:
+    x: 582
+    y: 752
+
+  skill_levels:
+    fishing: 33
+    health: 26
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 27
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "support1_agent"
+  new_character: true
+
+  location:
+    x: 350
+    y: 250
+
+  skill_levels:
+    strength: 23
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "coordinator_agent"
+  new_character: true
+
+  location:
+    x: 352
+    y: 252
+
+  skill_levels:
+    strength: 18
+    health: 23
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains at least 14x logs"
+  - "Team inventory contains at least 14x ironore (or smelted)"
+  - "Team inventory contains at least 10x icelogs"
+  - "Team inventory contains at least 8x rawshrimp"
+  - "All agents survive the resource survey mission"

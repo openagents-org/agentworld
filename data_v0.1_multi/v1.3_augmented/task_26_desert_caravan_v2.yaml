@@ -1,0 +1,206 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets, added 4th agent
+# SOURCE: task_26_desert_caravan.yaml
+
+task:
+  name: "Desert Caravan Expedition - Resource Gathering and Team Exchange (Harder)"
+  description: "Four agents work together to gather desert resources, defeat multiple desert creatures, and complete extensive resource exchanges"
+
+objectives:
+  primary: "Successfully gather desert resources through mining and combat, defeat multiple desert creatures, and complete at least 5 resource exchanges"
+
+relevant_game_context: |
+  This is a cooperative multi-agent desert expedition with increased difficulty.
+
+  CHALLENGE MODE:
+  - Must defeat at least 3 desert creatures (cactus, scorpion, vulture)
+  - Must mine at least 2 different ore deposits
+  - Must complete at least 5 resource transfers between agents
+  - Added 4th agent (desert_scout_agent) for wider coverage
+  - Reduced consumables - manage resources carefully
+  - Starting further from desert requires longer travel
+
+  OBJECTIVE: Complete full desert expedition with combat, mining, and extensive resource sharing.
+
+  MISSION REQUIREMENTS:
+  - Navigate to Southern Desert region (Y > 600)
+  - Defeat at least 3 desert creatures
+  - Mine at least 2 rock/ore deposits
+  - Complete at least 5 transfer_items operations
+  - Coordinate extensively via chat (at least 5 times)
+
+  TEAM COORDINATION:
+  - Use chat to coordinate combat and mining
+  - Share gathered resources between all four agents
+  - Coordinate who fights which creatures
+  - Plan efficient routes through the desert
+
+  DO NOT use complete() until ALL objectives achieved!
+
+  DESERT CHALLENGES:
+  🌵 Desert Creatures:
+    - Cactus (level 16): Always aggressive
+    - Desert Scorpion (level 24): Medium difficulty
+    - Scorpion (level 38): Harder target
+    - Vulture (level 25): Drops feathers
+    - Must defeat 3+ creatures total
+
+  ⛏️ Mining Operations:
+    - Mine Gold ore (level 25), Pythar ore (level 15)
+    - Need 2+ successful mining operations
+
+max_action_steps: 65
+
+agent_1:
+  username: "caravan_leader_agent"
+  new_character: true
+
+  location:
+    x: 180
+    y: 200
+
+  skill_levels:
+    strength: 32
+    health: 42
+    defense: 28
+    accuracy: 22
+    crafting: 18
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "healthpotion"
+      count: 8
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "bow"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "desert_trader_agent"
+  new_character: true
+
+  location:
+    x: 185
+    y: 200
+
+  skill_levels:
+    crafting: 28
+    strength: 28
+    health: 38
+    accuracy: 18
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 25
+    - item: "goldnugget"
+      count: 8
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "resource_gatherer_agent"
+  new_character: true
+
+  location:
+    x: 190
+    y: 200
+
+  skill_levels:
+    mining: 22
+    foraging: 18
+    strength: 38
+    health: 42
+    accuracy: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 25
+    - item: "healthpotion"
+      count: 6
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "desert_scout_agent"
+  new_character: true
+
+  location:
+    x: 195
+    y: 200
+
+  skill_levels:
+    strength: 35
+    accuracy: 28
+    health: 40
+    defense: 25
+    mining: 18
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 25
+    - item: "healthpotion"
+      count: 6
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "bow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "All four agents navigate to Southern Desert region (Y > 600)"
+  - "Team defeats at least 3 desert creatures (any combination of cactus, scorpion, vulture)"
+  - "resource_gatherer_agent mines at least 2 rock/ore deposits"
+  - "At least 5 resource transfers completed using transfer_items"
+  - "Each agent both gives and receives at least one item"
+  - "Team coordinates via chat at least 5 times"
+  - "All four agents survive the desert expedition"
+  - "Full desert expedition completed within time limit"

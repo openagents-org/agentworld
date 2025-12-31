@@ -1,0 +1,328 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Ocean Expedition - Fishing and Combat"
+  description: "Eleven agents fish and defeat sea creatures"
+
+# Task objectives
+objectives:
+  primary: "Catch 8x rawshrimp, defeat Mermaid at (580, 755), and cook 4x Cooked Shrimp"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent ocean expedition scenario.
+
+  OBJECTIVE: Fish, defeat sea boss, and cook.
+
+  PRODUCTION TARGETS:
+  - 8x rawshrimp (from fishing)
+  - Defeat Mermaid boss
+  - 4x Cooked Shrimp (from cooking)
+
+  COMBAT TARGET:
+  - Mermaid (Level 55) at (580, 755)
+
+  LOCATIONS:
+  - Fishing: Coastal (580, 750)
+
+  DO NOT use complete() until all objectives are met!
+
+# Limitations
+max_action_steps: 45
+
+# Agent configurations
+agent_1:
+  username: "fisher1_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 750
+
+  skill_levels:
+    fishing: 48
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fisher2_agent"
+  new_character: true
+
+  location:
+    x: 582
+    y: 752
+
+  skill_levels:
+    fishing: 45
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "fisher3_agent"
+  new_character: true
+
+  location:
+    x: 584
+    y: 754
+
+  skill_levels:
+    fishing: 42
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "fighter1_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 755
+
+  skill_levels:
+    strength: 55
+    defense: 48
+    health: 62
+
+  inventory_items:
+    - item: "flask"
+      count: 40
+    - item: "apple"
+      count: 45
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "fighter2_agent"
+  new_character: true
+
+  location:
+    x: 582
+    y: 757
+
+  skill_levels:
+    strength: 52
+    defense: 45
+    health: 58
+
+  inventory_items:
+    - item: "flask"
+      count: 40
+    - item: "apple"
+      count: 45
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "fighter3_agent"
+  new_character: true
+
+  location:
+    x: 578
+    y: 753
+
+  skill_levels:
+    strength: 50
+    defense: 42
+    health: 55
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "cook1_agent"
+  new_character: true
+
+  location:
+    x: 585
+    y: 752
+
+  skill_levels:
+    cooking: 45
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "cook2_agent"
+  new_character: true
+
+  location:
+    x: 587
+    y: 754
+
+  skill_levels:
+    cooking: 42
+    health: 33
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "support1_agent"
+  new_character: true
+
+  location:
+    x: 586
+    y: 756
+
+  skill_levels:
+    strength: 30
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "support2_agent"
+  new_character: true
+
+  location:
+    x: 588
+    y: 758
+
+  skill_levels:
+    strength: 28
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_11:
+  username: "coordinator_agent"
+  new_character: true
+
+  location:
+    x: 590
+    y: 760
+
+  skill_levels:
+    strength: 25
+    health: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team inventory contains at least 8x rawshrimp (or cooked)"
+  - "Mermaid at (580, 755) defeated"
+  - "Team inventory contains at least 4x cookedshrimp"
+  - "All agents survive the ocean expedition"

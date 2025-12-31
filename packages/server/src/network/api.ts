@@ -19,6 +19,8 @@ import type Entity from '../game/entity/entity';
 import Character from '../game/entity/character/character';
 import Item from '../game/entity/objects/item';
 import type { EquipmentData, SerializedEquipment } from '@kaetram/common/network/impl/equipment';
+import { SimulationEngine, validateState, validateAction } from './simulation';
+import type { SimulationState, SimulationAction } from './simulation';
 
 /**
  * API will have a variety of uses. Including communication
@@ -1922,6 +1924,106 @@ export default class API {
                 response.status(500).json({
                     status: 'error',
                     message: `Internal server error: ${(error as Error).message}`
+                });
+            }
+        });
+
+        // ====================================================================
+        // Simulation API Endpoints
+        // These endpoints allow stateless simulation of agent actions
+        // without requiring actual game sessions.
+        // ====================================================================
+
+        /**
+         * Get environment observation at a position
+         * Input: x, y coordinates, optional radius
+         * Output: Environment data (mobs, resources, players, collisions, etc.)
+         */
+        router.get('/ai/simulation/observe', (request: Request, response: Response) => {
+            try {
+                const x = parseInt(request.query.x as string);
+                const y = parseInt(request.query.y as string);
+                const radius = parseInt(request.query.radius as string) || 64;
+
+                if (isNaN(x) || isNaN(y)) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'x and y coordinates are required'
+                    });
+                }
+
+                // Validate coordinates are within map bounds
+                if (this.world.map.isOutOfBounds(x, y)) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Coordinates are out of map bounds',
+                        mapBounds: {
+                            width: this.world.map.width,
+                            height: this.world.map.height
+                        }
+                    });
+                }
+
+                // Create simulation engine and get observation
+                const engine = new SimulationEngine(this.world);
+                const observation = engine.getEnvironmentAtPosition(x, y, radius);
+
+                response.json({
+                    status: 'success',
+                    ...observation
+                });
+            } catch (error) {
+                log.error(`Error in simulation observe: ${error}`);
+                response.status(500).json({
+                    status: 'error',
+                    message: 'Internal server error'
+                });
+            }
+        });
+
+        /**
+         * Simulate an action with a given state
+         * Input: state (SimulationState), action (SimulationAction)
+         * Output: state_after, success, message
+         */
+        router.post('/ai/simulation/act', (request: Request, response: Response) => {
+            try {
+                const { state, action } = request.body;
+
+                // Validate state
+                const stateValidation = validateState(state);
+                if (!stateValidation.valid) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: `Invalid state: ${stateValidation.error}`
+                    });
+                }
+
+                // Validate action
+                const actionValidation = validateAction(action);
+                if (!actionValidation.valid) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: `Invalid action: ${actionValidation.error}`
+                    });
+                }
+
+                // Create simulation engine and execute action
+                const engine = new SimulationEngine(this.world);
+                const result = engine.simulate(state as SimulationState, action as SimulationAction);
+
+                response.json({
+                    status: result.success ? 'success' : 'error',
+                    success: result.success,
+                    message: result.message,
+                    state_after: result.state_after,
+                    details: result.details
+                });
+            } catch (error) {
+                log.error(`Error in simulation act: ${error}`);
+                response.status(500).json({
+                    status: 'error',
+                    message: 'Internal server error'
                 });
             }
         });

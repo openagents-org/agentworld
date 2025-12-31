@@ -1,0 +1,304 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_99_kingdom_festival.yaml
+
+task:
+  name: "Kingdom Festival - Quick Prep (Easier)"
+  description: "Ten agents defeat boss and craft items for festival"
+
+objectives:
+  primary: "Defeat Ancient Wizard at (163, 339), cook 2x Cooked Shrimp, and craft 1x Heavy Sword and 1x Gold Ring"
+
+relevant_game_context: |
+  This is a cooperative multi-agent festival preparation with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - Fighters have bonus combat stats
+  - cook1_agent has rawshrimp ready
+  - smith1_agent has ironbar and hilt ready
+  - jeweler_agent has goldbar ready
+  - Reduced production targets
+
+  PRODUCTION TARGETS (REDUCED):
+  - Defeat Ancient Wizard (Level 10)
+  - 2x Cooked Shrimp (from cooking) - shrimp ready!
+  - 1x Heavy Sword (2x ironbar + hilt2) - materials ready!
+  - 1x Gold Ring (2x goldbar) - goldbar ready!
+
+  COMBAT TARGET:
+  - Ancient Wizard (Level 10) at (163, 339)
+
+  DO NOT use complete() until all objectives are met!
+
+max_action_steps: 22
+
+agent_1:
+  username: "fighter1_agent"
+  new_character: true
+
+  location:
+    x: 163
+    y: 339
+
+  skill_levels:
+    strength: 59
+    defense: 52
+    health: 66
+
+  inventory_items:
+    - item: "flask"
+      count: 55
+    - item: "apple"
+      count: 60
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fighter2_agent"
+  new_character: true
+
+  location:
+    x: 165
+    y: 341
+
+  skill_levels:
+    strength: 57
+    defense: 49
+    health: 63
+
+  inventory_items:
+    - item: "flask"
+      count: 55
+    - item: "apple"
+      count: 60
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "fighter3_agent"
+  new_character: true
+
+  location:
+    x: 161
+    y: 337
+
+  skill_levels:
+    strength: 55
+    defense: 47
+    health: 60
+
+  inventory_items:
+    - item: "flask"
+      count: 55
+    - item: "apple"
+      count: 60
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "cook1_agent"
+  new_character: true
+
+  location:
+    x: 400
+    y: 10
+
+  skill_levels:
+    cooking: 57
+    health: 46
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+    - item: "rawshrimp"
+      count: 3
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "smith1_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 40
+
+  skill_levels:
+    smithing: 59
+    crafting: 52
+    health: 46
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+    - item: "ironbar"
+      count: 2
+    - item: "hilt2"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "jeweler_agent"
+  new_character: true
+
+  location:
+    x: 234
+    y: 44
+
+  skill_levels:
+    crafting: 57
+    smithing: 49
+    health: 44
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+    - item: "goldbar"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "support1_agent"
+  new_character: true
+
+  location:
+    x: 356
+    y: 256
+
+  skill_levels:
+    strength: 37
+    health: 46
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "support2_agent"
+  new_character: true
+
+  location:
+    x: 358
+    y: 258
+
+  skill_levels:
+    strength: 35
+    health: 43
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "support3_agent"
+  new_character: true
+
+  location:
+    x: 360
+    y: 260
+
+  skill_levels:
+    strength: 33
+    health: 41
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "coordinator_agent"
+  new_character: true
+
+  location:
+    x: 362
+    y: 262
+
+  skill_levels:
+    strength: 32
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Ancient Wizard at (163, 339) defeated"
+  - "Team inventory contains at least 2x cookedshrimp"
+  - "Team inventory contains 1x heavysword"
+  - "Team inventory contains 1x goldring"
+  - "All agents survive the festival preparation"

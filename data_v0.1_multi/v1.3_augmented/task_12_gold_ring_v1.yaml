@@ -1,0 +1,126 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, easier completion
+# SOURCE: task_12_gold_ring.yaml
+
+task:
+  name: "Cooperative Gold Ring Forging - Premium Metallurgy (Easier)"
+  description: "Three agents work together to create a gold ring - with pre-smelted gold bars"
+
+objectives:
+  primary: "Create a gold ring through coordinated gold extraction and premium metallurgy"
+
+relevant_game_context: |
+  This is a cooperative multi-agent premium metallurgy scenario requiring gold materials.
+
+  STARTING ADVANTAGE:
+  - gold_smith_agent already has 2x goldbar (pre-smelted!)
+  - Extra materials provided for safety
+  - Higher skill levels to handle 40% success rate challenge
+
+  OBJECTIVE: Create a gold ring with pre-processed materials.
+
+  SIMPLIFIED STRATEGY:
+  - gold_smith_agent already has 2x goldbar
+  - gold_smith_agent crafts goldring immediately
+  - Other agents provide support
+
+  NOTE: Gold smelting has 40% success rate, but we skip that step!
+
+  DO NOT use complete() until goldring is crafted!
+
+  CRAFTING RECIPES:
+  🟨 Smithing Recipe - goldring:
+    - craft_item skill=Smithing itemKey=goldring
+    - Materials: 2x goldbar → 1x goldring
+    - Level required: 1 (Smithing skill)
+
+max_action_steps: 15
+
+agent_1:
+  username: "gold_miner_agent"
+  new_character: true
+  location:
+    x: 212
+    y: 650
+  skill_levels:
+    mining: 40
+    strength: 38
+    health: 33
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "goldore"
+      count: 3
+    - item: "coal"
+      count: 3
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "coal_supplier_agent"
+  new_character: true
+  location:
+    x: 216
+    y: 315
+  skill_levels:
+    mining: 30
+    strength: 33
+    health: 28
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "coal"
+      count: 3
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "gold_smith_agent"
+  new_character: true
+  location:
+    x: 242
+    y: 336
+  skill_levels:
+    smithing: 35
+    mining: 18
+    strength: 28
+    health: 28
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "goldbar"
+      count: 2
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "gold_smith_agent crafts goldring from 2x goldbar"
+  - "gold_smith_agent successfully equips the gold ring"
+  - "Premium metallurgy operations complete quickly"

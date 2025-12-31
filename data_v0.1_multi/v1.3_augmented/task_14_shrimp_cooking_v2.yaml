@@ -1,0 +1,134 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, must fish and cook larger quantity
+# SOURCE: task_14_shrimp_cooking.yaml
+
+task:
+  name: "Cooperative Shrimp Cooking - Seafood Culinary Team (Harder)"
+  description: "Three agents work together to prepare 15x cooked shrimp through extensive fishing and cooking"
+
+objectives:
+  primary: "Prepare 15x cooked shrimp through coordinated fishing and culinary operations"
+
+relevant_game_context: |
+  This is a cooperative multi-agent seafood cooking scenario.
+
+  CHALLENGE MODE:
+  - Must prepare 15x cookedshrimp (tripled target!)
+  - seafood_chef_agent starts with only 3x rawshrimp - must fish more!
+  - Full fishing → cooking chain required
+  - Reduced consumables - manage resources carefully
+
+  OBJECTIVE: Fish and cook 15x shrimp through complete production chain.
+
+  REQUIRED MATERIALS:
+  - 15x rawshrimp (must fish most of them)
+  - Team has 6x rawshrimp total - need 9+ more
+
+  STRATEGY:
+  - fisherman_agent catches additional rawshrimp
+  - All shrimp transferred to seafood_chef_agent
+  - seafood_chef_agent cooks all 15x
+
+  DO NOT use complete() until 15x cookedshrimp exists!
+
+  CRAFTING RECIPES:
+  🎣 Fishing - rawshrimp:
+    - harvest_resource on shrimp fishing spots to get rawshrimp
+    - Level required: 1+ (Fishing skill)
+
+  🍤 Cooking Recipe - cookedshrimp:
+    - craft_item skill=Cooking itemKey=cookedshrimp
+    - Materials: 1x rawshrimp → 1x cookedshrimp
+    - Level required: 1 (Cooking skill)
+    - Cook 15 times!
+
+max_action_steps: 40
+
+agent_1:
+  username: "fisherman_agent"
+  new_character: true
+  location:
+    x: 200
+    y: 200
+  skill_levels:
+    fishing: 22
+    strength: 22
+    health: 22
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+    - item: "rawshrimp"
+      count: 3
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fuel_gatherer_agent"
+  new_character: true
+  location:
+    x: 205
+    y: 200
+  skill_levels:
+    foraging: 18
+    lumberjacking: 12
+    fishing: 15
+    strength: 22
+    health: 22
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "seafood_chef_agent"
+  new_character: true
+  location:
+    x: 210
+    y: 200
+  skill_levels:
+    cooking: 18
+    fishing: 8
+    strength: 18
+    health: 22
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+    - item: "rawshrimp"
+      count: 3
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team catches additional rawshrimp to reach 15+ total"
+  - "All rawshrimp transferred to seafood_chef_agent"
+  - "seafood_chef_agent cooks 15x cookedshrimp"
+  - "Final target: 15x cookedshrimp in team inventory"
+  - "All agents coordinate fishing and cooking operations"

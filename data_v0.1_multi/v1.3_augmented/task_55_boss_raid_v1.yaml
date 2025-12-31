@@ -1,0 +1,194 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_55_boss_raid.yaml
+
+task:
+  name: "Boss Raid - Wizard Hunt (Easier)"
+  description: "Five powerful warriors defeat the Ancient Wizard"
+
+objectives:
+  primary: "Defeat the Ancient Wizard at (163, 339) with enhanced combat team"
+
+relevant_game_context: |
+  This is a cooperative multi-agent boss raid with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - Higher combat stats across all warriors
+  - Enchanted weapons and armor
+  - More consumables for healing
+  - Only one boss target (no Hermit Crab Warrior)
+
+  TARGET (REDUCED):
+  - Ancient Wizard (Level 10) at magical region (163, 339)
+
+  COMBAT STRATEGY:
+  - Tank draws aggro
+  - DPS focus fire on wizard
+  - Mage provides magic support
+  - Archer deals ranged damage
+  - Support keeps team alive
+
+  DO NOT use complete() until boss is defeated!
+
+max_action_steps: 25
+
+agent_1:
+  username: "tank_agent"
+  new_character: true
+
+  location:
+    x: 163
+    y: 339
+
+  skill_levels:
+    strength: 60
+    defense: 65
+    health: 75
+    accuracy: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 2
+    - item: "platearmor"
+      count: 1
+      enchant: 2
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "dps_agent"
+  new_character: true
+
+  location:
+    x: 165
+    y: 341
+
+  skill_levels:
+    strength: 65
+    accuracy: 55
+    health: 60
+    defense: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 40
+    - item: "apple"
+      count: 45
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 2
+    - item: "leatherarmor"
+      count: 1
+      enchant: 1
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "mage_agent"
+  new_character: true
+
+  location:
+    x: 161
+    y: 337
+
+  skill_levels:
+    magic: 65
+    health: 60
+    defense: 40
+    accuracy: 50
+
+  inventory_items:
+    - item: "flask"
+      count: 40
+    - item: "apple"
+      count: 45
+
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 1
+    - item: "leatherarmor"
+      count: 1
+      enchant: 1
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "archer_agent"
+  new_character: true
+
+  location:
+    x: 167
+    y: 343
+
+  skill_levels:
+    archery: 60
+    accuracy: 65
+    health: 55
+    defense: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+    - item: "arrow"
+      count: 80
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 2
+    - item: "leatherarmor"
+      count: 1
+      enchant: 1
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "support_agent"
+  new_character: true
+
+  location:
+    x: 159
+    y: 335
+
+  skill_levels:
+    magic: 55
+    health: 65
+    defense: 50
+    strength: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 1
+    - item: "platearmor"
+      count: 1
+      enchant: 1
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Ancient Wizard at (163, 339) is defeated"
+  - "All agents survive the raid"

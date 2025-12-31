@@ -1,0 +1,121 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets, easier completion
+# SOURCE: task_16_resource_protection.yaml
+
+task:
+  name: "Resource Protection Mission - Guardian Team Defense (Easier)"
+  description: "Three agents work together where one guardian protects two collectors - reduced targets"
+
+objectives:
+  primary: "Successfully protect collectors while they gather 3x logs and 2x blueberry under combat conditions"
+
+relevant_game_context: |
+  This is a cooperative multi-agent protection scenario requiring tactical coordination.
+
+  STARTING ADVANTAGE:
+  - Reduced targets: only 3x logs and 2x blueberry (easier than 5+3)
+  - guardian_agent has extra arrows (70)
+  - Higher skill levels for better combat performance
+  - collectors start with some resources pre-gathered
+
+  OBJECTIVE: Gather reduced resources while protecting the team.
+
+  MISSION REQUIREMENTS:
+  - Collect 3x logs and 2x blueberry (reduced from 5+3)
+  - Keep all team members alive throughout the mission
+  - Use teamwork to balance resource gathering with security
+
+  DO NOT use complete() until ALL objectives are achieved safely!
+
+  COMBAT & GATHERING:
+  🏹 Combat: Use attack on hostile targets
+  🪵 Lumberjacking: harvest_resource on oak trees → 3x logs
+  🫐 Foraging: harvest_resource on blueberry bushes → 2x blueberry
+
+max_action_steps: 20
+
+agent_1:
+  username: "guardian_agent"
+  new_character: true
+  location:
+    x: 180
+    y: 200
+  skill_levels:
+    archery: 30
+    fletching: 18
+    strength: 25
+    defense: 20
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "arrow"
+      count: 70
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "lumber_collector_agent"
+  new_character: true
+  location:
+    x: 185
+    y: 200
+  skill_levels:
+    lumberjacking: 30
+    defense: 15
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "logs"
+      count: 1
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "forager_collector_agent"
+  new_character: true
+  location:
+    x: 190
+    y: 200
+  skill_levels:
+    foraging: 20
+    defense: 15
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "blueberry"
+      count: 1
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "lumber_collector_agent has at least 3x logs in inventory"
+  - "forager_collector_agent has at least 2x blueberry in inventory"
+  - "All agents remain alive throughout the mission"
+  - "Guardian successfully protects team from threats"

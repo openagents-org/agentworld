@@ -1,0 +1,268 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+# SOURCE: task_64_ice_expedition.yaml
+
+task:
+  name: "Ice Region Expedition (Harder)"
+  description: "Eight explorers face expanded ice region challenges"
+
+objectives:
+  primary: "Collect 16x ice logs, defeat 8x Ice Rats, and craft 4x Axe"
+
+relevant_game_context: |
+  This is a cooperative multi-agent ice expedition with increased difficulty.
+
+  CHALLENGE MODE:
+  - Doubled all targets
+  - Must mine iron ore for axe bars
+  - Lower combat stats require better tactics
+  - Fewer consumables - manage carefully
+  - Ice region is dangerous!
+
+  PRODUCTION TARGETS (DOUBLED):
+  - 16x ice logs (harvesting)
+  - Defeat 8x Ice Rat
+  - 4x Axe (3x ironbar + 1x logs each = 12 bars, 4 logs)
+
+  ICE REGION LOCATION:
+  - Ice region around (259, 151)
+  - Ice Rats spawn frequently
+
+  MATERIAL REQUIREMENTS:
+  - 12x ironbar (need to mine 12 ore + 12 coal)
+  - 4x logs for axe handles
+
+  DO NOT use complete() until ALL objectives are met!
+
+max_action_steps: 60
+
+agent_1:
+  username: "scout1_agent"
+  new_character: true
+
+  location:
+    x: 350
+    y: 250
+
+  skill_levels:
+    strength: 33
+    accuracy: 30
+    health: 45
+    defense: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "scout2_agent"
+  new_character: true
+
+  location:
+    x: 352
+    y: 252
+
+  skill_levels:
+    strength: 31
+    accuracy: 28
+    health: 43
+    defense: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "lumberjack1_agent"
+  new_character: true
+
+  location:
+    x: 354
+    y: 254
+
+  skill_levels:
+    lumberjacking: 35
+    strength: 28
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "lumberjack2_agent"
+  new_character: true
+
+  location:
+    x: 356
+    y: 256
+
+  skill_levels:
+    lumberjacking: 33
+    strength: 26
+    health: 36
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "hunter1_agent"
+  new_character: true
+
+  location:
+    x: 348
+    y: 248
+
+  skill_levels:
+    strength: 40
+    accuracy: 35
+    health: 47
+    defense: 31
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "hunter2_agent"
+  new_character: true
+
+  location:
+    x: 350
+    y: 246
+
+  skill_levels:
+    strength: 38
+    accuracy: 33
+    health: 45
+    defense: 29
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "miner_agent"
+  new_character: true
+
+  location:
+    x: 346
+    y: 252
+
+  skill_levels:
+    mining: 30
+    strength: 26
+    health: 33
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "crafter_agent"
+  new_character: true
+
+  location:
+    x: 352
+    y: 248
+
+  skill_levels:
+    crafting: 35
+    smithing: 30
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+    - item: "ironbar"
+      count: 12
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains at least 16x icelogs"
+  - "8x Ice Rat defeated"
+  - "Team inventory contains 4x axe"
+  - "All agents survive the expedition"

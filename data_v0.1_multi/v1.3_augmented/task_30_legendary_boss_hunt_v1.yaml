@@ -1,0 +1,141 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_30_legendary_boss_hunt.yaml
+
+task:
+  name: "Legendary Boss Hunt - Triple Boss Elimination (Easier)"
+  description: "Three agents work together with enhanced equipment to defeat two legendary bosses"
+
+objectives:
+  primary: "Defeat the Mermaid at (580, 755) and Dark Wolf at (1016, 682) with enhanced combat capabilities"
+
+relevant_game_context: |
+  This is a cooperative multi-agent boss hunting scenario with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - Higher skill levels for elite combat
+  - More consumables for sustained fighting
+  - Only need to defeat TWO bosses (not three!)
+  - Ice Knight is NOT required
+  - Enchanted equipment for extra damage
+  - Pre-positioned near first boss
+
+  OBJECTIVE: Defeat two legendary bosses across different regions.
+
+  TARGET BOSSES (REDUCED):
+  - Mermaid (Level 55): Located at coastal region (580, 755)
+  - Dark Wolf (Level 0): Located at dark region (1016, 682)
+  - Ice Knight: SKIPPED in this variant
+
+  TEAM COORDINATION:
+  - Use global chat to coordinate boss locations and timing
+  - Share healing items between fights
+  - Rest and resupply between boss encounters
+
+  COMBAT STRATEGY:
+  - Mermaid: Water-based attacks, use ranged weapons
+  - Dark Wolf: Fast attacks, coordinate melee and magic
+
+  DO NOT use complete() until BOTH bosses are defeated!
+
+max_action_steps: 28
+
+agent_1:
+  username: "warrior_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 750
+
+  skill_levels:
+    strength: 58
+    defense: 52
+    health: 68
+    accuracy: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 45
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 2
+    - item: "platearmor"
+      count: 1
+      enchant: 2
+    - item: "leatherboots"
+      count: 1
+      enchant: 1
+
+agent_2:
+  username: "mage_agent"
+  new_character: true
+
+  location:
+    x: 585
+    y: 750
+
+  skill_levels:
+    magic: 62
+    health: 58
+    defense: 42
+    accuracy: 48
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 45
+
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 2
+    - item: "leatherarmor"
+      count: 1
+      enchant: 2
+    - item: "leatherboots"
+      count: 1
+      enchant: 1
+
+agent_3:
+  username: "ranger_agent"
+  new_character: true
+
+  location:
+    x: 590
+    y: 750
+
+  skill_levels:
+    archery: 58
+    accuracy: 58
+    health: 52
+    defense: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 45
+    - item: "arrow"
+      count: 150
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 2
+    - item: "leatherarmor"
+      count: 1
+      enchant: 1
+    - item: "leatherboots"
+      count: 1
+      enchant: 1
+
+success_criteria:
+  - "Mermaid at (580, 755) is defeated"
+  - "Dark Wolf at (1016, 682) is defeated"
+  - "All three agents survive both boss encounters"

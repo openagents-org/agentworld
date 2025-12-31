@@ -1,0 +1,285 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+# SOURCE: task_94_maritime_trading.yaml
+
+task:
+  name: "Maritime Trading - Empire Trade (Harder)"
+  description: "Ten agents fish and craft for large-scale maritime trading"
+
+objectives:
+  primary: "Catch 16x rawshrimp, cook 12x Cooked Shrimp, and craft 4x Gold Ring"
+
+relevant_game_context: |
+  This is a cooperative multi-agent maritime scenario with maximum difficulty.
+
+  CHALLENGE MODE:
+  - Doubled fishing and cooking targets
+  - Quadrupled ring production
+  - Lower skill levels
+  - Fewer consumables
+
+  PRODUCTION TARGETS (DOUBLED):
+  - 16x rawshrimp (from fishing)
+  - 12x Cooked Shrimp (from cooking)
+  - 4x Gold Ring (2x goldbar each)
+
+  MATERIALS NEEDED:
+  - 8x goldbar for rings
+
+  LOCATIONS:
+  - Fishing: Coastal (580, 750)
+
+  DO NOT use complete() until all objectives are met!
+
+max_action_steps: 65
+
+agent_1:
+  username: "fisher1_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 750
+
+  skill_levels:
+    fishing: 41
+    health: 33
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fisher2_agent"
+  new_character: true
+
+  location:
+    x: 582
+    y: 752
+
+  skill_levels:
+    fishing: 38
+    health: 31
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "fisher3_agent"
+  new_character: true
+
+  location:
+    x: 584
+    y: 754
+
+  skill_levels:
+    fishing: 35
+    health: 29
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "fisher4_agent"
+  new_character: true
+
+  location:
+    x: 586
+    y: 756
+
+  skill_levels:
+    fishing: 33
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "cook1_agent"
+  new_character: true
+
+  location:
+    x: 585
+    y: 752
+
+  skill_levels:
+    cooking: 38
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "cook2_agent"
+  new_character: true
+
+  location:
+    x: 587
+    y: 754
+
+  skill_levels:
+    cooking: 35
+    health: 26
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "crafter_agent"
+  new_character: true
+
+  location:
+    x: 350
+    y: 250
+
+  skill_levels:
+    crafting: 35
+    smithing: 28
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+    - item: "goldbar"
+      count: 8
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "support1_agent"
+  new_character: true
+
+  location:
+    x: 352
+    y: 252
+
+  skill_levels:
+    strength: 21
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "support2_agent"
+  new_character: true
+
+  location:
+    x: 354
+    y: 254
+
+  skill_levels:
+    strength: 19
+    health: 23
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "coordinator_agent"
+  new_character: true
+
+  location:
+    x: 356
+    y: 256
+
+  skill_levels:
+    strength: 18
+    health: 23
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains at least 16x rawshrimp (or cooked)"
+  - "Team inventory contains at least 12x cookedshrimp"
+  - "Team inventory contains 4x goldring"
+  - "All agents survive the maritime trading mission"

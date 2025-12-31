@@ -1,0 +1,133 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_36_elite_skeleton_hunt.yaml
+
+task:
+  name: "Elite Skeleton Hunt - Undead Elimination (Easier)"
+  description: "Three agents work together with pre-gathered resources to hunt skeletons"
+
+objectives:
+  primary: "Defeat 2x Skeletons and collect 3x logs with pre-gathered starting materials"
+
+relevant_game_context: |
+  This is a cooperative multi-agent combat and gathering scenario with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - gatherer_agent starts with 2x logs already collected
+  - Higher skill levels for safer combat
+  - More consumables for healing
+  - Reduced targets: 2x Skeletons (not 3)
+  - Only need 1 additional log
+
+  TARGETS (REDUCED):
+  - Defeat 2x Skeletons (Level 14, 140 HP each)
+  - Collect 3x logs total (have 2, need 1 more)
+  - Skeletons drop: sword2 (heavy sword)
+
+  COMBAT TACTICS:
+  - Skeletons are undead melee fighters
+  - Use coordinated attacks to take them down quickly
+
+  DO NOT use complete() until objectives are met!
+
+max_action_steps: 20
+
+agent_1:
+  username: "warrior_agent"
+  new_character: true
+
+  location:
+    x: 500
+    y: 400
+
+  skill_levels:
+    strength: 52
+    defense: 48
+    health: 62
+    accuracy: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fighter_agent"
+  new_character: true
+
+  location:
+    x: 505
+    y: 400
+
+  skill_levels:
+    strength: 48
+    accuracy: 42
+    health: 58
+    defense: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "gatherer_agent"
+  new_character: true
+
+  location:
+    x: 510
+    y: 400
+
+  skill_levels:
+    lumberjacking: 32
+    strength: 38
+    health: 48
+    defense: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "logs"
+      count: 2
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "2x Skeletons are defeated"
+  - "Team inventory contains at least 3x logs"
+  - "All agents survive the hunt"

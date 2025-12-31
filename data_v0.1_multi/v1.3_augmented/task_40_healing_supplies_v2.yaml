@@ -1,0 +1,159 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets, added 4th agent
+# SOURCE: task_40_healing_supplies.yaml
+
+task:
+  name: "Healing Supplies - Cooked Food Production (Harder)"
+  description: "Four agents work together to catch and cook extensive healing food supplies"
+
+objectives:
+  primary: "Catch 10x rawshrimp and cook them all into 10x cookedshrimp"
+
+relevant_game_context: |
+  This is a cooperative multi-agent fishing and cooking scenario with increased difficulty.
+
+  CHALLENGE MODE:
+  - Increased target: 10x cookedshrimp (more than doubled!)
+  - Must catch all 10 shrimp from scratch
+  - Added 4th agent (assistant_fisher) for more fishing
+  - Reduced consumables - manage resources carefully
+  - Lower skill levels require more attempts
+
+  PRODUCTION CHAIN:
+  1. Catch 10x rawshrimp from fishing spots
+  2. Transfer to cook_agent
+  3. Cook 10x cookedshrimp (1x rawshrimp → 1x cookedshrimp each)
+
+  FISHING LOCATIONS:
+  - Shrimp fishing spots: Coastal regions (550-600, 700-760)
+
+  TEAM COORDINATION:
+  - Three fishers catch shrimp in parallel
+  - Cook processes shrimp as they arrive
+  - Coordinate transfers to maximize cooking efficiency
+
+  DO NOT use complete() until all 10 shrimp are cooked!
+
+max_action_steps: 45
+
+agent_1:
+  username: "fisher1_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 740
+
+  skill_levels:
+    fishing: 18
+    strength: 18
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fisher2_agent"
+  new_character: true
+
+  location:
+    x: 585
+    y: 740
+
+  skill_levels:
+    fishing: 18
+    strength: 18
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "cook_agent"
+  new_character: true
+
+  location:
+    x: 590
+    y: 740
+
+  skill_levels:
+    cooking: 18
+    strength: 18
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "assistant_fisher"
+  new_character: true
+
+  location:
+    x: 575
+    y: 740
+
+  skill_levels:
+    fishing: 20
+    strength: 20
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team catches at least 10x rawshrimp"
+  - "Team inventory contains at least 10x cookedshrimp"
+  - "All four agents survive the mission"

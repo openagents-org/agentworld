@@ -1,0 +1,304 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_78_trading_network.yaml
+
+task:
+  name: "Trading Network - Quick Trade (Easier)"
+  description: "Ten agents gather resources and craft jewelry with pre-gathered materials"
+
+objectives:
+  primary: "Collect 5x logs, 4x ironore, 3x goldore, and craft 1x Golden Ring"
+
+relevant_game_context: |
+  This is a cooperative multi-agent resource gathering with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - logger1_agent has 3x logs pre-gathered
+  - smelter_agent has 5x coal and 2x goldbar ready
+  - Higher skill levels for faster gathering
+  - Reduced targets and simplified crafting
+
+  COLLECTION TARGETS (REDUCED):
+  - 5x logs (from forest) - 3 already gathered!
+  - 4x ironore (from mountain)
+  - 3x goldore (from mountain)
+
+  PRODUCTION TARGET:
+  - 1x Golden Ring (2x goldbar) - goldbar ready!
+
+  DO NOT use complete() until all objectives are met!
+
+max_action_steps: 20
+
+agent_1:
+  username: "logger1_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 40
+    strength: 32
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+    - item: "logs"
+      count: 3
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "logger2_agent"
+  new_character: true
+
+  location:
+    x: 392
+    y: 12
+
+  skill_levels:
+    lumberjacking: 40
+    strength: 32
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "logger3_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 14
+
+  skill_levels:
+    lumberjacking: 40
+    strength: 32
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "ironminer1_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 40
+
+  skill_levels:
+    mining: 45
+    strength: 37
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "ironminer2_agent"
+  new_character: true
+
+  location:
+    x: 232
+    y: 42
+
+  skill_levels:
+    mining: 45
+    strength: 37
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "goldminer1_agent"
+  new_character: true
+
+  location:
+    x: 238
+    y: 48
+
+  skill_levels:
+    mining: 45
+    strength: 37
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "goldminer2_agent"
+  new_character: true
+
+  location:
+    x: 240
+    y: 50
+
+  skill_levels:
+    mining: 45
+    strength: 37
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "smelter_agent"
+  new_character: true
+
+  location:
+    x: 235
+    y: 45
+
+  skill_levels:
+    smithing: 45
+    crafting: 40
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+    - item: "coal"
+      count: 5
+    - item: "goldbar"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "crafter_agent"
+  new_character: true
+
+  location:
+    x: 237
+    y: 47
+
+  skill_levels:
+    crafting: 45
+    smithing: 40
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "coordinator_agent"
+  new_character: true
+
+  location:
+    x: 350
+    y: 250
+
+  skill_levels:
+    strength: 40
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains at least 5x logs"
+  - "Team inventory contains at least 4x ironore (or smelted)"
+  - "Team inventory contains at least 3x goldore (or smelted)"
+  - "Team inventory contains 1x goldring"
+  - "All agents survive the mission"

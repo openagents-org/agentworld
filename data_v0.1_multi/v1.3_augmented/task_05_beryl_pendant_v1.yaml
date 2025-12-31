@@ -1,0 +1,146 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, easier completion
+# SOURCE: task_05_beryl_pendant.yaml
+
+task:
+  name: "Cooperative Beryl Pendant Crafting - Elegant Jewelry (Easier)"
+  description: "Three agents work together to create a beryl pendant - with pre-gathered string materials"
+
+# Task objectives
+objectives:
+  primary: "Create a beryl pendant by combining beryl gem with crafted string"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent jewelry crafting scenario requiring both foraging and mining skills.
+
+  STARTING ADVANTAGE:
+  - jeweler_agent already has 1x string (pre-crafted!)
+  - gem_miner_agent has the beryl gem ready
+  - forager_agent has extra bluelily for backup
+  - Higher skill levels across all agents
+
+  OBJECTIVE: Create a beryl pendant by combining beryl gem with string.
+
+  SIMPLIFIED STRATEGY:
+  - jeweler_agent already has string - just needs the beryl gem!
+  - gem_miner_agent transfers beryl to jeweler_agent
+  - jeweler_agent crafts the beryl pendant immediately
+
+  TEAM COORDINATION:
+  - Use global chat to coordinate the simple transfer
+  - gem_miner_agent sends beryl to jeweler_agent
+  - jeweler_agent crafts berylpendant
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  CRAFTING RECIPES (CRITICAL KNOWLEDGE):
+  📿 Crafting Recipe - beryl pendant:
+    - craft_item skill=Crafting itemKey=berylpendant
+    - Materials: 1x beryl + 1x string → 1x beryl pendant
+    - Level required: 1 (Crafting skill)
+    - jeweler_agent has both materials available!
+
+# Limitations
+max_action_steps: 20
+
+# Agent configurations
+agent_1:
+  username: "forager_agent"
+  new_character: true
+
+  location:
+    x: 160
+    y: 120
+
+  skill_levels:
+    foraging: 25
+    strength: 23
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "bluelily"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "gem_miner_agent"
+  new_character: true
+
+  location:
+    x: 170
+    y: 125
+
+  skill_levels:
+    mining: 30
+    strength: 33
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "beryl"
+      count: 2
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "jeweler_agent"
+  new_character: true
+
+  location:
+    x: 165
+    y: 130
+
+  skill_levels:
+    crafting: 30
+    foraging: 15
+    mining: 8
+    strength: 23
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "string"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "gem_miner_agent transfers beryl to jeweler_agent"
+  - "jeweler_agent crafts beryl pendant with string + beryl"
+  - "jeweler_agent successfully equips beryl pendant"
+  - "All agents coordinate material transfers efficiently"
+  - "Elegant jewelry production completes quickly"

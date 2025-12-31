@@ -1,0 +1,320 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+# SOURCE: task_90_barrier_reboot.yaml
+
+task:
+  name: "Barrier Reboot - Full System Reset (Harder)"
+  description: "Ten agents defeat multiple bosses and craft multiple staffs"
+
+objectives:
+  primary: "Defeat Ancient Wizard at (163, 339), Golden Golem at (548, 232), and Iron Ogre at (238, 48), craft 2x Lightning Staff and 2x Fire Staff, and collect 12x goldore"
+
+relevant_game_context: |
+  This is a cooperative multi-agent combat and crafting scenario with maximum difficulty.
+
+  CHALLENGE MODE:
+  - THREE bosses to defeat
+  - Doubled staff production
+  - Increased mining targets
+  - Lower skill levels
+
+  COMBAT TARGETS (EXPANDED):
+  - Ancient Wizard (Level 10) at (163, 339)
+  - Golden Golem (Level 38) at (548, 232)
+  - Iron Ogre (Level 25) at (238, 48)
+
+  PRODUCTION TARGETS (DOUBLED):
+  - 12x goldore (from mountain)
+  - 2x Lightning Staff (staff + lightningbead each)
+  - 2x Fire Staff (staff + firebead each)
+
+  TEAM ROLES:
+  - Combat Team: Defeat bosses
+  - Miners: Extract gold ore
+  - Crafters: Make staffs
+
+  DO NOT use complete() until all objectives are met!
+
+max_action_steps: 65
+
+agent_1:
+  username: "fighter1_agent"
+  new_character: true
+
+  location:
+    x: 163
+    y: 339
+
+  skill_levels:
+    strength: 44
+    defense: 38
+    health: 51
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fighter2_agent"
+  new_character: true
+
+  location:
+    x: 548
+    y: 236
+
+  skill_levels:
+    strength: 41
+    defense: 36
+    health: 48
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "fighter3_agent"
+  new_character: true
+
+  location:
+    x: 238
+    y: 52
+
+  skill_levels:
+    strength: 38
+    defense: 34
+    health: 46
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "miner1_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 40
+
+  skill_levels:
+    mining: 36
+    strength: 28
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "miner2_agent"
+  new_character: true
+
+  location:
+    x: 232
+    y: 42
+
+  skill_levels:
+    mining: 34
+    strength: 26
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "miner3_agent"
+  new_character: true
+
+  location:
+    x: 234
+    y: 44
+
+  skill_levels:
+    mining: 32
+    strength: 24
+    health: 26
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "crafter1_agent"
+  new_character: true
+
+  location:
+    x: 350
+    y: 250
+
+  skill_levels:
+    crafting: 38
+    magic: 31
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "lightningbead"
+      count: 2
+    - item: "bead"
+      count: 4
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "crafter2_agent"
+  new_character: true
+
+  location:
+    x: 352
+    y: 252
+
+  skill_levels:
+    crafting: 36
+    magic: 29
+    health: 26
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "firebead"
+      count: 2
+    - item: "bead"
+      count: 4
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "support1_agent"
+  new_character: true
+
+  location:
+    x: 354
+    y: 254
+
+  skill_levels:
+    strength: 24
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "coordinator_agent"
+  new_character: true
+
+  location:
+    x: 356
+    y: 256
+
+  skill_levels:
+    strength: 21
+    health: 26
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Ancient Wizard at (163, 339) defeated"
+  - "Golden Golem at (548, 232) defeated"
+  - "Iron Ogre at (238, 48) defeated"
+  - "Team inventory contains at least 12x goldore (or smelted)"
+  - "Team inventory contains 2x lightningstaff"
+  - "Team inventory contains 2x firestaff"
+  - "All agents survive the barrier reboot mission"

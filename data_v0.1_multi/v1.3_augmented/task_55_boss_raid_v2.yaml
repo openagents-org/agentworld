@@ -1,0 +1,202 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+# SOURCE: task_55_boss_raid.yaml
+
+task:
+  name: "Boss Raid - Multi-Boss Gauntlet (Harder)"
+  description: "Five warriors face expanded boss roster in extended combat"
+
+objectives:
+  primary: "Defeat Ancient Wizard, 2x Hermit Crab Warriors, and 1x Spider Queen"
+
+relevant_game_context: |
+  This is a cooperative multi-agent boss raid with increased difficulty.
+
+  CHALLENGE MODE:
+  - Added additional bosses
+  - Lower combat stats require better tactics
+  - Less enchanted equipment
+  - Fewer consumables - manage healing carefully
+
+  TARGET BOSSES (EXPANDED):
+  - Ancient Wizard (Level 10): Located at (163, 339)
+  - 2x Hermit Crab Warriors (Level 30): Located at (224, 359)
+  - Spider Queen (Level 25): Located at (180, 345)
+
+  RAID ORDER:
+  1. Ancient Wizard first (easier, warm up)
+  2. Spider Queen second
+  3. Hermit Crab Warriors last (toughest)
+
+  COMBAT STRATEGY:
+  - Tank must hold aggro effectively
+  - Coordinate focus fire
+  - Conserve resources for later bosses
+  - Support must triage healing
+
+  DO NOT use complete() until ALL bosses are defeated!
+
+max_action_steps: 65
+
+agent_1:
+  username: "tank_agent"
+  new_character: true
+
+  location:
+    x: 163
+    y: 339
+
+  skill_levels:
+    strength: 45
+    defense: 50
+    health: 60
+    accuracy: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "dps_agent"
+  new_character: true
+
+  location:
+    x: 165
+    y: 341
+
+  skill_levels:
+    strength: 50
+    accuracy: 40
+    health: 45
+    defense: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "mage_agent"
+  new_character: true
+
+  location:
+    x: 161
+    y: 337
+
+  skill_levels:
+    magic: 50
+    health: 45
+    defense: 25
+    accuracy: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "archer_agent"
+  new_character: true
+
+  location:
+    x: 167
+    y: 343
+
+  skill_levels:
+    archery: 45
+    accuracy: 50
+    health: 40
+    defense: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "arrow"
+      count: 45
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "support_agent"
+  new_character: true
+
+  location:
+    x: 159
+    y: 335
+
+  skill_levels:
+    magic: 40
+    health: 50
+    defense: 35
+    strength: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Ancient Wizard at (163, 339) is defeated"
+  - "2x Hermit Crab Warriors at (224, 359) are defeated"
+  - "Spider Queen at (180, 345) is defeated"
+  - "All agents survive the raid"

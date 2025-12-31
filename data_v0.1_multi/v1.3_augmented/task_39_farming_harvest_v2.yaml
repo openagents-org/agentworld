@@ -1,0 +1,151 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets, added 4th agent
+# SOURCE: task_39_farming_harvest.yaml
+
+task:
+  name: "Farming Harvest - Crop Collection (Harder)"
+  description: "Four agents work together to harvest extensive crops from farming areas"
+
+objectives:
+  primary: "Harvest 8x corn, 8x tomato, 6x peach, and 4x blueberry from farming regions"
+
+relevant_game_context: |
+  This is a cooperative multi-agent farming scenario with increased difficulty.
+
+  CHALLENGE MODE:
+  - Increased targets: 8x corn, 8x tomato, 6x peach
+  - Added new crop: 4x blueberry
+  - No pre-gathered materials
+  - Added 4th agent (harvest_helper) for wider coverage
+  - Reduced consumables - manage resources carefully
+
+  HARVEST TARGETS (INCREASED):
+  - 8x corn (Level 5 foraging)
+  - 8x tomato (Level 15 foraging)
+  - 6x peach (Level 5 foraging)
+  - 4x blueberry (Level 1 foraging) - NEW!
+
+  CROP LOCATIONS:
+  - Corn: Farm areas and plains
+  - Tomato: Garden areas
+  - Peach: Orchard areas near forests
+  - Blueberry: Forest edges and clearings
+
+  DO NOT use complete() until all crops are harvested!
+
+max_action_steps: 42
+
+agent_1:
+  username: "farmer1_agent"
+  new_character: true
+
+  location:
+    x: 350
+    y: 250
+
+  skill_levels:
+    foraging: 18
+    strength: 18
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "farmer2_agent"
+  new_character: true
+
+  location:
+    x: 355
+    y: 250
+
+  skill_levels:
+    foraging: 22
+    strength: 18
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "farmer3_agent"
+  new_character: true
+
+  location:
+    x: 360
+    y: 250
+
+  skill_levels:
+    foraging: 18
+    strength: 18
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "harvest_helper"
+  new_character: true
+
+  location:
+    x: 365
+    y: 250
+
+  skill_levels:
+    foraging: 20
+    strength: 20
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains at least 8x corn"
+  - "Team inventory contains at least 8x tomato"
+  - "Team inventory contains at least 6x peach"
+  - "Team inventory contains at least 4x blueberry"
+  - "All four agents survive the harvest"

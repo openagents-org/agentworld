@@ -1,0 +1,299 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+# SOURCE: task_96_mountain_rescue.yaml
+
+task:
+  name: "Mountain Rescue - Full Supply Chain (Harder)"
+  description: "Ten agents gather massive supplies for rescue operation"
+
+objectives:
+  primary: "Collect 12x logs, 14x ironore, cook 8x Cooked Shrimp, and craft 4x Pickaxe"
+
+relevant_game_context: |
+  This is a cooperative multi-agent rescue supply scenario with maximum difficulty.
+
+  CHALLENGE MODE:
+  - Doubled resource collection
+  - Quadrupled tool production
+  - Lower skill levels
+  - Fewer consumables
+
+  PRODUCTION TARGETS (DOUBLED):
+  - 12x logs (from forest)
+  - 14x ironore (from mountain)
+  - 8x Cooked Shrimp (from cooking)
+  - 4x Pickaxe (5x ironbar + 1x logs each)
+
+  MATERIALS NEEDED:
+  - 20x ironbar for pickaxes
+  - 4x logs for pickaxes
+
+  LOCATIONS:
+  - Forest: Around (388, 10)
+  - Mountain: Around (230, 40)
+
+  DO NOT use complete() until all objectives are met!
+
+max_action_steps: 65
+
+agent_1:
+  username: "logger1_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 35
+    strength: 25
+    health: 27
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "logger2_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 12
+
+  skill_levels:
+    lumberjacking: 33
+    strength: 23
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "miner1_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 40
+
+  skill_levels:
+    mining: 35
+    strength: 25
+    health: 27
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "miner2_agent"
+  new_character: true
+
+  location:
+    x: 232
+    y: 42
+
+  skill_levels:
+    mining: 33
+    strength: 23
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "miner3_agent"
+  new_character: true
+
+  location:
+    x: 234
+    y: 44
+
+  skill_levels:
+    mining: 31
+    strength: 21
+    health: 23
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "cook1_agent"
+  new_character: true
+
+  location:
+    x: 350
+    y: 250
+
+  skill_levels:
+    cooking: 35
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+    - item: "rawshrimp"
+      count: 8
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "crafter_agent"
+  new_character: true
+
+  location:
+    x: 352
+    y: 252
+
+  skill_levels:
+    smithing: 35
+    crafting: 31
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+    - item: "ironbar"
+      count: 20
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "support1_agent"
+  new_character: true
+
+  location:
+    x: 354
+    y: 254
+
+  skill_levels:
+    strength: 23
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "support2_agent"
+  new_character: true
+
+  location:
+    x: 356
+    y: 256
+
+  skill_levels:
+    strength: 21
+    health: 26
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "coordinator_agent"
+  new_character: true
+
+  location:
+    x: 358
+    y: 258
+
+  skill_levels:
+    strength: 19
+    health: 23
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains at least 12x logs"
+  - "Team inventory contains at least 14x ironore (or smelted)"
+  - "Team inventory contains at least 8x cookedshrimp"
+  - "Team inventory contains 4x pickaxe"
+  - "All agents survive the mountain rescue mission"

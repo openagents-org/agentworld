@@ -1,0 +1,160 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets, added 4th agent
+# SOURCE: task_44_messenger_run.yaml
+
+task:
+  name: "Messenger Run - Resource Delivery (Harder)"
+  description: "Four agents work together to gather and deliver expanded resource list"
+
+objectives:
+  primary: "Gather 6x logs, 4x coal, and 3x ironore - deliver all to coordinator"
+
+relevant_game_context: |
+  This is a cooperative multi-agent delivery scenario with increased difficulty.
+
+  CHALLENGE MODE:
+  - Doubled resource targets
+  - Added iron ore requirement
+  - Added 4th agent (runner_agent) for additional coverage
+  - Reduced consumables - manage carefully
+  - Lower skill levels require more gathering attempts
+
+  COLLECTION TARGETS (INCREASED):
+  - 6x logs (from Oak trees)
+  - 4x coal (from Coal rocks)
+  - 3x ironore (from Iron rocks)
+
+  DELIVERY REQUIREMENT:
+  - ALL resources must be transferred to coordinator_agent
+  - Use transfer_items to hand over materials
+
+  RESOURCE LOCATIONS:
+  - Oak trees: Forest regions (380-400, 0-50)
+  - Coal/Iron rocks: Mountain regions (200-250, 30-60)
+
+  DO NOT use complete() until coordinator has all resources!
+
+max_action_steps: 40
+
+agent_1:
+  username: "lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 20
+    strength: 22
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "miner_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 45
+
+  skill_levels:
+    mining: 18
+    strength: 22
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "coordinator_agent"
+  new_character: true
+
+  location:
+    x: 300
+    y: 100
+
+  skill_levels:
+    strength: 18
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "runner_agent"
+  new_character: true
+
+  location:
+    x: 235
+    y: 50
+
+  skill_levels:
+    mining: 15
+    lumberjacking: 15
+    strength: 20
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "coordinator_agent inventory contains at least 6x logs"
+  - "coordinator_agent inventory contains at least 4x coal"
+  - "coordinator_agent inventory contains at least 3x ironore"
+  - "All four agents survive the mission"

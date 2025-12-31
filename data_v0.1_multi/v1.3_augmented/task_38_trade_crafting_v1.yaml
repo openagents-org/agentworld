@@ -1,0 +1,130 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_38_trade_crafting.yaml
+
+task:
+  name: "Trade Crafting - Gold Ring Production (Easier)"
+  description: "Three agents work together with pre-gathered materials to craft a gold ring"
+
+objectives:
+  primary: "Craft 1x Gold Ring using pre-gathered gold ore and coal"
+
+relevant_game_context: |
+  This is a cooperative multi-agent mining and crafting scenario with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - miner_agent starts with 2x goldore already mined
+  - support_agent starts with 2x coal for smelting
+  - Higher skill levels for guaranteed success
+  - No mining required - just crafting operations
+
+  PRODUCTION CHAIN:
+  1. Smelt 2x goldbar (1x goldore + 1x coal → 1x goldbar)
+  2. Craft 1x goldring (2x goldbar → 1x goldring)
+
+  TEAM COORDINATION:
+  - Transfer materials to smith_agent
+  - Smith performs smelting and crafting
+
+  DO NOT use complete() until gold ring is crafted!
+
+max_action_steps: 18
+
+agent_1:
+  username: "miner_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 45
+
+  skill_levels:
+    mining: 38
+    strength: 35
+    health: 48
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "goldore"
+      count: 2
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "smith_agent"
+  new_character: true
+
+  location:
+    x: 235
+    y: 45
+
+  skill_levels:
+    smithing: 32
+    mining: 28
+    strength: 30
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "support_agent"
+  new_character: true
+
+  location:
+    x: 240
+    y: 45
+
+  skill_levels:
+    mining: 32
+    strength: 30
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "coal"
+      count: 2
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains 1x goldring"
+  - "All agents survive the mission"

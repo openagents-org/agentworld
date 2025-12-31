@@ -1,0 +1,196 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+# SOURCE: task_63_jewelry_crafting.yaml
+
+task:
+  name: "Jewelry Crafting - Full Collection (Harder)"
+  description: "Six artisans mine and craft expanded jewelry collection"
+
+objectives:
+  primary: "Craft 4x Gold Ring, 4x Silver Ring, and 4x Beryl Pendant"
+
+relevant_game_context: |
+  This is a cooperative multi-agent jewelry crafting with increased difficulty.
+
+  CHALLENGE MODE:
+  - Doubled all targets
+  - Must mine all ore from scratch
+  - Need 8x goldore + 8x ironore + 16x coal
+  - Must forage 4x beryl
+  - Lower skill levels require more attempts
+  - Reduced consumables
+
+  PRODUCTION TARGETS (DOUBLED):
+  - 4x Gold Ring (2x goldbar each = 8 goldbar)
+  - 4x Silver Ring (2x ironbar each = 8 ironbar)
+  - 4x Beryl Pendant (beryl + string each)
+
+  MATERIAL REQUIREMENTS:
+  - 8x goldore + 8x coal → 8x goldbar
+  - 8x ironore + 8x coal → 8x ironbar
+  - 4x beryl (foraging)
+  - 4x string (provided)
+
+  DO NOT use complete() until ALL jewelry is crafted!
+
+max_action_steps: 55
+
+agent_1:
+  username: "goldminer_agent"
+  new_character: true
+
+  location:
+    x: 238
+    y: 48
+
+  skill_levels:
+    mining: 37
+    strength: 28
+    health: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "ironminer_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 40
+
+  skill_levels:
+    mining: 35
+    strength: 25
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "coalminer_agent"
+  new_character: true
+
+  location:
+    x: 232
+    y: 42
+
+  skill_levels:
+    mining: 30
+    strength: 23
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "forager_agent"
+  new_character: true
+
+  location:
+    x: 250
+    y: 350
+
+  skill_levels:
+    foraging: 40
+    health: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "string"
+      count: 4
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "smelter_agent"
+  new_character: true
+
+  location:
+    x: 240
+    y: 50
+
+  skill_levels:
+    smithing: 35
+    crafting: 28
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "jeweler_agent"
+  new_character: true
+
+  location:
+    x: 245
+    y: 52
+
+  skill_levels:
+    crafting: 45
+    smithing: 40
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains 4x goldring"
+  - "Team inventory contains 4x silverring"
+  - "Team inventory contains 4x berylpendant"
+  - "All agents survive the crafting mission"

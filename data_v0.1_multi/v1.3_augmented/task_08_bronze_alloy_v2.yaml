@@ -1,0 +1,164 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased target, full mining required
+# SOURCE: task_08_bronze_alloy.yaml
+
+task:
+  name: "Cooperative Bronze Alloy Creation - Advanced Metallurgy (Harder)"
+  description: "Three agents work together to create FIVE bronze bars through extensive ore mining and challenging alloy smelting"
+
+# Task objectives
+objectives:
+  primary: "Create FIVE bronze bars through coordinated copper and tin mining with challenging alloy smelting"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent advanced metallurgy scenario requiring specialized ore mining.
+
+  CHALLENGE MODE:
+  - Must create FIVE bronze bars (5x target!)
+  - alloy_smith_agent starts with NO bronzebar - all must be smelted
+  - 70% success rate means ~7-8 attempts needed for 5 successes
+  - Must gather extra ore to account for failures
+  - Reduced consumables - manage resources carefully
+
+  OBJECTIVE: Create 5x bronze bars through extensive mining and careful smelting.
+
+  REQUIRED MATERIALS (accounting for 70% success):
+  - ~8x copperore and ~8x tinore minimum (to get 5 successes)
+  - Team has 7 of each - may need to mine more!
+
+  STRATEGY:
+  - Consolidate all ores with alloy_smith_agent
+  - Attempt smelting multiple times
+  - Track successes and failures via chat
+  - Mine additional ore if running low
+
+  DO NOT use complete() until 5x bronzebar is obtained!
+
+  CRAFTING RECIPES (CRITICAL KNOWLEDGE):
+  ⛏️ Mining - copper ore:
+    - harvest_resource on copper rock instances to get copperore
+    - Level required: 1+ (Mining skill)
+
+  ⛏️ Mining - tin ore:
+    - harvest_resource on tin rock instances to get tinore
+    - Level required: 1+ (Mining skill)
+
+  🥉 Smelting Recipe - bronzebar:
+    - craft_item skill=Smelting itemKey=bronzebar
+    - Materials: 1x copperore + 1x tinore → 1x bronzebar
+    - Level required: 5 (uses Smithing skill level)
+    - Success chance: 70% - CHALLENGING! Multiple attempts required!
+
+# Limitations
+max_action_steps: 45
+
+# Agent configurations
+agent_1:
+  username: "copper_miner_agent"
+  new_character: true
+
+  location:
+    x: 126
+    y: 23
+
+  skill_levels:
+    mining: 22
+    strength: 27
+    health: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+    - item: "copperore"
+      count: 3
+    - item: "tinore"
+      count: 2
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "tin_miner_agent"
+  new_character: true
+
+  location:
+    x: 183
+    y: 312
+
+  skill_levels:
+    mining: 22
+    strength: 27
+    health: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+    - item: "copperore"
+      count: 2
+    - item: "tinore"
+      count: 3
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "alloy_smith_agent"
+  new_character: true
+
+  location:
+    x: 242
+    y: 336
+
+  skill_levels:
+    smithing: 22
+    mining: 12
+    strength: 22
+    health: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+    - item: "copperore"
+      count: 2
+    - item: "tinore"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "Team consolidates all copper and tin ore with alloy_smith_agent"
+  - "alloy_smith_agent attempts multiple bronze bar smelts"
+  - "Team mines additional ore if needed to reach target"
+  - "Final target: 5x bronzebar in team inventory"
+  - "All agents coordinate to overcome 70% success rate challenge"
+  - "Advanced alloy production demonstrates persistence and skill"

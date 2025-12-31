@@ -1,0 +1,158 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets, added 4th agent
+# SOURCE: task_37_survival_gathering.yaml
+
+task:
+  name: "Survival Gathering - Food and Resource Collection (Harder)"
+  description: "Four agents work together to gather extensive survival resources"
+
+objectives:
+  primary: "Collect 10x blueberry, 6x corn, 8x logs, and 4x tomato through coordinated gathering"
+
+relevant_game_context: |
+  This is a cooperative multi-agent survival gathering scenario with increased difficulty.
+
+  CHALLENGE MODE:
+  - Increased targets: 10x blueberry, 6x corn, 8x logs
+  - Added new resource: 4x tomato
+  - No pre-gathered materials
+  - Added 4th agent (gatherer_agent) for wider coverage
+  - Reduced consumables - manage resources carefully
+
+  COLLECTION TARGETS (INCREASED):
+  - 10x blueberry (Level 1 foraging)
+  - 6x corn (Level 5 foraging)
+  - 8x logs (Level 1 lumberjacking)
+  - 4x tomato (Level 15 foraging) - NEW!
+
+  RESOURCE LOCATIONS:
+  - Blueberry bushes: Found in forest edges and clearings
+  - Corn: Found in farming areas
+  - Oak trees: Forest regions (380-400, 0-50)
+  - Tomato: Garden areas
+
+  DO NOT use complete() until all resources are collected!
+
+max_action_steps: 45
+
+agent_1:
+  username: "forager_agent"
+  new_character: true
+
+  location:
+    x: 350
+    y: 200
+
+  skill_levels:
+    foraging: 18
+    strength: 18
+    health: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "farmer_agent"
+  new_character: true
+
+  location:
+    x: 355
+    y: 200
+
+  skill_levels:
+    foraging: 22
+    strength: 18
+    health: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 22
+    strength: 22
+    health: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "gatherer_agent"
+  new_character: true
+
+  location:
+    x: 360
+    y: 200
+
+  skill_levels:
+    foraging: 20
+    lumberjacking: 15
+    strength: 20
+    health: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains at least 10x blueberry"
+  - "Team inventory contains at least 6x corn"
+  - "Team inventory contains at least 8x logs"
+  - "Team inventory contains at least 4x tomato"
+  - "All four agents survive the gathering"

@@ -1,0 +1,115 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_20_orchard_protection.yaml
+
+task:
+  name: "Orchard Protection Mission - Fruit Grove Team Defense (Easier)"
+  description: "Three agents work together to gather orchard resources - reduced targets with pre-gathered materials"
+
+objectives:
+  primary: "Successfully protect collectors while they gather 4x blueberry and 2x rawtuna under orchard threat conditions"
+
+relevant_game_context: |
+  This is a cooperative multi-agent orchard protection scenario.
+
+  STARTING ADVANTAGE:
+  - Reduced targets: 4x blueberry and 2x rawtuna (easier than 6+3)
+  - berry_picker_agent starts with 2x blueberry
+  - pond_fisher_agent starts with 1x rawtuna
+  - Higher skill levels and more arrows
+
+  OBJECTIVE: Gather reduced orchard resources while protecting the team.
+
+  MISSION REQUIREMENTS:
+  - Collect 4x blueberry and 2x rawtuna (reduced targets)
+  - Keep all team members alive throughout the mission
+
+  DO NOT use complete() until ALL objectives are achieved safely!
+
+max_action_steps: 20
+
+agent_1:
+  username: "orchard_guardian_agent"
+  new_character: true
+  location:
+    x: 200
+    y: 200
+  skill_levels:
+    archery: 50
+    fletching: 38
+    strength: 43
+    defense: 30
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "arrow"
+      count: 110
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "berry_picker_agent"
+  new_character: true
+  location:
+    x: 205
+    y: 200
+  skill_levels:
+    foraging: 25
+    defense: 18
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "blueberry"
+      count: 2
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "pond_fisher_agent"
+  new_character: true
+  location:
+    x: 210
+    y: 200
+  skill_levels:
+    fishing: 30
+    defense: 21
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "rawtuna"
+      count: 1
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "berry_picker_agent has at least 4x blueberry in inventory"
+  - "pond_fisher_agent has at least 2x rawtuna in inventory"
+  - "All agents remain alive throughout the mission"
+  - "Orchard guardian successfully protects team from threats"

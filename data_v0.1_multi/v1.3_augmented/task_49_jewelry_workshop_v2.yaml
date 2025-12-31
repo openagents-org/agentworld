@@ -1,0 +1,187 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+# SOURCE: task_49_jewelry_workshop.yaml
+
+task:
+  name: "Jewelry Workshop - Ring Collection (Harder)"
+  description: "Five agents craft 4x Gold Rings and 4x Silver Rings from scratch"
+
+objectives:
+  primary: "Craft 4x Gold Rings and 4x Silver Rings through full production chain"
+
+relevant_game_context: |
+  This is a cooperative multi-agent jewelry crafting scenario with increased difficulty.
+
+  CHALLENGE MODE:
+  - Doubled ring targets: 4x Gold, 4x Silver
+  - Must mine all ore from scratch
+  - Need 8x goldore + 8x ironore + 16x coal
+  - Lower skill levels require more attempts
+  - Reduced consumables - manage carefully
+
+  PRODUCTION TARGETS (DOUBLED):
+  - 4x Gold Ring (2x goldbar each = 8x goldbar)
+  - 4x Silver Ring (2x ironbar each = 8x ironbar)
+
+  MATERIAL REQUIREMENTS:
+  - 8x goldore + 8x coal → 8x goldbar → 4x goldring
+  - 8x ironore + 8x coal → 8x ironbar → 4x silverring
+  - Total: 16x coal needed
+
+  RESOURCE LOCATIONS:
+  - Gold rocks: Mountain regions (Level 25 mining)
+  - Iron rocks: Mountain regions (Level 20 mining)
+  - Coal rocks: Mountain regions (Level 1 mining)
+
+  DO NOT use complete() until ALL rings are crafted!
+
+max_action_steps: 60
+
+agent_1:
+  username: "goldminer_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 45
+
+  skill_levels:
+    mining: 25
+    strength: 23
+    health: 33
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "ironminer_agent"
+  new_character: true
+
+  location:
+    x: 235
+    y: 45
+
+  skill_levels:
+    mining: 20
+    strength: 23
+    health: 33
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "coalminer_agent"
+  new_character: true
+
+  location:
+    x: 240
+    y: 45
+
+  skill_levels:
+    mining: 15
+    strength: 20
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "smelter_agent"
+  new_character: true
+
+  location:
+    x: 245
+    y: 50
+
+  skill_levels:
+    smithing: 20
+    strength: 20
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "jeweler_agent"
+  new_character: true
+
+  location:
+    x: 250
+    y: 50
+
+  skill_levels:
+    smithing: 23
+    crafting: 20
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains 4x goldring"
+  - "Team inventory contains 4x silverring"
+  - "All agents survive the mission"

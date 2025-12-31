@@ -1,0 +1,191 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_52_smithy_operation.yaml
+
+task:
+  name: "Smithy Operation - Weapon Production (Easier)"
+  description: "Five smiths with pre-smelted bars craft simplified equipment set"
+
+objectives:
+  primary: "Craft 1x Heavy Sword and 1x Silver Ring using provided iron bars"
+
+relevant_game_context: |
+  This is a cooperative multi-agent smithing scenario with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - smelter_agent starts with 6x ironbar already smelted
+  - lumberjack_agent has 2x logs ready
+  - Higher skill levels for guaranteed success
+  - Reduced targets: Just sword and ring (no pickaxe)
+
+  PRODUCTION TARGETS (REDUCED):
+  - 1x Heavy Sword (2x ironbar + 1x hilt2) - bars provided
+  - 1x Silver Ring (2x ironbar) - bars provided
+
+  MATERIAL AVAILABILITY:
+  - 6x ironbar ready (need 4 for targets)
+  - hilt2 provided
+  - No mining required!
+
+  TEAM COORDINATION:
+  - Smith crafts items using provided materials
+  - Other agents can mine for extras if desired
+
+  DO NOT use complete() until items are crafted!
+
+max_action_steps: 18
+
+agent_1:
+  username: "miner1_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 45
+
+  skill_levels:
+    mining: 38
+    strength: 38
+    health: 50
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "miner2_agent"
+  new_character: true
+
+  location:
+    x: 235
+    y: 45
+
+  skill_levels:
+    mining: 36
+    strength: 36
+    health: 48
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 35
+    strength: 32
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "logs"
+      count: 2
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "smelter_agent"
+  new_character: true
+
+  location:
+    x: 240
+    y: 50
+
+  skill_levels:
+    smithing: 38
+    strength: 32
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "ironbar"
+      count: 6
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "smith_agent"
+  new_character: true
+
+  location:
+    x: 245
+    y: 50
+
+  skill_levels:
+    smithing: 40
+    crafting: 35
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "hilt2"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains 1x sword2 (heavy sword)"
+  - "Team inventory contains 1x silverring"
+  - "All agents survive the mission"

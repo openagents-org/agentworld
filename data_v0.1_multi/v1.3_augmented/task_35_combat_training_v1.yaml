@@ -1,0 +1,131 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_35_combat_training.yaml
+
+task:
+  name: "Combat Training - Goblin Elimination (Easier)"
+  description: "Three agents work together with enhanced equipment to defeat goblins"
+
+objectives:
+  primary: "Defeat 2x Goblins through coordinated team combat"
+
+relevant_game_context: |
+  This is a cooperative multi-agent combat training scenario with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - Higher skill levels for safer combat
+  - More consumables for healing
+  - Reduced target: only 2x Goblins (not 4)
+  - Better armor reduces damage taken
+
+  TARGETS (REDUCED):
+  - Defeat 2x Goblins (Level 7, 90 HP each)
+  - Goblins drop: leather armor, leather boots, plastic bow
+
+  COMBAT TACTICS:
+  - Tank agent draws aggro and absorbs damage
+  - DPS agents deal damage from flanking positions
+  - Support provides ranged backup
+
+  DO NOT use complete() until goblins are defeated!
+
+max_action_steps: 18
+
+agent_1:
+  username: "tank_agent"
+  new_character: true
+
+  location:
+    x: 420
+    y: 350
+
+  skill_levels:
+    strength: 48
+    defense: 52
+    health: 62
+    accuracy: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "dps_agent"
+  new_character: true
+
+  location:
+    x: 425
+    y: 350
+
+  skill_levels:
+    strength: 52
+    accuracy: 48
+    health: 48
+    defense: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "ranger_agent"
+  new_character: true
+
+  location:
+    x: 430
+    y: 350
+
+  skill_levels:
+    archery: 42
+    accuracy: 48
+    health: 48
+    defense: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "arrow"
+      count: 60
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "2x Goblins are defeated"
+  - "All agents survive the combat training"

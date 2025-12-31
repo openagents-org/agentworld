@@ -1,0 +1,220 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_74_guild_equipment.yaml
+
+task:
+  name: "Guild Equipment - Quick Crafting (Easier)"
+  description: "Six guild members craft basic equipment with pre-gathered materials"
+
+objectives:
+  primary: "Craft 1x Heavy Sword, 1x Wooden Bow, and 1x Silver Ring with provided materials"
+
+relevant_game_context: |
+  This is a cooperative multi-agent crafting with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - smith_agent has 4x ironbar and 1x hilt2 ready
+  - fletcher_agent has 1x logs and 1x string ready
+  - crafter_agent has 2x ironbar ready
+  - Higher skill levels for guaranteed crafting
+  - Reduced targets: fewer items
+
+  PRODUCTION TARGETS (REDUCED):
+  - 1x Heavy Sword (2x ironbar + 1x hilt2) - materials ready!
+  - 1x Wooden Bow (1x logs + 1x string) - materials ready!
+  - 1x Silver Ring (2x ironbar) - materials ready!
+
+  TEAM COORDINATION:
+  - All materials are pre-gathered
+  - Just coordinate crafting
+
+  DO NOT use complete() until all equipment is crafted!
+
+max_action_steps: 15
+
+agent_1:
+  username: "lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 57
+    strength: 48
+    health: 55
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "miner_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 40
+
+  skill_levels:
+    mining: 57
+    strength: 50
+    health: 57
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "smith_agent"
+  new_character: true
+
+  location:
+    x: 235
+    y: 45
+
+  skill_levels:
+    smithing: 60
+    crafting: 47
+    health: 55
+
+  inventory_items:
+    - item: "flask"
+      count: 48
+    - item: "apple"
+      count: 52
+    - item: "ironbar"
+      count: 4
+    - item: "hilt2"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "fletcher_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 15
+
+  skill_levels:
+    fletching: 57
+    crafting: 45
+    health: 53
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 48
+    - item: "string"
+      count: 1
+    - item: "logs"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "crafter_agent"
+  new_character: true
+
+  location:
+    x: 240
+    y: 50
+
+  skill_levels:
+    crafting: 63
+    smithing: 50
+    health: 55
+
+  inventory_items:
+    - item: "flask"
+      count: 48
+    - item: "apple"
+      count: 52
+    - item: "ironbar"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "coordinator_agent"
+  new_character: true
+
+  location:
+    x: 245
+    y: 55
+
+  skill_levels:
+    strength: 50
+    crafting: 50
+    health: 57
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains 1x sword2 (heavy sword)"
+  - "Team inventory contains 1x woodenbow"
+  - "Team inventory contains 1x silverring"
+  - "All agents survive the crafting mission"

@@ -1,0 +1,169 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets, added 4th agent
+# SOURCE: task_45_caravan_escort.yaml
+
+task:
+  name: "Caravan Escort - Protected Gathering (Harder)"
+  description: "Four agents protect miner while they extract significant gold deposits"
+
+objectives:
+  primary: "Protect miner while they collect 6x goldore and defeat 4x hostile creatures"
+
+relevant_game_context: |
+  This is a cooperative multi-agent escort scenario with increased difficulty.
+
+  CHALLENGE MODE:
+  - Doubled gold target: 6x goldore (not 3)
+  - Doubled threats: defeat 4x hostile creatures
+  - Added 4th agent (scout_agent) for threat detection
+  - Reduced consumables - manage healing carefully
+  - Lower combat stats require better coordination
+
+  TARGETS (INCREASED):
+  - Miner collects 6x goldore from Gold rocks
+  - Guards defeat at least 4x hostile creatures
+  - All agents survive
+
+  GOLD LOCATIONS:
+  - Gold rocks: Mountain regions (200-250, 30-60)
+  - Expect multiple hostile encounters
+
+  COMBAT:
+  - Scout detects threats early
+  - Guards engage to protect miner
+  - Coordinate focus fire on dangerous enemies
+  - Miner must balance mining and retreating
+
+  DO NOT use complete() until gold is collected and all threats eliminated!
+
+max_action_steps: 45
+
+agent_1:
+  username: "guard1_agent"
+  new_character: true
+
+  location:
+    x: 225
+    y: 45
+
+  skill_levels:
+    strength: 35
+    defense: 30
+    health: 45
+    accuracy: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "guard2_agent"
+  new_character: true
+
+  location:
+    x: 240
+    y: 45
+
+  skill_levels:
+    archery: 30
+    accuracy: 35
+    health: 40
+    defense: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+    - item: "arrow"
+      count: 30
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "miner_agent"
+  new_character: true
+
+  location:
+    x: 232
+    y: 45
+
+  skill_levels:
+    mining: 25
+    strength: 22
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "scout_agent"
+  new_character: true
+
+  location:
+    x: 235
+    y: 40
+
+  skill_levels:
+    strength: 30
+    defense: 28
+    health: 40
+    accuracy: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "miner_agent inventory contains at least 6x goldore"
+  - "At least 4 hostile creatures are defeated by team"
+  - "All four agents survive the escort mission"

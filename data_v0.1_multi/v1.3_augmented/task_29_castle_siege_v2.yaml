@@ -1,0 +1,217 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets, added 4th agent
+# SOURCE: task_29_castle_siege.yaml
+
+task:
+  name: "Castle Siege Warfare - Fortress Assault & Defense (Harder)"
+  description: "Four agents work together to defeat Ice Knight and secure full fortress control"
+
+objectives:
+  primary: "Successfully defeat Ice Knight, clear fortress defenders, and secure complete castle control"
+
+relevant_game_context: |
+  This is a cooperative multi-agent siege warfare mission with increased difficulty.
+
+  CHALLENGE MODE:
+  - Must defeat Ice Knight (Level 62) - main objective
+  - Must also clear at least 3 fortress defenders/creatures
+  - Must secure strategic positions within the fortress
+  - Added 4th agent (siege_support_agent) for comprehensive assault
+  - Reduced consumables - manage resources carefully
+  - Lower skill levels require tactical coordination
+
+  OBJECTIVE: Complete full castle siege - defeat Ice Knight and secure fortress.
+
+  MISSION REQUIREMENTS:
+  - Approach castle and conduct reconnaissance
+  - Defeat Ice Knight (Level 62) at (712, 717)
+  - Clear at least 3 additional fortress defenders
+  - Secure strategic control of castle stronghold
+  - Keep all team members alive
+
+  TEAM COORDINATION:
+  - Coordinate between Ice Knight combat and defender clearing
+  - siege_support_agent assists with both objectives
+  - Share healing items across multiple encounters
+
+  DO NOT use complete() until ALL objectives achieved!
+
+  FORTRESS CHALLENGES:
+  ⚔️ Ice Knight (Level 62) at (712, 717):
+    - Elite commander - main target
+    - Heavy armor and ice attacks
+    - Requires full team coordination
+
+  🛡️ Fortress Defenders:
+    - Clear 3+ additional fortress creatures
+    - May include guards, wolves, or other defenders
+    - Clear before or after Ice Knight based on strategy
+
+max_action_steps: 52
+
+agent_1:
+  username: "siege_commander_agent"
+  new_character: true
+
+  location:
+    x: 710
+    y: 715
+
+  skill_levels:
+    strength: 48
+    accuracy: 42
+    defense: 42
+    health: 58
+    magic: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "healthpotion"
+      count: 18
+    - item: "manapotion"
+      count: 12
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fortress_breacher_agent"
+  new_character: true
+
+  location:
+    x: 714
+    y: 719
+
+  skill_levels:
+    strength: 52
+    accuracy: 38
+    defense: 38
+    health: 52
+    magic: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 25
+    - item: "healthpotion"
+      count: 15
+    - item: "manapotion"
+      count: 8
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "bow"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "castle_tactician_agent"
+  new_character: true
+
+  location:
+    x: 716
+    y: 721
+
+  skill_levels:
+    magic: 48
+    accuracy: 38
+    strength: 38
+    defense: 38
+    health: 48
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 25
+    - item: "healthpotion"
+      count: 15
+    - item: "manapotion"
+      count: 18
+
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "sidesword"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "siege_support_agent"
+  new_character: true
+
+  location:
+    x: 712
+    y: 717
+
+  skill_levels:
+    strength: 45
+    defense: 40
+    health: 52
+    accuracy: 35
+    magic: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+    - item: "healthpotion"
+      count: 15
+    - item: "manapotion"
+      count: 10
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "siege_commander_agent coordinates fortress reconnaissance"
+  - "Team approaches castle and engages fortress defenses"
+  - "fortress_breacher_agent breaches defensive positions"
+  - "Team defeats Ice Knight (Level 62) at (712, 717)"
+  - "Team clears at least 3 additional fortress defenders"
+  - "castle_tactician_agent provides effective magical support"
+  - "siege_support_agent assists in combat and clearing"
+  - "Team secures strategic control of castle stronghold"
+  - "All four agents survive the fortress siege"

@@ -1,0 +1,200 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_48_cross_region_expedition.yaml
+
+task:
+  name: "Cross-Region Expedition - Multi-Biome Gathering (Easier)"
+  description: "Five agents with pre-gathered resources complete simplified collection"
+
+objectives:
+  primary: "Collect remaining resources with partial pre-gathering done"
+
+relevant_game_context: |
+  This is a cooperative multi-agent cross-region scenario with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - forest1_agent starts with 3x logs already gathered
+  - mountain1_agent starts with 2x coal already gathered
+  - coastal_agent starts with 2x rawshrimp already caught
+  - Higher skill levels for faster gathering
+  - Only need minimal additional resources
+
+  COLLECTION TARGETS (REDUCED):
+  - 5x logs total (have 3, gather 2)
+  - 4x coal total (have 2, gather 2)
+  - 3x rawshrimp total (have 2, gather 1)
+
+  BIOME LOCATIONS:
+  - Forest: 380-400, 0-50
+  - Mountain: 200-250, 30-60
+  - Coast: 550-600, 700-760
+
+  TEAM COORDINATION:
+  - Each team gathers minimal additional resources
+  - Quick completion expected
+
+  DO NOT use complete() until all resources are collected!
+
+max_action_steps: 20
+
+agent_1:
+  username: "forest1_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 35
+    strength: 32
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "logs"
+      count: 3
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "forest2_agent"
+  new_character: true
+
+  location:
+    x: 392
+    y: 10
+
+  skill_levels:
+    lumberjacking: 35
+    strength: 32
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "mountain1_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 45
+
+  skill_levels:
+    mining: 30
+    strength: 32
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "coal"
+      count: 2
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "mountain2_agent"
+  new_character: true
+
+  location:
+    x: 235
+    y: 45
+
+  skill_levels:
+    mining: 30
+    strength: 32
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "coastal_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 740
+
+  skill_levels:
+    fishing: 30
+    strength: 28
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "rawshrimp"
+      count: 2
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains at least 5x logs"
+  - "Team inventory contains at least 4x coal"
+  - "Team inventory contains at least 3x rawshrimp"
+  - "All agents survive the expedition"

@@ -1,0 +1,231 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_68_tool_production.yaml
+
+task:
+  name: "Tool Production - Quick Forge (Easier)"
+  description: "Seven smiths craft tools with pre-smelted iron bars"
+
+objectives:
+  primary: "Craft 1x Pickaxe, 1x Axe, and 1x Heavy Sword with provided materials"
+
+relevant_game_context: |
+  This is a cooperative multi-agent smithing scenario with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - smelter_agent has 10x ironbar ready
+  - smith_agent has 5x ironbar and 1x hilt2 ready
+  - lumberjack_agent has 3x logs for handles
+  - Higher skill levels for guaranteed crafting
+  - Reduced targets: 1 of each tool
+
+  PRODUCTION TARGETS (REDUCED):
+  - 1x Pickaxe (5x ironbar + 1x logs) - materials ready!
+  - 1x Axe (3x ironbar + 1x logs) - materials ready!
+  - 1x Heavy Sword (2x ironbar + 1x hilt2) - materials ready!
+
+  TEAM COORDINATION:
+  - Materials are pre-gathered
+  - Transfer items to smith
+  - Smith crafts all tools
+
+  DO NOT use complete() until items are crafted!
+
+max_action_steps: 18
+
+agent_1:
+  username: "ironminer1_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 38
+
+  skill_levels:
+    mining: 65
+    strength: 46
+    health: 54
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "ironminer2_agent"
+  new_character: true
+
+  location:
+    x: 232
+    y: 40
+
+  skill_levels:
+    mining: 62
+    strength: 44
+    health: 52
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "coalminer1_agent"
+  new_character: true
+
+  location:
+    x: 234
+    y: 42
+
+  skill_levels:
+    mining: 54
+    strength: 40
+    health: 50
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "coalminer2_agent"
+  new_character: true
+
+  location:
+    x: 236
+    y: 44
+
+  skill_levels:
+    mining: 52
+    strength: 38
+    health: 48
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 65
+    strength: 44
+    health: 52
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+    - item: "logs"
+      count: 3
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "smelter_agent"
+  new_character: true
+
+  location:
+    x: 240
+    y: 50
+
+  skill_levels:
+    smithing: 60
+    crafting: 42
+    health: 48
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+    - item: "ironbar"
+      count: 10
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "smith_agent"
+  new_character: true
+
+  location:
+    x: 242
+    y: 52
+
+  skill_levels:
+    smithing: 75
+    crafting: 58
+    health: 50
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+    - item: "ironbar"
+      count: 5
+    - item: "hilt2"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains 1x pickaxe"
+  - "Team inventory contains 1x axe"
+  - "Team inventory contains 1x sword2 (heavy sword)"
+  - "All agents survive the production mission"

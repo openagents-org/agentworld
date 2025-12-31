@@ -1,0 +1,123 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, easier completion
+# SOURCE: task_11_lightning_staff.yaml
+
+task:
+  name: "Cooperative Lightning Staff Enhancement - Advanced Magic Crafting (Easier)"
+  description: "Three agents work together to create an enhanced lightning staff - with pre-crafted basic staff"
+
+objectives:
+  primary: "Create a lightning staff through coordinated magic staff creation and elemental enhancement"
+
+relevant_game_context: |
+  This is a cooperative multi-agent advanced magic crafting scenario requiring elemental materials.
+
+  STARTING ADVANTAGE:
+  - staff_crafter_agent already has 1x staff (pre-crafted!)
+  - magic_enhancer_agent has 1x lightningbead (for enhancement)
+  - Higher skill levels across all agents
+  - Simple assembly required!
+
+  OBJECTIVE: Create a lightning staff by combining pre-made staff with lightning bead.
+
+  SIMPLIFIED STRATEGY:
+  - staff_crafter_agent transfers staff to magic_enhancer_agent
+  - elemental_gatherer_agent transfers lightningbead to magic_enhancer_agent
+  - magic_enhancer_agent crafts lightningstaff immediately
+
+  DO NOT use complete() until lightningstaff is crafted!
+
+  CRAFTING RECIPES:
+  ⚡ Crafting Recipe - lightningstaff:
+    - craft_item skill=Crafting itemKey=lightningstaff
+    - Materials: 1x staff + 1x lightningbead → 1x lightningstaff
+    - Level required: 10 (Crafting skill)
+
+max_action_steps: 20
+
+agent_1:
+  username: "staff_crafter_agent"
+  new_character: true
+  location:
+    x: 180
+    y: 200
+  skill_levels:
+    lumberjacking: 25
+    fletching: 20
+    crafting: 20
+    strength: 28
+    health: 28
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "staff"
+      count: 1
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "elemental_gatherer_agent"
+  new_character: true
+  location:
+    x: 185
+    y: 200
+  skill_levels:
+    foraging: 30
+    magic: 25
+    strength: 23
+    health: 28
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "lightningbead"
+      count: 1
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "magic_enhancer_agent"
+  new_character: true
+  location:
+    x: 190
+    y: 200
+  skill_levels:
+    crafting: 30
+    magic: 35
+    strength: 23
+    health: 28
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "staff_crafter_agent transfers staff to magic_enhancer_agent"
+  - "elemental_gatherer_agent transfers lightningbead to magic_enhancer_agent"
+  - "magic_enhancer_agent crafts lightningstaff"
+  - "magic_enhancer_agent successfully equips the lightning staff"
+  - "Advanced magical enhancement completes quickly"

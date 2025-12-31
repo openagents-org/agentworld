@@ -1,0 +1,209 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets, added 4th agent
+# SOURCE: task_23_underwater_expedition.yaml
+
+task:
+  name: "Underwater Expedition - Deep Sea Treasure Hunt (Harder)"
+  description: "Four agents work together to explore underwater regions, harvest marine resources, and recover TWO tridents from deep sea treasures"
+
+objectives:
+  primary: "Successfully explore underwater regions, harvest 8x jellyfish, 4x clams, and recover 2x tridents from treasure locations"
+
+relevant_game_context: |
+  This is a cooperative multi-agent underwater exploration with increased difficulty.
+
+  CHALLENGE MODE:
+  - Must recover 2x tridents from underwater treasures (doubled!)
+  - Must harvest 8x jellyfish and 4x clams (increased targets)
+  - Added 4th agent (coral_explorer_agent) for wider coverage
+  - Reduced consumables - manage resources carefully
+  - Lower skill levels require more careful coordination
+
+  OBJECTIVE: Explore dangerous underwater regions to recover multiple treasures and marine resources.
+
+  MISSION REQUIREMENTS:
+  - Navigate to coastal regions and locate underwater entrances
+  - Explore underwater caves and deep sea areas safely
+  - Harvest 8x jellyfish and 4x clams from marine areas
+  - Locate and recover 2x Tridents from underwater treasure locations
+  - Handle Water Guardian and sea creature encounters
+
+  TEAM COORDINATION:
+  - Use global chat to share underwater entrance locations and treasure sightings
+  - Coordinate between surface support, diving operations, and treasure recovery
+  - Multiple divers needed to cover extensive underwater areas
+  - Work together to navigate underwater maze-like cave systems
+
+  DO NOT use complete() until ALL objectives are achieved!
+
+  UNDERWATER EXPLORATION & MARINE HARVESTING:
+  🐟 Fishing - Jellyfish:
+    - harvest_resource on Jellyfish fishing spots
+    - Level required: 5+ (Fishing skill)
+    - Need 8x total
+
+  🦪 Fishing - Clam:
+    - harvest_resource on Clam fishing spots
+    - Level required: 10+ (Fishing skill)
+    - Need 4x total
+
+  🔱 Treasure Recovery - Trident:
+    - Search for underwater treasure chests in deep sea areas
+    - Need 2x tridents from different treasure locations
+    - Coordinates around (209, 713) area and other underwater zones
+
+  🏊‍♂️ Underwater Combat:
+    - Expect Water Guardian (Level 36) and sea creatures
+    - Coordinate attacks to handle powerful aquatic enemies
+
+max_action_steps: 48
+
+agent_1:
+  username: "deep_diver_agent"
+  new_character: true
+
+  location:
+    x: 200
+    y: 200
+
+  skill_levels:
+    fishing: 12
+    swimming: 22
+    strength: 32
+    health: 42
+    accuracy: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "marine_harvester_agent"
+  new_character: true
+
+  location:
+    x: 205
+    y: 200
+
+  skill_levels:
+    fishing: 18
+    swimming: 18
+    strength: 28
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "treasure_hunter_agent"
+  new_character: true
+
+  location:
+    x: 210
+    y: 200
+
+  skill_levels:
+    swimming: 28
+    strength: 38
+    defense: 32
+    health: 48
+    accuracy: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "healthpotion"
+      count: 8
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "bow"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "coral_explorer_agent"
+  new_character: true
+
+  location:
+    x: 215
+    y: 200
+
+  skill_levels:
+    fishing: 15
+    swimming: 25
+    strength: 35
+    health: 45
+    defense: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "healthpotion"
+      count: 6
+
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team successfully explores multiple underwater areas"
+  - "Team harvests at least 8x jellyfish total"
+  - "Team harvests at least 4x clams total"
+  - "treasure_hunter_agent recovers first trident from underwater treasure"
+  - "coral_explorer_agent recovers second trident from another treasure location"
+  - "Team has 2x trident in combined inventory"
+  - "Team handles Water Guardian and sea creature encounters"
+  - "All four agents survive the dangerous underwater expedition"

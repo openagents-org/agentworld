@@ -1,0 +1,342 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+# SOURCE: task_77_harbor_defense.yaml
+
+task:
+  name: "Harbor Defense - Triple Threat (Harder)"
+  description: "Ten agents defeat three coastal bosses and craft multiple bows"
+
+objectives:
+  primary: "Defeat Water Guardian, Mermaid, and Ogre Guardian, then craft 4x Wooden Bow"
+
+relevant_game_context: |
+  This is a cooperative multi-agent coastal defense with maximum difficulty.
+
+  CHALLENGE MODE:
+  - THREE bosses to defeat
+  - Must craft 4 bows from scratch
+  - Lower combat stats
+  - Fewer consumables
+  - Must gather materials
+
+  TARGET BOSSES (EXPANDED):
+  - Water Guardian: Located at (197, 633)
+  - Mermaid: Located at (580, 755)
+  - Ogre Guardian: Located at (291, 644)
+
+  PRODUCTION TARGETS (DOUBLED):
+  - 4x Wooden Bow (1x logs + 1x string each)
+
+  DO NOT use complete() until ALL bosses are defeated and bows are crafted!
+
+max_action_steps: 75
+
+agent_1:
+  username: "leader_agent"
+  new_character: true
+
+  location:
+    x: 200
+    y: 635
+
+  skill_levels:
+    defense: 33
+    strength: 27
+    health: 33
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "tank1_agent"
+  new_character: true
+
+  location:
+    x: 195
+    y: 635
+
+  skill_levels:
+    defense: 37
+    strength: 33
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "tank2_agent"
+  new_character: true
+
+  location:
+    x: 578
+    y: 755
+
+  skill_levels:
+    defense: 35
+    strength: 31
+    health: 43
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "dps1_agent"
+  new_character: true
+
+  location:
+    x: 197
+    y: 637
+
+  skill_levels:
+    strength: 40
+    accuracy: 35
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 27
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "dps2_agent"
+  new_character: true
+
+  location:
+    x: 582
+    y: 757
+
+  skill_levels:
+    strength: 38
+    accuracy: 33
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 27
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "archer1_agent"
+  new_character: true
+
+  location:
+    x: 199
+    y: 639
+
+  skill_levels:
+    accuracy: 35
+    archery: 33
+    health: 33
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "arrow"
+      count: 22
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "archer2_agent"
+  new_character: true
+
+  location:
+    x: 584
+    y: 759
+
+  skill_levels:
+    accuracy: 33
+    archery: 31
+    health: 31
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "arrow"
+      count: 22
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "support1_agent"
+  new_character: true
+
+  location:
+    x: 193
+    y: 637
+
+  skill_levels:
+    magic: 30
+    health: 35
+    defense: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 27
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "support2_agent"
+  new_character: true
+
+  location:
+    x: 291
+    y: 644
+
+  skill_levels:
+    magic: 28
+    health: 33
+    defense: 23
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 27
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "crafter_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 15
+
+  skill_levels:
+    fletching: 35
+    crafting: 30
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "string"
+      count: 4
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Water Guardian at (197, 633) is defeated"
+  - "Mermaid at (580, 755) is defeated"
+  - "Ogre Guardian at (291, 644) is defeated"
+  - "Team inventory contains 4x woodenbow"
+  - "All agents survive the defense"

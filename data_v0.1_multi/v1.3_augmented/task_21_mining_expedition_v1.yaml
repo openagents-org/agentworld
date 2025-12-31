@@ -1,0 +1,153 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_21_mining_expedition.yaml
+
+task:
+  name: "Deep Mining Expedition - Precious Metal Extraction (Easier)"
+  description: "Three agents work together with pre-gathered materials to craft a golden ring with reduced requirements"
+
+objectives:
+  primary: "Successfully craft a golden ring using pre-gathered gold ore and coal"
+
+relevant_game_context: |
+  This is a cooperative multi-agent mining expedition with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - ore_prospector_agent starts with 1x goldore already mined
+  - fuel_gatherer_agent starts with 2x coal for smelting
+  - Higher skill levels for faster processing
+  - More consumables for safety
+
+  OBJECTIVE: Use pre-gathered materials to craft a golden ring efficiently.
+
+  MISSION REQUIREMENTS:
+  - Use existing gold ore and coal to smelt Gold Bar
+  - Craft a Golden Ring as proof of successful mining operation
+  - Coordinate material transfers between team members
+
+  TEAM COORDINATION:
+  - Use global chat to coordinate material transfers
+  - Share materials efficiently between agents
+  - Work together to optimize crafting workflow
+
+  DO NOT use complete() until the golden ring is crafted!
+
+  MINING & CRAFTING RECIPES (CRITICAL KNOWLEDGE):
+  🔥 Smelting Recipe - goldbar:
+    - craft_item skill=Smelting itemKey=goldbar
+    - Materials: 1x goldore + 1x coal → 1x goldbar
+    - Level required: 40 (Smithing skill) - EXPERT SMELTING!
+
+  💍 Smithing Recipe - goldring:
+    - craft_item skill=Smithing itemKey=goldring
+    - Materials: 1x goldbar → 1x goldring
+    - Level required: 45 (Smithing skill) - MASTER CRAFTING!
+
+max_action_steps: 18
+
+agent_1:
+  username: "ore_prospector_agent"
+  new_character: true
+
+  location:
+    x: 600
+    y: 500
+
+  skill_levels:
+    mining: 42
+    lumberjacking: 25
+    strength: 50
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "goldore"
+      count: 1
+
+  equipped_items:
+    - item: "goldaxe"
+      count: 1
+      enchant: 0
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fuel_gatherer_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 480
+
+  skill_levels:
+    mining: 32
+    strength: 45
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "coal"
+      count: 2
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "master_smith_agent"
+  new_character: true
+
+  location:
+    x: 620
+    y: 520
+
+  skill_levels:
+    smithing: 55
+    mining: 25
+    strength: 40
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "ore_prospector_agent transfers goldore to master_smith_agent"
+  - "fuel_gatherer_agent transfers coal to master_smith_agent"
+  - "master_smith_agent successfully smelts Gold Bar"
+  - "master_smith_agent successfully crafts Golden Ring"
+  - "master_smith_agent has 1x goldring in inventory"
+  - "All agents coordinate efficiently via chat"

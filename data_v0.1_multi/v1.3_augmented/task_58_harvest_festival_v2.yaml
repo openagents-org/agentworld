@@ -1,0 +1,203 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+# SOURCE: task_58_harvest_festival.yaml
+
+task:
+  name: "Harvest Festival - Celebration Prep (Harder)"
+  description: "Six agents prepare expanded festival items from scratch"
+
+objectives:
+  primary: "Cook 6x Corn Stew, craft 4x Silver Rings, and 2x Wooden Bows"
+
+relevant_game_context: |
+  This is a cooperative multi-agent festival scenario with increased difficulty.
+
+  CHALLENGE MODE:
+  - Doubled all targets
+  - Must gather all corn from scratch
+  - Need 8x ironbar for rings
+  - Need 2x logs and 2x string for bows
+  - Lower skill levels require more attempts
+  - Reduced consumables
+
+  PRODUCTION TARGETS (DOUBLED):
+  - 6x Corn Stew (6x corn + 6x bowl)
+  - 4x Silver Ring (2x ironbar each = 8 bars)
+  - 2x Wooden Bow (1x logs + 1x string each)
+
+  MATERIAL REQUIREMENTS:
+  - 6x corn (foraging)
+  - 6x bowl (provided)
+  - 8x ironbar (provided)
+  - 2x logs (gathering)
+  - 2x string (provided)
+
+  TEAM ROLES:
+  - Foragers gather 6 corn
+  - Chef cooks 6 corn stew
+  - Jeweler crafts 4 rings
+  - Artisan crafts 2 bows
+
+  DO NOT use complete() until ALL items are ready!
+
+max_action_steps: 55
+
+agent_1:
+  username: "forager1_agent"
+  new_character: true
+
+  location:
+    x: 200
+    y: 200
+
+  skill_levels:
+    foraging: 30
+    strength: 18
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "forager2_agent"
+  new_character: true
+
+  location:
+    x: 205
+    y: 200
+
+  skill_levels:
+    foraging: 25
+    strength: 15
+    health: 23
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "chef_agent"
+  new_character: true
+
+  location:
+    x: 210
+    y: 205
+
+  skill_levels:
+    cooking: 30
+    crafting: 18
+    health: 23
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+    - item: "bowl"
+      count: 6
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "jeweler_agent"
+  new_character: true
+
+  location:
+    x: 205
+    y: 205
+
+  skill_levels:
+    crafting: 35
+    smithing: 22
+    health: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+    - item: "ironbar"
+      count: 8
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "artisan_agent"
+  new_character: true
+
+  location:
+    x: 210
+    y: 200
+
+  skill_levels:
+    fletching: 22
+    crafting: 22
+    lumberjacking: 20
+    health: 23
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+    - item: "string"
+      count: 2
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "coordinator_agent"
+  new_character: true
+
+  location:
+    x: 200
+    y: 205
+
+  skill_levels:
+    crafting: 18
+    strength: 18
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains 6x cornstew"
+  - "Team inventory contains 4x silverring"
+  - "Team inventory contains 2x woodenbow"
+  - "All agents survive the festival preparation"

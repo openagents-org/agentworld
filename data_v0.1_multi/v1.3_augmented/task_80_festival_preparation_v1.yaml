@@ -1,0 +1,291 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_80_festival_preparation.yaml
+
+task:
+  name: "Festival Preparation - Quick Setup (Easier)"
+  description: "Ten agents prepare simplified festival supplies"
+
+objectives:
+  primary: "Cook 2x Cooked Shrimp, 1x Jellyfish Smoothie, and craft 1x Silver Ring"
+
+relevant_game_context: |
+  This is a cooperative multi-agent festival preparation with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - fisher1_agent has 2x rawshrimp pre-caught
+  - fisher3_agent has 1x jellyfish pre-caught
+  - crafter_agent has 2x ironbar ready
+  - Higher skill levels for faster work
+  - Reduced targets
+
+  PRODUCTION TARGETS (REDUCED):
+  - 2x Cooked Shrimp (cook 2x rawshrimp) - shrimp ready!
+  - 1x Jellyfish Smoothie (cook 1x jellyfish) - jellyfish ready!
+  - 1x Silver Ring (2x ironbar) - iron bars ready!
+
+  DO NOT use complete() until all items are ready!
+
+max_action_steps: 18
+
+agent_1:
+  username: "fisher1_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 740
+
+  skill_levels:
+    fishing: 45
+    strength: 32
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+    - item: "rawshrimp"
+      count: 2
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fisher2_agent"
+  new_character: true
+
+  location:
+    x: 585
+    y: 742
+
+  skill_levels:
+    fishing: 45
+    strength: 32
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "fisher3_agent"
+  new_character: true
+
+  location:
+    x: 590
+    y: 744
+
+  skill_levels:
+    fishing: 45
+    strength: 32
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+    - item: "jellyfish"
+      count: 1
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "fisher4_agent"
+  new_character: true
+
+  location:
+    x: 595
+    y: 746
+
+  skill_levels:
+    fishing: 45
+    strength: 32
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "cook1_agent"
+  new_character: true
+
+  location:
+    x: 600
+    y: 748
+
+  skill_levels:
+    cooking: 45
+    strength: 32
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "cook2_agent"
+  new_character: true
+
+  location:
+    x: 605
+    y: 750
+
+  skill_levels:
+    cooking: 45
+    strength: 32
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "cook3_agent"
+  new_character: true
+
+  location:
+    x: 610
+    y: 752
+
+  skill_levels:
+    cooking: 45
+    strength: 32
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "crafter_agent"
+  new_character: true
+
+  location:
+    x: 350
+    y: 250
+
+  skill_levels:
+    crafting: 45
+    smithing: 40
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+    - item: "ironbar"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "support1_agent"
+  new_character: true
+
+  location:
+    x: 352
+    y: 252
+
+  skill_levels:
+    strength: 32
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "support2_agent"
+  new_character: true
+
+  location:
+    x: 354
+    y: 254
+
+  skill_levels:
+    strength: 32
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains 2x cookedshrimp"
+  - "Team inventory contains 1x jellyfishsmoothie"
+  - "Team inventory contains 1x silverring"
+  - "All agents survive the preparation"

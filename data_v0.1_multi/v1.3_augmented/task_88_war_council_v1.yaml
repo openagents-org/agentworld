@@ -1,0 +1,315 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_88_war_council.yaml
+
+task:
+  name: "War Council - Single Boss (Easier)"
+  description: "Ten agents defeat one boss with enhanced stats"
+
+objectives:
+  primary: "Defeat the Ogre Guardian at (291, 644)"
+
+relevant_game_context: |
+  This is a cooperative multi-agent combat scenario with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - Only 1 boss to defeat (instead of 3)
+  - Higher combat stats for all
+  - More consumables
+  - Full team focuses on single target
+
+  TARGET BOSS (REDUCED):
+  - Ogre Guardian (Level 36) at (291, 644)
+
+  TEAM COMPOSITION:
+  - 4 Fighters with heavy weapons
+  - 3 Ranged attackers with staffs
+  - 3 Support agents
+
+  STRATEGY:
+  - Full team assault on single boss
+  - Overwhelming firepower
+
+  DO NOT use complete() until boss is defeated!
+
+max_action_steps: 22
+
+agent_1:
+  username: "fighter1_agent"
+  new_character: true
+
+  location:
+    x: 291
+    y: 648
+
+  skill_levels:
+    strength: 55
+    defense: 50
+    health: 63
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fighter2_agent"
+  new_character: true
+
+  location:
+    x: 293
+    y: 648
+
+  skill_levels:
+    strength: 52
+    defense: 48
+    health: 60
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "fighter3_agent"
+  new_character: true
+
+  location:
+    x: 289
+    y: 646
+
+  skill_levels:
+    strength: 50
+    defense: 46
+    health: 58
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "fighter4_agent"
+  new_character: true
+
+  location:
+    x: 295
+    y: 646
+
+  skill_levels:
+    strength: 48
+    defense: 44
+    health: 56
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "mage1_agent"
+  new_character: true
+
+  location:
+    x: 287
+    y: 650
+
+  skill_levels:
+    magic: 50
+    defense: 40
+    health: 53
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "manaflask"
+      count: 25
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "mage2_agent"
+  new_character: true
+
+  location:
+    x: 297
+    y: 650
+
+  skill_levels:
+    magic: 48
+    defense: 38
+    health: 51
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "manaflask"
+      count: 25
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "mage3_agent"
+  new_character: true
+
+  location:
+    x: 291
+    y: 652
+
+  skill_levels:
+    magic: 46
+    defense: 36
+    health: 48
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "manaflask"
+      count: 25
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "support1_agent"
+  new_character: true
+
+  location:
+    x: 285
+    y: 648
+
+  skill_levels:
+    strength: 38
+    health: 48
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "support2_agent"
+  new_character: true
+
+  location:
+    x: 299
+    y: 648
+
+  skill_levels:
+    strength: 36
+    health: 46
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "coordinator_agent"
+  new_character: true
+
+  location:
+    x: 291
+    y: 654
+
+  skill_levels:
+    strength: 33
+    health: 43
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Ogre Guardian at (291, 644) is defeated"
+  - "All agents survive the campaign"

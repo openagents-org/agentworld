@@ -1,0 +1,339 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_77_harbor_defense.yaml
+
+task:
+  name: "Harbor Defense - Single Boss (Easier)"
+  description: "Ten agents defeat one coastal boss and craft one bow"
+
+objectives:
+  primary: "Defeat the Water Guardian at (197, 633) and craft 1x Wooden Bow"
+
+relevant_game_context: |
+  This is a cooperative multi-agent coastal defense with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - Only 1 boss to defeat
+  - crafter_agent has materials ready for bow
+  - Higher combat stats for all
+  - More consumables
+
+  TARGET BOSS (REDUCED):
+  - Water Guardian: Located at (197, 633)
+
+  PRODUCTION TARGET (REDUCED):
+  - 1x Wooden Bow (1x logs + 1x string) - materials ready!
+
+  DO NOT use complete() until boss is defeated and bow is crafted!
+
+max_action_steps: 22
+
+agent_1:
+  username: "leader_agent"
+  new_character: true
+
+  location:
+    x: 200
+    y: 635
+
+  skill_levels:
+    defense: 53
+    strength: 47
+    health: 53
+
+  inventory_items:
+    - item: "flask"
+      count: 55
+    - item: "apple"
+      count: 60
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "tank1_agent"
+  new_character: true
+
+  location:
+    x: 195
+    y: 635
+
+  skill_levels:
+    defense: 57
+    strength: 53
+    health: 65
+
+  inventory_items:
+    - item: "flask"
+      count: 55
+    - item: "apple"
+      count: 60
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "tank2_agent"
+  new_character: true
+
+  location:
+    x: 197
+    y: 637
+
+  skill_levels:
+    defense: 55
+    strength: 51
+    health: 63
+
+  inventory_items:
+    - item: "flask"
+      count: 55
+    - item: "apple"
+      count: 60
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "dps1_agent"
+  new_character: true
+
+  location:
+    x: 199
+    y: 639
+
+  skill_levels:
+    strength: 60
+    accuracy: 55
+    health: 60
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "dps2_agent"
+  new_character: true
+
+  location:
+    x: 193
+    y: 637
+
+  skill_levels:
+    strength: 58
+    accuracy: 53
+    health: 58
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "archer1_agent"
+  new_character: true
+
+  location:
+    x: 201
+    y: 641
+
+  skill_levels:
+    accuracy: 55
+    archery: 53
+    health: 53
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+    - item: "arrow"
+      count: 50
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "archer2_agent"
+  new_character: true
+
+  location:
+    x: 191
+    y: 639
+
+  skill_levels:
+    accuracy: 53
+    archery: 51
+    health: 51
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+    - item: "arrow"
+      count: 50
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "support1_agent"
+  new_character: true
+
+  location:
+    x: 203
+    y: 635
+
+  skill_levels:
+    magic: 50
+    health: 55
+    defense: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "support2_agent"
+  new_character: true
+
+  location:
+    x: 189
+    y: 633
+
+  skill_levels:
+    magic: 48
+    health: 53
+    defense: 43
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "crafter_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 15
+
+  skill_levels:
+    fletching: 55
+    crafting: 50
+    health: 50
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+    - item: "logs"
+      count: 1
+    - item: "string"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Water Guardian at (197, 633) is defeated"
+  - "Team inventory contains 1x woodenbow"
+  - "All agents survive the defense"

@@ -1,0 +1,285 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_83_elemental_ritual.yaml
+
+task:
+  name: "Elemental Ritual - Simple Ceremony (Easier)"
+  description: "Ten agents craft ritual items with pre-gathered materials"
+
+objectives:
+  primary: "Craft 1x Beryl Pendant and collect 4x blueberry"
+
+relevant_game_context: |
+  This is a cooperative multi-agent crafting scenario with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - crafter1_agent has beryl already gathered
+  - forager1_agent has 2x blueberry pre-gathered
+  - Only 1 item to craft (no gold ring)
+  - Higher skill levels
+
+  PRODUCTION TARGETS (REDUCED):
+  - 1x Beryl Pendant (beryl + string)
+  - 4x blueberry (foraging) - 2 already gathered!
+
+  MATERIALS PROVIDED:
+  - Gold bars and string provided
+
+  TEAM ROLES:
+  - Foragers: Gather blueberries
+  - Crafter: Make pendant
+
+  DO NOT use complete() until all objectives are met!
+
+max_action_steps: 20
+
+agent_1:
+  username: "miner1_agent"
+  new_character: true
+
+  location:
+    x: 250
+    y: 350
+
+  skill_levels:
+    mining: 42
+    strength: 35
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "miner2_agent"
+  new_character: true
+
+  location:
+    x: 252
+    y: 352
+
+  skill_levels:
+    mining: 40
+    strength: 33
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "forager1_agent"
+  new_character: true
+
+  location:
+    x: 200
+    y: 200
+
+  skill_levels:
+    foraging: 42
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+    - item: "blueberry"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "forager2_agent"
+  new_character: true
+
+  location:
+    x: 202
+    y: 202
+
+  skill_levels:
+    foraging: 40
+    health: 36
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "forager3_agent"
+  new_character: true
+
+  location:
+    x: 204
+    y: 204
+
+  skill_levels:
+    foraging: 37
+    health: 36
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "crafter1_agent"
+  new_character: true
+
+  location:
+    x: 350
+    y: 250
+
+  skill_levels:
+    crafting: 48
+    smithing: 42
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+    - item: "beryl"
+      count: 1
+    - item: "string"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "crafter2_agent"
+  new_character: true
+
+  location:
+    x: 352
+    y: 252
+
+  skill_levels:
+    crafting: 45
+    smithing: 40
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "support1_agent"
+  new_character: true
+
+  location:
+    x: 354
+    y: 254
+
+  skill_levels:
+    strength: 32
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "support2_agent"
+  new_character: true
+
+  location:
+    x: 356
+    y: 256
+
+  skill_levels:
+    strength: 32
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "coordinator_agent"
+  new_character: true
+
+  location:
+    x: 358
+    y: 258
+
+  skill_levels:
+    strength: 32
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains 1x berylpendant"
+  - "Team inventory contains at least 4x blueberry"
+  - "All agents survive the ritual preparation"

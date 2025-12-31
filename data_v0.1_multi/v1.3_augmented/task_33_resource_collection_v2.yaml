@@ -1,0 +1,168 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets, added 4th agent
+# SOURCE: task_33_resource_collection.yaml
+
+task:
+  name: "Resource Collection - Multi-Material Gathering (Harder)"
+  description: "Four agents work together to gather extensive resources from different regions"
+
+objectives:
+  primary: "Collect 8x logs, 6x coal, 4x copperore, and 2x ironore through coordinated gathering"
+
+relevant_game_context: |
+  This is a cooperative multi-agent resource gathering scenario with increased difficulty.
+
+  CHALLENGE MODE:
+  - Increased targets: 8x logs, 6x coal, 4x copperore, 2x ironore
+  - No pre-gathered materials
+  - Added 4th agent (expedition_agent) for wider coverage
+  - Added ironore requirement (higher level mining)
+  - Reduced consumables - manage resources carefully
+
+  COLLECTION TARGETS (INCREASED):
+  - 8x logs (from Oak trees)
+  - 6x coal (from Coal rocks)
+  - 4x copperore (from Copper rocks)
+  - 2x ironore (from Iron rocks, Level 15 mining)
+
+  RESOURCE LOCATIONS:
+  - Oak trees: Forest regions (380-400, 0-50)
+  - Coal rocks: Mountain regions (200-250, 30-60)
+  - Copper rocks: Mountain regions (200-250, 30-60)
+  - Iron rocks: Mountain regions (200-250, 30-60)
+
+  DO NOT use complete() until all resources are collected!
+
+max_action_steps: 42
+
+agent_1:
+  username: "lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 22
+    strength: 22
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "miner_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 45
+
+  skill_levels:
+    mining: 18
+    strength: 22
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "support_agent"
+  new_character: true
+
+  location:
+    x: 300
+    y: 100
+
+  skill_levels:
+    mining: 12
+    lumberjacking: 12
+    strength: 18
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "expedition_agent"
+  new_character: true
+
+  location:
+    x: 220
+    y: 50
+
+  skill_levels:
+    mining: 20
+    lumberjacking: 18
+    strength: 25
+    health: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Total team inventory contains at least 8x logs"
+  - "Total team inventory contains at least 6x coal"
+  - "Total team inventory contains at least 4x copperore"
+  - "Total team inventory contains at least 2x ironore"
+  - "All four agents survive the mission"

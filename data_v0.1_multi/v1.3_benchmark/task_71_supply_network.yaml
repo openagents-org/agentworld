@@ -1,0 +1,279 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Supply Network - Resource Collection"
+  description: "Eight agents gather resources from multiple regions"
+
+# Task objectives
+objectives:
+  primary: "Collect 8x logs from forest and 6x coal from mountain"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent resource collection scenario.
+
+  OBJECTIVE: Gather resources from different regions.
+
+  COLLECTION TARGETS:
+  - 8x logs (from forest region)
+  - 6x coal (from mountain region)
+
+  REGION LOCATIONS:
+  - Forest: Around (388, 10)
+  - Mountain: Around (230, 40)
+
+  TEAM ROLES:
+  - Loggers: Gather logs from forest
+  - Miners: Extract coal from mountain
+
+  DO NOT use complete() until all resources are collected!
+
+# Limitations
+max_action_steps: 40
+
+# Agent configurations
+agent_1:
+  username: "logger1_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 35
+    strength: 32
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "logger2_agent"
+  new_character: true
+
+  location:
+    x: 392
+    y: 12
+
+  skill_levels:
+    lumberjacking: 37
+    strength: 35
+    health: 36
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "logger3_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 14
+
+  skill_levels:
+    lumberjacking: 33
+    strength: 30
+    health: 34
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "logger4_agent"
+  new_character: true
+
+  location:
+    x: 394
+    y: 16
+
+  skill_levels:
+    lumberjacking: 32
+    strength: 28
+    health: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "miner1_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 40
+
+  skill_levels:
+    mining: 38
+    strength: 35
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "miner2_agent"
+  new_character: true
+
+  location:
+    x: 232
+    y: 42
+
+  skill_levels:
+    mining: 35
+    strength: 33
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "miner3_agent"
+  new_character: true
+
+  location:
+    x: 234
+    y: 44
+
+  skill_levels:
+    mining: 32
+    strength: 30
+    health: 36
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "miner4_agent"
+  new_character: true
+
+  location:
+    x: 236
+    y: 46
+
+  skill_levels:
+    mining: 30
+    strength: 28
+    health: 34
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team inventory contains at least 8x logs"
+  - "Team inventory contains at least 6x coal"
+  - "All agents survive the mission"

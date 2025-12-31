@@ -1,0 +1,157 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Cooperative Pickaxe Crafting - Mining Tool Production"
+  description: "Three agents work together to create a pickaxe through extensive mining, smelting, and tool smithing"
+
+# Task objectives
+objectives:
+  primary: "Forge a high-quality pickaxe through coordinated metallurgy and tool crafting"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent tool crafting scenario requiring extensive metallurgy operations.
+  
+  OBJECTIVE: Forge a high-quality pickaxe through coordinated large-scale material extraction and advanced tool smithing.
+  
+  TEAM COORDINATION:
+  - Use global chat to coordinate large-scale industrial operations
+  - Share materials efficiently between extraction, processing, and crafting stages
+  - Coordinate timing for high-volume material flow and processing
+  - Work together to complete advanced tool production chain
+  
+  GENERAL STRATEGY:
+  - The team needs to extract large quantities of raw materials for tool crafting
+  - Materials must be processed through intensive smelting operations
+  - Multiple refined components are required for advanced tool assembly
+  - Final tool assembly requires specialized smithing expertise
+  - Coordinate extensive material gathering and processing operations
+  
+  DO NOT use complete() until ALL objectives are achieved by the team!
+  
+  CRAFTING RECIPES (CRITICAL KNOWLEDGE):
+  ⛏️ Mining - materials:
+    - harvest_resource on iron rock instances to get ironore (level 10+)
+    - harvest_resource on coal deposits to get coal (level 1+)
+    - harvest_resource on oak trees to get logs (level 1+)
+  
+  🔥 Smelting Recipe - ironbar:
+    - craft_item skill=Smelting itemKey=ironbar
+    - Materials: 1x ironore + 1x coal → 1x ironbar
+    - Level required: 20 (uses Smithing skill level)
+  
+  ⛏️ Smithing Recipe - pickaxe:
+    - craft_item skill=Smithing itemKey=pickaxe
+    - Materials: 5x ironbar + 1x logs → 1x pickaxe
+    - Level required: 5 (Smithing skill)
+
+# Limitations
+max_action_steps: 25
+
+# Agent configurations
+agent_1:
+  username: "miner_agent"
+  new_character: true
+  
+  location:
+    x: 229
+    y: 37
+  
+  skill_levels:
+    mining: 30
+    lumberjacking: 20
+    strength: 35
+    health: 30
+  
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "ironore"
+      count: 3
+    - item: "coal"
+      count: 3
+  
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+  
+agent_2:
+  username: "smelter_agent"
+  new_character: true
+  
+  location:
+    x: 233
+    y: 175
+  
+  skill_levels:
+    smithing: 30      # For extensive smelting operations
+    mining: 15        # Backup mining capability
+    strength: 25
+    health: 25
+  
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+    - item: "ironore"
+      count: 2
+    - item: "coal"
+      count: 2
+  
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+  
+agent_3:
+  username: "tool_smith_agent"
+  new_character: true
+  
+  location:
+    x: 228
+    y: 188
+  
+  skill_levels:
+    smithing: 30      # Required for pickaxe crafting (level 5+)
+    mining: 20        # Tool usage knowledge
+    strength: 30
+    health: 25
+  
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 15
+  
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+  
+# Success criteria for multi-agent task
+success_criteria:
+  - "miner_agent successfully extracts large quantities of materials"
+  - "smelter_agent successfully produces 5 iron bars and transfers materials"
+  - "tool_smith_agent receives materials and forges pickaxe"
+  - "tool_smith_agent successfully equips the advanced pickaxe"
+  - "All agents coordinate large-scale industrial operations"
+  - "Advanced tool production completes within time limit"

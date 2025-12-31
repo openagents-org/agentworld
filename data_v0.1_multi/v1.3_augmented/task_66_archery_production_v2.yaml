@@ -1,0 +1,196 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+# SOURCE: task_66_archery_production.yaml
+
+task:
+  name: "Archery Production - Master Fletcher (Harder)"
+  description: "Six agents mine gold, hunt feathers, and craft multiple bows and arrows"
+
+objectives:
+  primary: "Craft 2x Golden Bow and 40x Arrows from scratch"
+
+relevant_game_context: |
+  This is a cooperative multi-agent archery production with increased difficulty.
+
+  CHALLENGE MODE:
+  - Double bow target: 2 golden bows
+  - Double arrow target: 40 arrows
+  - Must mine all gold from scratch
+  - Must hunt all feathers
+  - Lower skill levels require more attempts
+  - Reduced consumables
+
+  PRODUCTION TARGETS (DOUBLED):
+  - 2x Golden Bow (30x goldbar + 20x string + 4x logs)
+  - 40x Arrows (40x stick + 40x feather)
+
+  MATERIAL REQUIREMENTS:
+  - 30x goldore + 30x coal → 30x goldbar
+  - 20x string (foraging)
+  - 4x logs → 10x sticks (need 4 more logs for 40 sticks)
+  - 40x feather (hunting birds)
+
+  DO NOT use complete() until ALL archery items are ready!
+
+max_action_steps: 70
+
+agent_1:
+  username: "hunter1_agent"
+  new_character: true
+
+  location:
+    x: 350
+    y: 250
+
+  skill_levels:
+    strength: 35
+    accuracy: 33
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "hunter2_agent"
+  new_character: true
+
+  location:
+    x: 352
+    y: 252
+
+  skill_levels:
+    strength: 33
+    accuracy: 31
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "lumberjack1_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 35
+    strength: 25
+    health: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "lumberjack2_agent"
+  new_character: true
+
+  location:
+    x: 392
+    y: 12
+
+  skill_levels:
+    lumberjacking: 33
+    strength: 23
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "fletcher1_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 15
+
+  skill_levels:
+    fletching: 33
+    crafting: 20
+    health: 26
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "fletcher2_agent"
+  new_character: true
+
+  location:
+    x: 395
+    y: 15
+
+  skill_levels:
+    fletching: 33
+    crafting: 25
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains 2x goldenbow"
+  - "Team inventory contains at least 40x arrow"
+  - "All agents survive the production mission"

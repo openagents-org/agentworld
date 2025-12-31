@@ -1,0 +1,157 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_23_underwater_expedition.yaml
+
+task:
+  name: "Underwater Expedition - Deep Sea Treasure Hunt (Easier)"
+  description: "Three agents work together with pre-gathered marine resources to explore underwater and harvest additional jellyfish"
+
+objectives:
+  primary: "Successfully explore underwater regions and harvest 4x jellyfish with pre-gathered starting supplies"
+
+relevant_game_context: |
+  This is a cooperative multi-agent underwater exploration with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - marine_harvester_agent starts with 2x jellyfish already gathered
+  - treasure_hunter_agent starts with 1x clam
+  - Higher skill levels for safer exploration
+  - More consumables for extended survival
+  - Reduced target: only need 4x jellyfish total (have 2, need 2 more)
+  - No trident required - focus on marine harvesting
+
+  OBJECTIVE: Gather additional marine resources to reach 4x jellyfish total.
+
+  MISSION REQUIREMENTS:
+  - Navigate to coastal regions and locate underwater entrances
+  - Harvest additional jellyfish (2 more needed)
+  - Keep all team members safe during exploration
+
+  TEAM COORDINATION:
+  - Use global chat to share underwater entrance locations
+  - Coordinate fishing operations for efficient harvesting
+  - Share marine resources and provide mutual assistance
+
+  DO NOT use complete() until 4x jellyfish objective is achieved!
+
+  UNDERWATER EXPLORATION & MARINE HARVESTING:
+  🐟 Fishing - Jellyfish:
+    - harvest_resource on Jellyfish fishing spots to get jellyfish
+    - Level required: 5+ (Fishing skill)
+    - Tool required: Fishing rod
+    - Location: Underwater and coastal areas
+
+max_action_steps: 20
+
+agent_1:
+  username: "deep_diver_agent"
+  new_character: true
+
+  location:
+    x: 200
+    y: 200
+
+  skill_levels:
+    fishing: 22
+    swimming: 32
+    strength: 40
+    health: 50
+    accuracy: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "marine_harvester_agent"
+  new_character: true
+
+  location:
+    x: 205
+    y: 200
+
+  skill_levels:
+    fishing: 28
+    swimming: 25
+    strength: 35
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "jellyfish"
+      count: 2
+
+  equipped_items:
+    - item: "fishingrod"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "treasure_hunter_agent"
+  new_character: true
+
+  location:
+    x: 210
+    y: 200
+
+  skill_levels:
+    swimming: 35
+    strength: 45
+    defense: 40
+    health: 55
+    accuracy: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "healthpotion"
+      count: 15
+    - item: "clam"
+      count: 1
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "bow"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team successfully navigates to underwater areas"
+  - "marine_harvester_agent has at least 4x jellyfish in inventory"
+  - "Team successfully explores coastal and underwater regions"
+  - "All agents survive the underwater expedition"

@@ -1,0 +1,160 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets, added 4th agent
+# SOURCE: task_42_skill_training.yaml
+
+task:
+  name: "Skill Training - Multi-Craft Production (Harder)"
+  description: "Four agents practice multiple crafting skills with increased production targets"
+
+objectives:
+  primary: "Craft 2x staff, 2x silverring, and produce 20x stick through skill practice"
+
+relevant_game_context: |
+  This is a cooperative multi-agent skill training scenario with increased difficulty.
+
+  CHALLENGE MODE:
+  - Doubled targets: 2x staff, 2x silverring
+  - Must produce 20x stick from logs (need 5x logs)
+  - Added 4th agent (apprentice_agent) for additional help
+  - No pre-gathered sticks - must craft from logs
+  - Reduced consumables - manage resources carefully
+
+  CRAFTING TARGETS (INCREASED):
+  - 2x staff (5x stick + 1x bead each = 10 sticks, 2 beads)
+  - 2x silverring (2x ironbar each = 4 ironbar)
+  - 20x stick total (need 5x logs)
+
+  MATERIAL REQUIREMENTS:
+  - 5x logs (for sticks)
+  - 2x bead (provided)
+  - 4x ironbar (provided)
+
+  DO NOT use complete() until all items are crafted!
+
+max_action_steps: 42
+
+agent_1:
+  username: "lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 22
+    strength: 22
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fletcher_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 10
+
+  skill_levels:
+    fletching: 18
+    crafting: 18
+    strength: 18
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+    - item: "bead"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "smith_agent"
+  new_character: true
+
+  location:
+    x: 392
+    y: 10
+
+  skill_levels:
+    smithing: 18
+    strength: 22
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+    - item: "ironbar"
+      count: 4
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "apprentice_agent"
+  new_character: true
+
+  location:
+    x: 386
+    y: 10
+
+  skill_levels:
+    lumberjacking: 18
+    fletching: 15
+    crafting: 15
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains 2x staff"
+  - "Team inventory contains 2x silverring"
+  - "Team inventory contains at least 20x stick total produced"
+  - "All four agents survive the training"

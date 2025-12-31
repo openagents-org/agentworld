@@ -1,0 +1,249 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+# SOURCE: task_61_royal_banquet.yaml
+
+task:
+  name: "Royal Banquet - Full Feast (Harder)"
+  description: "Eight agents prepare grand banquet catching all ingredients from scratch"
+
+objectives:
+  primary: "Cook 6x Cooked Shrimp, 4x Tuna Sushi, 4x Cooked Chicken, and 2x Jellyfish Smoothie"
+
+relevant_game_context: |
+  This is a cooperative multi-agent cooking scenario with increased difficulty.
+
+  CHALLENGE MODE:
+  - Doubled all targets
+  - Must catch/hunt all ingredients from scratch
+  - Lower skill levels require more attempts
+  - Added jellyfish smoothie
+  - Reduced consumables
+
+  PRODUCTION TARGETS (DOUBLED):
+  - 6x Cooked Shrimp (catch 6x rawshrimp)
+  - 4x Tuna Sushi (catch 4x rawtuna)
+  - 4x Cooked Chicken (hunt 4x chicken)
+  - 2x Jellyfish Smoothie (catch 2x jellyfish)
+
+  GATHERING REQUIREMENTS:
+  - 6x rawshrimp (fishing)
+  - 4x rawtuna (fishing)
+  - 2x jellyfish (fishing level 5+)
+  - 4x rawchicken (hunting)
+
+  DO NOT use complete() until ALL dishes are cooked!
+
+max_action_steps: 60
+
+agent_1:
+  username: "hunter1_agent"
+  new_character: true
+
+  location:
+    x: 350
+    y: 250
+
+  skill_levels:
+    strength: 35
+    accuracy: 30
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "hunter2_agent"
+  new_character: true
+
+  location:
+    x: 352
+    y: 252
+
+  skill_levels:
+    strength: 33
+    accuracy: 28
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "fisher1_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 740
+
+  skill_levels:
+    fishing: 30
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "fisher2_agent"
+  new_character: true
+
+  location:
+    x: 585
+    y: 740
+
+  skill_levels:
+    fishing: 25
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "fisher3_agent"
+  new_character: true
+
+  location:
+    x: 590
+    y: 745
+
+  skill_levels:
+    fishing: 23
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "cook1_agent"
+  new_character: true
+
+  location:
+    x: 595
+    y: 745
+
+  skill_levels:
+    cooking: 35
+    crafting: 22
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+    - item: "kelp"
+      count: 4
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "cook2_agent"
+  new_character: true
+
+  location:
+    x: 600
+    y: 745
+
+  skill_levels:
+    cooking: 30
+    crafting: 18
+    health: 23
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "coordinator_agent"
+  new_character: true
+
+  location:
+    x: 595
+    y: 750
+
+  skill_levels:
+    cooking: 22
+    strength: 18
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 18
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains 6x cookedshrimp"
+  - "Team inventory contains 4x tunasushi"
+  - "Team inventory contains 4x cookedchicken"
+  - "Team inventory contains 2x jellyfishsmoothie"
+  - "All agents survive the banquet preparation"

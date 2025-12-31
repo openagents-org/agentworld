@@ -1,0 +1,214 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets, added 4th agent
+# SOURCE: task_27_volcanic_forge.yaml
+
+task:
+  name: "Southern Desert Expedition - Mining and Combat (Harder)"
+  description: "Four agents work together to mine multiple high-level ores and defeat BOTH minibosses"
+
+objectives:
+  primary: "Successfully mine 4+ high-level ores and defeat BOTH Water Guardian AND Ogre Guardian"
+
+relevant_game_context: |
+  This is a cooperative multi-agent expedition with increased difficulty.
+
+  CHALLENGE MODE:
+  - Must defeat BOTH minibosses (Water Guardian + Ogre Guardian)
+  - Must mine at least 4 high-level ores from scratch
+  - Added 4th agent (expedition_support_agent) for additional firepower
+  - Reduced consumables - manage resources carefully
+  - Lower skill levels require careful coordination
+
+  OBJECTIVE: Complete full desert expedition - mine ores and defeat both minibosses.
+
+  MISSION REQUIREMENTS:
+  - Mine at least 4 high-level ores (gold, ibo, taaffeite, moonrock, or lapis lazuli)
+  - Defeat Water Guardian (Level 36) at (197, 633)
+  - Defeat Ogre Guardian (Level 32) at (291, 644)
+  - Collect equipment drops from both bosses
+
+  TEAM COORDINATION:
+  - Coordinate between mining and combat operations
+  - May need to split tasks between miners and fighters
+  - Share healing items between encounters
+
+  DO NOT use complete() until BOTH bosses defeated and 4+ ores collected!
+
+  COMBAT & MINING:
+  ⚔️ Water Guardian (Level 36) at (197, 633):
+    - Drops: redguardarmor, ring1, scimitar, watermelonbow
+    - Higher level - requires coordination
+
+  ⚔️ Ogre Guardian (Level 32) at (291, 644):
+    - 120 experience bonus
+    - Slightly easier than Water Guardian
+
+  ⛏️ Mining Targets:
+    - Gold (25), Ibo (30), Taaffeite (30), Moonrock (40), Lapis (45)
+    - Need 4+ total ores mined
+
+max_action_steps: 50
+
+agent_1:
+  username: "lava_navigator_agent"
+  new_character: true
+
+  location:
+    x: 200
+    y: 600
+
+  skill_levels:
+    health: 58
+    defense: 42
+    strength: 32
+    accuracy: 28
+    magic: 18
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 35
+    - item: "healthpotion"
+      count: 15
+    - item: "manapotion"
+      count: 8
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "volcanic_miner_agent"
+  new_character: true
+
+  location:
+    x: 202
+    y: 602
+
+  skill_levels:
+    mining: 42
+    smithing: 32
+    health: 52
+    strength: 38
+    defense: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 30
+    - item: "healthpotion"
+      count: 15
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "forge_master_agent"
+  new_character: true
+
+  location:
+    x: 204
+    y: 604
+
+  skill_levels:
+    smithing: 48
+    crafting: 38
+    health: 48
+    strength: 32
+    magic: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 30
+    - item: "healthpotion"
+      count: 12
+    - item: "manapotion"
+      count: 10
+
+  equipped_items:
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "expedition_support_agent"
+  new_character: true
+
+  location:
+    x: 206
+    y: 606
+
+  skill_levels:
+    strength: 38
+    defense: 35
+    health: 50
+    accuracy: 30
+    mining: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+    - item: "healthpotion"
+      count: 12
+    - item: "manapotion"
+      count: 6
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team navigates to miniboss locations in southern desert"
+  - "volcanic_miner_agent and expedition_support_agent mine at least 4 high-level ores total"
+  - "Team defeats Water Guardian (Level 36) at (197, 633)"
+  - "Team collects equipment drop from Water Guardian"
+  - "Team defeats Ogre Guardian (Level 32) at (291, 644)"
+  - "All four agents coordinate via chat throughout expedition"
+  - "Both minibosses defeated and 4+ ores collected"
+  - "All four agents survive both combat encounters"

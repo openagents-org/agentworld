@@ -1,0 +1,199 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets, added 4th agent
+# SOURCE: task_22_magical_defense.yaml
+
+task:
+  name: "Magical Defense - Lightning Staff Forge & Ice Guardian Battle (Harder)"
+  description: "Four agents work together to craft a lightning staff from scratch and defeat BOTH Ice Guardians"
+
+objectives:
+  primary: "Craft a Lightning Staff from raw materials and defeat BOTH Ice Guardians in coordinated combat"
+
+relevant_game_context: |
+  This is a cooperative multi-agent magical defense scenario with increased difficulty.
+
+  CHALLENGE MODE:
+  - Must defeat BOTH Ice Guardians (not just one!)
+  - Must gather logs and craft from scratch (no pre-made components)
+  - Added 4th agent (support_mage_agent) for additional firepower
+  - Reduced consumables - manage resources carefully
+  - Lower skill levels require more careful coordination
+
+  OBJECTIVE: Craft a Lightning Staff from raw materials and defeat both Ice Guardians.
+
+  MISSION REQUIREMENTS:
+  - Gather logs from Oak trees
+  - Craft sticks from logs, then staff from sticks and bead
+  - Craft Lightning Staff from staff and lightning bead
+  - Defeat BOTH Ice Guardians at (259, 151) and (260, 156)
+  - Ensure all team members survive both encounters
+
+  CRAFTING SEQUENCE (FULL CHAIN):
+  Step 1: Get Logs (Lumberjacking):
+    - harvest_resource on Oak Tree instances to get logs
+    - Need at least 2 logs (to craft 8 sticks, need 5 for staff)
+
+  Step 2: Craft Sticks (Fletching):
+    - craft_item skill=Fletching itemKey=stick
+    - Materials: 1x logs -> 4x stick
+
+  Step 3: Craft Magic Staff (Crafting):
+    - craft_item skill=Crafting itemKey=staff
+    - Materials: 5x stick + 1x bead -> 1x staff
+
+  Step 4: Craft Lightning Staff (Crafting):
+    - craft_item skill=Crafting itemKey=lightningstaff
+    - Materials: 1x staff + 1x lightningbead -> 1x lightningstaff
+
+  COMBAT - Ice Guardians (BOTH REQUIRED):
+  - Ice Guardian 1: (259, 151) - Level 35
+  - Ice Guardian 2: (260, 156) - Level 35
+  - Use fire-based attacks for elemental advantage
+  - Coordinate all four agents for faster kills
+
+max_action_steps: 50
+
+agent_1:
+  username: "woodcutter_agent"
+  new_character: true
+
+  location:
+    x: 240
+    y: 160
+
+  skill_levels:
+    lumberjacking: 28
+    strength: 38
+    health: 48
+    defense: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "staff_crafter_agent"
+  new_character: true
+
+  location:
+    x: 242
+    y: 162
+
+  skill_levels:
+    fletching: 38
+    crafting: 22
+    lumberjacking: 22
+    strength: 28
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+    - item: "bead"
+      count: 1
+    - item: "lightningbead"
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "battle_mage_agent"
+  new_character: true
+
+  location:
+    x: 244
+    y: 164
+
+  skill_levels:
+    magic: 48
+    strength: 32
+    defense: 42
+    health: 52
+    accuracy: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "manapotion"
+      count: 12
+
+  equipped_items:
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "support_mage_agent"
+  new_character: true
+
+  location:
+    x: 246
+    y: 166
+
+  skill_levels:
+    magic: 45
+    defense: 38
+    health: 48
+    strength: 28
+    accuracy: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "manapotion"
+      count: 10
+
+  equipped_items:
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Logs are gathered from Oak trees"
+  - "Sticks are crafted from logs using Fletching skill"
+  - "Magic Staff is crafted from sticks and bead"
+  - "Lightning Staff is crafted from Magic Staff and lightning bead"
+  - "Lightning Staff is transferred to and equipped by battle_mage_agent"
+  - "First Ice Guardian at (259, 151) is defeated"
+  - "Second Ice Guardian at (260, 156) is defeated"
+  - "All four agents survive both encounters"

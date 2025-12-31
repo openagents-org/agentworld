@@ -1,0 +1,321 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+# SOURCE: task_84_tunnel_expedition.yaml
+
+task:
+  name: "Tunnel Expedition - Deep Dive (Harder)"
+  description: "Ten agents explore deep tunnels, clear enemies, and craft tools"
+
+objectives:
+  primary: "Mine 12x ironore, 10x coal, defeat 5x Skeletons, and craft 2x Pickaxe"
+
+relevant_game_context: |
+  This is a cooperative multi-agent exploration with maximum difficulty.
+
+  CHALLENGE MODE:
+  - More enemies to defeat
+  - Doubled mining targets
+  - Multiple pickaxes to craft
+  - Lower skill levels
+
+  PRODUCTION TARGETS (DOUBLED):
+  - 12x ironore (from mountain)
+  - 10x coal (from mountain)
+  - Defeat 5x Skeletons
+  - 2x Pickaxe (5x ironbar + 1x logs each)
+
+  MATERIALS PROVIDED:
+  - Iron bars and logs for pickaxes
+
+  TEAM ROLES:
+  - Miners: Extract ore and coal
+  - Combat Team: Defeat skeletons
+  - Crafter: Make pickaxes
+
+  DO NOT use complete() until all objectives are met!
+
+max_action_steps: 60
+
+agent_1:
+  username: "miner1_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 40
+
+  skill_levels:
+    mining: 36
+    strength: 28
+    health: 34
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "miner2_agent"
+  new_character: true
+
+  location:
+    x: 232
+    y: 42
+
+  skill_levels:
+    mining: 34
+    strength: 26
+    health: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "miner3_agent"
+  new_character: true
+
+  location:
+    x: 234
+    y: 44
+
+  skill_levels:
+    mining: 31
+    strength: 24
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "fighter1_agent"
+  new_character: true
+
+  location:
+    x: 236
+    y: 46
+
+  skill_levels:
+    strength: 41
+    defense: 36
+    health: 46
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "fighter2_agent"
+  new_character: true
+
+  location:
+    x: 238
+    y: 48
+
+  skill_levels:
+    strength: 39
+    defense: 34
+    health: 44
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "fighter3_agent"
+  new_character: true
+
+  location:
+    x: 240
+    y: 50
+
+  skill_levels:
+    strength: 36
+    defense: 31
+    health: 41
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "crafter_agent"
+  new_character: true
+
+  location:
+    x: 242
+    y: 52
+
+  skill_levels:
+    smithing: 36
+    crafting: 31
+    health: 31
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "ironbar"
+      count: 10
+    - item: "logs"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "support1_agent"
+  new_character: true
+
+  location:
+    x: 244
+    y: 54
+
+  skill_levels:
+    magic: 31
+    health: 36
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "support2_agent"
+  new_character: true
+
+  location:
+    x: 246
+    y: 56
+
+  skill_levels:
+    magic: 29
+    health: 34
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "coordinator_agent"
+  new_character: true
+
+  location:
+    x: 248
+    y: 58
+
+  skill_levels:
+    strength: 26
+    health: 31
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains at least 12x ironore (or smelted)"
+  - "Team inventory contains at least 10x coal (or used)"
+  - "5x Skeleton defeated"
+  - "Team inventory contains 2x pickaxe"
+  - "All agents survive the expedition"

@@ -1,0 +1,245 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_59_elite_merchant_guild.yaml
+
+task:
+  name: "Elite Merchant Guild (Easier)"
+  description: "Seven specialists craft simplified guild showcase with pre-gathered materials"
+
+objectives:
+  primary: "Craft 1x Gold Ring, 1x Staff, and 1x Pickaxe using provided materials"
+
+relevant_game_context: |
+  This is a cooperative multi-agent guild scenario with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - Gold_Baron starts with 4x goldbar already smelted
+  - Iron_Trader starts with 5x ironbar already smelted
+  - Timber_Merchant starts with 3x logs
+  - Mystic_Collector starts with 1x bead
+  - Higher skill levels for guaranteed success
+  - Simplified targets: 1 ring, 1 staff, 1 pickaxe
+
+  PRODUCTION TARGETS (REDUCED):
+  - 1x Gold Ring (2x goldbar)
+  - 1x Staff (5x stick + 1x bead)
+  - 1x Pickaxe (5x ironbar + 1x logs)
+
+  MATERIALS AVAILABLE:
+  - 4x goldbar (for ring + extra)
+  - 5x ironbar (for pickaxe)
+  - 3x logs (for sticks and handle)
+  - 1x bead (for staff)
+
+  PHASE OUTLINE:
+  1. Gather at guild hall
+  2. Transfer materials to Guild_Master
+  3. Craft all items
+
+  DO NOT use complete() until items are crafted!
+
+max_action_steps: 28
+
+agent_1:
+  username: "Gold_Baron"
+  new_character: true
+
+  location:
+    x: 180
+    y: 200
+
+  skill_levels:
+    mining: 60
+    strength: 38
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "goldbar"
+      count: 4
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "Coal_Magnate"
+  new_character: true
+
+  location:
+    x: 185
+    y: 200
+
+  skill_levels:
+    mining: 50
+    strength: 35
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "Iron_Trader"
+  new_character: true
+
+  location:
+    x: 190
+    y: 200
+
+  skill_levels:
+    mining: 45
+    strength: 32
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "ironbar"
+      count: 5
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "Timber_Merchant"
+  new_character: true
+
+  location:
+    x: 180
+    y: 205
+
+  skill_levels:
+    lumberjacking: 50
+    foraging: 35
+    strength: 32
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "logs"
+      count: 3
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "Mystic_Collector"
+  new_character: true
+
+  location:
+    x: 185
+    y: 205
+
+  skill_levels:
+    foraging: 40
+    magic: 45
+    strength: 38
+    accuracy: 32
+    health: 50
+
+  inventory_items:
+    - item: "flask"
+      count: 35
+    - item: "apple"
+      count: 40
+    - item: "bead"
+      count: 1
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "Master_Smelter"
+  new_character: true
+
+  location:
+    x: 190
+    y: 205
+
+  skill_levels:
+    smithing: 45
+    crafting: 40
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "Guild_Master"
+  new_character: true
+
+  location:
+    x: 180
+    y: 210
+
+  skill_levels:
+    smithing: 75
+    crafting: 65
+    fletching: 55
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "goldensword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains 1x goldring"
+  - "Team inventory contains 1x staff"
+  - "Team inventory contains 1x pickaxe"
+  - "All agents survive the mission"

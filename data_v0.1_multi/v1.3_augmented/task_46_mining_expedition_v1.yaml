@@ -1,0 +1,191 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_46_mining_expedition.yaml
+
+task:
+  name: "Mining Expedition - Iron Equipment Production (Easier)"
+  description: "Five agents with pre-gathered materials craft simplified equipment"
+
+objectives:
+  primary: "Craft 1x Pickaxe using pre-smelted iron bars and gathered logs"
+
+relevant_game_context: |
+  This is a cooperative multi-agent mining scenario with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - smelter_agent starts with 6x ironbar already smelted
+  - lumberjack_agent starts with 2x logs already gathered
+  - smith_agent has hilt2 for optional heavy sword
+  - Higher skill levels for guaranteed success
+  - Only need to craft 1x Pickaxe (other equipment optional)
+
+  PRODUCTION TARGETS (REDUCED):
+  - 1x Pickaxe (5x ironbar + 1x logs) - materials provided!
+
+  OPTIONAL BONUS:
+  - Can craft axe with remaining materials
+  - Can craft heavy sword if desired
+
+  TEAM COORDINATION:
+  - Materials already prepared
+  - Smith just needs to craft
+  - Other agents can assist or explore
+
+  DO NOT use complete() until pickaxe is crafted!
+
+max_action_steps: 20
+
+agent_1:
+  username: "miner1_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 45
+
+  skill_levels:
+    mining: 40
+    strength: 38
+    health: 50
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "miner2_agent"
+  new_character: true
+
+  location:
+    x: 235
+    y: 45
+
+  skill_levels:
+    mining: 38
+    strength: 36
+    health: 48
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 35
+    strength: 32
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "logs"
+      count: 2
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "smelter_agent"
+  new_character: true
+
+  location:
+    x: 240
+    y: 50
+
+  skill_levels:
+    smithing: 35
+    mining: 28
+    strength: 32
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "ironbar"
+      count: 6
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "smith_agent"
+  new_character: true
+
+  location:
+    x: 245
+    y: 50
+
+  skill_levels:
+    smithing: 40
+    strength: 32
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "hilt2"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains 1x pickaxe (newly crafted)"
+  - "All agents survive the expedition"

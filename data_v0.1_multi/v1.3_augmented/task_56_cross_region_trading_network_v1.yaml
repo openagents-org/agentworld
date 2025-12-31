@@ -1,0 +1,238 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_56_cross_region_trading_network.yaml
+
+task:
+  name: "Cross-Region Trading Network (Easier)"
+  description: "Seven agents with pre-gathered materials establish simplified trading network"
+
+objectives:
+  primary: "Craft 2x Silver Rings and 1x Axe using pre-gathered iron bars and logs"
+
+relevant_game_context: |
+  This is a cooperative multi-agent trading scenario with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - All 14 ironbar already provided (distributed among agents)
+  - 2x logs already gathered
+  - Higher skill levels for guaranteed success
+  - Reduced targets: 2 rings, 1 axe (no heavy sword)
+
+  CRAFTING TARGETS (REDUCED):
+  - 2x Silver Rings: 4 ironbar (Smithing L1)
+  - 1x Axe: 3 ironbar + 1 logs (Smithing L3)
+  - TOTAL NEEDED: 7 ironbar, 1 logs
+
+  STARTING MATERIALS:
+  - Mountain_Miner_1: 7 ironbar
+  - Mountain_Miner_2: 7 ironbar
+  - Forest_Gatherer_1: 2 logs
+
+  PHASE OUTLINE:
+  1. Gather at Central Hub (528,384)
+  2. Transfer materials to Crafter_Gold
+  3. Craft 2x Silver Rings and 1x Axe
+  4. Verify completion
+
+  DO NOT use complete() until all items are crafted!
+
+max_action_steps: 30
+
+agent_1:
+  username: "Forest_Gatherer_1"
+  new_character: true
+
+  location:
+    x: 180
+    y: 200
+
+  skill_levels:
+    lumberjacking: 40
+    strength: 28
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "logs"
+      count: 2
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "Forest_Gatherer_2"
+  new_character: true
+
+  location:
+    x: 185
+    y: 200
+
+  skill_levels:
+    lumberjacking: 35
+    strength: 28
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "Mountain_Miner_1"
+  new_character: true
+
+  location:
+    x: 190
+    y: 200
+
+  skill_levels:
+    mining: 45
+    strength: 32
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "ironbar"
+      count: 7
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "Mountain_Miner_2"
+  new_character: true
+
+  location:
+    x: 180
+    y: 205
+
+  skill_levels:
+    mining: 40
+    strength: 32
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "ironbar"
+      count: 7
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "Coastal_Forager"
+  new_character: true
+
+  location:
+    x: 185
+    y: 205
+
+  skill_levels:
+    foraging: 35
+    accuracy: 28
+    strength: 32
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "Crafter_Gold"
+  new_character: true
+
+  location:
+    x: 190
+    y: 205
+
+  skill_levels:
+    smithing: 45
+    crafting: 30
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "Crafter_Magic"
+  new_character: true
+
+  location:
+    x: 180
+    y: 210
+
+  skill_levels:
+    crafting: 50
+    fletching: 40
+    magic: 35
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains 2x silverring"
+  - "Team inventory contains 1x axe"
+  - "All agents survive the mission"

@@ -1,0 +1,122 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, easier completion
+# SOURCE: task_14_shrimp_cooking.yaml
+
+task:
+  name: "Cooperative Shrimp Cooking - Seafood Culinary Team (Easier)"
+  description: "Three agents work together to prepare cooked shrimp - with extra raw shrimp provided"
+
+objectives:
+  primary: "Prepare cooked shrimp through coordinated fishing operations and culinary preparation"
+
+relevant_game_context: |
+  This is a cooperative multi-agent seafood cooking scenario.
+
+  STARTING ADVANTAGE:
+  - seafood_chef_agent has 8x rawshrimp (extra for batch cooking!)
+  - Higher cooking skill for efficient preparation
+  - Can cook all shrimp immediately
+
+  OBJECTIVE: Cook the raw shrimp that seafood_chef_agent already has.
+
+  SIMPLIFIED STRATEGY:
+  - seafood_chef_agent already has 8x rawshrimp
+  - Cook all shrimp immediately
+  - Other agents provide support
+
+  DO NOT use complete() until at least 5x cookedshrimp exists!
+
+  CRAFTING RECIPES:
+  🍤 Cooking Recipe - cookedshrimp:
+    - craft_item skill=Cooking itemKey=cookedshrimp
+    - Materials: 1x rawshrimp → 1x cookedshrimp
+    - Level required: 1 (Cooking skill)
+    - Cook multiple times!
+
+max_action_steps: 15
+
+agent_1:
+  username: "fisherman_agent"
+  new_character: true
+  location:
+    x: 200
+    y: 200
+  skill_levels:
+    fishing: 30
+    strength: 28
+    health: 28
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "rawshrimp"
+      count: 3
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fuel_gatherer_agent"
+  new_character: true
+  location:
+    x: 205
+    y: 200
+  skill_levels:
+    foraging: 25
+    lumberjacking: 18
+    strength: 28
+    health: 28
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "seafood_chef_agent"
+  new_character: true
+  location:
+    x: 210
+    y: 200
+  skill_levels:
+    cooking: 25
+    fishing: 13
+    strength: 23
+    health: 28
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "rawshrimp"
+      count: 8
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "seafood_chef_agent cooks rawshrimp into cookedshrimp"
+  - "seafood_chef_agent produces at least 5x cookedshrimp"
+  - "Fresh seafood cooking completes quickly"

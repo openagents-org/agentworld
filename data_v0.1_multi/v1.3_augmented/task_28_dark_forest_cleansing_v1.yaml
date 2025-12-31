@@ -1,0 +1,167 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_28_dark_forest_cleansing.yaml
+
+task:
+  name: "Dark Forest Cleansing - Dark Wolf Hunt (Easier)"
+  description: "Three agents work together with enhanced equipment to defeat the Dark Wolf boss quickly"
+
+objectives:
+  primary: "Successfully defeat the Dark Wolf boss and collect wolfarmor with enhanced starting resources"
+
+relevant_game_context: |
+  This is a cooperative multi-agent boss hunting mission with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - Higher skill levels for more effective combat
+  - More consumables (healthpotion, manapotion) for survival
+  - Pre-positioned closer to Dark Wolf location
+  - Enhanced armor reduces damage taken
+  - Single boss target - no additional objectives
+
+  OBJECTIVE: Hunt and defeat the Dark Wolf boss to cleanse the dark forest.
+
+  MISSION REQUIREMENTS:
+  - Locate the Dark Wolf boss at coordinates (1016, 682)
+  - Coordinate team attack to defeat the Dark Wolf
+  - Collect wolfarmor drop as proof of victory
+  - Keep all team members alive
+
+  TEAM COORDINATION:
+  - Use global chat to coordinate attack timing
+  - All three agents focus fire on Dark Wolf
+  - Share health status and provide healing support
+
+  DO NOT use complete() until Dark Wolf is defeated and drops collected!
+
+  DARK WOLF COMBAT:
+  🐺 Boss Information - Dark Wolf:
+    - Location: coordinates (1016, 682)
+    - HP: approximately 1050
+    - Drops: wolfarmor (valuable armor)
+    - Coordinate all three agents for fast kill
+
+max_action_steps: 20
+
+agent_1:
+  username: "shadow_hunter_agent"
+  new_character: true
+
+  location:
+    x: 1010
+    y: 680
+
+  skill_levels:
+    strength: 52
+    accuracy: 45
+    magic: 42
+    health: 58
+    defense: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "healthpotion"
+      count: 20
+    - item: "manapotion"
+      count: 15
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "forest_guardian_agent"
+  new_character: true
+
+  location:
+    x: 1015
+    y: 685
+
+  skill_levels:
+    magic: 52
+    lumberjacking: 30
+    health: 52
+    strength: 35
+    defense: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "healthpotion"
+      count: 15
+    - item: "manapotion"
+      count: 18
+
+  equipped_items:
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "light_bringer_agent"
+  new_character: true
+
+  location:
+    x: 1012
+    y: 678
+
+  skill_levels:
+    magic: 58
+    accuracy: 42
+    health: 52
+    strength: 30
+    defense: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "healthpotion"
+      count: 18
+    - item: "manapotion"
+      count: 25
+
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team locates Dark Wolf boss at (1016, 682)"
+  - "At least one agent successfully attacks and defeats Dark Wolf"
+  - "Team collects wolfarmor drop"
+  - "All agents survive with HP > 0"

@@ -1,0 +1,160 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets, added 4th agent
+# SOURCE: task_41_tool_production.yaml
+
+task:
+  name: "Tool Production - Pickaxe and Axe Crafting (Harder)"
+  description: "Four agents work together to mine ore and craft multiple tools"
+
+objectives:
+  primary: "Craft 2x Pickaxes and 2x Axes through coordinated mining and smithing"
+
+relevant_game_context: |
+  This is a cooperative multi-agent tool crafting scenario with increased difficulty.
+
+  CHALLENGE MODE:
+  - Must craft 2x Pickaxes AND 2x Axes (doubled!)
+  - Need 16x ironore and 16x coal for iron bars (no pre-gathered)
+  - Added 4th agent (assistant_miner) for more mining capacity
+  - Need 4x logs for tool handles
+  - Reduced consumables - manage resources carefully
+
+  PRODUCTION CHAIN:
+  1. Mine 16x ironore from Iron rocks
+  2. Mine 16x coal from Coal rocks
+  3. Smelt 16x ironbar
+  4. Gather 4x logs
+  5. Craft 2x pickaxe (5x ironbar + 1x logs each = 10 bars, 2 logs)
+  6. Craft 2x axe (3x ironbar + 1x logs each = 6 bars, 2 logs)
+
+  DO NOT use complete() until ALL tools are crafted!
+
+max_action_steps: 50
+
+agent_1:
+  username: "miner_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 45
+
+  skill_levels:
+    mining: 22
+    strength: 28
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "smith_agent"
+  new_character: true
+
+  location:
+    x: 235
+    y: 45
+
+  skill_levels:
+    smithing: 22
+    mining: 18
+    strength: 22
+    health: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 22
+    strength: 22
+    health: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "assistant_miner"
+  new_character: true
+
+  location:
+    x: 240
+    y: 50
+
+  skill_levels:
+    mining: 20
+    strength: 25
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team mines at least 16x ironore"
+  - "Team mines at least 16x coal"
+  - "Team inventory contains 2x pickaxe (newly crafted)"
+  - "Team inventory contains 2x axe (newly crafted)"
+  - "All four agents survive the mission"

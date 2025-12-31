@@ -1,0 +1,160 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, full crafting chain required
+# SOURCE: task_10_cooking_stew.yaml
+
+task:
+  name: "Cooperative Stew Cooking - Culinary Team Production (Harder)"
+  description: "Three agents work together to prepare THREE hearty stews through complete container crafting and ingredient gathering"
+
+# Task objectives
+objectives:
+  primary: "Prepare THREE delicious stews through coordinated container crafting, ingredient gathering, and cooking"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent culinary scenario requiring food preparation expertise.
+
+  CHALLENGE MODE:
+  - Must prepare THREE stews (tripled target!)
+  - chef_agent has NO pre-made materials - full chain required
+  - Must craft bowls from logs/sticks AND gather all ingredients
+  - Reduced consumables - manage resources carefully
+
+  OBJECTIVE: Prepare 3x stews through complete culinary production chain.
+
+  REQUIRED MATERIALS FOR 3 STEWS:
+  - 3x bowlmedium (must craft from sticks)
+  - 3x mushroom2 (must forage)
+  - 3x corn (must forage)
+
+  CRAFTING CHAIN:
+  1. Gather logs and craft sticks (need 12 sticks for 3 bowls)
+  2. Craft 3x bowlmedium from sticks
+  3. Forage 3x mushroom2 and 3x corn
+  4. Cook 3x stew2
+
+  DO NOT use complete() until 3x stew2 is cooked!
+
+  CRAFTING RECIPES (CRITICAL KNOWLEDGE):
+  🪄 Fletching Recipe - stick:
+    - craft_item skill=Fletching itemKey=stick
+    - Materials: 1x logs → 4x stick
+    - Level required: 1 (Fletching skill)
+    - Need 3x logs for 12 sticks
+
+  🥣 Fletching Recipe - bowlmedium:
+    - craft_item skill=Fletching itemKey=bowlmedium
+    - Materials: 4x stick → 1x bowlmedium
+    - Level required: 5 (Fletching skill)
+    - Need to craft 3 times
+
+  🍄 Foraging - mushrooms and vegetables:
+    - harvest_resource on mushroom instances to get mushroom2
+    - harvest_resource on corn instances to get corn
+    - Level required: varies (Foraging skill)
+
+  🍲 Cooking Recipe - stew2:
+    - craft_item skill=Cooking itemKey=stew2
+    - Materials: 1x bowlmedium + 1x mushroom2 + 1x corn → 1x stew2
+    - Level required: 1 (Cooking skill)
+
+# Limitations
+max_action_steps: 40
+
+# Agent configurations
+agent_1:
+  username: "container_crafter_agent"
+  new_character: true
+
+  location:
+    x: 126
+    y: 23
+
+  skill_levels:
+    lumberjacking: 18
+    fletching: 12
+    strength: 22
+    health: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "ingredient_gatherer_agent"
+  new_character: true
+
+  location:
+    x: 200
+    y: 200
+
+  skill_levels:
+    foraging: 18
+    strength: 18
+    health: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "chef_agent"
+  new_character: true
+
+  location:
+    x: 136
+    y: 25
+
+  skill_levels:
+    cooking: 12
+    foraging: 8
+    crafting: 8
+    strength: 18
+    health: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "container_crafter_agent gathers logs and crafts 12x sticks"
+  - "container_crafter_agent crafts 3x bowlmedium"
+  - "ingredient_gatherer_agent forages 3x mushroom2 and 3x corn"
+  - "All materials transferred to chef_agent"
+  - "chef_agent cooks 3x stew2"
+  - "Final target: 3x stew2 in team inventory"
+  - "All agents coordinate complete culinary production chain"

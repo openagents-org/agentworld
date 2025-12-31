@@ -1,0 +1,219 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+# SOURCE: task_65_cooking_guild.yaml
+
+task:
+  name: "Cooking Guild - Full Menu (Harder)"
+  description: "Seven cooks gather and prepare expanded menu from scratch"
+
+objectives:
+  primary: "Cook 4x Corn Stew, 4x Cooked Shrimp, 4x Cooked Chicken, and 2x Jellyfish Smoothie"
+
+relevant_game_context: |
+  This is a cooperative multi-agent cooking scenario with increased difficulty.
+
+  CHALLENGE MODE:
+  - Doubled all targets
+  - Must gather all ingredients from scratch
+  - Lower skill levels require more attempts
+  - Reduced consumables
+  - Added jellyfish requirement
+
+  PRODUCTION TARGETS (DOUBLED):
+  - 4x Corn Stew (4x corn + 4x bowl)
+  - 4x Cooked Shrimp (4x rawshrimp)
+  - 4x Cooked Chicken (4x rawchicken)
+  - 2x Jellyfish Smoothie (2x jellyfish)
+
+  GATHERING REQUIREMENTS:
+  - 4x corn (foraging)
+  - 4x bowl (provided)
+  - 4x rawshrimp (fishing)
+  - 2x jellyfish (fishing level 5+)
+  - 4x rawchicken (hunting)
+
+  DO NOT use complete() until ALL dishes are ready!
+
+max_action_steps: 60
+
+agent_1:
+  username: "forager1_agent"
+  new_character: true
+
+  location:
+    x: 250
+    y: 350
+
+  skill_levels:
+    foraging: 40
+    health: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "forager2_agent"
+  new_character: true
+
+  location:
+    x: 252
+    y: 352
+
+  skill_levels:
+    foraging: 35
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "hunter_agent"
+  new_character: true
+
+  location:
+    x: 350
+    y: 250
+
+  skill_levels:
+    strength: 37
+    accuracy: 33
+    health: 43
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "fisher1_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 740
+
+  skill_levels:
+    fishing: 35
+    health: 31
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "fisher2_agent"
+  new_character: true
+
+  location:
+    x: 585
+    y: 745
+
+  skill_levels:
+    fishing: 30
+    health: 29
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "cook1_agent"
+  new_character: true
+
+  location:
+    x: 590
+    y: 745
+
+  skill_levels:
+    cooking: 45
+    crafting: 32
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "bowl"
+      count: 4
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "cook2_agent"
+  new_character: true
+
+  location:
+    x: 595
+    y: 745
+
+  skill_levels:
+    cooking: 40
+    crafting: 28
+    health: 26
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains 4x cornstew"
+  - "Team inventory contains 4x cookedshrimp"
+  - "Team inventory contains 4x cookedchicken"
+  - "Team inventory contains 2x jellyfishsmoothie"
+  - "All agents survive the cooking mission"

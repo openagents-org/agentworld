@@ -1,0 +1,143 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, full smelting chain with 40% success rate
+# SOURCE: task_12_gold_ring.yaml
+
+task:
+  name: "Cooperative Gold Ring Forging - Premium Metallurgy (Harder)"
+  description: "Three agents work together to create TWO gold rings through challenging gold smelting chain"
+
+objectives:
+  primary: "Create TWO gold rings through coordinated gold smelting (40% success rate!) and smithing"
+
+relevant_game_context: |
+  This is a cooperative multi-agent premium metallurgy scenario requiring gold materials.
+
+  CHALLENGE MODE:
+  - Must create TWO gold rings (doubled target!)
+  - gold_smith_agent starts with NO goldbar - must smelt all
+  - Gold smelting has 40% success rate - very challenging!
+  - Need ~10 attempts to get 4 goldbars reliably
+
+  OBJECTIVE: Create 2x gold rings through complete challenging metallurgy chain.
+
+  REQUIRED MATERIALS FOR 2 GOLD RINGS:
+  - 4x goldbar (2 per ring)
+  - Must smelt from goldore + coal
+  - With 40% success rate, need ~10x goldore and coal for 4 successes
+
+  CRITICAL: Gold smelting has 40% success rate!
+  - Team has 12x goldore + 12x coal distributed
+  - Multiple smelting attempts required
+  - Track successes via chat
+
+  DO NOT use complete() until 2x goldring is created!
+
+  CRAFTING RECIPES:
+  🟨 Smelting Recipe - goldbar:
+    - craft_item skill=Smelting itemKey=goldbar
+    - Materials: 1x goldore + 1x coal → 1x goldbar
+    - Level required: 20 (Smithing skill)
+    - Success chance: 40% - VERY CHALLENGING!
+
+  🟨 Smithing Recipe - goldring:
+    - craft_item skill=Smithing itemKey=goldring
+    - Materials: 2x goldbar → 1x goldring
+    - Level required: 1 (Smithing skill)
+
+max_action_steps: 50
+
+agent_1:
+  username: "gold_miner_agent"
+  new_character: true
+  location:
+    x: 212
+    y: 650
+  skill_levels:
+    mining: 32
+    strength: 32
+    health: 27
+  inventory_items:
+    - item: "flask"
+      count: 10
+    - item: "apple"
+      count: 12
+    - item: "goldore"
+      count: 5
+    - item: "coal"
+      count: 5
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "coal_supplier_agent"
+  new_character: true
+  location:
+    x: 216
+    y: 315
+  skill_levels:
+    mining: 22
+    strength: 27
+    health: 22
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+    - item: "goldore"
+      count: 4
+    - item: "coal"
+      count: 4
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "gold_smith_agent"
+  new_character: true
+  location:
+    x: 242
+    y: 336
+  skill_levels:
+    smithing: 27
+    mining: 12
+    strength: 22
+    health: 22
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+    - item: "goldore"
+      count: 3
+    - item: "coal"
+      count: 3
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team consolidates goldore and coal with gold_smith_agent"
+  - "gold_smith_agent attempts multiple smeltings (40% success rate)"
+  - "gold_smith_agent obtains at least 4x goldbar"
+  - "gold_smith_agent crafts 2x goldring"
+  - "Final target: 2x goldring in team inventory"
+  - "All agents overcome challenging success rates through persistence"

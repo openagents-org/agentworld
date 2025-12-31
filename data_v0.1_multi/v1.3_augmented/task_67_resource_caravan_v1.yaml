@@ -1,0 +1,259 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_67_resource_caravan.yaml
+
+task:
+  name: "Resource Caravan - Quick Gathering (Easier)"
+  description: "Eight traders gather resources with pre-gathered materials"
+
+objectives:
+  primary: "Collect 3x logs, 3x coal, and craft 1x Pickaxe with provided iron"
+
+relevant_game_context: |
+  This is a cooperative multi-agent resource gathering with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - lumberjack1_agent has 2x logs pre-gathered
+  - miner1_agent has 2x coal pre-gathered
+  - crafter_agent has 5x ironbar ready for pickaxe
+  - Higher skill levels for faster gathering
+  - Reduced targets: half the logs and coal
+
+  PRODUCTION TARGETS (REDUCED):
+  - 3x logs (from forest) - 2 already gathered!
+  - 3x coal (from mountain) - 2 already gathered!
+  - 1x Pickaxe (5x ironbar + 1x logs) - iron bars ready!
+
+  TEAM COORDINATION:
+  - Gather remaining resources
+  - Crafter has materials for pickaxe
+  - Quick completion possible
+
+  DO NOT use complete() until objectives are met!
+
+max_action_steps: 18
+
+agent_1:
+  username: "leader_agent"
+  new_character: true
+
+  location:
+    x: 350
+    y: 250
+
+  skill_levels:
+    strength: 52
+    health: 62
+    defense: 48
+
+  inventory_items:
+    - item: "flask"
+      count: 55
+    - item: "apple"
+      count: 60
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "lumberjack1_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 55
+    strength: 44
+    health: 52
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+    - item: "logs"
+      count: 2
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "lumberjack2_agent"
+  new_character: true
+
+  location:
+    x: 392
+    y: 12
+
+  skill_levels:
+    lumberjacking: 52
+    strength: 42
+    health: 50
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "lumberjack3_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 14
+
+  skill_levels:
+    lumberjacking: 48
+    strength: 40
+    health: 48
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "miner1_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 40
+
+  skill_levels:
+    mining: 50
+    strength: 40
+    health: 50
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+    - item: "coal"
+      count: 2
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "miner2_agent"
+  new_character: true
+
+  location:
+    x: 232
+    y: 42
+
+  skill_levels:
+    mining: 46
+    strength: 38
+    health: 48
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "miner3_agent"
+  new_character: true
+
+  location:
+    x: 234
+    y: 44
+
+  skill_levels:
+    mining: 44
+    strength: 37
+    health: 46
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "crafter_agent"
+  new_character: true
+
+  location:
+    x: 350
+    y: 255
+
+  skill_levels:
+    crafting: 55
+    smithing: 48
+    health: 50
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+    - item: "ironbar"
+      count: 5
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains at least 3x logs"
+  - "Team inventory contains at least 3x coal"
+  - "Team inventory contains 1x pickaxe"
+  - "All agents survive the caravan mission"

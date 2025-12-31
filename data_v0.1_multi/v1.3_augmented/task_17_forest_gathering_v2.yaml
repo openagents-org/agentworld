@@ -1,0 +1,139 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets, added 4th agent
+# SOURCE: task_17_forest_gathering.yaml
+
+task:
+  name: "Forest Gathering Mission - Wilderness Team Protection (Harder)"
+  description: "Four agents work together to gather increased forest resources under enhanced wildlife threats"
+
+objectives:
+  primary: "Successfully protect collectors while they gather 8x palmlogs and 10x peach under wildlife threat conditions"
+
+relevant_game_context: |
+  This is a cooperative multi-agent forest protection scenario.
+
+  CHALLENGE MODE:
+  - Increased targets: 8x palmlogs and 10x peach (doubled!)
+  - Added 4th agent (backup_guardian) for enhanced protection
+  - Reduced consumables - manage resources carefully
+
+  OBJECTIVE: Gather increased forest resources while protecting the team.
+
+  MISSION REQUIREMENTS:
+  - Collect 8x palmlogs and 10x peach (increased targets)
+  - Keep all team members alive throughout the mission
+  - Coordinate two guardians for better coverage
+
+  DO NOT use complete() until ALL objectives are achieved safely!
+
+max_action_steps: 40
+
+agent_1:
+  username: "forest_guardian_agent"
+  new_character: true
+  location:
+    x: 60
+    y: 130
+  skill_levels:
+    archery: 27
+    fletching: 18
+    strength: 22
+    defense: 15
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+    - item: "arrow"
+      count: 50
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "palm_logger_agent"
+  new_character: true
+  location:
+    x: 65
+    y: 130
+  skill_levels:
+    lumberjacking: 27
+    defense: 12
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "peach_forager_agent"
+  new_character: true
+  location:
+    x: 70
+    y: 130
+  skill_levels:
+    foraging: 18
+    defense: 10
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "backup_guardian_agent"
+  new_character: true
+  location:
+    x: 55
+    y: 130
+  skill_levels:
+    archery: 25
+    strength: 22
+    defense: 18
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+    - item: "arrow"
+      count: 50
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "palm_logger_agent has at least 8x palmlogs in inventory"
+  - "peach_forager_agent has at least 10x peach in inventory"
+  - "All agents remain alive throughout the mission"
+  - "Both guardians coordinate to protect team from wildlife threats"

@@ -1,0 +1,165 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets, no starting materials
+# SOURCE: task_02_arrow_production.yaml
+
+task:
+  name: "Cooperative Arrow Production - Archer Supply Chain (Harder)"
+  description: "Three agents work together to mass-produce arrows for archery combat - increased target with no pre-gathered materials"
+
+# Task objectives
+objectives:
+  primary: "Produce a batch of 20 arrows through coordinated material gathering and crafting"
+
+# Context and guidance for agents
+relevant_game_context: |
+  Team objective: Produce 20x arrows through coordinated effort (doubled from original!).
+
+  CHALLENGE MODE:
+  - No starting logs - must harvest all wood from scratch!
+  - Exact feather count - no buffer, must be efficient
+  - Double the arrow production target
+  - Reduced consumables - manage resources carefully
+
+  🚨 CRITICAL AWARENESS: Check your actual inventory state before making claims!
+  - Use verify_inventory to see what you really have in your inventory
+  - Do NOT assume you have materials that aren't verified
+  - Do NOT claim transfers happened without actually using transfer_items tool
+
+  📋 REQUIRED MATERIALS FOR SUCCESS:
+  - EXACTLY 5x logs needed (must harvest all from Oak Trees)
+  - EXACTLY 20x feathers needed (team has exactly 20x total: 10x each)
+  - Materials must be consolidated with ONE agent for crafting (recommend fletcher_agent)
+
+  🧮 MATERIAL MATH (CRITICAL):
+  - 5x logs → craft 5 times → 20x sticks total (1 log = 4 sticks each craft)
+  - 20x sticks + 20x feathers → 20x arrows (final goal - doubled target!)
+  - NO BUFFER - every material counts!
+
+  🛠️ CRAFTING PROCESS OVERVIEW:
+  - logs → sticks: Use craft_item skill=Fletching itemKey=stick
+    Recipe: 1x logs → 4x sticks automatically
+  - sticks + feathers → arrows: Use craft_item skill=Fletching itemKey=arrow
+    Recipe: 10x sticks + 10x feathers → 10x arrows (need to craft twice!)
+
+  🤝 COORDINATION REQUIREMENTS:
+  - 📍 MANDATORY: ALL agents must work at the SAME LOCATION (within 3 tiles of each other)
+  - 📍 RECOMMENDED BASE: Stay near Oak Trees around spawn area (388-392, 3-6)
+  - 📦 Use transfer_items to consolidate materials for crafting
+  - 💬 Use global chat frequently to share exact inventory counts
+  - ✅ Use verify_inventory before and after EVERY transfer operation
+
+  🚨 COMPLETION RULES:
+  - DO NOT use complete() until fletcher_agent actually has 20x arrows in inventory
+  - Only complete when final objective is verified by ALL agents: team has 20x arrows
+
+  Goal: Team must collaborate efficiently to meet the doubled production target!
+
+# Limitations
+max_action_steps: 50
+
+# Agent configurations
+agent_1:
+  username: "lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 3
+
+  skill_levels:
+    lumberjacking: 22
+    fletching: 12
+    strength: 22
+    health: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "hunter_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 3
+
+  skill_levels:
+    strength: 22
+    health: 22
+    accuracy: 22
+    fletching: 12
+
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+    - item: "feather"
+      count: 10
+
+  equipped_items:
+    - item: "sword1"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "fletcher_agent"
+  new_character: true
+
+  location:
+    x: 392
+    y: 3
+
+  skill_levels:
+    fletching: 22
+    crafting: 18
+    strength: 22
+    health: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+    - item: "feather"
+      count: 10
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "Team stays together within 3 tiles throughout the task"
+  - "Team successfully gathers exactly 5x logs from Oak Trees"
+  - "Team consolidates all 20x feathers (10x + 10x) with fletcher_agent"
+  - "Team consolidates all 5x logs with fletcher_agent through transfers"
+  - "Team communicates inventory status after every major action"
+  - "Fletcher_agent crafts 20x sticks from 5x logs (using craft_item 5 times)"
+  - "Fletcher_agent produces 20x arrows from 20x sticks + 20x feathers (craft twice)"
+  - "Final target: Fletcher_agent has 20x arrows verified by all agents"
+  - "All agents coordinate efficiently despite reduced resources"

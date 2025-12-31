@@ -1,0 +1,226 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Mining Operation - Ore Extraction and Smelting"
+  description: "Seven miners extract ore and smelt bars for tool production"
+
+# Task objectives
+objectives:
+  primary: "Mine ore, smelt 6x ironbar, and craft 1x Pickaxe and 1x Silver Ring"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent mining and smithing scenario.
+
+  OBJECTIVE: Extract ore and produce metal goods.
+
+  PRODUCTION TARGETS:
+  - 6x ironbar (smelted from 6x ironore + 6x coal)
+  - 1x Pickaxe (5x ironbar + 1x logs)
+  - 1x Silver Ring (2x ironbar)
+
+  TOTAL MATERIALS NEEDED:
+  - 7x iron ore (6 for bars, 1 extra)
+  - 7x coal (for smelting)
+  - 1x logs (for pickaxe handle)
+
+  TEAM ROLES:
+  - Iron Miners: Extract iron ore
+  - Coal Miners: Mine coal
+  - Smelter: Smelt ore to bars
+  - Smith: Craft pickaxe and ring
+
+  DO NOT use complete() until all items are crafted!
+
+# Limitations
+max_action_steps: 40
+
+# Agent configurations
+agent_1:
+  username: "ironminer1_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 38
+
+  skill_levels:
+    mining: 45
+    strength: 30
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "ironminer2_agent"
+  new_character: true
+
+  location:
+    x: 232
+    y: 39
+
+  skill_levels:
+    mining: 40
+    strength: 28
+    health: 33
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "coalminer1_agent"
+  new_character: true
+
+  location:
+    x: 234
+    y: 40
+
+  skill_levels:
+    mining: 35
+    strength: 26
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "coalminer2_agent"
+  new_character: true
+
+  location:
+    x: 236
+    y: 42
+
+  skill_levels:
+    mining: 32
+    strength: 24
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 35
+    strength: 28
+    health: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "smelter_agent"
+  new_character: true
+
+  location:
+    x: 240
+    y: 50
+
+  skill_levels:
+    smithing: 35
+    crafting: 25
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "smith_agent"
+  new_character: true
+
+  location:
+    x: 242
+    y: 52
+
+  skill_levels:
+    smithing: 45
+    crafting: 35
+    health: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team inventory contains 1x pickaxe"
+  - "Team inventory contains 1x silverring"
+  - "All agents survive the mining operation"

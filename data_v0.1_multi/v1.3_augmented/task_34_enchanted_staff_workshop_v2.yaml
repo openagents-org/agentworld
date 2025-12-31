@@ -1,0 +1,159 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets, added 4th agent
+# SOURCE: task_34_enchanted_staff_workshop.yaml
+
+task:
+  name: "Enchanted Staff Workshop - Lightning Staff Creation (Harder)"
+  description: "Four agents work together to craft TWO Lightning Staffs through coordinated gathering and crafting"
+
+objectives:
+  primary: "Craft 2x Lightning Staffs by gathering materials and coordinating crafting operations"
+
+relevant_game_context: |
+  This is a cooperative multi-agent magical crafting scenario with increased difficulty.
+
+  CHALLENGE MODE:
+  - Must craft 2x Lightning Staffs (doubled!)
+  - Need to gather all materials from scratch
+  - Added 4th agent (assistant_crafter) for additional help
+  - Need 4x logs minimum for both staffs
+  - Reduced consumables - manage resources carefully
+
+  CRAFTING CHAIN (FOR EACH STAFF):
+  1. Harvest 2x logs from Oak trees (4x total for both staffs)
+  2. Craft logs into sticks (1x logs → 4x stick)
+  3. Craft basic staff (5x stick + 1x bead → 1x staff)
+  4. Upgrade to Lightning Staff (1x staff + 1x lightningbead → 1x lightningstaff)
+
+  MATERIAL SOURCES:
+  - Logs: Oak trees in forest region
+  - Beads: 2x provided (one per staff)
+  - Lightning Beads: 2x provided (one per staff)
+
+  DO NOT use complete() until BOTH Lightning Staffs are crafted!
+
+max_action_steps: 45
+
+agent_1:
+  username: "lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 22
+    strength: 22
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "crafter_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 10
+
+  skill_levels:
+    fletching: 18
+    crafting: 22
+    strength: 18
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+    - item: "bead"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "enchanter_agent"
+  new_character: true
+
+  location:
+    x: 392
+    y: 10
+
+  skill_levels:
+    crafting: 28
+    magic: 22
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+    - item: "lightningbead"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "assistant_crafter"
+  new_character: true
+
+  location:
+    x: 386
+    y: 10
+
+  skill_levels:
+    lumberjacking: 18
+    fletching: 15
+    crafting: 18
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains 2x lightningstaff"
+  - "All four agents survive the mission"

@@ -1,0 +1,162 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+# SOURCE: task_69_legendary_equipment_forge.yaml
+
+task:
+  name: "Legendary Equipment Forge - Ultimate Challenge (Harder)"
+  description: "Nine master craftsmen mine from scratch and create an expanded legendary arsenal"
+
+objectives:
+  primary: "Forge 7x golden items, 6x magical staffs, and 8x elite weapons from scratch"
+
+relevant_game_context: |
+  This is a cooperative multi-agent legendary crafting with maximum difficulty.
+
+  CHALLENGE MODE:
+  - No pre-gathered materials
+  - Must mine 70+ gold ore, 30+ iron ore, 100+ coal
+  - Must gather all beads, strings, logs, hilts
+  - Lower skill levels require more attempts
+  - Reduced consumables
+  - Extended crafting list
+
+  PRODUCTION TARGETS (EXPANDED):
+  - 7x Golden Items:
+    - 1x Golden Sword (8x goldbar + 1x hilt2)
+    - 1x Golden Bow (15x goldbar + 10x string + 2x logs)
+    - 1x Golden Boots (5x goldbar)
+    - 4x Gold Ring (2x goldbar each = 8 goldbar)
+  - 6x Magical Staffs:
+    - Lightning, Fire, Ice, Nature staffs + 2 extras
+  - 8x Elite Weapons:
+    - 3x Heavy Sword, 3x Pickaxe, 2x Battle Axe
+
+  MATERIAL REQUIREMENTS:
+  - 70x goldore + 70x coal → 70x goldbar
+  - 30x ironore + 30x coal → 30x ironbar
+  - 12x beads (8 regular + 4 special)
+  - 15x string, 8x logs, 8x hilt2
+
+  DO NOT use complete() until ALL objectives are met!
+
+max_action_steps: 80
+
+agent_1:
+  username: "Gold_Extractor_Prime"
+  new_character: true
+  location: {x: 230, y: 38}
+  skill_levels: {mining: 50, strength: 31, health: 37}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_2:
+  username: "Gold_Extractor_Alpha"
+  new_character: true
+  location: {x: 238, y: 48}
+  skill_levels: {mining: 47, strength: 29, health: 35}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_3:
+  username: "Gold_Extractor_Beta"
+  new_character: true
+  location: {x: 236, y: 46}
+  skill_levels: {mining: 45, strength: 27, health: 33}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_4:
+  username: "Iron_Specialist"
+  new_character: true
+  location: {x: 232, y: 40}
+  skill_levels: {mining: 43, strength: 25, health: 31}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_5:
+  username: "Coal_Master_Supreme"
+  new_character: true
+  location: {x: 234, y: 42}
+  skill_levels: {mining: 40, strength: 23, health: 29}
+  inventory_items:
+    - {item: "flask", count: 25}
+    - {item: "apple", count: 30}
+  equipped_items:
+    - {item: "pickaxe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_6:
+  username: "Arcane_Bead_Hunter"
+  new_character: true
+  location: {x: 350, y: 250}
+  skill_levels: {strength: 39, accuracy: 35, foraging: 33, health: 45}
+  inventory_items:
+    - {item: "flask", count: 30}
+    - {item: "apple", count: 35}
+  equipped_items:
+    - {item: "sword1", count: 1, enchant: 0}
+    - {item: "platearmor", count: 1, enchant: 0}
+
+agent_7:
+  username: "Component_Master"
+  new_character: true
+  location: {x: 250, y: 350}
+  skill_levels: {foraging: 37, lumberjacking: 35, health: 33}
+  inventory_items:
+    - {item: "flask", count: 20}
+    - {item: "apple", count: 25}
+    - {item: "hilt2", count: 2}
+  equipped_items:
+    - {item: "axe", count: 1, enchant: 0}
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_8:
+  username: "Master_Smelter_Supreme"
+  new_character: true
+  location: {x: 528, y: 384}
+  skill_levels: {crafting: 60, smithing: 40, health: 33}
+  inventory_items:
+    - {item: "flask", count: 20}
+    - {item: "apple", count: 25}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+agent_9:
+  username: "Legendary_Crafter"
+  new_character: true
+  location: {x: 530, y: 386}
+  skill_levels: {smithing: 65, fletching: 45, crafting: 55, health: 35}
+  inventory_items:
+    - {item: "flask", count: 20}
+    - {item: "apple", count: 25}
+    - {item: "hilt2", count: 1}
+  equipped_items:
+    - {item: "leatherarmor", count: 1, enchant: 0}
+
+success_criteria:
+  - "Team inventory contains 1x goldensword"
+  - "Team inventory contains 1x goldenbow"
+  - "Team inventory contains 1x goldenboots"
+  - "Team inventory contains 4x goldring"
+  - "Team inventory contains 6x staff (various elemental staffs)"
+  - "Team inventory contains 3x sword2 (heavy sword)"
+  - "Team inventory contains 3x pickaxe"
+  - "Team inventory contains 2x axe"
+  - "All 9 master craftsmen survive"
+  - "Ultimate legendary challenge conquered"

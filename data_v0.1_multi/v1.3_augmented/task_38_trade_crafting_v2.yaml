@@ -1,0 +1,163 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets, added 4th agent
+# SOURCE: task_38_trade_crafting.yaml
+
+task:
+  name: "Trade Crafting - Gold Ring Production (Harder)"
+  description: "Four agents work together to mine gold and craft multiple valuable gold rings"
+
+objectives:
+  primary: "Mine gold ore, smelt 4x gold bars, and craft 2x Gold Rings"
+
+relevant_game_context: |
+  This is a cooperative multi-agent mining and crafting scenario with increased difficulty.
+
+  CHALLENGE MODE:
+  - Must craft 2x Gold Rings (doubled!)
+  - Need to mine 4x goldore from scratch
+  - Need to mine 4x coal for smelting
+  - Added 4th agent (expedition_miner) for additional mining
+  - Reduced consumables - manage resources carefully
+
+  PRODUCTION CHAIN:
+  1. Mine 4x goldore from Gold rocks (Level 25 mining)
+  2. Mine 4x coal from Coal rocks
+  3. Smelt 4x goldbar (1x goldore + 1x coal → 1x goldbar)
+  4. Craft 2x goldring (2x goldbar → 1x goldring each)
+
+  TEAM COORDINATION:
+  - Two miners to cover gold and coal
+  - Smith handles all smelting and crafting
+  - Coordinate material transfers
+
+  DO NOT use complete() until 2x gold rings are crafted!
+
+max_action_steps: 45
+
+agent_1:
+  username: "miner_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 45
+
+  skill_levels:
+    mining: 28
+    strength: 28
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "smith_agent"
+  new_character: true
+
+  location:
+    x: 235
+    y: 45
+
+  skill_levels:
+    smithing: 22
+    mining: 18
+    strength: 22
+    health: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "support_agent"
+  new_character: true
+
+  location:
+    x: 240
+    y: 45
+
+  skill_levels:
+    mining: 22
+    strength: 22
+    health: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "expedition_miner"
+  new_character: true
+
+  location:
+    x: 225
+    y: 50
+
+  skill_levels:
+    mining: 26
+    strength: 28
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team mines at least 4x goldore"
+  - "Team mines at least 4x coal"
+  - "Team smelts at least 4x goldbar"
+  - "Team inventory contains 2x goldring"
+  - "All four agents survive the mission"

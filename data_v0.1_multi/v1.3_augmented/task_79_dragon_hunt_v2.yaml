@@ -1,0 +1,347 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+# SOURCE: task_79_dragon_hunt.yaml
+
+task:
+  name: "Dragon Hunt - Five Boss Conquest (Harder)"
+  description: "Ten elite warriors hunt and defeat five dangerous bosses"
+
+objectives:
+  primary: "Defeat Iron Ogre, Water Guardian, Mermaid, Ogre Guardian, and Ogre Chieftain"
+
+relevant_game_context: |
+  This is a cooperative multi-agent boss hunting with maximum difficulty.
+
+  CHALLENGE MODE:
+  - FIVE bosses to defeat
+  - Lower combat stats
+  - Fewer consumables
+  - Must travel between regions
+
+  TARGET BOSSES (EXPANDED):
+  - Iron Ogre (Level 25): Located at mountain (238, 48)
+  - Water Guardian (Level 36): Located at coast (197, 633)
+  - Mermaid (Level 55): Located at ocean (580, 755)
+  - Ogre Guardian (Level 32): Located at (291, 644)
+  - Ogre Chieftain (Level 35): Located at (300, 650)
+
+  COMBAT STRATEGY:
+  - Must split team or hunt sequentially
+  - Coordinate healing and attacks
+  - Manage limited resources
+
+  DO NOT use complete() until ALL bosses are defeated!
+
+max_action_steps: 80
+
+agent_1:
+  username: "tank1_agent"
+  new_character: true
+
+  location:
+    x: 238
+    y: 52
+
+  skill_levels:
+    defense: 45
+    strength: 35
+    health: 55
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "tank2_agent"
+  new_character: true
+
+  location:
+    x: 240
+    y: 54
+
+  skill_levels:
+    defense: 43
+    strength: 33
+    health: 53
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "tank3_agent"
+  new_character: true
+
+  location:
+    x: 197
+    y: 633
+
+  skill_levels:
+    defense: 43
+    strength: 33
+    health: 53
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "dps1_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 755
+
+  skill_levels:
+    strength: 50
+    accuracy: 45
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 27
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "dps2_agent"
+  new_character: true
+
+  location:
+    x: 291
+    y: 644
+
+  skill_levels:
+    strength: 48
+    accuracy: 43
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 27
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "dps3_agent"
+  new_character: true
+
+  location:
+    x: 300
+    y: 650
+
+  skill_levels:
+    strength: 48
+    accuracy: 43
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 27
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "archer_agent"
+  new_character: true
+
+  location:
+    x: 232
+    y: 46
+
+  skill_levels:
+    accuracy: 50
+    archery: 45
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 27
+    - item: "arrow"
+      count: 40
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "support1_agent"
+  new_character: true
+
+  location:
+    x: 199
+    y: 635
+
+  skill_levels:
+    magic: 35
+    health: 40
+    defense: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 27
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "support2_agent"
+  new_character: true
+
+  location:
+    x: 582
+    y: 757
+
+  skill_levels:
+    magic: 33
+    health: 38
+    defense: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 27
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "scout_agent"
+  new_character: true
+
+  location:
+    x: 293
+    y: 646
+
+  skill_levels:
+    accuracy: 35
+    strength: 30
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 27
+    - item: "arrow"
+      count: 25
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Iron Ogre at (238, 48) is defeated"
+  - "Water Guardian at (197, 633) is defeated"
+  - "Mermaid at (580, 755) is defeated"
+  - "Ogre Guardian at (291, 644) is defeated"
+  - "Ogre Chieftain at (300, 650) is defeated"
+  - "All agents survive the expedition"

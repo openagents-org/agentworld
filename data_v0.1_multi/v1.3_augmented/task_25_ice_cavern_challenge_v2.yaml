@@ -1,0 +1,220 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets, added 4th agent
+# SOURCE: task_25_ice_cavern_challenge.yaml
+
+task:
+  name: "Ice Cavern Challenge - Frozen Tundra Survival (Harder)"
+  description: "Four agents work together to defeat THREE Ice Guardians and harvest multiple Ice Oak trees"
+
+objectives:
+  primary: "Successfully defeat three Ice Guardians and harvest 4x Ice Oak logs in harsh frozen conditions"
+
+relevant_game_context: |
+  This is a cooperative multi-agent cold-weather survival expedition with increased difficulty.
+
+  CHALLENGE MODE:
+  - Must defeat THREE Ice Guardians (not just two!)
+  - Third Ice Guardian spawns in deeper ice cavern area
+  - Must harvest 4x iceoaklogs from scratch (no pre-gathered)
+  - Added 4th agent (frost_scout_agent) for additional coverage
+  - Reduced consumables - manage resources carefully
+  - Lower skill levels require precise coordination
+
+  OBJECTIVE: Survive dangerous ice caverns, defeat all three ice guardians, and harvest rare frozen materials.
+
+  MISSION REQUIREMENTS:
+  - Navigate to Frozen/Ice region (coordinates 228-260, 151-156)
+  - Defeat THREE Ice Guardians (Level 35) in coordinated combat
+  - Harvest 4x Ice Oak logs from frozen trees
+  - Survive extended freezing environmental damage
+
+  TEAM COORDINATION:
+  - Use global chat to coordinate multi-guardian combat
+  - Share warming items and provide mutual healing
+  - May need to defeat guardians sequentially
+  - Two lumberjacks needed for efficient harvesting
+
+  DO NOT use complete() until ALL three guardians defeated and 4x iceoaklogs collected!
+
+  ICE CAVERN COMBAT & HARVESTING:
+  ❄️ Ice Guardian Locations:
+    - Guardian 1: (259, 151) - Level 35
+    - Guardian 2: (260, 156) - Level 35
+    - Guardian 3: (255, 148) - Level 35 (deeper cavern)
+
+  🌲 Ice Oak Harvesting:
+    - Need 4x iceoaklogs total
+    - Level required: 20+ Lumberjacking
+    - Found only in frozen biomes
+
+  🧊 Environmental Hazards:
+    - Continuous freezing damage
+    - Extended exposure is dangerous
+    - Coordinate efficient routes
+
+max_action_steps: 50
+
+agent_1:
+  username: "ice_warrior_agent"
+  new_character: true
+
+  location:
+    x: 500
+    y: 120
+
+  skill_levels:
+    strength: 42
+    defense: 38
+    health: 52
+    accuracy: 32
+    magic: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "healthpotion"
+      count: 12
+    - item: "manapotion"
+      count: 6
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "frost_lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 505
+    y: 120
+
+  skill_levels:
+    lumberjacking: 28
+    strength: 38
+    health: 48
+    defense: 32
+    accuracy: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "healthpotion"
+      count: 10
+
+  equipped_items:
+    - item: "goldaxe"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "ice_guardian_agent"
+  new_character: true
+
+  location:
+    x: 510
+    y: 120
+
+  skill_levels:
+    magic: 38
+    health: 48
+    defense: 32
+    strength: 32
+    accuracy: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "healthpotion"
+      count: 12
+    - item: "manapotion"
+      count: 10
+
+  equipped_items:
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "frost_scout_agent"
+  new_character: true
+
+  location:
+    x: 515
+    y: 120
+
+  skill_levels:
+    lumberjacking: 25
+    strength: 35
+    health: 45
+    defense: 30
+    magic: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "healthpotion"
+      count: 10
+    - item: "manapotion"
+      count: 6
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "ice_warrior_agent navigates to frozen ice cavern region"
+  - "Team defeats first Ice Guardian at (259, 151)"
+  - "Team defeats second Ice Guardian at (260, 156)"
+  - "Team defeats third Ice Guardian at (255, 148)"
+  - "frost_lumberjack_agent and frost_scout_agent harvest 4x iceoaklogs total"
+  - "Team has at least 4x iceoaklogs in combined inventory"
+  - "All four agents survive the freezing environmental damage"
+  - "All three Level 35 ice guardian encounters completed"
+  - "Extended frozen tundra expedition completed within time limit"

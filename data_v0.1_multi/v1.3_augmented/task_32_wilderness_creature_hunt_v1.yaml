@@ -1,0 +1,135 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_32_wilderness_creature_hunt.yaml
+
+task:
+  name: "Wilderness Creature Hunt - Wolf Pack Elimination (Easier)"
+  description: "Three agents work together with enhanced equipment to hunt wolves and gather resources"
+
+objectives:
+  primary: "Defeat 2x Wolves and collect 3x logs with pre-gathered starting materials"
+
+relevant_game_context: |
+  This is a cooperative multi-agent hunting and gathering scenario with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - gatherer_agent starts with 2x logs already collected
+  - Higher skill levels for safer combat
+  - More consumables for healing
+  - Reduced targets: 2x Wolves (not 3)
+  - Only need 1 additional log
+
+  TARGETS (REDUCED):
+  - Defeat 2x Wolves (reduced from 3)
+  - Collect 3x logs total (have 2, need 1 more)
+
+  WOLF COMBAT:
+  - Wolves are aggressive melee creatures
+  - Coordinate attacks: tank draws aggro, others deal damage
+  - Use ranged weapons for safer engagement
+
+  DO NOT use complete() until objectives are met!
+
+max_action_steps: 20
+
+agent_1:
+  username: "hunter_agent"
+  new_character: true
+
+  location:
+    x: 400
+    y: 400
+
+  skill_levels:
+    strength: 48
+    defense: 42
+    health: 58
+    accuracy: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "gatherer_agent"
+  new_character: true
+
+  location:
+    x: 405
+    y: 400
+
+  skill_levels:
+    lumberjacking: 32
+    strength: 30
+    health: 45
+    defense: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "logs"
+      count: 2
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "support_agent"
+  new_character: true
+
+  location:
+    x: 410
+    y: 400
+
+  skill_levels:
+    archery: 38
+    accuracy: 42
+    health: 48
+    defense: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "arrow"
+      count: 50
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "2x Wolves are defeated"
+  - "Team inventory contains at least 3x logs"
+  - "All agents survive the hunt"

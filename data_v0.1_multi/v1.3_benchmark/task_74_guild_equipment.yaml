@@ -1,0 +1,220 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Guild Equipment - Crafting Workshop"
+  description: "Six guild members craft a complete set of equipment"
+
+# Task objectives
+objectives:
+  primary: "Craft 2x Heavy Sword, 1x Axe, 1x Wooden Bow, and 2x Silver Ring"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent crafting scenario.
+
+  OBJECTIVE: Produce equipment for the guild.
+
+  PRODUCTION TARGETS:
+  - 2x Heavy Sword (2x ironbar + 1x hilt2 each = 4x ironbar, 2x hilt2)
+  - 1x Axe (3x ironbar + 1x logs)
+  - 1x Wooden Bow (1x logs + 1x string)
+  - 2x Silver Ring (2x ironbar each = 4x ironbar)
+
+  TOTAL IRON NEEDED: 11x ironbar
+  - Requires 11x ironore + 11x coal
+
+  TEAM ROLES:
+  - Lumberjack: Gather logs
+  - Miner: Extract ore and coal
+  - Smith: Smelt and forge
+  - Fletcher: Make bow
+  - Crafter: Make rings
+
+  DO NOT use complete() until all equipment is crafted!
+
+# Limitations
+max_action_steps: 42
+
+# Agent configurations
+agent_1:
+  username: "lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 42
+    strength: 35
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "miner_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 40
+
+  skill_levels:
+    mining: 42
+    strength: 36
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "smith_agent"
+  new_character: true
+
+  location:
+    x: 235
+    y: 45
+
+  skill_levels:
+    smithing: 45
+    crafting: 32
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 32
+    - item: "hilt2"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "fletcher_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 15
+
+  skill_levels:
+    fletching: 42
+    crafting: 30
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 28
+    - item: "string"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "crafter_agent"
+  new_character: true
+
+  location:
+    x: 240
+    y: 50
+
+  skill_levels:
+    crafting: 48
+    smithing: 35
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 28
+    - item: "apple"
+      count: 32
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "coordinator_agent"
+  new_character: true
+
+  location:
+    x: 245
+    y: 55
+
+  skill_levels:
+    strength: 35
+    crafting: 35
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team inventory contains 2x sword2 (heavy sword)"
+  - "Team inventory contains 1x axe"
+  - "Team inventory contains 1x woodenbow"
+  - "Team inventory contains 2x silverring"
+  - "All agents survive the crafting mission"

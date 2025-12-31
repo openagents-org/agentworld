@@ -1,0 +1,194 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+# SOURCE: task_47_magic_staff_forge.yaml
+
+task:
+  name: "Magic Staff Forge - Elemental Staff Production (Harder)"
+  description: "Five agents craft 3x Lightning Staff and 2x Fire Staff from scratch"
+
+objectives:
+  primary: "Craft 3x Lightning Staff and 2x Fire Staff through full production chain"
+
+relevant_game_context: |
+  This is a cooperative multi-agent magical crafting scenario with increased difficulty.
+
+  CHALLENGE MODE:
+  - Increased targets: 3x Lightning Staff, 2x Fire Staff
+  - Must craft all staffs from raw logs
+  - Need 6x logs for 24x sticks
+  - Need 5x bead for base staffs
+  - Reduced consumables - manage carefully
+
+  PRODUCTION TARGETS (INCREASED):
+  - 3x Lightning Staff (staff + lightningbead each)
+  - 2x Fire Staff (staff + firebead each)
+
+  CRAFTING CHAIN:
+  1. Harvest 6x logs from Oak trees
+  2. Craft 24x stick (1x logs → 4x stick)
+  3. Craft 5x staff (5x stick + 1x bead each)
+  4. Enchant 3x to Lightning Staff
+  5. Enchant 2x to Fire Staff
+
+  MATERIALS PROVIDED:
+  - 5x bead for base staffs
+  - 3x lightningbead for lightning enchant
+  - 2x firebead for fire enchant
+
+  DO NOT use complete() until ALL staffs are crafted!
+
+max_action_steps: 60
+
+agent_1:
+  username: "lumberjack1_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 20
+    strength: 20
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "lumberjack2_agent"
+  new_character: true
+
+  location:
+    x: 392
+    y: 10
+
+  skill_levels:
+    lumberjacking: 20
+    strength: 20
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "fletcher_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 15
+
+  skill_levels:
+    fletching: 20
+    crafting: 15
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "crafter1_agent"
+  new_character: true
+
+  location:
+    x: 395
+    y: 15
+
+  skill_levels:
+    crafting: 25
+    magic: 20
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+    - item: "bead"
+      count: 3
+    - item: "lightningbead"
+      count: 3
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "crafter2_agent"
+  new_character: true
+
+  location:
+    x: 400
+    y: 15
+
+  skill_levels:
+    crafting: 28
+    magic: 22
+    health: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 12
+    - item: "apple"
+      count: 15
+    - item: "bead"
+      count: 2
+    - item: "firebead"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains 3x lightningstaff"
+  - "Team inventory contains 2x firestaff"
+  - "All agents survive the mission"

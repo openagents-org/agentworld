@@ -1,0 +1,289 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_73_biome_expedition.yaml
+
+task:
+  name: "Biome Expedition - Quick Hunt (Easier)"
+  description: "Eight agents complete simplified biome objectives"
+
+objectives:
+  primary: "Collect 3x logs, defeat 1x Goblin, and craft 1x Wooden Bow with provided materials"
+
+relevant_game_context: |
+  This is a cooperative multi-agent expedition with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - forest1_agent has 2x logs pre-gathered
+  - crafter_agent has 1x logs and 1x string ready for bow
+  - Higher combat stats for easier fights
+  - Reduced targets: fewer enemies, less gathering
+
+  COMBAT TARGETS (REDUCED):
+  - 1x Goblin (Level 10-15) - only one!
+
+  PRODUCTION TARGETS (REDUCED):
+  - 3x logs (from forest) - 2 already gathered!
+  - 1x Wooden Bow (1x logs + 1x string) - materials ready!
+
+  DO NOT use complete() until all objectives are met!
+
+max_action_steps: 20
+
+agent_1:
+  username: "forest1_agent"
+  new_character: true
+
+  location:
+    x: 250
+    y: 350
+
+  skill_levels:
+    lumberjacking: 50
+    strength: 44
+    health: 54
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+    - item: "logs"
+      count: 2
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "forest2_agent"
+  new_character: true
+
+  location:
+    x: 252
+    y: 352
+
+  skill_levels:
+    lumberjacking: 47
+    strength: 48
+    health: 52
+
+  inventory_items:
+    - item: "flask"
+      count: 42
+    - item: "apple"
+      count: 48
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "mountain1_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 40
+
+  skill_levels:
+    strength: 60
+    defense: 55
+    health: 65
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "mountain2_agent"
+  new_character: true
+
+  location:
+    x: 232
+    y: 42
+
+  skill_levels:
+    strength: 58
+    defense: 53
+    health: 63
+
+  inventory_items:
+    - item: "flask"
+      count: 48
+    - item: "apple"
+      count: 52
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "mountain3_agent"
+  new_character: true
+
+  location:
+    x: 234
+    y: 44
+
+  skill_levels:
+    strength: 55
+    defense: 50
+    health: 60
+
+  inventory_items:
+    - item: "flask"
+      count: 48
+    - item: "apple"
+      count: 50
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "ranger1_agent"
+  new_character: true
+
+  location:
+    x: 255
+    y: 355
+
+  skill_levels:
+    accuracy: 53
+    archery: 50
+    health: 53
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+    - item: "arrow"
+      count: 45
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "ranger2_agent"
+  new_character: true
+
+  location:
+    x: 258
+    y: 358
+
+  skill_levels:
+    accuracy: 51
+    archery: 48
+    health: 51
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 48
+    - item: "arrow"
+      count: 45
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "crafter_agent"
+  new_character: true
+
+  location:
+    x: 260
+    y: 360
+
+  skill_levels:
+    fletching: 55
+    crafting: 50
+    health: 50
+
+  inventory_items:
+    - item: "flask"
+      count: 45
+    - item: "apple"
+      count: 50
+    - item: "string"
+      count: 1
+    - item: "logs"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains at least 3x logs"
+  - "1x Goblin defeated"
+  - "Team inventory contains 1x woodenbow"
+  - "All agents survive the expedition"

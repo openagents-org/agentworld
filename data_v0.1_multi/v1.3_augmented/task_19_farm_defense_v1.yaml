@@ -1,0 +1,112 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_19_farm_defense.yaml
+
+task:
+  name: "Farm Defense Mission - Agricultural Team Protection (Easier)"
+  description: "Three agents work together to gather farm produce - reduced targets with pre-gathered materials"
+
+objectives:
+  primary: "Successfully protect collectors while they gather 5x corn and 2x tomato under agricultural threat conditions"
+
+relevant_game_context: |
+  This is a cooperative multi-agent agricultural protection scenario.
+
+  STARTING ADVANTAGE:
+  - Reduced targets: 5x corn and 2x tomato (easier than 8+4)
+  - corn_harvester_agent starts with 2x corn
+  - tomato_gatherer_agent starts with 1x tomato
+  - Higher skill levels and more arrows
+
+  OBJECTIVE: Gather reduced farm produce while protecting the team.
+
+  MISSION REQUIREMENTS:
+  - Collect 5x corn and 2x tomato (reduced targets)
+  - Keep all team members alive throughout the mission
+
+  DO NOT use complete() until ALL objectives are achieved safely!
+
+max_action_steps: 20
+
+agent_1:
+  username: "farm_guardian_agent"
+  new_character: true
+  location:
+    x: 180
+    y: 200
+  skill_levels:
+    archery: 45
+    fletching: 33
+    strength: 38
+    defense: 28
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "arrow"
+      count: 100
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "corn_harvester_agent"
+  new_character: true
+  location:
+    x: 185
+    y: 200
+  skill_levels:
+    foraging: 30
+    defense: 21
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "corn"
+      count: 2
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "tomato_gatherer_agent"
+  new_character: true
+  location:
+    x: 190
+    y: 200
+  skill_levels:
+    foraging: 35
+    defense: 23
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "tomato"
+      count: 1
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "corn_harvester_agent has at least 5x corn in inventory"
+  - "tomato_gatherer_agent has at least 2x tomato in inventory"
+  - "All agents remain alive throughout the mission"
+  - "Farm guardian successfully protects team from threats"

@@ -1,0 +1,320 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+# SOURCE: task_91_royal_tournament.yaml
+
+task:
+  name: "Royal Tournament - Five Boss Gauntlet (Harder)"
+  description: "Ten agents defeat five bosses for tournament championship"
+
+objectives:
+  primary: "Defeat Iron Ogre at (238, 48), Hermit Crab Warrior at (224, 359), Ogre Guardian at (291, 644), Water Guardian at (197, 633), and Dark Wolf at (1016, 682)"
+
+relevant_game_context: |
+  This is a cooperative multi-agent combat scenario with maximum difficulty.
+
+  CHALLENGE MODE:
+  - FIVE bosses to defeat (instead of 3)
+  - Must split forces across regions
+  - Lower combat stats
+  - Fewer consumables
+
+  COMBAT TARGETS (EXPANDED):
+  - Iron Ogre (Level 25) at (238, 48)
+  - Hermit Crab Warrior (Level 30) at (224, 359)
+  - Ogre Guardian (Level 32) at (291, 644)
+  - Water Guardian (Level 36) at (197, 633)
+  - Dark Wolf (Level 40) at (1016, 682)
+
+  TEAM COMPOSITION:
+  - 6 Fighters with heavy weapons
+  - 4 Support agents
+
+  DO NOT use complete() until ALL bosses are defeated!
+
+max_action_steps: 65
+
+agent_1:
+  username: "champion1_agent"
+  new_character: true
+
+  location:
+    x: 238
+    y: 48
+
+  skill_levels:
+    strength: 46
+    defense: 41
+    health: 54
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "champion2_agent"
+  new_character: true
+
+  location:
+    x: 224
+    y: 359
+
+  skill_levels:
+    strength: 44
+    defense: 38
+    health: 51
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "warrior1_agent"
+  new_character: true
+
+  location:
+    x: 291
+    y: 644
+
+  skill_levels:
+    strength: 41
+    defense: 36
+    health: 48
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "warrior2_agent"
+  new_character: true
+
+  location:
+    x: 197
+    y: 633
+
+  skill_levels:
+    strength: 38
+    defense: 34
+    health: 46
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "fighter1_agent"
+  new_character: true
+
+  location:
+    x: 1016
+    y: 682
+
+  skill_levels:
+    strength: 36
+    defense: 32
+    health: 44
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "fighter2_agent"
+  new_character: true
+
+  location:
+    x: 1018
+    y: 684
+
+  skill_levels:
+    strength: 34
+    defense: 30
+    health: 41
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "support1_agent"
+  new_character: true
+
+  location:
+    x: 350
+    y: 300
+
+  skill_levels:
+    strength: 26
+    health: 36
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "support2_agent"
+  new_character: true
+
+  location:
+    x: 352
+    y: 302
+
+  skill_levels:
+    strength: 24
+    health: 34
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "support3_agent"
+  new_character: true
+
+  location:
+    x: 354
+    y: 304
+
+  skill_levels:
+    strength: 22
+    health: 31
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "coordinator_agent"
+  new_character: true
+
+  location:
+    x: 356
+    y: 306
+
+  skill_levels:
+    strength: 21
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Iron Ogre at (238, 48) defeated"
+  - "Hermit Crab Warrior at (224, 359) defeated"
+  - "Ogre Guardian at (291, 644) defeated"
+  - "Water Guardian at (197, 633) defeated"
+  - "Dark Wolf at (1016, 682) defeated"
+  - "All agents survive the tournament"

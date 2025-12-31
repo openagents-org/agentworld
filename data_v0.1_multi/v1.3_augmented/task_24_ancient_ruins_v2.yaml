@@ -1,0 +1,215 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets, added 4th agent
+# SOURCE: task_24_ancient_ruins.yaml
+
+task:
+  name: "Ancient Ruins Exploration - Archaeological Treasure Discovery (Harder)"
+  description: "Four agents work together to explore ancient ruins, defeat BOTH guardian creatures, and recover multiple artifacts"
+
+objectives:
+  primary: "Successfully defeat BOTH Golden Golem AND Big Baby Spooder, plus explore all treasure chambers"
+
+relevant_game_context: |
+  This is a cooperative multi-agent archaeological expedition with increased difficulty.
+
+  CHALLENGE MODE:
+  - Must defeat BOTH guardians: Golden Golem AND Big Baby Spooder
+  - Big Baby Spooder is Level 45 - very dangerous!
+  - Added 4th agent (relic_scout_agent) for additional firepower
+  - Reduced consumables - manage resources carefully
+  - Lower skill levels require precise coordination
+  - Must explore ALL treasure chambers in the ruins
+
+  OBJECTIVE: Complete full archaeological expedition - defeat both guardians and explore all areas.
+
+  MISSION REQUIREMENTS:
+  - Navigate to Ancient Ruins region (coordinates 769-784, 657-676)
+  - Defeat Golden Golem (Level 0) at (784, 676)
+  - Defeat Big Baby Spooder (Level 45) at (769, 657) - CHALLENGING!
+  - Explore all ruins architecture and locate hidden treasure chambers
+  - Recover multiple ancient artifacts from ruins
+
+  TEAM COORDINATION:
+  - Use global chat to coordinate dual guardian engagement
+  - May need to defeat guardians sequentially for survival
+  - Share combat responsibilities carefully between agents
+  - Healing coordination critical against Level 45 creature
+
+  DO NOT use complete() until BOTH guardians are defeated!
+
+  COMBAT KNOWLEDGE:
+  🥇 Golden Golem (Level 0) at (784, 676):
+    - May have special defensive properties
+    - Coordinate attacks to test weaknesses
+
+  🕷️ Big Baby Spooder (Level 45) at (769, 657):
+    - High-level creature requiring coordinated combat
+    - Expect web attacks, poison damage, and high mobility
+    - Use ranged attacks and positioning
+    - This is the main challenge!
+
+max_action_steps: 50
+
+agent_1:
+  username: "ruins_explorer_agent"
+  new_character: true
+
+  location:
+    x: 750
+    y: 650
+
+  skill_levels:
+    strength: 32
+    accuracy: 28
+    health: 42
+    defense: 28
+    magic: 18
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "healthpotion"
+      count: 6
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "bow"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "guardian_slayer_agent"
+  new_character: true
+
+  location:
+    x: 770
+    y: 660
+
+  skill_levels:
+    strength: 48
+    accuracy: 38
+    defense: 38
+    health: 52
+    magic: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "healthpotion"
+      count: 10
+    - item: "manapotion"
+      count: 6
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "artifact_hunter_agent"
+  new_character: true
+
+  location:
+    x: 780
+    y: 670
+
+  skill_levels:
+    strength: 38
+    accuracy: 32
+    health: 48
+    defense: 32
+    magic: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "healthpotion"
+      count: 8
+    - item: "manapotion"
+      count: 4
+
+  equipped_items:
+    - item: "sidesword"
+      count: 1
+      enchant: 0
+    - item: "greenwingarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "plasticbow"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "relic_scout_agent"
+  new_character: true
+
+  location:
+    x: 760
+    y: 665
+
+  skill_levels:
+    strength: 42
+    accuracy: 35
+    health: 50
+    defense: 35
+    magic: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "healthpotion"
+      count: 8
+    - item: "manapotion"
+      count: 5
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team navigates to Ancient Ruins and locates both guardian creatures"
+  - "guardian_slayer_agent defeats Golden Golem at (784, 676)"
+  - "Team coordinates to defeat Big Baby Spooder (Level 45) at (769, 657)"
+  - "artifact_hunter_agent explores all treasure chambers"
+  - "relic_scout_agent assists in combat and exploration"
+  - "Team recovers ancient artifacts from multiple locations"
+  - "All four agents survive both dangerous guardian encounters"
+  - "Full archaeological expedition completed within time limit"

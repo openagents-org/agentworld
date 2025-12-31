@@ -1,0 +1,160 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, must gather and smelt all materials
+# SOURCE: task_03_silver_ring.yaml
+
+task:
+  name: "Cooperative Silver Ring Forging - Jewelry Crafting (Harder)"
+  description: "Three agents work together to mine, smelt, and forge TWO silver rings - full production chain required"
+
+# Task objectives
+objectives:
+  primary: "Create TWO silver rings through coordinated mining, smelting, and smithing from scratch"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent jewelry crafting scenario.
+
+  CHALLENGE MODE:
+  - Must create TWO silver rings (doubled target!)
+  - smith_agent starts with NO ironbar - must receive from team
+  - Full production chain required: mining → smelting → smithing
+  - Reduced consumables - manage resources carefully
+
+  OBJECTIVE: Create 2x silver rings through the complete metallurgy chain.
+
+  REQUIRED MATERIALS:
+  - 4x ironbar needed (2 per ring)
+  - Must smelt ironbar from ironore + coal
+  - Team has raw materials distributed - must coordinate transfers
+
+  TEAM COORDINATION:
+  - Use global chat to coordinate the full production chain
+  - miner_agent and smelter_agent have ore - need to process it
+  - Materials must flow: ore → smelter → smith
+
+  CRAFTING RECIPES:
+  🔥 Smelting Recipe - ironbar:
+    - craft_item skill=Smelting itemKey=ironbar
+    - Materials: 1x ironore + 1x coal → 1x ironbar
+    - Level required: 20 (uses Smithing skill level)
+
+  🔨 Smithing Recipe - silverring:
+    - Command: craft_item skill=Smithing itemKey=silverring
+    - Materials: 2x ironbar → 1x silverring
+    - Level required: 1 (Smithing skill)
+    - Need to craft TWICE for 2 rings!
+
+  PRODUCTION CHAIN:
+  1. Consolidate ore and coal with smelter_agent
+  2. smelter_agent smelts 4x ironbar
+  3. Transfer ironbar to smith_agent
+  4. smith_agent crafts 2x silverring
+
+  DO NOT use complete() until 2x silverring is in inventory!
+
+# Limitations
+max_action_steps: 35
+
+# Agent configurations
+agent_1:
+  username: "miner_agent"
+  new_character: true
+
+  location:
+    x: 229
+    y: 37
+
+  skill_levels:
+    mining: 22
+    strength: 27
+    health: 22
+
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+    - item: "ironore"
+      count: 2
+    - item: "coal"
+      count: 2
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "smelter_agent"
+  new_character: true
+
+  location:
+    x: 233
+    y: 175
+
+  skill_levels:
+    smithing: 22
+    mining: 12
+    strength: 22
+    health: 18
+
+  inventory_items:
+    - item: "flask"
+      count: 6
+    - item: "apple"
+      count: 8
+    - item: "ironore"
+      count: 2
+    - item: "coal"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "smith_agent"
+  new_character: true
+
+  location:
+    x: 259
+    y: 184
+
+  skill_levels:
+    smithing: 22
+    strength: 27
+    health: 22
+    defense: 18
+
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria for multi-agent task
+success_criteria:
+  - "Team completes full production chain: mining → smelting → smithing"
+  - "smelter_agent successfully smelts 4x ironbar from ore and coal"
+  - "Materials are transferred efficiently between team members"
+  - "smith_agent receives 4x ironbar and crafts 2x silverring"
+  - "Final target: 2x silverring in team inventory"
+  - "All agents coordinate the complex multi-step metallurgy process"

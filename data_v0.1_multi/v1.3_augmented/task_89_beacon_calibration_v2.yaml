@@ -1,0 +1,307 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+# SOURCE: task_89_beacon_calibration.yaml
+
+task:
+  name: "Beacon Calibration - Full Array (Harder)"
+  description: "Ten agents craft multiple elemental items for beacon array"
+
+objectives:
+  primary: "Craft 2x Beryl Pendant, 2x Lightning Staff, and collect 12x logs and 10x icelogs"
+
+relevant_game_context: |
+  This is a cooperative multi-agent crafting scenario with maximum difficulty.
+
+  CHALLENGE MODE:
+  - Doubled crafting requirements
+  - Increased gathering targets
+  - Lower skill levels
+  - Fewer consumables
+
+  PRODUCTION TARGETS (DOUBLED):
+  - 12x logs (from forest)
+  - 10x icelogs (from ice region)
+  - 2x Beryl Pendant (beryl + string each)
+  - 2x Lightning Staff (staff + lightningbead each)
+
+  MATERIALS NEEDED:
+  - 2x beryl (must mine)
+  - 2x string
+  - 2x lightningbead
+  - 2x staff (must craft or have)
+
+  TEAM ROLES:
+  - Forest Loggers: Harvest logs
+  - Ice Loggers: Harvest ice logs
+  - Crafters: Make items
+
+  DO NOT use complete() until all objectives are met!
+
+max_action_steps: 60
+
+agent_1:
+  username: "logger1_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 36
+    strength: 28
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "logger2_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 12
+
+  skill_levels:
+    lumberjacking: 34
+    strength: 26
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "logger3_agent"
+  new_character: true
+
+  location:
+    x: 392
+    y: 14
+
+  skill_levels:
+    lumberjacking: 32
+    strength: 24
+    health: 26
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "icelogger1_agent"
+  new_character: true
+
+  location:
+    x: 259
+    y: 151
+
+  skill_levels:
+    lumberjacking: 36
+    strength: 26
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "icelogger2_agent"
+  new_character: true
+
+  location:
+    x: 261
+    y: 153
+
+  skill_levels:
+    lumberjacking: 34
+    strength: 24
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "crafter1_agent"
+  new_character: true
+
+  location:
+    x: 350
+    y: 250
+
+  skill_levels:
+    crafting: 38
+    magic: 31
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "beryl"
+      count: 2
+    - item: "string"
+      count: 3
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "crafter2_agent"
+  new_character: true
+
+  location:
+    x: 352
+    y: 252
+
+  skill_levels:
+    crafting: 36
+    magic: 29
+    health: 26
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "lightningbead"
+      count: 2
+    - item: "bead"
+      count: 4
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "support1_agent"
+  new_character: true
+
+  location:
+    x: 354
+    y: 254
+
+  skill_levels:
+    strength: 24
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "support2_agent"
+  new_character: true
+
+  location:
+    x: 356
+    y: 256
+
+  skill_levels:
+    strength: 22
+    health: 26
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "coordinator_agent"
+  new_character: true
+
+  location:
+    x: 358
+    y: 258
+
+  skill_levels:
+    strength: 21
+    health: 26
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains at least 12x logs"
+  - "Team inventory contains at least 10x icelogs"
+  - "Team inventory contains 2x berylpendant"
+  - "Team inventory contains 2x lightningstaff"
+  - "All agents survive the calibration mission"

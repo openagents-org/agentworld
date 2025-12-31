@@ -1,0 +1,250 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+# SOURCE: task_72_fortress_defense.yaml
+
+task:
+  name: "Fortress Defense - Extended Siege (Harder)"
+  description: "Seven defenders defeat waves of enemies"
+
+objectives:
+  primary: "Defeat 6x Goblins and 4x Skeletons"
+
+relevant_game_context: |
+  This is a cooperative multi-agent defense scenario with increased difficulty.
+
+  CHALLENGE MODE:
+  - Doubled all enemy counts
+  - Lower combat stats
+  - Fewer consumables
+  - Must survive extended battle
+
+  COMBAT TARGETS (DOUBLED):
+  - 6x Goblins (Level 10-15)
+  - 4x Skeletons (Level 18-25)
+
+  ENEMY LOCATIONS:
+  - Goblins and Skeletons spawn around (355, 305) area
+
+  DO NOT use complete() until ALL enemies are defeated!
+
+max_action_steps: 65
+
+agent_1:
+  username: "guard1_agent"
+  new_character: true
+
+  location:
+    x: 352
+    y: 302
+
+  skill_levels:
+    defense: 37
+    health: 47
+    strength: 33
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "guard2_agent"
+  new_character: true
+
+  location:
+    x: 355
+    y: 305
+
+  skill_levels:
+    defense: 35
+    health: 45
+    strength: 31
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 28
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "archer1_agent"
+  new_character: true
+
+  location:
+    x: 358
+    y: 305
+
+  skill_levels:
+    accuracy: 37
+    archery: 33
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "arrow"
+      count: 28
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "archer2_agent"
+  new_character: true
+
+  location:
+    x: 360
+    y: 307
+
+  skill_levels:
+    accuracy: 35
+    archery: 31
+    health: 33
+
+  inventory_items:
+    - item: "flask"
+      count: 18
+    - item: "apple"
+      count: 22
+    - item: "arrow"
+      count: 28
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "commander_agent"
+  new_character: true
+
+  location:
+    x: 357
+    y: 305
+
+  skill_levels:
+    strength: 33
+    defense: 30
+    accuracy: 30
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 26
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "support1_agent"
+  new_character: true
+
+  location:
+    x: 362
+    y: 307
+
+  skill_levels:
+    magic: 30
+    health: 35
+    defense: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 24
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "support2_agent"
+  new_character: true
+
+  location:
+    x: 365
+    y: 310
+
+  skill_levels:
+    magic: 28
+    health: 33
+    defense: 23
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 24
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "6x Goblin defeated"
+  - "4x Skeleton defeated"
+  - "All agents survive the defense"

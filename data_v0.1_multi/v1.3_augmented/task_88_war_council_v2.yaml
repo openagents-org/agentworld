@@ -1,0 +1,324 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, increased targets
+# SOURCE: task_88_war_council.yaml
+
+task:
+  name: "War Council - Five Boss Campaign (Harder)"
+  description: "Ten agents defeat five bosses across multiple regions"
+
+objectives:
+  primary: "Defeat the Ogre Guardian at (291, 644), Dark Wolf at (1016, 682), Golden Golem at (548, 232), Ice Guardian at (259, 151), and Mermaid at (580, 755)"
+
+relevant_game_context: |
+  This is a cooperative multi-agent combat scenario with maximum difficulty.
+
+  CHALLENGE MODE:
+  - FIVE bosses to defeat (instead of 3)
+  - Must split forces across regions
+  - Lower combat stats
+  - Fewer consumables
+
+  COMBAT TARGETS (EXPANDED):
+  - Ogre Guardian (Level 36) at (291, 644)
+  - Dark Wolf (Level 40) at (1016, 682)
+  - Golden Golem (Level 38) at (548, 232)
+  - Ice Guardian (Level 35) at (259, 151)
+  - Mermaid (Level 55) at (580, 755)
+
+  TEAM COMPOSITION:
+  - 4 Fighters with heavy weapons
+  - 3 Ranged attackers with staffs
+  - 3 Support agents
+
+  STRATEGY:
+  - Split into squads for each boss
+  - Coordinate attacks via chat
+  - Careful resource management
+
+  DO NOT use complete() until ALL bosses are defeated!
+
+max_action_steps: 68
+
+agent_1:
+  username: "fighter1_agent"
+  new_character: true
+
+  location:
+    x: 291
+    y: 648
+
+  skill_levels:
+    strength: 44
+    defense: 38
+    health: 51
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fighter2_agent"
+  new_character: true
+
+  location:
+    x: 1016
+    y: 686
+
+  skill_levels:
+    strength: 41
+    defense: 36
+    health: 48
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "fighter3_agent"
+  new_character: true
+
+  location:
+    x: 548
+    y: 236
+
+  skill_levels:
+    strength: 38
+    defense: 34
+    health: 46
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "fighter4_agent"
+  new_character: true
+
+  location:
+    x: 259
+    y: 155
+
+  skill_levels:
+    strength: 36
+    defense: 32
+    health: 44
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "mage1_agent"
+  new_character: true
+
+  location:
+    x: 580
+    y: 759
+
+  skill_levels:
+    magic: 38
+    defense: 28
+    health: 41
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "manaflask"
+      count: 12
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "mage2_agent"
+  new_character: true
+
+  location:
+    x: 293
+    y: 648
+
+  skill_levels:
+    magic: 36
+    defense: 26
+    health: 39
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "manaflask"
+      count: 12
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "mage3_agent"
+  new_character: true
+
+  location:
+    x: 1018
+    y: 686
+
+  skill_levels:
+    magic: 34
+    defense: 24
+    health: 36
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "manaflask"
+      count: 12
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "support1_agent"
+  new_character: true
+
+  location:
+    x: 550
+    y: 236
+
+  skill_levels:
+    strength: 26
+    health: 36
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "support2_agent"
+  new_character: true
+
+  location:
+    x: 261
+    y: 153
+
+  skill_levels:
+    strength: 24
+    health: 34
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "coordinator_agent"
+  new_character: true
+
+  location:
+    x: 350
+    y: 300
+
+  skill_levels:
+    strength: 21
+    health: 31
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Ogre Guardian at (291, 644) is defeated"
+  - "Dark Wolf at (1016, 682) is defeated"
+  - "Golden Golem at (548, 232) is defeated"
+  - "Ice Guardian at (259, 151) is defeated"
+  - "Mermaid at (580, 755) is defeated"
+  - "All agents survive the campaign"

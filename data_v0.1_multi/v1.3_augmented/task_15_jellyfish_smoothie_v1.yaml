@@ -1,0 +1,123 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, easier completion
+# SOURCE: task_15_jellyfish_smoothie.yaml
+
+task:
+  name: "Cooperative Jellyfish Smoothie - Exotic Beverage Creation (Easier)"
+  description: "Three agents work together to create a jellyfish smoothie - with pre-crafted bowl and jellyfish"
+
+objectives:
+  primary: "Create a jellyfish smoothie through coordinated exotic fishing and specialty beverage preparation"
+
+relevant_game_context: |
+  This is a cooperative multi-agent exotic beverage creation scenario.
+
+  STARTING ADVANTAGE:
+  - container_maker_agent already has 1x bowlsmall (pre-crafted!)
+  - marine_fisher_agent has 2x jellyfish (extra for safety)
+  - Higher skill levels across all agents
+
+  OBJECTIVE: Create a jellyfish smoothie with pre-gathered materials.
+
+  SIMPLIFIED STRATEGY:
+  - marine_fisher_agent transfers jellyfish to beverage_specialist_agent
+  - container_maker_agent transfers bowlsmall to beverage_specialist_agent
+  - beverage_specialist_agent crafts jellyfishsmoothie immediately
+
+  DO NOT use complete() until jellyfishsmoothie is crafted!
+
+  CRAFTING RECIPES:
+  🎐 Cooking Recipe - jellyfishsmoothie:
+    - craft_item skill=Cooking itemKey=jellyfishsmoothie
+    - Materials: 1x jellyfish + 1x bowlsmall → 1x jellyfishsmoothie
+    - Level required: 10 (Cooking skill)
+
+max_action_steps: 15
+
+agent_1:
+  username: "marine_fisher_agent"
+  new_character: true
+  location:
+    x: 200
+    y: 200
+  skill_levels:
+    fishing: 30
+    strength: 28
+    health: 28
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "jellyfish"
+      count: 2
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "container_maker_agent"
+  new_character: true
+  location:
+    x: 205
+    y: 200
+  skill_levels:
+    lumberjacking: 25
+    fletching: 20
+    strength: 28
+    health: 28
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "bowlsmall"
+      count: 1
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "beverage_specialist_agent"
+  new_character: true
+  location:
+    x: 210
+    y: 200
+  skill_levels:
+    cooking: 30
+    fishing: 18
+    crafting: 13
+    strength: 23
+    health: 28
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "marine_fisher_agent transfers jellyfish to beverage_specialist_agent"
+  - "container_maker_agent transfers bowlsmall to beverage_specialist_agent"
+  - "beverage_specialist_agent crafts jellyfishsmoothie"
+  - "Exotic beverage creation completes quickly"

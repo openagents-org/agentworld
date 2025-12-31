@@ -1,0 +1,340 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_79_dragon_hunt.yaml
+
+task:
+  name: "Dragon Hunt - Single Boss (Easier)"
+  description: "Ten elite warriors defeat one boss with enhanced stats"
+
+objectives:
+  primary: "Defeat the Iron Ogre at (238, 48)"
+
+relevant_game_context: |
+  This is a cooperative multi-agent boss hunting with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - Only 1 boss to defeat (easiest one)
+  - Higher combat stats for all warriors
+  - More consumables for survival
+  - Full team focus on single target
+
+  TARGET BOSS (REDUCED):
+  - Iron Ogre (Level 25): Located at mountain region (238, 48)
+
+  COMBAT STRATEGY:
+  - Full team assaults in sequence
+  - Tank players draw aggro
+  - DPS focuses damage
+  - Supports provide healing
+
+  DO NOT use complete() until boss is defeated!
+
+max_action_steps: 22
+
+agent_1:
+  username: "tank1_agent"
+  new_character: true
+
+  location:
+    x: 238
+    y: 52
+
+  skill_levels:
+    defense: 65
+    strength: 55
+    health: 75
+
+  inventory_items:
+    - item: "flask"
+      count: 55
+    - item: "apple"
+      count: 60
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "tank2_agent"
+  new_character: true
+
+  location:
+    x: 240
+    y: 54
+
+  skill_levels:
+    defense: 63
+    strength: 53
+    health: 73
+
+  inventory_items:
+    - item: "flask"
+      count: 55
+    - item: "apple"
+      count: 60
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "tank3_agent"
+  new_character: true
+
+  location:
+    x: 236
+    y: 50
+
+  skill_levels:
+    defense: 63
+    strength: 53
+    health: 73
+
+  inventory_items:
+    - item: "flask"
+      count: 55
+    - item: "apple"
+      count: 60
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "dps1_agent"
+  new_character: true
+
+  location:
+    x: 242
+    y: 56
+
+  skill_levels:
+    strength: 70
+    accuracy: 65
+    health: 60
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "dps2_agent"
+  new_character: true
+
+  location:
+    x: 234
+    y: 48
+
+  skill_levels:
+    strength: 68
+    accuracy: 63
+    health: 60
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "dps3_agent"
+  new_character: true
+
+  location:
+    x: 244
+    y: 58
+
+  skill_levels:
+    strength: 68
+    accuracy: 63
+    health: 60
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "archer_agent"
+  new_character: true
+
+  location:
+    x: 232
+    y: 46
+
+  skill_levels:
+    accuracy: 70
+    archery: 65
+    health: 60
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+    - item: "arrow"
+      count: 70
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "support1_agent"
+  new_character: true
+
+  location:
+    x: 246
+    y: 60
+
+  skill_levels:
+    magic: 55
+    health: 60
+    defense: 50
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "support2_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 44
+
+  skill_levels:
+    magic: 53
+    health: 58
+    defense: 48
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+
+  equipped_items:
+    - item: "staff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "scout_agent"
+  new_character: true
+
+  location:
+    x: 248
+    y: 62
+
+  skill_levels:
+    accuracy: 55
+    strength: 50
+    health: 60
+
+  inventory_items:
+    - item: "flask"
+      count: 50
+    - item: "apple"
+      count: 55
+    - item: "arrow"
+      count: 50
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Iron Ogre at (238, 48) is defeated"
+  - "All agents survive the expedition"

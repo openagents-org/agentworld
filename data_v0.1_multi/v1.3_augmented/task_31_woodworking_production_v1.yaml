@@ -1,0 +1,130 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v1 - More initial resources, reduced targets
+# SOURCE: task_31_woodworking_production.yaml
+
+task:
+  name: "Woodworking Production - Bow and Arrow Workshop (Easier)"
+  description: "Three agents work together with pre-gathered logs to produce archery equipment"
+
+objectives:
+  primary: "Craft 1x Wooden Bow and 10x Arrows using pre-gathered materials"
+
+relevant_game_context: |
+  This is a cooperative multi-agent crafting scenario with reduced difficulty.
+
+  STARTING ADVANTAGE:
+  - lumberjack_agent starts with 4x logs already gathered
+  - fletcher_agent has extra feathers (20x) and string (3x)
+  - Higher skill levels for faster crafting
+  - Only need to harvest 2 additional logs
+
+  PRODUCTION TARGETS:
+  - Have 6x logs total (4 pre-gathered + 2 harvested)
+  - Craft 1x Wooden Bow
+  - Craft 10x Arrows
+
+  CRAFTING RECIPES:
+  - Fletching: 1x logs → 4x stick
+  - Fletching: 1x logs + 1x string → 1x Wooden Bow
+  - Fletching: 10x stick + 10x feather → 10x Arrow
+
+  DO NOT use complete() until all items are crafted!
+
+max_action_steps: 18
+
+agent_1:
+  username: "lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 38
+    strength: 35
+    health: 42
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "logs"
+      count: 4
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fletcher_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 10
+
+  skill_levels:
+    fletching: 32
+    crafting: 28
+    strength: 25
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "string"
+      count: 3
+    - item: "feather"
+      count: 20
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "coordinator_agent"
+  new_character: true
+
+  location:
+    x: 392
+    y: 10
+
+  skill_levels:
+    fletching: 22
+    strength: 30
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team inventory contains at least 6x logs"
+  - "Team inventory contains 1x woodenbow"
+  - "Team inventory contains 10x arrow"
+  - "All agents survive the mission"

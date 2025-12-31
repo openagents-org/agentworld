@@ -1,0 +1,183 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Magical Defense - Lightning Staff Forge & Ice Guardian Battle"
+  description: "Three agents work together to craft a powerful lightning staff and defeat dangerous Ice Guardians"
+
+# Task objectives
+objectives:
+  primary: "Craft a Lightning Staff and successfully defeat an Ice Guardian in coordinated combat"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent magical defense scenario.
+
+  OBJECTIVE: Craft a Lightning Staff and defeat the Ice Guardians threatening the frozen region.
+
+  MISSION REQUIREMENTS:
+  - Craft a Lightning Staff using the provided magical beads and gathered materials
+  - Locate and engage Ice Guardian enemies at their known location
+  - Defeat at least one Ice Guardian using coordinated attacks
+  - Ensure all team members survive the encounter
+
+  TEAM COORDINATION:
+  - Use global chat to coordinate gathering, crafting, and combat phases
+  - Share materials between agents as needed using transfer_items
+  - Support each other during combat with healing items
+
+  CRAFTING SEQUENCE (CRITICAL - Follow this exact order):
+
+  Step 1: Get Logs (Lumberjacking):
+    - harvest_resource on Oak Tree instances to get logs
+    - Need at least 2 logs (to craft 8 sticks, you need 5 for staff)
+    - Level required: 1+ (Lumberjacking skill)
+    - Look for "Oak", "Oak2", "Oak3" tree types
+
+  Step 2: Craft Sticks (Fletching):
+    - craft_item skill=Fletching itemKey=stick
+    - Materials: 1x logs -> 4x stick
+    - Craft twice to get 8 sticks (need 5 for staff)
+    - Level required: 1 (Fletching skill)
+
+  Step 3: Craft Magic Staff (Crafting):
+    - craft_item skill=Crafting itemKey=staff
+    - Materials: 5x stick + 1x bead -> 1x staff
+    - Level required: 1 (Crafting skill)
+    - NOTE: Magic bead (bead) is PROVIDED in staff_crafter_agent's inventory!
+
+  Step 4: Craft Lightning Staff (Crafting):
+    - craft_item skill=Crafting itemKey=lightningstaff
+    - Materials: 1x staff + 1x lightningbead -> 1x lightningstaff
+    - Level required: 10 (Crafting skill)
+    - NOTE: Lightning bead is PROVIDED in staff_crafter_agent's inventory!
+
+  COMBAT - Ice Guardians:
+  - Ice Guardians are located at coordinates (259, 151) and (260, 156)
+  - They are Level 35 minibosses with ice-based attacks
+  - battle_mage_agent should lead with firestaff (fire is effective against ice!)
+  - Transfer the crafted Lightning Staff to battle_mage_agent for maximum damage
+  - Other agents provide physical attack support and use healing items as needed
+  - Use flask and apple items to heal during combat
+
+  IMPORTANT REMINDERS:
+  - staff_crafter_agent has the rare magical beads (bead + lightningbead) in inventory
+  - The crafting agent should gather logs and craft everything
+  - After crafting, transfer Lightning Staff to battle_mage_agent
+  - Equip the Lightning Staff before engaging Ice Guardians
+  - DO NOT use complete() until Lightning Staff is crafted AND Ice Guardian is defeated!
+
+# Limitations
+max_action_steps: 35
+
+# Agent configurations
+agent_1:
+  username: "woodcutter_agent"
+  new_character: true
+
+  location:
+    x: 240
+    y: 160
+
+  skill_levels:
+    lumberjacking: 30 # Can harvest all basic trees
+    strength: 40
+    health: 50
+    defense: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "staff_crafter_agent"
+  new_character: true
+
+  location:
+    x: 242
+    y: 162
+
+  skill_levels:
+    fletching: 40     # Can craft sticks (level 1 required)
+    crafting: 25      # Can craft staff (level 1) and lightningstaff (level 10)
+    lumberjacking: 25 # Backup wood gathering capability
+    strength: 30
+    health: 45
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "bead"           # Magic bead for staff crafting - PROVIDED
+      count: 1
+    - item: "lightningbead"  # Lightning bead for lightning staff - PROVIDED
+      count: 1
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "battle_mage_agent"
+  new_character: true
+
+  location:
+    x: 244
+    y: 164
+
+  skill_levels:
+    magic: 50         # High magic for maximum staff damage
+    strength: 35      # Physical attack backup
+    defense: 45       # High survivability for tanking
+    health: 55        # High HP pool
+    accuracy: 35      # Combat precision
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "manapotion"
+      count: 15
+
+  equipped_items:
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Logs are gathered from trees"
+  - "Sticks are crafted from logs using Fletching skill"
+  - "Magic Staff is crafted from sticks and bead using Crafting skill"
+  - "Lightning Staff is crafted from Magic Staff and lightning bead"
+  - "Lightning Staff is transferred to and equipped by battle_mage_agent"
+  - "Team locates Ice Guardian at coordinates (259, 151) or (260, 156)"
+  - "Ice Guardian is defeated through coordinated team combat"
+  - "All agents survive the encounter"

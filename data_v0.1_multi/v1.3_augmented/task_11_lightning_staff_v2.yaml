@@ -1,0 +1,130 @@
+# AgentWorld Multi-Agent Task Configuration
+# VARIANT: v2 - More rounds, full crafting chain required
+# SOURCE: task_11_lightning_staff.yaml
+
+task:
+  name: "Cooperative Lightning Staff Enhancement - Advanced Magic Crafting (Harder)"
+  description: "Three agents work together to create TWO lightning staffs through complete crafting chain"
+
+objectives:
+  primary: "Create TWO lightning staffs through full staff crafting and elemental enhancement chain"
+
+relevant_game_context: |
+  This is a cooperative multi-agent advanced magic crafting scenario requiring elemental materials.
+
+  CHALLENGE MODE:
+  - Must create TWO lightning staffs (doubled target!)
+  - magic_enhancer_agent starts with NO staff - full chain required
+  - Must craft basic staffs from logs→sticks→staff, then enhance
+  - Reduced consumables - manage resources carefully
+
+  OBJECTIVE: Create 2x lightning staffs through complete production chain.
+
+  REQUIRED MATERIALS FOR 2 LIGHTNING STAFFS:
+  - 2x staff (each needs 5 sticks + 1 bead)
+  - 2x lightningbead (elemental_gatherer has these)
+  - Total: 10 sticks (3 logs) + 2 beads + 2 lightningbeads
+
+  CRAFTING CHAIN:
+  1. Gather 3+ logs
+  2. Craft 12+ sticks from logs
+  3. Craft 2x staff (5 sticks + 1 bead each)
+  4. Enhance to 2x lightningstaff
+
+  DO NOT use complete() until 2x lightningstaff is created!
+
+  CRAFTING RECIPES:
+  🪵 Lumberjacking: harvest_resource on oak trees
+  🪄 Fletching: 1x logs → 4x stick
+  ⚡ Crafting: 5x stick + 1x bead → 1x staff
+  ⚡ Crafting: 1x staff + 1x lightningbead → 1x lightningstaff (Level 10+)
+
+max_action_steps: 40
+
+agent_1:
+  username: "staff_crafter_agent"
+  new_character: true
+  location:
+    x: 180
+    y: 200
+  skill_levels:
+    lumberjacking: 18
+    fletching: 12
+    crafting: 12
+    strength: 22
+    health: 22
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+    - item: "bead"
+      count: 2
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "elemental_gatherer_agent"
+  new_character: true
+  location:
+    x: 185
+    y: 200
+  skill_levels:
+    foraging: 22
+    magic: 18
+    strength: 18
+    health: 22
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+    - item: "lightningbead"
+      count: 2
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "magic_enhancer_agent"
+  new_character: true
+  location:
+    x: 190
+    y: 200
+  skill_levels:
+    crafting: 22
+    magic: 27
+    strength: 18
+    health: 22
+  inventory_items:
+    - item: "flask"
+      count: 8
+    - item: "apple"
+      count: 10
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+success_criteria:
+  - "Team gathers logs and crafts sticks"
+  - "Team crafts 2x basic staff"
+  - "All materials consolidated with magic_enhancer_agent"
+  - "magic_enhancer_agent crafts 2x lightningstaff"
+  - "Final target: 2x lightningstaff in team inventory"
+  - "All agents coordinate complex magical crafting chain"
