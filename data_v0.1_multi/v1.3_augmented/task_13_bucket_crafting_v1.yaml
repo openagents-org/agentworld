@@ -1,124 +1,125 @@
 # AgentWorld Multi-Agent Task Configuration
-# VARIANT: v1 - More initial resources, easier completion
-# SOURCE: task_13_bucket_crafting.yaml
+# VARIANT: v1 - Easier version with pre-gathered materials
+# SOURCE: task_13_bucket_crafting.yaml (redesigned - bucket recipe doesn't exist)
 
 task:
-  name: "Cooperative Bucket Crafting - Utility Container Production (Easier)"
-  description: "Three agents work together to create a bucket - with pre-gathered logs"
+  name: "Wooden Bow Workshop - Cooperative Crafting (Easier)"
+  description: "Three agents collaborate to gather materials and craft a Wooden Bow"
 
 objectives:
-  primary: "Create a utility bucket through coordinated large-scale wood processing and crafting"
+  primary: "Craft 1x Wooden Bow through coordinated wood harvesting and string production"
 
 relevant_game_context: |
-  This is a cooperative multi-agent utility crafting scenario requiring extensive wood materials.
+  This is a cooperative multi-agent crafting scenario.
 
   STARTING ADVANTAGE:
-  - lumber_harvester_agent already has 3x logs
-  - wood_processor_agent has 2x logs
-  - Total: 5x logs ready for bucket crafting!
-  - Higher skill levels across all agents
+  - lumber_agent has 1x logs pre-gathered
+  - string_agent has 1x string ready
+  - Higher skill levels for faster completion
 
-  OBJECTIVE: Create a bucket with pre-gathered logs.
+  OBJECTIVE: Craft 1x Wooden Bow (needs 1x logs + 1x string)
 
-  SIMPLIFIED STRATEGY:
-  - Team already has 5x logs total
-  - Transfer all logs to container_crafter_agent
-  - container_crafter_agent crafts bucket immediately
+  CRAFTING RECIPE:
+  - Wooden Bow: 1x logs + 1x string → 1x woodenbow (Fletching level 5)
 
-  DO NOT use complete() until bucket is crafted!
+  TEAM ROLES:
+  - lumber_agent: Has axe, can harvest logs from Oak Trees
+  - string_agent: Provides string for bow crafting
+  - fletcher_agent: Has fletching skill, crafts the bow
 
-  CRAFTING RECIPES:
-  🪣 Crafting Recipe - bucket:
-    - craft_item skill=Crafting itemKey=bucket
-    - Materials: 5x logs → 1x bucket
-    - Level required: 10 (Crafting skill)
+  LOCATIONS:
+  - Forest (Oak Trees): Around (388, 10)
 
-max_action_steps: 15
+  DO NOT use complete() until woodenbow is crafted!
+
+max_action_steps: 20
 
 agent_1:
-  username: "lumber_harvester_agent"
+  username: "lumber_agent"
   new_character: true
+
   location:
-    x: 126
-    y: 23
+    x: 388
+    y: 10
+
   skill_levels:
-    lumberjacking: 35
-    strength: 38
-    health: 33
+    lumberjacking: 30
+    strength: 35
+    health: 35
+
   inventory_items:
     - item: "flask"
-      count: 20
-    - item: "apple"
       count: 25
+    - item: "apple"
+      count: 30
     - item: "logs"
-      count: 3
+      count: 1
+
   equipped_items:
     - item: "axe"
       count: 1
       enchant: 0
     - item: "leatherarmor"
-      count: 1
-      enchant: 0
-    - item: "leatherboots"
       count: 1
       enchant: 0
 
 agent_2:
-  username: "wood_processor_agent"
+  username: "string_agent"
   new_character: true
+
   location:
-    x: 183
-    y: 312
+    x: 390
+    y: 12
+
   skill_levels:
-    lumberjacking: 25
-    crafting: 20
+    crafting: 25
     strength: 28
-    health: 28
+    health: 32
+
   inventory_items:
     - item: "flask"
-      count: 15
+      count: 25
     - item: "apple"
-      count: 20
-    - item: "logs"
-      count: 2
+      count: 30
+    - item: "string"
+      count: 1
+
   equipped_items:
-    - item: "axe"
-      count: 1
-      enchant: 0
     - item: "leatherarmor"
-      count: 1
-      enchant: 0
-    - item: "leatherboots"
       count: 1
       enchant: 0
 
 agent_3:
-  username: "container_crafter_agent"
+  username: "fletcher_agent"
   new_character: true
+
   location:
-    x: 136
-    y: 25
+    x: 392
+    y: 14
+
   skill_levels:
-    crafting: 30
-    lumberjacking: 18
-    strength: 28
-    health: 28
+    fletching: 25
+    crafting: 20
+    health: 30
+
   inventory_items:
     - item: "flask"
-      count: 15
+      count: 25
     - item: "apple"
-      count: 20
+      count: 30
+    - item: "logs"
+      count: 1
+    - item: "string"
+      count: 1
+
   equipped_items:
     - item: "leatherarmor"
       count: 1
       enchant: 0
-    - item: "leatherboots"
-      count: 1
-      enchant: 0
 
 success_criteria:
-  - "lumber_harvester_agent transfers 3x logs to container_crafter_agent"
-  - "wood_processor_agent transfers 2x logs to container_crafter_agent"
-  - "container_crafter_agent crafts bucket with 5x logs"
-  - "container_crafter_agent successfully creates utility bucket"
-  - "Utility container production completes quickly"
+  - "Team inventory contains 1x woodenbow"
+  - "lumber_agent provides logs for crafting"
+  - "string_agent provides string for crafting"
+  - "fletcher_agent crafts the wooden bow"
+  - "All agents coordinate their roles effectively"

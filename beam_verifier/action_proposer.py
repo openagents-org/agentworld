@@ -1,221 +1,267 @@
 """
 Action Proposer Module
 
-Uses Claude CLI to propose actions for agents based on task context and current state.
+Uses OpenAI-compatible API for Claude model inference.
 """
 
-import subprocess
 import json
 import re
+import os
+import subprocess
 from typing import Dict, List, Any, Optional
+
+# Try to import OpenAI SDK (for OpenAI-compatible APIs)
+try:
+    from openai import OpenAI
+    _has_openai_sdk = True
+except ImportError:
+    _has_openai_sdk = False
+
+# OpenAI-compatible API configuration
+OPENAI_API_BASE = "https://yinli.one/v1"
+OPENAI_API_KEY = "sk-GuXujPaEYGeavbxTPI3mI40D9CXr69WfBHiGEuCVwCgG9tZi"
+OPENAI_MODEL = "claude-3-5-haiku-20241022"
+
+# Client singleton
+_openai_client = None
+
+def get_openai_client():
+    """Get or create the OpenAI-compatible client singleton."""
+    global _openai_client
+    if _openai_client is None and _has_openai_sdk:
+        try:
+            _openai_client = OpenAI(
+                api_key=OPENAI_API_KEY,
+                base_url=OPENAI_API_BASE,
+            )
+        except Exception:
+            pass
+    return _openai_client
 
 
 # Action type definitions for prompts
 ACTION_TYPES = """
 Available action types:
-1. move: {"type": "move", "x": <number>, "y": <number>} - Move to coordinates
+1. move: {"type": "move", "x": <number>, "y": <number>, "pickupItems": [{"key": "<item>", "count": <number>}, ...]} - Move to coordinates
+   - This reflects real game behavior where items are auto-collected when walking over them
+   - pickupItems is OPTIONAL - only include when picking up dropped items
+   - Use pickupItems when another agent has dropped items at the destination
+   - Example without pickup: {"type": "move", "x": 100, "y": 50}
+   - Example with pickup: {"type": "move", "x": 100, "y": 50, "pickupItems": [{"key": "logs", "count": 2}]}
 2. craft: {"type": "craft", "skill": "<skill>", "itemKey": "<item>", "count": <number>} - Craft an item
-3. collect: {"type": "collect", "resourceType": "<tree|rock|fish|foraging>", "resourceKey": "<resource>"} - Collect from resource
+   - Skills: Smelting, Smithing, Fletching, Cooking, Crafting
+   - itemKey must be lowercase (e.g., "ironbar", "pickaxe", "stick", "arrow")
+3. collect: {"type": "collect", "resourceType": "<tree|rock|fish|foraging>", "resourceKey": "<key>"} - Collect from resource
+   - IMPORTANT: resourceKey must be LOWERCASE and match the key shown in observations
+   - Examples: "oak", "oak2", "oak3", "iron", "coal", "copper"
+   - Look for the key="..." in the resource listing
 4. attack: {"type": "attack", "targetInstance": "<instance>"} - Attack a target
 5. equip: {"type": "equip", "inventoryIndex": <number>} - Equip item from inventory
 6. unequip: {"type": "unequip", "equipmentSlot": <number>} - Unequip to inventory
 7. eat: {"type": "eat", "inventoryIndex": <number>} - Eat food for healing
-8. drop: {"type": "drop", "inventoryIndex": <number>, "count": <optional number>} - Drop item
+8. drop: {"type": "drop", "inventoryIndex": <number>, "count": <optional number>} - Drop item for another agent to pick up
 9. use: {"type": "use", "inventoryIndex": <number>} - Use consumable item
 10. enter: {"type": "enter"} - Enter warp/portal at current position
 11. wait: {"type": "wait"} - Do nothing this turn (placeholder action)
 """
 
 
-def call_claude(prompt: str, max_tokens: int = 4096) -> str:
+def call_claude(prompt: str, max_tokens: int = 4096, use_haiku: bool = True) -> str:
     """
-    Call Claude CLI with a prompt and return the response.
+    Call Claude using OpenAI-compatible API.
 
     Args:
         prompt: The prompt to send to Claude
         max_tokens: Maximum tokens for response
+        use_haiku: If True, use Haiku model (ignored, uses configured model)
 
     Returns:
         Claude's response as a string
     """
+    client = get_openai_client()
+
+    if client is not None:
+        try:
+            response = client.chat.completions.create(
+                model=OPENAI_MODEL,
+                max_tokens=max_tokens,
+                messages=[{"role": "user", "content": prompt}]
+            )
+            if response.choices and len(response.choices) > 0:
+                return response.choices[0].message.content or ""
+            return ""
+        except Exception as e:
+            return f"Error calling OpenAI-compatible API: {str(e)}"
+
+    # Fallback to CLI if OpenAI SDK not available
     try:
+        cmd = ['claude', '-p', prompt, '--output-format', 'json', '--model', 'haiku']
         result = subprocess.run(
-            ['claude', '-p', prompt, '--output-format', 'json'],
+            cmd,
             capture_output=True,
             text=True,
-            timeout=120  # 2 minute timeout
+            timeout=120
         )
-
         if result.returncode != 0:
-            # Try to extract error message
-            error_msg = result.stderr or result.stdout or "Unknown error"
-            return f"Error calling Claude CLI: {error_msg}"
-
-        # Parse JSON output
+            return f"Error calling Claude CLI: {result.stderr or result.stdout}"
         try:
             response = json.loads(result.stdout)
             return response.get('result', '')
         except json.JSONDecodeError:
-            # If not JSON, return raw output
             return result.stdout
-
     except subprocess.TimeoutExpired:
         return "Error: Claude CLI timed out"
-    except FileNotFoundError:
-        return "Error: Claude CLI not found. Make sure 'claude' is in PATH."
     except Exception as e:
         return f"Error calling Claude CLI: {str(e)}"
 
 
-def format_state_for_prompt(agent_name: str, state: Dict[str, Any]) -> str:
+def format_state_for_prompt(agent_name: str, state: Dict[str, Any], compact: bool = True) -> str:
     """Format an agent's state for inclusion in a prompt."""
     if not state:
-        return f"### {agent_name}\n- State: Unknown\n"
+        return f"### {agent_name}: Unknown state\n"
 
-    # Get inventory items (non-null only)
+    # Get inventory items (non-null only) - compact format
     inventory_items = []
     for i, item in enumerate(state.get('inventory', []) or []):
         if item and isinstance(item, dict):
-            inventory_items.append(f"  [{i}] {item.get('key', '?')} x{item.get('count', 1)}")
+            if compact:
+                inventory_items.append(f"[{i}]{item.get('key', '?')}x{item.get('count', 1)}")
+            else:
+                inventory_items.append(f"  [{i}] {item.get('key', '?')} x{item.get('count', 1)}")
 
-    # Get equipment
+    # Get equipment - compact format
     equipment_items = []
+    slot_abbrev = {0: 'A', 1: 'B', 2: 'P', 3: 'R', 4: 'W', 5: 'Ar'}
     slot_names = {0: 'Armour', 1: 'Boots', 2: 'Pendant', 3: 'Ring', 4: 'Weapon', 5: 'Arrows'}
     for slot, item in (state.get('equipment', {}) or {}).items():
         if item and isinstance(item, dict):
-            equipment_items.append(f"  {slot_names.get(int(slot), slot)}: {item.get('key', '?')}")
+            if compact:
+                equipment_items.append(f"{slot_abbrev.get(int(slot), slot)}:{item.get('key', '?')}")
+            else:
+                equipment_items.append(f"  {slot_names.get(int(slot), slot)}: {item.get('key', '?')}")
 
-    # Format skills
-    skill_names = {
-        0: 'Lumberjacking', 1: 'Accuracy', 2: 'Archery', 3: 'Health',
-        4: 'Magic', 5: 'Mining', 6: 'Strength', 7: 'Defense',
-        8: 'Fishing', 9: 'Cooking', 10: 'Smithing', 11: 'Crafting',
-        12: 'Fletching', 14: 'Foraging'
-    }
-    skills_str = []
-    for skill_type, exp in state.get('skills', {}).items():
-        if exp is None:
-            continue
-        name = skill_names.get(int(skill_type), f'Skill{skill_type}')
-        # Rough level estimate (simplified)
-        level = 1
-        for lvl, req_exp in enumerate([0, 83, 174, 276, 388, 512, 650, 801, 969, 1154, 1358, 1584, 1833, 2107, 2411]):
-            if exp >= req_exp:
-                level = lvl + 1
-        skills_str.append(f"{name}:{level}")
+    x, y = state.get('x', '?'), state.get('y', '?')
+    hp = state.get('hitPoints', '?')
+    max_hp = state.get('maxHitPoints', '?')
 
-    result = f"""### {agent_name}
-- Position: ({state.get('x', '?')}, {state.get('y', '?')})
-- HP: {state.get('hitPoints', '?')}/{state.get('maxHitPoints', '?')}
-- Mana: {state.get('mana', '?')}/{state.get('maxMana', '?')}
-- Dead: {state.get('dead', False)}
+    if compact:
+        # Ultra-compact format
+        inv_str = ', '.join(inventory_items) if inventory_items else 'empty'
+        equip_str = ', '.join(equipment_items) if equipment_items else 'none'
+        return f"### {agent_name} @({x},{y}) HP:{hp}/{max_hp}\nInv: {inv_str}\nEquip: {equip_str}\n"
+    else:
+        # Format skills (only in non-compact mode)
+        skill_names_map = {
+            0: 'Lumberjacking', 1: 'Accuracy', 2: 'Archery', 3: 'Health',
+            4: 'Magic', 5: 'Mining', 6: 'Strength', 7: 'Defense',
+            8: 'Fishing', 9: 'Cooking', 10: 'Smithing', 11: 'Crafting',
+            12: 'Fletching', 14: 'Foraging'
+        }
+        skills_str = []
+        for skill_type, exp in state.get('skills', {}).items():
+            if exp is None:
+                continue
+            name = skill_names_map.get(int(skill_type), f'Skill{skill_type}')
+            level = 1
+            for lvl, req_exp in enumerate([0, 83, 174, 276, 388, 512, 650, 801, 969, 1154, 1358, 1584, 1833, 2107, 2411]):
+                if exp >= req_exp:
+                    level = lvl + 1
+            skills_str.append(f"{name}:{level}")
+
+        result = f"""### {agent_name}
+- Position: ({x}, {y})
+- HP: {hp}/{max_hp}
 - Skills: {', '.join(skills_str) if skills_str else 'None'}
 - Inventory:
 {chr(10).join(inventory_items) if inventory_items else '  (empty)'}
 - Equipment:
 {chr(10).join(equipment_items) if equipment_items else '  (none)'}
 """
-    return result
+        return result
 
 
-def format_observation_for_prompt(agent_name: str, obs: Dict[str, Any]) -> str:
-    """Format an observation for inclusion in a prompt."""
-    lines = [f"### {agent_name}'s Observation"]
+def get_resource_key(resource: Dict[str, Any]) -> str:
+    """Extract the resource key from the resource name (lowercase first word)."""
+    name = resource.get('name', '')
+    # Extract first word and convert to lowercase
+    # e.g., "Oak2 Tree" -> "oak2", "Iron Rock" -> "iron"
+    if name:
+        first_word = name.split()[0] if name.split() else ''
+        return first_word.lower()
+    return ''
 
-    # Location info
+
+def format_observation_for_prompt(agent_name: str, obs: Dict[str, Any], compact: bool = True) -> str:
+    """Format an observation for inclusion in a prompt.
+
+    Args:
+        agent_name: Name of the agent
+        obs: Observation dict from API
+        compact: If True, use minimal format to reduce tokens
+    """
     location = obs.get('location', {})
-    if location:
-        lines.append(f"- Current Position: ({location.get('x', '?')}, {location.get('y', '?')})")
+    x, y = location.get('x', '?'), location.get('y', '?')
+
+    if compact:
+        # Compact format - minimal tokens
+        lines = [f"### {agent_name} at ({x},{y})"]
+    else:
+        lines = [f"### {agent_name}'s Observation"]
+        lines.append(f"- Current Position: ({x}, {y})")
         lines.append(f"- Region: {location.get('mapName', 'Unknown')}")
+        radius = obs.get('observationRadius', 15)
+        lines.append(f"- Vision Radius: {radius} tiles")
 
-    # Observation radius
-    radius = obs.get('observationRadius', 15)
-    lines.append(f"- Vision Radius: {radius} tiles")
-
-    # Resources - sorted by distance, grouped by type
+    # Resources - only show nearby ones (distance <= 10), compact format
     resources = obs.get('resources', [])
     if resources:
-        # Sort by distance
         resources_sorted = sorted(resources, key=lambda r: r.get('distanceFrom', 999))
+        # Filter to only nearby resources
+        nearby = [r for r in resources_sorted if r.get('distanceFrom', 999) <= 10][:5]
 
-        # Group by resource type
-        trees = [r for r in resources_sorted if r.get('resourceType') == 'tree']
-        rocks = [r for r in resources_sorted if r.get('resourceType') == 'rock']
-        fish = [r for r in resources_sorted if r.get('resourceType') == 'fish']
-        foraging = [r for r in resources_sorted if r.get('resourceType') == 'foraging']
+        if compact and nearby:
+            # Ultra-compact: "Resources: oak2@(229,32)d=5, iron@(240,38)d=8"
+            res_parts = []
+            for r in nearby:
+                key = get_resource_key(r)
+                d = int(r.get('distanceFrom', 0))
+                res_parts.append(f"{key}@({r['x']},{r['y']})d={d}")
+            lines.append(f"Resources: {', '.join(res_parts)}")
+        elif nearby:
+            lines.append(f"\n- Nearby Resources:")
+            for r in nearby:
+                key = get_resource_key(r)
+                d = int(r.get('distanceFrom', 0))
+                lines.append(f"  {key} at ({r['x']},{r['y']}) [{d}t]")
 
-        lines.append(f"\n- Resources Visible ({len(resources)} total):")
-
-        if trees:
-            lines.append(f"  Trees ({len(trees)}):")
-            for r in trees[:8]:
-                dist = r.get('distanceFrom', 0)
-                status = "REACHABLE" if dist <= 2 else f"{dist:.0f} tiles away"
-                lines.append(f"    - {r['name']} at ({r['x']},{r['y']}) [{status}]")
-
-        if rocks:
-            lines.append(f"  Rocks ({len(rocks)}):")
-            for r in rocks[:5]:
-                dist = r.get('distanceFrom', 0)
-                status = "REACHABLE" if dist <= 2 else f"{dist:.0f} tiles away"
-                lines.append(f"    - {r['name']} at ({r['x']},{r['y']}) [{status}]")
-
-        if fish:
-            lines.append(f"  Fishing Spots ({len(fish)}):")
-            for r in fish[:5]:
-                dist = r.get('distanceFrom', 0)
-                lines.append(f"    - {r['name']} at ({r['x']},{r['y']}) [{dist:.0f} tiles]")
-
-        if foraging:
-            lines.append(f"  Foraging ({len(foraging)}):")
-            for r in foraging[:5]:
-                dist = r.get('distanceFrom', 0)
-                lines.append(f"    - {r['name']} at ({r['x']},{r['y']}) [{dist:.0f} tiles]")
-    else:
-        lines.append("\n- Resources Visible: None nearby")
-
-    # Mobs - sorted by distance
+    # Mobs - only show aggressive ones in compact mode
     mobs = obs.get('mobs', [])
     if mobs:
-        mobs_sorted = sorted(mobs, key=lambda m: m.get('distanceFrom', 999))
-        lines.append(f"\n- Enemies Visible ({len(mobs)}):")
-        for m in mobs_sorted[:8]:
-            dist = m.get('distanceFrom', 0)
-            aggressive = "AGGRESSIVE" if m.get('aggressive') else "passive"
-            lines.append(f"    - {m['name']} Lv{m['level']} at ({m['x']},{m['y']}) HP:{m['hitPoints']}/{m['maxHitPoints']} [{aggressive}, {dist:.0f} tiles]")
+        if compact:
+            aggressive_mobs = [m for m in mobs if m.get('aggressive') and m.get('distanceFrom', 999) <= 10]
+            if aggressive_mobs:
+                mob_parts = [f"{m['name']}@({m['x']},{m['y']})" for m in aggressive_mobs[:3]]
+                lines.append(f"Threats: {', '.join(mob_parts)}")
+        else:
+            mobs_sorted = sorted(mobs, key=lambda m: m.get('distanceFrom', 999))[:5]
+            lines.append(f"\n- Enemies ({len(mobs)}):")
+            for m in mobs_sorted:
+                agg = "!" if m.get('aggressive') else ""
+                lines.append(f"  {m['name']}{agg} at ({m['x']},{m['y']})")
 
-    # Other players
+    # Other players - only if nearby
     players = obs.get('players', [])
     if players:
-        players_sorted = sorted(players, key=lambda p: p.get('distanceFrom', 999))
-        lines.append(f"\n- Other Players Visible ({len(players)}):")
-        for p in players_sorted[:5]:
-            dist = p.get('distanceFrom', 0)
-            lines.append(f"    - {p['name']} Lv{p['level']} at ({p['x']},{p['y']}) [{dist:.0f} tiles]")
+        nearby_players = [p for p in players if p.get('distanceFrom', 999) <= 5]
+        if nearby_players:
+            if compact:
+                p_parts = [f"{p['name']}@({p['x']},{p['y']})" for p in nearby_players[:3]]
+                lines.append(f"Nearby players: {', '.join(p_parts)}")
+            else:
+                for p in nearby_players[:3]:
+                    lines.append(f"  Player {p['name']} at ({p['x']},{p['y']})")
 
-    # Doors (teleporters)
-    doors = obs.get('doors', [])
-    if doors:
-        doors_sorted = sorted(doors, key=lambda d: d.get('distanceFrom', 999))
-        lines.append(f"\n- Doors/Teleporters ({len(doors)}):")
-        for d in doors_sorted[:5]:
-            dist = d.get('distanceFrom', 0)
-            lines.append(f"    - Door at ({d['x']},{d['y']}) -> ({d['destX']},{d['destY']}) [{dist:.0f} tiles]")
-
-    # Warps/Entries
-    entries = obs.get('entries', [])
-    if entries:
-        entries_sorted = sorted(entries, key=lambda e: e.get('distanceFrom', 999))
-        lines.append(f"\n- Zone Warps ({len(entries)}):")
-        for e in entries_sorted[:5]:
-            dist = e.get('distanceFrom', 0)
-            req = f"Lv{e['levelRequirement']}" if e.get('levelRequirement', 0) > 0 else "No req"
-            lines.append(f"    - Warp to {e['destination']} at ({e['x']},{e['y']}) [{req}, {dist:.0f} tiles]")
-
-    # Nearby blocked tiles (collision info)
-    collisions = obs.get('collisions', [])
-    if collisions:
-        lines.append(f"\n- Blocked Tiles: {len(collisions)} nearby (avoid these coordinates)")
+    # Skip doors, warps, and collision info in compact mode - rarely needed for crafting tasks
 
     return '\n'.join(lines)
 

@@ -7,14 +7,13 @@ task:
   description: "Four agents work together to explore ancient ruins, defeat BOTH guardian creatures, and recover multiple artifacts"
 
 objectives:
-  primary: "Successfully defeat BOTH Golden Golem AND Big Baby Spooder, plus explore all treasure chambers"
+  primary: "Successfully defeat BOTH Golden Golem AND Giant Spider, plus explore all treasure chambers"
 
 relevant_game_context: |
   This is a cooperative multi-agent archaeological expedition with increased difficulty.
 
   CHALLENGE MODE:
-  - Must defeat BOTH guardians: Golden Golem AND Big Baby Spooder
-  - Big Baby Spooder is Level 45 - very dangerous!
+  - Must defeat BOTH guardians: Golden Golem AND Giant Spider
   - Added 4th agent (relic_scout_agent) for additional firepower
   - Reduced consumables - manage resources carefully
   - Lower skill levels require precise coordination
@@ -24,8 +23,8 @@ relevant_game_context: |
 
   MISSION REQUIREMENTS:
   - Navigate to Ancient Ruins region (coordinates 769-784, 657-676)
-  - Defeat Golden Golem (Level 0) at (784, 676)
-  - Defeat Big Baby Spooder (Level 45) at (769, 657) - CHALLENGING!
+  - Defeat Golden Golem (Level 38) at (784, 676)
+  - Defeat Giant Spider (Level 25) at (769, 657)
   - Explore all ruins architecture and locate hidden treasure chambers
   - Recover multiple ancient artifacts from ruins
 
@@ -33,20 +32,17 @@ relevant_game_context: |
   - Use global chat to coordinate dual guardian engagement
   - May need to defeat guardians sequentially for survival
   - Share combat responsibilities carefully between agents
-  - Healing coordination critical against Level 45 creature
 
   DO NOT use complete() until BOTH guardians are defeated!
 
   COMBAT KNOWLEDGE:
-  🥇 Golden Golem (Level 0) at (784, 676):
+  🥇 Golden Golem (Level 38) at (784, 676):
     - May have special defensive properties
     - Coordinate attacks to test weaknesses
 
-  🕷️ Big Baby Spooder (Level 45) at (769, 657):
-    - High-level creature requiring coordinated combat
-    - Expect web attacks, poison damage, and high mobility
+  🕷️ Giant Spider (Level 25) at (769, 657):
+    - Web attacks and poison damage
     - Use ranged attacks and positioning
-    - This is the main challenge!
 
 max_action_steps: 50
 
@@ -207,9 +203,9 @@ agent_4:
 success_criteria:
   - "Team navigates to Ancient Ruins and locates both guardian creatures"
   - "guardian_slayer_agent defeats Golden Golem at (784, 676)"
-  - "Team coordinates to defeat Big Baby Spooder (Level 45) at (769, 657)"
+  - "Team coordinates to defeat Giant Spider at (769, 657)"
   - "artifact_hunter_agent explores all treasure chambers"
   - "relic_scout_agent assists in combat and exploration"
   - "Team recovers ancient artifacts from multiple locations"
-  - "All four agents survive both dangerous guardian encounters"
+  - "All four agents survive both guardian encounters"
   - "Full archaeological expedition completed within time limit"

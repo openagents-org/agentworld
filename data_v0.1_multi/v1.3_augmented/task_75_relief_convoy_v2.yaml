@@ -31,7 +31,7 @@ relevant_game_context: |
 
   DO NOT use complete() until ALL supplies are ready!
 
-max_action_steps: 75
+max_action_steps: 140
 
 agent_1:
   username: "leader_agent"

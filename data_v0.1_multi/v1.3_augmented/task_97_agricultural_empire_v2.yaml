@@ -7,7 +7,7 @@ task:
   description: "Ten agents fish and cook for large-scale agricultural production"
 
 objectives:
-  primary: "Catch 14x rawshrimp, cook 12x Cooked Shrimp and 4x Jellyfish Smoothie"
+  primary: "Catch 14x rawshrimp, cook 12x Cooked Shrimp and 4x Cooked Tuna"
 
 relevant_game_context: |
   This is a cooperative multi-agent agricultural scenario with maximum difficulty.
@@ -21,10 +21,10 @@ relevant_game_context: |
   PRODUCTION TARGETS (DOUBLED):
   - 14x rawshrimp (from fishing)
   - 12x Cooked Shrimp (from cooking)
-  - 4x Jellyfish Smoothie (from cooking)
+  - 4x Cooked Tuna (from cooking)
 
   MATERIALS NEEDED:
-  - Need to catch enough jellyfish for 4 smoothies
+  - Need to catch 4x rawtuna for tuna
 
   LOCATIONS:
   - Fishing: Coastal (580, 750)
@@ -80,7 +80,7 @@ agent_2:
       count: 22
     - item: "apple"
       count: 27
-    - item: "jellyfish"
+    - item: "rawtuna"
       count: 4
 
   equipped_items:
@@ -284,5 +284,5 @@ agent_10:
 success_criteria:
   - "Team inventory contains at least 14x rawshrimp (or cooked)"
   - "Team inventory contains at least 12x cookedshrimp"
-  - "Team inventory contains at least 4x jellyfishsmoothie"
+  - "Team inventory contains at least 4x cookedtuna"
   - "All agents survive the agricultural mission"

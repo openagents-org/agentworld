@@ -7,7 +7,7 @@ task:
   description: "Ten agents defeat five bosses across multiple regions"
 
 objectives:
-  primary: "Defeat the Ogre Guardian at (291, 644), Dark Wolf at (1016, 682), Golden Golem at (548, 232), Ice Guardian at (259, 151), and Mermaid at (580, 755)"
+  primary: "Defeat the Ogre Guardian at (291, 644), Dark Wolf at (1016, 682), Golden Golem at (548, 232), Ice Wizard at (259, 151), and Mermaid at (580, 755)"
 
 relevant_game_context: |
   This is a cooperative multi-agent combat scenario with maximum difficulty.
@@ -22,8 +22,8 @@ relevant_game_context: |
   - Ogre Guardian (Level 36) at (291, 644)
   - Dark Wolf (Level 40) at (1016, 682)
   - Golden Golem (Level 38) at (548, 232)
-  - Ice Guardian (Level 35) at (259, 151)
-  - Mermaid (Level 55) at (580, 755)
+  - Ice Wizard (Level 35) at (259, 151)
+  - Mermaid (Level 36) at (580, 755)
 
   TEAM COMPOSITION:
   - 4 Fighters with heavy weapons
@@ -37,7 +37,7 @@ relevant_game_context: |
 
   DO NOT use complete() until ALL bosses are defeated!
 
-max_action_steps: 68
+max_action_steps: 130
 
 agent_1:
   username: "fighter1_agent"
@@ -319,6 +319,6 @@ success_criteria:
   - "Ogre Guardian at (291, 644) is defeated"
   - "Dark Wolf at (1016, 682) is defeated"
   - "Golden Golem at (548, 232) is defeated"
-  - "Ice Guardian at (259, 151) is defeated"
+  - "Ice Wizard at (259, 151) is defeated"
   - "Mermaid at (580, 755) is defeated"
   - "All agents survive the campaign"

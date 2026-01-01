@@ -7,7 +7,7 @@ task:
   description: "Seven adventurers defeat three bosses and craft multiple weapons"
 
 objectives:
-  primary: "Defeat Iron Ogre, Ogre Guardian, AND Ogre Chieftain, then craft 4x Heavy Sword"
+  primary: "Defeat Dark Ogre, Ogre, AND Ogre Chieftain, then craft 4x Heavy Sword"
 
 relevant_game_context: |
   This is a cooperative multi-agent dungeon expedition with maximum difficulty.
@@ -20,8 +20,8 @@ relevant_game_context: |
   - Need to mine iron for extra swords
 
   TARGET BOSSES:
-  - Iron Ogre (Level 25): Located at (238, 48)
-  - Ogre Guardian (Level 32): Located at (291, 644)
+  - Dark Ogre (Level 25): Located at (238, 48)
+  - Ogre (Level 15): Located at (291, 644)
   - Ogre Chieftain (Level 35): Located at (300, 650)
 
   PRODUCTION TARGETS (DOUBLED):
@@ -239,9 +239,9 @@ agent_7:
     - item: "apple"
       count: 25
     - item: "ironbar"
-      count: 4
+      count: 8
     - item: "hilt2"
-      count: 2
+      count: 4
 
   equipped_items:
     - item: "leatherarmor"
@@ -252,8 +252,8 @@ agent_7:
       enchant: 0
 
 success_criteria:
-  - "Iron Ogre at (238, 48) is defeated"
-  - "Ogre Guardian at (291, 644) is defeated"
+  - "Dark Ogre at (238, 48) is defeated"
+  - "Ogre at (291, 644) is defeated"
   - "Ogre Chieftain at (300, 650) is defeated"
   - "Team inventory contains 4x sword2 (heavy sword)"
   - "All agents survive the expedition"

@@ -55,6 +55,10 @@ def action_to_string(action: Dict[str, Any]) -> str:
     action_type = action.get('type', 'unknown')
 
     if action_type == 'move':
+        pickup_items = action.get('pickupItems', [])
+        if pickup_items:
+            items_str = ', '.join(f"{i['count']}x {i['key']}" for i in pickup_items)
+            return f"move(x={action.get('x')}, y={action.get('y')}, pickup=[{items_str}])"
         return f"move(x={action.get('x')}, y={action.get('y')})"
     elif action_type == 'craft':
         return f"craft_item(skill={action.get('skill')}, itemKey={action.get('itemKey')}, count={action.get('count', 1)})"
@@ -76,6 +80,8 @@ def action_to_string(action: Dict[str, Any]) -> str:
         return "enter_warp()"
     elif action_type == 'wait':
         return "wait()"
+    elif action_type == 'pickup':
+        return f"pickup(itemKey={action.get('itemKey')}, count={action.get('count', 1)})"
     else:
         return f"{action_type}({action})"
 

@@ -7,7 +7,7 @@ task:
   description: "Eight agents prepare grand banquet catching all ingredients from scratch"
 
 objectives:
-  primary: "Cook 6x Cooked Shrimp, 4x Tuna Sushi, 4x Cooked Chicken, and 2x Jellyfish Smoothie"
+  primary: "Cook 6x Cooked Shrimp, 4x Cooked Tuna, and 4x Cooked Chicken"
 
 relevant_game_context: |
   This is a cooperative multi-agent cooking scenario with increased difficulty.
@@ -16,19 +16,16 @@ relevant_game_context: |
   - Doubled all targets
   - Must catch/hunt all ingredients from scratch
   - Lower skill levels require more attempts
-  - Added jellyfish smoothie
   - Reduced consumables
 
   PRODUCTION TARGETS (DOUBLED):
   - 6x Cooked Shrimp (catch 6x rawshrimp)
-  - 4x Tuna Sushi (catch 4x rawtuna)
+  - 4x Cooked Tuna (catch 4x rawtuna)
   - 4x Cooked Chicken (hunt 4x chicken)
-  - 2x Jellyfish Smoothie (catch 2x jellyfish)
 
   GATHERING REQUIREMENTS:
   - 6x rawshrimp (fishing)
   - 4x rawtuna (fishing)
-  - 2x jellyfish (fishing level 5+)
   - 4x rawchicken (hunting)
 
   DO NOT use complete() until ALL dishes are cooked!
@@ -243,7 +240,6 @@ agent_8:
 
 success_criteria:
   - "Team inventory contains 6x cookedshrimp"
-  - "Team inventory contains 4x tunasushi"
+  - "Team inventory contains 4x cookedtuna"
   - "Team inventory contains 4x cookedchicken"
-  - "Team inventory contains 2x jellyfishsmoothie"
   - "All agents survive the banquet preparation"

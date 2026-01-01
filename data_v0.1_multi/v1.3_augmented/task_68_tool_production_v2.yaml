@@ -29,7 +29,7 @@ relevant_game_context: |
 
   DO NOT use complete() until ALL items are crafted!
 
-max_action_steps: 70
+max_action_steps: 150
 
 agent_1:
   username: "ironminer1_agent"

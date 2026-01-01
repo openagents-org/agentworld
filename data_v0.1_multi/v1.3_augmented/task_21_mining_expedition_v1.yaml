@@ -13,7 +13,7 @@ relevant_game_context: |
   This is a cooperative multi-agent mining expedition with reduced difficulty.
 
   STARTING ADVANTAGE:
-  - ore_prospector_agent starts with 1x goldore already mined
+  - ore_prospector_agent starts with 2x goldore already mined
   - fuel_gatherer_agent starts with 2x coal for smelting
   - Higher skill levels for faster processing
   - More consumables for safety
@@ -21,7 +21,7 @@ relevant_game_context: |
   OBJECTIVE: Use pre-gathered materials to craft a golden ring efficiently.
 
   MISSION REQUIREMENTS:
-  - Use existing gold ore and coal to smelt Gold Bar
+  - Use existing gold ore and coal to smelt 2x Gold Bars
   - Craft a Golden Ring as proof of successful mining operation
   - Coordinate material transfers between team members
 
@@ -32,16 +32,16 @@ relevant_game_context: |
 
   DO NOT use complete() until the golden ring is crafted!
 
-  MINING & CRAFTING RECIPES (CRITICAL KNOWLEDGE):
-  🔥 Smelting Recipe - goldbar:
+  CRAFTING RECIPES (CRITICAL KNOWLEDGE):
+  Smelting Recipe - goldbar:
     - craft_item skill=Smelting itemKey=goldbar
     - Materials: 1x goldore + 1x coal → 1x goldbar
-    - Level required: 40 (Smithing skill) - EXPERT SMELTING!
+    - Level required: Smelting skill
 
-  💍 Smithing Recipe - goldring:
+  Smithing Recipe - goldring:
     - craft_item skill=Smithing itemKey=goldring
-    - Materials: 1x goldbar → 1x goldring
-    - Level required: 45 (Smithing skill) - MASTER CRAFTING!
+    - Materials: 2x goldbar → 1x goldring
+    - Level required: Smithing level 1
 
 max_action_steps: 18
 
@@ -65,7 +65,7 @@ agent_1:
     - item: "apple"
       count: 25
     - item: "goldore"
-      count: 1
+      count: 2
 
   equipped_items:
     - item: "goldaxe"
@@ -145,9 +145,9 @@ agent_3:
       enchant: 0
 
 success_criteria:
-  - "ore_prospector_agent transfers goldore to master_smith_agent"
-  - "fuel_gatherer_agent transfers coal to master_smith_agent"
-  - "master_smith_agent successfully smelts Gold Bar"
+  - "ore_prospector_agent transfers 2x goldore to master_smith_agent"
+  - "fuel_gatherer_agent transfers 2x coal to master_smith_agent"
+  - "master_smith_agent successfully smelts 2x Gold Bars"
   - "master_smith_agent successfully crafts Golden Ring"
   - "master_smith_agent has 1x goldring in inventory"
   - "All agents coordinate efficiently via chat"

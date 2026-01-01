@@ -242,6 +242,10 @@ agent_8:
       count: 22
     - item: "apple"
       count: 28
+    - item: "ironbar"
+      count: 13
+    - item: "logs"
+      count: 3
 
   equipped_items:
     - item: "leatherarmor"

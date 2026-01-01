@@ -1,0 +1,1624 @@
+{
+  "total_tasks": 200,
+  "evaluated": 200,
+  "errors": 0,
+  "solvability": {
+    "YES": 188,
+    "NO": 12,
+    "UNKNOWN": 0
+  },
+  "plausibility": {
+    "Good": 132,
+    "Bad": 68,
+    "Unknown": 0
+  },
+  "diversity": {
+    "Good": 97,
+    "Bad": 103,
+    "Unknown": 0
+  },
+  "avg_duration": 14.05085529088974,
+  "timestamp": "2026-01-01T17:44:12.220565",
+  "tasks": [
+    {
+      "task_id": "03_silver_ring_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 12.918704748153687,
+      "error": null
+    },
+    {
+      "task_id": "01_magic_staff_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 16.702358722686768,
+      "error": null
+    },
+    {
+      "task_id": "02_arrow_production_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 17.374998092651367,
+      "error": null
+    },
+    {
+      "task_id": "01_magic_staff_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 17.61481285095215,
+      "error": null
+    },
+    {
+      "task_id": "02_arrow_production_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 17.628708600997925,
+      "error": null
+    },
+    {
+      "task_id": "03_silver_ring_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 14.70311450958252,
+      "error": null
+    },
+    {
+      "task_id": "04_axe_crafting_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 14.906116008758545,
+      "error": null
+    },
+    {
+      "task_id": "04_axe_crafting_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 14.30570650100708,
+      "error": null
+    },
+    {
+      "task_id": "05_beryl_pendant_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 14.373290777206421,
+      "error": null
+    },
+    {
+      "task_id": "05_beryl_pendant_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 16.14292550086975,
+      "error": null
+    },
+    {
+      "task_id": "06_heavy_sword_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 12.177524328231812,
+      "error": null
+    },
+    {
+      "task_id": "07_pickaxe_crafting_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 15.289430141448975,
+      "error": null
+    },
+    {
+      "task_id": "06_heavy_sword_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 15.725582838058472,
+      "error": null
+    },
+    {
+      "task_id": "07_pickaxe_crafting_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 15.462487936019897,
+      "error": null
+    },
+    {
+      "task_id": "08_bronze_alloy_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 14.903740644454956,
+      "error": null
+    },
+    {
+      "task_id": "08_bronze_alloy_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 13.695473194122314,
+      "error": null
+    },
+    {
+      "task_id": "09_topaz_ring_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 13.78101110458374,
+      "error": null
+    },
+    {
+      "task_id": "100_resource_survey_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 14.981343030929565,
+      "error": null
+    },
+    {
+      "task_id": "09_topaz_ring_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 15.973726987838745,
+      "error": null
+    },
+    {
+      "task_id": "100_resource_survey_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 15.694346904754639,
+      "error": null
+    },
+    {
+      "task_id": "10_cooking_stew_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 12.98065447807312,
+      "error": null
+    },
+    {
+      "task_id": "10_cooking_stew_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 11.708367347717285,
+      "error": null
+    },
+    {
+      "task_id": "11_lightning_staff_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 14.458169221878052,
+      "error": null
+    },
+    {
+      "task_id": "12_gold_ring_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 12.96007776260376,
+      "error": null
+    },
+    {
+      "task_id": "12_gold_ring_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 15.295907497406006,
+      "error": null
+    },
+    {
+      "task_id": "11_lightning_staff_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 20.43965435028076,
+      "error": null
+    },
+    {
+      "task_id": "13_bucket_crafting_v1",
+      "solvability": "NO",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 11.896925687789917,
+      "error": null
+    },
+    {
+      "task_id": "14_shrimp_cooking_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 12.394384384155273,
+      "error": null
+    },
+    {
+      "task_id": "13_bucket_crafting_v2",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 12.837875604629517,
+      "error": null
+    },
+    {
+      "task_id": "14_shrimp_cooking_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 13.439469575881958,
+      "error": null
+    },
+    {
+      "task_id": "15_jellyfish_smoothie_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 12.592267990112305,
+      "error": null
+    },
+    {
+      "task_id": "15_jellyfish_smoothie_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 13.249723672866821,
+      "error": null
+    },
+    {
+      "task_id": "16_resource_protection_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 11.891867876052856,
+      "error": null
+    },
+    {
+      "task_id": "16_resource_protection_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 12.415165662765503,
+      "error": null
+    },
+    {
+      "task_id": "17_forest_gathering_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 13.036673545837402,
+      "error": null
+    },
+    {
+      "task_id": "17_forest_gathering_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 12.057438611984253,
+      "error": null
+    },
+    {
+      "task_id": "18_coastal_harvest_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 12.270910024642944,
+      "error": null
+    },
+    {
+      "task_id": "18_coastal_harvest_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 12.890853643417358,
+      "error": null
+    },
+    {
+      "task_id": "19_farm_defense_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 14.616984605789185,
+      "error": null
+    },
+    {
+      "task_id": "20_orchard_protection_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 11.929283380508423,
+      "error": null
+    },
+    {
+      "task_id": "19_farm_defense_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 12.353833198547363,
+      "error": null
+    },
+    {
+      "task_id": "20_orchard_protection_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 13.406196117401123,
+      "error": null
+    },
+    {
+      "task_id": "21_mining_expedition_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 13.012087106704712,
+      "error": null
+    },
+    {
+      "task_id": "21_mining_expedition_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 12.003600358963013,
+      "error": null
+    },
+    {
+      "task_id": "22_magical_defense_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Good",
+      "duration": 13.594264030456543,
+      "error": null
+    },
+    {
+      "task_id": "23_underwater_expedition_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 11.094598770141602,
+      "error": null
+    },
+    {
+      "task_id": "22_magical_defense_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 13.834612607955933,
+      "error": null
+    },
+    {
+      "task_id": "23_underwater_expedition_v2",
+      "solvability": "NO",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 13.992650508880615,
+      "error": null
+    },
+    {
+      "task_id": "24_ancient_ruins_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 13.266364097595215,
+      "error": null
+    },
+    {
+      "task_id": "24_ancient_ruins_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 14.621225357055664,
+      "error": null
+    },
+    {
+      "task_id": "25_ice_cavern_challenge_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 14.98734712600708,
+      "error": null
+    },
+    {
+      "task_id": "25_ice_cavern_challenge_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 16.05953097343445,
+      "error": null
+    },
+    {
+      "task_id": "26_desert_caravan_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 11.847370147705078,
+      "error": null
+    },
+    {
+      "task_id": "26_desert_caravan_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 12.981662511825562,
+      "error": null
+    },
+    {
+      "task_id": "27_volcanic_forge_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 13.439234972000122,
+      "error": null
+    },
+    {
+      "task_id": "28_dark_forest_cleansing_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 14.081250190734863,
+      "error": null
+    },
+    {
+      "task_id": "27_volcanic_forge_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 15.886285543441772,
+      "error": null
+    },
+    {
+      "task_id": "29_castle_siege_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 12.68678593635559,
+      "error": null
+    },
+    {
+      "task_id": "28_dark_forest_cleansing_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 14.50636887550354,
+      "error": null
+    },
+    {
+      "task_id": "29_castle_siege_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 14.138843774795532,
+      "error": null
+    },
+    {
+      "task_id": "30_legendary_boss_hunt_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 14.009762048721313,
+      "error": null
+    },
+    {
+      "task_id": "30_legendary_boss_hunt_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 13.566725015640259,
+      "error": null
+    },
+    {
+      "task_id": "31_woodworking_production_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 14.757717847824097,
+      "error": null
+    },
+    {
+      "task_id": "31_woodworking_production_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 15.441841840744019,
+      "error": null
+    },
+    {
+      "task_id": "33_resource_collection_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 11.751953125,
+      "error": null
+    },
+    {
+      "task_id": "32_wilderness_creature_hunt_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 14.652089595794678,
+      "error": null
+    },
+    {
+      "task_id": "32_wilderness_creature_hunt_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 13.543653964996338,
+      "error": null
+    },
+    {
+      "task_id": "34_enchanted_staff_workshop_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 12.65073823928833,
+      "error": null
+    },
+    {
+      "task_id": "33_resource_collection_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 14.431953191757202,
+      "error": null
+    },
+    {
+      "task_id": "35_combat_training_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 13.937302112579346,
+      "error": null
+    },
+    {
+      "task_id": "34_enchanted_staff_workshop_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 15.413846254348755,
+      "error": null
+    },
+    {
+      "task_id": "35_combat_training_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 16.41472291946411,
+      "error": null
+    },
+    {
+      "task_id": "36_elite_skeleton_hunt_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 12.967630863189697,
+      "error": null
+    },
+    {
+      "task_id": "36_elite_skeleton_hunt_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 14.401907920837402,
+      "error": null
+    },
+    {
+      "task_id": "37_survival_gathering_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 9.532857656478882,
+      "error": null
+    },
+    {
+      "task_id": "37_survival_gathering_v2",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 13.446795225143433,
+      "error": null
+    },
+    {
+      "task_id": "38_trade_crafting_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 13.699180364608765,
+      "error": null
+    },
+    {
+      "task_id": "39_farming_harvest_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 14.404651880264282,
+      "error": null
+    },
+    {
+      "task_id": "38_trade_crafting_v2",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 15.288914203643799,
+      "error": null
+    },
+    {
+      "task_id": "39_farming_harvest_v2",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 11.862059354782104,
+      "error": null
+    },
+    {
+      "task_id": "40_healing_supplies_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 13.10962700843811,
+      "error": null
+    },
+    {
+      "task_id": "40_healing_supplies_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 13.29435682296753,
+      "error": null
+    },
+    {
+      "task_id": "41_tool_production_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 11.820931911468506,
+      "error": null
+    },
+    {
+      "task_id": "42_skill_training_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 13.792152643203735,
+      "error": null
+    },
+    {
+      "task_id": "41_tool_production_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 14.868818759918213,
+      "error": null
+    },
+    {
+      "task_id": "42_skill_training_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 12.650444507598877,
+      "error": null
+    },
+    {
+      "task_id": "43_forest_cleanup_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 11.231265544891357,
+      "error": null
+    },
+    {
+      "task_id": "43_forest_cleanup_v2",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 13.261633396148682,
+      "error": null
+    },
+    {
+      "task_id": "44_messenger_run_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 12.985464096069336,
+      "error": null
+    },
+    {
+      "task_id": "44_messenger_run_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 15.567446231842041,
+      "error": null
+    },
+    {
+      "task_id": "45_caravan_escort_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 13.353270530700684,
+      "error": null
+    },
+    {
+      "task_id": "45_caravan_escort_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 13.99507761001587,
+      "error": null
+    },
+    {
+      "task_id": "46_mining_expedition_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 12.56116509437561,
+      "error": null
+    },
+    {
+      "task_id": "46_mining_expedition_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 11.351091384887695,
+      "error": null
+    },
+    {
+      "task_id": "47_magic_staff_forge_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 11.839042663574219,
+      "error": null
+    },
+    {
+      "task_id": "47_magic_staff_forge_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 12.775032043457031,
+      "error": null
+    },
+    {
+      "task_id": "48_cross_region_expedition_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 11.81905484199524,
+      "error": null
+    },
+    {
+      "task_id": "48_cross_region_expedition_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 12.118611097335815,
+      "error": null
+    },
+    {
+      "task_id": "49_jewelry_workshop_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 13.451219320297241,
+      "error": null
+    },
+    {
+      "task_id": "49_jewelry_workshop_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 12.791744470596313,
+      "error": null
+    },
+    {
+      "task_id": "50_combat_battalion_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 12.522745609283447,
+      "error": null
+    },
+    {
+      "task_id": "50_combat_battalion_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 13.553805589675903,
+      "error": null
+    },
+    {
+      "task_id": "51_survival_challenge_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 13.140210628509521,
+      "error": null
+    },
+    {
+      "task_id": "51_survival_challenge_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 13.408771276473999,
+      "error": null
+    },
+    {
+      "task_id": "52_smithy_operation_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 12.228611946105957,
+      "error": null
+    },
+    {
+      "task_id": "52_smithy_operation_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 16.294478178024292,
+      "error": null
+    },
+    {
+      "task_id": "53_culinary_expedition_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 13.442626953125,
+      "error": null
+    },
+    {
+      "task_id": "53_culinary_expedition_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 13.350373029708862,
+      "error": null
+    },
+    {
+      "task_id": "54_archery_academy_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 13.200831174850464,
+      "error": null
+    },
+    {
+      "task_id": "55_boss_raid_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 12.887611627578735,
+      "error": null
+    },
+    {
+      "task_id": "54_archery_academy_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 14.165753602981567,
+      "error": null
+    },
+    {
+      "task_id": "55_boss_raid_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 13.353344678878784,
+      "error": null
+    },
+    {
+      "task_id": "56_cross_region_trading_network_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 13.187220096588135,
+      "error": null
+    },
+    {
+      "task_id": "56_cross_region_trading_network_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 14.033804416656494,
+      "error": null
+    },
+    {
+      "task_id": "57_grand_jewelry_expedition_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 13.089717149734497,
+      "error": null
+    },
+    {
+      "task_id": "57_grand_jewelry_expedition_v2",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 14.703519582748413,
+      "error": null
+    },
+    {
+      "task_id": "58_harvest_festival_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 12.439101696014404,
+      "error": null
+    },
+    {
+      "task_id": "58_harvest_festival_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 14.020607471466064,
+      "error": null
+    },
+    {
+      "task_id": "59_elite_merchant_guild_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 13.814473390579224,
+      "error": null
+    },
+    {
+      "task_id": "59_elite_merchant_guild_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 12.199549436569214,
+      "error": null
+    },
+    {
+      "task_id": "60_mining_operation_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 12.752184867858887,
+      "error": null
+    },
+    {
+      "task_id": "61_royal_banquet_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 13.036001443862915,
+      "error": null
+    },
+    {
+      "task_id": "60_mining_operation_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 14.750935316085815,
+      "error": null
+    },
+    {
+      "task_id": "61_royal_banquet_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 12.910952091217041,
+      "error": null
+    },
+    {
+      "task_id": "62_weaponsmith_consortium_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 13.412455320358276,
+      "error": null
+    },
+    {
+      "task_id": "62_weaponsmith_consortium_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 15.42373776435852,
+      "error": null
+    },
+    {
+      "task_id": "63_jewelry_crafting_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 13.845650434494019,
+      "error": null
+    },
+    {
+      "task_id": "63_jewelry_crafting_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 13.690361499786377,
+      "error": null
+    },
+    {
+      "task_id": "64_ice_expedition_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 12.613834142684937,
+      "error": null
+    },
+    {
+      "task_id": "64_ice_expedition_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 11.955400943756104,
+      "error": null
+    },
+    {
+      "task_id": "65_cooking_guild_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 11.007742643356323,
+      "error": null
+    },
+    {
+      "task_id": "65_cooking_guild_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 14.172053813934326,
+      "error": null
+    },
+    {
+      "task_id": "66_archery_production_v1",
+      "solvability": "NO",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 16.610771656036377,
+      "error": null
+    },
+    {
+      "task_id": "66_archery_production_v2",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Good",
+      "duration": 15.194589853286743,
+      "error": null
+    },
+    {
+      "task_id": "67_resource_caravan_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 14.534608840942383,
+      "error": null
+    },
+    {
+      "task_id": "67_resource_caravan_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 11.056051969528198,
+      "error": null
+    },
+    {
+      "task_id": "68_tool_production_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 16.108392238616943,
+      "error": null
+    },
+    {
+      "task_id": "68_tool_production_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 14.03070616722107,
+      "error": null
+    },
+    {
+      "task_id": "70_dungeon_expedition_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 14.006432056427002,
+      "error": null
+    },
+    {
+      "task_id": "69_legendary_equipment_forge_v1",
+      "solvability": "NO",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 17.840088367462158,
+      "error": null
+    },
+    {
+      "task_id": "69_legendary_equipment_forge_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 18.44111657142639,
+      "error": null
+    },
+    {
+      "task_id": "70_dungeon_expedition_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 13.844160795211792,
+      "error": null
+    },
+    {
+      "task_id": "71_supply_network_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 12.22804856300354,
+      "error": null
+    },
+    {
+      "task_id": "72_fortress_defense_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 11.668357849121094,
+      "error": null
+    },
+    {
+      "task_id": "71_supply_network_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 13.2880277633667,
+      "error": null
+    },
+    {
+      "task_id": "72_fortress_defense_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 13.347733974456787,
+      "error": null
+    },
+    {
+      "task_id": "73_biome_expedition_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Good",
+      "duration": 13.245545625686646,
+      "error": null
+    },
+    {
+      "task_id": "73_biome_expedition_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 15.446811437606812,
+      "error": null
+    },
+    {
+      "task_id": "74_guild_equipment_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 14.181142330169678,
+      "error": null
+    },
+    {
+      "task_id": "74_guild_equipment_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 14.099113702774048,
+      "error": null
+    },
+    {
+      "task_id": "75_relief_convoy_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 13.730468511581421,
+      "error": null
+    },
+    {
+      "task_id": "75_relief_convoy_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 12.939417362213135,
+      "error": null
+    },
+    {
+      "task_id": "76_elemental_bosses_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 13.88740849494934,
+      "error": null
+    },
+    {
+      "task_id": "77_harbor_defense_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 12.052562475204468,
+      "error": null
+    },
+    {
+      "task_id": "76_elemental_bosses_v2",
+      "solvability": "NO",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 15.215544700622559,
+      "error": null
+    },
+    {
+      "task_id": "77_harbor_defense_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 15.626931190490723,
+      "error": null
+    },
+    {
+      "task_id": "78_trading_network_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 13.447131633758545,
+      "error": null
+    },
+    {
+      "task_id": "78_trading_network_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 13.845891952514648,
+      "error": null
+    },
+    {
+      "task_id": "79_dragon_hunt_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 13.679430961608887,
+      "error": null
+    },
+    {
+      "task_id": "79_dragon_hunt_v2",
+      "solvability": "NO",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 11.84103798866272,
+      "error": null
+    },
+    {
+      "task_id": "80_festival_preparation_v2",
+      "solvability": "NO",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 11.277875423431396,
+      "error": null
+    },
+    {
+      "task_id": "80_festival_preparation_v1",
+      "solvability": "NO",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 13.576012372970581,
+      "error": null
+    },
+    {
+      "task_id": "81_elemental_grid_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 14.806550979614258,
+      "error": null
+    },
+    {
+      "task_id": "81_elemental_grid_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 16.24290895462036,
+      "error": null
+    },
+    {
+      "task_id": "82_evacuation_v1",
+      "solvability": "NO",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 15.799485921859741,
+      "error": null
+    },
+    {
+      "task_id": "83_elemental_ritual_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 12.537328243255615,
+      "error": null
+    },
+    {
+      "task_id": "82_evacuation_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 13.286104917526245,
+      "error": null
+    },
+    {
+      "task_id": "83_elemental_ritual_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 22.415646076202393,
+      "error": null
+    },
+    {
+      "task_id": "84_tunnel_expedition_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 20.092228174209595,
+      "error": null
+    },
+    {
+      "task_id": "84_tunnel_expedition_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 21.010140419006348,
+      "error": null
+    },
+    {
+      "task_id": "85_ice_convoy_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 21.15997624397278,
+      "error": null
+    },
+    {
+      "task_id": "85_ice_convoy_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 22.937646865844727,
+      "error": null
+    },
+    {
+      "task_id": "86_forge_vanguard_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 14.273536443710327,
+      "error": null
+    },
+    {
+      "task_id": "87_canal_restoration_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 15.814881801605225,
+      "error": null
+    },
+    {
+      "task_id": "86_forge_vanguard_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 17.488687753677368,
+      "error": null
+    },
+    {
+      "task_id": "87_canal_restoration_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 16.590239763259888,
+      "error": null
+    },
+    {
+      "task_id": "88_war_council_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 17.139603853225708,
+      "error": null
+    },
+    {
+      "task_id": "88_war_council_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 15.56864857673645,
+      "error": null
+    },
+    {
+      "task_id": "89_beacon_calibration_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 14.503461599349976,
+      "error": null
+    },
+    {
+      "task_id": "90_barrier_reboot_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 12.148593425750732,
+      "error": null
+    },
+    {
+      "task_id": "89_beacon_calibration_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 16.311578512191772,
+      "error": null
+    },
+    {
+      "task_id": "90_barrier_reboot_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 13.113412618637085,
+      "error": null
+    },
+    {
+      "task_id": "91_royal_tournament_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 12.08008098602295,
+      "error": null
+    },
+    {
+      "task_id": "91_royal_tournament_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Bad",
+      "duration": 14.69350790977478,
+      "error": null
+    },
+    {
+      "task_id": "92_trade_network_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 14.399865627288818,
+      "error": null
+    },
+    {
+      "task_id": "93_fortress_construction_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 13.122060775756836,
+      "error": null
+    },
+    {
+      "task_id": "92_trade_network_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 15.093426704406738,
+      "error": null
+    },
+    {
+      "task_id": "93_fortress_construction_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 15.864583492279053,
+      "error": null
+    },
+    {
+      "task_id": "94_maritime_trading_v1",
+      "solvability": "NO",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 13.188515186309814,
+      "error": null
+    },
+    {
+      "task_id": "95_ocean_expedition_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 12.310553073883057,
+      "error": null
+    },
+    {
+      "task_id": "95_ocean_expedition_v2",
+      "solvability": "NO",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 15.633861780166626,
+      "error": null
+    },
+    {
+      "task_id": "94_maritime_trading_v2",
+      "solvability": "NO",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 18.785887479782104,
+      "error": null
+    },
+    {
+      "task_id": "96_mountain_rescue_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Good",
+      "duration": 13.291146039962769,
+      "error": null
+    },
+    {
+      "task_id": "96_mountain_rescue_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 12.861777782440186,
+      "error": null
+    },
+    {
+      "task_id": "97_agricultural_empire_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 11.628245830535889,
+      "error": null
+    },
+    {
+      "task_id": "97_agricultural_empire_v2",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 12.308575630187988,
+      "error": null
+    },
+    {
+      "task_id": "98_mining_conglomerate_v1",
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 13.476256370544434,
+      "error": null
+    },
+    {
+      "task_id": "99_kingdom_festival_v1",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 13.558623790740967,
+      "error": null
+    },
+    {
+      "task_id": "98_mining_conglomerate_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 15.212544202804565,
+      "error": null
+    },
+    {
+      "task_id": "99_kingdom_festival_v2",
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 14.195079565048218,
+      "error": null
+    }
+  ]
+}

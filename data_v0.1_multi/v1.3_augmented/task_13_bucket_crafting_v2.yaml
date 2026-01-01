@@ -1,129 +1,122 @@
 # AgentWorld Multi-Agent Task Configuration
-# VARIANT: v2 - More rounds, must gather all materials
-# SOURCE: task_13_bucket_crafting.yaml
+# VARIANT: v2 - Harder version with more requirements
+# SOURCE: task_13_bucket_crafting.yaml (redesigned - bucket recipe doesn't exist)
 
 task:
-  name: "Cooperative Bucket Crafting - Utility Container Production (Harder)"
-  description: "Three agents work together to create THREE buckets through extensive logging operations"
+  name: "Wooden Bow Workshop - Full Production (Harder)"
+  description: "Three agents collaborate to harvest materials and craft 2x Wooden Bows"
 
 objectives:
-  primary: "Create THREE utility buckets through coordinated large-scale wood harvesting and crafting"
+  primary: "Craft 2x Wooden Bow through coordinated wood harvesting and material gathering"
 
 relevant_game_context: |
-  This is a cooperative multi-agent utility crafting scenario requiring extensive wood materials.
+  This is a cooperative multi-agent crafting scenario with increased difficulty.
 
   CHALLENGE MODE:
-  - Must create THREE buckets (tripled target!)
-  - container_crafter_agent starts with NO logs - must harvest all
-  - Need 15x logs total (5 per bucket)
-  - Reduced consumables - manage resources carefully
+  - Must craft 2x Wooden Bow (need 2x logs + 2x string)
+  - No pre-gathered logs - must harvest from Oak Trees
+  - Lower skill levels require more coordination
+  - Fewer consumables
 
-  OBJECTIVE: Create 3x buckets through extensive logging operations.
+  CRAFTING RECIPE:
+  - Wooden Bow: 1x logs + 1x string → 1x woodenbow (Fletching level 5)
 
-  REQUIRED MATERIALS FOR 3 BUCKETS:
-  - 15x logs (5 per bucket)
-  - Must harvest all from oak trees
+  TEAM ROLES:
+  - lumber_agent: Has axe, must harvest 2x logs from Oak Trees
+  - string_agent: Has 2x string, transfers to fletcher
+  - fletcher_agent: Has fletching skill, crafts both bows
 
-  STRATEGY:
-  - All agents with lumberjacking skill harvest logs
-  - Consolidate 15+ logs with container_crafter_agent
-  - container_crafter_agent crafts 3x bucket
+  LOCATIONS:
+  - Forest (Oak Trees): Around (388, 10)
 
-  DO NOT use complete() until 3x bucket is created!
+  DO NOT use complete() until 2x woodenbow is crafted!
 
-  CRAFTING RECIPES:
-  🪵 Lumberjacking - logs:
-    - harvest_resource on oak tree instances to get logs
-    - Level required: 1+ (Lumberjacking skill)
-
-  🪣 Crafting Recipe - bucket:
-    - craft_item skill=Crafting itemKey=bucket
-    - Materials: 5x logs → 1x bucket
-    - Level required: 10 (Crafting skill)
-    - Craft 3 times!
-
-max_action_steps: 45
+max_action_steps: 30
 
 agent_1:
-  username: "lumber_harvester_agent"
+  username: "lumber_agent"
   new_character: true
+
   location:
-    x: 126
-    y: 23
+    x: 388
+    y: 10
+
   skill_levels:
-    lumberjacking: 27
-    strength: 32
-    health: 27
+    lumberjacking: 20
+    strength: 25
+    health: 28
+
   inventory_items:
     - item: "flask"
-      count: 10
+      count: 15
     - item: "apple"
-      count: 12
+      count: 20
+
   equipped_items:
     - item: "axe"
       count: 1
       enchant: 0
     - item: "leatherarmor"
-      count: 1
-      enchant: 0
-    - item: "leatherboots"
       count: 1
       enchant: 0
 
 agent_2:
-  username: "wood_processor_agent"
+  username: "string_agent"
   new_character: true
+
   location:
-    x: 183
-    y: 312
+    x: 390
+    y: 12
+
   skill_levels:
-    lumberjacking: 18
-    crafting: 12
+    crafting: 18
     strength: 22
-    health: 22
+    health: 26
+
   inventory_items:
     - item: "flask"
-      count: 8
+      count: 15
     - item: "apple"
-      count: 10
+      count: 20
+    - item: "string"
+      count: 2
+
   equipped_items:
-    - item: "axe"
-      count: 1
-      enchant: 0
     - item: "leatherarmor"
-      count: 1
-      enchant: 0
-    - item: "leatherboots"
       count: 1
       enchant: 0
 
 agent_3:
-  username: "container_crafter_agent"
+  username: "fletcher_agent"
   new_character: true
+
   location:
-    x: 136
-    y: 25
+    x: 392
+    y: 14
+
   skill_levels:
-    crafting: 22
-    lumberjacking: 12
-    strength: 22
-    health: 22
+    fletching: 18
+    crafting: 15
+    health: 25
+
   inventory_items:
     - item: "flask"
-      count: 8
+      count: 15
     - item: "apple"
-      count: 10
+      count: 20
+    - item: "logs"
+      count: 2
+    - item: "string"
+      count: 2
+
   equipped_items:
     - item: "leatherarmor"
       count: 1
       enchant: 0
-    - item: "leatherboots"
-      count: 1
-      enchant: 0
 
 success_criteria:
-  - "Team harvests 15+ logs from oak trees"
-  - "All logs consolidated with container_crafter_agent"
-  - "container_crafter_agent crafts 3x bucket"
-  - "Final target: 3x bucket in team inventory"
-  - "All agents coordinate extensive lumber operations"
+  - "Team inventory contains 2x woodenbow"
+  - "lumber_agent harvests logs from Oak Trees"
+  - "string_agent transfers string to fletcher_agent"
+  - "fletcher_agent crafts both wooden bows"
+  - "All agents coordinate their specialized roles"

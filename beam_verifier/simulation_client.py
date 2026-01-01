@@ -109,9 +109,25 @@ class SimulationClient:
                 state_after=state
             )
 
-    def move(self, state: Dict[str, Any], x: int, y: int) -> SimulationResult:
-        """Move to a position."""
-        return self.act(state, {'type': 'move', 'x': x, 'y': y})
+    def move(self, state: Dict[str, Any], x: int, y: int, pickup_items: Optional[list] = None) -> SimulationResult:
+        """
+        Move to a position with optional item pickup.
+
+        This reflects the real game behavior where items are automatically
+        picked up when walking over them.
+
+        Args:
+            state: Current simulation state
+            x: Target X coordinate
+            y: Target Y coordinate
+            pickup_items: Optional list of items to pick up at destination
+                         Each item should be a dict with 'key' and 'count'
+                         Example: [{'key': 'logs', 'count': 2}]
+        """
+        action = {'type': 'move', 'x': x, 'y': y}
+        if pickup_items:
+            action['pickupItems'] = pickup_items
+        return self.act(state, action)
 
     def craft(self, state: Dict[str, Any], skill: str, item_key: str, count: int = 1) -> SimulationResult:
         """Craft an item."""
@@ -151,6 +167,22 @@ class SimulationClient:
     def enter(self, state: Dict[str, Any]) -> SimulationResult:
         """Enter a warp/portal at current position."""
         return self.act(state, {'type': 'enter'})
+
+    def pickup(self, state: Dict[str, Any], item_key: str, count: int = 1) -> SimulationResult:
+        """
+        Pick up items from the ground.
+
+        DEPRECATED: Use move() with pickup_items parameter instead.
+        This better reflects real game behavior where items are auto-collected
+        when walking over them.
+
+        Example:
+            # Instead of:
+            client.pickup(state, 'logs', 2)
+            # Use:
+            client.move(state, x, y, pickup_items=[{'key': 'logs', 'count': 2}])
+        """
+        return self.act(state, {'type': 'pickup', 'itemKey': item_key, 'count': count})
 
     def health_check(self) -> bool:
         """Check if the API server is reachable."""

@@ -21,12 +21,12 @@ relevant_game_context: |
 
   PRODUCTION TARGETS (REDUCED):
   - 1x Golden Bow (15x goldbar + 10x string + 2x logs) - materials ready!
-  - 10x Arrows (10x stick + 10x feather) - feathers ready!
+  - 10x Arrows (10x stick + 10x feather) - ALL materials ready!
 
   TEAM COORDINATION:
-  - Fletchers have materials
-  - Lumberjacks provide logs for sticks
-  - Minimal gathering needed
+  - Fletchers have all crafting materials distributed
+  - Materials must be consolidated to one fletcher for crafting
+  - Item transfers required between agents
 
   DO NOT use complete() until archery items are ready!
 
@@ -104,8 +104,6 @@ agent_3:
       count: 40
     - item: "apple"
       count: 45
-    - item: "logs"
-      count: 2
 
   equipped_items:
     - item: "axe"
@@ -164,6 +162,8 @@ agent_5:
       count: 5
     - item: "goldbar"
       count: 10
+    - item: "logs"
+      count: 2
 
   equipped_items:
     - item: "leatherarmor"
@@ -193,7 +193,9 @@ agent_6:
     - item: "goldbar"
       count: 5
     - item: "feather"
-      count: 20
+      count: 10
+    - item: "stick"
+      count: 10
 
   equipped_items:
     - item: "leatherarmor"

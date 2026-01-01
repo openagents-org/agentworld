@@ -7,7 +7,7 @@ task:
   description: "Four agents work together to defeat FOUR legendary bosses across different regions"
 
 objectives:
-  primary: "Defeat Mermaid, Dark Wolf, Ice Knight, AND Water Guardian in an epic boss hunting expedition"
+  primary: "Defeat Mermaid, Dark Ogre, Ice Wizard, AND Ogre in an epic boss hunting expedition"
 
 relevant_game_context: |
   This is a cooperative multi-agent boss hunting scenario with increased difficulty.
@@ -23,10 +23,10 @@ relevant_game_context: |
   OBJECTIVE: Complete the ultimate boss hunt - defeat all four legendary bosses.
 
   TARGET BOSSES (EXPANDED):
-  - Mermaid (Level 55): Located at coastal region (580, 755)
-  - Dark Wolf (Level 0): Located at dark region (1016, 682)
-  - Ice Knight (Level 62): Located at castle region (712, 717)
-  - Water Guardian (Level 36): Located at (197, 633) - ADDED!
+  - Mermaid (Level 36): Located at coastal region (580, 755)
+  - Dark Ogre (Level 25): Located at mountain region (238, 48)
+  - Ice Wizard (Level 35): Located at ice region (259, 151)
+  - Ogre (Level 15): Located at (300, 650)
 
   TEAM COORDINATION:
   - Plan efficient route between boss locations
@@ -35,9 +35,9 @@ relevant_game_context: |
 
   COMBAT STRATEGY:
   - Mermaid: Water-based attacks, use ranged weapons
-  - Dark Wolf: Fast attacks, coordinate melee and magic
-  - Ice Knight: Freezing attacks, maintain distance
-  - Water Guardian: Water attacks, similar to Mermaid
+  - Dark Ogre: Heavy melee, coordinate tank and DPS
+  - Ice Wizard: Freezing attacks, maintain distance
+  - Ogre: Strong melee, focus fire
 
   DO NOT use complete() until ALL FOUR bosses are defeated!
 
@@ -177,8 +177,8 @@ agent_4:
 
 success_criteria:
   - "Mermaid at (580, 755) is defeated"
-  - "Dark Wolf at (1016, 682) is defeated"
-  - "Ice Knight at (712, 717) is defeated"
-  - "Water Guardian at (197, 633) is defeated"
+  - "Dark Ogre at (238, 48) is defeated"
+  - "Ice Wizard at (259, 151) is defeated"
+  - "Ogre at (300, 650) is defeated"
   - "All four agents survive all four boss encounters"
   - "Epic boss hunt completed within time limit"

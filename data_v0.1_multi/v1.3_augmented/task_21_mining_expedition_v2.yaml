@@ -14,18 +14,18 @@ relevant_game_context: |
 
   CHALLENGE MODE:
   - Must craft 2x golden rings (doubled target!)
-  - Need to mine 2x goldore from scratch (no pre-gathered materials)
-  - Need 2x coal for smelting operations
+  - Need to mine 4x goldore from scratch (no pre-gathered materials)
+  - Need 4x coal for smelting operations
   - Added 4th agent (mining_support_agent) for better coordination
   - Reduced consumables - manage resources carefully
 
   OBJECTIVE: Establish mining operations to extract multiple gold ores and craft 2 golden rings.
 
   MISSION REQUIREMENTS:
-  - Find and extract 2x Gold Ore from Gold Rock deposits (very rare!)
-  - Gather 2x Coal for smelting operations
-  - Smelt 2x Gold Bars using advanced smithing
-  - Craft 2x Golden Rings as proof of successful mining operation
+  - Find and extract 4x Gold Ore from Gold Rock deposits (very rare!)
+  - Gather 4x Coal for smelting operations
+  - Smelt 4x Gold Bars using smelting
+  - Craft 2x Golden Rings as proof of successful mining operation (each needs 2x goldbar)
   - Coordinate heavy ore transportation between team members
 
   TEAM COORDINATION:
@@ -36,26 +36,26 @@ relevant_game_context: |
 
   DO NOT use complete() until BOTH golden rings are crafted!
 
-  MINING & CRAFTING RECIPES (CRITICAL KNOWLEDGE):
-  ⛏️ Mining - Gold Ore (RARE):
+  CRAFTING RECIPES (CRITICAL KNOWLEDGE):
+  Mining - Gold Ore (RARE):
     - harvest_resource on Gold Rock instances to get goldore
-    - Level required: 30+ (Mining skill) - ADVANCED MINING!
+    - Level required: 30+ (Mining skill)
     - RARE: Gold Rocks are much scarcer than Iron Rocks!
 
-  ⚫ Mining - Coal:
+  Mining - Coal:
     - harvest_resource on Coal Rock instances to get coal
     - Level required: 10+ (Mining skill)
     - Essential fuel for smelting operations
 
-  🔥 Smelting Recipe - goldbar:
+  Smelting Recipe - goldbar:
     - craft_item skill=Smelting itemKey=goldbar
     - Materials: 1x goldore + 1x coal → 1x goldbar
-    - Level required: 40 (Smithing skill)
+    - Level required: Smelting skill
 
-  💍 Smithing Recipe - goldring:
+  Smithing Recipe - goldring:
     - craft_item skill=Smithing itemKey=goldring
-    - Materials: 1x goldbar → 1x goldring
-    - Level required: 45 (Smithing skill)
+    - Materials: 2x goldbar → 1x goldring
+    - Level required: Smithing level 1
 
 max_action_steps: 45
 
@@ -185,9 +185,9 @@ agent_4:
       enchant: 0
 
 success_criteria:
-  - "Team mines at least 2x goldore from Gold Rock deposits"
-  - "Team gathers at least 2x coal for smelting"
-  - "master_smith_agent successfully smelts 2x Gold Bars"
+  - "Team mines at least 4x goldore from Gold Rock deposits"
+  - "Team gathers at least 4x coal for smelting"
+  - "master_smith_agent successfully smelts 4x Gold Bars"
   - "master_smith_agent successfully crafts 2x Golden Rings"
   - "master_smith_agent has 2x goldring in inventory"
   - "All agents coordinate mining operations effectively"

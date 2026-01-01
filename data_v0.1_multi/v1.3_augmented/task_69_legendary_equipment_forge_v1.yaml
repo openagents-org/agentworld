@@ -13,7 +13,7 @@ relevant_game_context: |
   This is a cooperative multi-agent legendary crafting with reduced difficulty.
 
   STARTING ADVANTAGE:
-  - Master_Smelter_Supreme has 25x goldbar ready
+  - Master_Smelter_Supreme has 35x goldbar and 15x stick ready
   - Iron_Specialist has 10x ironbar ready
   - Component_Master has 5x logs, 8x string, 3x hilt2
   - Arcane_Bead_Hunter has 4x bead ready
@@ -22,7 +22,7 @@ relevant_game_context: |
 
   PRODUCTION TARGETS (REDUCED):
   - 3x Golden Items (Golden Sword, Golden Boots, 1x Gold Ring)
-  - 2x Magical Staffs (Lightning + Fire)
+  - 2x Magic Staffs (5x stick + 1x bead each)
   - 3x Elite Weapons (1x Heavy Sword, 1x Pickaxe, 1x Axe)
 
   TEAM COORDINATION:
@@ -32,7 +32,7 @@ relevant_game_context: |
 
   DO NOT use complete() until objectives are met!
 
-max_action_steps: 28
+max_action_steps: 50
 
 agent_1:
   username: "Gold_Extractor_Prime"
@@ -131,7 +131,8 @@ agent_8:
   inventory_items:
     - {item: "flask", count: 50}
     - {item: "apple", count: 55}
-    - {item: "goldbar", count: 25}
+    - {item: "stick", count: 15}
+    - {item: "bead", count: 2}
   equipped_items:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
@@ -144,6 +145,7 @@ agent_9:
     - {item: "flask", count: 50}
     - {item: "apple", count: 55}
     - {item: "hilt2", count: 2}
+    - {item: "goldbar", count: 35}
   equipped_items:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
@@ -151,7 +153,7 @@ success_criteria:
   - "Team inventory contains 1x goldensword"
   - "Team inventory contains 1x goldenboots"
   - "Team inventory contains 1x goldring"
-  - "Team inventory contains 2x staff (lightning and fire staffs)"
+  - "Team inventory contains 2x staff"
   - "Team inventory contains 1x sword2 (heavy sword)"
   - "Team inventory contains 1x pickaxe"
   - "Team inventory contains 1x axe"

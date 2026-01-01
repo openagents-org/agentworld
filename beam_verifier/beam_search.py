@@ -2,6 +2,7 @@
 Beam Search Verification Module
 
 Main orchestration for beam search-based task verification.
+Optimized with parallel API calls and Claude inference.
 """
 
 import copy
@@ -9,12 +10,17 @@ import json
 import time
 from dataclasses import dataclass, field
 from typing import Dict, List, Any, Optional, Tuple
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from .task_loader import load_task, task_to_initial_states, get_task_context, TaskConfig
 from .simulation_client import SimulationClient, SimulationResult
 from .action_proposer import propose_actions
 from .verifier_adapter import states_to_trajectory, verify_task, quick_verify_state
 from .branch_evaluator import select_best_branches
+
+# Number of parallel workers for different operations
+API_WORKERS = 8      # For simulation API calls (fast)
+CLAUDE_WORKERS = 8   # For Claude CLI calls (using Haiku for speed)
 
 
 @dataclass
@@ -99,11 +105,22 @@ class BeamSearchVerifier:
             print(message)
 
     def get_observations(self, agent_states: Dict[str, Dict[str, Any]]) -> Dict[str, Dict[str, Any]]:
-        """Get observations for all agents."""
+        """Get observations for all agents in parallel."""
         observations = {}
-        for agent_name, state in agent_states.items():
+
+        def fetch_observation(agent_name: str, state: Dict[str, Any]) -> Tuple[str, Dict[str, Any]]:
             obs = self.sim_client.observe(state['x'], state['y'], radius=15)
-            observations[agent_name] = obs
+            return agent_name, obs
+
+        with ThreadPoolExecutor(max_workers=API_WORKERS) as executor:
+            futures = {
+                executor.submit(fetch_observation, name, state): name
+                for name, state in agent_states.items()
+            }
+            for future in as_completed(futures):
+                agent_name, obs = future.result()
+                observations[agent_name] = obs
+
         return observations
 
     def execute_action_set(
@@ -112,7 +129,7 @@ class BeamSearchVerifier:
         action_set: Dict[str, Dict[str, Any]]
     ) -> Tuple[Dict[str, Dict[str, Any]], Dict[str, Any]]:
         """
-        Execute a set of actions for all agents.
+        Execute a set of actions for all agents in parallel.
 
         Args:
             agent_states: Current states for all agents
@@ -124,33 +141,51 @@ class BeamSearchVerifier:
         new_states = {}
         action_results = {}
 
+        # Separate wait actions (no API call needed) from real actions
+        wait_actions = {}
+        api_actions = {}
+
         for agent_name, action in action_set.items():
             if agent_name not in agent_states:
                 continue
 
-            current_state = agent_states[agent_name]
-
-            # Handle 'wait' action specially
             if action.get('type') == 'wait':
-                new_states[agent_name] = copy.deepcopy(current_state)
-                action_results[agent_name] = {
-                    'action': action,
-                    'success': True,
-                    'message': 'Waiting',
-                    'state_after': current_state
-                }
-                continue
+                wait_actions[agent_name] = action
+            else:
+                api_actions[agent_name] = action
 
-            # Execute action via simulation API
-            result = self.sim_client.act(current_state, action)
-
-            new_states[agent_name] = result.state_after
+        # Handle wait actions immediately (no API call)
+        for agent_name, action in wait_actions.items():
+            current_state = agent_states[agent_name]
+            new_states[agent_name] = copy.deepcopy(current_state)
             action_results[agent_name] = {
                 'action': action,
-                'success': result.success,
-                'message': result.message,
-                'state_after': result.state_after
+                'success': True,
+                'message': 'Waiting',
+                'state_after': current_state
             }
+
+        # Execute real actions in parallel
+        def execute_single_action(agent_name: str, action: Dict[str, Any]) -> Tuple[str, Dict[str, Any], SimulationResult]:
+            current_state = agent_states[agent_name]
+            result = self.sim_client.act(current_state, action)
+            return agent_name, action, result
+
+        if api_actions:
+            with ThreadPoolExecutor(max_workers=API_WORKERS) as executor:
+                futures = {
+                    executor.submit(execute_single_action, name, action): name
+                    for name, action in api_actions.items()
+                }
+                for future in as_completed(futures):
+                    agent_name, action, result = future.result()
+                    new_states[agent_name] = result.state_after
+                    action_results[agent_name] = {
+                        'action': action,
+                        'success': result.success,
+                        'message': result.message,
+                        'state_after': result.state_after
+                    }
 
         return new_states, action_results
 
@@ -228,18 +263,16 @@ class BeamSearchVerifier:
             self.log(f"\n=== Step {step + 1}/{self.max_steps} ===")
             self.log(f"Active branches: {len(branches)}")
 
-            # For each branch, propose actions and simulate
-            new_branches = []
-            verifier_results = []
-
-            for branch_idx, branch in enumerate(branches):
-                self.log(f"\nBranch {branch_idx + 1}:")
-
-                # Get fresh observations
+            # PHASE 1: Get observations for all branches in parallel
+            self.log("Getting observations for all branches...")
+            for branch in branches:
                 branch.observations = self.get_observations(branch.agent_states)
 
-                # Propose actions using Claude
-                self.log("  Proposing actions...")
+            # PHASE 2: Propose actions for all branches in parallel (Claude CLI calls)
+            self.log("Proposing actions for all branches in parallel...")
+
+            def propose_for_branch(branch_idx: int, branch: BranchState) -> Tuple[int, List[Dict[str, Dict[str, Any]]]]:
+                """Call propose_actions for a single branch."""
                 action_sets = propose_actions(
                     self.task_context,
                     branch.agent_states,
@@ -247,53 +280,83 @@ class BeamSearchVerifier:
                     branch.action_history,
                     beam_count=self.beam_size
                 )
+                return branch_idx, action_sets
 
-                # Execute each action set and create new branches
+            branch_action_sets = {}
+            with ThreadPoolExecutor(max_workers=CLAUDE_WORKERS) as executor:
+                futures = {
+                    executor.submit(propose_for_branch, idx, branch): idx
+                    for idx, branch in enumerate(branches)
+                }
+                for future in as_completed(futures):
+                    branch_idx, action_sets = future.result()
+                    branch_action_sets[branch_idx] = action_sets
+                    self.log(f"  Branch {branch_idx + 1}: got {len(action_sets)} action sets")
+
+            # PHASE 3: Execute all action sets and create new branches
+            new_branches = []
+            verifier_results = []
+            pending_executions = []  # (branch, action_set, branch_idx, action_idx)
+
+            for branch_idx, branch in enumerate(branches):
+                action_sets = branch_action_sets.get(branch_idx, [])
+                self.log(f"\nBranch {branch_idx + 1}:")
                 for action_idx, action_set in enumerate(action_sets):
                     self.log(f"  Action set {action_idx + 1}:")
                     for agent, action in action_set.items():
                         self.log(f"    {agent}: {action.get('type', 'unknown')}")
+                    pending_executions.append((branch, action_set, branch_idx, action_idx))
 
-                    # Clone branch and execute actions
-                    new_branch = branch.clone()
-                    new_states, action_results = self.execute_action_set(
-                        new_branch.agent_states,
-                        action_set
-                    )
+            # Execute all action sets in parallel
+            def execute_and_verify(args: Tuple) -> Tuple[BranchState, Tuple[bool, str], int, int]:
+                """Execute action set and verify result."""
+                branch, action_set, branch_idx, action_idx = args
+                new_branch = branch.clone()
+                new_states, action_results = self.execute_action_set(
+                    new_branch.agent_states,
+                    action_set
+                )
+                new_branch.agent_states = new_states
+                new_branch.last_actions = action_results
+                new_branch.action_history.append(action_results)
+                new_branch.step_count += 1
 
-                    # Update branch
-                    new_branch.agent_states = new_states
-                    new_branch.last_actions = action_results
-                    new_branch.action_history.append(action_results)
-                    new_branch.step_count += 1
+                # Verify this branch
+                success, message = quick_verify_state(
+                    self.task.task_id,
+                    new_branch.agent_states,
+                    new_branch.action_history
+                )
+                return new_branch, (success, message), branch_idx, action_idx
 
-                    # Log results
-                    for agent, result in action_results.items():
-                        status = "✓" if result['success'] else "✗"
-                        self.log(f"    {agent}: {status} {result['message'][:40]}")
+            if pending_executions:
+                with ThreadPoolExecutor(max_workers=API_WORKERS) as executor:
+                    futures = [executor.submit(execute_and_verify, args) for args in pending_executions]
+                    for future in as_completed(futures):
+                        new_branch, verify_result, branch_idx, action_idx = future.result()
+                        success, message = verify_result
 
-                    # Verify this branch
-                    success, message = quick_verify_state(
-                        self.task.task_id,
-                        new_branch.agent_states,
-                        new_branch.action_history
-                    )
+                        # Log results
+                        self.log(f"  Branch {branch_idx + 1}, Action {action_idx + 1} results:")
+                        for agent, result in new_branch.last_actions.items():
+                            status = "✓" if result['success'] else "✗"
+                            self.log(f"    {agent}: {status} {result['message'][:40]}")
 
-                    new_branches.append(new_branch)
-                    verifier_results.append((success, message))
+                        new_branches.append(new_branch)
+                        verifier_results.append((success, message))
 
-                    # Early exit if succeeded
-                    if success:
-                        self.log(f"\n SUCCESS! Task completed in {new_branch.step_count} steps")
-                        return VerificationResult(
-                            success=True,
-                            steps_taken=new_branch.step_count,
-                            final_states=new_branch.agent_states,
-                            action_history=new_branch.action_history,
-                            verifier_message=message,
-                            elapsed_time=time.time() - start_time,
-                            task_id=self.task.task_id
-                        )
+                        # Early exit if succeeded
+                        if success:
+                            self.log(f"\n SUCCESS! Task completed in {new_branch.step_count} steps")
+                            return VerificationResult(
+                                success=True,
+                                steps_taken=new_branch.step_count,
+                                final_states=new_branch.agent_states,
+                                action_history=new_branch.action_history,
+                                verifier_message=message,
+                                elapsed_time=time.time() - start_time,
+                                task_id=self.task.task_id
+                            )
 
             # Select best branches to keep
             if len(new_branches) > self.beam_size:

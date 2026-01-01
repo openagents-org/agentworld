@@ -7,7 +7,7 @@ task:
   description: "Five warriors face expanded boss roster in extended combat"
 
 objectives:
-  primary: "Defeat Ancient Wizard, 2x Hermit Crab Warriors, and 1x Spider Queen"
+  primary: "Defeat Ancient Wizard, Hermit Crab, and Spider"
 
 relevant_game_context: |
   This is a cooperative multi-agent boss raid with increased difficulty.
@@ -20,8 +20,8 @@ relevant_game_context: |
 
   TARGET BOSSES (EXPANDED):
   - Ancient Wizard (Level 10): Located at (163, 339)
-  - 2x Hermit Crab Warriors (Level 30): Located at (224, 359)
-  - Spider Queen (Level 25): Located at (180, 345)
+  - Hermit Crab (Level 15): Located at (224, 359)
+  - Spider (Level 10): Located at (180, 345)
 
   RAID ORDER:
   1. Ancient Wizard first (easier, warm up)
@@ -36,7 +36,7 @@ relevant_game_context: |
 
   DO NOT use complete() until ALL bosses are defeated!
 
-max_action_steps: 65
+max_action_steps: 85
 
 agent_1:
   username: "tank_agent"
@@ -197,6 +197,6 @@ agent_5:
 
 success_criteria:
   - "Ancient Wizard at (163, 339) is defeated"
-  - "2x Hermit Crab Warriors at (224, 359) are defeated"
-  - "Spider Queen at (180, 345) is defeated"
+  - "Hermit Crab at (224, 359) is defeated"
+  - "Spider at (180, 345) is defeated"
   - "All agents survive the raid"

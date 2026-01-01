@@ -246,6 +246,8 @@ agent_8:
       count: 55
     - item: "ironbar"
       count: 5
+    - item: "logs"
+      count: 1
 
   equipped_items:
     - item: "leatherarmor"

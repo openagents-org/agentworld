@@ -1,0 +1,56 @@
+{
+  "total_tasks": 4,
+  "evaluated": 4,
+  "errors": 0,
+  "solvability": {
+    "YES": 3,
+    "NO": 0,
+    "UNKNOWN": 1
+  },
+  "plausibility": {
+    "Good": 2,
+    "Bad": 1,
+    "Unknown": 1
+  },
+  "diversity": {
+    "Good": 2,
+    "Bad": 1,
+    "Unknown": 1
+  },
+  "avg_duration": 14.249251067638397,
+  "timestamp": "2025-12-31T17:55:24.393090",
+  "tasks": [
+    {
+      "task_id": 1,
+      "solvability": null,
+      "plausibility": null,
+      "diversity": null,
+      "duration": 11.521716833114624,
+      "error": null
+    },
+    {
+      "task_id": 2,
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 17.42483687400818,
+      "error": null
+    },
+    {
+      "task_id": 3,
+      "solvability": "YES",
+      "plausibility": "Bad",
+      "diversity": "Bad",
+      "duration": 13.248447895050049,
+      "error": null
+    },
+    {
+      "task_id": 4,
+      "solvability": "YES",
+      "plausibility": "Good",
+      "diversity": "Good",
+      "duration": 14.802002668380737,
+      "error": null
+    }
+  ]
+}

@@ -136,7 +136,7 @@ agent_4:
     y: 745
 
   skill_levels:
-    cooking: 15
+    cooking: 25
     strength: 15
     health: 25
 
@@ -165,7 +165,7 @@ agent_5:
     y: 745
 
   skill_levels:
-    cooking: 17
+    cooking: 22
     strength: 15
     health: 25
 

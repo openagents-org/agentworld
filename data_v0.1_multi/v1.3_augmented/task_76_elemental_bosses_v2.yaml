@@ -7,7 +7,7 @@ task:
   description: "Ten agents defeat five elemental bosses across regions"
 
 objectives:
-  primary: "Defeat the Ice Guardian, Iron Ogre, Water Guardian, Mermaid, and Ogre Chieftain"
+  primary: "Defeat the Ice Wizard, Dark Ogre, two Mermaids, and Ogre Chieftain"
 
 relevant_game_context: |
   This is a cooperative multi-agent boss combat with maximum difficulty.
@@ -19,10 +19,10 @@ relevant_game_context: |
   - Must split forces across regions
 
   TARGET BOSSES (EXPANDED):
-  - Ice Guardian (Level 35): Located at ice region (259, 151)
-  - Iron Ogre (Level 25): Located at mountain region (238, 48)
-  - Water Guardian (Level 36): Located at coastal region (197, 633)
-  - Mermaid (Level 55): Located at ocean region (580, 755)
+  - Ice Wizard (Level 35): Located at ice region (259, 151)
+  - Dark Ogre (Level 25): Located at mountain region (238, 48)
+  - Mermaid (Level 36): Located at coastal region (197, 633)
+  - Mermaid (Level 36): Located at ocean region (580, 755)
   - Ogre Chieftain (Level 35): Located at (300, 650)
 
   COMBAT STRATEGY:
@@ -335,9 +335,9 @@ agent_10:
       enchant: 0
 
 success_criteria:
-  - "Ice Guardian at (259, 151) is defeated"
-  - "Iron Ogre at (238, 48) is defeated"
-  - "Water Guardian at (197, 633) is defeated"
+  - "Ice Wizard at (259, 151) is defeated"
+  - "Dark Ogre at (238, 48) is defeated"
+  - "Mermaid at (197, 633) is defeated"
   - "Mermaid at (580, 755) is defeated"
   - "Ogre Chieftain at (300, 650) is defeated"
   - "All agents survive the mission"

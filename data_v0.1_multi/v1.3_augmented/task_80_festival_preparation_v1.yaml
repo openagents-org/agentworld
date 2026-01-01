@@ -7,26 +7,26 @@ task:
   description: "Ten agents prepare simplified festival supplies"
 
 objectives:
-  primary: "Cook 2x Cooked Shrimp, 1x Jellyfish Smoothie, and craft 1x Silver Ring"
+  primary: "Cook 2x Cooked Shrimp, 1x Cooked Tuna, and craft 1x Silver Ring"
 
 relevant_game_context: |
   This is a cooperative multi-agent festival preparation with reduced difficulty.
 
   STARTING ADVANTAGE:
   - fisher1_agent has 2x rawshrimp pre-caught
-  - fisher3_agent has 1x jellyfish pre-caught
+  - fisher3_agent has 1x rawtuna pre-caught
   - crafter_agent has 2x ironbar ready
   - Higher skill levels for faster work
   - Reduced targets
 
   PRODUCTION TARGETS (REDUCED):
   - 2x Cooked Shrimp (cook 2x rawshrimp) - shrimp ready!
-  - 1x Jellyfish Smoothie (cook 1x jellyfish) - jellyfish ready!
+  - 1x Cooked Tuna (cook 1x rawtuna) - tuna ready!
   - 1x Silver Ring (2x ironbar) - iron bars ready!
 
   DO NOT use complete() until all items are ready!
 
-max_action_steps: 18
+max_action_steps: 35
 
 agent_1:
   username: "fisher1_agent"
@@ -46,8 +46,6 @@ agent_1:
       count: 35
     - item: "apple"
       count: 40
-    - item: "rawshrimp"
-      count: 2
 
   equipped_items:
     - item: "fishingpole"
@@ -102,8 +100,6 @@ agent_3:
       count: 35
     - item: "apple"
       count: 40
-    - item: "jellyfish"
-      count: 1
 
   equipped_items:
     - item: "fishingpole"
@@ -158,6 +154,10 @@ agent_5:
       count: 35
     - item: "apple"
       count: 40
+    - item: "rawshrimp"
+      count: 2
+    - item: "rawtuna"
+      count: 1
 
   equipped_items:
     - item: "leatherarmor"
@@ -286,6 +286,6 @@ agent_10:
 
 success_criteria:
   - "Team inventory contains 2x cookedshrimp"
-  - "Team inventory contains 1x jellyfishsmoothie"
+  - "Team inventory contains 1x cookedtuna"
   - "Team inventory contains 1x silverring"
   - "All agents survive the preparation"

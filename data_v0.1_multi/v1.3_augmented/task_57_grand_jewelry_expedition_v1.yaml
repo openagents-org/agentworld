@@ -7,32 +7,29 @@ task:
   description: "Eight agents craft simplified jewelry set using pre-gathered gemstones"
 
 objectives:
-  primary: "Craft 1x Ruby Ring and 1x Emerald Pendant with pre-gathered materials"
+  primary: "Craft 1x Gold Ring and 1x Beryl Pendant with pre-gathered materials"
 
 relevant_game_context: |
   This is a cooperative multi-agent jewelry expedition with reduced difficulty.
 
   STARTING ADVANTAGE:
-  - Ruby and Emerald already mined (in Combat_Support inventory)
-  - Gold bars already smelted (in Smelter inventory)
+  - Topaz and Emerald already available (in Combat_Support inventory)
+  - Silver ring materials ready (ironbars in Smelter inventory)
   - Strings provided for pendants
   - Higher skill levels for guaranteed success
   - Reduced targets: 1 ring, 1 pendant
 
   PRODUCTION TARGETS (REDUCED):
-  - 1x Ruby Ring (1 ruby + 1 goldring)
-  - 1x Emerald Pendant (1 emerald + 1 string)
+  - 1x Gold Ring (2x goldbar) - goldbar provided
+  - 1x Beryl Pendant (beryl + string) - materials provided
 
   MATERIALS AVAILABLE:
-  - Combat_Support: 1 ruby, 1 emerald
-  - Smelter: 2 goldbar (for 1 gold ring)
-  - Coal_Miner: 2 string
+  - Jeweler_Rings: 2 goldbar (for gold ring)
+  - Jeweler_Pendants: 1 beryl, 1 string (for pendant)
 
   PHASE OUTLINE:
-  1. Smelter crafts 1 gold ring from 2 goldbar
-  2. Transfer materials to jewelers
-  3. Jeweler_Rings crafts ruby ring
-  4. Jeweler_Pendants crafts emerald pendant
+  1. Jeweler_Rings crafts gold ring from 2 goldbar
+  2. Jeweler_Pendants crafts beryl pendant from beryl + string
 
   DO NOT use complete() until jewelry is crafted!
 
@@ -119,10 +116,6 @@ agent_3:
       count: 35
     - item: "apple"
       count: 40
-    - item: "ruby"
-      count: 1
-    - item: "emerald"
-      count: 1
 
   equipped_items:
     - item: "axe"
@@ -235,6 +228,8 @@ agent_7:
       count: 30
     - item: "apple"
       count: 35
+    - item: "goldbar"
+      count: 2
 
   equipped_items:
     - item: "leatherarmor"
@@ -259,6 +254,10 @@ agent_8:
       count: 30
     - item: "apple"
       count: 35
+    - item: "beryl"
+      count: 1
+    - item: "string"
+      count: 1
 
   equipped_items:
     - item: "leatherarmor"
@@ -266,6 +265,6 @@ agent_8:
       enchant: 0
 
 success_criteria:
-  - "Team inventory contains 1x rubyring"
-  - "Team inventory contains 1x emeraldpendant"
+  - "Team inventory contains 1x goldring"
+  - "Team inventory contains 1x berylpendant"
   - "All agents survive the expedition"

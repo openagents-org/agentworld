@@ -1,57 +1,64 @@
 # AgentWorld Multi-Agent Task Configuration
-# VARIANT: v1 - More initial resources, easier completion
+# VARIANT: v1 - Easier version with distributed materials
 # SOURCE: task_14_shrimp_cooking.yaml
 
 task:
   name: "Cooperative Shrimp Cooking - Seafood Culinary Team (Easier)"
-  description: "Three agents work together to prepare cooked shrimp - with extra raw shrimp provided"
+  description: "Three agents collaborate to gather shrimp and cook them"
 
 objectives:
-  primary: "Prepare cooked shrimp through coordinated fishing operations and culinary preparation"
+  primary: "Cook 4x Cooked Shrimp through coordinated fishing and culinary preparation"
 
 relevant_game_context: |
   This is a cooperative multi-agent seafood cooking scenario.
 
   STARTING ADVANTAGE:
-  - seafood_chef_agent has 8x rawshrimp (extra for batch cooking!)
-  - Higher cooking skill for efficient preparation
-  - Can cook all shrimp immediately
+  - fisherman_agent has 2x rawshrimp and fishing pole
+  - fisher2_agent has 2x rawshrimp
+  - Materials distributed - requires transfers
 
-  OBJECTIVE: Cook the raw shrimp that seafood_chef_agent already has.
+  OBJECTIVE: Cook 4x Cooked Shrimp
 
-  SIMPLIFIED STRATEGY:
-  - seafood_chef_agent already has 8x rawshrimp
-  - Cook all shrimp immediately
-  - Other agents provide support
+  TEAM ROLES:
+  - fisherman_agent: Has rawshrimp, can fish more at coast
+  - fisher2_agent: Has rawshrimp, transfers to chef
+  - seafood_chef_agent: Has cooking skill, cooks the shrimp
 
-  DO NOT use complete() until at least 5x cookedshrimp exists!
+  COORDINATION REQUIRED:
+  - Fishermen must transfer rawshrimp to chef
+  - Only chef has cooking skill to prepare food
 
-  CRAFTING RECIPES:
-  🍤 Cooking Recipe - cookedshrimp:
-    - craft_item skill=Cooking itemKey=cookedshrimp
-    - Materials: 1x rawshrimp → 1x cookedshrimp
-    - Level required: 1 (Cooking skill)
-    - Cook multiple times!
+  LOCATIONS:
+  - Coast (fishing): Around (580, 750)
 
-max_action_steps: 15
+  DO NOT use complete() until 4x cookedshrimp exists!
+
+  CRAFTING RECIPE:
+  - Cooked Shrimp: 1x rawshrimp → 1x cookedshrimp (Cooking skill)
+
+max_action_steps: 20
 
 agent_1:
   username: "fisherman_agent"
   new_character: true
+
   location:
-    x: 200
-    y: 200
+    x: 580
+    y: 750
+
   skill_levels:
-    fishing: 30
+    fishing: 35
     strength: 28
-    health: 28
+    health: 32
+
   inventory_items:
     - item: "flask"
-      count: 15
+      count: 25
     - item: "apple"
-      count: 20
+      count: 30
     - item: "rawshrimp"
-      count: 3
+      count: 2
+
   equipped_items:
     - item: "fishingpole"
       count: 1
@@ -59,64 +66,63 @@ agent_1:
     - item: "leatherarmor"
       count: 1
       enchant: 0
-    - item: "leatherboots"
-      count: 1
-      enchant: 0
 
 agent_2:
-  username: "fuel_gatherer_agent"
+  username: "fisher2_agent"
   new_character: true
+
   location:
-    x: 205
-    y: 200
+    x: 582
+    y: 752
+
   skill_levels:
-    foraging: 25
-    lumberjacking: 18
-    strength: 28
-    health: 28
+    fishing: 30
+    strength: 26
+    health: 30
+
   inventory_items:
     - item: "flask"
-      count: 15
+      count: 25
     - item: "apple"
-      count: 20
+      count: 30
+    - item: "rawshrimp"
+      count: 2
+
   equipped_items:
-    - item: "axe"
+    - item: "fishingpole"
       count: 1
       enchant: 0
     - item: "leatherarmor"
-      count: 1
-      enchant: 0
-    - item: "leatherboots"
       count: 1
       enchant: 0
 
 agent_3:
   username: "seafood_chef_agent"
   new_character: true
+
   location:
-    x: 210
-    y: 200
+    x: 584
+    y: 754
+
   skill_levels:
-    cooking: 25
-    fishing: 13
-    strength: 23
-    health: 28
+    cooking: 30
+    fishing: 15
+    health: 30
+
   inventory_items:
     - item: "flask"
-      count: 15
+      count: 25
     - item: "apple"
-      count: 20
-    - item: "rawshrimp"
-      count: 8
+      count: 30
+
   equipped_items:
     - item: "leatherarmor"
       count: 1
       enchant: 0
-    - item: "leatherboots"
-      count: 1
-      enchant: 0
 
 success_criteria:
-  - "seafood_chef_agent cooks rawshrimp into cookedshrimp"
-  - "seafood_chef_agent produces at least 5x cookedshrimp"
-  - "Fresh seafood cooking completes quickly"
+  - "Team inventory contains at least 4x cookedshrimp"
+  - "fisherman_agent transfers rawshrimp to seafood_chef_agent"
+  - "fisher2_agent transfers rawshrimp to seafood_chef_agent"
+  - "seafood_chef_agent cooks all the shrimp"
+  - "All agents coordinate their specialized roles"

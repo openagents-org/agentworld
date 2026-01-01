@@ -7,7 +7,7 @@ task:
   description: "Ten agents defeat one boss for tournament"
 
 objectives:
-  primary: "Defeat the Iron Ogre at (238, 48)"
+  primary: "Defeat the Dark Ogre at (238, 48)"
 
 relevant_game_context: |
   This is a cooperative multi-agent combat scenario with reduced difficulty.
@@ -19,7 +19,7 @@ relevant_game_context: |
   - Full team can focus on single target
 
   TARGET BOSS (REDUCED):
-  - Iron Ogre (Level 25) at (238, 48)
+  - Dark Ogre at (238, 48)
 
   TEAM COMPOSITION:
   - 6 Fighters with heavy weapons
@@ -308,5 +308,5 @@ agent_10:
       enchant: 0
 
 success_criteria:
-  - "Iron Ogre at (238, 48) defeated"
+  - "Dark Ogre at (238, 48) defeated"
   - "All agents survive the tournament"

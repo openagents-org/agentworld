@@ -25,10 +25,10 @@ relevant_game_context: |
   - 2x Lightning Staff (staff + lightningbead each)
 
   MATERIALS NEEDED:
-  - 2x beryl (must mine)
-  - 2x string
-  - 2x lightningbead
-  - 2x staff (must craft or have)
+  - 2x beryl (provided)
+  - 2x string (provided)
+  - 2x lightningbead (provided)
+  - 10x sticks + 2x beads for 2x staff (provided)
 
   TEAM ROLES:
   - Forest Loggers: Harvest logs
@@ -224,6 +224,8 @@ agent_7:
       count: 2
     - item: "bead"
       count: 4
+    - item: "stick"
+      count: 10
 
   equipped_items:
     - item: "leatherarmor"

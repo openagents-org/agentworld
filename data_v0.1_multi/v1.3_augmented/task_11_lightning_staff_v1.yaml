@@ -3,40 +3,41 @@
 # SOURCE: task_11_lightning_staff.yaml
 
 task:
-  name: "Cooperative Lightning Staff Enhancement - Advanced Magic Crafting (Easier)"
-  description: "Three agents work together to create an enhanced lightning staff - with pre-crafted basic staff"
+  name: "Cooperative Magic Staff Creation (Easier)"
+  description: "Three agents work together to create a magic staff from components"
 
 objectives:
-  primary: "Create a lightning staff through coordinated magic staff creation and elemental enhancement"
+  primary: "Create a Magic Staff through coordinated crafting"
 
 relevant_game_context: |
-  This is a cooperative multi-agent advanced magic crafting scenario requiring elemental materials.
+  This is a cooperative multi-agent magic crafting scenario.
 
   STARTING ADVANTAGE:
-  - staff_crafter_agent already has 1x staff (pre-crafted!)
-  - magic_enhancer_agent has 1x lightningbead (for enhancement)
+  - Materials distributed across agents
+  - stick_gatherer_agent has 3x stick
+  - bead_gatherer_agent has 1x bead and 2x stick
+  - crafter_agent will combine materials to craft staff
   - Higher skill levels across all agents
-  - Simple assembly required!
 
-  OBJECTIVE: Create a lightning staff by combining pre-made staff with lightning bead.
+  OBJECTIVE: Create a Magic Staff by combining sticks and bead.
 
-  SIMPLIFIED STRATEGY:
-  - staff_crafter_agent transfers staff to magic_enhancer_agent
-  - elemental_gatherer_agent transfers lightningbead to magic_enhancer_agent
-  - magic_enhancer_agent crafts lightningstaff immediately
+  STRATEGY:
+  - stick_gatherer_agent transfers sticks to crafter_agent
+  - bead_gatherer_agent transfers bead and remaining sticks to crafter_agent
+  - crafter_agent crafts staff (5x stick + 1x bead)
 
-  DO NOT use complete() until lightningstaff is crafted!
+  DO NOT use complete() until staff is crafted!
 
   CRAFTING RECIPES:
-  ⚡ Crafting Recipe - lightningstaff:
-    - craft_item skill=Crafting itemKey=lightningstaff
-    - Materials: 1x staff + 1x lightningbead → 1x lightningstaff
-    - Level required: 10 (Crafting skill)
+  Magic Staff (staff):
+    - craft_item skill=Crafting itemKey=staff
+    - Materials: 5x stick + 1x bead → 1x staff
+    - Level required: 1 (Crafting skill)
 
 max_action_steps: 20
 
 agent_1:
-  username: "staff_crafter_agent"
+  username: "stick_gatherer_agent"
   new_character: true
   location:
     x: 180
@@ -52,8 +53,8 @@ agent_1:
       count: 15
     - item: "apple"
       count: 20
-    - item: "staff"
-      count: 1
+    - item: "stick"
+      count: 3
   equipped_items:
     - item: "axe"
       count: 1
@@ -66,7 +67,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "elemental_gatherer_agent"
+  username: "bead_gatherer_agent"
   new_character: true
   location:
     x: 185
@@ -81,7 +82,9 @@ agent_2:
       count: 15
     - item: "apple"
       count: 20
-    - item: "lightningbead"
+    - item: "stick"
+      count: 2
+    - item: "bead"
       count: 1
   equipped_items:
     - item: "leatherarmor"
@@ -92,7 +95,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "magic_enhancer_agent"
+  username: "crafter_agent"
   new_character: true
   location:
     x: 190
@@ -116,8 +119,5 @@ agent_3:
       enchant: 0
 
 success_criteria:
-  - "staff_crafter_agent transfers staff to magic_enhancer_agent"
-  - "elemental_gatherer_agent transfers lightningbead to magic_enhancer_agent"
-  - "magic_enhancer_agent crafts lightningstaff"
-  - "magic_enhancer_agent successfully equips the lightning staff"
-  - "Advanced magical enhancement completes quickly"
+  - "Team inventory contains 1x staff"
+  - "All agents survive the mission"

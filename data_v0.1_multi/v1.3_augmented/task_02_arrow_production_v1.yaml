@@ -8,33 +8,34 @@ task:
 
 # Task objectives
 objectives:
-  primary: "Produce a batch of 8 arrows through coordinated material gathering and crafting"
+  primary: "Produce a batch of 10 arrows through coordinated material gathering and crafting"
 
 # Context and guidance for agents
 relevant_game_context: |
-  Team objective: Produce 8x arrows through coordinated effort (reduced from 10).
+  Team objective: Produce 10x arrows through coordinated effort.
 
   STARTING ADVANTAGE:
-  - lumberjack_agent starts with 1x logs (head start on wood gathering)
-  - Team starts with 12x feathers total (6x each for hunter and fletcher)
-  - Reduced target: only 8 arrows needed instead of 10
+  - lumberjack_agent starts with 2x logs (head start on wood gathering)
+  - hunter_agent has 5x feathers
+  - fletcher_agent has 5x feathers
+  - Team starts with 10x feathers total - exact amount needed
 
-  🚨 CRITICAL AWARENESS: Check your actual inventory state before making claims!
+  CRITICAL AWARENESS: Check your actual inventory state before making claims!
   - Use verify_inventory to see what you really have in your inventory
   - Do NOT assume you have materials that aren't verified
   - Do NOT claim transfers happened without actually using transfer_items tool
 
-  📋 REQUIRED MATERIALS FOR SUCCESS:
-  - EXACTLY 2x logs needed (can be harvested from Oak Trees using harvest_resource)
-  - EXACTLY 8x feathers needed (team starts with 12x total - extra buffer!)
+  REQUIRED MATERIALS FOR SUCCESS:
+  - EXACTLY 3x logs needed total (lumberjack has 2, needs to harvest 1 more from Oak Trees)
+  - EXACTLY 10x feathers needed (team starts with 10x total - distributed!)
   - Materials must be consolidated with ONE agent for crafting (recommend fletcher_agent)
 
-  🧮 MATERIAL MATH (CRITICAL):
-  - 2x logs → craft 2 times → 8x sticks total (1 log = 4 sticks each craft)
-  - 8x sticks + 8x feathers → 8x arrows (final goal - reduced target)
-  - Extra feathers provide safety buffer
+  MATERIAL MATH (CRITICAL):
+  - 3x logs → craft 3 times → 12x sticks total (1 log = 4 sticks each craft)
+  - 10x sticks + 10x feathers → 10x arrows (final goal)
+  - 2 extra sticks as buffer
 
-  🛠️ CRAFTING PROCESS OVERVIEW:
+  CRAFTING PROCESS OVERVIEW:
   - logs → sticks: Use craft_item skill=Fletching itemKey=stick (NO count parameter needed!)
     Recipe: 1x logs → 4x sticks automatically
   - sticks + feathers → arrows: Use craft_item skill=Fletching itemKey=arrow (NO count parameter!)
@@ -78,7 +79,7 @@ agent_1:
     - item: "apple"
       count: 20
     - item: "logs"
-      count: 1
+      count: 2
 
   equipped_items:
     - item: "axe"
@@ -111,7 +112,7 @@ agent_2:
     - item: "apple"
       count: 20
     - item: "feather"
-      count: 6
+      count: 5
 
   equipped_items:
     - item: "sword1"
@@ -144,7 +145,7 @@ agent_3:
     - item: "apple"
       count: 20
     - item: "feather"
-      count: 6
+      count: 5
 
   equipped_items:
     - item: "leatherarmor"
@@ -157,10 +158,10 @@ agent_3:
 # Success criteria for multi-agent task
 success_criteria:
   - "Team stays together within 3 tiles throughout the task"
-  - "Team successfully gathers at least 2x logs from Oak Trees"
+  - "Team successfully gathers at least 3x logs total (2 pre-gathered + 1 harvested)"
   - "Team consolidates feathers with fletcher_agent"
   - "Team consolidates logs with fletcher_agent through transfers"
   - "Team communicates inventory status after every major action"
-  - "Fletcher_agent crafts 8x sticks from 2x logs"
-  - "Fletcher_agent produces 8x arrows from sticks + feathers"
-  - "Final target: Fletcher_agent has 8x arrows verified by all agents"
+  - "Fletcher_agent crafts 12x sticks from 3x logs"
+  - "Fletcher_agent produces 10x arrows from sticks + feathers"
+  - "Final target: Fletcher_agent has 10x arrows verified by all agents"

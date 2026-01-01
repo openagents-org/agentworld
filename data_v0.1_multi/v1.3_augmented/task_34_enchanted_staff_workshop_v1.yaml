@@ -3,30 +3,30 @@
 # SOURCE: task_34_enchanted_staff_workshop.yaml
 
 task:
-  name: "Enchanted Staff Workshop - Lightning Staff Creation (Easier)"
-  description: "Three agents work together with pre-crafted materials to assemble a Lightning Staff"
+  name: "Magic Staff Workshop - Staff Creation (Easier)"
+  description: "Three agents work together to craft a Magic Staff from components"
 
 objectives:
-  primary: "Craft 1x Lightning Staff using pre-crafted staff base"
+  primary: "Craft 1x Magic Staff from sticks and bead"
 
 relevant_game_context: |
   This is a cooperative multi-agent magical crafting scenario with reduced difficulty.
 
   STARTING ADVANTAGE:
-  - crafter_agent starts with 1x staff already crafted!
-  - Only need to upgrade staff → lightning staff
+  - Materials distributed across agents
+  - lumberjack_agent has 3x stick
+  - crafter_agent has 2x stick
+  - enchanter_agent has 1x bead
   - Higher skill levels for guaranteed success
-  - No log gathering required
 
-  CRAFTING CHAIN (SIMPLIFIED):
-  - Upgrade to Lightning Staff (1x staff + 1x lightningbead → 1x lightningstaff)
-  - Staff is already provided - just need the final upgrade
+  CRAFTING CHAIN:
+  - Magic Staff (5x stick + 1x bead → 1x staff)
 
   MATERIAL SOURCES:
-  - Staff: Already in crafter_agent inventory
-  - Lightning Bead: Provided in enchanter_agent inventory
+  - Sticks: Split between lumberjack_agent and crafter_agent
+  - Bead: In enchanter_agent inventory
 
-  DO NOT use complete() until Lightning Staff is crafted!
+  DO NOT use complete() until Magic Staff is crafted!
 
 max_action_steps: 15
 
@@ -48,6 +48,8 @@ agent_1:
       count: 20
     - item: "apple"
       count: 25
+    - item: "stick"
+      count: 3
 
   equipped_items:
     - item: "axe"
@@ -79,8 +81,8 @@ agent_2:
       count: 20
     - item: "apple"
       count: 25
-    - item: "staff"
-      count: 1
+    - item: "stick"
+      count: 2
 
   equipped_items:
     - item: "leatherarmor"
@@ -108,7 +110,7 @@ agent_3:
       count: 20
     - item: "apple"
       count: 25
-    - item: "lightningbead"
+    - item: "bead"
       count: 1
 
   equipped_items:
@@ -120,5 +122,5 @@ agent_3:
       enchant: 0
 
 success_criteria:
-  - "Team inventory contains 1x lightningstaff"
+  - "Team inventory contains 1x staff"
   - "All agents survive the mission"

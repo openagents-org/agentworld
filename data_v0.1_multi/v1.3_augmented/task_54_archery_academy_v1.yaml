@@ -1,40 +1,40 @@
 # AgentWorld Multi-Agent Task Configuration
-# VARIANT: v1 - More initial resources, reduced targets
-# SOURCE: task_54_archery_academy.yaml
+# VARIANT: v1 - Easier version with some pre-gathered materials
+# SOURCE: task_54_archery_academy.yaml (redesigned for proper collaboration)
 
 task:
   name: "Archery Academy - Equipment Production (Easier)"
-  description: "Five agents craft 1x Wooden Bow using pre-gathered materials"
+  description: "Five agents collaborate with distributed materials to craft archery equipment"
 
 objectives:
-  primary: "Craft 1x Wooden Bow and 5x Arrows with materials mostly provided"
+  primary: "Craft 1x Wooden Bow and 10x Arrows through coordinated material transfers"
 
 relevant_game_context: |
-  This is a cooperative archery equipment production with reduced difficulty.
+  This is a cooperative archery equipment production scenario.
 
   STARTING ADVANTAGE:
-  - lumberjack1_agent starts with 2x logs already gathered
-  - fletcher1_agent has sticks ready for arrows
+  - Materials are distributed across agents - requires transfers
   - Higher skill levels for guaranteed success
-  - Reduced targets: 1 bow, 5 arrows
+  - Targets: 1 bow, 10 arrows (one batch)
 
-  PRODUCTION TARGETS (REDUCED):
-  - 1x Wooden Bow (1x logs + 1x string) - materials ready
-  - 5x Arrows (5x stick + 5x feather) - materials ready
+  PRODUCTION TARGETS:
+  - 1x Wooden Bow (1x logs + 1x string) - Fletching level 5
+  - 10x Arrows (10x stick + 10x feather) - Fletching level 1
 
-  MATERIAL AVAILABILITY:
-  - 2x logs ready
-  - 1x string provided
-  - 5x feather provided
-  - 5x stick provided
+  MATERIAL DISTRIBUTION (MUST TRANSFER TO FLETCHER):
+  - lumberjack1_agent: Has 1x logs (for bow)
+  - lumberjack2_agent: Has 1x string (for bow)
+  - material_agent1: Has 5x stick (half for arrows)
+  - material_agent2: Has 5x stick + 10x feather (half sticks + all feathers)
+  - fletcher_agent: Has Fletching skill but NO materials
 
   TEAM COORDINATION:
-  - Fletchers craft bow and arrows
-  - Lumberjacks can gather more if needed
+  - All material holders must transfer items to fletcher_agent
+  - Only fletcher_agent has Fletching skill to craft
 
   DO NOT use complete() until archery items are ready!
 
-max_action_steps: 18
+max_action_steps: 25
 
 agent_1:
   username: "lumberjack1_agent"
@@ -55,16 +55,13 @@ agent_1:
     - item: "apple"
       count: 30
     - item: "logs"
-      count: 2
+      count: 1
 
   equipped_items:
     - item: "axe"
       count: 1
       enchant: 0
     - item: "leatherarmor"
-      count: 1
-      enchant: 0
-    - item: "leatherboots"
       count: 1
       enchant: 0
 
@@ -86,6 +83,8 @@ agent_2:
       count: 25
     - item: "apple"
       count: 30
+    - item: "string"
+      count: 1
 
   equipped_items:
     - item: "axe"
@@ -94,12 +93,9 @@ agent_2:
     - item: "leatherarmor"
       count: 1
       enchant: 0
-    - item: "leatherboots"
-      count: 1
-      enchant: 0
 
 agent_3:
-  username: "fletcher1_agent"
+  username: "material_agent1"
   new_character: true
 
   location:
@@ -107,67 +103,7 @@ agent_3:
     y: 15
 
   skill_levels:
-    fletching: 35
-    crafting: 30
-    health: 40
-
-  inventory_items:
-    - item: "flask"
-      count: 25
-    - item: "apple"
-      count: 30
-    - item: "string"
-      count: 1
-    - item: "feather"
-      count: 5
-    - item: "stick"
-      count: 5
-
-  equipped_items:
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-    - item: "leatherboots"
-      count: 1
-      enchant: 0
-
-agent_4:
-  username: "fletcher2_agent"
-  new_character: true
-
-  location:
-    x: 395
-    y: 15
-
-  skill_levels:
-    fletching: 35
-    crafting: 30
-    health: 40
-
-  inventory_items:
-    - item: "flask"
-      count: 25
-    - item: "apple"
-      count: 30
-
-  equipped_items:
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-    - item: "leatherboots"
-      count: 1
-      enchant: 0
-
-agent_5:
-  username: "coordinator_agent"
-  new_character: true
-
-  location:
-    x: 400
-    y: 15
-
-  skill_levels:
-    fletching: 30
+    crafting: 25
     strength: 28
     health: 40
 
@@ -176,16 +112,72 @@ agent_5:
       count: 25
     - item: "apple"
       count: 30
+    - item: "stick"
+      count: 5
 
   equipped_items:
     - item: "leatherarmor"
       count: 1
       enchant: 0
-    - item: "leatherboots"
+
+agent_4:
+  username: "material_agent2"
+  new_character: true
+
+  location:
+    x: 395
+    y: 15
+
+  skill_levels:
+    crafting: 25
+    strength: 28
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "stick"
+      count: 5
+    - item: "feather"
+      count: 10
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "fletcher_agent"
+  new_character: true
+
+  location:
+    x: 393
+    y: 12
+
+  skill_levels:
+    fletching: 35
+    crafting: 30
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "leatherarmor"
       count: 1
       enchant: 0
 
 success_criteria:
   - "Team inventory contains 1x woodenbow"
-  - "Team inventory contains 5x arrow"
+  - "Team inventory contains 10x arrow"
+  - "lumberjack1_agent transfers logs to fletcher_agent"
+  - "lumberjack2_agent transfers string to fletcher_agent"
+  - "material_agent1 transfers sticks to fletcher_agent"
+  - "material_agent2 transfers sticks and feathers to fletcher_agent"
+  - "fletcher_agent crafts the wooden bow and arrows"
   - "All agents survive the mission"

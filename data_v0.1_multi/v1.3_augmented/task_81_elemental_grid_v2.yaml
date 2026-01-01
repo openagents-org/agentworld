@@ -7,22 +7,21 @@ task:
   description: "Ten agents gather materials and craft multiple elemental staffs"
 
 objectives:
-  primary: "Collect 12x icelogs and 10x logs, and craft 2x Lightning Staff and 2x Fire Staff"
+  primary: "Collect 12x icelogs and 10x logs, and craft 4x Magic Staff"
 
 relevant_game_context: |
   This is a cooperative multi-agent crafting scenario with maximum difficulty.
 
   CHALLENGE MODE:
-  - Double the staff production
+  - Quadruple the staff production
   - Increased material requirements
   - Lower skill levels
   - Fewer consumables
 
-  PRODUCTION TARGETS (DOUBLED):
+  PRODUCTION TARGETS (QUADRUPLED):
   - 12x icelogs (from ice region)
   - 10x logs (from forest)
-  - 2x Lightning Staff (staff + lightningbead each)
-  - 2x Fire Staff (staff + firebead each)
+  - 4x Magic Staff (5x stick + 1x bead each = 20 sticks, 4 beads)
 
   TEAM ROLES:
   - Ice Loggers: Harvest ice logs
@@ -213,10 +212,10 @@ agent_7:
       count: 15
     - item: "apple"
       count: 18
-    - item: "lightningbead"
-      count: 2
     - item: "bead"
-      count: 4
+      count: 2
+    - item: "stick"
+      count: 10
 
   equipped_items:
     - item: "leatherarmor"
@@ -232,7 +231,7 @@ agent_8:
     y: 252
 
   skill_levels:
-    crafting: 34
+    crafting: 36
     magic: 29
     health: 26
 
@@ -241,10 +240,10 @@ agent_8:
       count: 15
     - item: "apple"
       count: 18
-    - item: "firebead"
-      count: 2
     - item: "bead"
-      count: 4
+      count: 2
+    - item: "stick"
+      count: 10
 
   equipped_items:
     - item: "leatherarmor"
@@ -300,6 +299,5 @@ agent_10:
 success_criteria:
   - "Team inventory contains at least 12x icelogs"
   - "Team inventory contains at least 10x logs"
-  - "Team inventory contains 2x lightningstaff"
-  - "Team inventory contains 2x firestaff"
+  - "Team inventory contains 4x staff"
   - "All agents survive the mission"

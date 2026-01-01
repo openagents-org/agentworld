@@ -1,152 +1,131 @@
 # AgentWorld Multi-Agent Task Configuration
-# VARIANT: v1 - More initial resources, easier completion
-# SOURCE: task_08_bronze_alloy.yaml
+# VARIANT: v1 - Easier version with some pre-gathered materials
+# SOURCE: task_08_bronze_alloy.yaml (redesigned for valid recipes)
 
 task:
-  name: "Cooperative Bronze Alloy Creation - Advanced Metallurgy (Easier)"
-  description: "Three agents work together to create bronze bars - with extra ore for higher success rate"
+  name: "Iron Working Guild - Silver Ring Production (Easier)"
+  description: "Three agents collaborate to mine iron ore, smelt bars, and craft silver rings"
 
 # Task objectives
 objectives:
-  primary: "Create bronze bars through coordinated copper and tin mining with alloy smelting"
+  primary: "Mine iron ore, smelt iron bars, and craft 2x Silver Ring through coordinated teamwork"
 
 # Relevant game context (Hint)
 relevant_game_context: |
-  This is a cooperative multi-agent advanced metallurgy scenario requiring specialized ore mining.
+  This is a cooperative multi-agent metallurgy scenario.
 
   STARTING ADVANTAGE:
-  - copper_miner_agent has 3x copperore + 3x tinore (extra for safety!)
-  - alloy_smith_agent has 1x bronzebar already (head start!)
-  - Higher skill levels increase success rate
-  - Extra materials compensate for 70% success chance
+  - miner_agent has 2x ironore pre-gathered
+  - smelter_agent has 2x coal for smelting
+  - smith_agent has 2x ironbar ready
 
-  OBJECTIVE: Create bronze bars through alloy smelting (with safety buffer).
+  OBJECTIVE: Craft 2x Silver Ring (each needs 2x ironbar)
 
-  NOTE ON SUCCESS RATE:
-  - Bronze smelting has 70% success chance
-  - Extra materials provided to handle failures
-  - Target: At least 2x bronzebar total (1 pre-made + 1-2 new)
+  PRODUCTION CHAIN:
+  1. miner_agent mines additional ironore from mountain
+  2. smelter_agent smelts ironore + coal → ironbar
+  3. smith_agent crafts ironbar → silverring
 
-  TEAM COORDINATION:
-  - copper_miner_agent transfers ores to alloy_smith_agent
-  - alloy_smith_agent attempts multiple smelts with extra materials
-  - Communication important to track successes
+  CRAFTING RECIPE:
+  - Silver Ring: 2x ironbar → 1x silverring (Smithing level 1)
+  - Iron Bar: 1x ironore + 1x coal → 1x ironbar (Smelting)
 
-  DO NOT use complete() until at least 2x bronzebar is obtained!
+  TEAM ROLES:
+  - miner_agent: Has pickaxe, mines iron ore
+  - smelter_agent: Has coal, smelts iron bars
+  - smith_agent: Has smithing skill, crafts rings
 
-  CRAFTING RECIPES (CRITICAL KNOWLEDGE):
-  🥉 Smelting Recipe - bronzebar:
-    - craft_item skill=Smelting itemKey=bronzebar
-    - Materials: 1x copperore + 1x tinore → 1x bronzebar
-    - Level required: 5 (uses Smithing skill level)
-    - Success chance: 70% - multiple attempts may be needed!
+  LOCATIONS:
+  - Mountain mining: Around (230, 40)
 
-# Limitations
-max_action_steps: 20
+  DO NOT use complete() until 2x silverring is crafted!
 
-# Agent configurations
+max_action_steps: 25
+
 agent_1:
-  username: "copper_miner_agent"
+  username: "miner_agent"
   new_character: true
 
   location:
-    x: 126
-    y: 23
+    x: 230
+    y: 40
 
   skill_levels:
-    mining: 30
-    strength: 33
-    health: 28
+    mining: 35
+    strength: 30
+    health: 35
 
   inventory_items:
     - item: "flask"
-      count: 15
-    - item: "apple"
       count: 20
-    - item: "copperore"
-      count: 3
-    - item: "tinore"
-      count: 3
+    - item: "apple"
+      count: 25
+    - item: "ironore"
+      count: 2
 
   equipped_items:
     - item: "pickaxe"
       count: 1
       enchant: 0
     - item: "leatherarmor"
-      count: 1
-      enchant: 0
-    - item: "leatherboots"
       count: 1
       enchant: 0
 
 agent_2:
-  username: "tin_miner_agent"
+  username: "smelter_agent"
   new_character: true
 
   location:
-    x: 183
-    y: 312
+    x: 232
+    y: 42
 
   skill_levels:
-    mining: 30
-    strength: 33
-    health: 28
+    smithing: 30
+    mining: 20
+    health: 32
 
   inventory_items:
     - item: "flask"
-      count: 15
-    - item: "apple"
       count: 20
-    - item: "copperore"
-      count: 1
-    - item: "tinore"
-      count: 1
+    - item: "apple"
+      count: 25
+    - item: "coal"
+      count: 4
 
   equipped_items:
-    - item: "pickaxe"
-      count: 1
-      enchant: 0
     - item: "leatherarmor"
-      count: 1
-      enchant: 0
-    - item: "leatherboots"
       count: 1
       enchant: 0
 
 agent_3:
-  username: "alloy_smith_agent"
+  username: "smith_agent"
   new_character: true
 
   location:
-    x: 242
-    y: 336
+    x: 234
+    y: 44
 
   skill_levels:
-    smithing: 30
-    mining: 18
-    strength: 28
-    health: 28
+    smithing: 35
+    crafting: 25
+    health: 32
 
   inventory_items:
     - item: "flask"
-      count: 15
-    - item: "apple"
       count: 20
-    - item: "bronzebar"
-      count: 1
+    - item: "apple"
+      count: 25
+    - item: "ironbar"
+      count: 2
 
   equipped_items:
     - item: "leatherarmor"
       count: 1
       enchant: 0
-    - item: "leatherboots"
-      count: 1
-      enchant: 0
 
-# Success criteria for multi-agent task
 success_criteria:
-  - "copper_miner_agent transfers copper and tin ore to alloy_smith_agent"
-  - "alloy_smith_agent smelts additional bronze bars (accounting for 70% success rate)"
-  - "Final target: at least 2x bronzebar in team inventory"
-  - "All agents coordinate specialized ore extraction effectively"
-  - "Advanced alloy production completes with safety buffer"
+  - "Team inventory contains at least 2x silverring"
+  - "miner_agent contributes iron ore to the production chain"
+  - "smelter_agent smelts iron bars from ore"
+  - "smith_agent crafts the final silver rings"
+  - "All agents coordinate effectively"

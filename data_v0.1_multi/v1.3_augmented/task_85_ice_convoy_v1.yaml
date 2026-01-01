@@ -7,7 +7,7 @@ task:
   description: "Ten agents gather ice resources and craft one staff"
 
 objectives:
-  primary: "Collect 6x icelogs and 3x rawshrimp, and craft 1x Ice Staff"
+  primary: "Collect 6x icelogs and 3x rawshrimp, and craft 1x Magic Staff"
 
 relevant_game_context: |
   This is a cooperative multi-agent polar expedition with reduced difficulty.
@@ -15,13 +15,13 @@ relevant_game_context: |
   STARTING ADVANTAGE:
   - icelogger1_agent has 4x icelogs pre-gathered
   - fisher1_agent has 2x rawshrimp pre-gathered
-  - crafter_agent has staff ready for upgrade
+  - crafter_agent has staff materials ready
   - Higher skill levels
 
   PRODUCTION TARGETS (REDUCED):
   - 6x icelogs (from ice region) - 4 already gathered!
   - 3x rawshrimp (from fishing) - 2 already gathered!
-  - 1x Ice Staff (staff + icebead) - staff ready!
+  - 1x Magic Staff (5x stick + 1x bead) - materials ready!
 
   TEAM ROLES:
   - Ice Loggers: Harvest ice logs
@@ -214,10 +214,10 @@ agent_7:
       count: 35
     - item: "apple"
       count: 40
-    - item: "icebead"
+    - item: "bead"
       count: 1
-    - item: "staff"
-      count: 1
+    - item: "stick"
+      count: 5
 
   equipped_items:
     - item: "leatherarmor"
@@ -296,5 +296,5 @@ agent_10:
 success_criteria:
   - "Team inventory contains at least 6x icelogs"
   - "Team inventory contains at least 3x rawshrimp"
-  - "Team inventory contains 1x icestaff"
+  - "Team inventory contains 1x staff"
   - "All agents survive the convoy mission"

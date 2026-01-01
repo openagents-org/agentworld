@@ -1,111 +1,131 @@
 # AgentWorld Multi-Agent Task Configuration
-# VARIANT: v2 - More rounds, increased targets
-# SOURCE: task_65_cooking_guild.yaml
+# VARIANT: v2 - Harder version requiring gathering and crafting
+# SOURCE: task_65_cooking_guild.yaml (redesigned - cooking recipes limited)
 
 task:
-  name: "Cooking Guild - Full Menu (Harder)"
-  description: "Seven cooks gather and prepare expanded menu from scratch"
+  name: "Crafting Guild - Full Production (Harder)"
+  description: "Seven agents gather materials and craft multiple items"
 
 objectives:
-  primary: "Cook 4x Corn Stew, 4x Cooked Shrimp, 4x Cooked Chicken, and 2x Jellyfish Smoothie"
+  primary: "Craft 2x Magic Staff, 2x Silver Ring, and gather 6x logs and 4x rawshrimp"
 
 relevant_game_context: |
-  This is a cooperative multi-agent cooking scenario with increased difficulty.
+  This is a cooperative multi-agent crafting and gathering scenario.
 
   CHALLENGE MODE:
-  - Doubled all targets
-  - Must gather all ingredients from scratch
-  - Lower skill levels require more attempts
-  - Reduced consumables
-  - Added jellyfish requirement
+  - Must gather resources from different regions
+  - Materials distributed across agents
+  - Requires coordination between gatherers and crafters
 
-  PRODUCTION TARGETS (DOUBLED):
-  - 4x Corn Stew (4x corn + 4x bowl)
-  - 4x Cooked Shrimp (4x rawshrimp)
-  - 4x Cooked Chicken (4x rawchicken)
-  - 2x Jellyfish Smoothie (2x jellyfish)
+  PRODUCTION TARGETS:
+  - 2x Magic Staff (5x stick + 1x bead each = 10 sticks + 2 beads)
+  - 2x Silver Ring (2x ironbar each = 4 ironbar)
+  - 6x logs (from Oak trees)
+  - 4x rawshrimp (from fishing)
 
-  GATHERING REQUIREMENTS:
-  - 4x corn (foraging)
-  - 4x bowl (provided)
-  - 4x rawshrimp (fishing)
-  - 2x jellyfish (fishing level 5+)
-  - 4x rawchicken (hunting)
+  MATERIAL REQUIREMENTS:
+  - 3x logs provided, need 3 more from gathering
+  - 2x bead provided
+  - 10x stick provided (for 2 Magic Staffs)
+  - 4x ironbar provided
+  - Fishers gather shrimp
 
-  DO NOT use complete() until ALL dishes are ready!
+  TEAM ROLES:
+  - Foragers/Lumberjacks: Gather logs from forest
+  - Fishers: Fish for shrimp at coast
+  - Crafters: Create staffs and rings
+
+  LOCATIONS:
+  - Forest (Oak Trees): Around (388, 10)
+  - Coast (Fishing): Around (580, 750)
+
+  DO NOT use complete() until ALL objectives are met!
 
 max_action_steps: 60
 
 agent_1:
-  username: "forager1_agent"
+  username: "lumberjack1_agent"
   new_character: true
 
   location:
-    x: 250
-    y: 350
+    x: 388
+    y: 10
 
   skill_levels:
-    foraging: 40
-    health: 32
+    lumberjacking: 35
+    strength: 28
+    health: 35
 
   inventory_items:
     - item: "flask"
-      count: 18
+      count: 20
     - item: "apple"
-      count: 22
+      count: 25
+    - item: "logs"
+      count: 2
 
   equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
     - item: "leatherarmor"
       count: 1
       enchant: 0
 
 agent_2:
-  username: "forager2_agent"
+  username: "lumberjack2_agent"
   new_character: true
 
   location:
-    x: 252
-    y: 352
+    x: 392
+    y: 12
 
   skill_levels:
-    foraging: 35
-    health: 30
+    lumberjacking: 32
+    strength: 25
+    health: 32
 
   inventory_items:
     - item: "flask"
-      count: 18
+      count: 20
     - item: "apple"
-      count: 22
+      count: 25
+    - item: "logs"
+      count: 1
 
   equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
     - item: "leatherarmor"
       count: 1
       enchant: 0
 
 agent_3:
-  username: "hunter_agent"
+  username: "material_agent"
   new_character: true
 
   location:
-    x: 350
-    y: 250
+    x: 390
+    y: 15
 
   skill_levels:
-    strength: 37
-    accuracy: 33
-    health: 43
+    fletching: 20
+    crafting: 15
+    health: 30
 
   inventory_items:
     - item: "flask"
-      count: 22
+      count: 20
     - item: "apple"
-      count: 28
+      count: 25
+    - item: "bead"
+      count: 2
+    - item: "stick"
+      count: 10
 
   equipped_items:
-    - item: "sword"
-      count: 1
-      enchant: 0
-    - item: "platearmor"
+    - item: "leatherarmor"
       count: 1
       enchant: 0
 
@@ -115,17 +135,17 @@ agent_4:
 
   location:
     x: 580
-    y: 740
+    y: 750
 
   skill_levels:
     fishing: 35
-    health: 31
+    health: 32
 
   inventory_items:
     - item: "flask"
-      count: 18
+      count: 20
     - item: "apple"
-      count: 22
+      count: 25
 
   equipped_items:
     - item: "fishingpole"
@@ -141,17 +161,17 @@ agent_5:
 
   location:
     x: 585
-    y: 745
+    y: 752
 
   skill_levels:
     fishing: 30
-    health: 29
+    health: 30
 
   inventory_items:
     - item: "flask"
-      count: 18
+      count: 20
     - item: "apple"
-      count: 22
+      count: 25
 
   equipped_items:
     - item: "fishingpole"
@@ -162,25 +182,23 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "cook1_agent"
+  username: "crafter_agent"
   new_character: true
 
   location:
-    x: 590
-    y: 745
+    x: 395
+    y: 15
 
   skill_levels:
-    cooking: 45
-    crafting: 32
-    health: 28
+    crafting: 30
+    fletching: 15
+    health: 30
 
   inventory_items:
     - item: "flask"
-      count: 18
+      count: 20
     - item: "apple"
-      count: 22
-    - item: "bowl"
-      count: 4
+      count: 25
 
   equipped_items:
     - item: "leatherarmor"
@@ -188,23 +206,25 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "cook2_agent"
+  username: "smith_agent"
   new_character: true
 
   location:
-    x: 595
-    y: 745
+    x: 398
+    y: 18
 
   skill_levels:
-    cooking: 40
-    crafting: 28
-    health: 26
+    smithing: 25
+    crafting: 20
+    health: 30
 
   inventory_items:
     - item: "flask"
-      count: 18
+      count: 20
     - item: "apple"
-      count: 22
+      count: 25
+    - item: "ironbar"
+      count: 4
 
   equipped_items:
     - item: "leatherarmor"
@@ -212,8 +232,12 @@ agent_7:
       enchant: 0
 
 success_criteria:
-  - "Team inventory contains 4x cornstew"
-  - "Team inventory contains 4x cookedshrimp"
-  - "Team inventory contains 4x cookedchicken"
-  - "Team inventory contains 2x jellyfishsmoothie"
-  - "All agents survive the cooking mission"
+  - "Team inventory contains 2x staff (Magic Staff)"
+  - "Team inventory contains 2x silverring"
+  - "Team inventory contains at least 6x logs"
+  - "Team inventory contains at least 4x rawshrimp"
+  - "Lumberjacks harvest additional logs"
+  - "Fishers catch shrimp"
+  - "crafter_agent crafts Magic Staffs"
+  - "smith_agent crafts Silver Rings"
+  - "All agents survive the mission"

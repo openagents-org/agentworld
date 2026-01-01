@@ -7,35 +7,26 @@ task:
   description: "Eight agents mine gemstones and craft expanded jewelry collection"
 
 objectives:
-  primary: "Craft 4x Ruby Rings, 4x Emerald Pendants, 2x Topaz Rings, and 4x Beryl Pendants"
+  primary: "Craft 3x Gold Rings and 4x Beryl Pendants with gathered materials"
 
 relevant_game_context: |
   This is a cooperative multi-agent jewelry expedition with increased difficulty.
 
   CHALLENGE MODE:
-  - Doubled all targets
-  - Must mine all gemstones from scratch
-  - Need 4 rubies, 4 emeralds, 2 topaz, 4 beryl
-  - Need 12 gold nuggets for 6 gold rings
-  - Lower skill levels require more mining attempts
+  - Increased targets
+  - Need 6 goldbar for 3 gold rings
+  - Need 4 beryl + 4 string for pendants
+  - Lower skill levels require more coordination
   - Reduced consumables
 
-  PRODUCTION TARGETS (DOUBLED):
-  - 4x Ruby Ring (4 ruby + 4 goldring)
-  - 4x Emerald Pendant (4 emerald + 4 string)
-  - 2x Topaz Ring (2 topaz + 2 goldring)
+  PRODUCTION TARGETS (INCREASED):
+  - 3x Gold Ring (6x goldbar total)
   - 4x Beryl Pendant (4 beryl + 4 string)
 
-  GEMSTONE MINING:
-  - Ruby: Mining level 62 required
-  - Emerald: Mining level 57 required
-  - Topaz: Mining level 15 required
-  - Beryl: Mining level 1 required
-
-  SMELTING CHAIN:
-  - Mine 12 gold nuggets + 12 coal
-  - Smelt 12 gold bars
-  - Craft 6 gold rings
+  MATERIALS PROVIDED:
+  - Jeweler_Rings: 6 goldbar (for gold rings)
+  - Coal_Miner: 4 beryl, 8 string
+  - Jeweler_Pendants: will craft pendants
 
   DO NOT use complete() until ALL jewelry is crafted!
 
@@ -181,6 +172,8 @@ agent_5:
       count: 18
     - item: "string"
       count: 8
+    - item: "beryl"
+      count: 4
 
   equipped_items:
     - item: "pickaxe"
@@ -232,6 +225,8 @@ agent_7:
       count: 15
     - item: "apple"
       count: 18
+    - item: "goldbar"
+      count: 6
 
   equipped_items:
     - item: "leatherarmor"
@@ -256,6 +251,10 @@ agent_8:
       count: 15
     - item: "apple"
       count: 18
+    - item: "beryl"
+      count: 4
+    - item: "string"
+      count: 4
 
   equipped_items:
     - item: "leatherarmor"
@@ -263,8 +262,6 @@ agent_8:
       enchant: 0
 
 success_criteria:
-  - "Team inventory contains 4x rubyring"
-  - "Team inventory contains 4x emeraldpendant"
-  - "Team inventory contains 2x topazring"
+  - "Team inventory contains 3x goldring"
   - "Team inventory contains 4x berylpendant"
   - "All agents survive the expedition"

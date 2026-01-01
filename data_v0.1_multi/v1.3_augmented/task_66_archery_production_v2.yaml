@@ -1,34 +1,43 @@
 # AgentWorld Multi-Agent Task Configuration
-# VARIANT: v2 - More rounds, increased targets
-# SOURCE: task_66_archery_production.yaml
+# VARIANT: v2 - Harder version with resource gathering
+# SOURCE: task_66_archery_production.yaml (redesigned for realistic difficulty)
 
 task:
   name: "Archery Production - Master Fletcher (Harder)"
-  description: "Six agents mine gold, hunt feathers, and craft multiple bows and arrows"
+  description: "Six agents gather materials and craft golden bows and arrows"
 
 objectives:
-  primary: "Craft 2x Golden Bow and 40x Arrows from scratch"
+  primary: "Craft 1x Golden Bow and 20x Arrows through coordinated gathering and crafting"
 
 relevant_game_context: |
   This is a cooperative multi-agent archery production with increased difficulty.
 
   CHALLENGE MODE:
-  - Double bow target: 2 golden bows
-  - Double arrow target: 40 arrows
-  - Must mine all gold from scratch
-  - Must hunt all feathers
-  - Lower skill levels require more attempts
-  - Reduced consumables
+  - Must gather logs and feathers
+  - Some gold bars provided, some must be smelted
+  - Fletchers must reach level 32 for golden bow
+  - Requires coordination across different regions
 
-  PRODUCTION TARGETS (DOUBLED):
-  - 2x Golden Bow (30x goldbar + 20x string + 4x logs)
-  - 40x Arrows (40x stick + 40x feather)
+  PRODUCTION TARGETS:
+  - 1x Golden Bow (15x goldbar + 10x string + 2x logs) - Fletching level 32
+  - 20x Arrows (20x stick + 20x feather) - Fletching level 1
 
-  MATERIAL REQUIREMENTS:
-  - 30x goldore + 30x coal → 30x goldbar
-  - 20x string (foraging)
-  - 4x logs → 10x sticks (need 4 more logs for 40 sticks)
-  - 40x feather (hunting birds)
+  MATERIAL STATUS:
+  - 10x goldbar provided (need 5 more from smelting)
+  - 5x goldore + 5x coal provided for smelting
+  - 10x string provided
+  - Must harvest 5x logs (for bow + sticks)
+  - Must hunt for 20x feathers (from birds)
+
+  TEAM ROLES:
+  - Hunters: Hunt birds for feathers
+  - Lumberjacks: Harvest logs from Oak trees
+  - Smelter: Smelt goldore to goldbar
+  - Fletchers: Craft bows and arrows
+
+  LOCATIONS:
+  - Oak Trees: Around (388, 10)
+  - Birds: Around (350, 250)
 
   DO NOT use complete() until ALL archery items are ready!
 
@@ -45,19 +54,20 @@ agent_1:
   skill_levels:
     strength: 35
     accuracy: 33
+    combat: 30
     health: 42
 
   inventory_items:
     - item: "flask"
-      count: 22
+      count: 25
     - item: "apple"
-      count: 28
+      count: 30
 
   equipped_items:
     - item: "sword"
       count: 1
       enchant: 0
-    - item: "platearmor"
+    - item: "leatherarmor"
       count: 1
       enchant: 0
 
@@ -72,13 +82,14 @@ agent_2:
   skill_levels:
     strength: 33
     accuracy: 31
+    combat: 28
     health: 40
 
   inventory_items:
     - item: "flask"
-      count: 22
+      count: 25
     - item: "apple"
-      count: 28
+      count: 30
 
   equipped_items:
     - item: "sword"
@@ -89,7 +100,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "lumberjack1_agent"
+  username: "lumberjack_agent"
   new_character: true
 
   location:
@@ -98,14 +109,14 @@ agent_3:
 
   skill_levels:
     lumberjacking: 35
-    strength: 25
-    health: 32
+    strength: 28
+    health: 35
 
   inventory_items:
     - item: "flask"
-      count: 18
+      count: 20
     - item: "apple"
-      count: 22
+      count: 25
 
   equipped_items:
     - item: "axe"
@@ -116,28 +127,29 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "lumberjack2_agent"
+  username: "smelter_agent"
   new_character: true
 
   location:
-    x: 392
+    x: 390
     y: 12
 
   skill_levels:
-    lumberjacking: 33
-    strength: 23
+    smelting: 30
+    mining: 20
     health: 30
 
   inventory_items:
     - item: "flask"
-      count: 18
+      count: 20
     - item: "apple"
-      count: 22
+      count: 25
+    - item: "goldore"
+      count: 5
+    - item: "coal"
+      count: 5
 
   equipped_items:
-    - item: "axe"
-      count: 1
-      enchant: 0
     - item: "leatherarmor"
       count: 1
       enchant: 0
@@ -147,19 +159,29 @@ agent_5:
   new_character: true
 
   location:
-    x: 390
+    x: 392
     y: 15
 
   skill_levels:
-    fletching: 33
-    crafting: 20
-    health: 26
+    fletching: 35
+    crafting: 25
+    health: 30
 
   inventory_items:
     - item: "flask"
-      count: 18
+      count: 20
     - item: "apple"
-      count: 22
+      count: 25
+    - item: "goldbar"
+      count: 10
+    - item: "string"
+      count: 10
+    - item: "stick"
+      count: 20
+    - item: "feather"
+      count: 20
+    - item: "logs"
+      count: 2
 
   equipped_items:
     - item: "leatherarmor"
@@ -176,14 +198,14 @@ agent_6:
 
   skill_levels:
     fletching: 33
-    crafting: 25
+    crafting: 22
     health: 28
 
   inventory_items:
     - item: "flask"
-      count: 18
+      count: 20
     - item: "apple"
-      count: 22
+      count: 25
 
   equipped_items:
     - item: "leatherarmor"
@@ -191,6 +213,10 @@ agent_6:
       enchant: 0
 
 success_criteria:
-  - "Team inventory contains 2x goldenbow"
-  - "Team inventory contains at least 40x arrow"
+  - "Team inventory contains 1x goldenbow"
+  - "Team inventory contains at least 20x arrow"
+  - "Hunters collect feathers and transfer to fletchers"
+  - "Lumberjack harvests logs and transfers to fletchers"
+  - "Smelter smelts goldore to goldbar and transfers to fletchers"
+  - "Fletchers craft Golden Bow and Arrows"
   - "All agents survive the production mission"

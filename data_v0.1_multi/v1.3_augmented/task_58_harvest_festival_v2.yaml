@@ -1,168 +1,69 @@
 # AgentWorld Multi-Agent Task Configuration
 # VARIANT: v2 - More rounds, increased targets
-# SOURCE: task_58_harvest_festival.yaml
+# SOURCE: task_58_harvest_festival.yaml (redesigned - corn stew recipe doesn't exist)
 
 task:
-  name: "Harvest Festival - Celebration Prep (Harder)"
-  description: "Six agents prepare expanded festival items from scratch"
+  name: "Festival Crafting - Large Scale Production (Harder)"
+  description: "Six agents craft multiple festival items from gathered materials"
 
 objectives:
-  primary: "Cook 6x Corn Stew, craft 4x Silver Rings, and 2x Wooden Bows"
+  primary: "Craft 3x Magic Staff, 4x Silver Rings, and 2x Wooden Bows"
 
 relevant_game_context: |
-  This is a cooperative multi-agent festival scenario with increased difficulty.
+  This is a cooperative multi-agent festival crafting scenario with increased difficulty.
 
   CHALLENGE MODE:
-  - Doubled all targets
-  - Must gather all corn from scratch
-  - Need 8x ironbar for rings
-  - Need 2x logs and 2x string for bows
-  - Lower skill levels require more attempts
+  - Increased targets for all items
+  - Must gather logs and sticks from scratch
+  - Materials distributed across agents
+  - Lower skill levels require coordination
   - Reduced consumables
 
-  PRODUCTION TARGETS (DOUBLED):
-  - 6x Corn Stew (6x corn + 6x bowl)
-  - 4x Silver Ring (2x ironbar each = 8 bars)
+  PRODUCTION TARGETS:
+  - 3x Magic Staff (5x stick + 1x bead each = 15x stick + 3x bead)
+  - 4x Silver Ring (2x ironbar each = 8x ironbar)
   - 2x Wooden Bow (1x logs + 1x string each)
 
   MATERIAL REQUIREMENTS:
-  - 6x corn (foraging)
-  - 6x bowl (provided)
-  - 8x ironbar (provided)
-  - 2x logs (gathering)
-  - 2x string (provided)
+  - 4x logs needed (for sticks and bows)
+  - 3x bead provided (distributed)
+  - 8x ironbar provided (distributed)
+  - 2x string provided
+
+  CRAFTING RECIPES:
+  - Magic Staff: 5x stick + 1x bead (Crafting level 1)
+  - Silver Ring: 2x ironbar (Smithing level 1)
+  - Wooden Bow: 1x logs + 1x string (Fletching level 5)
+  - Stick: 1x logs → 4x stick (Fletching)
 
   TEAM ROLES:
-  - Foragers gather 6 corn
-  - Chef cooks 6 corn stew
-  - Jeweler crafts 4 rings
-  - Artisan crafts 2 bows
+  - Lumberjacks harvest logs
+  - Crafters make magic staffs
+  - Smiths make silver rings
+  - Fletchers make wooden bows
 
   DO NOT use complete() until ALL items are ready!
 
 max_action_steps: 55
 
 agent_1:
-  username: "forager1_agent"
+  username: "lumberjack1_agent"
   new_character: true
 
   location:
-    x: 200
-    y: 200
+    x: 388
+    y: 10
 
   skill_levels:
-    foraging: 30
-    strength: 18
-    health: 25
+    lumberjacking: 30
+    strength: 25
+    health: 30
 
   inventory_items:
     - item: "flask"
-      count: 12
-    - item: "apple"
       count: 15
-
-  equipped_items:
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
-agent_2:
-  username: "forager2_agent"
-  new_character: true
-
-  location:
-    x: 205
-    y: 200
-
-  skill_levels:
-    foraging: 25
-    strength: 15
-    health: 23
-
-  inventory_items:
-    - item: "flask"
-      count: 12
     - item: "apple"
-      count: 15
-
-  equipped_items:
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
-agent_3:
-  username: "chef_agent"
-  new_character: true
-
-  location:
-    x: 210
-    y: 205
-
-  skill_levels:
-    cooking: 30
-    crafting: 18
-    health: 23
-
-  inventory_items:
-    - item: "flask"
-      count: 12
-    - item: "apple"
-      count: 15
-    - item: "bowl"
-      count: 6
-
-  equipped_items:
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
-agent_4:
-  username: "jeweler_agent"
-  new_character: true
-
-  location:
-    x: 205
-    y: 205
-
-  skill_levels:
-    crafting: 35
-    smithing: 22
-    health: 22
-
-  inventory_items:
-    - item: "flask"
-      count: 12
-    - item: "apple"
-      count: 15
-    - item: "ironbar"
-      count: 8
-
-  equipped_items:
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
-agent_5:
-  username: "artisan_agent"
-  new_character: true
-
-  location:
-    x: 210
-    y: 200
-
-  skill_levels:
-    fletching: 22
-    crafting: 22
-    lumberjacking: 20
-    health: 23
-
-  inventory_items:
-    - item: "flask"
-      count: 12
-    - item: "apple"
-      count: 15
-    - item: "string"
-      count: 2
+      count: 20
 
   equipped_items:
     - item: "axe"
@@ -172,23 +73,53 @@ agent_5:
       count: 1
       enchant: 0
 
-agent_6:
-  username: "coordinator_agent"
+agent_2:
+  username: "lumberjack2_agent"
   new_character: true
 
   location:
-    x: 200
-    y: 205
+    x: 392
+    y: 10
 
   skill_levels:
-    crafting: 18
-    strength: 18
-    health: 25
+    lumberjacking: 28
+    strength: 23
+    health: 28
 
   inventory_items:
     - item: "flask"
-      count: 12
+      count: 15
     - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "crafter_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 15
+
+  skill_levels:
+    crafting: 25
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "bead"
+      count: 3
+    - item: "stick"
       count: 15
 
   equipped_items:
@@ -196,8 +127,92 @@ agent_6:
       count: 1
       enchant: 0
 
+agent_4:
+  username: "smith_agent"
+  new_character: true
+
+  location:
+    x: 395
+    y: 15
+
+  skill_levels:
+    smithing: 20
+    crafting: 15
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "ironbar"
+      count: 4
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "fletcher_agent"
+  new_character: true
+
+  location:
+    x: 400
+    y: 15
+
+  skill_levels:
+    fletching: 20
+    crafting: 15
+    health: 28
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "string"
+      count: 2
+    - item: "logs"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "smith2_agent"
+  new_character: true
+
+  location:
+    x: 393
+    y: 12
+
+  skill_levels:
+    smithing: 18
+    crafting: 12
+    health: 26
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "ironbar"
+      count: 4
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
 success_criteria:
-  - "Team inventory contains 6x cornstew"
+  - "Team inventory contains 3x staff (Magic Staff)"
   - "Team inventory contains 4x silverring"
   - "Team inventory contains 2x woodenbow"
+  - "Lumberjacks harvest logs and transfer to crafters"
+  - "crafter_agent crafts Magic Staffs"
+  - "smith_agent and smith2_agent craft Silver Rings"
+  - "fletcher_agent crafts Wooden Bows"
   - "All agents survive the festival preparation"

@@ -15,15 +15,15 @@ relevant_game_context: |
   CHALLENGE MODE:
   - Doubled all targets
   - Must mine all ore from scratch
-  - Need 14x ironore and 14x coal
+  - Need 18x ironore and 18x coal
   - Lower skill levels require more attempts
   - Reduced consumables
 
   PRODUCTION TARGETS (DOUBLED):
-  - 12x ironbar (smelted from 12x ironore + 12x coal)
+  - 18x ironbar (smelted from 18x ironore + 18x coal)
   - 2x Pickaxe (5x ironbar + 1x logs each = 10 bars, 2 logs)
   - 4x Silver Ring (2x ironbar each = 8 bars)
-  - Note: Need 18 bars but only smelt 12, must mine more
+  - Total iron bars needed: 18
 
   TOTAL MATERIALS NEEDED:
   - 18x iron ore
@@ -39,7 +39,7 @@ relevant_game_context: |
 
   DO NOT use complete() until ALL items are crafted!
 
-max_action_steps: 55
+max_action_steps: 70
 
 agent_1:
   username: "ironminer1_agent"

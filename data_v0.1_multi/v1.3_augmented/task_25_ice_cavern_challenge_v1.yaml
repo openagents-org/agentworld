@@ -7,7 +7,7 @@ task:
   description: "Three agents work together with pre-gathered Ice Oak logs to defeat one Ice Guardian"
 
 objectives:
-  primary: "Successfully defeat one Ice Guardian and gather Ice Oak lumber with pre-gathered starting materials"
+  primary: "Successfully defeat one Ice Wizard and gather Ice Oak lumber with pre-gathered starting materials"
 
 relevant_game_context: |
   This is a cooperative multi-agent cold-weather survival expedition with reduced difficulty.
@@ -16,28 +16,28 @@ relevant_game_context: |
   - frost_lumberjack_agent starts with 2x iceoaklogs already harvested
   - Higher skill levels for more effective combat
   - More consumables for freezing damage survival
-  - Only need to defeat ONE Ice Guardian (not two)
+  - Only need to defeat ONE Ice Wizard (not two)
   - Pre-positioned closer to targets
 
-  OBJECTIVE: Defeat one Ice Guardian and secure Ice Oak lumber.
+  OBJECTIVE: Defeat one Ice Wizard and secure Ice Oak lumber.
 
   MISSION REQUIREMENTS:
   - Navigate to Frozen/Ice region (coordinates 228-260, 151-156)
-  - Defeat ONE Ice Guardian (Level 35) in coordinated combat
+  - Defeat ONE Ice Wizard in coordinated combat
   - Already have Ice Oak logs - just verify collection
   - Survive freezing environmental damage
 
   TEAM COORDINATION:
-  - Use global chat to coordinate single guardian engagement
-  - Focus fire on one Ice Guardian at (259, 151)
+  - Use global chat to coordinate single enemy engagement
+  - Focus fire on one Ice Wizard at (259, 151)
   - Share warming items and healing support
 
-  DO NOT use complete() until Ice Guardian is defeated!
+  DO NOT use complete() until Ice Wizard is defeated!
 
   ICE CAVERN SURVIVAL & COMBAT:
-  ❄️ Combat - Ice Guardian:
-    - Target Ice Guardian at (259, 151)
-    - Level 35 creature with ice-based attacks
+  ❄️ Combat - Ice Wizard:
+    - Target Ice Wizard at (259, 151)
+    - Ice-based magical enemy
     - Use fire-based weapons for elemental advantage
     - Single target makes coordination manageable
 
@@ -166,7 +166,7 @@ agent_3:
 
 success_criteria:
   - "ice_warrior_agent navigates to frozen ice cavern region"
-  - "Team defeats Ice Guardian at (259, 151)"
+  - "Team defeats Ice Wizard at (259, 151)"
   - "frost_lumberjack_agent has iceoaklogs in inventory"
   - "All agents survive the freezing environmental damage"
   - "Frozen tundra expedition completed within time limit"

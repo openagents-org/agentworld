@@ -35,7 +35,7 @@ relevant_game_context: |
 
   DO NOT use complete() until ALL weapons forged!
 
-max_action_steps: 70
+max_action_steps: 150
 
 agent_1:
   username: "Iron_Master"

@@ -7,34 +7,25 @@ task:
   description: "Seven specialists mine and craft expanded guild masterpiece collection"
 
 objectives:
-  primary: "Craft 2x Golden Swords, 4x Gold Rings, 3x Lightning Staffs, 2x Pickaxes, and 2x Heavy Swords"
+  primary: "Craft 2x Gold Rings, 2x Magic Staffs, and 2x Silver Rings"
 
 relevant_game_context: |
   This is a cooperative multi-agent guild scenario with increased difficulty.
 
   CHALLENGE MODE:
-  - Massively expanded targets
-  - Must mine all ore from scratch
-  - Need 90+ gold ore for golden items
-  - Need 14+ iron ore for tools
-  - Need 90+ coal for smelting
+  - Must craft multiple items
+  - Materials provided to crafters
   - Lower skill levels require better coordination
   - Reduced consumables
 
-  PRODUCTION TARGETS (EXPANDED):
-  - 2x Golden Sword (15x goldbar + 1x hilt each)
-  - 4x Gold Ring (2x goldbar each = 8 bars)
-  - 3x Lightning Staff (staff + lightningbead)
-  - 2x Pickaxe (5x ironbar + 1x logs each)
-  - 2x Heavy Sword (2x ironbar + 1x hilt2 each)
+  PRODUCTION TARGETS:
+  - 2x Gold Ring (2x goldbar each = 4 goldbar)
+  - 2x Magic Staff (5x stick + 1x bead each = 10 sticks, 2 beads)
+  - 2x Silver Ring (2x ironbar each = 4 ironbar)
 
-  MATERIAL REQUIREMENTS:
-  - 38x goldbar (30 for swords, 8 for rings)
-  - 14x ironbar (10 for pickaxes, 4 for swords)
-  - 90+ coal for smelting all
-  - 8x logs (for sticks and handles)
-  - 3x lightningbead
-  - 2x hilt, 2x hilt2
+  MATERIALS PROVIDED:
+  - Guild_Master: 4x goldbar, 4x ironbar
+  - Mystic_Collector: 10x stick, 2x bead
 
   DO NOT use complete() until ALL items are crafted!
 
@@ -113,6 +104,8 @@ agent_3:
     - item: "apple"
       count: 18
     - item: "hilt2"
+      count: 4
+    - item: "hilt"
       count: 2
 
   equipped_items:
@@ -171,10 +164,10 @@ agent_5:
       count: 20
     - item: "apple"
       count: 22
-    - item: "lightningbead"
-      count: 3
     - item: "bead"
-      count: 3
+      count: 2
+    - item: "stick"
+      count: 10
 
   equipped_items:
     - item: "staff"
@@ -217,7 +210,7 @@ agent_7:
     y: 210
 
   skill_levels:
-    smithing: 60
+    smithing: 65
     crafting: 50
     fletching: 40
     health: 32
@@ -227,8 +220,10 @@ agent_7:
       count: 15
     - item: "apple"
       count: 18
-    - item: "hilt"
-      count: 2
+    - item: "goldbar"
+      count: 4
+    - item: "ironbar"
+      count: 4
 
   equipped_items:
     - item: "goldensword"
@@ -239,9 +234,7 @@ agent_7:
       enchant: 0
 
 success_criteria:
-  - "Team inventory contains 2x goldensword"
-  - "Team inventory contains 4x goldring"
-  - "Team inventory contains 3x lightningstaff"
-  - "Team inventory contains 2x pickaxe"
-  - "Team inventory contains 2x sword2 (heavy sword)"
+  - "Team inventory contains 2x goldring"
+  - "Team inventory contains 2x staff"
+  - "Team inventory contains 2x silverring"
   - "All agents survive the mission"

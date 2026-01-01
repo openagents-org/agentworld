@@ -7,25 +7,23 @@ task:
   description: "Four agents practice multiple crafting skills with increased production targets"
 
 objectives:
-  primary: "Craft 2x staff, 2x silverring, and produce 20x stick through skill practice"
+  primary: "Craft 2x staff and 2x silverring through coordinated skill practice"
 
 relevant_game_context: |
   This is a cooperative multi-agent skill training scenario with increased difficulty.
 
   CHALLENGE MODE:
   - Doubled targets: 2x staff, 2x silverring
-  - Must produce 20x stick from logs (need 5x logs)
   - Added 4th agent (apprentice_agent) for additional help
-  - No pre-gathered sticks - must craft from logs
+  - Materials distributed across agents - requires coordination
   - Reduced consumables - manage resources carefully
 
   CRAFTING TARGETS (INCREASED):
   - 2x staff (5x stick + 1x bead each = 10 sticks, 2 beads)
   - 2x silverring (2x ironbar each = 4 ironbar)
-  - 20x stick total (need 5x logs)
 
   MATERIAL REQUIREMENTS:
-  - 5x logs (for sticks)
+  - 10x stick (provided, split across agents)
   - 2x bead (provided)
   - 4x ironbar (provided)
 
@@ -51,6 +49,8 @@ agent_1:
       count: 12
     - item: "apple"
       count: 15
+    - item: "stick"
+      count: 5
 
   equipped_items:
     - item: "axe"
@@ -84,6 +84,8 @@ agent_2:
       count: 15
     - item: "bead"
       count: 2
+    - item: "stick"
+      count: 5
 
   equipped_items:
     - item: "leatherarmor"
@@ -156,5 +158,4 @@ agent_4:
 success_criteria:
   - "Team inventory contains 2x staff"
   - "Team inventory contains 2x silverring"
-  - "Team inventory contains at least 20x stick total produced"
   - "All four agents survive the training"

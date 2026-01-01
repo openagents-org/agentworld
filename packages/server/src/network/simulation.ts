@@ -61,8 +61,16 @@ export interface SimulationState {
 /**
  * Action types for simulation
  */
+/**
+ * Item to pick up when moving (simulates walking over dropped items)
+ */
+export interface PickupItem {
+    key: string;
+    count: number;
+}
+
 export type SimulationAction =
-    | { type: 'move'; x: number; y: number }
+    | { type: 'move'; x: number; y: number; pickupItems?: PickupItem[] }  // Move and optionally pick up items at destination
     | { type: 'craft'; skill: string; itemKey: string; count: number }
     | { type: 'collect'; resourceType: 'tree' | 'rock' | 'fish' | 'foraging'; resourceKey: string }
     | { type: 'attack'; targetInstance: string }
@@ -71,7 +79,8 @@ export type SimulationAction =
     | { type: 'eat'; inventoryIndex: number }
     | { type: 'drop'; inventoryIndex: number; count?: number }
     | { type: 'use'; inventoryIndex: number }
-    | { type: 'enter' };  // Enter warp/portal at current position
+    | { type: 'enter' }  // Enter warp/portal at current position
+    | { type: 'pickup'; itemKey: string; count: number };  // Deprecated: use move with pickupItems instead
 
 /**
  * Result of a simulation action
@@ -231,7 +240,7 @@ export function validateAction(action: any): { valid: boolean; error?: string } 
         return { valid: false, error: 'Action must have a type' };
     }
 
-    const validTypes = ['move', 'craft', 'collect', 'attack', 'equip', 'unequip', 'eat', 'drop', 'use', 'enter'];
+    const validTypes = ['move', 'craft', 'collect', 'attack', 'equip', 'unequip', 'eat', 'drop', 'use', 'enter', 'pickup'];
     if (!validTypes.includes(action.type)) {
         return { valid: false, error: `Invalid action type: ${action.type}. Valid types: ${validTypes.join(', ')}` };
     }
@@ -338,7 +347,7 @@ export class SimulationEngine {
         // Dispatch to appropriate handler
         switch (action.type) {
             case 'move':
-                return this.simulateMove(newState, action.x, action.y);
+                return this.simulateMove(newState, action.x, action.y, action.pickupItems);
             case 'craft':
                 return this.simulateCraft(newState, action.skill, action.itemKey, action.count);
             case 'collect':
@@ -357,6 +366,8 @@ export class SimulationEngine {
                 return this.simulateUse(newState, action.inventoryIndex);
             case 'enter':
                 return this.simulateEnter(newState);
+            case 'pickup':
+                return this.simulatePickup(newState, action.itemKey, action.count);
             default:
                 return {
                     success: false,
@@ -367,9 +378,10 @@ export class SimulationEngine {
     }
 
     /**
-     * Simulate movement to a position
+     * Simulate movement to a position with optional item pickup
+     * This reflects real game behavior where items are auto-picked up when walking over them
      */
-    private simulateMove(state: SimulationState, x: number, y: number): SimulationResult {
+    private simulateMove(state: SimulationState, x: number, y: number, pickupItems?: PickupItem[]): SimulationResult {
         // Check map bounds
         if (this.world.map.isOutOfBounds(x, y)) {
             return {
@@ -394,14 +406,39 @@ export class SimulationEngine {
         state.x = x;
         state.y = y;
 
+        // Auto-pickup items at destination (simulates walking over dropped items)
+        const pickedUpItems: { key: string; count: number }[] = [];
+        if (pickupItems && pickupItems.length > 0) {
+            for (const item of pickupItems) {
+                // Validate item exists in game data
+                const itemData = (Items as any)[item.key];
+                if (!itemData) {
+                    continue; // Skip unknown items
+                }
+
+                // Try to add item to inventory
+                if (addItem(state.inventory, item.key, item.count)) {
+                    pickedUpItems.push({ key: item.key, count: item.count });
+                }
+            }
+        }
+
+        // Build message
+        let message = `Moved from (${prevX}, ${prevY}) to (${x}, ${y})`;
+        if (pickedUpItems.length > 0) {
+            const itemsStr = pickedUpItems.map(i => `${i.count}x ${i.key}`).join(', ');
+            message += ` and picked up ${itemsStr}`;
+        }
+
         return {
             success: true,
-            message: `Moved from (${prevX}, ${prevY}) to (${x}, ${y})`,
+            message,
             state_after: state,
             details: {
                 previousPosition: { x: prevX, y: prevY },
                 newPosition: { x, y },
-                distance: Utils.getDistance(prevX, prevY, x, y)
+                distance: Utils.getDistance(prevX, prevY, x, y),
+                pickedUp: pickedUpItems.length > 0 ? pickedUpItems : undefined
             }
         };
     }
@@ -946,6 +983,70 @@ export class SimulationEngine {
     }
 
     /**
+     * Simulate picking up items from the ground
+     * This is used to simulate multi-agent item transfers in stateless simulation
+     */
+    private simulatePickup(state: SimulationState, itemKey: string, count: number): SimulationResult {
+        // Validate item exists in game data
+        const itemData = (Items as any)[itemKey];
+        if (!itemData) {
+            return {
+                success: false,
+                message: `Unknown item: ${itemKey}`,
+                state_after: state
+            };
+        }
+
+        // Check if count is valid
+        if (count <= 0) {
+            return {
+                success: false,
+                message: `Invalid pickup count: ${count}`,
+                state_after: state
+            };
+        }
+
+        // Check inventory space
+        const emptySlots = state.inventory.filter(i => !i).length;
+        if (emptySlots === 0) {
+            // Try stacking with existing items first
+            let canStack = false;
+            for (const item of state.inventory) {
+                if (item && item.key === itemKey) {
+                    canStack = true;
+                    break;
+                }
+            }
+            if (!canStack) {
+                return {
+                    success: false,
+                    message: 'Inventory is full',
+                    state_after: state
+                };
+            }
+        }
+
+        // Add items to inventory
+        if (!addItem(state.inventory, itemKey, count)) {
+            return {
+                success: false,
+                message: 'Could not add items to inventory',
+                state_after: state
+            };
+        }
+
+        return {
+            success: true,
+            message: `Picked up ${count}x ${itemKey}`,
+            state_after: state,
+            details: {
+                item: itemKey,
+                count: count
+            }
+        };
+    }
+
+    /**
      * Simulate using an item (potions, etc.)
      */
     private simulateUse(state: SimulationState, inventoryIndex: number): SimulationResult {
@@ -1159,7 +1260,7 @@ export class SimulationEngine {
                 if (distance <= radius) {
                     mobs.push({
                         instance: entity.instance,
-                        type: entity.type,
+                        type: String(entity.type),
                         name: entity.name,
                         level: entity.level,
                         x: entity.x,

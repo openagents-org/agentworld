@@ -7,7 +7,7 @@ task:
   description: "Ten agents craft one elemental staff with pre-gathered materials"
 
 objectives:
-  primary: "Collect 5x icelogs and 4x logs, and craft 1x Lightning Staff"
+  primary: "Collect 5x icelogs and 4x logs, and craft 1x Magic Staff"
 
 relevant_game_context: |
   This is a cooperative multi-agent crafting scenario with reduced difficulty.
@@ -21,7 +21,7 @@ relevant_game_context: |
   PRODUCTION TARGETS (REDUCED):
   - 5x icelogs (from ice region) - 3 already gathered!
   - 4x logs (from forest) - 2 already gathered!
-  - 1x Lightning Staff (staff + lightningbead)
+  - 1x Magic Staff (5x stick + 1x bead)
 
   TEAM ROLES:
   - Ice Loggers: Harvest ice logs
@@ -301,5 +301,5 @@ agent_10:
 success_criteria:
   - "Team inventory contains at least 5x icelogs"
   - "Team inventory contains at least 4x logs"
-  - "Team inventory contains 1x lightningstaff"
+  - "Team inventory contains 1x staff"
   - "All agents survive the mission"

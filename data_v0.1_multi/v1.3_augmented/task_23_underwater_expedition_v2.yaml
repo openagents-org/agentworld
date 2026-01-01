@@ -3,58 +3,46 @@
 # SOURCE: task_23_underwater_expedition.yaml
 
 task:
-  name: "Underwater Expedition - Deep Sea Treasure Hunt (Harder)"
-  description: "Four agents work together to explore underwater regions, harvest marine resources, and recover TWO tridents from deep sea treasures"
+  name: "Underwater Expedition - Marine Harvest (Harder)"
+  description: "Four agents work together to harvest marine resources from coastal fishing spots"
 
 objectives:
-  primary: "Successfully explore underwater regions, harvest 8x jellyfish, 4x clams, and recover 2x tridents from treasure locations"
+  primary: "Successfully harvest 10x jellyfish and 6x clams from marine fishing spots"
 
 relevant_game_context: |
-  This is a cooperative multi-agent underwater exploration with increased difficulty.
+  This is a cooperative multi-agent marine fishing expedition with increased difficulty.
 
   CHALLENGE MODE:
-  - Must recover 2x tridents from underwater treasures (doubled!)
-  - Must harvest 8x jellyfish and 4x clams (increased targets)
+  - Must harvest 10x jellyfish and 6x clams (increased targets)
   - Added 4th agent (coral_explorer_agent) for wider coverage
   - Reduced consumables - manage resources carefully
   - Lower skill levels require more careful coordination
 
-  OBJECTIVE: Explore dangerous underwater regions to recover multiple treasures and marine resources.
+  OBJECTIVE: Harvest marine resources from coastal fishing spots.
 
   MISSION REQUIREMENTS:
-  - Navigate to coastal regions and locate underwater entrances
-  - Explore underwater caves and deep sea areas safely
-  - Harvest 8x jellyfish and 4x clams from marine areas
-  - Locate and recover 2x Tridents from underwater treasure locations
-  - Handle Water Guardian and sea creature encounters
+  - Navigate to coastal fishing spots
+  - Harvest 10x jellyfish (Fishing level 5 required)
+  - Harvest 6x clams (Fishing level 10 required)
+  - Coordinate fishing across multiple agents
 
   TEAM COORDINATION:
-  - Use global chat to share underwater entrance locations and treasure sightings
-  - Coordinate between surface support, diving operations, and treasure recovery
-  - Multiple divers needed to cover extensive underwater areas
-  - Work together to navigate underwater maze-like cave systems
+  - Use global chat to coordinate fishing efforts
+  - Multiple fishers work in parallel to meet targets
+  - Share fishing spot locations
 
   DO NOT use complete() until ALL objectives are achieved!
 
-  UNDERWATER EXPLORATION & MARINE HARVESTING:
-  🐟 Fishing - Jellyfish:
+  MARINE HARVESTING:
+  Fishing - Jellyfish:
     - harvest_resource on Jellyfish fishing spots
     - Level required: 5+ (Fishing skill)
-    - Need 8x total
+    - Need 10x total
 
-  🦪 Fishing - Clam:
+  Fishing - Clam:
     - harvest_resource on Clam fishing spots
     - Level required: 10+ (Fishing skill)
-    - Need 4x total
-
-  🔱 Treasure Recovery - Trident:
-    - Search for underwater treasure chests in deep sea areas
-    - Need 2x tridents from different treasure locations
-    - Coordinates around (209, 713) area and other underwater zones
-
-  🏊‍♂️ Underwater Combat:
-    - Expect Water Guardian (Level 36) and sea creatures
-    - Coordinate attacks to handle powerful aquatic enemies
+    - Need 6x total
 
 max_action_steps: 48
 
@@ -199,11 +187,6 @@ agent_4:
       enchant: 0
 
 success_criteria:
-  - "Team successfully explores multiple underwater areas"
-  - "Team harvests at least 8x jellyfish total"
-  - "Team harvests at least 4x clams total"
-  - "treasure_hunter_agent recovers first trident from underwater treasure"
-  - "coral_explorer_agent recovers second trident from another treasure location"
-  - "Team has 2x trident in combined inventory"
-  - "Team handles Water Guardian and sea creature encounters"
-  - "All four agents survive the dangerous underwater expedition"
+  - "Team harvests at least 10x jellyfish total"
+  - "Team harvests at least 6x clams total"
+  - "All four agents survive the fishing expedition"

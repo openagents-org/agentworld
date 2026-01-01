@@ -7,7 +7,7 @@ task:
   description: "Ten agents defeat one elemental boss with enhanced stats"
 
 objectives:
-  primary: "Defeat the Iron Ogre at (238, 48)"
+  primary: "Defeat the Dark Ogre at (238, 48)"
 
 relevant_game_context: |
   This is a cooperative multi-agent boss combat with reduced difficulty.
@@ -19,7 +19,7 @@ relevant_game_context: |
   - Full team can focus on single target
 
   TARGET BOSS (REDUCED):
-  - Iron Ogre (Level 25): Located at mountain region (238, 48)
+  - Dark Ogre: Located at mountain region (238, 48)
 
   COMBAT STRATEGY:
   - Full team assaults single boss
@@ -332,5 +332,5 @@ agent_10:
       enchant: 0
 
 success_criteria:
-  - "Iron Ogre at (238, 48) is defeated"
+  - "Dark Ogre at (238, 48) is defeated"
   - "All agents survive the mission"

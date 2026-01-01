@@ -7,7 +7,7 @@ task:
   description: "Ten agents defeat five bosses for tournament championship"
 
 objectives:
-  primary: "Defeat Iron Ogre at (238, 48), Hermit Crab Warrior at (224, 359), Ogre Guardian at (291, 644), Water Guardian at (197, 633), and Dark Wolf at (1016, 682)"
+  primary: "Defeat Dark Ogre at (238, 48), Hermit Crab at (224, 359), Ogre at (291, 644), Jellyfish at (197, 633), and Wolf at (1016, 682)"
 
 relevant_game_context: |
   This is a cooperative multi-agent combat scenario with maximum difficulty.
@@ -19,11 +19,11 @@ relevant_game_context: |
   - Fewer consumables
 
   COMBAT TARGETS (EXPANDED):
-  - Iron Ogre (Level 25) at (238, 48)
-  - Hermit Crab Warrior (Level 30) at (224, 359)
-  - Ogre Guardian (Level 32) at (291, 644)
-  - Water Guardian (Level 36) at (197, 633)
-  - Dark Wolf (Level 40) at (1016, 682)
+  - Dark Ogre at (238, 48)
+  - Hermit Crab at (224, 359)
+  - Ogre at (291, 644)
+  - Jellyfish at (197, 633)
+  - Wolf at (1016, 682)
 
   TEAM COMPOSITION:
   - 6 Fighters with heavy weapons
@@ -31,7 +31,7 @@ relevant_game_context: |
 
   DO NOT use complete() until ALL bosses are defeated!
 
-max_action_steps: 65
+max_action_steps: 120
 
 agent_1:
   username: "champion1_agent"
@@ -312,9 +312,9 @@ agent_10:
       enchant: 0
 
 success_criteria:
-  - "Iron Ogre at (238, 48) defeated"
-  - "Hermit Crab Warrior at (224, 359) defeated"
-  - "Ogre Guardian at (291, 644) defeated"
-  - "Water Guardian at (197, 633) defeated"
-  - "Dark Wolf at (1016, 682) defeated"
+  - "Dark Ogre at (238, 48) defeated"
+  - "Hermit Crab at (224, 359) defeated"
+  - "Ogre at (291, 644) defeated"
+  - "Jellyfish at (197, 633) defeated"
+  - "Wolf at (1016, 682) defeated"
   - "All agents survive the tournament"

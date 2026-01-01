@@ -24,13 +24,15 @@ relevant_game_context: |
 
   SIMPLIFIED STRATEGY:
   - Team already has most materials ready
-  - Need to smelt 2 more ironbar (miner has ore/coal)
+  - miner_agent transfers ore/coal to smelter_agent
+  - smelter_agent smelts 2 more ironbar (has smithing 35 > required 20)
   - Transfer all 5x ironbar + 1x logs to tool_smith_agent
   - tool_smith_agent forges the pickaxe
 
   TEAM COORDINATION:
   - Use global chat to coordinate transfers
-  - Consolidate 5x ironbar with tool_smith_agent
+  - miner_agent transfers ore/coal to smelter_agent for smelting
+  - smelter_agent smelts and consolidates 5x ironbar, transfers to tool_smith_agent
   - tool_smith_agent crafts pickaxe
 
   DO NOT use complete() until ALL objectives are achieved by the team!
@@ -150,9 +152,9 @@ agent_3:
 
 # Success criteria for multi-agent task
 success_criteria:
-  - "miner_agent smelts 2x additional ironbar"
-  - "smelter_agent transfers 3x ironbar to tool_smith_agent"
-  - "miner_agent transfers 2x ironbar to tool_smith_agent"
+  - "miner_agent transfers ore/coal to smelter_agent"
+  - "smelter_agent smelts 2x additional ironbar (smithing 35 > required 20)"
+  - "smelter_agent transfers 5x ironbar to tool_smith_agent"
   - "tool_smith_agent receives 5x ironbar and forges pickaxe"
   - "tool_smith_agent successfully equips the pickaxe"
   - "Advanced tool production completes quickly"

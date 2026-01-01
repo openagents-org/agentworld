@@ -4,45 +4,40 @@
 
 task:
   name: "Magical Defense - Lightning Staff Forge & Ice Guardian Battle (Easier)"
-  description: "Three agents work together with pre-crafted components to assemble a lightning staff and defeat one Ice Guardian"
+  description: "Three agents work together with pre-crafted components to assemble a lightning staff and defeat one Ice Wizard"
 
 objectives:
-  primary: "Assemble a Lightning Staff using pre-crafted staff and defeat one Ice Guardian"
+  primary: "Craft a Magic Staff and defeat one Ice Wizard"
 
 relevant_game_context: |
   This is a cooperative multi-agent magical defense scenario with reduced difficulty.
 
   STARTING ADVANTAGE:
-  - staff_crafter_agent starts with 1x staff already crafted!
-  - Only need to combine staff + lightningbead for Lightning Staff
+  - staff_crafter_agent has 5x sticks and 1x bead for Magic Staff
+  - battle_mage_agent has firestaff equipped for combat
   - Higher skill levels for more effective combat
   - More consumables for survival
-  - Only need to defeat ONE Ice Guardian (not multiple)
+  - Only need to defeat ONE Ice Wizard (not multiple)
 
-  OBJECTIVE: Assemble the Lightning Staff and defeat one Ice Guardian.
+  OBJECTIVE: Craft Magic Staff and defeat one Ice Wizard.
 
   MISSION REQUIREMENTS:
-  - Craft a Lightning Staff from pre-made staff and lightning bead
-  - Locate and engage one Ice Guardian enemy
-  - Defeat at least one Ice Guardian using coordinated attacks
+  - Craft a Magic Staff from sticks and bead
+  - Locate and engage one Ice Wizard enemy
+  - Defeat at least one Ice Wizard using coordinated attacks
   - Ensure all team members survive the encounter
 
-  CRAFTING SEQUENCE (SIMPLIFIED):
-  Step 1: Craft Lightning Staff (Crafting):
-    - craft_item skill=Crafting itemKey=lightningstaff
-    - Materials: 1x staff + 1x lightningbead -> 1x lightningstaff
-    - Level required: 10 (Crafting skill)
-    - NOTE: Staff and lightning bead are PROVIDED!
+  CRAFTING RECIPE:
+  Magic Staff: 5x stick + 1x bead -> 1x staff (Crafting level 1)
 
-  COMBAT - Ice Guardians:
-  - Ice Guardians are located at coordinates (259, 151) and (260, 156)
-  - Level 35 minibosses with ice-based attacks
+  COMBAT - Ice Wizards:
+  - Ice Wizards are located at coordinates (259, 151) and (260, 156)
+  - Level 35 enemies with ice-based attacks
   - Use firestaff for elemental advantage
-  - Transfer Lightning Staff to battle_mage_agent for maximum damage
 
-  IMPORTANT: Only ONE Ice Guardian needs to be defeated!
+  IMPORTANT: Only ONE Ice Wizard needs to be defeated!
 
-max_action_steps: 22
+max_action_steps: 35
 
 agent_1:
   username: "woodcutter_agent"
@@ -95,9 +90,9 @@ agent_2:
       count: 20
     - item: "apple"
       count: 25
-    - item: "staff"
-      count: 1
-    - item: "lightningbead"
+    - item: "stick"
+      count: 5
+    - item: "bead"
       count: 1
 
   equipped_items:
@@ -146,8 +141,7 @@ agent_3:
       enchant: 0
 
 success_criteria:
-  - "Lightning Staff is crafted from staff and lightning bead"
-  - "Lightning Staff is transferred to and equipped by battle_mage_agent"
-  - "Team locates Ice Guardian at coordinates (259, 151) or (260, 156)"
-  - "At least one Ice Guardian is defeated through coordinated combat"
+  - "Magic Staff is crafted from sticks and bead"
+  - "Team locates Ice Wizard at coordinates (259, 151) or (260, 156)"
+  - "At least one Ice Wizard is defeated through coordinated combat"
   - "All agents survive the encounter"

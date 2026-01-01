@@ -7,7 +7,7 @@ task:
   description: "Ten agents prepare large quantities of food and prizes"
 
 objectives:
-  primary: "Cook 8x Cooked Shrimp, 6x Jellyfish Smoothie, and craft 4x Silver Ring"
+  primary: "Cook 8x Cooked Shrimp, 6x Cooked Tuna, and craft 4x Silver Ring"
 
 relevant_game_context: |
   This is a cooperative multi-agent festival preparation with increased difficulty.
@@ -21,12 +21,12 @@ relevant_game_context: |
 
   PRODUCTION TARGETS (DOUBLED):
   - 8x Cooked Shrimp (cook 8x rawshrimp, cooking level 1)
-  - 6x Jellyfish Smoothie (cook 6x jellyfish, cooking level 10)
+  - 6x Cooked Tuna (cook 6x rawtuna, cooking level 15)
   - 4x Silver Ring (2x ironbar each = 8x ironbar, smithing level 1)
 
   GATHERING REQUIREMENTS:
   - 8x rawshrimp (fishing level 1)
-  - 6x jellyfish (fishing level 5)
+  - 6x rawtuna (fishing level 10)
   - 8x ironbar (must mine and smelt)
 
   DO NOT use complete() until ALL items are ready!
@@ -285,6 +285,6 @@ agent_10:
 
 success_criteria:
   - "Team inventory contains 8x cookedshrimp"
-  - "Team inventory contains 6x jellyfishsmoothie"
+  - "Team inventory contains 6x cookedtuna"
   - "Team inventory contains 4x silverring"
   - "All agents survive the preparation"

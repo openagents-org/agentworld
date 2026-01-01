@@ -146,6 +146,8 @@ agent_4:
       count: 35
     - item: "logs"
       count: 3
+    - item: "stick"
+      count: 5
 
   equipped_items:
     - item: "axe"

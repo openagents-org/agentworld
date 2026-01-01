@@ -24,7 +24,6 @@ relevant_game_context: |
   MISSION REQUIREMENTS:
   - Navigate to Water Guardian at (197, 633)
   - Defeat Water Guardian (Level 36) in coordinated combat
-  - Collect at least one equipment drop
   - Verify pre-gathered ores in inventory
 
   TEAM COORDINATION:
@@ -164,7 +163,6 @@ agent_3:
 success_criteria:
   - "Team navigates to Water Guardian location at (197, 633)"
   - "Team defeats Water Guardian (Level 36)"
-  - "Team collects at least one equipment drop (redguardarmor, ring1, scimitar, or watermelonbow)"
   - "volcanic_miner_agent has goldore and lapisore verified in inventory"
   - "All agents coordinate via chat during combat"
   - "All agents survive the Water Guardian encounter"

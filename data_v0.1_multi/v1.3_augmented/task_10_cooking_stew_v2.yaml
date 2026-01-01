@@ -23,39 +23,26 @@ relevant_game_context: |
   OBJECTIVE: Prepare 3x stews through complete culinary production chain.
 
   REQUIRED MATERIALS FOR 3 STEWS:
-  - 3x bowlmedium (must craft from sticks)
-  - 3x mushroom2 (must forage)
+  - 3x bowl (provided)
+  - 3x mushroom (must forage)
   - 3x corn (must forage)
 
-  CRAFTING CHAIN:
-  1. Gather logs and craft sticks (need 12 sticks for 3 bowls)
-  2. Craft 3x bowlmedium from sticks
-  3. Forage 3x mushroom2 and 3x corn
-  4. Cook 3x stew2
+  WORKFLOW:
+  1. Forager gathers 3x mushroom and 3x corn
+  2. Transfer ingredients to chef
+  3. Cook 3x stew
 
-  DO NOT use complete() until 3x stew2 is cooked!
+  DO NOT use complete() until 3x stew is cooked!
 
   CRAFTING RECIPES (CRITICAL KNOWLEDGE):
-  🪄 Fletching Recipe - stick:
-    - craft_item skill=Fletching itemKey=stick
-    - Materials: 1x logs → 4x stick
-    - Level required: 1 (Fletching skill)
-    - Need 3x logs for 12 sticks
-
-  🥣 Fletching Recipe - bowlmedium:
-    - craft_item skill=Fletching itemKey=bowlmedium
-    - Materials: 4x stick → 1x bowlmedium
-    - Level required: 5 (Fletching skill)
-    - Need to craft 3 times
-
   🍄 Foraging - mushrooms and vegetables:
-    - harvest_resource on mushroom instances to get mushroom2
+    - harvest_resource on mushroom instances to get mushroom
     - harvest_resource on corn instances to get corn
     - Level required: varies (Foraging skill)
 
-  🍲 Cooking Recipe - stew2:
-    - craft_item skill=Cooking itemKey=stew2
-    - Materials: 1x bowlmedium + 1x mushroom2 + 1x corn → 1x stew2
+  🍲 Cooking Recipe - stew:
+    - craft_item skill=Cooking itemKey=stew
+    - Materials: 1x bowl + 1x mushroom + 1x corn → 1x stew
     - Level required: 1 (Cooking skill)
 
 # Limitations
@@ -111,6 +98,8 @@ agent_2:
       count: 8
     - item: "apple"
       count: 10
+    - item: "bowl"
+      count: 3
 
   equipped_items:
     - item: "leatherarmor"
@@ -151,10 +140,8 @@ agent_3:
 
 # Success criteria for multi-agent task
 success_criteria:
-  - "container_crafter_agent gathers logs and crafts 12x sticks"
-  - "container_crafter_agent crafts 3x bowlmedium"
-  - "ingredient_gatherer_agent forages 3x mushroom2 and 3x corn"
+  - "ingredient_gatherer_agent forages 3x mushroom and 3x corn"
   - "All materials transferred to chef_agent"
-  - "chef_agent cooks 3x stew2"
-  - "Final target: 3x stew2 in team inventory"
+  - "chef_agent cooks 3x stew"
+  - "Final target: 3x stew in team inventory"
   - "All agents coordinate complete culinary production chain"

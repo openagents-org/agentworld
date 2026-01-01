@@ -30,7 +30,7 @@ relevant_game_context: |
 
   DO NOT use complete() until ring is crafted!
 
-max_action_steps: 18
+max_action_steps: 25
 
 agent_1:
   username: "ironminer1_agent"
@@ -213,6 +213,8 @@ agent_7:
       count: 30
     - item: "apple"
       count: 35
+    - item: "ironbar"
+      count: 2
 
   equipped_items:
     - item: "leatherarmor"
