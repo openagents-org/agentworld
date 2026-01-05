@@ -79,6 +79,12 @@ export default class Handler {
         // The damage table is used to calculate who should receive priority over the mob's drop.
         let damageTable = this.mob.getDamageTable();
 
+        // Determine the loot owner - use the killer (attacker) not the most damage dealer
+        let lootOwner = '';
+        if (attacker?.isPlayer()) {
+            lootOwner = attacker.username;
+        }
+
         for (let index in damageTable) {
             let element = damageTable[index],
                 [instance] = element,
@@ -92,10 +98,15 @@ export default class Handler {
                 // Register the kill as belonging to the player who dealt most amount of damage.
                 entity.killCallback?.(this.mob);
 
-                // Drop the mob's loot and pass the owner's username.
-                this.mob.drop(entity.username);
+                // If no killer was passed, fallback to most damage dealer
+                if (!lootOwner) {
+                    lootOwner = entity.username;
+                }
             }
         }
+
+        // Drop the mob's loot - owner is the killer (or fallback to most damage)
+        this.mob.drop(lootOwner);
 
         // Stop the combat.
         this.mob.combat.stop();

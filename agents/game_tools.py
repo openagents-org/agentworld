@@ -517,12 +517,198 @@ class KaetramGameTools:
         }
         
         result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["collect"], data)
-        
+
         if result.get("status") == "success":
             resource = result.get("resource", {})
             return f"Picked up item: {resource.get('name', 'Unknown')} at ({resource.get('x')}, {resource.get('y')})"
         else:
             return f"Failed to pick up item: {result.get('message', 'Unknown error')}"
+
+    def pickup_ground_item(self, arguments: Dict[str, Any]) -> str:
+        """Pick up a dropped item from the ground (loot from killed mobs, etc.)
+
+        This function picks up items that are dropped on the ground, such as loot from
+        killed mobs. These items are visible in the 'groundItems' array of the observe response.
+
+        Args:
+            targetInstance: The instance ID of the ground item to pick up (from groundItems in observe)
+        """
+        if not self.token:
+            return "Error: No token available. Please login first."
+
+        target_instance = arguments.get("targetInstance", "")
+
+        if not target_instance:
+            return "Error: Target instance is required for picking up ground items."
+
+        data = {
+            "token": self.token,
+            "targetInstance": target_instance
+        }
+
+        result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["pickup"], data)
+
+        if result.get("status") == "success":
+            item = result.get("item", {})
+            return f"🎁 Picked up ground item: {item.get('count', 1)}x {item.get('name', 'Unknown')} at ({item.get('x')}, {item.get('y')})"
+        else:
+            error_msg = result.get('message', 'Unknown error')
+            if "reserved" in error_msg.lower():
+                return f"⏳ Item is reserved for another player - try again later"
+            elif "inventory full" in error_msg.lower():
+                return f"❌ Cannot pick up item - inventory is full"
+            elif "too far" in error_msg.lower():
+                return f"📏 Too far from item - move closer first"
+            else:
+                return f"Failed to pick up ground item: {error_msg}"
+
+    def discard_item(self, arguments: Dict[str, Any]) -> str:
+        """Discard (drop) an item from inventory to current location
+
+        Drops an item from your inventory onto the ground at your current position.
+        Other players can pick it up, or you can pick it back up later.
+
+        Args:
+            inventoryIndex: The inventory slot index of the item to discard (0-based)
+            count: (optional) Number of items to discard if it's a stack. Default: all
+        """
+        if not self.token:
+            return "Error: No token available. Please login first."
+
+        inventory_index = arguments.get("inventoryIndex")
+        count = arguments.get("count")
+
+        if inventory_index is None:
+            return "Error: inventoryIndex is required to discard an item."
+
+        # First, check current inventory to validate the index
+        observe_result = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"],
+                                           params={"token": self.token, "radius": 1})
+
+        if observe_result.get("status") != "success":
+            return f"Error: Could not check inventory: {observe_result.get('message', 'Unknown error')}"
+
+        inventory = observe_result.get("inventory", {}).get("items", [])
+
+        if inventory_index < 0 or inventory_index >= len(inventory):
+            return f"Error: Invalid inventory index {inventory_index}. You have {len(inventory)} items in inventory."
+
+        item_to_discard = inventory[inventory_index]
+        item_count = item_to_discard.get("count", 1)
+        discard_count = count if count is not None else item_count
+
+        if discard_count > item_count:
+            return f"Error: Cannot discard {discard_count} items - you only have {item_count} of {item_to_discard.get('name', 'Unknown')}"
+
+        # Use setInventory API to remove items from inventory
+        # This will drop them on the ground at current location
+        updated_inventory = []
+        for i, item in enumerate(inventory):
+            if i == inventory_index:
+                remaining = item_count - discard_count
+                if remaining > 0:
+                    # Keep the remaining items
+                    updated_item = item.copy()
+                    updated_item["count"] = remaining
+                    updated_inventory.append(updated_item)
+                # else: don't add to updated inventory (fully discarded)
+            else:
+                updated_inventory.append(item)
+
+        # Convert to API format
+        api_items = []
+        for item in updated_inventory:
+            api_items.append({
+                "key": item.get("key"),
+                "count": item.get("count", 1)
+            })
+
+        data = {
+            "token": self.token,
+            "items": api_items,
+            "clearFirst": True
+        }
+
+        result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["setInventory"], data)
+
+        if result.get("status") == "success":
+            location = observe_result.get("location", {})
+            return f"📦 Discarded {discard_count}x {item_to_discard.get('name', 'Unknown')} at position ({location.get('x')}, {location.get('y')}). You can pick it back up if needed."
+        else:
+            return f"Failed to discard item: {result.get('message', 'Unknown error')}"
+
+    def destroy_item(self, arguments: Dict[str, Any]) -> str:
+        """Permanently destroy an item from inventory
+
+        Permanently removes an item from your inventory. This action cannot be undone.
+        The item will NOT be dropped on the ground - it will be deleted completely.
+
+        Args:
+            inventoryIndex: The inventory slot index of the item to destroy (0-based)
+            count: (optional) Number of items to destroy if it's a stack. Default: all
+        """
+        if not self.token:
+            return "Error: No token available. Please login first."
+
+        inventory_index = arguments.get("inventoryIndex")
+        count = arguments.get("count")
+
+        if inventory_index is None:
+            return "Error: inventoryIndex is required to destroy an item."
+
+        # First, check current inventory to validate the index
+        observe_result = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"],
+                                           params={"token": self.token, "radius": 1})
+
+        if observe_result.get("status") != "success":
+            return f"Error: Could not check inventory: {observe_result.get('message', 'Unknown error')}"
+
+        inventory = observe_result.get("inventory", {}).get("items", [])
+
+        if inventory_index < 0 or inventory_index >= len(inventory):
+            return f"Error: Invalid inventory index {inventory_index}. You have {len(inventory)} items in inventory."
+
+        item_to_destroy = inventory[inventory_index]
+        item_count = item_to_destroy.get("count", 1)
+        destroy_count = count if count is not None else item_count
+
+        if destroy_count > item_count:
+            return f"Error: Cannot destroy {destroy_count} items - you only have {item_count} of {item_to_destroy.get('name', 'Unknown')}"
+
+        # Use setInventory API to remove items from inventory permanently
+        updated_inventory = []
+        for i, item in enumerate(inventory):
+            if i == inventory_index:
+                remaining = item_count - destroy_count
+                if remaining > 0:
+                    # Keep the remaining items
+                    updated_item = item.copy()
+                    updated_item["count"] = remaining
+                    updated_inventory.append(updated_item)
+                # else: don't add to updated inventory (destroyed)
+            else:
+                updated_inventory.append(item)
+
+        # Convert to API format
+        api_items = []
+        for item in updated_inventory:
+            api_items.append({
+                "key": item.get("key"),
+                "count": item.get("count", 1)
+            })
+
+        data = {
+            "token": self.token,
+            "items": api_items,
+            "clearFirst": True
+        }
+
+        result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["setInventory"], data)
+
+        if result.get("status") == "success":
+            return f"🗑️ Permanently destroyed {destroy_count}x {item_to_destroy.get('name', 'Unknown')} from inventory. This action cannot be undone."
+        else:
+            return f"Failed to destroy item: {result.get('message', 'Unknown error')}"
 
     def harvest_resource(self, arguments: Dict[str, Any]) -> str:
         """Harvest a resource using the appropriate skill (lumberjacking, mining, fishing, foraging)"""
@@ -1058,137 +1244,19 @@ class KaetramGameTools:
 
     def attack_entity(self, arguments: Dict[str, Any]) -> str:
         """Attack an entity directly by providing its instance ID.
-        
+
         This method will automatically:
         1. Find the target entity in the current environment
         2. Move to an adjacent position (up/down/left/right) if not already adjacent
-        3. Wait briefly for position sync
-        4. Initiate the attack
-        5. After combat, move to the target's location to automatically pick up any dropped items
-        
+        3. Monitor combat until the mob dies or player dies (up to 60 seconds)
+        4. Automatically collect any dropped items after victory
+
         Args:
             targetInstance: The instance ID of the entity to attack (from environment observation)
         """
-        if not self.token:
-            return "Error: No token available. Please login first."
-        
-        target_instance = arguments.get("targetInstance", "")
-        
-        if not target_instance:
-            return "Error: Target instance is required for attack."
-        
-        # First, get current environment to find target location and player position
-        observe_result = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], params={"token": self.token, "radius": 64})
-        
-        if observe_result.get("status") != "success":
-            return f"Error: Could not observe environment to locate target: {observe_result.get('message', 'Unknown error')}"
-        
-        # Extract player current position
-        location = observe_result.get("location", {})
-        player_x = location.get("x")
-        player_y = location.get("y")
-        
-        if player_x is None or player_y is None:
-            return "Error: Could not determine player position."
-        
-        # Find target entity in mobs list
-        mobs = observe_result.get("mobs", [])
-        target_entity = None
-        
-        for mob in mobs:
-            if mob.get("instance") == target_instance:
-                target_entity = mob
-                break
-        
-        if not target_entity:
-            return f"Error: Target entity {target_instance} not found in current environment."
-        
-        target_x = target_entity.get("x")
-        target_y = target_entity.get("y")
-        target_name = target_entity.get("name", "Unknown")
-        
-        if target_x is None or target_y is None:
-            return f"Error: Could not determine target position for {target_name}."
-        
-        # Calculate distance to target (Manhattan distance for adjacent tiles)
-        dx = abs(target_x - player_x)
-        dy = abs(target_y - player_y)
-        
-        # Check if already adjacent (in one of the 4 cardinal directions)
-        is_adjacent = (dx == 1 and dy == 0) or (dx == 0 and dy == 1)
-        
-        # If not adjacent, move to one of the 4 adjacent positions (up, down, left, right)
-        if not is_adjacent:
-            # Choose the best adjacent position based on current player position
-            possible_positions = [
-                (target_x, target_y - 1),  # Above target
-                (target_x, target_y + 1),  # Below target
-                (target_x - 1, target_y),  # Left of target
-                (target_x + 1, target_y)   # Right of target
-            ]
-            
-            # Find the closest adjacent position to current player position
-            best_position = None
-            min_distance = float('inf')
-            
-            for pos_x, pos_y in possible_positions:
-                pos_distance = abs(pos_x - player_x) + abs(pos_y - player_y)
-                if pos_distance < min_distance:
-                    min_distance = pos_distance
-                    best_position = (pos_x, pos_y)
-            
-            move_x, move_y = best_position
-            
-            # Move to attack position
-            move_data = {
-                "token": self.token,
-                "x": move_x,
-                "y": move_y
-            }
-            
-            move_result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["move"], move_data)
-            
-            if move_result.get("status") != "success":
-                return f"Error: Failed to move to attack position: {move_result.get('message', 'Unknown error')}"
-            
-            # Wait briefly for position sync
-            time.sleep(1)
-            
-            movement_info = f"Moved from ({player_x}, {player_y}) to ({move_x}, {move_y}) to attack {target_name}. "
-        else:
-            movement_info = f"Already adjacent to {target_name} at ({target_x}, {target_y}). "
-        
-        # Now initiate the attack
-        attack_data = {
-            "token": self.token,
-            "targetInstance": target_instance
-        }
-        
-        attack_result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["attack"], attack_data)
-        
-        if attack_result.get("status") == "success":
-            attack_info = f"{movement_info}Attack initiated successfully on {target_name}: {attack_result.get('message', 'Combat started')}"
-            
-            # Wait a moment for combat to potentially finish, then move to target location to pick up any drops
-            time.sleep(3)  # Wait for combat to finish
-            
-            # Move to the exact target location to pick up any dropped items
-            pickup_move_data = {
-                "token": self.token,
-                "x": target_x,
-                "y": target_y
-            }
-            pickup_move_result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["move"], pickup_move_data)
-            
-            pickup_info = ""
-            if pickup_move_result.get("status") == "success":
-                pickup_info = f" After combat, moved to ({target_x}, {target_y}) to collect any dropped items."
-            else:
-                pickup_info = f" Combat finished, but failed to move to pickup location: {pickup_move_result.get('message', 'Unknown error')}"
-            
-            return f"{attack_info}{pickup_info}"
-        else:
-            return f"{movement_info}Failed to attack {target_name}: {attack_result.get('message', 'Unknown error')}"
+        # Delegate to attack_mob which has proper combat monitoring
+        # This ensures combat continues until completion (mob or player dies)
+        return self.attack_mob(arguments)
 
     def attack_mob(self, arguments: Dict[str, Any]) -> str:
         """Enhanced combat function that completes entire battle until mob or player dies.
@@ -1276,9 +1344,32 @@ class KaetramGameTools:
             
             movement_info = f"Moved from ({player_x}, {player_y}) to {best_position} to attack {target_name}. "
             time.sleep(0.5)  # Position sync
+
+            # Re-observe after moving to get fresh entity data (fixes region transition issues)
+            observe_result = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"],
+                                                params={"token": self.token, "radius": 64})
+            if observe_result.get("status") != "success":
+                return f"{movement_info}Error: Could not re-observe after move: {observe_result.get('message', 'Unknown error')}"
+
+            # Re-validate target still exists after move
+            mobs = observe_result.get("mobs", [])
+            target_mob = None
+            for mob in mobs:
+                if mob.get("instance") == target_instance:
+                    target_mob = mob
+                    break
+
+            if not target_mob:
+                # Target no longer visible - might have died or moved out of range
+                return f"{movement_info}Error: Target {target_name} (instance {target_instance}) no longer visible after moving. It may have been killed or moved away."
+
+            # Update target position in case it moved
+            target_x, target_y = target_mob.get("x"), target_mob.get("y")
+            last_known_mob_x = target_x
+            last_known_mob_y = target_y
         else:
             movement_info = f"Already adjacent to {target_name}. "
-        
+
         # Initiate combat
         attack_data = {"token": self.token, "targetInstance": target_instance}
         attack_result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["attack"], attack_data)
@@ -1286,92 +1377,178 @@ class KaetramGameTools:
         if attack_result.get("status") != "success":
             return f"{movement_info}Failed to start combat: {attack_result.get('message', 'Unknown error')}"
         
-        # ENHANCED COMBAT MONITORING - Wait until combat concludes
-        max_combat_time = 60  # Maximum combat time in seconds
+        # ENHANCED COMBAT MONITORING - Fight until death (mob or player)
         check_interval = 0.5  # Check every 500ms
         total_time = 0
         combat_outcome = "unknown"
         final_hp = initial_hp
         final_mp = initial_mp
-        
-        while total_time < max_combat_time:
+        re_attack_count = 0  # Track re-attack attempts
+        last_known_mob_x = target_x  # Track mob's last known position for loot collection
+        last_known_mob_y = target_y
+        player_dealt_damage = False  # Track if THIS player actually participated in combat
+
+        # No time limit - fight until someone dies
+        while True:
             time.sleep(check_interval)
             total_time += check_interval
-            
+
             # Check current battle status
-            current_observe = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], 
+            current_observe = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"],
                                                params={"token": self.token, "radius": 32})
-            
+
             if current_observe.get("status") == "success":
                 # Check if player is still alive
                 current_player_status = current_observe.get("playerStatus", {})
                 final_hp = current_player_status.get("hitPoints", 0)
                 final_mp = current_player_status.get("mana", 0)
                 player_in_combat = current_player_status.get("combat", False)
-                
+
+                # If player is in combat, they are participating
+                if player_in_combat:
+                    player_dealt_damage = True
+
                 if final_hp <= 0:
                     combat_outcome = "player_died"
                     break
-                
-                # Check if target mob still exists
+
+                # Check if target mob still exists and update its position
                 current_mobs = current_observe.get("mobs", [])
-                target_still_alive = any(mob.get("instance") == target_instance for mob in current_mobs)
-                
+                target_mob_current = None
+                for mob in current_mobs:
+                    if mob.get("instance") == target_instance:
+                        target_mob_current = mob
+                        # Update last known position (mob's death position for loot)
+                        last_known_mob_x = mob.get("x", last_known_mob_x)
+                        last_known_mob_y = mob.get("y", last_known_mob_y)
+                        break
+
+                target_still_alive = target_mob_current is not None
+
                 if not target_still_alive:
-                    combat_outcome = "mob_died"
+                    # Mob is no longer in the environment - confirmed kill
+                    # Only count as victory if player actually participated
+                    if player_dealt_damage or total_time < 3:
+                        combat_outcome = "mob_died"
+                    else:
+                        combat_outcome = "mob_died_by_others"
                     break
-                
-                # If not in combat anymore, assume victory
-                if not player_in_combat and total_time > 2:  # Allow time for combat to start
-                    combat_outcome = "mob_died"
-                    break
+
+                # If not in combat but mob still alive, re-engage combat immediately
+                if not player_in_combat and total_time > 2 and target_still_alive:
+                    # Check if we need to move closer to the mob (it may have moved)
+                    current_loc = current_observe.get("location", {})
+                    curr_player_x, curr_player_y = current_loc.get("x"), current_loc.get("y")
+                    mob_x, mob_y = target_mob_current.get("x"), target_mob_current.get("y")
+
+                    if curr_player_x is not None and mob_x is not None:
+                        dx = abs(mob_x - curr_player_x)
+                        dy = abs(mob_y - curr_player_y)
+                        is_still_adjacent = (dx == 1 and dy == 0) or (dx == 0 and dy == 1) or (dx == 0 and dy == 0)
+
+                        if not is_still_adjacent:
+                            # Move to adjacent position before re-attacking
+                            adj_positions = [(mob_x, mob_y - 1), (mob_x, mob_y + 1), (mob_x - 1, mob_y), (mob_x + 1, mob_y)]
+                            best_adj = min(adj_positions, key=lambda p: abs(p[0] - curr_player_x) + abs(p[1] - curr_player_y))
+                            move_data = {"token": self.token, "x": best_adj[0], "y": best_adj[1]}
+                            self._make_request("POST", AGENTWORLD_API_ENDPOINTS["move"], move_data)
+                            time.sleep(0.3)
+                            # Update last known position
+                            last_known_mob_x, last_known_mob_y = mob_x, mob_y
+
+                    # Re-initiate attack on the still-alive mob
+                    re_attack_data = {"token": self.token, "targetInstance": target_instance}
+                    re_attack_result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["attack"], re_attack_data)
+                    re_attack_count += 1
+                    self._log_message(f"⚔️ Re-engaging {target_name} (attempt {re_attack_count})", "debug")
+
+                    # If attack failed, stop trying - target may have moved or died
+                    if re_attack_result.get("status") != "success":
+                        error_msg = re_attack_result.get("message", "")
+                        self._log_message(f"🎯 Re-attack failed: {error_msg} - stopping combat loop", "debug")
+                        combat_outcome = "mob_died_by_others"
+                        break
         
-        # IMPROVED Auto-collect dropped items if mob died
+        # IMPROVED Auto-collect dropped items if mob died - now using groundItems and pickup API
+        # Any agent can loot regardless of who got the killing blow
         collected_items = []
-        
-        if combat_outcome == "mob_died":
-            # Move to mob's death location to collect drops
-            pickup_move_data = {"token": self.token, "x": target_x, "y": target_y}
+
+        if combat_outcome in ("mob_died", "mob_died_by_others"):
+            # Move to mob's LAST KNOWN position (death location) to collect drops
+            pickup_move_data = {"token": self.token, "x": last_known_mob_x, "y": last_known_mob_y}
             pickup_move_result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["move"], pickup_move_data)
-            
+            print(f"[LOOT DEBUG] Moving to loot at ({last_known_mob_x}, {last_known_mob_y}) - mob's death location")
+            print(f"[LOOT DEBUG] Move result: {pickup_move_result}")
+
             if pickup_move_result.get("status") == "success":
-                # Wait longer for items to drop and server processing
-                time.sleep(2.0)
-                
+                # Wait for items to drop and server processing
+                time.sleep(1.5)
+
                 # Multiple collection attempts for better reliability
                 for attempt in range(3):
-                    # Check for inventory changes after combat
-                    final_observe = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], 
-                                                     params={"token": self.token, "radius": 5})
-                    
-                    if final_observe.get("status") == "success":
-                        # Calculate items gained during combat
-                        current_inventory = {}
-                        for item in final_observe.get("inventory", {}).get("items", []):
-                            key = item.get("key", "")
-                            count = item.get("count", 0)
-                            if key:
-                                current_inventory[key] = current_inventory.get(key, 0) + count
-                        
-                        # Find newly acquired items
-                        for key, current_count in current_inventory.items():
-                            initial_count = initial_inventory.get(key, 0)
-                            if current_count > initial_count:
-                                gained = current_count - initial_count
-                                # Update existing item or add new one
-                                existing_item = next((item for item in collected_items if item["key"] == key), None)
-                                if existing_item:
-                                    existing_item["count"] = gained
+                    # Observe ground items at the loot location
+                    loot_observe = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"],
+                                                      params={"token": self.token, "radius": 10})
+
+                    print(f"[LOOT DEBUG] Attempt {attempt+1}: Observe status={loot_observe.get('status')}")
+
+                    if loot_observe.get("status") == "success":
+                        # Get ground items from observation
+                        ground_items = loot_observe.get("groundItems", [])
+                        player_loc = loot_observe.get("location", {})
+                        print(f"[LOOT DEBUG] Player location: ({player_loc.get('x')}, {player_loc.get('y')})")
+                        print(f"[LOOT DEBUG] Ground items found: {len(ground_items)}")
+                        print(f"[LOOT DEBUG] Ground items data: {ground_items}")
+
+                        if ground_items:
+                            self._log_message(f"🎁 Found {len(ground_items)} ground items to collect", "debug")
+
+                            # Try to pick up each ground item
+                            for ground_item in ground_items:
+                                item_instance = ground_item.get("instance", "")
+                                item_name = ground_item.get("name", "Unknown")
+                                item_count = ground_item.get("count", 1)
+                                item_distance = ground_item.get("distanceFrom", 0)
+
+                                # Only try to pick up items that are close enough
+                                if item_distance <= 2:
+                                    pickup_result = self._make_request(
+                                        "POST",
+                                        AGENTWORLD_API_ENDPOINTS["pickup"],
+                                        {"token": self.token, "targetInstance": item_instance}
+                                    )
+
+                                    if pickup_result.get("status") == "success":
+                                        collected_items.append({
+                                            "key": ground_item.get("key", ""),
+                                            "name": item_name,
+                                            "count": item_count
+                                        })
+                                        self._log_message(f"✅ Picked up {item_count}x {item_name}", "debug")
+                                    else:
+                                        error_msg = pickup_result.get("message", "")
+                                        self._log_message(f"❌ Failed to pick up {item_name}: {error_msg}", "debug")
                                 else:
-                                    collected_items.append({"key": key, "name": key.title(), "count": gained})
-                    
-                    # If we found items, stop trying
-                    if collected_items:
-                        break
-                        
+                                    # Item too far, try to move closer
+                                    item_x = ground_item.get("x", last_known_mob_x)
+                                    item_y = ground_item.get("y", last_known_mob_y)
+                                    self._make_request("POST", AGENTWORLD_API_ENDPOINTS["move"],
+                                                      {"token": self.token, "x": item_x, "y": item_y})
+                                    time.sleep(0.5)
+
+                            # If we collected items, we're done
+                            if collected_items:
+                                break
+                        else:
+                            print(f"[LOOT DEBUG] 📭 No ground items found at loot location (attempt {attempt + 1})")
+                    else:
+                        print(f"[LOOT DEBUG] Observe failed: {loot_observe}")
+
                     # Brief wait before next attempt
-                    if attempt < 2:
+                    if attempt < 2 and not collected_items:
                         time.sleep(1.0)
+            else:
+                print(f"[LOOT DEBUG] Move to loot location failed: {pickup_move_result}")
         
         # Build comprehensive result message
         hp_change = final_hp - initial_hp
@@ -1404,15 +1581,34 @@ class KaetramGameTools:
                 f"⚠️  Status: Respawn required"
             )
         
-        else:
+        elif combat_outcome == "mob_died_by_others":
+            # Mob was killed by another agent - but we can still loot
+            if collected_items:
+                items_text = ", ".join([f"{item['count']}x {item['name']}" for item in collected_items])
+                loot_note = f"🎁 Loot Collected: {items_text}"
+            else:
+                loot_note = f"🎁 Loot Collected: No items collected this time"
+
             result_message = (
-                f"{movement_info}⏳ COMBAT ONGOING: Battle with {target_name} (Level {target_level})\n"
+                f"{movement_info}👥 VICTORY (Team Kill): {target_name} (Level {target_level}) was defeated\n"
+                f"{loot_note}\n"
                 f"❤️  Player HP: {final_hp}/{initial_max_hp} ({hp_change:+d})\n"
                 f"💙 Player MP: {final_mp}/{initial_max_mp} ({mp_change:+d})\n"
-                f"⚡ Combat Duration: {total_time:.1f}s+\n"
-                f"📋 Status: Combat may still be in progress"
+                f"⚡ Combat Duration: {total_time:.1f}s\n"
+                f"🎯 Status: Target eliminated - ready for next action"
             )
-        
+
+        else:
+            # This should rarely happen - combat ended without clear outcome
+            result_message = (
+                f"{movement_info}❓ COMBAT ENDED: Battle with {target_name} (Level {target_level})\n"
+                f"❤️  Player HP: {final_hp}/{initial_max_hp} ({hp_change:+d})\n"
+                f"💙 Player MP: {final_mp}/{initial_max_mp} ({mp_change:+d})\n"
+                f"⚡ Combat Duration: {total_time:.1f}s\n"
+                f"🔄 Re-attack Attempts: {re_attack_count}\n"
+                f"📋 Status: Outcome unclear"
+            )
+
         return result_message
 
     def set_combat_level(self, arguments: Dict[str, Any]) -> str:

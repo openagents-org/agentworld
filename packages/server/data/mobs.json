@@ -4213,7 +4213,7 @@
 
   "darkwolf": {
     "name": "Dark Wolf",
-    "drops": {"wolfsword": 85},
+    "drops": {"wolfarmor": 10000},
     "hitPoints": 850,
     "defenseLevel": 33,
     "attackLevel": 45,

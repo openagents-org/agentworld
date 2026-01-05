@@ -606,6 +606,32 @@ export default class API {
                     }
                 }
 
+                // Get nearby ground items (dropped loot from mobs, etc.)
+                const groundItems: any[] = [];
+                this.world.getGrids().forEachEntityNear(
+                    player.x,
+                    player.y,
+                    (entity) => {
+                        // Check if entity is an Item (dropped on ground)
+                        if (entity instanceof Item) {
+                            const distance = Utils.getDistance(player.x, player.y, entity.x, entity.y);
+                            if (distance <= radius) {
+                                groundItems.push({
+                                    instance: entity.instance,
+                                    key: entity.key,
+                                    name: entity.name,
+                                    count: entity.count,
+                                    x: entity.x,
+                                    y: entity.y,
+                                    owner: (entity as any).owner || '',  // Who has pickup priority
+                                    distanceFrom: distance
+                                });
+                            }
+                        }
+                    },
+                    radius
+                );
+
                 response.json({
                     status: 'success',
                     CACHE_TEST: 'NEW_CODE_LOADED_SUCCESSFULLY',
@@ -615,6 +641,7 @@ export default class API {
                     mobs,
                     resources,
                     players,
+                    groundItems,
                     inventory: {
                         items: inventoryItems,
                         equipped: equippedItems
@@ -879,6 +906,109 @@ export default class API {
                 });
             } catch (error) {
                 log.error(`Error collecting resource: ${error}`);
+                response.status(500).json({
+                    status: 'error',
+                    message: 'Internal server error'
+                });
+            }
+        });
+
+        // Pick up a ground item (dropped loot from mobs, etc.)
+        router.post('/ai/pickup', (request: Request, response: Response) => {
+            try {
+                const { token, targetInstance } = request.body;
+
+                if (!token || !targetInstance) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Token and targetInstance are required'
+                    });
+                }
+
+                const player = this.aiAgents[token];
+
+                if (!player) {
+                    return response.status(401).json({
+                        status: 'error',
+                        message: 'Invalid token'
+                    });
+                }
+
+                // Find the ground item entity
+                const entity = this.world.entities.get(targetInstance);
+
+                if (!entity) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Item not found on ground'
+                    });
+                }
+
+                // Check if it's actually an Item
+                if (!(entity instanceof Item)) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Target is not a ground item'
+                    });
+                }
+
+                const item = entity as Item;
+
+                // Check distance - player must be close enough to pick up
+                const distance = Utils.getDistance(player.x, player.y, item.x, item.y);
+                if (distance > 2) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Too far from item',
+                        distance: distance,
+                        maxDistance: 2
+                    });
+                }
+
+                // Ownership check disabled - anyone can pick up any drop
+                // const itemOwner = (item as any).owner;
+                // if (itemOwner && itemOwner !== '' && itemOwner !== player.instance) {
+                //     const ownershipExpired = (item as any).ownershipExpired || false;
+                //     if (!ownershipExpired) {
+                //         return response.status(400).json({
+                //             status: 'error',
+                //             message: 'Item is reserved for another player',
+                //             owner: itemOwner
+                //         });
+                //     }
+                // }
+
+                // Store item info before pickup for response
+                const itemInfo = {
+                    key: item.key,
+                    name: item.name,
+                    count: item.count,
+                    x: item.x,
+                    y: item.y
+                };
+
+                // Add to player inventory
+                const added = player.inventory.add(item);
+
+                if (added) {
+                    // Remove item from the ground/world
+                    this.world.entities.removeItem(item);
+
+                    log.info(`[AI Pickup] ${player.name} picked up ${item.count}x ${item.name} at (${item.x}, ${item.y})`);
+
+                    response.json({
+                        status: 'success',
+                        message: 'Item picked up successfully',
+                        item: itemInfo
+                    });
+                } else {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Inventory full - cannot pick up item'
+                    });
+                }
+            } catch (error) {
+                log.error(`Error picking up item: ${error}`);
                 response.status(500).json({
                     status: 'error',
                     message: 'Internal server error'
@@ -1896,9 +2026,23 @@ export default class API {
                     playerSkill.addExperience(expToAdd);
                 }
                 
-                // Debug: Log results  
+                // Debug: Log results
                 console.log(`[SETLEVEL DEBUG] ${skillEnumName}: ${initialLevel}(${initialExp}) -> ${playerSkill.level}(${playerSkill.experience}), target: ${targetLevel}`);
-                
+
+                // IMPORTANT: Directly update maxHitPoints/maxMana when setting health/magic skills
+                // This bypasses the sync() check for this.loaded which may return early for AI agents
+                if (skillEnumName === 'Health') {
+                    const newMaxHP = Formulas.getMaxHitPoints(playerSkill.level);
+                    player.hitPoints.setMaxHitPoints(newMaxHP);
+                    player.hitPoints.setHitPoints(newMaxHP); // Also restore HP to max
+                    console.log(`[SETLEVEL DEBUG] Updated maxHitPoints to ${newMaxHP} for health level ${playerSkill.level}`);
+                } else if (skillEnumName === 'Magic') {
+                    const newMaxMana = Formulas.getMaxMana(playerSkill.level);
+                    player.mana.setMaxMana(newMaxMana);
+                    player.mana.setMana(newMaxMana); // Also restore mana to max
+                    console.log(`[SETLEVEL DEBUG] Updated maxMana to ${newMaxMana} for magic level ${playerSkill.level}`);
+                }
+
                 // Sync the skills to update player level and other stats
                 player.skills.sync();
 

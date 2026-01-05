@@ -710,7 +710,12 @@ class GameConsole:
                 except Exception as e:
                     results.append(f"❌ Failed to set {skill} level: {str(e)}")
                     self.log_message("INIT", f"Failed to set {skill} level: {str(e)}")
-            
+
+            # Add delay to allow server to recalculate maxHitPoints after skill changes
+            import time
+            time.sleep(1.0)
+            self.log_message("INIT", "Skill sync delay applied before HP/MP restoration")
+
             # Restore HP and MP after setting combat levels
             try:
                 result = self.agent.game_tools.restore_hp_mp()

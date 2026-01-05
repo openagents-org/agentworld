@@ -830,6 +830,29 @@ class TaskRunner:
         except Exception as e:
             return f"📊 Status: Error getting details - {str(e)[:30]}..."
 
+    def _is_agent_dead(self, agent_state: AgentExecutionState) -> bool:
+        """Check if an agent is dead (HP <= 0)"""
+        try:
+            if not agent_state.console or not agent_state.console.agent.game_tools:
+                return False
+
+            # Get observation to check HP
+            result = agent_state.console.agent.game_tools.observe_environment({"radius": 1})
+
+            if isinstance(result, str) and "Environment observation" in result:
+                import re
+                import json
+                json_match = re.search(r'\{.*\}', result, re.DOTALL)
+                if json_match:
+                    data = json.loads(json_match.group())
+                    player_status = data.get("playerStatus", {})
+                    hp = player_status.get("hitPoints", 100)  # Default to 100 if not found
+                    return hp <= 0
+            return False
+        except Exception as e:
+            self.logger.warning(f"Error checking agent death status: {e}")
+            return False
+
     def _execute_agent_turn(self, agent_state: AgentExecutionState, task_prompt: str, max_action_steps: int) -> Tuple[bool, str]:
         """
         Execute a single tool call for an agent.
@@ -1166,12 +1189,20 @@ class TaskRunner:
             # Execute exactly one tool call for each agent in order
             for agent_name in agent_order:
                 agent_state = agent_states[agent_name]
-                
+
                 # Skip agents that are already completed or failed
                 if agent_state.state in [AgentState.COMPLETED, AgentState.FAILED]:
                     self.log_message(f"  🤖 {agent_name} (skipped - {agent_state.state.value})", color=3)
                     continue
-                
+
+                # Check if agent is dead (HP <= 0) before executing their turn
+                if self._is_agent_dead(agent_state):
+                    agent_state.state = AgentState.FAILED
+                    agent_state.error_message = "Agent died (HP <= 0)"
+                    agent_state.end_time = time.time()
+                    self.log_message(f"  💀 {agent_name} is DEAD (HP <= 0) - marked as failed", color=1)
+                    continue
+
                 self.log_message(f"  🤖 {agent_name} executing tool call...", color=6)
                 
                 # Build agent-specific task prompt with team context

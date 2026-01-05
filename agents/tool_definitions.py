@@ -125,6 +125,23 @@ GAME_TOOLS = [
     {
         "type": "function",
         "function": {
+            "name": "pickup_ground_item",
+            "description": "Pick up a dropped item from the ground (loot from killed mobs, etc.). These items are visible in the 'groundItems' array of your environment observation. Use this to collect loot after combat or to pick up items you find on the ground. You must be within 2 tiles of the item to pick it up.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "targetInstance": {
+                        "type": "string",
+                        "description": "The instance ID of the ground item to pick up. This MUST be an exact instance ID from the 'groundItems' section in your current environment observation (e.g., '1234567890'). Instance IDs are pure numbers without any prefix."
+                    }
+                },
+                "required": ["targetInstance"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
             "name": "attack_entity",
             "description": "Attack an entity directly by providing its instance ID. This function will automatically handle positioning, combat, and loot collection - it will move you close to the target if needed, initiate the attack, and after combat automatically move to the target's location to pick up any dropped items. You can ONLY use this function if you can see the target entity (monster, mob, or player) in your current environment observation.",
             "parameters": {
@@ -269,6 +286,48 @@ GAME_TOOLS = [
                     }
                 },
                 "required": ["required_items"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "discard_item",
+            "description": "Discard (drop) an item from your inventory to your current location on the ground. The item will be dropped at your current position and can be picked up by you or other players later. Use this when your inventory is full and you need to make space for important items.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "inventoryIndex": {
+                        "type": "integer",
+                        "description": "The 0-based index of the inventory slot containing the item to discard. Check your inventory status first to find the correct index."
+                    },
+                    "count": {
+                        "type": "integer",
+                        "description": "Optional: Number of items to discard if it's a stack. If not specified, all items in that slot will be discarded."
+                    }
+                },
+                "required": ["inventoryIndex"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "destroy_item",
+            "description": "Permanently destroy an item from your inventory. The item will be completely deleted and cannot be recovered. This is useful for removing unwanted items when you need inventory space and don't want to leave items on the ground. WARNING: This action cannot be undone!",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "inventoryIndex": {
+                        "type": "integer",
+                        "description": "The 0-based index of the inventory slot containing the item to destroy. Check your inventory status first to find the correct index."
+                    },
+                    "count": {
+                        "type": "integer",
+                        "description": "Optional: Number of items to destroy if it's a stack. If not specified, all items in that slot will be destroyed."
+                    }
+                },
+                "required": ["inventoryIndex"]
             }
         }
     }
