@@ -1172,9 +1172,11 @@ def task_100_verifier(traj_json: Dict) -> Tuple[int, str]:
 # =============================================================================
 
 def task_02_verifier(traj_json: Dict) -> Tuple[int, str]:
+    """Arrow Production - craft 10 arrows."""
     inventories = get_final_inventories(traj_json)
-    has_item = has_item_in_any_inventory(inventories, 'pickaxe')
-    return (1 if has_item else 0, f"Has pickaxe: {has_item}")
+    arrows = count_item_in_inventories(inventories, 'arrow')
+    success = arrows >= 10
+    return (1 if success else 0, f"Arrows: {arrows}/10")
 
 def task_03_verifier(traj_json: Dict) -> Tuple[int, str]:
     inventories = get_final_inventories(traj_json)

@@ -200,16 +200,34 @@ def score_branch(
     agent_states = branch.get('agent_states', {})
 
     # Score based on inventory items collected
+    is_fletcher = False
     for agent_name, state in agent_states.items():
+        is_fletcher = 'fletcher' in agent_name.lower()
         for item in state.get('inventory', []):
             if item and item.get('key'):
-                # More items is generally better for crafting tasks
-                score += item.get('count', 1) * 2
+                key = item.get('key', '').lower()
+                count = item.get('count') or 1
+                # Goal items get massive bonus
+                if key == 'arrow':
+                    score += count * 100  # Arrows are the goal!
+                elif key == 'staff' or key == 'magicstaff':
+                    score += count * 50  # Staff is also a goal
+                elif key == 'stick' and is_fletcher:
+                    score += count * 10  # Sticks in fletcher = closer to arrows
+                elif key == 'feather' and is_fletcher:
+                    score += count * 10  # Feathers in fletcher = closer to arrows
+                else:
+                    # Other items get normal scoring
+                    score += count * 2
 
         # Score based on equipment
         for slot, item in state.get('equipment', {}).items():
             if item and item.get('key'):
-                score += 5
+                key = item.get('key', '').lower()
+                if key == 'staff' or key == 'magicstaff':
+                    score += 200  # Equipped staff is goal achieved!
+                else:
+                    score += 5
 
         # Penalize dead agents
         if state.get('dead', False) or state.get('hitPoints', 0) <= 0:

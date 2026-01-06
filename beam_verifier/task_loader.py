@@ -45,9 +45,9 @@ EQUIPMENT_SLOT_TO_TYPE = {
 
 # Item key to equipment slot mapping (common items)
 ITEM_TO_SLOT = {
-    # Weapons
+    # Weapons (including magic staves)
     'sword': 4, 'axe': 4, 'morningstar': 4, 'dagger': 4, 'pickaxe': 4,
-    'staff': 4, 'bow': 4, 'club': 4, 'mace': 4, 'hatchet': 4,
+    'staff': 4, 'magicstaff': 4, 'bow': 4, 'club': 4, 'mace': 4, 'hatchet': 4,
     'hammer': 4, 'spear': 4, 'scimitar': 4, 'battleaxe': 4,
     'ironsword': 4, 'ironaxe': 4, 'ironpickaxe': 4,
     'steelsword': 4, 'steelaxe': 4, 'steelpickaxe': 4,
@@ -273,29 +273,48 @@ def get_task_context(task: TaskConfig) -> str:
     """
     context = f"""# Task: {task.name}
 
-## Description
-{task.description}
-
-## Primary Objective
+## PRIMARY OBJECTIVE (CRITICAL)
 {task.primary_objective}
+
+## SUCCESS CRITERIA - ALL MUST BE MET:
+"""
+    for i, criterion in enumerate(task.success_criteria, 1):
+        context += f"{i}. {criterion}\n"
+
+    context += f"""
+## STRATEGIC GUIDANCE FOR COMPLETING THIS TASK
+
+To successfully complete multi-agent cooperative tasks, follow this approach:
+
+1. **ANALYZE CURRENT STATE**: Check what items each agent currently has in inventory and equipment
+2. **IDENTIFY END GOAL**: Determine what the final objective requires (e.g., who needs what item equipped)
+3. **PLAN ITEM FLOW**: Map out how items need to move between agents:
+   - Who has raw materials? → Who can craft intermediate items? → Who needs the final item?
+4. **EXECUTE TRANSFERS**: Use the "transfer" action to give items to another agent:
+   - Example: {{"type": "transfer", "targetPlayer": "smith_agent", "itemKey": "ironbar", "count": 2}}
+   - This is the PREFERRED method - instant and reliable!
+5. **CRAFT IN SEQUENCE**: Craft intermediate items before final items
+6. **EQUIP FINAL ITEM**: The target agent must use "equip" to equip the crafted item
+7. **COORDINATE**: Plan which agent crafts what and who receives the final item
+
+CRITICAL REMINDERS:
+- Use "transfer" to move items between agents - it's the most efficient method
+- Don't just gather/craft - ensure items reach the RIGHT agent via transfer
+- The task is NOT complete until the final item is EQUIPPED by the correct agent
 
 ## Game Context
 {task.relevant_game_context}
 
-## Agents
+## Agents (Starting Configuration)
 """
     for username, agent in task.agents.items():
         context += f"\n### {username}\n"
-        context += f"- Location: ({agent.location.get('x', 0)}, {agent.location.get('y', 0)})\n"
-        context += f"- Skills: {agent.skill_levels}\n"
-        context += f"- Inventory: {[item.get('item') for item in agent.inventory_items]}\n"
-        context += f"- Equipped: {[item.get('item') for item in agent.equipped_items]}\n"
+        context += f"- Starting Position: ({agent.location.get('x', 0)}, {agent.location.get('y', 0)})\n"
+        context += f"- Key Skills: {agent.skill_levels}\n"
+        context += f"- Starting Inventory: {[item.get('item') for item in agent.inventory_items]}\n"
+        context += f"- Starting Equipment: {[item.get('item') for item in agent.equipped_items]}\n"
 
-    context += f"\n## Success Criteria\n"
-    for criterion in task.success_criteria:
-        context += f"- {criterion}\n"
-
-    context += f"\n## Max Steps: {task.max_action_steps}\n"
+    context += f"\n## Step Limit: {task.max_action_steps}\n"
 
     return context
 

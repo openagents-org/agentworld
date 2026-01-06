@@ -14,7 +14,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from .task_loader import load_task, task_to_initial_states, get_task_context, TaskConfig
 from .simulation_client import SimulationClient, SimulationResult
-from .action_proposer import propose_actions
+from .action_proposer import propose_actions, propose_actions_multi_branch, summarize_team_inventory
 from .verifier_adapter import states_to_trajectory, verify_task, quick_verify_state
 from .branch_evaluator import select_best_branches
 
@@ -78,6 +78,7 @@ class BeamSearchVerifier:
         self,
         task_path: str,
         beam_size: int = 2,
+        actions_per_branch: int = 5,
         max_steps: int = 25,
         api_base: str = "http://localhost:7031",
         verbose: bool = True
@@ -87,7 +88,8 @@ class BeamSearchVerifier:
 
         Args:
             task_path: Path to task YAML file
-            beam_size: Number of beams to maintain
+            beam_size: Number of beams to maintain after pruning
+            actions_per_branch: Number of action sets to propose per branch
             max_steps: Maximum steps before giving up
             api_base: Base URL for simulation API
             verbose: Whether to print progress
@@ -95,6 +97,7 @@ class BeamSearchVerifier:
         self.task = load_task(task_path)
         self.task_context = get_task_context(self.task)
         self.beam_size = beam_size
+        self.actions_per_branch = actions_per_branch
         self.max_steps = min(max_steps, self.task.max_action_steps)
         self.sim_client = SimulationClient(api_base)
         self.verbose = verbose
@@ -141,16 +144,23 @@ class BeamSearchVerifier:
         new_states = {}
         action_results = {}
 
-        # Separate wait actions (no API call needed) from real actions
+        # Separate different action types
         wait_actions = {}
+        transfer_actions = {}
+        equip_actions = {}
         api_actions = {}
 
         for agent_name, action in action_set.items():
             if agent_name not in agent_states:
                 continue
 
-            if action.get('type') == 'wait':
+            action_type = action.get('type')
+            if action_type == 'wait':
                 wait_actions[agent_name] = action
+            elif action_type == 'transfer':
+                transfer_actions[agent_name] = action
+            elif action_type == 'equip':
+                equip_actions[agent_name] = action
             else:
                 api_actions[agent_name] = action
 
@@ -165,9 +175,85 @@ class BeamSearchVerifier:
                 'state_after': current_state
             }
 
+        # Handle transfer actions locally (modify both sender and receiver states)
+        # First, initialize new_states for all agents involved in transfers
+        for agent_name in transfer_actions:
+            if agent_name not in new_states:
+                new_states[agent_name] = copy.deepcopy(agent_states[agent_name])
+
+        for agent_name, action in transfer_actions.items():
+            target_player = action.get('targetPlayer', '')
+            item_key = action.get('itemKey', '')
+            count = action.get('count', 1)
+
+            # Ensure target exists in new_states
+            if target_player in agent_states and target_player not in new_states:
+                new_states[target_player] = copy.deepcopy(agent_states[target_player])
+
+            # Execute local transfer
+            success, message = self._execute_local_transfer(
+                new_states, agent_name, target_player, item_key, count
+            )
+
+            action_results[agent_name] = {
+                'action': action,
+                'success': success,
+                'message': message,
+                'state_after': new_states.get(agent_name, agent_states.get(agent_name, {}))
+            }
+
+        # Handle equip actions locally (to support items the API doesn't recognize)
+        for agent_name, action in equip_actions.items():
+            if agent_name not in new_states:
+                new_states[agent_name] = copy.deepcopy(agent_states[agent_name])
+
+            inventory_index = action.get('inventoryIndex', 0)
+            success, message = self._execute_local_equip(
+                new_states[agent_name], inventory_index
+            )
+
+            action_results[agent_name] = {
+                'action': action,
+                'success': success,
+                'message': message,
+                'state_after': new_states[agent_name]
+            }
+
         # Execute real actions in parallel
+        def sanitize_action(action: Dict[str, Any]) -> Dict[str, Any]:
+            """Ensure action parameters are valid types."""
+            action = action.copy()
+            action_type = action.get('type', '')
+
+            # Fix common errors: wrong skill for arrows
+            if action_type == 'craft':
+                item_key = action.get('itemKey', '').lower()
+                # Fix plural "arrows" to singular "arrow"
+                if item_key == 'arrows':
+                    action['itemKey'] = 'arrow'
+                    item_key = 'arrow'
+                if item_key == 'arrow':
+                    # Arrows MUST use Fletching skill
+                    action['skill'] = 'Fletching'
+                    # Set count=1 for arrows - game crafts 1 batch = 10 arrows (10 sticks + 10 feathers)
+                    action['count'] = 1
+                    return action
+
+            # Ensure count is a valid integer for craft/transfer actions (except arrows)
+            if action_type in ('craft', 'transfer') or 'count' in action:
+                count = action.get('count')
+                if count is None or (isinstance(count, float) and str(count) == 'nan'):
+                    action['count'] = 1
+                else:
+                    try:
+                        action['count'] = int(count)
+                    except (ValueError, TypeError):
+                        action['count'] = 1
+            return action
+
         def execute_single_action(agent_name: str, action: Dict[str, Any]) -> Tuple[str, Dict[str, Any], SimulationResult]:
             current_state = agent_states[agent_name]
+            action = sanitize_action(action)
             result = self.sim_client.act(current_state, action)
             return agent_name, action, result
 
@@ -189,6 +275,183 @@ class BeamSearchVerifier:
 
         return new_states, action_results
 
+    def _execute_local_transfer(
+        self,
+        states: Dict[str, Dict[str, Any]],
+        sender: str,
+        receiver: str,
+        item_key: str,
+        count: int
+    ) -> Tuple[bool, str]:
+        """
+        Execute a local item transfer between two agents.
+
+        Modifies states in-place.
+
+        Args:
+            states: Dict of agent states (will be modified)
+            sender: Name of agent sending items
+            receiver: Name of agent receiving items
+            item_key: Key of item to transfer
+            count: Number of items to transfer
+
+        Returns:
+            Tuple of (success, message)
+        """
+        # Validate agents exist
+        if sender not in states:
+            return False, f"Sender '{sender}' not found"
+        if receiver not in states:
+            return False, f"Receiver '{receiver}' not found"
+
+        sender_state = states[sender]
+        receiver_state = states[receiver]
+
+        sender_inventory = sender_state.get('inventory', [])
+        receiver_inventory = receiver_state.get('inventory', [])
+
+        # Find item in sender's inventory
+        sender_slot = None
+        sender_item = None
+        for i, item in enumerate(sender_inventory):
+            if item and isinstance(item, dict) and item.get('key', '').lower() == item_key.lower():
+                sender_slot = i
+                sender_item = item
+                break
+
+        if sender_slot is None:
+            return False, f"Item '{item_key}' not found in {sender}'s inventory"
+
+        available_count = sender_item.get('count', 1)
+        if available_count < count:
+            return False, f"Not enough {item_key}: have {available_count}, need {count}"
+
+        # Find empty slot in receiver's inventory, or existing stack of same item
+        receiver_slot = None
+        for i, item in enumerate(receiver_inventory):
+            if item and isinstance(item, dict) and item.get('key', '').lower() == item_key.lower():
+                # Found existing stack
+                receiver_slot = i
+                break
+
+        if receiver_slot is None:
+            # Find empty slot
+            for i, item in enumerate(receiver_inventory):
+                if item is None:
+                    receiver_slot = i
+                    break
+
+        if receiver_slot is None:
+            return False, f"{receiver}'s inventory is full"
+
+        # Execute the transfer
+        # Remove from sender
+        if available_count == count:
+            sender_inventory[sender_slot] = None
+        else:
+            sender_inventory[sender_slot] = {
+                'key': sender_item.get('key'),
+                'count': available_count - count
+            }
+
+        # Add to receiver
+        existing_item = receiver_inventory[receiver_slot]
+        if existing_item and isinstance(existing_item, dict):
+            # Add to existing stack
+            receiver_inventory[receiver_slot] = {
+                'key': existing_item.get('key'),
+                'count': existing_item.get('count', 1) + count
+            }
+        else:
+            # New stack
+            receiver_inventory[receiver_slot] = {
+                'key': item_key,
+                'count': count
+            }
+
+        return True, f"Transferred {count}x {item_key} from {sender} to {receiver}"
+
+    def _execute_local_equip(
+        self,
+        state: Dict[str, Any],
+        inventory_index: int
+    ) -> Tuple[bool, str]:
+        """
+        Execute a local equip action.
+
+        Modifies state in-place.
+
+        Args:
+            state: Agent state (will be modified)
+            inventory_index: Index of item in inventory to equip
+
+        Returns:
+            Tuple of (success, message)
+        """
+        # Item to slot mapping (weapon slot = 4)
+        ITEM_TO_SLOT = {
+            'sword': 4, 'axe': 4, 'morningstar': 4, 'dagger': 4, 'pickaxe': 4,
+            'staff': 4, 'magicstaff': 4, 'bow': 4, 'club': 4, 'mace': 4, 'hatchet': 4,
+            'hammer': 4, 'spear': 4, 'scimitar': 4, 'battleaxe': 4,
+            'ironsword': 4, 'ironaxe': 4, 'ironpickaxe': 4,
+            'steelsword': 4, 'steelaxe': 4, 'steelpickaxe': 4,
+            'goldsword': 4, 'goldaxe': 4, 'goldpickaxe': 4,
+            'lightningstaff': 4, 'firestaff': 4, 'icestaff': 4,
+            # Armour
+            'leatherarmor': 0, 'leatherarmour': 0, 'chainmail': 0, 'platearmor': 0,
+            'ironarmor': 0, 'steelarmor': 0, 'goldarmor': 0, 'wizardrobe': 0,
+            # Boots
+            'leatherboots': 1, 'ironboots': 1, 'steelboots': 1, 'goldboots': 1, 'wizardboots': 1,
+            # Pendants
+            'silverpendant': 2, 'goldpendant': 2, 'berylpendant': 2, 'rubypendant': 2,
+            # Rings
+            'goldring': 3, 'silverring': 3, 'bronzering': 3, 'topazring': 3,
+            'emeraldring': 3, 'sapphirering': 3, 'diamondring': 3, 'rubyring': 3,
+            # Arrows
+            'arrow': 5, 'ironarrow': 5, 'steelarrow': 5, 'poisonarrow': 5,
+        }
+
+        inventory = state.get('inventory', [])
+        equipment = state.get('equipment', {})
+
+        # Validate inventory index
+        if inventory_index < 0 or inventory_index >= len(inventory):
+            return False, f"Invalid inventory index: {inventory_index}"
+
+        item = inventory[inventory_index]
+        if not item or not isinstance(item, dict):
+            return False, f"No item at inventory index {inventory_index}"
+
+        item_key = item.get('key', '').lower()
+        slot = ITEM_TO_SLOT.get(item_key)
+
+        if slot is None:
+            return False, f"Item '{item_key}' is not equippable"
+
+        # Swap: move current equipment to inventory, equip new item
+        current_equipped = equipment.get(slot)
+
+        # Equip the new item (take 1 from stack)
+        item_count = item.get('count', 1)
+        if item_count > 1:
+            # Leave remaining in inventory
+            inventory[inventory_index] = {'key': item.get('key'), 'count': item_count - 1}
+        else:
+            inventory[inventory_index] = None
+
+        # Put old equipment in inventory if there was one
+        if current_equipped and isinstance(current_equipped, dict):
+            # Find empty slot for old equipment
+            for i, inv_item in enumerate(inventory):
+                if inv_item is None:
+                    inventory[i] = current_equipped
+                    break
+
+        # Equip new item
+        equipment[slot] = {'key': item.get('key'), 'count': 1}
+
+        return True, f"Equipped {item.get('key')}"
+
     def run(self) -> VerificationResult:
         """
         Run beam search verification.
@@ -202,7 +465,7 @@ class BeamSearchVerifier:
         self.log(f"Starting verification for: {self.task.name}")
         self.log(f"Task ID: {self.task.task_id}")
         self.log(f"Agents: {list(self.task.agents.keys())}")
-        self.log(f"Max steps: {self.max_steps}, Beam size: {self.beam_size}")
+        self.log(f"Max steps: {self.max_steps}, Beam size: {self.beam_size}, Actions/branch: {self.actions_per_branch}")
         self.log("-" * 60)
 
         # Check API health
@@ -262,36 +525,84 @@ class BeamSearchVerifier:
         for step in range(self.max_steps):
             self.log(f"\n=== Step {step + 1}/{self.max_steps} ===")
             self.log(f"Active branches: {len(branches)}")
+            # Debug: Show team inventory for first branch
+            if branches:
+                inv_summary = summarize_team_inventory(branches[0].agent_states)
+                self.log(f"[DEBUG] {inv_summary}")
 
             # PHASE 1: Get observations for all branches in parallel
             self.log("Getting observations for all branches...")
             for branch in branches:
                 branch.observations = self.get_observations(branch.agent_states)
 
-            # PHASE 2: Propose actions for all branches in parallel (Claude CLI calls)
-            self.log("Proposing actions for all branches in parallel...")
+            # PHASE 2: Propose actions for all branches in a single Claude call
+            self.log("Proposing actions for all branches...")
 
-            def propose_for_branch(branch_idx: int, branch: BranchState) -> Tuple[int, List[Dict[str, Dict[str, Any]]]]:
-                """Call propose_actions for a single branch."""
-                action_sets = propose_actions(
-                    self.task_context,
-                    branch.agent_states,
-                    branch.observations,
-                    branch.action_history,
-                    beam_count=self.beam_size
-                )
-                return branch_idx, action_sets
-
-            branch_action_sets = {}
-            with ThreadPoolExecutor(max_workers=CLAUDE_WORKERS) as executor:
-                futures = {
-                    executor.submit(propose_for_branch, idx, branch): idx
-                    for idx, branch in enumerate(branches)
+            # Build branch data for combined proposal
+            branch_data = [
+                {
+                    'agent_states': branch.agent_states,
+                    'observations': branch.observations,
+                    'history': branch.action_history
                 }
-                for future in as_completed(futures):
-                    branch_idx, action_sets = future.result()
-                    branch_action_sets[branch_idx] = action_sets
-                    self.log(f"  Branch {branch_idx + 1}: got {len(action_sets)} action sets")
+                for branch in branches
+            ]
+
+            # Single Claude call for all branches
+            branch_action_sets = propose_actions_multi_branch(
+                self.task_context,
+                branch_data,
+                beam_count=self.actions_per_branch
+            )
+
+            # Inject arrow crafting action if fletcher has enough materials
+            for branch_idx, branch in enumerate(branches):
+                fletcher_name = None
+                fletcher_sticks = 0
+                fletcher_feathers = 0
+                fletcher_arrows = 0
+                for agent_name, state in branch.agent_states.items():
+                    if 'fletcher' in agent_name.lower():
+                        fletcher_name = agent_name
+                        for item in state.get('inventory', []) or []:
+                            if item and isinstance(item, dict):
+                                key = item.get('key', '').lower()
+                                count = item.get('count', 1) or 1
+                                if key == 'stick':
+                                    fletcher_sticks += count
+                                elif key == 'feather':
+                                    fletcher_feathers += count
+                                elif key == 'arrow':
+                                    fletcher_arrows += count
+
+                # Inject arrow craft if:
+                # 1. Fletcher has 10+ sticks AND 10+ feathers (first arrow), OR
+                # 2. Fletcher has at least 1 stick AND 1 feather AND already has some arrows (continuing)
+                should_inject = fletcher_name and (
+                    (fletcher_sticks >= 10 and fletcher_feathers >= 10) or
+                    (fletcher_sticks >= 1 and fletcher_feathers >= 1 and fletcher_arrows >= 1)
+                )
+
+                if should_inject:
+                    # Force an arrow crafting action as first option
+                    # count=1 means 1 batch = 10 arrows (consuming 10 sticks + 10 feathers)
+                    arrow_action = {
+                        fletcher_name: {'type': 'craft', 'skill': 'Fletching', 'itemKey': 'arrow', 'count': 1}
+                    }
+                    # Make others wait
+                    for agent_name in branch.agent_states:
+                        if agent_name != fletcher_name:
+                            arrow_action[agent_name] = {'type': 'wait'}
+
+                    # Insert at beginning of action sets
+                    if branch_idx not in branch_action_sets:
+                        branch_action_sets[branch_idx] = []
+                    branch_action_sets[branch_idx].insert(0, arrow_action)
+                    self.log(f"  [FORCED] Injected arrow crafting (sticks={fletcher_sticks}, feathers={fletcher_feathers}, arrows={fletcher_arrows})")
+
+            for branch_idx in range(len(branches)):
+                action_sets = branch_action_sets.get(branch_idx, [])
+                self.log(f"  Branch {branch_idx + 1}: got {len(action_sets)} action sets")
 
             # PHASE 3: Execute all action sets and create new branches
             new_branches = []
@@ -329,6 +640,7 @@ class BeamSearchVerifier:
                 )
                 return new_branch, (success, message), branch_idx, action_idx
 
+            branch_origins = []  # Track which source branch/action created each new branch
             if pending_executions:
                 with ThreadPoolExecutor(max_workers=API_WORKERS) as executor:
                     futures = [executor.submit(execute_and_verify, args) for args in pending_executions]
@@ -344,6 +656,7 @@ class BeamSearchVerifier:
 
                         new_branches.append(new_branch)
                         verifier_results.append((success, message))
+                        branch_origins.append((branch_idx + 1, action_idx + 1))
 
                         # Early exit if succeeded
                         if success:
@@ -381,9 +694,12 @@ class BeamSearchVerifier:
                 )
 
                 branches = [new_branches[i] for i in selected_indices]
-                self.log(f"Kept branches: {[i+1 for i in selected_indices]}")
+                kept_origins = [branch_origins[i] for i in selected_indices]
+                self.log(f"Kept branches: {[f'B{o[0]}A{o[1]}' for o in kept_origins]}")
             else:
                 branches = new_branches
+                if branch_origins:
+                    self.log(f"\nKept all {len(branches)} branches: {[f'B{o[0]}A{o[1]}' for o in branch_origins]}")
 
             # Log current state summary
             for branch_idx, branch in enumerate(branches):
@@ -421,6 +737,7 @@ class BeamSearchVerifier:
 def run_single_task(
     task_path: str,
     beam_size: int = 2,
+    actions_per_branch: int = 5,
     max_steps: int = 25,
     api_base: str = "http://localhost:7031",
     verbose: bool = True
@@ -430,7 +747,8 @@ def run_single_task(
 
     Args:
         task_path: Path to task YAML
-        beam_size: Beam size for search
+        beam_size: Beam size for search (branches to keep after pruning)
+        actions_per_branch: Number of action sets to propose per branch
         max_steps: Maximum steps
         api_base: API base URL
         verbose: Print progress
@@ -441,6 +759,7 @@ def run_single_task(
     verifier = BeamSearchVerifier(
         task_path=task_path,
         beam_size=beam_size,
+        actions_per_branch=actions_per_branch,
         max_steps=max_steps,
         api_base=api_base,
         verbose=verbose

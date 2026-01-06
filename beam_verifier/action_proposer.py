@@ -1,42 +1,21 @@
 """
 Action Proposer Module
 
-Uses OpenAI-compatible API for Claude model inference.
+Uses the Claude Agent SDK for Claude model inference.
+No API key needed - uses Claude Code's authentication.
 """
 
 import json
 import re
 import os
-import subprocess
+import asyncio
 from typing import Dict, List, Any, Optional
 
-# Try to import OpenAI SDK (for OpenAI-compatible APIs)
-try:
-    from openai import OpenAI
-    _has_openai_sdk = True
-except ImportError:
-    _has_openai_sdk = False
+# Import Claude Agent SDK
+from claude_agent_sdk import query, ClaudeAgentOptions
 
-# OpenAI-compatible API configuration
-OPENAI_API_BASE = "https://yinli.one/v1"
-OPENAI_API_KEY = "sk-GuXujPaEYGeavbxTPI3mI40D9CXr69WfBHiGEuCVwCgG9tZi"
-OPENAI_MODEL = "claude-3-5-haiku-20241022"
-
-# Client singleton
-_openai_client = None
-
-def get_openai_client():
-    """Get or create the OpenAI-compatible client singleton."""
-    global _openai_client
-    if _openai_client is None and _has_openai_sdk:
-        try:
-            _openai_client = OpenAI(
-                api_key=OPENAI_API_KEY,
-                base_url=OPENAI_API_BASE,
-            )
-        except Exception:
-            pass
-    return _openai_client
+# Model configuration - use Claude Sonnet 4.5 for best reasoning
+CLAUDE_MODEL = os.environ.get("CLAUDE_MODEL", "claude-sonnet-4-5-20250929")
 
 
 # Action type definitions for prompts
@@ -48,9 +27,10 @@ Available action types:
    - Use pickupItems when another agent has dropped items at the destination
    - Example without pickup: {"type": "move", "x": 100, "y": 50}
    - Example with pickup: {"type": "move", "x": 100, "y": 50, "pickupItems": [{"key": "logs", "count": 2}]}
-2. craft: {"type": "craft", "skill": "<skill>", "itemKey": "<item>", "count": <number>} - Craft an item
+2. craft: type=craft, skill=<skill>, itemKey=<item>, count=<number> - Craft an item
    - Skills: Smelting, Smithing, Fletching, Cooking, Crafting
-   - itemKey must be lowercase (e.g., "ironbar", "pickaxe", "stick", "arrow")
+   - itemKey must be lowercase SINGULAR (e.g., "ironbar", "stick", "arrow" - NOT "arrows", NOT "sticks")
+   - IMPORTANT: count determines how many to craft. Use count=10 to craft 10 arrows at once!
 3. collect: {"type": "collect", "resourceType": "<tree|rock|fish|foraging>", "resourceKey": "<key>"} - Collect from resource
    - IMPORTANT: resourceKey must be LOWERCASE and match the key shown in observations
    - Examples: "oak", "oak2", "oak3", "iron", "coal", "copper"
@@ -59,60 +39,134 @@ Available action types:
 5. equip: {"type": "equip", "inventoryIndex": <number>} - Equip item from inventory
 6. unequip: {"type": "unequip", "equipmentSlot": <number>} - Unequip to inventory
 7. eat: {"type": "eat", "inventoryIndex": <number>} - Eat food for healing
-8. drop: {"type": "drop", "inventoryIndex": <number>, "count": <optional number>} - Drop item for another agent to pick up
+8. drop: {"type": "drop", "inventoryIndex": <number>, "count": <optional number>} - Drop item on ground for another agent to pick up
 9. use: {"type": "use", "inventoryIndex": <number>} - Use consumable item
 10. enter: {"type": "enter"} - Enter warp/portal at current position
 11. wait: {"type": "wait"} - Do nothing this turn (placeholder action)
+12. transfer: {"type": "transfer", "targetPlayer": "<agent_name>", "itemKey": "<item>", "count": <number>} - Transfer items to another agent
+   - Directly transfers items from your inventory to the target agent's inventory
+   - Both agents must exist in the same game session
+   - Example: {"type": "transfer", "targetPlayer": "smith_agent", "itemKey": "ironbar", "count": 2}
+
+ITEM TRANSFER BETWEEN AGENTS:
+Use the "transfer" action to directly give items to another agent:
+  {"type": "transfer", "targetPlayer": "target_agent_name", "itemKey": "itemname", "count": N}
+This is the PREFERRED method for moving items between agents.
 """
 
 
-def call_claude(prompt: str, max_tokens: int = 4096, use_haiku: bool = True) -> str:
+async def call_claude_async(prompt: str, max_tokens: int = 4096, use_haiku: bool = False) -> str:
     """
-    Call Claude using OpenAI-compatible API.
+    Call Claude using the Claude Agent SDK (async version).
 
     Args:
         prompt: The prompt to send to Claude
         max_tokens: Maximum tokens for response
-        use_haiku: If True, use Haiku model (ignored, uses configured model)
+        use_haiku: If True, use Haiku model for faster/cheaper calls
 
     Returns:
         Claude's response as a string
     """
-    client = get_openai_client()
+    # Select model based on use_haiku flag
+    model = "claude-3-5-haiku-20241022" if use_haiku else CLAUDE_MODEL
 
-    if client is not None:
-        try:
-            response = client.chat.completions.create(
-                model=OPENAI_MODEL,
-                max_tokens=max_tokens,
-                messages=[{"role": "user", "content": prompt}]
-            )
-            if response.choices and len(response.choices) > 0:
-                return response.choices[0].message.content or ""
-            return ""
-        except Exception as e:
-            return f"Error calling OpenAI-compatible API: {str(e)}"
-
-    # Fallback to CLI if OpenAI SDK not available
     try:
-        cmd = ['claude', '-p', prompt, '--output-format', 'json', '--model', 'haiku']
-        result = subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-            timeout=120
-        )
-        if result.returncode != 0:
-            return f"Error calling Claude CLI: {result.stderr or result.stdout}"
-        try:
-            response = json.loads(result.stdout)
-            return response.get('result', '')
-        except json.JSONDecodeError:
-            return result.stdout
-    except subprocess.TimeoutExpired:
-        return "Error: Claude CLI timed out"
+        result_text = ""
+        async for message in query(
+            prompt=prompt,
+            options=ClaudeAgentOptions(
+                allowed_tools=[],  # No tools needed for simple text completion
+                model=model,
+            )
+        ):
+            # Extract text from assistant messages
+            if hasattr(message, 'message') and message.message:
+                content = message.message.content if hasattr(message.message, 'content') else []
+                for block in content:
+                    if hasattr(block, 'text'):
+                        result_text += block.text
+            # Also check for direct text content
+            elif hasattr(message, 'content'):
+                for block in message.content:
+                    if hasattr(block, 'text'):
+                        result_text += block.text
+        return result_text
     except Exception as e:
-        return f"Error calling Claude CLI: {str(e)}"
+        return f"Error calling Claude Agent SDK: {str(e)}"
+
+
+def call_claude(prompt: str, max_tokens: int = 4096, use_haiku: bool = False) -> str:
+    """
+    Call Claude using the Claude Agent SDK (sync wrapper).
+
+    Args:
+        prompt: The prompt to send to Claude
+        max_tokens: Maximum tokens for response
+        use_haiku: If True, use Haiku model for faster/cheaper calls
+
+    Returns:
+        Claude's response as a string
+    """
+    try:
+        # Get or create event loop
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            loop = None
+
+        if loop is not None:
+            # We're in an async context, create a new thread to run the async code
+            import concurrent.futures
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                future = executor.submit(
+                    lambda: asyncio.run(call_claude_async(prompt, max_tokens, use_haiku))
+                )
+                return future.result(timeout=120)
+        else:
+            # No event loop, we can use asyncio.run directly
+            return asyncio.run(call_claude_async(prompt, max_tokens, use_haiku))
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
+def summarize_team_inventory(agent_states: Dict[str, Dict[str, Any]]) -> str:
+    """Summarize total items across all agents for goal tracking."""
+    totals = {}
+    fletcher_sticks = 0
+    fletcher_feathers = 0
+
+    for agent_name, state in agent_states.items():
+        is_fletcher = 'fletcher' in agent_name.lower()
+        for item in state.get('inventory', []) or []:
+            if item and isinstance(item, dict):
+                key = item.get('key', '').lower()
+                count = item.get('count', 1)
+                # Ensure count is a valid integer (handle None or NaN)
+                if count is None or (isinstance(count, float) and str(count) == 'nan'):
+                    count = 1
+                totals[key] = totals.get(key, 0) + int(count)
+                if is_fletcher:
+                    if key == 'stick':
+                        fletcher_sticks += int(count)
+                    elif key == 'feather':
+                        fletcher_feathers += int(count)
+
+    if not totals:
+        return "Team has no items."
+
+    items_str = ", ".join(f"{k}x{v}" for k, v in sorted(totals.items()) if v > 0)
+    result = f"TEAM TOTAL: {items_str}"
+    result += f" | FLETCHER: sticks={fletcher_sticks}, feathers={fletcher_feathers}"
+
+    # Add milestone alerts for common goals
+    arrows = totals.get('arrow', 0)
+
+    if arrows >= 10:
+        result += "\n>>> GOAL ACHIEVED: Team has 10+ arrows!"
+    elif fletcher_sticks >= 10 and fletcher_feathers >= 10:
+        result += f"\n>>> READY TO CRAFT ARROWS NOW!"
+
+    return result
 
 
 def format_state_for_prompt(agent_name: str, state: Dict[str, Any], compact: bool = True) -> str:
@@ -373,7 +427,176 @@ Now provide your {beam_count} action sets as JSON:
     # Parse the response
     action_sets = parse_action_sets(response, list(agent_states.keys()), beam_count)
 
+    # Debug: log if we got fewer action sets than requested
+    if len(action_sets) < beam_count:
+        print(f"    [DEBUG] Requested {beam_count} action sets, got {len(action_sets)}")
+        print(f"    [DEBUG] Response preview: {response[:500]}...")
+
     return action_sets
+
+
+def propose_actions_multi_branch(
+    task_context: str,
+    branches: List[Dict[str, Any]],
+    beam_count: int = 2
+) -> Dict[int, List[Dict[str, Dict[str, Any]]]]:
+    """
+    Propose actions for multiple branches in a single Claude call.
+
+    Prompt structure optimized for cache hits:
+    1. Static content first (action types, task context, instructions)
+    2. Dynamic content last (branch states)
+
+    Args:
+        task_context: Description of the task and objectives
+        branches: List of branch data, each containing:
+            - agent_states: Current state for each agent
+            - observations: Current observations for each agent
+            - history: List of previous action results
+        beam_count: Number of different action sets to propose per branch
+
+    Returns:
+        Dict mapping branch index to list of action sets
+    """
+    if not branches:
+        return {}
+
+    agent_names = list(branches[0]['agent_states'].keys())
+
+    # === STATIC CONTENT FIRST (for cache hits) ===
+    prompt = f"""You are an AI assistant helping to solve a multi-agent cooperative game task.
+
+{ACTION_TYPES}
+
+## Task Objective
+
+{task_context}
+
+## Instructions
+
+You will be given game states for multiple branches. For EACH branch, propose {beam_count} different action strategies.
+
+IMPORTANT:
+- Each agent must have exactly one action per strategy
+- Use "wait" if an agent should not do anything
+- Make strategies diverse within each branch
+- resourceKey must be LOWERCASE (e.g., "oak", "iron", not "Oak", "Iron")
+- Respond with ONLY valid JSON
+
+GOAL-ORIENTED THINKING:
+- BEFORE proposing actions, check: Can the FINAL GOAL be achieved NOW with current items?
+- If you have enough materials for the final craft/equip, DO IT - don't keep gathering more!
+- Don't get stuck in loops making intermediate items when you already have enough
+
+COMMON RECIPES (check if you have enough materials!):
+- stick: 1x logs → 4x sticks (craft skill=Fletching itemKey=stick)
+- arrows: 10x sticks + 10x feathers → 10x arrows (craft skill=Fletching itemKey=arrow)
+  * NOTE: itemKey is "arrow" (singular), NOT "arrows"!
+  * DO NOT use count parameter - game auto-produces 10 arrows from 10 sticks + 10 feathers
+- staff: 5x stick + 1x bead → 1x staff (craft skill=Crafting itemKey=staff)
+
+CRITICAL: When "READY TO CRAFT ARROWS" appears, fletcher MUST craft arrows!
+The correct action format: type=craft, skill=Fletching, itemKey=arrow (NO count parameter needed!)
+
+Response format - a JSON object mapping branch numbers to action arrays:
+```json
+{{
+  "1": [
+    {{"agent1": {{"type": "move", "x": 100, "y": 50}}, "agent2": {{"type": "collect", "resourceType": "tree", "resourceKey": "oak"}}}},
+    {{"agent1": {{"type": "wait"}}, "agent2": {{"type": "craft", "skill": "Smithing", "itemKey": "ironbar", "count": 1}}}}
+  ],
+  "2": [
+    {{"agent1": {{"type": "drop", "inventoryIndex": 0}}, "agent2": {{"type": "move", "x": 200, "y": 100}}}},
+    {{"agent1": {{"type": "collect", "resourceType": "rock", "resourceKey": "iron"}}, "agent2": {{"type": "wait"}}}}
+  ]
+}}
+```
+
+## Current Game States
+
+"""
+
+    # === DYNAMIC CONTENT LAST ===
+    for branch_idx, branch in enumerate(branches):
+        prompt += f"### Branch {branch_idx + 1}\n"
+
+        # Add team inventory summary for goal tracking
+        prompt += summarize_team_inventory(branch['agent_states']) + "\n\n"
+
+        prompt += "Agent States:\n"
+        for agent_name, state in branch['agent_states'].items():
+            prompt += format_state_for_prompt(agent_name, state)
+
+        prompt += "Observations:\n"
+        for agent_name, obs in branch['observations'].items():
+            prompt += format_observation_for_prompt(agent_name, obs)
+
+        history = branch.get('history', [])
+        if history:
+            prompt += f"Recent History:\n{format_history_for_prompt(history, max_steps=2)}\n"
+        prompt += "\n"
+
+    prompt += f"Provide actions for all {len(branches)} branch(es) as JSON:"
+
+    # Call Claude
+    response = call_claude(prompt)
+
+    # Parse the response
+    result = parse_multi_branch_actions(response, agent_names, len(branches), beam_count)
+
+    return result
+
+
+def parse_multi_branch_actions(
+    response: str,
+    agent_names: List[str],
+    num_branches: int,
+    expected_count: int
+) -> Dict[int, List[Dict[str, Dict[str, Any]]]]:
+    """
+    Parse Claude's response for multi-branch action proposals.
+
+    Returns:
+        Dict mapping branch index (0-based) to list of action sets
+    """
+    result = {}
+
+    # Try to find JSON object in response
+    json_match = re.search(r'\{[\s\S]*\}', response)
+
+    if json_match:
+        try:
+            data = json.loads(json_match.group())
+
+            for branch_key in data:
+                # Handle both "1" and 1 as keys
+                branch_idx = int(branch_key) - 1  # Convert to 0-based index
+
+                if 0 <= branch_idx < num_branches:
+                    action_sets = data[branch_key]
+                    if isinstance(action_sets, list):
+                        cleaned_sets = []
+                        for action_set in action_sets[:expected_count]:
+                            if isinstance(action_set, dict):
+                                cleaned = {}
+                                for agent_name in agent_names:
+                                    if agent_name in action_set:
+                                        cleaned[agent_name] = action_set[agent_name]
+                                    else:
+                                        cleaned[agent_name] = {'type': 'wait'}
+                                cleaned_sets.append(cleaned)
+                        if cleaned_sets:
+                            result[branch_idx] = cleaned_sets
+
+        except (json.JSONDecodeError, ValueError, KeyError):
+            pass
+
+    # Fill in missing branches with default actions
+    for i in range(num_branches):
+        if i not in result:
+            result[i] = [_default_action_sets(agent_names, 1)[0]]
+
+    return result
 
 
 def parse_action_sets(

@@ -201,6 +201,23 @@ def states_to_trajectory(
     }
 
 
+def extract_base_task_id(task_id: str) -> str:
+    """
+    Extract base task ID from full task ID.
+
+    Examples:
+        task_01_magic_staff_v1 -> task_01
+        task_02_arrow_production_v2 -> task_02
+        task_03 -> task_03
+    """
+    import re
+    # Match task_XX pattern at the start
+    match = re.match(r'(task_\d+)', task_id)
+    if match:
+        return match.group(1)
+    return task_id
+
+
 def verify_task(task_id: str, trajectory: Dict[str, Any]) -> Tuple[bool, str]:
     """
     Run Python verifier on trajectory.
@@ -214,7 +231,9 @@ def verify_task(task_id: str, trajectory: Dict[str, Any]) -> Tuple[bool, str]:
     """
     try:
         import task_verifier1
-        result, message = task_verifier1.verify_task(trajectory, task_id)
+        # Extract base task ID (e.g., task_01_magic_staff_v1 -> task_01)
+        base_task_id = extract_base_task_id(task_id)
+        result, message = task_verifier1.verify_task(trajectory, base_task_id)
         return (result == 1, message)
     except ImportError:
         return (False, "Could not import task_verifier1")
