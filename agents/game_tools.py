@@ -1427,8 +1427,9 @@ class KaetramGameTools:
 
                 if not target_still_alive:
                     # Mob is no longer in the environment - confirmed kill
-                    # Only count as victory if player actually participated
-                    if player_dealt_damage or total_time < 3:
+                    # Count as victory if player participated (was in combat, took damage, or killed quickly)
+                    hp_decreased = final_hp < initial_hp
+                    if player_dealt_damage or hp_decreased or total_time < 3:
                         combat_outcome = "mob_died"
                     else:
                         combat_outcome = "mob_died_by_others"
@@ -1466,7 +1467,12 @@ class KaetramGameTools:
                     if re_attack_result.get("status") != "success":
                         error_msg = re_attack_result.get("message", "")
                         self._log_message(f"🎯 Re-attack failed: {error_msg} - stopping combat loop", "debug")
-                        combat_outcome = "mob_died_by_others"
+                        # Check if player participated before marking as team kill
+                        hp_decreased = final_hp < initial_hp
+                        if player_dealt_damage or hp_decreased:
+                            combat_outcome = "mob_died"
+                        else:
+                            combat_outcome = "mob_died_by_others"
                         break
         
         # IMPROVED Auto-collect dropped items if mob died - now using groundItems and pickup API
