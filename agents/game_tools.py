@@ -524,44 +524,6 @@ class KaetramGameTools:
         else:
             return f"Failed to pick up item: {result.get('message', 'Unknown error')}"
 
-    def pickup_ground_item(self, arguments: Dict[str, Any]) -> str:
-        """Pick up a dropped item from the ground (loot from killed mobs, etc.)
-
-        This function picks up items that are dropped on the ground, such as loot from
-        killed mobs. These items are visible in the 'groundItems' array of the observe response.
-
-        Args:
-            targetInstance: The instance ID of the ground item to pick up (from groundItems in observe)
-        """
-        if not self.token:
-            return "Error: No token available. Please login first."
-
-        target_instance = arguments.get("targetInstance", "")
-
-        if not target_instance:
-            return "Error: Target instance is required for picking up ground items."
-
-        data = {
-            "token": self.token,
-            "targetInstance": target_instance
-        }
-
-        result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["pickup"], data)
-
-        if result.get("status") == "success":
-            item = result.get("item", {})
-            return f"🎁 Picked up ground item: {item.get('count', 1)}x {item.get('name', 'Unknown')} at ({item.get('x')}, {item.get('y')})"
-        else:
-            error_msg = result.get('message', 'Unknown error')
-            if "reserved" in error_msg.lower():
-                return f"⏳ Item is reserved for another player - try again later"
-            elif "inventory full" in error_msg.lower():
-                return f"❌ Cannot pick up item - inventory is full"
-            elif "too far" in error_msg.lower():
-                return f"📏 Too far from item - move closer first"
-            else:
-                return f"Failed to pick up ground item: {error_msg}"
-
     def discard_item(self, arguments: Dict[str, Any]) -> str:
         """Discard (drop) an item from inventory to current location
 
