@@ -221,16 +221,33 @@ export default class API {
                 // Get current player position
                 const startX = player.x;
                 const startY = player.y;
-                
+
+                // Calculate Manhattan distance to target
+                const distance = Math.abs(x - startX) + Math.abs(y - startY);
+                const maxDistance = 30;
+
+                // Enforce distance limit of 30 tiles
+                if (distance > maxDistance) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: `Move distance exceeds limit. Maximum allowed: ${maxDistance} tiles, requested: ${distance} tiles`,
+                        currentPosition: { x: startX, y: startY },
+                        targetPosition: { x, y },
+                        distance,
+                        maxDistance
+                    });
+                }
+
                 // Teleport the player to the target position
                 // Since AI agents don't have actual clients, we use teleport instead of path movement
                 player.teleport(x, y);
-                
+
                 response.json({
                     status: 'success',
                     message: 'Character moved to the destination',
                     startPosition: { x: startX, y: startY },
-                    targetPosition: { x, y }
+                    targetPosition: { x, y },
+                    distance
                 });
             } catch (error) {
                 log.error(`Error moving AI agent: ${error}`);

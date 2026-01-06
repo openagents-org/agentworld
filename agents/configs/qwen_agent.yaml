@@ -257,7 +257,8 @@ agent:
     {% if agent_status_info %}
     === PARTY AGENT STATUS ===
     {% for agent_info in agent_status_info %}
-    - {{agent_info.username}}: {{agent_info.status}}
+    - {{agent_info.username}}: {% if agent_info.hp is defined and agent_info.hp == 0 %}offline{% elif agent_info.status == 'idle' %}offline{% else %}{{agent_info.status}}{% endif %}{% if agent_info.hp is defined %} | HP: {{agent_info.hp}}/{{agent_info.max_hp}}{% if agent_info.hp == 0 %} (DEAD){% endif %}{% endif %}{% if agent_info.mp is defined %} | MP: {{agent_info.mp}}/{{agent_info.max_mp}}{% endif %}
+
     {% endfor %}
     === END PARTY STATUS ===
     {% endif %}

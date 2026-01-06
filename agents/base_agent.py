@@ -229,23 +229,15 @@ Always think strategically about your actions. Make decisions based on your curr
         # Map function names to game tools methods
         tool_mapping = {
             "move_character": self.game_tools.move_character,
-            "send_chat_message": self.game_tools.send_chat_message,
             "enter_portal": self.game_tools.enter_portal,
-            "stop_action": self.game_tools.stop_action,
             "equip_item": self.game_tools.equip_item,
             "harvest_resource": self.game_tools.harvest_resource,
-            "pickup_resource": self.game_tools.pickup_resource,
-            "pickup_ground_item": self.game_tools.pickup_ground_item,
             "craft_item": self.game_tools.craft_item,
             "attack_entity": self.game_tools.attack_entity,
             "sleep": self.game_tools.sleep,
             "complete": self.game_tools.complete,
             "chat": self.game_tools.chat,
             "transfer_items": self.game_tools.transfer_items,
-            "check_inventory_status": self.game_tools.check_inventory_status,
-            "verify_inventory": self.game_tools.verify_inventory,
-            "discard_item": self.game_tools.discard_item,
-            "destroy_item": self.game_tools.destroy_item
         }
         
         if function_name in tool_mapping:

@@ -84,8 +84,9 @@ export default class ResourceSkill extends Skill {
                 new Animation({ instance: player.instance, action: Modules.Actions.Attack })
             );
 
-            // Use probability to check if we can exhaust the resource.
-            if (this.canExhaustResource(weaponLevel, resourceInfo)) {
+            // AI agents always succeed (100% probability) for faster harvesting
+            // Regular players use probability-based success check
+            if (player.isAI || this.canExhaustResource(weaponLevel, resourceInfo)) {
                 // Add the logs to the inventory.
                 player.inventory.add(this.getItem(resourceInfo.item));
 

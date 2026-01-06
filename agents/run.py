@@ -1493,6 +1493,23 @@ class TaskRunner:
                             'username': username,
                             'status': state.state.value if hasattr(state, 'state') else 'unknown'
                         }
+                        # Add HP and MP information
+                        try:
+                            if hasattr(state, 'console') and state.console and hasattr(state.console, 'agent') and state.console.agent.game_tools:
+                                result = state.console.agent.game_tools.observe_environment({"radius": 1})
+                                if isinstance(result, str) and "Environment observation" in result:
+                                    import re
+                                    json_match = re.search(r'\{.*\}', result, re.DOTALL)
+                                    if json_match:
+                                        data = json.loads(json_match.group())
+                                        player_status = data.get("playerStatus", {})
+                                        status_entry['hp'] = player_status.get("hitPoints", "?")
+                                        status_entry['max_hp'] = player_status.get("maxHitPoints", "?")
+                                        status_entry['mp'] = player_status.get("mana", "?")
+                                        status_entry['max_mp'] = player_status.get("maxMana", "?")
+                        except Exception:
+                            # If we can't get HP/MP, just skip it
+                            pass
                         if hasattr(state, 'last_response') and state.last_response:
                             # Extract last action from response if available
                             if 'Tool called:' in str(state.last_response):

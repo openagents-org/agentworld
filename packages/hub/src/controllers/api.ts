@@ -23,10 +23,16 @@ import type {
     TotalExperience
 } from '@kaetram/common/types/leaderboards';
 
-// Initialize stripe
-const stripe = new Stripe(config.stripeSecretKey, {
-    apiVersion: '2023-08-16'
-});
+// Initialize stripe lazily to avoid errors when no API key is configured
+let stripe: Stripe | undefined;
+function getStripe(): Stripe {
+    if (!stripe) {
+        stripe = new Stripe(config.stripeSecretKey, {
+            apiVersion: '2023-08-16'
+        });
+    }
+    return stripe;
+}
 
 /**
  * We use the API format from `@kaetram/server`.
@@ -323,7 +329,7 @@ export default class API {
 
         try {
             // Construct an event based on the request body and signature.
-            let event = stripe.webhooks.constructEvent(
+            let event = getStripe().webhooks.constructEvent(
                 request.body,
                 signature,
                 config.stripeKeyLocal
