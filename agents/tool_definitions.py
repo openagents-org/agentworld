@@ -8,17 +8,17 @@ GAME_TOOLS = [
         "type": "function",
         "function": {
             "name": "move_character",
-            "description": "Move the character to specific coordinates on the game map. Maximum movement distance is 30 tiles (Manhattan distance) per move. For longer distances, use multiple moves.",
+            "description": "Move the character to specific coordinates on the game map. Maximum movement distance is 120 tiles (Manhattan distance) per move. For longer distances, use multiple moves.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "x": {
                         "type": "integer",
-                        "description": "The X coordinate to move to. Must be within 30 tiles (Manhattan distance) of current position."
+                        "description": "The X coordinate to move to. Must be within 120 tiles (Manhattan distance) of current position."
                     },
                     "y": {
                         "type": "integer",
-                        "description": "The Y coordinate to move to. Must be within 30 tiles (Manhattan distance) of current position."
+                        "description": "The Y coordinate to move to. Must be within 120 tiles (Manhattan distance) of current position."
                     }
                 },
                 "required": ["x", "y"]

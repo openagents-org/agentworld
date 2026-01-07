@@ -1599,34 +1599,32 @@ class TaskRunner:
     def _collect_action_data(self, agent_name: str, agent_state: AgentExecutionState, response: str) -> Dict[str, Any]:
         """Collect trajectory data for a single agent action"""
         import re
-        
+
         # Get agent status
         status = self._get_agent_status_details(agent_state)
-        
+
         # Extract tool call information
         tool_call_info = ""
         tool_result = ""
-        
+
         # Extract TOOL_CALL_INFO
         tool_call_match = re.search(r'\[TOOL_CALL_INFO\] ([^\n]+)', response)
         if tool_call_match:
             tool_call_info = tool_call_match.group(1)
-        
-        # Extract TOOL_RESULT  
+
+        # Extract TOOL_RESULT
         tool_result_match = re.search(r'\[TOOL_RESULT\] ([^\n]+)', response)
         if tool_result_match:
             tool_result = tool_result_match.group(1)
-        
+
         # Get observation data if available
-        observation = ""
+        observation_data = None
         try:
             if agent_state.console and agent_state.console.agent.game_tools:
                 observation_data = agent_state.console.agent.game_tools.get_last_observation_data()
-                if observation_data:
-                    observation = json.dumps(observation_data, ensure_ascii=False)
         except Exception as e:
             self.logger.debug(f"Failed to get observation for {agent_name}: {e}")
-        
+
         return {
             'agent_name': agent_name,
             'status': status,

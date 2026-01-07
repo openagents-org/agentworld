@@ -288,13 +288,31 @@ class KaetramGameTools:
         }
         
         result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["move"], data)
-        
+
         if result.get("status") == "success":
             start_pos = result.get("startPosition", {})
             target_pos = result.get("targetPosition", {})
             return f"Character moved from ({start_pos.get('x')}, {start_pos.get('y')}) to ({target_pos.get('x')}, {target_pos.get('y')}) (distance: {distance} tiles)"
         else:
-            return f"Failed to move character: {result.get('message', 'Unknown error')}"
+            error_msg = result.get('message', 'Unknown error')
+            # Check if this is a distance limit error and provide helpful guidance
+            if 'distance exceeds limit' in error_msg.lower() or 'Maximum allowed' in error_msg:
+                # Try to extract distance information from error details
+                details = result.get('details', {})
+                response_json = details.get('response_json', {})
+                if response_json:
+                    current_pos = response_json.get('currentPosition', {})
+                    target_pos = response_json.get('targetPosition', {})
+                    actual_distance = response_json.get('distance', distance)
+                    max_distance = response_json.get('maxDistance', 120)
+
+                    return (f"Failed to move character: Distance too far! "
+                           f"Current position: ({current_pos.get('x', current_x)}, {current_pos.get('y', current_y)}), "
+                           f"Target: ({target_pos.get('x', target_x)}, {target_pos.get('y', target_y)}), "
+                           f"Distance: {actual_distance} tiles, Maximum allowed: {max_distance} tiles. "
+                           f"SOLUTION: Break this into multiple moves. Move to an intermediate point first, then continue to your target.")
+
+            return f"Failed to move character: {error_msg}"
 
     def teleport_character(self, arguments: Dict[str, Any]) -> str:
         """Teleport character instantly to specified coordinates"""
