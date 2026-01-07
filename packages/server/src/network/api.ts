@@ -224,7 +224,7 @@ export default class API {
 
                 // Calculate Manhattan distance to target
                 const distance = Math.abs(x - startX) + Math.abs(y - startY);
-                const maxDistance = 30;
+                const maxDistance = 120;
 
                 // Enforce distance limit of 30 tiles
                 if (distance > maxDistance) {
