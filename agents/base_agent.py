@@ -36,16 +36,22 @@ class BaseAgent(ABC):
             print(message)
     
     def _dump_prompts(self, messages: List[Dict[str, Any]], provider: str = "unknown"):
-        """Dump prompt messages to /tmp/prompts folder if enabled"""
+        """Dump prompt messages to prompts folder if enabled"""
         if not self.dump_prompts:
             return
-        
+
         try:
+            # Use custom prompts directory if set, otherwise use /tmp/prompts
+            prompts_dir = getattr(self, 'prompts_dir', '/tmp/prompts')
+
+            # Create directory if it doesn't exist
+            os.makedirs(prompts_dir, exist_ok=True)
+
             # Create timestamp-based filename
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")[:-3]  # Include milliseconds
             filename = f"prompt_{provider}_{timestamp}.json"
-            filepath = os.path.join("/tmp/prompts", filename)
-            
+            filepath = os.path.join(prompts_dir, filename)
+
             # Prepare dump data
             dump_data = {
                 "timestamp": datetime.now().isoformat(),
@@ -55,13 +61,13 @@ class BaseAgent(ABC):
                 "messages": messages,
                 "tools": self.tools
             }
-            
+
             # Write to file
             with open(filepath, 'w', encoding='utf-8') as f:
                 json.dump(dump_data, f, indent=2, ensure_ascii=False)
-                
+
             print(f"📝 Dumped prompt to: {filepath}")
-            
+
         except Exception as e:
             print(f"⚠️ Failed to dump prompt: {e}")
     

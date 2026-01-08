@@ -295,22 +295,23 @@ class KaetramGameTools:
             return f"Character moved from ({start_pos.get('x')}, {start_pos.get('y')}) to ({target_pos.get('x')}, {target_pos.get('y')}) (distance: {distance} tiles)"
         else:
             error_msg = result.get('message', 'Unknown error')
-            # Check if this is a distance limit error and provide helpful guidance
-            if 'distance exceeds limit' in error_msg.lower() or 'Maximum allowed' in error_msg:
-                # Try to extract distance information from error details
-                details = result.get('details', {})
-                response_json = details.get('response_json', {})
-                if response_json:
-                    current_pos = response_json.get('currentPosition', {})
-                    target_pos = response_json.get('targetPosition', {})
-                    actual_distance = response_json.get('distance', distance)
-                    max_distance = response_json.get('maxDistance', 120)
+            details = result.get('details', {})
+            response_json = details.get('response_json', {})
 
-                    return (f"Failed to move character: Distance too far! "
-                           f"Current position: ({current_pos.get('x', current_x)}, {current_pos.get('y', current_y)}), "
-                           f"Target: ({target_pos.get('x', target_x)}, {target_pos.get('y', target_y)}), "
-                           f"Distance: {actual_distance} tiles, Maximum allowed: {max_distance} tiles. "
-                           f"SOLUTION: Break this into multiple moves. Move to an intermediate point first, then continue to your target.")
+            # Check if this is a distance limit error and provide helpful guidance
+            if response_json and ('distance' in response_json or 'maxDistance' in response_json):
+                # Extract distance information from error response
+                current_pos = response_json.get('currentPosition', {})
+                target_pos = response_json.get('targetPosition', {})
+                actual_distance = response_json.get('distance', distance)
+                max_distance = response_json.get('maxDistance', 120)
+                api_error_msg = response_json.get('message', error_msg)
+
+                return (f"Failed to move character: {api_error_msg} "
+                       f"Current position: ({current_pos.get('x', current_x)}, {current_pos.get('y', current_y)}), "
+                       f"Target: ({target_pos.get('x', target_x)}, {target_pos.get('y', target_y)}), "
+                       f"Distance: {actual_distance} tiles, Maximum allowed: {max_distance} tiles. "
+                       f"SOLUTION: Break this into multiple moves. Move to an intermediate point first, then continue to your target.")
 
             return f"Failed to move character: {error_msg}"
 

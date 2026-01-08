@@ -635,7 +635,11 @@ class TaskRunner:
         
         # Create output file for this specific agent
         agent_log_file = self.output_dir / f"{agent_name}_{self.run_timestamp}.json"
-        
+
+        # Create prompts directory in output folder
+        prompts_dir = self.output_dir / "prompts"
+        prompts_dir.mkdir(exist_ok=True)
+
         # Create console with merged configuration
         console = GameConsole(
             username=agent_data.get('username', 'TaskAgent'),
@@ -653,14 +657,21 @@ class TaskRunner:
             dump_prompts=self.dump_prompts,
             llm_params=self.agent_config.llm
         )
-        
+
+        # Set custom prompts directory for this agent
+        if self.dump_prompts:
+            console.agent.prompts_dir = str(prompts_dir)
+
         # Override agent with configurable system prompt if provided
         if self.agent_config.system_prompt:
             console.agent = ConfigurableAgent(console.agent, self.agent_config.system_prompt)
-        
+            # Set prompts_dir for the wrapped agent too
+            if self.dump_prompts:
+                console.agent.base_agent.prompts_dir = str(prompts_dir)
+
         # Override max iterations (default to 50 if not in config)
         console.max_iterations = 50
-        
+
         return console
     
     def _is_chat_action(self, response: str) -> bool:
@@ -1493,23 +1504,27 @@ class TaskRunner:
                             'username': username,
                             'status': state.state.value if hasattr(state, 'state') else 'unknown'
                         }
-                        # Add HP and MP information
+                        # Add HP and MP information using cached observation data
                         try:
                             if hasattr(state, 'console') and state.console and hasattr(state.console, 'agent') and state.console.agent.game_tools:
-                                result = state.console.agent.game_tools.observe_environment({"radius": 1})
-                                if isinstance(result, str) and "Environment observation" in result:
-                                    import re
-                                    json_match = re.search(r'\{.*\}', result, re.DOTALL)
-                                    if json_match:
-                                        data = json.loads(json_match.group())
-                                        player_status = data.get("playerStatus", {})
+                                # Use cached observation data (much faster than calling observe_environment)
+                                observation_data = state.console.agent.game_tools.get_last_observation_data()
+                                if observation_data and isinstance(observation_data, dict):
+                                    player_status = observation_data.get("playerStatus", {})
+                                    if player_status:
                                         status_entry['hp'] = player_status.get("hitPoints", "?")
                                         status_entry['max_hp'] = player_status.get("maxHitPoints", "?")
                                         status_entry['mp'] = player_status.get("mana", "?")
                                         status_entry['max_mp'] = player_status.get("maxMana", "?")
-                        except Exception:
-                            # If we can't get HP/MP, just skip it
-                            pass
+                                        self.logger.debug(f"Got HP/MP for {username}: HP={status_entry.get('hp')}/{status_entry.get('max_hp')}, MP={status_entry.get('mp')}/{status_entry.get('max_mp')}")
+                                    else:
+                                        self.logger.debug(f"No playerStatus in observation for {username}")
+                                else:
+                                    self.logger.debug(f"No cached observation data for {username}")
+                        except Exception as e:
+                            # If we can't get HP/MP, log the error for debugging
+                            self.logger.debug(f"Failed to get HP/MP for {username}: {e}")
+
                         if hasattr(state, 'last_response') and state.last_response:
                             # Extract last action from response if available
                             if 'Tool called:' in str(state.last_response):
@@ -1518,10 +1533,53 @@ class TaskRunner:
                                 if action_end == -1:
                                     action_end = action_start + 50
                                 status_entry['last_action'] = str(state.last_response)[action_start:action_end].strip()
+
                         agent_status_info.append(status_entry)
+                        self.logger.debug(f"Added status entry for {username}: {status_entry}")
+
                     template_vars['agent_status_info'] = agent_status_info
-            
-            return template.render(**template_vars)
+                    self.logger.debug(f"Total agent_status_info entries: {len(agent_status_info)}")
+                    print(f"[DEBUG] agent_status_info has {len(agent_status_info)} entries: {agent_status_info}")
+
+            # Render the base template
+            rendered_prompt = template.render(**template_vars)
+
+            # Add agent status information to the end of the prompt if available
+            if agent_states and len(agent_states) > 1:
+                agent_status_info = template_vars.get('agent_status_info', [])
+                if agent_status_info:
+                    status_lines = ["\n\n=== PARTY AGENT STATUS ==="]
+                    for agent_info in agent_status_info:
+                        username = agent_info.get('username', 'unknown')
+                        status = agent_info.get('status', 'unknown')
+                        hp = agent_info.get('hp')
+                        max_hp = agent_info.get('max_hp')
+                        mp = agent_info.get('mp')
+                        max_mp = agent_info.get('max_mp')
+
+                        # Determine if agent is offline/dead
+                        if hp is not None and hp == 0:
+                            status_display = "offline"
+                        elif status == 'idle':
+                            status_display = "offline"
+                        else:
+                            status_display = status
+
+                        # Build status line
+                        status_line = f"- {username}: {status_display}"
+                        if hp is not None and max_hp is not None:
+                            status_line += f" | HP: {hp}/{max_hp}"
+                            if hp == 0:
+                                status_line += " (DEAD)"
+                        if mp is not None and max_mp is not None:
+                            status_line += f" | MP: {mp}/{max_mp}"
+
+                        status_lines.append(status_line)
+
+                    status_lines.append("=== END PARTY STATUS ===")
+                    rendered_prompt += "\n".join(status_lines)
+
+            return rendered_prompt
         else:
             # Fallback to original format if no template is defined
             prompt_parts = [
