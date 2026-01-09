@@ -115,15 +115,19 @@ class KaetramGameTools:
                     for line in error_lines:
                         self._log_message(line, "error")
                     
-                    # For 400 errors, also print to console for immediate visibility (only if debug enabled)
+                    # For 400 errors (game logic errors), return immediately without retrying
+                    # These are not server errors - they are valid responses indicating the action failed
+                    # The agent should receive this feedback to adjust its behavior
                     if response.status_code == 400:
-                        self._debug_print(f"\n🚨 CRITICAL 400 ERROR for {endpoint}:")
-                        self._debug_print(f"   URL: {url}")
-                        self._debug_print(f"   Request Data: {data}")
-                        self._debug_print(f"   Error Message: {error_message}")
-                        self._debug_print(f"   Full Response: {response.text[:500]}")
-                        self._debug_print("")
-                
+                        self._log_message(f"⚠️ [GAME LOGIC ERROR] {endpoint}: {error_message}", "warning")
+                        return {
+                            "status": "error",
+                            "message": error_message,
+                            "error_type": "game_logic",
+                            "details": error_details
+                        }
+
+                # Only raise for server errors (5xx) which should be retried
                 response.raise_for_status()
                 return response.json()
                 
@@ -138,7 +142,7 @@ class KaetramGameTools:
                     "request_data": data,
                     "request_params": params
                 }
-                
+
                 # Try to parse JSON response for better error details
                 try:
                     response_json = e.response.json()
@@ -146,37 +150,39 @@ class KaetramGameTools:
                     error_message = response_json.get("message", "No error message provided")
                 except:
                     error_message = e.response.text[:200] if e.response.text else "No response text"
-                
-                # Log detailed error information
+
+                # For 4xx client errors (game logic errors), return immediately without retrying
+                # These indicate the action is invalid, not a server problem
+                status_code = error_details['status_code']
+                if isinstance(status_code, int) and 400 <= status_code < 500:
+                    self._log_message(f"⚠️ [GAME LOGIC ERROR] {endpoint}: {error_message}", "warning")
+                    return {
+                        "status": "error",
+                        "message": error_message,
+                        "error_type": "game_logic",
+                        "details": error_details
+                    }
+
+                # Log detailed error information for server errors (5xx)
                 error_lines = [
-                    f"❌ [HTTP ERROR] {method} {endpoint} - Attempt {attempt + 1}/{MAX_RETRIES}",
+                    f"❌ [SERVER ERROR] {method} {endpoint} - Attempt {attempt + 1}/{MAX_RETRIES}",
                     f"   📍 URL: {url}",
-                    f"   📊 Status Code: {error_details['status_code']}",
+                    f"   📊 Status Code: {status_code}",
                     f"   💬 Error Message: {error_message}",
                     f"   📤 Request Data: {json.dumps(data, ensure_ascii=False) if data else 'None'}",
-                    f"   📤 Request Params: {json.dumps(params, ensure_ascii=False) if params else 'None'}",
-                    f"   📥 Response Headers: {json.dumps(dict(e.response.headers), ensure_ascii=False)}",
-                    f"   📥 Full Response: {e.response.text[:1000]}"
+                    f"   📤 Request Params: {json.dumps(params, ensure_ascii=False) if params else 'None'}"
                 ]
-                
+
                 for line in error_lines:
                     self._log_message(line, "error")
-                
-                # For 400 errors, also print to console for immediate visibility (only if debug enabled)
-                if error_details['status_code'] == 400:
-                    self._debug_print(f"\n🚨 CRITICAL 400 ERROR for {endpoint}:")
-                    self._debug_print(f"   URL: {url}")
-                    self._debug_print(f"   Request Data: {data}")
-                    self._debug_print(f"   Error Message: {error_message}")
-                    self._debug_print(f"   Full Response: {e.response.text[:500]}")
-                    self._debug_print("")
-                
+
                 if attempt == MAX_RETRIES - 1:
-                    final_error = f"HTTP {error_details['status_code']} error after {MAX_RETRIES} attempts: {str(e)}"
-                    self._log_message(f"❌ FINAL HTTP ERROR: {final_error}", "error")
+                    final_error = f"Server error {status_code} after {MAX_RETRIES} attempts: {str(e)}"
+                    self._log_message(f"❌ FINAL SERVER ERROR: {final_error}", "error")
                     return {
-                        "status": "error", 
+                        "status": "error",
                         "message": final_error,
+                        "error_type": "server_error",
                         "details": error_details
                     }
                 time.sleep(1)

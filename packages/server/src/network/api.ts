@@ -1339,17 +1339,28 @@ export default class API {
                 // Store the previous position for response
                 const previousPosition = { x: player.x, y: player.y };
 
+                // Enable noclip temporarily to bypass collision checking for AI teleport
+                const originalNoclip = player.noclip;
+                player.noclip = true;
+
                 // Perform the teleport
                 player.teleport(x, y, withAnimation);
 
+                // Restore original noclip setting
+                player.noclip = originalNoclip;
+
                 // Save position to database immediately to ensure persistence
                 player.save();
+
+                // Verify the teleport actually worked
+                const actualPosition = { x: player.x, y: player.y };
 
                 response.json({
                     status: 'success',
                     message: 'Player teleported successfully',
                     previousPosition,
-                    newPosition: { x, y },
+                    newPosition: actualPosition,
+                    requestedPosition: { x, y },
                     withAnimation
                 });
             } catch (error) {

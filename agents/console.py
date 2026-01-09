@@ -677,25 +677,71 @@ class GameConsole:
         """Apply initial state configuration after login"""
         results = []
         
-        # Apply initial location
+        # Apply initial location with verification and retry
         if self.initial_location:
-            x, y = self.initial_location
-            try:
-                result = self.agent.game_tools.teleport_character({
-                    "x": x,
-                    "y": y,
-                    "withAnimation": False
-                })
-                results.append(f"🗺️ Teleported to ({x}, {y}): {result}")
-                self.log_message("INIT", f"Initial teleport to ({x}, {y}): {result}")
-                
-                # Add small delay to allow server position sync
-                import time
-                time.sleep(0.5)
-                self.log_message("INIT", f"Position sync delay applied after teleport")
-            except Exception as e:
-                results.append(f"❌ Initial teleport failed: {str(e)}")
-                self.log_message("INIT", f"Initial teleport failed: {str(e)}")
+            target_x, target_y = self.initial_location
+            import time
+            max_attempts = 5
+            position_success = False
+
+            for attempt in range(max_attempts):
+                try:
+                    # First, get current position
+                    observe_result = self.agent.game_tools._make_request(
+                        "GET", "/ai/observe",
+                        params={"token": self.agent.game_tools.token, "radius": 1}
+                    )
+
+                    if observe_result.get("status") != "success":
+                        self.log_message("INIT", f"Could not get current position: {observe_result}")
+                        time.sleep(0.5)
+                        continue
+
+                    location = observe_result.get("location", {})
+                    current_x = location.get("x", 0)
+                    current_y = location.get("y", 0)
+                    distance = abs(current_x - target_x) + abs(current_y - target_y)
+
+                    if distance <= 10:  # Already close enough
+                        results.append(f"🗺️ Position verified at ({current_x}, {current_y}), close to target ({target_x}, {target_y})")
+                        self.log_message("INIT", f"Position OK: ({current_x}, {current_y}), distance: {distance}")
+                        position_success = True
+                        break
+
+                    # Try teleport
+                    self.log_message("INIT", f"Attempt {attempt + 1}: Current ({current_x}, {current_y}), target ({target_x}, {target_y}), distance: {distance}")
+
+                    result = self.agent.game_tools.teleport_character({
+                        "x": target_x,
+                        "y": target_y,
+                        "withAnimation": False
+                    })
+                    self.log_message("INIT", f"Teleport result: {result}")
+
+                    # Wait longer for server sync
+                    time.sleep(1.5)
+
+                except Exception as e:
+                    self.log_message("INIT", f"Position attempt {attempt + 1} failed: {str(e)}")
+                    time.sleep(0.5)
+
+            if not position_success:
+                # Final position check
+                try:
+                    observe_result = self.agent.game_tools._make_request(
+                        "GET", "/ai/observe",
+                        params={"token": self.agent.game_tools.token, "radius": 1}
+                    )
+                    if observe_result.get("status") == "success":
+                        location = observe_result.get("location", {})
+                        final_x = location.get("x", 0)
+                        final_y = location.get("y", 0)
+                        final_distance = abs(final_x - target_x) + abs(final_y - target_y)
+                        results.append(f"⚠️ Final position ({final_x}, {final_y}), target was ({target_x}, {target_y}), distance: {final_distance}")
+                        self.log_message("INIT", f"Final position: ({final_x}, {final_y}), distance from target: {final_distance}")
+                except:
+                    results.append(f"⚠️ Could not verify final position")
+                    self.log_message("INIT", f"Could not verify final position")
         
         # Apply combat levels
         if self.combat_levels:
