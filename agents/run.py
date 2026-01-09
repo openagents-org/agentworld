@@ -956,6 +956,22 @@ class TaskRunner:
                     login_successful = True
                     self.logger.info(f"Detected successful character creation for {agent_name} (lenient check)")
                 
+                # Verify token was actually obtained (double-check beyond login message parsing)
+                has_token = console.agent.game_tools and console.agent.game_tools.token
+
+                if not has_token:
+                    self.logger.error(f"❌ Agent {agent_name} has no token after login attempt - marking as FAILED")
+                    agent_states[agent_name] = AgentExecutionState(
+                        agent_name=agent_name,
+                        console=console,
+                        state=AgentState.FAILED,
+                        action_count=0,
+                        chat_count=0,
+                        last_response="",
+                        error_message="No token obtained - server may be unreachable"
+                    )
+                    continue
+
                 # Apply initial state if login successful
                 if login_successful:
                     initial_state_results = console.apply_initial_state()
@@ -963,7 +979,7 @@ class TaskRunner:
                         self.logger.info(f"Applied initial state for {agent_name}: {len(initial_state_results)} operations")
                 else:
                     self.logger.warning(f"Login may have failed for {agent_name}, but continuing anyway")
-                
+
                 # Create agent execution state
                 agent_states[agent_name] = AgentExecutionState(
                     agent_name=agent_name,
@@ -1163,12 +1179,53 @@ class TaskRunner:
         failed_agents = [name for name, state in agent_states.items() if state.state == AgentState.FAILED]
         if failed_agents:
             self.logger.error(f"❌ Failed to initialize agents: {failed_agents}")
-            # Continue with remaining agents if any
-            agent_states = {name: state for name, state in agent_states.items() if state.state != AgentState.FAILED}
-        
-        if not agent_states:
-            self.logger.error("❌ No agents available for execution")
-            return {"error": "All agents failed to initialize"}
+
+            # Get error details
+            error_details = []
+            for name in failed_agents:
+                state = agent_states[name]
+                error_details.append(f"{name}: {state.error_message or 'Unknown error'}")
+
+            # Check if this looks like a server connectivity issue
+            server_down = any("token" in (s.error_message or "").lower() or "unreachable" in (s.error_message or "").lower()
+                            for s in agent_states.values() if s.state == AgentState.FAILED)
+
+            if server_down:
+                self.logger.error("❌ SERVER CONNECTIVITY ISSUE DETECTED - agents cannot connect to game server")
+                self.logger.error("   Please check if the game server is running at the configured host")
+
+        # Count working agents (those with valid tokens)
+        working_agents = {name: state for name, state in agent_states.items() if state.state != AgentState.FAILED}
+
+        if not working_agents:
+            self.logger.error("❌ No agents available for execution - ABORTING TASK")
+            self.logger.error("   All agents failed to initialize. This usually means:")
+            self.logger.error("   1. Game server is not running or unreachable")
+            self.logger.error("   2. Network connectivity issues")
+            self.logger.error("   3. Authentication/login failures")
+            print("\n" + "=" * 70)
+            print("❌ TASK ABORTED: All agents failed to initialize")
+            print("=" * 70)
+            print("Error details:")
+            for detail in error_details:
+                print(f"  - {detail}")
+            print("\nPlease check:")
+            print("  1. Is the game server running?")
+            print("  2. Can you reach the server at the configured host?")
+            print("  3. Are the agent credentials correct?")
+            print("=" * 70 + "\n")
+
+            # Save a summary even for failed initialization
+            self._save_task_summary(task_config, {
+                "_initialization_failed": True,
+                "_error": "All agents failed to initialize - server may be unreachable",
+                "_failed_agents": error_details
+            })
+
+            return {"error": "All agents failed to initialize", "details": error_details}
+
+        # Update agent_states to only include working agents
+        agent_states = working_agents
         
         # Note: Task prompts will be built per agent with team context
         

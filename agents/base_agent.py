@@ -344,18 +344,16 @@ Always think strategically about your actions. Make decisions based on your curr
                 else:
                     parsed_args = tool_args
                 
-                # Format args for display
+                # Format args for display (full content for trajectory logging)
                 if isinstance(parsed_args, dict) and parsed_args:
                     formatted_args = []
                     for k, v in parsed_args.items():
-                        if isinstance(v, str) and len(v) > 30:
-                            v = v[:30] + '...'
                         formatted_args.append(f"{k}={v}")
                     args_display = ', '.join(formatted_args)
                 else:
                     args_display = ""
             except:
-                args_display = str(tool_args)[:50] + '...' if len(str(tool_args)) > 50 else str(tool_args)
+                args_display = str(tool_args)
             
             # Format the response to include both content and tool call info
             response_with_tool_info = f"{content}\n[TOOL_CALL_INFO] {tool_name}({args_display})\n[TOOL_RESULT] {tool_result}"
