@@ -15,7 +15,7 @@ agent:
     
   # Game Server Configuration
   game:
-    host: "http://localhost:7031"
+    host: "http://localhost:7041"
     timeout: 30
     max_retries: 3
 
