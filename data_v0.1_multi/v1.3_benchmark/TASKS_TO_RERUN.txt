@@ -1,0 +1,76 @@
+TASKS TO RE-RUN (Fixed Location Issues)
+==================================================
+
+Issue: Fishing/foraging agents were positioned at wrong coordinates
+Fix: Relocated agents to valid resource areas (200-235, 200-255)
+
+EXP1 (tasks_01_50):
+  - task_40_healing_supplies.yaml
+  - task_48_cross_region_expedition.yaml
+
+EXP2 (tasks_51_100):
+  - task_51_survival_challenge.yaml
+  - task_53_culinary_expedition.yaml
+  - task_61_royal_banquet.yaml
+  - task_65_cooking_guild.yaml
+  - task_75_relief_convoy.yaml
+  - task_80_festival_preparation.yaml
+  - task_83_elemental_ritual.yaml
+  - task_85_ice_convoy.yaml
+  - task_87_canal_restoration.yaml
+  - task_92_trade_network.yaml
+  - task_94_maritime_trading.yaml
+  - task_95_ocean_expedition.yaml
+  - task_96_mountain_rescue.yaml
+  - task_97_agricultural_empire.yaml
+  - task_99_kingdom_festival.yaml
+  - task_100_resource_survey.yaml
+
+Task numbers (combined - location + verifier fixes):
+  EXP1: [24, 26, 27, 28, 29, 30, 32, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 48, 50]
+  EXP2: [51, 53, 55, 61, 65, 70, 72, 75, 79, 80, 81, 82, 83, 84, 85, 87, 88, 89, 90, 92, 93, 94, 95, 96, 97, 99, 100]
+
+==================================================
+VERIFIER FIXES (Wrong success criteria logic)
+==================================================
+
+Issue: Verifiers only checked "alive" or "alive + within round limit" instead of actual objectives
+Fix: Updated verifiers to check actual task objectives from YAML files
+
+EXP1 (tasks_01_50) - 21 tasks fixed:
+  - task_24: Now checks 2 guardian kills (Golden Golem + Big Baby Spooder)
+  - task_26: Now checks ore mining + kills + 3 chat messages
+  - task_27: Now checks valuable ore + 2 guardian kills
+  - task_28: Now checks Dark Wolf kill + wolfarmor drop
+  - task_29: Now checks Ice Knight kill
+  - task_30: Now checks 3 boss kills (Mermaid, Dark Wolf, Ice Knight)
+  - task_32: Now checks 3 wolf kills + 5 logs
+  - task_35: Now checks 4 goblin kills
+  - task_36: Now checks 3 skeleton kills + 3 logs
+  - task_37: Now checks 5 blueberry, 3 corn, 4 logs
+  - task_38: Now checks 1x goldring
+  - task_39: Now checks 4 corn, 4 tomato, 3 peach
+  - task_40: Now checks 4x cookedshrimp
+  - task_41: Now checks 1x pickaxe + 1x axe
+  - task_42: Now checks 1x staff, 1x silverring, 10x stick
+  - task_43: Now checks 5 rat kills + 4 blueberry
+  - task_44: Now checks coordinator_agent has 3 logs, 2 coal
+  - task_45: Now checks miner_agent has 3 goldore + 2 kills
+  - task_48: Now checks 5 logs, 4 coal, 3 rawshrimp
+  - task_50: Now checks 5 kills (2 Ogres + 3 Goblins)
+
+EXP2 (tasks_51_100) - 14 tasks fixed:
+  - task_51: Now checks 1x woodenbow, 1x axe, 5x rawshrimp, 4x logs
+  - task_55: Now checks 2 boss kills (Ancient Wizard, Hermit Crab Warrior)
+  - task_70: Now checks 2 boss kills + 2x sword2
+  - task_72: Now checks 5 kills (3 goblin + 2 skeleton)
+  - task_79: Now checks 3 boss kills (Iron Ogre, Water Guardian, Mermaid)
+  - task_81: Now checks 8 icelogs, 6 logs, 1 lightningstaff, 1 firestaff
+  - task_82: Now checks 8 logs, 6 ironore, 2 axe
+  - task_84: Now checks 8 ironore, 6 coal, 3 skeleton kills, 1 pickaxe
+  - task_85: Now checks 10 icelogs, 4 rawshrimp, 1 icestaff
+  - task_87: Now checks 6 logs, 8 ironore, 4 rawshrimp, 2 pickaxe
+  - task_88: Now checks 3 boss kills (Ogre Guardian, Dark Wolf, Golden Golem)
+  - task_89: Now checks 8 logs, 6 icelogs, 1 berylpendant, 1 lightningstaff
+  - task_90: Now checks Ancient Wizard kill + 8 goldore + 2 staffs
+  - task_93: Now checks 8 logs, 8 ironore, 6 coal, 2 heavysword, 2 axe

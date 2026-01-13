@@ -24,10 +24,26 @@ from verifier_utils import (
 
 
 def task_81_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Cryothermal Grid."""
+    """Elemental Grid - collect 8x icelogs, 6x logs, craft 1x lightningstaff, 1x firestaff."""
+    inventories = get_final_inventories(traj_json)
+
+    # Check for resources and staffs
+    icelogs = count_item_in_inventories(inventories, 'icelogs')
+    logs = count_item_in_inventories(inventories, 'logs')
+    lightningstaff = count_item_in_inventories(inventories, 'lightningstaff')
+    firestaff = count_item_in_inventories(inventories, 'firestaff')
+
+    has_icelogs = icelogs >= 8
+    has_logs = logs >= 6
+    has_lightning = lightningstaff >= 1
+    has_fire = firestaff >= 1
+
+    # Check all agents alive
     alive = check_agents_alive(traj_json)
-    msg = f"All agents alive: {alive}"
-    return (1 if alive else 0, msg)
+
+    passed = has_icelogs and has_logs and has_lightning and has_fire and alive
+    msg = f"Icelogs: {icelogs}/8, Logs: {logs}/6, Lightning: {lightningstaff}/1, Fire: {firestaff}/1, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

@@ -32,6 +32,30 @@ relevant_game_context: |
 
   DO NOT use complete() until all supplies are ready!
 
+  ITEM KEY REFERENCE (use these exact itemKey values in craft_item):
+  - Wooden Bow: itemKey=woodenbow (Fletching)
+  - Golden Bow: itemKey=goldenbow (Fletching)
+  - Arrow: itemKey=arrow (Fletching)
+  - Stick/Shaft: itemKey=stick (Fletching)
+  - Sword/Heavy Sword: itemKey=sword2 (Smithing)
+  - Golden Sword: itemKey=goldensword (Smithing)
+  - Axe: itemKey=axe (Smithing)
+  - Pickaxe: itemKey=pickaxe (Smithing)
+  - Silver Ring: itemKey=silverring (Smithing)
+  - Gold Ring: itemKey=goldring (Smithing)
+  - Staff: itemKey=staff (Crafting)
+  - Lightning Staff: itemKey=lightningstaff (Crafting)
+  - Fire Staff: itemKey=firestaff (Crafting)
+  - Ice Staff: itemKey=icestaff (Crafting)
+  - Nature Staff: itemKey=naturestaff (Crafting)
+  - Bucket: itemKey=bucket (Crafting)
+  - Iron Bar: itemKey=ironbar (Smelting)
+  - Gold Bar: itemKey=goldbar (Smelting)
+  - Bronze Bar: itemKey=bronzebar (Smelting)
+  - Cooked Shrimp: itemKey=cookedshrimp (Cooking)
+  - Stew: itemKey=stew (Cooking)
+
+
 # Limitations
 max_action_steps: 45
 
@@ -71,8 +95,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 388
-    y: 10
+    x: 200
+    y: 220
 
   skill_levels:
     lumberjacking: 34
@@ -101,8 +125,8 @@ agent_3:
   new_character: true
 
   location:
-    x: 392
-    y: 12
+    x: 205
+    y: 225
 
   skill_levels:
     lumberjacking: 32
@@ -163,8 +187,8 @@ agent_5:
   new_character: true
 
   location:
-    x: 580
-    y: 740
+    x: 210
+    y: 230
 
   skill_levels:
     fishing: 34
@@ -192,8 +216,8 @@ agent_6:
   new_character: true
 
   location:
-    x: 585
-    y: 745
+    x: 215
+    y: 235
 
   skill_levels:
     fishing: 32
@@ -221,8 +245,8 @@ agent_7:
   new_character: true
 
   location:
-    x: 590
-    y: 748
+    x: 220
+    y: 240
 
   skill_levels:
     fishing: 30
@@ -250,8 +274,8 @@ agent_8:
   new_character: true
 
   location:
-    x: 595
-    y: 750
+    x: 225
+    y: 245
 
   skill_levels:
     cooking: 38

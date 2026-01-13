@@ -24,10 +24,17 @@ from verifier_utils import (
 
 
 def task_72_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Fortress Siege Defense - defend against 4 waves."""
+    """Fortress Defense - defeat 3x Goblin and 2x Skeleton."""
+    # Check combat kills (5 total: 3 goblins + 2 skeletons)
+    kills = count_combat_kills(traj_json, ['Goblin', 'Skeleton', 'goblin', 'skeleton'])
+    has_kills = kills >= 5
+
+    # Check all agents alive
     alive = check_agents_alive(traj_json)
-    msg = f"All agents alive: {alive}"
-    return (1 if alive else 0, msg)
+
+    passed = has_kills and alive
+    msg = f"Kills: {kills}/5 (3 Goblin + 2 Skeleton), All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

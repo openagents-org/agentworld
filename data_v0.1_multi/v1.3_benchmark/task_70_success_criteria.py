@@ -24,10 +24,23 @@ from verifier_utils import (
 
 
 def task_70_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Progressive Dungeon Expedition."""
+    """Dungeon Expedition - defeat Iron Ogre and Ogre Guardian, craft 2x sword2."""
+    inventories = get_final_inventories(traj_json)
+
+    # Check for heavy swords (sword2)
+    sword2 = count_item_in_inventories(inventories, 'sword2') + count_item_in_inventories(inventories, 'heavysword')
+    has_swords = sword2 >= 2
+
+    # Check combat kills (2 bosses)
+    kills = count_combat_kills(traj_json, ['Iron Ogre', 'Ogre Guardian', 'Ogre'])
+    has_kills = kills >= 2
+
+    # Check all agents alive
     alive = check_agents_alive(traj_json)
-    msg = f"All agents alive: {alive}"
-    return (1 if alive else 0, msg)
+
+    passed = has_swords and has_kills and alive
+    msg = f"Sword2: {sword2}/2, Boss kills: {kills}/2, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

@@ -24,14 +24,24 @@ from verifier_utils import (
 
 
 def task_42_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Educational Training - all agents survive within 40 rounds."""
+    """Skill Training - Craft 1x staff, 1x silverring, and produce 10x stick."""
+    inventories = get_final_inventories(traj_json)
+
+    # Check for required items in team inventory
+    staff = count_item_in_inventories(inventories, 'staff')
+    silverring = count_item_in_inventories(inventories, 'silverring')
+    stick = count_item_in_inventories(inventories, 'stick')
+
+    has_staff = staff >= 1
+    has_silverring = silverring >= 1
+    has_sticks = stick >= 10
+
+    # Check all agents alive
     agent_hp = get_final_agent_hp_simple(traj_json)
     all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
-    num_rounds = len(traj_json.get('rounds', []))
-    within_limit = num_rounds <= 40
 
-    passed = all_alive and within_limit
-    msg = f"All alive: {all_alive}, Rounds: {num_rounds}/40"
+    passed = has_staff and has_silverring and has_sticks and all_alive
+    msg = f"Staff: {staff}/1, Silverring: {silverring}/1, Stick: {stick}/10, All alive: {all_alive}"
     return (1 if passed else 0, msg)
 
 

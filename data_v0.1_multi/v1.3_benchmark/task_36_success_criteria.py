@@ -24,10 +24,23 @@ from verifier_utils import (
 
 
 def task_36_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Elite Combat Operations - hunt challenging creatures."""
+    """Elite Skeleton Hunt - defeat 3x Skeletons and collect 3x logs."""
+    inventories = get_final_inventories(traj_json)
+
+    # Check for logs
+    logs = count_item_in_inventories(inventories, 'logs')
+    has_logs = logs >= 3
+
+    # Check combat kills (3 skeletons)
+    kills = count_combat_kills(traj_json, ['Skeleton', 'skeleton'])
+    has_kills = kills >= 3
+
+    # Check all agents alive
     alive = check_agents_alive(traj_json)
-    msg = f"All agents alive: {alive}"
-    return (1 if alive else 0, msg)
+
+    passed = has_logs and has_kills and alive
+    msg = f"Logs: {logs}/3, Kills: {kills}/3, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

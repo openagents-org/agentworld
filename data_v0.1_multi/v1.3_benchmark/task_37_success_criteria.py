@@ -24,12 +24,25 @@ from verifier_utils import (
 
 
 def task_37_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Survival Expedition - all agents survive."""
+    """Survival Gathering - collect 5x blueberry, 3x corn, 4x logs."""
+    inventories = get_final_inventories(traj_json)
+
+    # Check for resources
+    blueberry = count_item_in_inventories(inventories, 'blueberry')
+    corn = count_item_in_inventories(inventories, 'corn')
+    logs = count_item_in_inventories(inventories, 'logs')
+
+    has_blueberry = blueberry >= 5
+    has_corn = corn >= 3
+    has_logs = logs >= 4
+
+    # Check all agents alive
     agent_hp = get_final_agent_hp_simple(traj_json)
     all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
 
-    msg = f"All agents alive: {all_alive}"
-    return (1 if all_alive else 0, msg)
+    passed = has_blueberry and has_corn and has_logs and all_alive
+    msg = f"Blueberry: {blueberry}/5, Corn: {corn}/3, Logs: {logs}/4, All alive: {all_alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

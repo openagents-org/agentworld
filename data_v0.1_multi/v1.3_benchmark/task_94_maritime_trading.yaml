@@ -27,6 +27,30 @@ relevant_game_context: |
 
   DO NOT use complete() until all objectives are met!
 
+  ITEM KEY REFERENCE (use these exact itemKey values in craft_item):
+  - Wooden Bow: itemKey=woodenbow (Fletching)
+  - Golden Bow: itemKey=goldenbow (Fletching)
+  - Arrow: itemKey=arrow (Fletching)
+  - Stick/Shaft: itemKey=stick (Fletching)
+  - Sword/Heavy Sword: itemKey=sword2 (Smithing)
+  - Golden Sword: itemKey=goldensword (Smithing)
+  - Axe: itemKey=axe (Smithing)
+  - Pickaxe: itemKey=pickaxe (Smithing)
+  - Silver Ring: itemKey=silverring (Smithing)
+  - Gold Ring: itemKey=goldring (Smithing)
+  - Staff: itemKey=staff (Crafting)
+  - Lightning Staff: itemKey=lightningstaff (Crafting)
+  - Fire Staff: itemKey=firestaff (Crafting)
+  - Ice Staff: itemKey=icestaff (Crafting)
+  - Nature Staff: itemKey=naturestaff (Crafting)
+  - Bucket: itemKey=bucket (Crafting)
+  - Iron Bar: itemKey=ironbar (Smelting)
+  - Gold Bar: itemKey=goldbar (Smelting)
+  - Bronze Bar: itemKey=bronzebar (Smelting)
+  - Cooked Shrimp: itemKey=cookedshrimp (Cooking)
+  - Stew: itemKey=stew (Cooking)
+
+
 # Limitations
 max_action_steps: 50
 
@@ -36,8 +60,8 @@ agent_1:
   new_character: true
 
   location:
-    x: 580
-    y: 750
+    x: 200
+    y: 220
 
   skill_levels:
     fishing: 48
@@ -62,8 +86,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 582
-    y: 752
+    x: 205
+    y: 225
 
   skill_levels:
     fishing: 45
@@ -88,8 +112,8 @@ agent_3:
   new_character: true
 
   location:
-    x: 584
-    y: 754
+    x: 210
+    y: 230
 
   skill_levels:
     fishing: 42
@@ -114,8 +138,8 @@ agent_4:
   new_character: true
 
   location:
-    x: 586
-    y: 756
+    x: 215
+    y: 235
 
   skill_levels:
     fishing: 40
@@ -140,8 +164,8 @@ agent_5:
   new_character: true
 
   location:
-    x: 588
-    y: 758
+    x: 220
+    y: 240
 
   skill_levels:
     fishing: 38
@@ -166,8 +190,8 @@ agent_6:
   new_character: true
 
   location:
-    x: 585
-    y: 752
+    x: 225
+    y: 245
 
   skill_levels:
     cooking: 45
@@ -189,8 +213,8 @@ agent_7:
   new_character: true
 
   location:
-    x: 587
-    y: 754
+    x: 230
+    y: 250
 
   skill_levels:
     cooking: 42
@@ -212,8 +236,8 @@ agent_8:
   new_character: true
 
   location:
-    x: 350
-    y: 250
+    x: 235
+    y: 255
 
   skill_levels:
     crafting: 42

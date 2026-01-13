@@ -1,0 +1,201 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Castle Siege Warfare - Fortress Assault & Defense"
+  description: "Three agents work together to conduct a strategic siege of an ice fortress, defeat the Ice Knight commander, and secure the castle stronghold"
+
+# Task objectives
+objectives:
+  primary: "Successfully conduct castle siege operations, defeat the Ice Knight fortress commander, and secure strategic control of the castle"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent siege warfare mission requiring advanced tactical coordination and fortress combat.
+  
+  OBJECTIVE: Conduct strategic siege operations against a fortified castle and defeat the commanding Ice Knight.
+  
+  MISSION REQUIREMENTS:
+  - Navigate to Castle/Fortress region (coordinates around 712, 717)
+  - Approach from nearby safe locations to ensure viable combat path
+  - Conduct reconnaissance of fortress defenses and strategic positions
+  - Defeat the Ice Knight commander (Level 62) in fortress combat
+  - Secure strategic control of castle stronghold and surrounding areas
+  
+  TEAM COORDINATION:
+  - Use global chat to share fortress layout intelligence and enemy positions
+  - Coordinate between siege tactics, assault operations, and fortress control
+  - Share siege equipment and provide mutual combat support during assault
+  - Work together to breach fortress defenses and handle elite defenders
+  
+  GENERAL STRATEGY:
+  - The team needs to approach the castle with tactical awareness
+  - Ice Knight commander (Level 62) is a high-level fortress defender
+  - Castle/Fortress areas may have defensive advantages and chokepoints
+  - Siege warfare requires coordinated assault from multiple angles
+  - Balance aggressive assault with tactical positioning and retreat options
+  
+  DO NOT use complete() until ALL objectives are achieved by the team!
+  
+  SIEGE WARFARE & FORTRESS COMBAT (CRITICAL KNOWLEDGE):
+  🏰 Fortress Reconnaissance:
+    - Assess castle layout and defensive positions through careful exploration
+    - Identify fortress entrances, defensive chokepoints, and strategic positions
+    - Look for siege equipment opportunities or environmental advantages
+    - Plan assault routes and coordinate team positioning
+  
+  ⚔️ Boss Combat - Ice Knight:
+    - Locate Ice Knight at coordinates (712, 717) in the castle region
+    - Level 62 elite commander with advanced combat abilities
+    - Expect heavy armor, ice-based attacks, and tactical combat skills
+    - Ice Knight may have fortress defender bonuses and terrain advantages
+    - Coordinate flanking attacks and magical support for effectiveness
+  
+  🛡️ Fortress Defense Handling:
+    - Expect fortress defenders and castle guard creatures
+    - Castle areas may have defensive traps or environmental hazards
+    - Use siege tactics to overcome defensive advantages
+    - Coordinate simultaneous attacks to prevent fortress regrouping
+  
+  ⚡ Siege Combat Strategy:
+    - Use ranged attacks to engage from defensive positions
+    - Coordinate magical and physical assaults for maximum effectiveness
+    - Focus fire on Ice Knight while handling additional defenders
+    - Utilize fortress architecture for tactical positioning
+  
+  🏆 Castle Conquest:
+    - Secure key strategic positions within the fortress
+    - Eliminate all major threats and establish control
+    - Fortress conquest may require holding position after Ice Knight defeat
+
+# Limitations
+max_action_steps: 36
+
+# Agent configurations
+agent_1:
+  username: "siege_commander_agent"
+  new_character: true
+  
+  location:
+    x: 710
+    y: 715
+  
+  skill_levels:
+    strength: 50      # High combat power for fortress assault
+    accuracy: 45      # Precision attacks against elite defenders
+    defense: 45       # Protection against fortress counterattacks
+    health: 60        # High survivability for extended siege combat
+    magic: 30         # Magical combat support
+  
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "healthpotion"
+      count: 20
+    - item: "manapotion"
+      count: 15
+  
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fortress_breacher_agent"
+  new_character: true
+  
+  location:
+    x: 714
+    y: 719
+  
+  skill_levels:
+    strength: 55      # Maximum physical assault capability
+    accuracy: 40      # Combat precision for fortress engagement
+    defense: 40       # Fortress combat survivability
+    health: 55        # Extended combat endurance
+    magic: 25         # Basic magical support
+  
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "healthpotion"
+      count: 18
+    - item: "manapotion"
+      count: 10
+  
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "bow"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "castle_tactician_agent"
+  new_character: true
+  
+  location:
+    x: 716
+    y: 721
+  
+  skill_levels:
+    magic: 50         # Advanced magical assault for fortress combat
+    accuracy: 40      # Magical combat precision
+    strength: 40      # Physical combat backup
+    defense: 40       # Fortress defender protection
+    health: 50        # Siege warfare survivability
+  
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+    - item: "healthpotion"
+      count: 18
+    - item: "manapotion"
+      count: 20
+  
+  equipped_items:
+    - item: "lightningstaff"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "sidesword"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "siege_commander_agent successfully conducts fortress reconnaissance and coordinates assault"
+  - "Team successfully approaches castle and engages fortress defenses"
+  - "fortress_breacher_agent successfully breaches castle defensive positions"
+  - "Team successfully locates and engages Ice Knight commander at (712, 717)"
+  - "castle_tactician_agent provides effective magical support for Ice Knight combat"
+  - "Team successfully defeats Ice Knight (Level 62) fortress commander"
+  - "Team secures strategic control of castle stronghold"
+  - "All agents survive the dangerous fortress siege combat"
+  - "Castle siege warfare mission completed within time limit"

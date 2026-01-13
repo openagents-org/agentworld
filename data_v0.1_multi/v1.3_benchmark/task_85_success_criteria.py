@@ -24,12 +24,25 @@ from verifier_utils import (
 
 
 def task_85_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Frostveil Lifeline Convoy - all agents survive."""
+    """Ice Convoy - collect 10x icelogs, 4x rawshrimp, craft 1x icestaff."""
+    inventories = get_final_inventories(traj_json)
+
+    # Check for resources and staffs
+    icelogs = count_item_in_inventories(inventories, 'icelogs')
+    rawshrimp = count_item_in_inventories(inventories, 'rawshrimp')
+    icestaff = count_item_in_inventories(inventories, 'icestaff')
+
+    has_icelogs = icelogs >= 10
+    has_shrimp = rawshrimp >= 4
+    has_icestaff = icestaff >= 1
+
+    # Check all agents alive
     agent_hp = get_final_agent_hp_simple(traj_json)
     all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
 
-    msg = f"All agents alive: {all_alive}"
-    return (1 if all_alive else 0, msg)
+    passed = has_icelogs and has_shrimp and has_icestaff and all_alive
+    msg = f"Icelogs: {icelogs}/10, Shrimp: {rawshrimp}/4, Icestaff: {icestaff}/1, All alive: {all_alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

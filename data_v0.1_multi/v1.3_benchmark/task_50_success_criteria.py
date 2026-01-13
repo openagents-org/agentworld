@@ -24,15 +24,17 @@ from verifier_utils import (
 
 
 def task_50_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Elite Combat Battalion - defeat 4 tiers of enemies."""
+    """Combat Battalion - defeat 2x Ogres and 3x Goblins."""
+    # Check combat kills (5 total: 2 ogres + 3 goblins)
+    kills = count_combat_kills(traj_json, ['Ogre', 'Goblin', 'ogre', 'goblin'])
+    has_kills = kills >= 5
+
+    # Check all agents alive
     alive = check_agents_alive(traj_json)
-    hp_map = get_final_hp(traj_json)
-    survivors = sum(1 for hp in hp_map.values() if hp > 0)
-    total = len(hp_map)
-    
-    success = survivors >= 4  # At least 4 out of 5 survive
-    msg = f"Survivors: {survivors}/{total}, All alive: {alive}"
-    return (1 if success else 0, msg)
+
+    passed = has_kills and alive
+    msg = f"Kills: {kills}/5 (2 Ogre + 3 Goblin), All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

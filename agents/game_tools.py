@@ -224,22 +224,39 @@ class KaetramGameTools:
             return f"Failed to create character: {result.get('message', 'Unknown error')}"
 
     def login_character(self, arguments: Dict[str, Any]) -> str:
-        """Login with existing character"""
+        """Login with existing character. Supports force login to disconnect existing sessions."""
         username = arguments.get("username", "QwenAgent")
         password = arguments.get("password", "qwen123456")
-        
+        force = arguments.get("force", False)
+
         data = {
             "username": username,
-            "password": password
+            "password": password,
+            "force": force
         }
-        
+
         result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["login"], data)
-        
+
         if result.get("status") == "success":
             self.token = result.get("token")
             return f"Character {username} logged in successfully. Token obtained."
         else:
-            return f"Failed to login: {result.get('message', 'Unknown error')}"
+            error_msg = result.get('message', 'Unknown error')
+
+            # If player is already logged in and we haven't tried force login yet, retry with force
+            if "already logged in" in error_msg.lower() and not force:
+                self._debug_print(f"Player {username} already logged in, attempting force login...")
+                # Retry with force=True
+                data["force"] = True
+                result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["login"], data)
+
+                if result.get("status") == "success":
+                    self.token = result.get("token")
+                    return f"Character {username} force logged in successfully (previous session disconnected). Token obtained."
+                else:
+                    return f"Failed to force login: {result.get('message', 'Unknown error')}"
+
+            return f"Failed to login: {error_msg}"
 
     def logout_character(self) -> str:
         """Logout the current character and invalidate token"""
@@ -460,7 +477,58 @@ class KaetramGameTools:
             # Remove the generic resources array since we've categorized them
             if "resources" in enhanced_result:
                 del enhanced_result["resources"]
-            
+
+            # === PROMPT SIZE OPTIMIZATIONS ===
+            # These optimizations reduce prompt size by ~50% to speed up LLM inference
+
+            # 1. Filter mobs by distance (≤30 tiles) and remove unnecessary fields
+            if "mobs" in enhanced_result:
+                filtered_mobs = []
+                for mob in enhanced_result["mobs"]:
+                    distance = mob.get("distanceFrom", 999)
+                    if distance <= 50:  # Only include nearby mobs
+                        # Remove unnecessary fields to reduce size
+                        filtered_mob = {
+                            "instance": mob.get("instance"),  # Required for attack_entity
+                            "name": mob.get("name"),
+                            "level": mob.get("level"),
+                            "x": mob.get("x"),
+                            "y": mob.get("y"),
+                            "hitPoints": mob.get("hitPoints"),
+                            "maxHitPoints": mob.get("maxHitPoints"),
+                            "aggressive": mob.get("aggressive"),
+                            "distanceFrom": distance
+                        }
+                        filtered_mobs.append(filtered_mob)
+                enhanced_result["mobs"] = filtered_mobs
+
+            # 2. Aggregate inventory by item key and remove descriptions
+            if "inventory" in enhanced_result and "items" in enhanced_result["inventory"]:
+                items = enhanced_result["inventory"]["items"]
+                aggregated = {}
+                for item in items:
+                    key = item.get("key", "unknown")
+                    if key in aggregated:
+                        aggregated[key]["count"] += item.get("count", 1)
+                    else:
+                        # Create compact item entry without description
+                        aggregated[key] = {
+                            "name": item.get("name"),
+                            "count": item.get("count", 1),
+                            "edible": item.get("edible", False),
+                            "equippable": item.get("equippable", False)
+                        }
+                # Convert to list format
+                enhanced_result["inventory"]["items"] = [
+                    {"key": k, **v} for k, v in aggregated.items()
+                ]
+
+            # 3. Remove collision data (rarely needed, saves ~1KB)
+            if "collisions" in enhanced_result:
+                del enhanced_result["collisions"]
+
+            # === END OPTIMIZATIONS ===
+
             # Store the raw observation data for logging
             self._last_observation_data = enhanced_result
             
@@ -813,47 +881,55 @@ class KaetramGameTools:
                 # IMPROVED POSITION SYNCHRONIZATION: Wait and verify position multiple times
                 max_position_attempts = 5
                 position_verified = False
-                
+                last_known_x, last_known_y = None, None
+
                 for attempt in range(max_position_attempts):
-                    # Progressive wait time: 2s, 3s, 4s, 5s, 6s
-                    wait_time = 2 + attempt
+                    # Progressive wait time: 2s, 2.5s, 3s, 3.5s, 4s (reduced for faster iteration)
+                    wait_time = 2 + (attempt * 0.5)
                     time.sleep(wait_time)
-                    
-                    # Verify the position update by checking current location
-                    current_observe = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], params={"token": self.token, "radius": 1})
-                    if current_observe.get("status") == "success":
-                        current_data = current_observe.get("data", {})
-                        actual_x = current_data.get("location", {}).get("x")
-                        actual_y = current_data.get("location", {}).get("y")
-                        
-                        if actual_x is not None and actual_y is not None:
-                            # Recalculate distance with actual position
-                            actual_distance = abs(resource_x - actual_x) + abs(resource_y - actual_y)
-                            
-                            # Position is good enough for harvesting
-                            if actual_distance <= 2:
-                                position_verified = True
-                                movement_info = f"Moved closer to {resource_name} at ({resource_x}, {resource_y}) from position ({actual_x}, {actual_y}) (distance: {actual_distance}, attempt {attempt + 1}). "
+
+                    # Verify the position update by checking current location (with inner retry for observe)
+                    actual_x, actual_y = None, None
+                    for observe_retry in range(3):  # Inner retry for observe API
+                        current_observe = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], params={"token": self.token, "radius": 1})
+                        if current_observe.get("status") == "success":
+                            # Note: observe API returns location directly, not under "data"
+                            actual_x = current_observe.get("location", {}).get("x")
+                            actual_y = current_observe.get("location", {}).get("y")
+                            if actual_x is not None and actual_y is not None:
+                                last_known_x, last_known_y = actual_x, actual_y
                                 break
-                            
-                            # If still too far on the last attempt, try moving to exact resource location
-                            elif attempt == max_position_attempts - 1:
-                                exact_move_data = {
-                                    "token": self.token,
-                                    "x": resource_x,
-                                    "y": resource_y
-                                }
-                                exact_move_result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["move"], exact_move_data)
-                                
-                                # Final wait for exact position
-                                time.sleep(3)
-                                
-                                # Final position check
+                        time.sleep(0.5)  # Short delay before observe retry
+
+                    if actual_x is not None and actual_y is not None:
+                        # Recalculate distance with actual position
+                        actual_distance = abs(resource_x - actual_x) + abs(resource_y - actual_y)
+
+                        # Position is good enough for harvesting
+                        if actual_distance <= 2:
+                            position_verified = True
+                            movement_info = f"Moved closer to {resource_name} at ({resource_x}, {resource_y}) from position ({actual_x}, {actual_y}) (distance: {actual_distance}, attempt {attempt + 1}). "
+                            break
+
+                        # If still too far on the last attempt, try moving to exact resource location
+                        elif attempt == max_position_attempts - 1:
+                            exact_move_data = {
+                                "token": self.token,
+                                "x": resource_x,
+                                "y": resource_y
+                            }
+                            exact_move_result = self._make_request("POST", AGENTWORLD_API_ENDPOINTS["move"], exact_move_data)
+
+                            # Final wait for exact position
+                            time.sleep(2)
+
+                            # Final position check with retry
+                            for final_retry in range(3):
                                 final_check = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], params={"token": self.token, "radius": 1})
                                 if final_check.get("status") == "success":
-                                    final_data = final_check.get("data", {})
-                                    final_x = final_data.get("location", {}).get("x")
-                                    final_y = final_data.get("location", {}).get("y")
+                                    # Note: observe API returns location directly, not under "data"
+                                    final_x = final_check.get("location", {}).get("x")
+                                    final_y = final_check.get("location", {}).get("y")
                                     if final_x is not None and final_y is not None:
                                         final_distance = abs(resource_x - final_x) + abs(resource_y - final_y)
                                         if final_distance <= 2:
@@ -861,22 +937,28 @@ class KaetramGameTools:
                                             movement_info = f"Moved to exact resource location {resource_name} at ({resource_x}, {resource_y}). Final position ({final_x}, {final_y}), distance: {final_distance}. "
                                         else:
                                             movement_info = f"Failed to get close enough to {resource_name}. Final distance: {final_distance}. "
-                                    else:
-                                        movement_info = f"Could not verify final position for {resource_name}. "
-                                else:
-                                    movement_info = f"Position verification failed for {resource_name}. "
+                                        break
+                                time.sleep(0.5)
                             else:
-                                # Continue trying on intermediate attempts
-                                self._debug_print(f"Position sync attempt {attempt + 1}: distance {actual_distance}, retrying...")
-                                continue
+                                # Could not verify position, but proceed anyway as fallback
+                                position_verified = True  # Allow harvest attempt
+                                movement_info = f"Position verification uncertain for {resource_name}, proceeding with harvest attempt. "
                         else:
-                            movement_info = f"Could not get position data on attempt {attempt + 1}. "
+                            # Continue trying on intermediate attempts
+                            self._debug_print(f"Position sync attempt {attempt + 1}: distance {actual_distance}, retrying...")
+                            continue
                     else:
-                        movement_info = f"Observation failed on attempt {attempt + 1}. "
-                
-                # If position was never verified, return error
+                        # Could not get position data, continue to next attempt
+                        self._debug_print(f"Position sync attempt {attempt + 1}: could not get location data, retrying...")
+                        if attempt == max_position_attempts - 1:
+                            # On final attempt, proceed with harvest anyway (graceful degradation)
+                            position_verified = True
+                            movement_info = f"Position verification failed for {resource_name}, proceeding with harvest attempt anyway. "
+
+                # If position was never verified after all attempts, still try harvest as last resort
                 if not position_verified:
-                    return f"Error: {movement_info}Failed to synchronize position after {max_position_attempts} attempts. Cannot proceed with harvest."
+                    position_verified = True  # Allow harvest attempt as fallback
+                    movement_info = f"Could not verify position for {resource_name}, attempting harvest anyway. "
             else:
                 movement_info = f"Already near {resource_name}. "
         else:
@@ -919,9 +1001,9 @@ class KaetramGameTools:
             # For already-near cases, do a simple verification with fallback
             simple_observe = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], params={"token": self.token, "radius": 1})
             if simple_observe.get("status") == "success":
-                simple_data = simple_observe.get("data", {})
-                simple_x = simple_data.get("location", {}).get("x")
-                simple_y = simple_data.get("location", {}).get("y")
+                # Note: observe API returns location directly, not under "data"
+                simple_x = simple_observe.get("location", {}).get("x")
+                simple_y = simple_observe.get("location", {}).get("y")
                 
                 if simple_x is not None and simple_y is not None and resource_x is not None and resource_y is not None:
                     simple_distance = abs(resource_x - simple_x) + abs(resource_y - simple_y)
@@ -939,11 +1021,11 @@ class KaetramGameTools:
             # For cases where we moved, do strict verification with retry mechanism
             for final_attempt in range(3):  # Try up to 3 times
                 final_observe = self._make_request("GET", AGENTWORLD_API_ENDPOINTS["observe"], params={"token": self.token, "radius": 1})
-                
+
                 if final_observe.get("status") == "success":
-                    final_data = final_observe.get("data", {})
-                    final_x = final_data.get("location", {}).get("x")
-                    final_y = final_data.get("location", {}).get("y")
+                    # Note: observe API returns location directly, not under "data"
+                    final_x = final_observe.get("location", {}).get("x")
+                    final_y = final_observe.get("location", {}).get("y")
                     
                     if final_x is not None and final_y is not None and resource_x is not None and resource_y is not None:
                         final_distance = abs(resource_x - final_x) + abs(resource_y - final_y)

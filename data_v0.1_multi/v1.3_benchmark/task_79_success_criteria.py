@@ -24,14 +24,17 @@ from verifier_utils import (
 
 
 def task_79_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Elite Dragon Hunt Expedition."""
+    """Dragon Hunt - defeat Iron Ogre, Water Guardian, and Mermaid."""
+    # Check combat kills (3 bosses)
+    kills = count_combat_kills(traj_json, ['Iron Ogre', 'Water Guardian', 'Mermaid', 'Ogre', 'Guardian'])
+    has_kills = kills >= 3
+
+    # Check all agents alive
     alive = check_agents_alive(traj_json)
-    hp_map = get_final_hp(traj_json)
-    survivors = sum(1 for hp in hp_map.values() if hp > 0)
-    total = len(hp_map)
-    success = survivors >= 8  # At least 8/10 survive
-    msg = f"Survivors: {survivors}/{total}"
-    return (1 if success else 0, msg)
+
+    passed = has_kills and alive
+    msg = f"Boss kills: {kills}/3, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

@@ -24,12 +24,24 @@ from verifier_utils import (
 
 
 def task_32_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Wilderness Expedition - all agents survive."""
+    """Wilderness Creature Hunt - defeat 3x wolves and collect 5x logs."""
+    inventories = get_final_inventories(traj_json)
+
+    # Check for logs
+    logs = count_item_in_inventories(inventories, 'logs')
+    has_logs = logs >= 5
+
+    # Check combat kills (3 wolves)
+    kills = count_combat_kills(traj_json, ['Wolf', 'wolf'])
+    has_kills = kills >= 3
+
+    # Check all agents alive
     agent_hp = get_final_agent_hp_simple(traj_json)
     all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
 
-    msg = f"All agents alive: {all_alive}"
-    return (1 if all_alive else 0, msg)
+    passed = has_logs and has_kills and all_alive
+    msg = f"Logs: {logs}/5, Kills: {kills}/3, All alive: {all_alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

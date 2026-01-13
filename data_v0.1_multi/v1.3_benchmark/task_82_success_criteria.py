@@ -24,12 +24,25 @@ from verifier_utils import (
 
 
 def task_82_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Royal Evacuation Command - all agents survive."""
+    """Evacuation - collect 8x logs, 6x ironore, craft 2x axe."""
+    inventories = get_final_inventories(traj_json)
+
+    # Check for resources and tools
+    logs = count_item_in_inventories(inventories, 'logs')
+    ironore = count_item_in_inventories(inventories, 'ironore')
+    axe = count_item_in_inventories(inventories, 'axe')
+
+    has_logs = logs >= 8
+    has_ironore = ironore >= 6
+    has_axes = axe >= 2
+
+    # Check all agents alive
     agent_hp = get_final_agent_status(traj_json)
     all_alive = all(hp['current'] > 0 for hp in agent_hp.values()) if agent_hp else False
 
-    msg = f"All agents alive: {all_alive}"
-    return (1 if all_alive else 0, msg)
+    passed = has_logs and has_ironore and has_axes and all_alive
+    msg = f"Logs: {logs}/8, Ironore: {ironore}/6, Axe: {axe}/2, All alive: {all_alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

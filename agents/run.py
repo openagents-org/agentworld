@@ -1374,7 +1374,28 @@ class TaskRunner:
             
             # Add this round's data to trajectory
             self.trajectory_data['rounds'].append(round_data)
-            
+
+            # Early stopping check: verify task success every 3 rounds (starting from round 5)
+            # This saves tokens and time by stopping when the task is already complete
+            if round_count >= 5 and round_count % 3 == 0:
+                task_success, verify_msg = self._check_task_success_early()
+                if task_success:
+                    self.logger.info(f"🎉 EARLY STOPPING: Task verified as SUCCESS at round {round_count}!")
+                    self.logger.info(f"   Verification: {verify_msg}")
+                    print(f"\n{'='*70}")
+                    print(f"🎉 EARLY STOPPING: Task completed successfully!")
+                    print(f"   Round: {round_count}/{max_rounds}")
+                    print(f"   Verification: {verify_msg}")
+                    print(f"   Saved {max_rounds - round_count} rounds of execution")
+                    print(f"{'='*70}\n")
+                    # Mark all active agents as completed
+                    for agent_state in agent_states.values():
+                        if agent_state.state not in [AgentState.COMPLETED, AgentState.FAILED]:
+                            agent_state.state = AgentState.COMPLETED
+                            agent_state.completion_reason = f"Task success verified at round {round_count}"
+                            agent_state.end_time = time.time()
+                    break
+
             if not active_agents:
                 self.logger.info(f"✅ All agents completed or failed after {round_count} rounds")
                 print(f"✅ All agents completed or failed after {round_count} rounds")
@@ -1419,20 +1440,30 @@ class TaskRunner:
                 'timestamp': datetime.now().isoformat()
             }
         
+        # Run final verification check
+        final_verification_success, final_verification_msg = self._check_task_success_early()
+
         # Add multi-agent specific metrics
         multi_agent_metrics = {
             'total_duration_seconds': total_duration,
             'total_rounds': round_count,
+            'max_rounds': max_rounds,
             'total_agents': len(agent_states),
             'successful_agents': len([r for r in results.values() if r['success']]),
             'failed_agents': len([r for r in results.values() if not r['success']]),
             'total_actions': sum(r['action_count'] for r in results.values()),
-            'total_chats': sum(r['chat_count'] for r in results.values())
+            'total_chats': sum(r['chat_count'] for r in results.values()),
+            'task_verified_success': final_verification_success,
+            'task_verification_message': final_verification_msg,
+            'early_stopped': round_count < max_rounds and final_verification_success,
+            'rounds_saved': max_rounds - round_count if final_verification_success else 0
         }
         
         self.logger.info(f"📊 Multi-agent execution completed:")
         self.logger.info(f"  Duration: {total_duration:.2f}s")
-        self.logger.info(f"  Rounds: {round_count}")
+        self.logger.info(f"  Rounds: {round_count}/{max_rounds}")
+        self.logger.info(f"  Task Verified: {'✅ SUCCESS' if final_verification_success else '❌ FAILED'}")
+        self.logger.info(f"  Verification: {final_verification_msg}")
         self.logger.info(f"  Successful agents: {multi_agent_metrics['successful_agents']}/{multi_agent_metrics['total_agents']}")
         self.logger.info(f"  Total actions: {multi_agent_metrics['total_actions']}")
         self.logger.info(f"  Total chats: {multi_agent_metrics['total_chats']}")
@@ -1473,7 +1504,16 @@ class TaskRunner:
         
         # Add metrics to results
         results['_multi_agent_metrics'] = multi_agent_metrics
-        
+
+        # Print final verification result
+        print("=" * 70)
+        verification_emoji = "✅" if final_verification_success else "❌"
+        print(f"{verification_emoji} TASK VERIFICATION: {'SUCCESS' if final_verification_success else 'FAILED'}")
+        print(f"   {final_verification_msg}")
+        if multi_agent_metrics['early_stopped']:
+            print(f"   ⚡ Early stopped at round {round_count}, saved {multi_agent_metrics['rounds_saved']} rounds")
+        print("=" * 70)
+
         # Save task summary
         self._save_task_summary(task_config, results)
         
@@ -1495,10 +1535,19 @@ class TaskRunner:
             return {}
         
         self.logger.info(f"Found {len(task_files)} task files")
-        
+
+        # Sort task files numerically by task number (e.g., task_01, task_02, ..., task_100)
+        def get_task_number(filepath):
+            """Extract numeric task number from filename for proper sorting"""
+            import re
+            match = re.search(r'task_(\d+)', filepath.name)
+            return int(match.group(1)) if match else 0
+
+        task_files_sorted = sorted(task_files, key=get_task_number)
+
         all_results = {}
-        
-        for task_file in sorted(task_files):
+
+        for task_file in task_files_sorted:
             self.logger.info(f"📋 Processing task file: {task_file.name}")
             
             try:
@@ -1762,7 +1811,63 @@ class TaskRunner:
             json.dump(self.trajectory_data, f, indent=2, ensure_ascii=False)
         
         self.logger.info(f"📊 Trajectory saved to: {trajectory_file}")
-    
+
+    def _check_task_success_early(self) -> Tuple[bool, str]:
+        """
+        Check if the task has been completed successfully using the Python verifier.
+        This enables early stopping to save tokens and time.
+
+        Returns:
+            Tuple[bool, str]: (success, message) where success is True if task is complete
+        """
+        try:
+            # Get task number from trajectory data
+            task_id = self.trajectory_data.get('task_id', '')
+            if not task_id:
+                return False, "No task_id in trajectory data"
+
+            # Extract task number (e.g., "task_01" -> "01")
+            import re
+            match = re.search(r'task_(\d+)', task_id)
+            if not match:
+                return False, f"Could not parse task number from {task_id}"
+
+            task_num = int(match.group(1))
+
+            # Try to import the verifier module
+            verifier_path = Path(__file__).parent.parent / "data_v0.1_multi" / "v1.3_benchmark"
+            verifier_file = verifier_path / f"task_{task_num:02d}_success_criteria.py"
+
+            if not verifier_file.exists():
+                self.logger.debug(f"No verifier found at {verifier_file}")
+                return False, f"No verifier for task {task_num:02d}"
+
+            # Dynamically import the verifier module
+            import importlib.util
+            spec = importlib.util.spec_from_file_location(f"task_{task_num:02d}_verifier", verifier_file)
+            verifier_module = importlib.util.module_from_spec(spec)
+
+            # Add verifier_utils to the module's namespace
+            verifier_utils_path = verifier_path / "verifier_utils.py"
+            if verifier_utils_path.exists():
+                utils_spec = importlib.util.spec_from_file_location("verifier_utils", verifier_utils_path)
+                utils_module = importlib.util.module_from_spec(utils_spec)
+                sys.modules['verifier_utils'] = utils_module
+                utils_spec.loader.exec_module(utils_module)
+
+            spec.loader.exec_module(verifier_module)
+
+            # Call the verify function
+            if hasattr(verifier_module, 'verify'):
+                success, msg = verifier_module.verify(self.trajectory_data)
+                return bool(success), msg
+            else:
+                return False, "Verifier module has no verify() function"
+
+        except Exception as e:
+            self.logger.debug(f"Early success check failed: {e}")
+            return False, f"Verification error: {str(e)}"
+
     def _save_folder_summary(self, folder_path: str, all_results: Dict[str, Any]):
         """Save folder execution summary"""
         summary_file = self.output_dir / f"folder_summary_{self.run_timestamp}.json"

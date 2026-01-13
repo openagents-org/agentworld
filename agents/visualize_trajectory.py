@@ -21,6 +21,11 @@ import inspect
 from pathlib import Path
 from datetime import datetime
 
+# Default sprites path (relative to where HTML is served from)
+# Can be overridden with --sprites-path argument
+DEFAULT_SPRITES_PATH = "/img/sprites/items"
+SPRITES_BASE_PATH = DEFAULT_SPRITES_PATH
+
 # Add parent directory to path for task_verifier import
 sys.path.insert(0, str(Path(__file__).parent.parent))
 try:
@@ -36,12 +41,12 @@ def get_verifier_info(task_id: str, version: int = 0) -> tuple:
     Returns: (score, message, source_code) or (None, None, None) if not available
     """
     if not VERIFIER_AVAILABLE:
-        return None, None, None
+        return None, None
 
     # Get the verifier function
     verifier_map = get_verifier_map(version)
     if task_id not in verifier_map:
-        return None, None, f"No verifier found for {task_id}"
+        return None, f"No verifier found for {task_id}"
 
     verifier_func = verifier_map[task_id]
 
@@ -152,26 +157,48 @@ def extract_chat_messages_from_log(trajectory_path: str, timestamp: str) -> dict
 def parse_action(action_str: str) -> dict:
     """Parse action string into structured data."""
     if not action_str:
-        return {"type": "waiting", "raw": "", "params": "No action taken this round"}
+        return {"type": "waiting", "raw": "", "params": "No action taken this round", "parsed": {}}
 
-    # Match function call pattern: function_name(param=value, ...)
-    match = re.match(r'(\w+)\((.*)\)', action_str, re.DOTALL)
+    # Match function call pattern: function_name(...)
+    # Use a more lenient approach: extract function name, then everything after opening paren
+    match = re.match(r'(\w+)\(', action_str)
     if match:
         func_name = match.group(1)
-        params_str = match.group(2)
+        # Get everything after the opening parenthesis
+        params_start = match.end()
+        params_str = action_str[params_start:]
+        # Remove trailing ) if present
+        if params_str.endswith(')'):
+            params_str = params_str[:-1]
+
+        # Parse parameters into a dict
+        parsed_params = {}
+        # Match key=value pairs (handles quoted strings and numbers)
+        param_pattern = r'(\w+)=(["\']?)([^,"\')]*)\2(?:,\s*|$)'
+        for param_match in re.finditer(param_pattern, params_str):
+            key = param_match.group(1)
+            value = param_match.group(3)
+            # Try to convert to int if numeric
+            try:
+                parsed_params[key] = int(value)
+            except ValueError:
+                parsed_params[key] = value
 
         # For chat actions, extract the full message
+        display_params = params_str
         if func_name == "chat":
             msg_match = re.search(r'message=["\']?(.*?)["\']?\s*\)', params_str + ")", re.DOTALL)
             if msg_match:
-                params_str = msg_match.group(1)
+                display_params = msg_match.group(1)
+                parsed_params["message"] = display_params
 
         return {
             "type": func_name,
-            "params": params_str,
-            "raw": action_str
+            "params": display_params,
+            "raw": action_str,
+            "parsed": parsed_params
         }
-    return {"type": "unknown", "raw": action_str, "params": ""}
+    return {"type": "unknown", "raw": action_str, "params": "", "parsed": {}}
 
 
 def get_action_icon(action_type: str) -> str:
@@ -182,15 +209,143 @@ def get_action_icon(action_type: str) -> str:
         "harvest_resource": "⛏️",
         "craft_item": "🔨",
         "transfer_item": "📦",
+        "transfer_items": "📦",
         "equip_item": "🎒",
         "attack": "⚔️",
         "complete": "✅",
         "observe": "👁️",
         "use_item": "🧪",
+        "sleep": "😴",
         "waiting": "⏳",
         "unknown": "❓"
     }
     return icons.get(action_type, "🔷")
+
+
+def format_action_display(action: dict, prev_location: dict = None, sprites_path: str = DEFAULT_SPRITES_PATH) -> str:
+    """Format action for enhanced HTML display with icons and structured info."""
+    action_type = action.get("type", "unknown")
+    parsed = action.get("parsed", {})
+    params = action.get("params", "")
+
+    # Build HTML based on action type
+    if action_type == "move_character":
+        target_x = parsed.get("x", "?")
+        target_y = parsed.get("y", "?")
+        if prev_location:
+            origin_x = prev_location.get("x", "?")
+            origin_y = prev_location.get("y", "?")
+            return f'''<div class="action-move">
+                <span class="location-badge origin">📍 ({origin_x}, {origin_y})</span>
+                <span class="move-arrow">→</span>
+                <span class="location-badge target">🎯 ({target_x}, {target_y})</span>
+            </div>'''
+        return f'<div class="action-move"><span class="location-badge target">🎯 ({target_x}, {target_y})</span></div>'
+
+    elif action_type in ("transfer_item", "transfer_items"):
+        item_key = parsed.get("itemKey", "item")
+        count = parsed.get("count", 1)
+        target = parsed.get("targetPlayer", "?")
+        return f'''<div class="action-transfer">
+            <img src="{sprites_path}/{item_key}.png" class="item-icon" alt="{item_key}" onerror="this.style.display='none'">
+            <span class="item-info"><strong>{count}x</strong> {item_key}</span>
+            <span class="transfer-arrow">→</span>
+            <span class="target-player">👤 {target}</span>
+        </div>'''
+
+    elif action_type == "craft_item":
+        item_key = parsed.get("itemKey", "item")
+        count = parsed.get("count", 1)
+        skill = parsed.get("skill", "")
+        return f'''<div class="action-craft">
+            <img src="{sprites_path}/{item_key}.png" class="item-icon" alt="{item_key}" onerror="this.style.display='none'">
+            <span class="item-info"><strong>{count}x</strong> {item_key}</span>
+            {f'<span class="skill-badge">{skill}</span>' if skill else ''}
+        </div>'''
+
+    elif action_type == "harvest_resource":
+        target_instance = parsed.get("targetInstance", "")
+        resource_type = parsed.get("resourceType", parsed.get("resource", ""))
+        # Show instance ID and resource type if available
+        if target_instance:
+            resource_display = f"Instance #{target_instance}"
+            if resource_type:
+                resource_display = f"{resource_type} (#{target_instance})"
+            return f'''<div class="action-harvest">
+            <img src="{sprites_path}/{resource_type or 'resource'}.png" class="item-icon" alt="{resource_type or 'resource'}" onerror="this.style.display='none'">
+            <span class="item-info">{resource_display}</span>
+        </div>'''
+        elif resource_type:
+            return f'''<div class="action-harvest">
+            <img src="{sprites_path}/{resource_type}.png" class="item-icon" alt="{resource_type}" onerror="this.style.display='none'">
+            <span class="item-info">{resource_type}</span>
+        </div>'''
+        else:
+            # Fallback: show raw params
+            raw_params = action.get("params", "resource")
+            return f'''<div class="action-harvest">
+            <span class="item-info">{html.escape(str(raw_params))}</span>
+        </div>'''
+
+    elif action_type == "equip_item":
+        item_key = parsed.get("itemKey", "item")
+        return f'''<div class="action-equip">
+            <img src="{sprites_path}/{item_key}.png" class="item-icon" alt="{item_key}" onerror="this.style.display='none'">
+            <span class="item-info">{item_key}</span>
+        </div>'''
+
+    elif action_type == "chat":
+        return f'<div class="action-chat">{html.escape(params)}</div>'
+
+    elif action_type == "waiting":
+        return '<div class="action-waiting">No action taken this round</div>'
+
+    elif action_type == "sleep":
+        seconds = parsed.get("seconds", "?")
+        return f'<div class="action-sleep">Sleeping for {seconds}s</div>'
+
+    # Default fallback
+    return f'<div class="action-default">{html.escape(params)}</div>'
+
+
+def get_agent_avatar(username: str, agent_idx: int) -> str:
+    """Get avatar sprite filename based on agent username/role."""
+    username_lower = username.lower()
+
+    # Map agent roles to appropriate sprites
+    if "wizard" in username_lower or "mage" in username_lower:
+        return "bluewizardrobe.png"
+    elif "lumberjack" in username_lower or "lumber" in username_lower:
+        return "clotharmor.png"
+    elif "woodworker" in username_lower or "carpenter" in username_lower:
+        return "leatherarmor.png"
+    elif "miner" in username_lower:
+        return "miner.png"
+    elif "smith" in username_lower or "blacksmith" in username_lower:
+        return "redarmor.png"
+    elif "smelter" in username_lower:
+        return "orangearmor.png"
+    elif "archer" in username_lower:
+        return "archerarmor.png"
+    elif "warrior" in username_lower or "fighter" in username_lower:
+        return "bluearmor.png"
+    elif "hunter" in username_lower:
+        return "greenarmor.png"
+    elif "cook" in username_lower or "chef" in username_lower:
+        return "clotharmor.png"
+    elif "farmer" in username_lower:
+        return "greenarmor.png"
+
+    # Default avatars by agent index
+    default_avatars = [
+        "clotharmor.png",
+        "leatherarmor.png",
+        "bluearmor.png",
+        "greenarmor.png",
+        "redarmor.png",
+        "orangearmor.png",
+    ]
+    return default_avatars[agent_idx % len(default_avatars)]
 
 
 def get_agent_color(agent_idx: int) -> str:
@@ -244,7 +399,7 @@ def format_observation(obs: dict | str) -> str:
     return "<br>".join(parts)
 
 
-def generate_html(trajectory_data: dict, output_path: str, trajectory_path: str = None, version: int = 0) -> None:
+def generate_html(trajectory_data: dict, output_path: str, trajectory_path: str = None, version: int = 0, sprites_path: str = DEFAULT_SPRITES_PATH) -> None:
     """Generate HTML visualization from trajectory data."""
 
     task_def = trajectory_data.get("task_definition", {})
@@ -608,6 +763,115 @@ def generate_html(trajectory_data: dict, output_path: str, trajectory_path: str 
             white-space: pre-wrap;
         }}
 
+        /* Enhanced action displays */
+        .item-icon {{
+            width: 32px;
+            height: 32px;
+            vertical-align: middle;
+            margin-right: 8px;
+            image-rendering: pixelated;
+            border-radius: 4px;
+            background: #f0f0f0;
+            padding: 2px;
+        }}
+
+        .action-move, .action-transfer, .action-craft, .action-harvest, .action-equip {{
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }}
+
+        .location-badge {{
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 500;
+        }}
+
+        .location-badge.origin {{
+            background: #fee2e2;
+            color: #991b1b;
+        }}
+
+        .location-badge.target {{
+            background: #dcfce7;
+            color: #166534;
+        }}
+
+        .move-arrow, .transfer-arrow {{
+            font-size: 18px;
+            color: #666;
+        }}
+
+        .item-info {{
+            font-size: 14px;
+            color: #333;
+        }}
+
+        .item-info strong {{
+            color: #2563eb;
+        }}
+
+        .target-player {{
+            background: #e0e7ff;
+            color: #3730a3;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+        }}
+
+        .skill-badge {{
+            background: #fef3c7;
+            color: #92400e;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+        }}
+
+        .action-chat {{
+            font-size: 13px;
+            color: #333;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }}
+
+        .action-waiting {{
+            font-size: 13px;
+            color: #888;
+            font-style: italic;
+        }}
+
+        .action-sleep {{
+            font-size: 13px;
+            color: #666;
+        }}
+
+        .action-default {{
+            font-size: 12px;
+            color: #444;
+            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+        }}
+
+        /* Agent avatar */
+        .agent-avatar {{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }}
+
+        .agent-avatar-img {{
+            width: 48px;
+            height: 48px;
+            image-rendering: pixelated;
+            object-fit: cover;
+            object-position: center top;
+        }}
+
         .observation-toggle {{
             background: #f5f5f5;
             border: 1px solid #ddd;
@@ -864,8 +1128,12 @@ def generate_html(trajectory_data: dict, output_path: str, trajectory_path: str 
 '''
 
     # Add agent cards
+    # Sprites base path for character avatars (remove /items suffix for character sprites)
+    char_sprites_path = sprites_path.replace("/items", "")
+
     for idx, agent in enumerate(agents):
         color = get_agent_color(idx)
+        avatar_sprite = get_agent_avatar(agent["username"], idx)
         skills_html = "".join([
             f'<span class="skill-tag">{html.escape(skill)}: {level}</span>'
             for skill, level in agent["skills"].items()
@@ -878,7 +1146,9 @@ def generate_html(trajectory_data: dict, output_path: str, trajectory_path: str 
         html_content += f'''
                 <div class="agent-card" style="border-color: {color};">
                     <div class="agent-header">
-                        <div class="agent-avatar" style="background: {color};">👤</div>
+                        <div class="agent-avatar" style="background: {color};">
+                            <img src="{char_sprites_path}/{avatar_sprite}" class="agent-avatar-img" alt="{agent["username"]}" onerror="this.parentElement.innerHTML='👤'">
+                        </div>
                         <div>
                             <div class="agent-name">{html.escape(agent["username"])}</div>
                             <div class="agent-details">
@@ -912,6 +1182,11 @@ def generate_html(trajectory_data: dict, output_path: str, trajectory_path: str 
             <div id="rounds-container">
 '''
 
+    # Track agent locations across rounds for move visualization
+    agent_locations = {}
+    for agent in agents:
+        agent_locations[agent["id"]] = agent.get("location", {})
+
     # Add rounds
     for round_data in rounds:
         round_num = round_data.get("round", 0)
@@ -941,14 +1216,24 @@ def generate_html(trajectory_data: dict, output_path: str, trajectory_path: str 
             observation = action_data.get("observation", "")
             obs_id = f"obs_{round_num}_{agent_name}"
 
+            # Get previous location for move actions
+            prev_location = agent_locations.get(agent_name, {})
+
             # Get full chat message from log if available
-            action_display = action.get("params", action.get("raw", "")[:150])
             if action["type"] == "chat" and agent_name in chat_messages:
                 agent_chats = chat_messages[agent_name]
                 chat_idx = chat_indices.get(agent_name, 0)
                 if chat_idx < len(agent_chats):
-                    action_display = agent_chats[chat_idx]
+                    action["params"] = agent_chats[chat_idx]
+                    action["parsed"]["message"] = agent_chats[chat_idx]
                     chat_indices[agent_name] = chat_idx + 1
+
+            # Format action with enhanced display
+            action_html = format_action_display(action, prev_location, sprites_path)
+
+            # Update agent location from observation
+            if isinstance(observation, dict) and "location" in observation:
+                agent_locations[agent_name] = observation["location"]
 
             # Format observation
             obs_html = format_observation(observation)
@@ -961,7 +1246,7 @@ def generate_html(trajectory_data: dict, output_path: str, trajectory_path: str 
                             </div>
                             <div class="action-content">
                                 <div class="action-type">{action_icon} {html.escape(action["type"])}</div>
-                                <div class="action-params">{html.escape(action_display)}</div>
+                                <div class="action-params">{action_html}</div>
                             </div>
                             <button class="observation-toggle" onclick="toggleObservation('{obs_id}')">
                                 👁️ View Observation
@@ -1126,6 +1411,11 @@ def main():
         "--output", "-o",
         help="Output HTML file path (default: trajectory_visualization.html)"
     )
+    parser.add_argument(
+        "--sprites-path", "-s",
+        default=DEFAULT_SPRITES_PATH,
+        help=f"Base path for item sprites (default: {DEFAULT_SPRITES_PATH})"
+    )
 
     args = parser.parse_args()
 
@@ -1149,7 +1439,7 @@ def main():
         trajectory_data = json.load(f)
 
     # Generate HTML (pass trajectory path for chat message extraction)
-    generate_html(trajectory_data, output_path, trajectory_path=input_path)
+    generate_html(trajectory_data, output_path, trajectory_path=input_path, sprites_path=args.sprites_path)
 
 
 if __name__ == "__main__":

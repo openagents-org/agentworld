@@ -24,11 +24,24 @@ from verifier_utils import (
 
 
 def task_39_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Agricultural Development."""
+    """Farming Harvest - collect 4x corn, 4x tomato, 3x peach."""
     inventories = get_final_inventories(traj_json)
+
+    # Check for crops
+    corn = count_item_in_inventories(inventories, 'corn')
+    tomato = count_item_in_inventories(inventories, 'tomato')
+    peach = count_item_in_inventories(inventories, 'peach')
+
+    has_corn = corn >= 4
+    has_tomato = tomato >= 4
+    has_peach = peach >= 3
+
+    # Check all agents alive
     alive = check_agents_alive(traj_json)
-    msg = f"All alive: {alive}"
-    return (1 if alive else 0, msg)
+
+    passed = has_corn and has_tomato and has_peach and alive
+    msg = f"Corn: {corn}/4, Tomato: {tomato}/4, Peach: {peach}/3, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

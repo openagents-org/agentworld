@@ -24,10 +24,24 @@ from verifier_utils import (
 
 
 def task_48_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Epic Cross-Region Expedition."""
+    """Cross-Region Expedition - collect 5x logs, 4x coal, 3x rawshrimp."""
+    inventories = get_final_inventories(traj_json)
+
+    # Check for resources
+    logs = count_item_in_inventories(inventories, 'logs')
+    coal = count_item_in_inventories(inventories, 'coal')
+    rawshrimp = count_item_in_inventories(inventories, 'rawshrimp')
+
+    has_logs = logs >= 5
+    has_coal = coal >= 4
+    has_shrimp = rawshrimp >= 3
+
+    # Check all agents alive
     alive = check_agents_alive(traj_json)
-    msg = f"All agents alive: {alive}"
-    return (1 if alive else 0, msg)
+
+    passed = has_logs and has_coal and has_shrimp and alive
+    msg = f"Logs: {logs}/5, Coal: {coal}/4, Shrimp: {rawshrimp}/3, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

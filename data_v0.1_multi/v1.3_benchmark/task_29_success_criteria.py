@@ -24,10 +24,17 @@ from verifier_utils import (
 
 
 def task_29_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Castle Siege Warfare - defeat Ice Knight."""
+    """Castle Siege Warfare - defeat Ice Knight (Level 62) fortress commander."""
+    # Check combat kills (Ice Knight)
+    kills = count_combat_kills(traj_json, ['Ice Knight', 'Knight'])
+    has_kills = kills >= 1
+
+    # Check all agents alive
     alive = check_agents_alive(traj_json)
-    msg = f"All agents alive: {alive}"
-    return (1 if alive else 0, msg)
+
+    passed = has_kills and alive
+    msg = f"Kills: {kills}/1 (Ice Knight), All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

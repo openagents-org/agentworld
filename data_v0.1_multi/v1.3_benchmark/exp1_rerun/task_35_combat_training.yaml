@@ -1,0 +1,134 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Combat Training - Goblin Elimination"
+  description: "Three agents work together to defeat goblins in coordinated combat"
+
+# Task objectives
+objectives:
+  primary: "Defeat 4x Goblins through coordinated team combat"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent combat training scenario.
+
+  OBJECTIVE: Defeat goblins through coordinated team attacks.
+
+  TARGETS:
+  - Defeat 4x Goblins (Level 7, 90 HP each)
+  - Goblins drop: leather armor, leather boots, plastic bow
+
+  COMBAT TACTICS:
+  - Tank agent draws aggro and absorbs damage
+  - DPS agents deal damage from flanking positions
+  - Support provides ranged backup
+
+  GOBLIN LOCATIONS:
+  - Wilderness regions around (400-500, 300-400)
+  - Goblins are aggressive and will attack on sight
+
+  DO NOT use complete() until all goblins are defeated!
+
+# Limitations
+max_action_steps: 25
+
+# Agent configurations
+agent_1:
+  username: "tank_agent"
+  new_character: true
+
+  location:
+    x: 420
+    y: 350
+
+  skill_levels:
+    strength: 40
+    defense: 45
+    health: 55
+    accuracy: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "heavysword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "dps_agent"
+  new_character: true
+
+  location:
+    x: 425
+    y: 350
+
+  skill_levels:
+    strength: 45
+    accuracy: 40
+    health: 40
+    defense: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "ranger_agent"
+  new_character: true
+
+  location:
+    x: 430
+    y: 350
+
+  skill_levels:
+    archery: 35
+    accuracy: 40
+    health: 40
+    defense: 25
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "arrow"
+      count: 40
+
+  equipped_items:
+    - item: "woodenbow"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "4x Goblins are defeated"
+  - "All agents survive the combat training"

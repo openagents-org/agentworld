@@ -24,10 +24,26 @@ from verifier_utils import (
 
 
 def task_87_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Mirefall Canal Restoration."""
+    """Canal Restoration - collect 6x logs, 8x ironore, 4x rawshrimp, craft 2x pickaxe."""
+    inventories = get_final_inventories(traj_json)
+
+    # Check for resources and tools
+    logs = count_item_in_inventories(inventories, 'logs')
+    ironore = count_item_in_inventories(inventories, 'ironore')
+    rawshrimp = count_item_in_inventories(inventories, 'rawshrimp')
+    pickaxe = count_item_in_inventories(inventories, 'pickaxe')
+
+    has_logs = logs >= 6
+    has_ironore = ironore >= 8
+    has_shrimp = rawshrimp >= 4
+    has_pickaxe = pickaxe >= 2
+
+    # Check all agents alive
     alive = check_agents_alive(traj_json)
-    msg = f"All agents alive: {alive}"
-    return (1 if alive else 0, msg)
+
+    passed = has_logs and has_ironore and has_shrimp and has_pickaxe and alive
+    msg = f"Logs: {logs}/6, Ironore: {ironore}/8, Shrimp: {rawshrimp}/4, Pickaxe: {pickaxe}/2, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

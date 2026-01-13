@@ -163,7 +163,7 @@ Remember: Output ONLY the JSON block for the tool call. No other text!
                 "model": self.model,
                 "messages": messages,
                 "tools": self.tools,
-                "tool_choice": "auto",
+                "tool_choice": "required",  # Force model to always call a tool (prevents thinking loops)
                 "max_tokens": 4096
             }
         else:

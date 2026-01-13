@@ -32,7 +32,7 @@ class OpenAIAgent(BaseAgent):
             "model": self.model,
             "messages": messages,
             "tools": self.tools,
-            "tool_choice": "auto",
+            "tool_choice": "required",  # Force model to always call a tool (prevents thinking loops)
             "parallel_tool_calls": False
         }
 

@@ -24,10 +24,17 @@ from verifier_utils import (
 
 
 def task_24_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Ancient Ruins Exploration - defeat guardians."""
+    """Ancient Ruins Exploration - defeat Golden Golem and Big Baby Spooder guardians."""
+    # Check combat kills (2 guardians: Golden Golem + Big Baby Spooder)
+    kills = count_combat_kills(traj_json, ['Golden Golem', 'Big Baby Spooder', 'Golem', 'Spooder'])
+    has_kills = kills >= 2
+
+    # Check all agents alive
     alive = check_agents_alive(traj_json)
-    msg = f"All agents alive: {alive}"
-    return (1 if alive else 0, msg)
+
+    passed = has_kills and alive
+    msg = f"Guardian kills: {kills}/2, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

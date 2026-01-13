@@ -24,10 +24,22 @@ from verifier_utils import (
 
 
 def task_28_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Dark Forest Cleansing - defeat Dark Wolf boss."""
+    """Dark Forest Cleansing - defeat Dark Wolf boss and collect wolfarmor."""
+    inventories = get_final_inventories(traj_json)
+
+    # Check for wolfarmor drop from Dark Wolf
+    wolfarmor = has_item_in_any_inventory(inventories, 'wolfarmor')
+
+    # Check combat kills (Dark Wolf)
+    kills = count_combat_kills(traj_json, ['Dark Wolf', 'Wolf'])
+    has_kills = kills >= 1
+
+    # Check all agents alive
     alive = check_agents_alive(traj_json)
-    msg = f"All agents alive: {alive}"
-    return (1 if alive else 0, msg)
+
+    passed = wolfarmor and has_kills and alive
+    msg = f"Wolfarmor: {wolfarmor}, Kills: {kills}/1, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

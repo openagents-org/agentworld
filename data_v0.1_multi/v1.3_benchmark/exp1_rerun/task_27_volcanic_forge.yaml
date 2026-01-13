@@ -1,0 +1,196 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Southern Desert Expedition - Mining and Combat"
+  description: "Three agents work together to explore the southern desert region, mine valuable ores, defeat regional minibosses, and collect rare equipment drops"
+
+# Task objectives
+objectives:
+  primary: "Successfully explore the southern desert region, mine valuable ores, defeat the Water Guardian and Ogre Guardian minibosses, and collect their equipment drops"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent expedition combining resource gathering and miniboss combat.
+
+  OBJECTIVE: Explore the southern desert region to mine valuable ores and defeat regional minibosses for equipment drops.
+
+  MISSION REQUIREMENTS:
+  - Navigate the Southern Desert Region (coordinates ~200-600, 600-768)
+  - Find and harvest rock deposits for valuable ores
+  - Defeat Water Guardian (Level 36) at (197, 633) for equipment drops
+  - Defeat Ogre Guardian (Level 32) at (291, 644) for experience and drops
+
+  TEAM COORDINATION:
+  - Use global chat to coordinate movement and combat strategies
+  - Share information about rock deposit locations found during exploration
+  - Coordinate attacks on minibosses for efficient combat
+  - Distribute healing items and support each other during fights
+
+  GENERAL STRATEGY:
+  - The team starts near (200, 600) in the southern desert area
+  - volcanic_miner_agent should focus on finding and mining rock deposits
+  - lava_navigator_agent should scout for miniboss locations and lead combat
+  - forge_master_agent should support combat and help with material collection
+  - Coordinate miniboss fights - Water Guardian drops valuable armor and weapons
+
+  DO NOT use complete() until ALL objectives are achieved by the team!
+
+  MINING OPERATIONS (CRITICAL KNOWLEDGE):
+  ⛏️ Resource Gathering:
+    - Use harvest_resource on rock instances to mine ores
+    - volcanic_miner_agent has mining level 45, can mine up to Lapis Lazuli (level 45)
+    - Available high-level ores: Gold (25), Ibo (30), Taaffeite (30), Moonrock (40), Lapis Lazuli (45)
+    - Look for rock deposits in the environment observation
+    - Rocks respawn after being depleted
+
+  ⚔️ Combat Strategy:
+    - Water Guardian (Level 36) at (197, 633):
+      * Drops: redguardarmor, redguardarcherarmor, ring1, scimitar, watermelonbow
+      * Coordinate team attacks for faster kill
+      * Use attack_entity with the mob's instance ID
+
+    - Ogre Guardian (Level 32) at (291, 644):
+      * Provides 120 experience bonus
+      * Coordinate physical attacks
+      * Easier target than Water Guardian
+
+  🗺️ Navigation Tips:
+    - Use move_character to navigate (max 32 tiles per move)
+    - Water Guardian location: (197, 633) - southwest of starting position
+    - Ogre Guardian location: (291, 644) - east of starting position
+    - Check environment observation for nearby mobs and resources
+
+  💊 Survival Strategy:
+    - All agents have flask and apple supplies for healing
+    - Use healing items to recover HP after combat
+    - lava_navigator_agent has the most health potions (20)
+    - Coordinate healing during extended fights
+
+# Limitations
+max_action_steps: 35
+
+# Agent configurations
+agent_1:
+  username: "lava_navigator_agent"
+  new_character: true
+
+  location:
+    x: 200
+    y: 600
+
+  skill_levels:
+    health: 60        # High survivability for leading combat
+    defense: 45       # Strong protection against miniboss attacks
+    strength: 35      # Good combat damage
+    accuracy: 30      # Decent hit rate
+    magic: 20         # Basic magic capability
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 40
+    - item: "healthpotion"
+      count: 20
+    - item: "manapotion"
+      count: 10
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+    - item: "firestaff"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "volcanic_miner_agent"
+  new_character: true
+
+  location:
+    x: 202
+    y: 602
+
+  skill_levels:
+    mining: 45        # High mining skill for valuable ores (up to Lapis Lazuli)
+    smithing: 35      # Smithing capability
+    health: 55        # Good survivability
+    strength: 40      # Strong combat support
+    defense: 35       # Decent protection
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 35
+    - item: "healthpotion"
+      count: 18
+
+  equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "forge_master_agent"
+  new_character: true
+
+  location:
+    x: 204
+    y: 604
+
+  skill_levels:
+    smithing: 50      # Master smithing
+    crafting: 40      # Advanced crafting capability
+    health: 50        # Moderate survivability
+    strength: 35      # Combat support capability
+    magic: 25         # Magical knowledge
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 35
+    - item: "healthpotion"
+      count: 15
+    - item: "manapotion"
+      count: 12
+
+  equipped_items:
+    - item: "smithinghammer"
+      count: 1
+      enchant: 0
+    - item: "sword"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team successfully navigates to miniboss locations in the southern desert region"
+  - "volcanic_miner_agent successfully mines at least one valuable ore (gold, ibo, taaffeite, moonrock, or lapis lazuli)"
+  - "Team defeats Water Guardian (Level 36) at coordinates (197, 633)"
+  - "Team collects at least one equipment drop from Water Guardian (redguardarmor, ring1, scimitar, or watermelonbow)"
+  - "Team defeats Ogre Guardian (Level 32) at coordinates (291, 644)"
+  - "All agents coordinate via chat messages during the expedition"
+  - "Expedition completed within time limit with valuable materials and equipment collected"

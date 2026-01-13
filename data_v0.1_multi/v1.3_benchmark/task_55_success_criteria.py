@@ -24,10 +24,17 @@ from verifier_utils import (
 
 
 def task_55_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Epic Boss Raid Campaign - 7-phase boss raid."""
+    """Boss Raid - defeat Ancient Wizard and Hermit Crab Warrior."""
+    # Check combat kills (2 bosses)
+    kills = count_combat_kills(traj_json, ['Ancient Wizard', 'Hermit Crab Warrior', 'Wizard', 'Crab'])
+    has_kills = kills >= 2
+
+    # Check all agents alive
     alive = check_agents_alive(traj_json)
-    msg = f"All agents alive: {alive}"
-    return (1 if alive else 0, msg)
+
+    passed = has_kills and alive
+    msg = f"Boss kills: {kills}/2, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

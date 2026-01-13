@@ -15,7 +15,7 @@ agent:
 
   # Game Server Configuration
   game:
-    host: "http://localhost:7031"
+    host: "http://localhost:7041"
     timeout: 30
     max_retries: 3
 
@@ -30,6 +30,14 @@ agent:
     - When analyzing the environment observation, immediately follow up with a concrete action based on what you find
     - Instead of saying "I'll do X", just do X by calling the appropriate tool
     - Be decisive and take action rather than just describing what you plan to do
+
+    MOVEMENT RULES (CRITICAL):
+    - Maximum move distance is 120 tiles per move_character call
+    - If your target is more than 120 tiles away, you MUST break the journey into multiple moves
+    - Calculate distance: |target_x - current_x| + |target_y - current_y| (Manhattan distance)
+    - For long distances: move to an intermediate waypoint first, then continue toward your target
+    - Example: To go from (0,0) to (200,100), first move to (100,50), then to (200,100)
+    - ALWAYS check your current position in the observation before planning moves
 
     CRITICAL TEAM COLLABORATION MINDSET:
     - ALWAYS think "team first" - prioritize team success over individual actions

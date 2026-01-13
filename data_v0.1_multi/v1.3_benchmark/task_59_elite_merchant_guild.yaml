@@ -28,6 +28,33 @@ relevant_game_context: |
   - If observe_environment is unavailable, sweep the specified coordinate bands and rely on harvest_resource feedback plus verify_inventory counts.
   - Keep the trade order disciplined: ores → Smelter first, utility materials → Guild_Master second. Use chat threads like “Gold 30/47”, “Coal delivery next round” to avoid confusion.
   - Smelting 47 bars takes time: expect multiple rounds of repeated craft_item(Smelting, goldbar); post milestones every 10 bars so craft planning stays aligned.
+
+  ITEM KEY REFERENCE (use these exact itemKey values in craft_item):
+  - Wooden Bow: itemKey=woodenbow (Fletching)
+  - Golden Bow: itemKey=goldenbow (Fletching)
+  - Arrow: itemKey=arrow (Fletching)
+  - Stick/Shaft: itemKey=stick (Fletching)
+  - Sword/Heavy Sword: itemKey=sword2 (Smithing)
+  - Golden Sword: itemKey=goldensword (Smithing)
+  - Axe: itemKey=axe (Smithing)
+  - Pickaxe: itemKey=pickaxe (Smithing)
+  - Silver Ring: itemKey=silverring (Smithing)
+  - Gold Ring: itemKey=goldring (Smithing)
+  - Topaz Ring: itemKey=topazring (Smithing)
+  - Staff: itemKey=staff (Crafting)
+  - Lightning Staff: itemKey=lightningstaff (Crafting)
+  - Fire Staff: itemKey=firestaff (Crafting)
+  - Ice Staff: itemKey=icestaff (Crafting)
+  - Nature Staff: itemKey=naturestaff (Crafting)
+  - Bucket: itemKey=bucket (Crafting)
+  - Beryl Pendant: itemKey=berylpendant (Crafting)
+  - Iron Bar: itemKey=ironbar (Smelting)
+  - Gold Bar: itemKey=goldbar (Smelting)
+  - Bronze Bar: itemKey=bronzebar (Smelting)
+  - Cooked Shrimp: itemKey=cookedshrimp (Cooking)
+  - Stew: itemKey=stew (Cooking)
+
+
 # Limitations
 max_action_steps: 53
 

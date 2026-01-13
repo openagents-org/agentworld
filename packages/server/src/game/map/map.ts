@@ -237,6 +237,48 @@ export default class Map {
     }
 
     /**
+     * Finds the nearest non-colliding position to the given coordinates.
+     * Uses a spiral search pattern outward from the target position.
+     * @param x The target x coordinate.
+     * @param y The target y coordinate.
+     * @param player Optional player for dynamic collision detection.
+     * @param maxRadius Maximum search radius (default 20 tiles).
+     * @returns The nearest valid position, or null if none found within radius.
+     */
+
+    public findNearestValidPosition(
+        x: number,
+        y: number,
+        player?: Player,
+        maxRadius: number = 20
+    ): { x: number; y: number } | null {
+        // Check if target position is already valid
+        if (!this.isColliding(x, y, player)) {
+            return { x, y };
+        }
+
+        // Spiral search outward from target position
+        for (let radius = 1; radius <= maxRadius; radius++) {
+            // Check all positions at this radius in a square pattern
+            for (let dx = -radius; dx <= radius; dx++) {
+                for (let dy = -radius; dy <= radius; dy++) {
+                    // Only check positions on the edge of the square (at current radius)
+                    if (Math.abs(dx) !== radius && Math.abs(dy) !== radius) continue;
+
+                    let checkX = x + dx;
+                    let checkY = y + dy;
+
+                    if (!this.isColliding(checkX, checkY, player)) {
+                        return { x: checkX, y: checkY };
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Checks if the tile data (at an index) is an object.
      * @param data The tile data (number or number array) we are checking.
      * @returns Boolean conditional if the tile data contains an object.

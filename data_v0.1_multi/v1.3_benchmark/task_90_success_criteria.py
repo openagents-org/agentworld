@@ -24,10 +24,28 @@ from verifier_utils import (
 
 
 def task_90_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Stormspire Barrier Reboot."""
+    """Barrier Reboot - defeat Ancient Wizard, collect 8x goldore, craft 1x lightningstaff, 1x firestaff."""
+    inventories = get_final_inventories(traj_json)
+
+    # Check for resources and staffs
+    goldore = count_item_in_inventories(inventories, 'goldore')
+    lightningstaff = count_item_in_inventories(inventories, 'lightningstaff')
+    firestaff = count_item_in_inventories(inventories, 'firestaff')
+
+    has_goldore = goldore >= 8
+    has_lightning = lightningstaff >= 1
+    has_fire = firestaff >= 1
+
+    # Check combat kills (Ancient Wizard)
+    kills = count_combat_kills(traj_json, ['Ancient Wizard', 'Wizard'])
+    has_kills = kills >= 1
+
+    # Check all agents alive
     alive = check_agents_alive(traj_json)
-    msg = f"All agents alive: {alive}"
-    return (1 if alive else 0, msg)
+
+    passed = has_goldore and has_lightning and has_fire and has_kills and alive
+    msg = f"Goldore: {goldore}/8, Lightning: {lightningstaff}/1, Fire: {firestaff}/1, Kills: {kills}/1, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

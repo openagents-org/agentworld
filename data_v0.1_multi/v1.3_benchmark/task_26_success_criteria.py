@@ -24,12 +24,29 @@ from verifier_utils import (
 
 
 def task_26_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Desert Caravan Trading - all agents survive."""
+    """Desert Caravan Trading - mine ore, defeat creature, transfer items, chat 3+ times."""
+    inventories = get_final_inventories(traj_json)
+
+    # Check for mined ores (any ore type)
+    ores = ['ironore', 'goldore', 'coal', 'copperore', 'tinore']
+    ore_count = sum(count_item_in_inventories(inventories, o) for o in ores)
+    has_ore = ore_count >= 1
+
+    # Check combat kills (desert creature)
+    kills = count_combat_kills(traj_json, ['cactus', 'scorpion', 'vulture', 'Cactus', 'Scorpion', 'Vulture'])
+    has_kills = kills >= 1
+
+    # Check chat messages (coordination)
+    chat_count = count_chat_messages(traj_json)
+    has_chat = chat_count >= 3
+
+    # Check all agents alive
     agent_hp = get_final_agent_hp_simple(traj_json)
     all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
 
-    msg = f"All agents alive: {all_alive}"
-    return (1 if all_alive else 0, msg)
+    passed = has_ore and has_kills and has_chat and all_alive
+    msg = f"Ore: {ore_count}/1, Kills: {kills}/1, Chat: {chat_count}/3, All alive: {all_alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

@@ -24,10 +24,17 @@ from verifier_utils import (
 
 
 def task_30_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Ultimate Boss Challenge - defeat multiple legendary bosses."""
+    """Ultimate Boss Challenge - defeat Mermaid, Dark Wolf, and Ice Knight."""
+    # Check combat kills (need 3 bosses: Mermaid, Dark Wolf, Ice Knight)
+    kills = count_combat_kills(traj_json, ['Mermaid', 'Dark Wolf', 'Ice Knight'])
+    has_kills = kills >= 3
+
+    # Check all agents alive
     alive = check_agents_alive(traj_json)
-    msg = f"All agents alive: {alive}"
-    return (1 if alive else 0, msg)
+
+    passed = has_kills and alive
+    msg = f"Boss kills: {kills}/3, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

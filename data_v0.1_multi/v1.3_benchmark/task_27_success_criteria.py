@@ -24,11 +24,24 @@ from verifier_utils import (
 
 
 def task_27_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Volcanic Forge."""
+    """Volcanic Forge - mine valuable ore, defeat Water Guardian and Ogre Guardian."""
     inventories = get_final_inventories(traj_json)
+
+    # Check for valuable ores (gold, ibo, taaffeite, moonrock, lapis)
+    valuable_ores = ['goldore', 'ibo', 'taaffeite', 'moonrock', 'lapislazuli']
+    ore_count = sum(count_item_in_inventories(inventories, o) for o in valuable_ores)
+    has_ore = ore_count >= 1
+
+    # Check combat kills (need to defeat 2 guardians)
+    kills = count_combat_kills(traj_json, ['Water Guardian', 'Ogre Guardian', 'Guardian'])
+    has_kills = kills >= 2
+
+    # Check all agents alive
     alive = check_agents_alive(traj_json)
-    msg = f"All alive: {alive}"
-    return (1 if alive else 0, msg)
+
+    passed = has_ore and has_kills and alive
+    msg = f"Valuable ore: {ore_count}/1, Kills: {kills}/2, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

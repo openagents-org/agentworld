@@ -24,10 +24,17 @@ from verifier_utils import (
 
 
 def task_35_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Strategic Combat Training - combat training exercises."""
+    """Combat Training - defeat 4x Goblins."""
+    # Check combat kills (4 goblins)
+    kills = count_combat_kills(traj_json, ['Goblin', 'goblin'])
+    has_kills = kills >= 4
+
+    # Check all agents alive
     alive = check_agents_alive(traj_json)
-    msg = f"All agents alive: {alive}"
-    return (1 if alive else 0, msg)
+
+    passed = has_kills and alive
+    msg = f"Kills: {kills}/4 (Goblins), All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

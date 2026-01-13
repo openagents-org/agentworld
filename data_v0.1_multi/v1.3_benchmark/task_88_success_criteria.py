@@ -24,10 +24,17 @@ from verifier_utils import (
 
 
 def task_88_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Stormfront War Council - defeat 3 guardian bosses."""
+    """War Council - defeat Ogre Guardian, Dark Wolf, and Golden Golem."""
+    # Check combat kills (3 bosses)
+    kills = count_combat_kills(traj_json, ['Ogre Guardian', 'Dark Wolf', 'Golden Golem', 'Ogre', 'Wolf', 'Golem'])
+    has_kills = kills >= 3
+
+    # Check all agents alive
     alive = check_agents_alive(traj_json)
-    msg = f"All agents alive: {alive}"
-    return (1 if alive else 0, msg)
+
+    passed = has_kills and alive
+    msg = f"Boss kills: {kills}/3, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

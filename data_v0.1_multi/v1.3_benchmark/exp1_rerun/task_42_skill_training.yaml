@@ -1,0 +1,132 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Skill Training - Multi-Craft Production"
+  description: "Three agents practice different crafting skills by producing various items"
+
+# Task objectives
+objectives:
+  primary: "Craft 1x staff, 1x silverring, and produce 10x stick through skill practice"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent skill training scenario.
+
+  OBJECTIVE: Practice crafting skills by making different items.
+
+  CRAFTING TARGETS:
+  - 1x staff (5x stick + 1x bead, Crafting skill)
+  - 1x silverring (2x ironbar, Smithing skill)
+  - 10x stick (from 3x logs, Fletching skill)
+
+  MATERIAL REQUIREMENTS:
+  - 3x logs (for sticks)
+  - 1x bead (provided)
+  - 2x ironbar (provided)
+
+  TEAM COORDINATION:
+  - Lumberjack gathers logs
+  - Fletcher makes sticks and staff
+  - Smith crafts silver ring
+
+  DO NOT use complete() until all items are crafted!
+
+# Limitations
+max_action_steps: 30
+
+# Agent configurations
+agent_1:
+  username: "lumberjack_agent"
+  new_character: true
+
+  location:
+    x: 388
+    y: 10
+
+  skill_levels:
+    lumberjacking: 25
+    strength: 25
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "axe"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fletcher_agent"
+  new_character: true
+
+  location:
+    x: 390
+    y: 10
+
+  skill_levels:
+    fletching: 20
+    crafting: 20
+    strength: 20
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "bead"
+      count: 1
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "smith_agent"
+  new_character: true
+
+  location:
+    x: 392
+    y: 10
+
+  skill_levels:
+    smithing: 20
+    strength: 25
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+    - item: "ironbar"
+      count: 2
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team inventory contains 1x staff"
+  - "Team inventory contains 1x silverring"
+  - "Team inventory contains at least 10x stick"
+  - "All agents survive the training"

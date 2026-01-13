@@ -29,6 +29,30 @@ relevant_game_context: |
   - Stay close enough for transfers - use coordination and positioning wisely
   
   DO NOT use complete() until ALL objectives are achieved by the team!
+
+  ITEM KEY REFERENCE (use these exact itemKey values in craft_item):
+  - Wooden Bow: itemKey=woodenbow (Fletching)
+  - Golden Bow: itemKey=goldenbow (Fletching)
+  - Arrow: itemKey=arrow (Fletching)
+  - Stick/Shaft: itemKey=stick (Fletching)
+  - Sword/Heavy Sword: itemKey=sword2 (Smithing)
+  - Golden Sword: itemKey=goldensword (Smithing)
+  - Axe: itemKey=axe (Smithing)
+  - Pickaxe: itemKey=pickaxe (Smithing)
+  - Silver Ring: itemKey=silverring (Smithing)
+  - Gold Ring: itemKey=goldring (Smithing)
+  - Staff: itemKey=staff (Crafting)
+  - Lightning Staff: itemKey=lightningstaff (Crafting)
+  - Fire Staff: itemKey=firestaff (Crafting)
+  - Ice Staff: itemKey=icestaff (Crafting)
+  - Nature Staff: itemKey=naturestaff (Crafting)
+  - Bucket: itemKey=bucket (Crafting)
+  - Iron Bar: itemKey=ironbar (Smelting)
+  - Gold Bar: itemKey=goldbar (Smelting)
+  - Bronze Bar: itemKey=bronzebar (Smelting)
+  - Cooked Shrimp: itemKey=cookedshrimp (Cooking)
+  - Stew: itemKey=stew (Cooking)
+
   
   CRAFTING RECIPES (CRITICAL KNOWLEDGE):
   🪵 Lumberjacking - logs:
@@ -57,10 +81,10 @@ agent_1:
   username: "lumberjack_agent"
   new_character: true
   
-  # Starting location - forest area for tree cutting
+  # Starting location - near oak trees for tree cutting
   location:
-    x: 388
-    y: 3
+    x: 270
+    y: 80
   
   # Skills focused on lumberjacking
   skill_levels:
@@ -91,10 +115,10 @@ agent_2:
   username: "woodworker_agent"
   new_character: true
   
-  # Starting location - central area for coordination
+  # Starting location - near oak trees for coordination
   location:
-    x: 390
-    y: 3
+    x: 275
+    y: 85
   
   # Skills focused on fletching and crafting
   skill_levels:
@@ -123,10 +147,10 @@ agent_3:
   username: "wizard_agent"
   new_character: true
   
-  # Starting location - magical area
+  # Starting location - near team for coordination
   location:
-    x: 392
-    y: 3
+    x: 280
+    y: 90
   
   # Skills focused on crafting and magic
   skill_levels:

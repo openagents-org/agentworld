@@ -456,3 +456,6 @@ logs/
 logs_*
 test_logs*
 benchmark_results
+
+# Agent experiment results
+**/results_*/

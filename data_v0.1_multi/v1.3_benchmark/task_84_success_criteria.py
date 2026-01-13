@@ -24,10 +24,28 @@ from verifier_utils import (
 
 
 def task_84_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Underground Railway Restoration."""
+    """Tunnel Expedition - collect 8x ironore, 6x coal, defeat 3x Skeleton, craft 1x pickaxe."""
+    inventories = get_final_inventories(traj_json)
+
+    # Check for resources and tools
+    ironore = count_item_in_inventories(inventories, 'ironore')
+    coal = count_item_in_inventories(inventories, 'coal')
+    pickaxe = count_item_in_inventories(inventories, 'pickaxe')
+
+    has_ironore = ironore >= 8
+    has_coal = coal >= 6
+    has_pickaxe = pickaxe >= 1
+
+    # Check combat kills (3 skeletons)
+    kills = count_combat_kills(traj_json, ['Skeleton', 'skeleton'])
+    has_kills = kills >= 3
+
+    # Check all agents alive
     alive = check_agents_alive(traj_json)
-    msg = f"All agents alive: {alive}"
-    return (1 if alive else 0, msg)
+
+    passed = has_ironore and has_coal and has_pickaxe and has_kills and alive
+    msg = f"Ironore: {ironore}/8, Coal: {coal}/6, Pickaxe: {pickaxe}/1, Kills: {kills}/3, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

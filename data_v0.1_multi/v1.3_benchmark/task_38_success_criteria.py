@@ -24,14 +24,19 @@ from verifier_utils import (
 
 
 def task_38_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Trade Network Operations - all agents survive within 34 rounds."""
+    """Trade Crafting - Mine gold ore, smelt 2x gold bars, and craft 1x Gold Ring."""
+    inventories = get_final_inventories(traj_json)
+
+    # Check for goldring in team inventory
+    goldring = count_item_in_inventories(inventories, 'goldring')
+    has_goldring = goldring >= 1
+
+    # Check all agents alive
     agent_hp = get_final_agent_hp_simple(traj_json)
     all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
-    num_rounds = len(traj_json.get('rounds', []))
-    within_limit = num_rounds <= 34
 
-    passed = all_alive and within_limit
-    msg = f"All alive: {all_alive}, Rounds: {num_rounds}/34"
+    passed = has_goldring and all_alive
+    msg = f"Goldring: {goldring}/1, All alive: {all_alive}"
     return (1 if passed else 0, msg)
 
 

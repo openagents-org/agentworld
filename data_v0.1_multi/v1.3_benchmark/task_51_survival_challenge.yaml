@@ -20,9 +20,13 @@ relevant_game_context: |
   - 5x rawshrimp (fishing)
   - 4x logs (lumberjacking)
 
+  CRAFTING RECIPES (use exact itemKey values):
+  - Wooden Bow: craft_item(skill=Fletching, itemKey=woodenbow) - requires 1x logs + 1x string
+  - Axe: craft_item(skill=Smithing, itemKey=axe) - requires 3x ironbar + 1x logs
+
   MATERIAL SOURCES:
-  - Logs: Oak trees in forest
-  - Shrimp: Coastal fishing spots
+  - Logs: Oak trees in forest (harvest_resource on Oak tree instances)
+  - Shrimp: Coastal fishing spots (harvest_resource on fishing spot instances)
   - Iron bars: Provided to crafter
 
   TEAM ROLES:
@@ -31,6 +35,30 @@ relevant_game_context: |
   - Crafter: Make bow and axe
 
   DO NOT use complete() until all items are ready!
+
+  ITEM KEY REFERENCE (use these exact itemKey values in craft_item):
+  - Wooden Bow: itemKey=woodenbow (Fletching)
+  - Golden Bow: itemKey=goldenbow (Fletching)
+  - Arrow: itemKey=arrow (Fletching)
+  - Stick/Shaft: itemKey=stick (Fletching)
+  - Sword/Heavy Sword: itemKey=sword2 (Smithing)
+  - Golden Sword: itemKey=goldensword (Smithing)
+  - Axe: itemKey=axe (Smithing)
+  - Pickaxe: itemKey=pickaxe (Smithing)
+  - Silver Ring: itemKey=silverring (Smithing)
+  - Gold Ring: itemKey=goldring (Smithing)
+  - Staff: itemKey=staff (Crafting)
+  - Lightning Staff: itemKey=lightningstaff (Crafting)
+  - Fire Staff: itemKey=firestaff (Crafting)
+  - Ice Staff: itemKey=icestaff (Crafting)
+  - Nature Staff: itemKey=naturestaff (Crafting)
+  - Bucket: itemKey=bucket (Crafting)
+  - Iron Bar: itemKey=ironbar (Smelting)
+  - Gold Bar: itemKey=goldbar (Smelting)
+  - Bronze Bar: itemKey=bronzebar (Smelting)
+  - Cooked Shrimp: itemKey=cookedshrimp (Cooking)
+  - Stew: itemKey=stew (Cooking)
+
 
 # Limitations
 max_action_steps: 40
@@ -41,8 +69,8 @@ agent_1:
   new_character: true
 
   location:
-    x: 580
-    y: 740
+    x: 200
+    y: 220
 
   skill_levels:
     fishing: 20
@@ -71,8 +99,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 585
-    y: 740
+    x: 205
+    y: 225
 
   skill_levels:
     fishing: 20
@@ -101,8 +129,8 @@ agent_3:
   new_character: true
 
   location:
-    x: 388
-    y: 10
+    x: 210
+    y: 230
 
   skill_levels:
     lumberjacking: 25
@@ -131,8 +159,8 @@ agent_4:
   new_character: true
 
   location:
-    x: 392
-    y: 10
+    x: 215
+    y: 235
 
   skill_levels:
     lumberjacking: 25
@@ -161,8 +189,8 @@ agent_5:
   new_character: true
 
   location:
-    x: 395
-    y: 10
+    x: 220
+    y: 240
 
   skill_levels:
     fletching: 20

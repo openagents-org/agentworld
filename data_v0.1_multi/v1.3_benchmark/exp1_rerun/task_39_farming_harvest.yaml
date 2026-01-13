@@ -1,0 +1,124 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Farming Harvest - Crop Collection"
+  description: "Three agents work together to harvest crops from farming areas"
+
+# Task objectives
+objectives:
+  primary: "Harvest 4x corn, 4x tomato, and 3x peach from farming regions"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent farming scenario.
+
+  OBJECTIVE: Harvest various crops from agricultural areas.
+
+  HARVEST TARGETS:
+  - 4x corn (Level 5 foraging)
+  - 4x tomato (Level 15 foraging)
+  - 3x peach (Level 5 foraging)
+
+  CROP LOCATIONS:
+  - Corn: Farm areas and plains
+  - Tomato: Garden areas
+  - Peach: Orchard areas near forests
+
+  TEAM COORDINATION:
+  - Each agent focuses on different crop types
+  - Share locations of crop spawns via chat
+  - Transfer items if needed for consolidation
+
+  DO NOT use complete() until all crops are harvested!
+
+# Limitations
+max_action_steps: 28
+
+# Agent configurations
+agent_1:
+  username: "farmer1_agent"
+  new_character: true
+
+  location:
+    x: 350
+    y: 250
+
+  skill_levels:
+    foraging: 20
+    strength: 20
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "farmer2_agent"
+  new_character: true
+
+  location:
+    x: 355
+    y: 250
+
+  skill_levels:
+    foraging: 25
+    strength: 20
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "farmer3_agent"
+  new_character: true
+
+  location:
+    x: 360
+    y: 250
+
+  skill_levels:
+    foraging: 20
+    strength: 20
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 15
+    - item: "apple"
+      count: 20
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team inventory contains at least 4x corn"
+  - "Team inventory contains at least 4x tomato"
+  - "Team inventory contains at least 3x peach"
+  - "All agents survive the harvest"

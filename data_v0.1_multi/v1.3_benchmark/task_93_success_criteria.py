@@ -24,10 +24,30 @@ from verifier_utils import (
 
 
 def task_93_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Fortress Defense Construction."""
+    """Fortress Construction - collect 8x logs, 8x ironore, 6x coal, craft 2x heavysword, 2x axe."""
+    inventories = get_final_inventories(traj_json)
+
+    # Check for resources
+    logs = count_item_in_inventories(inventories, 'logs')
+    ironore = count_item_in_inventories(inventories, 'ironore')
+    coal = count_item_in_inventories(inventories, 'coal')
+
+    # Check for weapons/tools (heavysword can be sword2)
+    heavysword = count_item_in_inventories(inventories, 'heavysword') + count_item_in_inventories(inventories, 'sword2')
+    axe = count_item_in_inventories(inventories, 'axe')
+
+    has_logs = logs >= 8
+    has_ironore = ironore >= 8
+    has_coal = coal >= 6
+    has_swords = heavysword >= 2
+    has_axes = axe >= 2
+
+    # Check all agents alive
     alive = check_agents_alive(traj_json)
-    msg = f"All agents alive: {alive}"
-    return (1 if alive else 0, msg)
+
+    passed = has_logs and has_ironore and has_coal and has_swords and has_axes and alive
+    msg = f"Logs: {logs}/8, Ironore: {ironore}/8, Coal: {coal}/6, Sword: {heavysword}/2, Axe: {axe}/2, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 # =============================================================================

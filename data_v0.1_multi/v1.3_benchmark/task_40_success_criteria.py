@@ -24,12 +24,20 @@ from verifier_utils import (
 
 
 def task_40_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Medical Emergency Response - all agents survive."""
+    """Healing Supplies - collect 4x cookedshrimp."""
+    inventories = get_final_inventories(traj_json)
+
+    # Check for cooked shrimp
+    cookedshrimp = count_item_in_inventories(inventories, 'cookedshrimp')
+    has_shrimp = cookedshrimp >= 4
+
+    # Check all agents alive
     agent_hp = get_final_agent_hp_simple(traj_json)
     all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
 
-    msg = f"All agents alive: {all_alive}"
-    return (1 if all_alive else 0, msg)
+    passed = has_shrimp and all_alive
+    msg = f"Cooked shrimp: {cookedshrimp}/4, All alive: {all_alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

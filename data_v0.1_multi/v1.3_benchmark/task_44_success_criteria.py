@@ -24,14 +24,22 @@ from verifier_utils import (
 
 
 def task_44_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Communication Network - all agents survive within 43 rounds."""
+    """Messenger Run - coordinator_agent must have 3+ logs and 2+ coal."""
+    # Check coordinator_agent inventory
+    agent_items = get_agent_items_by_username(traj_json)
+    coordinator_items = agent_items.get('coordinator_agent', {})
+    logs = coordinator_items.get('logs', 0)
+    coal = coordinator_items.get('coal', 0)
+
+    has_logs = logs >= 3
+    has_coal = coal >= 2
+
+    # Check all agents alive
     agent_hp = get_final_agent_hp_simple(traj_json)
     all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
-    num_rounds = len(traj_json.get('rounds', []))
-    within_limit = num_rounds <= 43
 
-    passed = all_alive and within_limit
-    msg = f"All alive: {all_alive}, Rounds: {num_rounds}/43"
+    passed = has_logs and has_coal and all_alive
+    msg = f"Coordinator logs: {logs}/3, coal: {coal}/2, All alive: {all_alive}"
     return (1 if passed else 0, msg)
 
 

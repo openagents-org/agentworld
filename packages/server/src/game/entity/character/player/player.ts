@@ -618,13 +618,22 @@ export default class Player extends Character {
         if (isColliding) {
             /**
              * If the old coordinate values are invalid or they may cause a loop
-             * in the `teleport` function, we instead send the player to the spawn point.
+             * in the `teleport` function, we try to find the nearest valid position.
+             * Only fall back to spawn if no valid position is found nearby.
              */
             if (
                 (this.oldX === -1 && this.oldY === -1) ||
                 (this.oldX === this.x && this.oldY === this.y)
             ) {
-                this.sendToSpawn();
+                // Try to find nearest valid position instead of sending to spawn
+                let nearestValid = this.map.findNearestValidPosition(x, y, this);
+
+                if (nearestValid) {
+                    this.teleport(nearestValid.x, nearestValid.y, true);
+                } else {
+                    // Fall back to spawn only if no valid position found
+                    this.sendToSpawn();
+                }
                 return true;
             }
             // Increment the cheat score.

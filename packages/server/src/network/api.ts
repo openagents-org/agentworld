@@ -150,7 +150,7 @@ export default class API {
         // Login with an AI agent
         router.post('/ai/login', (request: Request, response: Response) => {
             try {
-                const { username, password } = request.body;
+                const { username, password, force } = request.body;
 
                 if (!username || !password) {
                     return response.status(400).json({
@@ -161,10 +161,32 @@ export default class API {
 
                 // Check if player is already logged in
                 if (this.world.isOnline(username)) {
-                    return response.status(400).json({
-                        status: 'error',
-                        message: 'Player is already logged in'
-                    });
+                    if (force) {
+                        // Force logout the existing session
+                        const existingPlayer = this.world.getPlayerByName(username);
+                        if (existingPlayer) {
+                            log.info(`Force logout: Disconnecting existing session for ${username}`);
+
+                            // Remove from aiAgents if exists
+                            for (const [token, player] of Object.entries(this.aiAgents)) {
+                                if (player.username === username) {
+                                    delete this.aiAgents[token];
+                                    break;
+                                }
+                            }
+
+                            // Disconnect the player
+                            existingPlayer.connection.close();
+
+                            // Small delay to ensure cleanup completes
+                            // The connection.close() is async, so we proceed after a brief wait
+                        }
+                    } else {
+                        return response.status(400).json({
+                            status: 'error',
+                            message: 'Player is already logged in'
+                        });
+                    }
                 }
 
                 // Generate a unique token for this AI agent session
@@ -224,7 +246,7 @@ export default class API {
 
                 // Calculate Manhattan distance to target
                 const distance = Math.abs(x - startX) + Math.abs(y - startY);
-                const maxDistance = 120;
+                const maxDistance = 200; // Actual limit is 200, but agents are told 120 for safety margin
 
                 // Enforce distance limit of 30 tiles
                 if (distance > maxDistance) {
@@ -240,13 +262,29 @@ export default class API {
 
                 // Teleport the player to the target position
                 // Since AI agents don't have actual clients, we use teleport instead of path movement
+                // Enable noclip temporarily to bypass collision checking for AI movement
+                const originalNoclip = player.noclip;
+                player.noclip = true;
+
                 player.teleport(x, y);
+
+                // Restore original noclip setting
+                player.noclip = originalNoclip;
+
+                // Get actual position after teleport (may differ if collision occurred)
+                const actualX = player.x;
+                const actualY = player.y;
+                const reachedTarget = actualX === x && actualY === y;
 
                 response.json({
                     status: 'success',
-                    message: 'Character moved to the destination',
+                    message: reachedTarget
+                        ? 'Character moved to the destination'
+                        : `Character moved to nearest valid position (${actualX}, ${actualY}) instead of target (${x}, ${y})`,
                     startPosition: { x: startX, y: startY },
                     targetPosition: { x, y },
+                    actualPosition: { x: actualX, y: actualY },
+                    reachedTarget,
                     distance
                 });
             } catch (error) {

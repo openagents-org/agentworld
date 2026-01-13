@@ -52,7 +52,7 @@ class QwenAgent(BaseAgent):
             #"model": "gpt-5",
             "messages": messages,
             "tools": self.tools,
-            "tool_choice": "auto"
+            "tool_choice": "required"  # Force model to always call a tool (prevents thinking loops)
             #"parallel_tool_calls": True
         }
 

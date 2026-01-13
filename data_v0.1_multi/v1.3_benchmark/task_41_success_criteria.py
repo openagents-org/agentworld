@@ -24,10 +24,22 @@ from verifier_utils import (
 
 
 def task_41_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Construction Engineering - infrastructure development."""
+    """Tool Production - craft 1x pickaxe and 1x axe."""
+    inventories = get_final_inventories(traj_json)
+
+    # Check for tools
+    pickaxe = count_item_in_inventories(inventories, 'pickaxe')
+    axe = count_item_in_inventories(inventories, 'axe')
+
+    has_pickaxe = pickaxe >= 1
+    has_axe = axe >= 1
+
+    # Check all agents alive
     alive = check_agents_alive(traj_json)
-    msg = f"All agents alive: {alive}"
-    return (1 if alive else 0, msg)
+
+    passed = has_pickaxe and has_axe and alive
+    msg = f"Pickaxe: {pickaxe}/1, Axe: {axe}/1, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

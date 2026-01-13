@@ -1,0 +1,517 @@
+# AgentWorld Multi-Agent Task Configuration
+
+task:
+  name: "Maritime Trading - Coastal Operations"
+  description: "Twenty agents fish and craft items for maritime trading"
+
+# Task objectives
+objectives:
+  primary: "Catch 8x rawshrimp, cook 6x Cooked Shrimp, and craft 2x Gold Ring"
+
+# Relevant game context (Hint)
+relevant_game_context: |
+  This is a cooperative multi-agent maritime scenario.
+
+  OBJECTIVE: Fish, cook, and craft trade goods.
+
+  PRODUCTION TARGETS:
+  - 8x rawshrimp (from fishing)
+  - 6x Cooked Shrimp (from cooking)
+  - 2x Gold Ring (2x goldbar each)
+
+  MATERIALS PROVIDED:
+  - Gold bars provided to crafter
+
+  LOCATIONS:
+  - Fishing: Coastal (580, 750)
+
+  DO NOT use complete() until all objectives are met!
+
+# Limitations
+max_action_steps: 50
+
+# Agent configurations
+agent_1:
+  username: "fisher1_agent"
+  new_character: true
+
+  location:
+    x: 200
+    y: 220
+
+  skill_levels:
+    fishing: 48
+    health: 40
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "fisher2_agent"
+  new_character: true
+
+  location:
+    x: 205
+    y: 225
+
+  skill_levels:
+    fishing: 45
+    health: 38
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_3:
+  username: "fisher3_agent"
+  new_character: true
+
+  location:
+    x: 210
+    y: 230
+
+  skill_levels:
+    fishing: 42
+    health: 36
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "fisher4_agent"
+  new_character: true
+
+  location:
+    x: 215
+    y: 235
+
+  skill_levels:
+    fishing: 40
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "fisher5_agent"
+  new_character: true
+
+  location:
+    x: 220
+    y: 240
+
+  skill_levels:
+    fishing: 38
+    health: 34
+
+  inventory_items:
+    - item: "flask"
+      count: 25
+    - item: "apple"
+      count: 30
+
+  equipped_items:
+    - item: "fishingpole"
+      count: 1
+      enchant: 0
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_6:
+  username: "cook1_agent"
+  new_character: true
+
+  location:
+    x: 225
+    y: 245
+
+  skill_levels:
+    cooking: 45
+    health: 35
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_7:
+  username: "cook2_agent"
+  new_character: true
+
+  location:
+    x: 230
+    y: 250
+
+  skill_levels:
+    cooking: 42
+    health: 33
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "crafter_agent"
+  new_character: true
+
+  location:
+    x: 235
+    y: 255
+
+  skill_levels:
+    crafting: 42
+    smithing: 35
+    health: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+    - item: "goldbar"
+      count: 4
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_9:
+  username: "support1_agent"
+  new_character: true
+
+  location:
+    x: 352
+    y: 252
+
+  skill_levels:
+    strength: 28
+    health: 32
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_10:
+  username: "support2_agent"
+  new_character: true
+
+  location:
+    x: 354
+    y: 254
+
+  skill_levels:
+    strength: 26
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_11:
+  username: "support3_agent"
+  new_character: true
+
+  location:
+    x: 356
+    y: 256
+
+  skill_levels:
+    strength: 25
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_12:
+  username: "support4_agent"
+  new_character: true
+
+  location:
+    x: 358
+    y: 258
+
+  skill_levels:
+    strength: 25
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_13:
+  username: "support5_agent"
+  new_character: true
+
+  location:
+    x: 360
+    y: 260
+
+  skill_levels:
+    strength: 25
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_14:
+  username: "support6_agent"
+  new_character: true
+
+  location:
+    x: 362
+    y: 262
+
+  skill_levels:
+    strength: 25
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_15:
+  username: "support7_agent"
+  new_character: true
+
+  location:
+    x: 364
+    y: 264
+
+  skill_levels:
+    strength: 25
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_16:
+  username: "support8_agent"
+  new_character: true
+
+  location:
+    x: 366
+    y: 266
+
+  skill_levels:
+    strength: 25
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_17:
+  username: "support9_agent"
+  new_character: true
+
+  location:
+    x: 368
+    y: 268
+
+  skill_levels:
+    strength: 25
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_18:
+  username: "support10_agent"
+  new_character: true
+
+  location:
+    x: 370
+    y: 270
+
+  skill_levels:
+    strength: 25
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_19:
+  username: "support11_agent"
+  new_character: true
+
+  location:
+    x: 372
+    y: 272
+
+  skill_levels:
+    strength: 25
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+agent_20:
+  username: "coordinator_agent"
+  new_character: true
+
+  location:
+    x: 374
+    y: 274
+
+  skill_levels:
+    strength: 25
+    health: 30
+
+  inventory_items:
+    - item: "flask"
+      count: 20
+    - item: "apple"
+      count: 25
+
+  equipped_items:
+    - item: "leatherarmor"
+      count: 1
+      enchant: 0
+
+# Success criteria
+success_criteria:
+  - "Team inventory contains at least 8x rawshrimp (or cooked)"
+  - "Team inventory contains at least 6x cookedshrimp"
+  - "Team inventory contains 2x goldring"
+  - "All agents survive the maritime trading mission"
