@@ -24,32 +24,25 @@ from verifier_utils import (
 
 
 def task_71_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Multi-Region Supply Network - 40+ iron bars, 20+ gold bars, 10+ weapons, 7+ rings."""
+    """Multi-Region Supply Network.
+    YAML criteria:
+    - Team inventory contains at least 8x logs
+    - Team inventory contains at least 6x coal
+    - All agents survive the mission
+    """
     inventories = get_final_inventories(traj_json)
-    
-    item_counts = {}
-    for items in inventories.values():
-        for item in items:
-            k = item.get("key", "").lower()
-            x = item.get("count", 0)
-            item_counts[k] = item_counts.get(k, 0) + x
 
-    iron_bars = item_counts.get("ironbar", 0)
-    gold_bars = item_counts.get("goldbar", 0)
-    weapons = (item_counts.get("sword", 0) + item_counts.get("sword1", 0) +
-               item_counts.get("sword2", 0) + item_counts.get("heavysword", 0) +
-               item_counts.get("axe", 0) + item_counts.get("bow", 0))
-    rings = (item_counts.get("goldring", 0) + item_counts.get("ring", 0) +
-             item_counts.get("silverring", 0))
+    logs = count_item_in_inventories(inventories, 'logs')
+    coal = count_item_in_inventories(inventories, 'coal')
 
-    iron_passed = iron_bars >= 40
-    gold_passed = gold_bars >= 20
-    weapons_passed = weapons >= 10
-    rings_passed = rings >= 7
+    alive = check_agents_alive(traj_json)
 
-    passed = iron_passed and gold_passed and weapons_passed and rings_passed
-    msg = f"Iron bars: {iron_bars}/40, Gold bars: {gold_bars}/20, Weapons: {weapons}/10, Rings: {rings}/7"
-    return (1 if passed else 0, msg)
+    logs_ok = logs >= 8
+    coal_ok = coal >= 6
+
+    success = logs_ok and coal_ok and alive
+    msg = f"Logs: {logs}/8, Coal: {coal}/6, All alive: {alive}"
+    return (1 if success else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

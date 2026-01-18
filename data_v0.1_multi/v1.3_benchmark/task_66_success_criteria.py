@@ -24,11 +24,24 @@ from verifier_utils import (
 
 
 def task_66_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Grand Archery Competition."""
+    """Grand Archery Competition.
+    YAML criteria:
+    - Team inventory contains 1x goldenbow
+    - Team inventory contains at least 20x arrow
+    - All agents survive the production mission
+    """
     inventories = get_final_inventories(traj_json)
+
+    goldenbow = count_item_in_inventories(inventories, 'goldenbow')
     arrows = count_item_in_inventories(inventories, 'arrow')
-    success = arrows >= 20
-    msg = f"Arrows: {arrows}/20"
+
+    alive = check_agents_alive(traj_json)
+
+    bow_ok = goldenbow >= 1
+    arrow_ok = arrows >= 20
+
+    success = bow_ok and arrow_ok and alive
+    msg = f"Goldenbow: {goldenbow}/1, Arrows: {arrows}/20, All alive: {alive}"
     return (1 if success else 0, msg)
 
 

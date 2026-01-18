@@ -24,35 +24,28 @@ from verifier_utils import (
 
 
 def task_75_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Continental Relief Convoy - 30+ iron bars, 30+ cooked shrimp, 60+ arrows, all HP > 25%."""
+    """Relief Convoy.
+    YAML criteria:
+    - Team inventory contains 6x cookedshrimp
+    - Team inventory contains 2x pickaxe
+    - Team inventory contains at least 8x logs
+    - All agents survive the mission
+    """
     inventories = get_final_inventories(traj_json)
-    
-    item_counts = {}
-    for items in inventories.values():
-        for item in items:
-            k = item.get("key", "").lower()
-            x = item.get("count", 0)
-            item_counts[k] = item_counts.get(k, 0) + x
 
-    ironbar = item_counts.get("ironbar", 0)
-    cookedshrimp = item_counts.get("cookedshrimp", 0)
-    arrow = item_counts.get("arrow", 0)
+    cookedshrimp = count_item_in_inventories(inventories, 'cookedshrimp')
+    pickaxe = count_item_in_inventories(inventories, 'pickaxe')
+    logs = count_item_in_inventories(inventories, 'logs')
 
-    agent_hp = get_final_agent_status(traj_json)
-    all_healthy = True
-    for agent, hp_data in agent_hp.items():
-        percent = (hp_data['current'] / hp_data['max'] * 100) if hp_data['max'] > 0 else 0
-        if percent <= 25:
-            all_healthy = False
+    alive = check_agents_alive(traj_json)
 
-    ironbar_passed = ironbar >= 30
-    shrimp_passed = cookedshrimp >= 30
-    arrow_passed = arrow >= 60
-    hp_passed = all_healthy
+    shrimp_ok = cookedshrimp >= 6
+    pick_ok = pickaxe >= 2
+    logs_ok = logs >= 8
 
-    passed = ironbar_passed and shrimp_passed and arrow_passed and hp_passed
-    msg = f"Iron bars: {ironbar}/30, Cooked shrimp: {cookedshrimp}/30, Arrows: {arrow}/60, HP>25%: {hp_passed}"
-    return (1 if passed else 0, msg)
+    success = shrimp_ok and pick_ok and logs_ok and alive
+    msg = f"Cookedshrimp: {cookedshrimp}/6, Pickaxe: {pickaxe}/2, Logs: {logs}/8, All alive: {alive}"
+    return (1 if success else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

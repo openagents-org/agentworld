@@ -24,12 +24,37 @@ from verifier_utils import (
 
 
 def task_62_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Weaponsmith Consortium."""
+    """Weaponsmith Consortium.
+    YAML criteria:
+    - Golden Sword (1)
+    - Golden Bow (1)
+    - Heavy Swords (2)
+    - Battle Axes (3)
+    - Wooden Bow (1)
+    - Pickaxe (1)
+    - Total 9 weapons forged
+    """
     inventories = get_final_inventories(traj_json)
-    weapons = ['sword2', 'heavysword', 'bluesword', 'axe']
-    weapon_count = sum(count_item_in_inventories(inventories, w) for w in weapons)
-    success = weapon_count >= 3
-    msg = f"Weapons: {weapon_count}/3"
+
+    goldensword = count_item_in_inventories(inventories, 'goldensword')
+    goldenbow = count_item_in_inventories(inventories, 'goldenbow')
+    heavysword = count_item_in_inventories(inventories, 'heavysword') + count_item_in_inventories(inventories, 'sword2')
+    axe = count_item_in_inventories(inventories, 'axe')
+    woodenbow = count_item_in_inventories(inventories, 'woodenbow')
+    pickaxe = count_item_in_inventories(inventories, 'pickaxe')
+
+    total_weapons = goldensword + goldenbow + heavysword + axe + woodenbow + pickaxe
+
+    gs_ok = goldensword >= 1
+    gb_ok = goldenbow >= 1
+    hs_ok = heavysword >= 2
+    axe_ok = axe >= 3
+    wb_ok = woodenbow >= 1
+    pick_ok = pickaxe >= 1
+    total_ok = total_weapons >= 9
+
+    success = gs_ok and gb_ok and hs_ok and axe_ok and wb_ok and pick_ok and total_ok
+    msg = f"GoldenSword: {goldensword}/1, GoldenBow: {goldenbow}/1, HeavySword: {heavysword}/2, Axe: {axe}/3, WoodenBow: {woodenbow}/1, Pickaxe: {pickaxe}/1, Total: {total_weapons}/9"
     return (1 if success else 0, msg)
 
 

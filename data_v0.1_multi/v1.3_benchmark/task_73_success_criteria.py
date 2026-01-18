@@ -24,13 +24,31 @@ from verifier_utils import (
 
 
 def task_73_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Elemental Mastery Expedition."""
-    alive = check_agents_alive(traj_json)
+    """Biome Expedition.
+    YAML criteria:
+    - Team inventory contains at least 6x logs
+    - 2x Goblin defeated
+    - 1x Ogre defeated
+    - Team inventory contains 1x woodenbow
+    - All agents survive the expedition
+    """
     inventories = get_final_inventories(traj_json)
-    staffs = ['lightningstaff', 'firestaff', 'icestaff', 'naturestaff']
-    staff_count = sum(1 for s in staffs if has_item_in_any_inventory(inventories, s))
-    success = alive and staff_count >= 2
-    msg = f"All alive: {alive}, Elemental staffs: {staff_count}/2"
+
+    logs = count_item_in_inventories(inventories, 'logs')
+    woodenbow = count_item_in_inventories(inventories, 'woodenbow')
+
+    goblin_kills = count_combat_kills(traj_json, ['Goblin', 'goblin'])
+    ogre_kills = count_combat_kills(traj_json, ['Ogre', 'ogre'])
+
+    alive = check_agents_alive(traj_json)
+
+    logs_ok = logs >= 6
+    goblin_ok = goblin_kills >= 2
+    ogre_ok = ogre_kills >= 1
+    bow_ok = woodenbow >= 1
+
+    success = logs_ok and goblin_ok and ogre_ok and bow_ok and alive
+    msg = f"Logs: {logs}/6, Goblin kills: {goblin_kills}/2, Ogre kills: {ogre_kills}/1, Woodenbow: {woodenbow}/1, All alive: {alive}"
     return (1 if success else 0, msg)
 
 
