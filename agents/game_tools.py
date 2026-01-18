@@ -2404,10 +2404,12 @@ class KaetramGameTools:
                     self._log_message(f"✅ Transfer successful: {actual_added}x {item_key} added to {target_player}'s inventory", "debug")
                 else:
                     transfer_success = False
-                    self._log_message(f"❌ Partial transfer: only {actual_added}/{count}x {item_key} added", "warning")
+                    error_msg = f"Partial transfer: only {actual_added}/{count}x {item_key} added"
+                    self._log_message(f"❌ {error_msg}", "warning")
             else:
                 transfer_success = False
-                self._log_message(f"❌ No items were added. Failed items: {failed_items}", "warning")
+                error_msg = f"No items were added. Failed items: {failed_items}"
+                self._log_message(f"❌ {error_msg}", "warning")
         else:
             error_msg = add_response.get("message", "Unknown error")
             self._log_message(f"❌ Transfer failed: {error_msg}", "debug")
