@@ -24,7 +24,7 @@ relevant_game_context: |
 
   LOCATIONS:
   - Forest: Around (250, 350)
-  - Mountain: Around (230, 40)
+  - Ogre area: Around (160, 15)
 
   TEAM ROLES:
   - Forest Team: Gather logs and defeat goblins
@@ -132,8 +132,8 @@ agent_3:
   new_character: true
 
   location:
-    x: 230
-    y: 40
+    x: 158
+    y: 15
 
   skill_levels:
     strength: 45
@@ -162,8 +162,8 @@ agent_4:
   new_character: true
 
   location:
-    x: 232
-    y: 42
+    x: 162
+    y: 18
 
   skill_levels:
     strength: 43
@@ -192,8 +192,8 @@ agent_5:
   new_character: true
 
   location:
-    x: 234
-    y: 44
+    x: 165
+    y: 20
 
   skill_levels:
     strength: 40
