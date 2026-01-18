@@ -19,7 +19,7 @@ relevant_game_context: |
   - 2x Skeletons (Level 18-25)
 
   ENEMY LOCATIONS:
-  - Goblins and Skeletons spawn around (355, 305) area
+  - Goblins and Skeletons spawn around (15, 15) area
 
   TEAM ROLES:
   - Guards: Front-line combat
@@ -38,8 +38,8 @@ agent_1:
   new_character: true
 
   location:
-    x: 352
-    y: 302
+    x: 15
+    y: 12
 
   skill_levels:
     defense: 42
@@ -68,8 +68,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 355
-    y: 305
+    x: 18
+    y: 15
 
   skill_levels:
     defense: 40
@@ -98,8 +98,8 @@ agent_3:
   new_character: true
 
   location:
-    x: 358
-    y: 305
+    x: 20
+    y: 18
 
   skill_levels:
     accuracy: 42
@@ -130,8 +130,8 @@ agent_4:
   new_character: true
 
   location:
-    x: 360
-    y: 307
+    x: 22
+    y: 16
 
   skill_levels:
     accuracy: 40
@@ -162,8 +162,8 @@ agent_5:
   new_character: true
 
   location:
-    x: 357
-    y: 305
+    x: 17
+    y: 14
 
   skill_levels:
     strength: 38
@@ -193,8 +193,8 @@ agent_6:
   new_character: true
 
   location:
-    x: 362
-    y: 307
+    x: 24
+    y: 18
 
   skill_levels:
     magic: 35
@@ -223,8 +223,8 @@ agent_7:
   new_character: true
 
   location:
-    x: 365
-    y: 310
+    x: 25
+    y: 20
 
   skill_levels:
     magic: 33
