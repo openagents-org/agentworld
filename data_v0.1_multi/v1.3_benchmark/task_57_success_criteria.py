@@ -51,7 +51,7 @@ def task_57_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
 
 def verify(traj_json: Dict) -> Tuple[int, str]:
     """Main verification entry point for task 57."""
-    return task_57_verifier(traj_json)
+    return task_57_verifier_v1(traj_json)
 
 
 if __name__ == "__main__":
