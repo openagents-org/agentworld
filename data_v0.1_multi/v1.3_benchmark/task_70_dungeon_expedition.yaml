@@ -65,8 +65,8 @@ agent_1:
   new_character: true
 
   location:
-    x: 380
-    y: 290
+    x: 220
+    y: 45
 
   skill_levels:
     defense: 40
@@ -95,8 +95,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 385
-    y: 292
+    x: 222
+    y: 43
 
   skill_levels:
     defense: 38
@@ -125,8 +125,8 @@ agent_3:
   new_character: true
 
   location:
-    x: 390
-    y: 295
+    x: 224
+    y: 46
 
   skill_levels:
     strength: 45
@@ -155,8 +155,8 @@ agent_4:
   new_character: true
 
   location:
-    x: 395
-    y: 298
+    x: 226
+    y: 44
 
   skill_levels:
     strength: 43
@@ -185,8 +185,8 @@ agent_5:
   new_character: true
 
   location:
-    x: 382
-    y: 300
+    x: 218
+    y: 42
 
   skill_levels:
     accuracy: 45
@@ -217,8 +217,8 @@ agent_6:
   new_character: true
 
   location:
-    x: 387
-    y: 303
+    x: 220
+    y: 40
 
   skill_levels:
     accuracy: 42
@@ -249,8 +249,8 @@ agent_7:
   new_character: true
 
   location:
-    x: 392
-    y: 305
+    x: 215
+    y: 38
 
   skill_levels:
     smithing: 40
