@@ -20,7 +20,7 @@ relevant_game_context: |
 
   REGION LOCATIONS:
   - Forest: Around (388, 10)
-  - Mountain: Around (230, 40)
+  - Coal mining area: Around (555, 545)
 
   TEAM ROLES:
   - Loggers: Gather logs from forest
@@ -157,8 +157,8 @@ agent_5:
   new_character: true
 
   location:
-    x: 230
-    y: 40
+    x: 555
+    y: 540
 
   skill_levels:
     mining: 38
@@ -187,8 +187,8 @@ agent_6:
   new_character: true
 
   location:
-    x: 232
-    y: 42
+    x: 558
+    y: 542
 
   skill_levels:
     mining: 35
@@ -217,8 +217,8 @@ agent_7:
   new_character: true
 
   location:
-    x: 234
-    y: 44
+    x: 560
+    y: 545
 
   skill_levels:
     mining: 32
@@ -247,8 +247,8 @@ agent_8:
   new_character: true
 
   location:
-    x: 236
-    y: 46
+    x: 562
+    y: 548
 
   skill_levels:
     mining: 30
