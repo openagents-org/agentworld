@@ -70,8 +70,8 @@ agent_1:
   new_character: true
 
   location:
-    x: 200
-    y: 200
+    x: 580
+    y: 745
 
   skill_levels:
     foraging: 45
@@ -93,8 +93,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 205
-    y: 205
+    x: 585
+    y: 750
 
   skill_levels:
     foraging: 40
@@ -120,9 +120,9 @@ agent_3:
     y: 230
 
   skill_levels:
-    strength: 42
-    accuracy: 38
-    health: 48
+    strength: 75
+    accuracy: 60
+    health: 80
 
   inventory_items:
     - item: "flask"
@@ -131,10 +131,10 @@ agent_3:
       count: 35
 
   equipped_items:
-    - item: "sword"
+    - item: "sword2"
       count: 1
       enchant: 0
-    - item: "platearmor"
+    - item: "redarmor"
       count: 1
       enchant: 0
 
@@ -143,8 +143,8 @@ agent_4:
   new_character: true
 
   location:
-    x: 210
-    y: 210
+    x: 590
+    y: 755
 
   skill_levels:
     fishing: 40
@@ -169,8 +169,8 @@ agent_5:
   new_character: true
 
   location:
-    x: 215
-    y: 215
+    x: 595
+    y: 750
 
   skill_levels:
     fishing: 35
@@ -195,8 +195,8 @@ agent_6:
   new_character: true
 
   location:
-    x: 220
-    y: 220
+    x: 585
+    y: 745
 
   skill_levels:
     cooking: 50
@@ -221,8 +221,8 @@ agent_7:
   new_character: true
 
   location:
-    x: 225
-    y: 225
+    x: 590
+    y: 748
 
   skill_levels:
     cooking: 45
