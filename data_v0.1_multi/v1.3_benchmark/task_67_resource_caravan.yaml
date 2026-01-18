@@ -67,9 +67,9 @@ agent_1:
     y: 250
 
   skill_levels:
-    strength: 38
-    health: 48
-    defense: 35
+    strength: 75
+    health: 80
+    defense: 60
 
   inventory_items:
     - item: "flask"
@@ -78,10 +78,10 @@ agent_1:
       count: 40
 
   equipped_items:
-    - item: "sword"
+    - item: "sword2"
       count: 1
       enchant: 0
-    - item: "platearmor"
+    - item: "redarmor"
       count: 1
       enchant: 0
 
@@ -95,8 +95,8 @@ agent_2:
 
   skill_levels:
     lumberjacking: 40
-    strength: 32
-    health: 38
+    strength: 50
+    health: 60
 
   inventory_items:
     - item: "flask"
@@ -108,7 +108,7 @@ agent_2:
     - item: "axe"
       count: 1
       enchant: 0
-    - item: "leatherarmor"
+    - item: "platearmor"
       count: 1
       enchant: 0
 
@@ -122,8 +122,8 @@ agent_3:
 
   skill_levels:
     lumberjacking: 38
-    strength: 30
-    health: 36
+    strength: 50
+    health: 60
 
   inventory_items:
     - item: "flask"
@@ -135,7 +135,7 @@ agent_3:
     - item: "axe"
       count: 1
       enchant: 0
-    - item: "leatherarmor"
+    - item: "platearmor"
       count: 1
       enchant: 0
 
@@ -149,8 +149,8 @@ agent_4:
 
   skill_levels:
     lumberjacking: 35
-    strength: 28
-    health: 34
+    strength: 50
+    health: 60
 
   inventory_items:
     - item: "flask"
@@ -162,7 +162,7 @@ agent_4:
     - item: "axe"
       count: 1
       enchant: 0
-    - item: "leatherarmor"
+    - item: "platearmor"
       count: 1
       enchant: 0
 
@@ -176,8 +176,8 @@ agent_5:
 
   skill_levels:
     mining: 35
-    strength: 28
-    health: 36
+    strength: 50
+    health: 60
 
   inventory_items:
     - item: "flask"
@@ -189,7 +189,7 @@ agent_5:
     - item: "pickaxe"
       count: 1
       enchant: 0
-    - item: "leatherarmor"
+    - item: "platearmor"
       count: 1
       enchant: 0
 
@@ -203,8 +203,8 @@ agent_6:
 
   skill_levels:
     mining: 32
-    strength: 26
-    health: 34
+    strength: 50
+    health: 60
 
   inventory_items:
     - item: "flask"
@@ -216,7 +216,7 @@ agent_6:
     - item: "pickaxe"
       count: 1
       enchant: 0
-    - item: "leatherarmor"
+    - item: "platearmor"
       count: 1
       enchant: 0
 
@@ -230,8 +230,8 @@ agent_7:
 
   skill_levels:
     mining: 30
-    strength: 25
-    health: 32
+    strength: 50
+    health: 60
 
   inventory_items:
     - item: "flask"
@@ -243,7 +243,7 @@ agent_7:
     - item: "pickaxe"
       count: 1
       enchant: 0
-    - item: "leatherarmor"
+    - item: "platearmor"
       count: 1
       enchant: 0
 
