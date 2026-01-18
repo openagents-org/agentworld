@@ -76,9 +76,9 @@ agent_1:
     y: 220
 
   skill_levels:
-    strength: 40
-    accuracy: 35
-    health: 45
+    strength: 75
+    accuracy: 60
+    health: 80
 
   inventory_items:
     - item: "flask"
@@ -87,10 +87,10 @@ agent_1:
       count: 30
 
   equipped_items:
-    - item: "sword"
+    - item: "sword2"
       count: 1
       enchant: 0
-    - item: "platearmor"
+    - item: "redarmor"
       count: 1
       enchant: 0
 
@@ -103,9 +103,9 @@ agent_2:
     y: 225
 
   skill_levels:
-    strength: 38
-    accuracy: 33
-    health: 43
+    strength: 75
+    accuracy: 60
+    health: 80
 
   inventory_items:
     - item: "flask"
@@ -114,10 +114,10 @@ agent_2:
       count: 30
 
   equipped_items:
-    - item: "sword"
+    - item: "sword2"
       count: 1
       enchant: 0
-    - item: "leatherarmor"
+    - item: "redarmor"
       count: 1
       enchant: 0
 
