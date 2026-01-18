@@ -118,26 +118,27 @@ agent_6:
   username: "Arcane_Bead_Hunter"
   new_character: true
   location: {x: 350, y: 250}
-  skill_levels: {strength: 44, accuracy: 40, foraging: 38, health: 50}
+  skill_levels: {strength: 75, accuracy: 60, foraging: 38, health: 80}
   inventory_items:
     - {item: "flask", count: 40}
     - {item: "apple", count: 45}
   equipped_items:
-    - {item: "sword1", count: 1, enchant: 0}
-    - {item: "platearmor", count: 1, enchant: 0}
+    - {item: "sword2", count: 1, enchant: 0}
+    - {item: "redarmor", count: 1, enchant: 0}
 
 agent_7:
   username: "Component_Master"
   new_character: true
   location: {x: 250, y: 350}
-  skill_levels: {foraging: 42, lumberjacking: 40, health: 38}
+  skill_levels: {foraging: 42, lumberjacking: 40, strength: 75, health: 80}
   inventory_items:
     - {item: "flask", count: 30}
     - {item: "apple", count: 35}
     - {item: "hilt2", count: 3}
   equipped_items:
     - {item: "axe", count: 1, enchant: 0}
-    - {item: "leatherarmor", count: 1, enchant: 0}
+    - {item: "sword2", count: 1, enchant: 0}
+    - {item: "redarmor", count: 1, enchant: 0}
 
 agent_8:
   username: "Master_Smelter_Supreme"
