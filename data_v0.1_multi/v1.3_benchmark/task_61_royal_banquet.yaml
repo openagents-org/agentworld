@@ -16,13 +16,14 @@ relevant_game_context: |
 
   PRODUCTION TARGETS:
   - 3x Cooked Shrimp (cook 3x rawshrimp)
-  - 2x Tuna Sushi (cook 2x rawtuna)
+  - 2x Tuna Sushi (cook 2x rawtuna + 2x kelp)
   - 2x Cooked Chicken (cook 2x rawchicken)
 
   GATHERING REQUIREMENTS:
   - 3x rawshrimp (fishing at coast)
   - 2x rawtuna (fishing at coast)
   - 2x rawchicken (hunting chickens)
+  - 2x kelp (provided to cook)
 
   FISHING LOCATIONS:
   - Coastal fishing spots (580-600, 740-760)
@@ -217,6 +218,8 @@ agent_6:
       count: 20
     - item: "apple"
       count: 25
+    - item: "kelp"
+      count: 2
 
   equipped_items:
     - item: "leatherarmor"
