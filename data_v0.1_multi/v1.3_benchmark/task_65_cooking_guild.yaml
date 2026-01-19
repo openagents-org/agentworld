@@ -120,9 +120,10 @@ agent_3:
     y: 230
 
   skill_levels:
-    strength: 75
-    accuracy: 60
-    health: 80
+    strength: 85
+    accuracy: 70
+    health: 90
+    defense: 70
 
   inventory_items:
     - item: "flask"
@@ -143,8 +144,8 @@ agent_4:
   new_character: true
 
   location:
-    x: 590
-    y: 755
+    x: 688
+    y: 15
 
   skill_levels:
     fishing: 40
@@ -169,8 +170,8 @@ agent_5:
   new_character: true
 
   location:
-    x: 595
-    y: 750
+    x: 690
+    y: 12
 
   skill_levels:
     fishing: 35
