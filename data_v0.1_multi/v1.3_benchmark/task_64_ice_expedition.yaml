@@ -20,7 +20,7 @@ relevant_game_context: |
   - 2x Axe (3x ironbar + 1x logs each)
 
   ICE REGION LOCATION:
-  - Ice region around (259, 151)
+  - Ice region around (450-470, 155-180)
   - Ice Rats spawn in ice region
 
   MATERIAL REQUIREMENTS:
@@ -68,8 +68,8 @@ agent_1:
   new_character: true
 
   location:
-    x: 350
-    y: 250
+    x: 450
+    y: 160
 
   skill_levels:
     strength: 75
@@ -99,8 +99,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 352
-    y: 252
+    x: 455
+    y: 165
 
   skill_levels:
     strength: 75
@@ -130,8 +130,8 @@ agent_3:
   new_character: true
 
   location:
-    x: 354
-    y: 254
+    x: 445
+    y: 155
 
   skill_levels:
     lumberjacking: 40
@@ -157,8 +157,8 @@ agent_4:
   new_character: true
 
   location:
-    x: 356
-    y: 256
+    x: 448
+    y: 158
 
   skill_levels:
     lumberjacking: 38
@@ -184,8 +184,8 @@ agent_5:
   new_character: true
 
   location:
-    x: 348
-    y: 248
+    x: 460
+    y: 170
 
   skill_levels:
     strength: 75
@@ -212,8 +212,8 @@ agent_6:
   new_character: true
 
   location:
-    x: 350
-    y: 246
+    x: 465
+    y: 175
 
   skill_levels:
     strength: 75
@@ -240,8 +240,8 @@ agent_7:
   new_character: true
 
   location:
-    x: 346
-    y: 252
+    x: 452
+    y: 162
 
   skill_levels:
     mining: 35
@@ -267,8 +267,8 @@ agent_8:
   new_character: true
 
   location:
-    x: 352
-    y: 248
+    x: 458
+    y: 168
 
   skill_levels:
     crafting: 40
