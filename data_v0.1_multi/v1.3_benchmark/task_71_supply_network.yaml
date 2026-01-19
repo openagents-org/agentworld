@@ -16,7 +16,7 @@ relevant_game_context: |
 
   COLLECTION TARGETS:
   - 8x logs (from forest region)
-  - 6x coal (from mountain region)
+  - 6x coal (from coal mining area region)
 
   REGION LOCATIONS:
   - Forest: Around (388, 10)
@@ -161,7 +161,7 @@ agent_5:
     y: 540
 
   skill_levels:
-    mining: 38
+    mining: 50
     strength: 35
     health: 40
 
@@ -191,7 +191,7 @@ agent_6:
     y: 542
 
   skill_levels:
-    mining: 35
+    mining: 48
     strength: 33
     health: 38
 
@@ -221,7 +221,7 @@ agent_7:
     y: 545
 
   skill_levels:
-    mining: 32
+    mining: 45
     strength: 30
     health: 36
 
@@ -251,7 +251,7 @@ agent_8:
     y: 548
 
   skill_levels:
-    mining: 30
+    mining: 42
     strength: 28
     health: 34
 
