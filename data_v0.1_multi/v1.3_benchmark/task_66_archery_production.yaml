@@ -70,13 +70,14 @@ agent_1:
   new_character: true
 
   location:
-    x: 350
-    y: 250
+    x: 185
+    y: 50
 
   skill_levels:
-    strength: 75
-    accuracy: 60
-    health: 80
+    strength: 85
+    accuracy: 70
+    health: 90
+    defense: 65
 
   inventory_items:
     - item: "flask"
@@ -97,13 +98,14 @@ agent_2:
   new_character: true
 
   location:
-    x: 352
-    y: 252
+    x: 190
+    y: 55
 
   skill_levels:
-    strength: 75
-    accuracy: 60
-    health: 80
+    strength: 85
+    accuracy: 70
+    health: 90
+    defense: 65
 
   inventory_items:
     - item: "flask"
@@ -182,7 +184,7 @@ agent_5:
     y: 15
 
   skill_levels:
-    fletching: 35
+    fletching: 40
     crafting: 25
     health: 30
 
@@ -210,7 +212,7 @@ agent_6:
     y: 15
 
   skill_levels:
-    fletching: 35
+    fletching: 40
     crafting: 30
     health: 32
 
