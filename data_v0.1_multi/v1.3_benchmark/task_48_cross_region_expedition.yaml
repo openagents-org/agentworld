@@ -15,9 +15,9 @@ relevant_game_context: |
   OBJECTIVE: Gather resources from three different biomes.
 
   COLLECTION TARGETS:
-  - 5x logs (Forest region: 380-400, 0-50)
-  - 4x coal (Mountain region: 200-250, 30-60)
-  - 3x rawshrimp (Coastal region: 550-600, 700-760)
+  - 5x logs (Forest region: Oak trees near 85, 85)
+  - 4x coal (Mining region: Coal rocks near 555, 550)
+  - 3x rawshrimp (Coastal region: Fishing spots near 170, 220)
 
   TEAM ROLES:
   - Forest Team: 2 agents gather logs
@@ -40,8 +40,8 @@ agent_1:
   new_character: true
 
   location:
-    x: 200
-    y: 220
+    x: 85
+    y: 80
 
   skill_levels:
     lumberjacking: 25
@@ -70,8 +70,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 205
-    y: 225
+    x: 90
+    y: 85
 
   skill_levels:
     lumberjacking: 25
@@ -100,8 +100,8 @@ agent_3:
   new_character: true
 
   location:
-    x: 230
-    y: 45
+    x: 555
+    y: 545
 
   skill_levels:
     mining: 20
@@ -130,8 +130,8 @@ agent_4:
   new_character: true
 
   location:
-    x: 235
-    y: 45
+    x: 560
+    y: 550
 
   skill_levels:
     mining: 20
@@ -160,8 +160,8 @@ agent_5:
   new_character: true
 
   location:
-    x: 210
-    y: 230
+    x: 170
+    y: 220
 
   skill_levels:
     fishing: 20

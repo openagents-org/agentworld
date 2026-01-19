@@ -24,13 +24,21 @@ from verifier_utils import (
 
 
 def task_49_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Grand Jewelry Workshop."""
+    """Jewelry Workshop - craft 2x Gold Rings and 2x Silver Rings."""
     inventories = get_final_inventories(traj_json)
-    jewelry = ['silverring', 'goldring', 'topazring', 'berylpendant', 'emeraldpendant']
-    jewelry_count = sum(1 for j in jewelry if has_item_in_any_inventory(inventories, j))
-    success = jewelry_count >= 3
-    msg = f"Jewelry items: {jewelry_count}/3"
-    return (1 if success else 0, msg)
+    
+    goldring = count_item_in_inventories(inventories, 'goldring')
+    silverring = count_item_in_inventories(inventories, 'silverring')
+    
+    has_gold = goldring >= 2
+    has_silver = silverring >= 2
+    
+    # Check all agents alive
+    alive = check_agents_alive(traj_json)
+    
+    passed = has_gold and has_silver and alive
+    msg = f"Gold Rings: {goldring}/2, Silver Rings: {silverring}/2, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

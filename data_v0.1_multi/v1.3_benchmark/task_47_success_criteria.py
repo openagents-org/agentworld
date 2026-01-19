@@ -24,12 +24,21 @@ from verifier_utils import (
 
 
 def task_47_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Magical Research Institute."""
+    """Magic Staff Forge - craft 2x Lightning Staff and 1x Fire Staff."""
     inventories = get_final_inventories(traj_json)
-    staffs = ['staff', 'lightningstaff', 'firestaff', 'icestaff', 'naturestaff']
-    has_staff = any(has_item_in_any_inventory(inventories, s) for s in staffs)
-    msg = f"Has magical staff: {has_staff}"
-    return (1 if has_staff else 0, msg)
+    
+    lightningstaff = count_item_in_inventories(inventories, 'lightningstaff')
+    firestaff = count_item_in_inventories(inventories, 'firestaff')
+    
+    has_lightning = lightningstaff >= 2
+    has_fire = firestaff >= 1
+    
+    # Check all agents alive
+    alive = check_agents_alive(traj_json)
+    
+    passed = has_lightning and has_fire and alive
+    msg = f"Lightning Staff: {lightningstaff}/2, Fire Staff: {firestaff}/1, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

@@ -1494,6 +1494,21 @@ class KaetramGameTools:
 
                 target_still_alive = target_mob_current is not None
 
+                # SAFEGUARD: Check distance to target - if too far, something is wrong
+                if target_still_alive:
+                    current_loc = current_observe.get("location", {})
+                    curr_player_x, curr_player_y = current_loc.get("x"), current_loc.get("y")
+                    mob_x, mob_y = target_mob_current.get("x"), target_mob_current.get("y")
+                    
+                    if curr_player_x is not None and mob_x is not None:
+                        distance_to_target = abs(mob_x - curr_player_x) + abs(mob_y - curr_player_y)
+                        
+                        # If player is more than 10 tiles away from target, combat state is invalid
+                        if distance_to_target > 10:
+                            self._log_message(f"⚠️ Player too far from target ({distance_to_target} tiles) - breaking combat loop", "warning")
+                            combat_outcome = "distance_exceeded"
+                            break
+
                 if not target_still_alive:
                     # Mob is no longer in the environment - confirmed kill
                     # Count as victory if player participated (was in combat, took damage, or killed quickly)
@@ -1671,6 +1686,16 @@ class KaetramGameTools:
                 f"💙 Player MP: {final_mp}/{initial_max_mp} ({mp_change:+d})\n"
                 f"⚡ Combat Duration: {total_time:.1f}s\n"
                 f"🎯 Status: Target eliminated - ready for next action"
+            )
+
+        elif combat_outcome == "distance_exceeded":
+            # Player got too far from target - combat state was invalid
+            result_message = (
+                f"{movement_info}⚠️ COMBAT INTERRUPTED: Too far from {target_name} (Level {target_level})\n"
+                f"❤️  Player HP: {final_hp}/{initial_max_hp} ({hp_change:+d})\n"
+                f"💙 Player MP: {final_mp}/{initial_max_mp} ({mp_change:+d})\n"
+                f"⚡ Time Elapsed: {total_time:.1f}s\n"
+                f"🎯 Status: Combat ended - player too far from target. Move closer and try again."
             )
 
         else:

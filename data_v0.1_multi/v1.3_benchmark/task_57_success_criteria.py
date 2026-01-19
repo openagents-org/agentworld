@@ -36,16 +36,21 @@ def task_57_verifier(traj_json: Dict) -> Tuple[int, str]:
 
 
 def task_57_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
+    """Grand Jewelry Expedition - 2x Ruby Rings, 2x Emerald Pendants, 1x Topaz Ring, 2x Beryl Pendants."""
     inventories = get_final_inventories(traj_json)
     counts = aggregate_item_counts(inventories)
-    ruby_rings = counts.get("rubyring", 0) + counts.get("ruby_ring", 0)
+    ruby_rings = counts.get("rubyring", 0)
     emerald_pendants = counts.get("emeraldpendant", 0)
     topaz_rings = counts.get("topazring", 0)
     beryl_pendants = counts.get("berylpendant", 0)
-    success = (ruby_rings >= 3 and emerald_pendants >= 2 and
-               topaz_rings >= 1 and beryl_pendants >= 2)
-    msg = (f"Ruby rings: {ruby_rings}/3, Emerald pendants: {emerald_pendants}/2, "
-           f"Topaz rings: {topaz_rings}/1, Beryl pendants: {beryl_pendants}/2")
+    
+    # Check all agents alive
+    alive = check_agents_alive(traj_json)
+    
+    success = (ruby_rings >= 2 and emerald_pendants >= 2 and
+               topaz_rings >= 1 and beryl_pendants >= 2 and alive)
+    msg = (f"Ruby rings: {ruby_rings}/2, Emerald pendants: {emerald_pendants}/2, "
+           f"Topaz rings: {topaz_rings}/1, Beryl pendants: {beryl_pendants}/2, All alive: {alive}")
     return (1 if success else 0, msg)
 
 
