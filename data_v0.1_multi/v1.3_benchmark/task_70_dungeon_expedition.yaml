@@ -69,9 +69,9 @@ agent_1:
     y: 45
 
   skill_levels:
-    defense: 40
-    strength: 35
-    health: 50
+    defense: 75
+    strength: 80
+    health: 100
 
   inventory_items:
     - item: "flask"
@@ -99,9 +99,9 @@ agent_2:
     y: 43
 
   skill_levels:
-    defense: 38
-    strength: 37
-    health: 48
+    defense: 70
+    strength: 80
+    health: 95
 
   inventory_items:
     - item: "flask"
@@ -129,9 +129,9 @@ agent_3:
     y: 46
 
   skill_levels:
-    strength: 45
-    accuracy: 38
-    health: 42
+    strength: 85
+    accuracy: 70
+    health: 90
 
   inventory_items:
     - item: "flask"
@@ -159,9 +159,9 @@ agent_4:
     y: 44
 
   skill_levels:
-    strength: 43
-    accuracy: 40
-    health: 40
+    strength: 85
+    accuracy: 70
+    health: 85
 
   inventory_items:
     - item: "flask"
@@ -189,9 +189,9 @@ agent_5:
     y: 42
 
   skill_levels:
-    accuracy: 45
-    archery: 40
-    health: 38
+    accuracy: 70
+    archery: 60
+    health: 80
 
   inventory_items:
     - item: "flask"
@@ -221,9 +221,9 @@ agent_6:
     y: 40
 
   skill_levels:
-    accuracy: 42
-    archery: 38
-    health: 36
+    accuracy: 70
+    archery: 60
+    health: 75
 
   inventory_items:
     - item: "flask"
