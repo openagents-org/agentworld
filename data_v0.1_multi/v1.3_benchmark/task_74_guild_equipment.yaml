@@ -160,7 +160,8 @@ agent_4:
   skill_levels:
     fletching: 42
     crafting: 30
-    health: 38
+    health: 50
+    defense: 30
 
   inventory_items:
     - item: "flask"
