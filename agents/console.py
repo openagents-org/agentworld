@@ -758,9 +758,10 @@ class GameConsole:
                     self.log_message("INIT", f"Failed to set {skill} level: {str(e)}")
 
             # Add delay to allow server to recalculate maxHitPoints after skill changes
+            # Increased from 1.0s to 2.5s to ensure server fully processes skill updates
             import time
-            time.sleep(1.0)
-            self.log_message("INIT", "Skill sync delay applied before HP/MP restoration")
+            time.sleep(2.5)
+            self.log_message("INIT", "Skill sync delay (2.5s) applied before HP/MP restoration")
 
             # Restore HP and MP after setting combat levels
             try:
@@ -791,7 +792,12 @@ class GameConsole:
                 except Exception as e:
                     results.append(f"❌ Failed to equip {item_spec}: {str(e)}")
                     self.log_message("INIT", f"Failed to equip {item_spec}: {str(e)}")
-        
+
+            # Add delay after equipment setup to ensure server state is synced
+            import time
+            time.sleep(1.0)
+            self.log_message("INIT", "Equipment sync delay (1.0s) applied before inventory setup")
+
         # Apply inventory items
         if self.inventory_items:
             try:

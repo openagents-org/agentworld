@@ -2135,39 +2135,25 @@ class KaetramGameTools:
         """Restore HP and MP to maximum values"""
         if not self.token:
             return "Error: No token available. Please login first."
-        
-        # First observe to get current max values
+
+        # Use restoreToMax flag - lets the server calculate correct max HP/MP
+        # This avoids timing issues where we might observe stale maxHitPoints
+        # before the server has recalculated them after skill changes
         try:
-            observation_result = self.observe_environment({"radius": 1})
-            if isinstance(observation_result, str) and "Environment observation" in observation_result:
-                import re
-                import json
-                
-                json_match = re.search(r'\{.*\}', observation_result, re.DOTALL)
-                if json_match:
-                    data = json.loads(json_match.group())
-                    player_status = data.get("playerStatus", {})
-                    
-                    max_hp = player_status.get("maxHitPoints", 100)
-                    max_mp = player_status.get("maxMana", 50)
-                    
-                    # Set HP and MP to max values
-                    restore_data = {
-                        "token": self.token,
-                        "hitPoints": max_hp,
-                        "mana": max_mp
-                    }
-                    
-                    result = self._make_request("POST", "/ai/setPlayerStatus", restore_data)
-                    
-                    if result.get("status") == "success":
-                        return f"Successfully restored HP to {max_hp} and MP to {max_mp}"
-                    else:
-                        return f"Failed to restore HP/MP: {result.get('message', 'Unknown error')}"
-                else:
-                    return "Error: Could not parse player status"
+            restore_data = {
+                "token": self.token,
+                "restoreToMax": True
+            }
+
+            result = self._make_request("POST", "/ai/setPlayerStatus", restore_data)
+
+            if result.get("status") == "success":
+                # Get the actual values that were set
+                new_hp = result.get("hitPoints", "unknown")
+                new_mp = result.get("mana", "unknown")
+                return f"Successfully restored HP to {new_hp} and MP to {new_mp}"
             else:
-                return "Error: Could not get player status"
+                return f"Failed to restore HP/MP: {result.get('message', 'Unknown error')}"
         except Exception as e:
             return f"Error restoring HP/MP: {str(e)}"
 
