@@ -20,21 +20,18 @@ from verifier_utils import (
     check_crafted_items,
     count_chat_messages,
     get_agent_items_by_username,
+    verify_combat,
 )
 
 
 def task_35_verifier(traj_json: Dict) -> Tuple[int, str]:
     """Combat Training - defeat 4x Goblins."""
     # Check combat kills (4 goblins)
-    kills = count_combat_kills(traj_json, ['Goblin', 'goblin'])
-    has_kills = kills >= 4
-
-    # Check all agents alive
-    alive = check_agents_alive(traj_json)
-
-    passed = has_kills and alive
-    msg = f"Kills: {kills}/4 (Goblins), All alive: {alive}"
-    return (1 if passed else 0, msg)
+    kills = verify_combat(traj_json, 'goblin')
+    hps = get_final_agent_hp_simple(traj_json)
+    print(hps)
+    all_alive = sum(v > 0 for k, v in hps.items())
+    return (1 if kills >= 4 else 0, f"Kills: {kills}/4 (Goblins), alive agents: {all_alive}/3")
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

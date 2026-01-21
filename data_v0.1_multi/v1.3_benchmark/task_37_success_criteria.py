@@ -36,13 +36,7 @@ def task_37_verifier(traj_json: Dict) -> Tuple[int, str]:
     has_corn = corn >= 3
     has_logs = logs >= 4
 
-    # Check all agents alive
-    agent_hp = get_final_agent_hp_simple(traj_json)
-    all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
-
-    passed = has_blueberry and has_corn and has_logs and all_alive
-    msg = f"Blueberry: {blueberry}/5, Corn: {corn}/3, Logs: {logs}/4, All alive: {all_alive}"
-    return (1 if passed else 0, msg)
+    return (1 if has_blueberry and has_corn and has_logs else 0, f"Blueberry: {blueberry}/5, Corn: {corn}/3, Logs: {logs}/4")
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

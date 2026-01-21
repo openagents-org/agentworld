@@ -26,10 +26,10 @@ from verifier_utils import (
 def task_31_verifier(traj_json: Dict) -> Tuple[int, str]:
     """Woodworking Coordination."""
     inventories = get_final_inventories(traj_json)
-    stick = count_item_in_inventories(inventories, 'stick')
-    logs = count_item_in_inventories(inventories, 'logs')
-    msg = f"Sticks: {stick}, Logs: {logs}"
-    return (1 if stick >= 10 or logs >= 5 else 0, msg)
+    woodenbow = count_item_in_inventories(inventories, 'woodenbow')
+    arrows = count_item_in_inventories(inventories, 'arrow')
+    msg = f"Wooden Bow: {woodenbow}, Arrows: {arrows}"
+    return (1 if woodenbow >= 1 and arrows >= 10 else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

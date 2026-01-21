@@ -20,18 +20,46 @@ relevant_game_context: |
   3. Smelt 2x goldbar (1x goldore + 1x coal → 1x goldbar)
   4. Craft 1x goldring (2x goldbar → 1x goldring)
 
+  ⚠️ CRITICAL ITEM KEYS - MUST USE EXACTLY:
+  - Mining gold gives itemKey=goldore (NOT goldnugget!)
+  - Mining coal gives itemKey=coal
+  - When transferring to smith_agent, use:
+    * transfer_items(count=2, itemKey=goldore, targetPlayer=smith_agent)
+    * transfer_items(count=2, itemKey=coal, targetPlayer=smith_agent)
+  - Smelting gold bars: craft_item(itemKey=goldbar, skill=Smelting) requires goldore+coal
+  - Crafting gold ring: craft_item(itemKey=goldring, skill=Smithing) requires 2x goldbar
+
   RESOURCE LOCATIONS:
-  - Gold rocks: Mountain regions (200-250, 30-60)
-  - Coal rocks: Mountain regions (200-250, 30-60)
+  - Gold rocks: Eastern mountain regions around (280-290, 30-35) - verified Gold Rock locations
+  - Coal rocks: Southern volcanic/desert regions around (550-570, 540-560) - Dense coal area
+  
+  CRITICAL: Gold and Coal are in DIFFERENT regions!
+  - Gold mining team goes EAST to (280-290, 30-35)
+  - Coal mining team goes SOUTH to (550-570, 540-560)
+  - Coordinate transfers to smith for smelting
 
   TEAM COORDINATION:
-  - Miner gathers gold ore and coal
-  - Smith smelts bars and crafts ring
-  - Support helps with gathering and transfers
+  - Split mining duties: Gold ore (east) and Coal (south) are far apart
+  - Use chat to coordinate who mines what
+  - Transfer all materials to smith_agent for smelting and crafting
+  - Gold rocks are rare - focus experienced miner on gold
+  - Coal is more common in southern region - lower skilled agent can gather coal
+  - IMPORTANT: Use itemKey=goldore for all gold ore transfers (NOT goldnugget)
 
   DO NOT use complete() until gold ring is crafted!
 
-  ITEM KEY REFERENCE (use these exact itemKey values in craft_item):
+  ITEM KEY REFERENCE FOR THIS TASK:
+  ⚠️ MINING MATERIALS (use in transfer_items):
+  - Gold Ore (mined from Gold Rock): itemKey=goldore ⚠️ DO NOT USE goldnugget!
+  - Coal (mined from Coal Rock): itemKey=coal
+  
+  ⚠️ SMELTING RECIPES (use in craft_item with skill=Smelting):
+  - Gold Bar: itemKey=goldbar (requires 1x goldore + 1x coal)
+  
+  ⚠️ SMITHING RECIPES (use in craft_item with skill=Smithing):
+  - Gold Ring: itemKey=goldring (requires 2x goldbar)
+  
+  OTHER ITEM KEY REFERENCE (for general knowledge):
   - Wooden Bow: itemKey=woodenbow (Fletching)
   - Golden Bow: itemKey=goldenbow (Fletching)
   - Arrow: itemKey=arrow (Fletching)
@@ -41,15 +69,7 @@ relevant_game_context: |
   - Axe: itemKey=axe (Smithing)
   - Pickaxe: itemKey=pickaxe (Smithing)
   - Silver Ring: itemKey=silverring (Smithing)
-  - Gold Ring: itemKey=goldring (Smithing)
-  - Staff: itemKey=staff (Crafting)
-  - Lightning Staff: itemKey=lightningstaff (Crafting)
-  - Fire Staff: itemKey=firestaff (Crafting)
-  - Ice Staff: itemKey=icestaff (Crafting)
-  - Nature Staff: itemKey=naturestaff (Crafting)
-  - Bucket: itemKey=bucket (Crafting)
   - Iron Bar: itemKey=ironbar (Smelting)
-  - Gold Bar: itemKey=goldbar (Smelting)
   - Bronze Bar: itemKey=bronzebar (Smelting)
   - Cooked Shrimp: itemKey=cookedshrimp (Cooking)
   - Stew: itemKey=stew (Cooking)
@@ -60,12 +80,12 @@ max_action_steps: 32
 
 # Agent configurations
 agent_1:
-  username: "miner_agent"
+  username: "gold_miner_agent"
   new_character: true
 
   location:
-    x: 230
-    y: 45
+    x: 285
+    y: 33
 
   skill_levels:
     mining: 30
@@ -94,8 +114,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 235
-    y: 45
+    x: 200
+    y: 30
 
   skill_levels:
     smithing: 25
@@ -121,12 +141,12 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "support_agent"
+  username: "coal_miner_agent"
   new_character: true
 
   location:
-    x: 240
-    y: 45
+    x: 560
+    y: 545
 
   skill_levels:
     mining: 25

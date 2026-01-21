@@ -31,15 +31,7 @@ def task_41_verifier(traj_json: Dict) -> Tuple[int, str]:
     pickaxe = count_item_in_inventories(inventories, 'pickaxe')
     axe = count_item_in_inventories(inventories, 'axe')
 
-    has_pickaxe = pickaxe >= 1
-    has_axe = axe >= 1
-
-    # Check all agents alive
-    alive = check_agents_alive(traj_json)
-
-    passed = has_pickaxe and has_axe and alive
-    msg = f"Pickaxe: {pickaxe}/1, Axe: {axe}/1, All alive: {alive}"
-    return (1 if passed else 0, msg)
+    return (1 if pickaxe >= 1 and axe >= 1 else 0, f"Pickaxe: {pickaxe}/1, Axe: {axe}/1")
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

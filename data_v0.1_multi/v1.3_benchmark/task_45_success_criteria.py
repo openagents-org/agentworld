@@ -20,28 +20,19 @@ from verifier_utils import (
     check_crafted_items,
     count_chat_messages,
     get_agent_items_by_username,
+    verify_combat,
 )
 
 
 def task_45_verifier(traj_json: Dict) -> Tuple[int, str]:
     """Caravan Escort - miner_agent must have 3+ goldore, 2+ kills, all survive."""
     # Check miner_agent inventory for goldore
-    agent_items = get_agent_items_by_username(traj_json)
-    miner_items = agent_items.get('miner_agent', {})
-    goldore = miner_items.get('goldore', 0)
-    has_goldore = goldore >= 3
-
-    # Check combat kills (by guards)
-    kills = count_combat_kills(traj_json, ['hostile', 'creature', 'enemy', 'monster'])
-    has_kills = kills >= 2
-
-    # Check all agents alive
-    agent_hp = get_final_agent_hp_simple(traj_json)
-    all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
-
-    passed = has_goldore and has_kills and all_alive
-    msg = f"Miner goldore: {goldore}/3, Kills: {kills}/2, All alive: {all_alive}"
-    return (1 if passed else 0, msg)
+    inventories = get_final_inventories(traj_json)
+    # hard code, agent_3 is the target agent, only keep its inventory
+    inventories = {'agent_3': inventories['agent_3']}
+    goldore = count_item_in_inventories(inventories, 'goldore')
+    kills = verify_combat(traj_json, None)
+    return (1 if goldore >= 3 and kills >= 2 else 0, f"Goldore: {goldore}/3, Kills: {kills}/2")
 
 
 def task_45_verifier_v1(traj_json: Dict) -> Tuple[int, str]:

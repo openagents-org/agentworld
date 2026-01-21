@@ -20,17 +20,17 @@ relevant_game_context: |
 
   RAT COMBAT:
   - Rats are weak creatures but can swarm
-  - Found throughout forest regions
+  - Most densely populated in northwest forest regions (0-100, 0-100)
   - Easy to defeat with basic weapons
 
   RESOURCE LOCATIONS:
-  - Blueberry bushes: Forest clearings
-  - Rats: Forest floor areas
+  - Blueberry bushes: Forest clearings throughout the map
+  - Rats: Northwest forest region (40-60, 40-60) - HIGHEST DENSITY with 49+ rats
 
   TEAM COORDINATION:
-  - Hunters clear rats
-  - Forager collects berries
-  - Work together to cover the area
+  - Hunters clear rats in northwest forest
+  - Forager collects berries in nearby clearings
+  - Work together to cover the dense rat area
 
   DO NOT use complete() until all objectives are met!
 
@@ -43,8 +43,8 @@ agent_1:
   new_character: true
 
   location:
-    x: 380
-    y: 50
+    x: 45
+    y: 45
 
   skill_levels:
     strength: 30
@@ -74,8 +74,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 385
-    y: 50
+    x: 50
+    y: 48
 
   skill_levels:
     strength: 30
@@ -105,8 +105,8 @@ agent_3:
   new_character: true
 
   location:
-    x: 390
-    y: 50
+    x: 55
+    y: 45
 
   skill_levels:
     foraging: 20

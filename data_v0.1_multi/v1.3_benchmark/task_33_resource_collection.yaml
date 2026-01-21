@@ -20,13 +20,14 @@ relevant_game_context: |
   - 2x copperore (from Copper rocks)
 
   RESOURCE LOCATIONS:
-  - Oak trees: Forest regions (380-400, 0-50)
-  - Coal rocks: Mountain regions (200-250, 30-60)
-  - Copper rocks: Mountain regions (200-250, 30-60)
+  - Oak trees: Forest regions around (388, 10) - Eastern forest area
+  - Coal rocks: Southern volcanic/desert regions around (550-570, 540-560) - Dense coal area
+  - Copper rocks: Southern volcanic/desert regions around (543-573, 536-613) - SAME AREA as coal!
 
   TEAM COORDINATION:
-  - Lumberjack focuses on gathering logs
-  - Miner focuses on coal and copper
+  - Lumberjack focuses on gathering 4x logs from Oak trees in forest (around 388, 10)
+  - Miner focuses on gathering 3x coal and 2x copperore in southern region (around 550, 550) - both in same area!
+  - Support agent helps coordinate and can assist either role or transfer materials
   - Use global chat to coordinate and share progress
 
   DO NOT use complete() until all resources are collected!
@@ -70,8 +71,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 230
-    y: 45
+    x: 549
+    y: 550
 
   skill_levels:
     mining: 20
@@ -100,8 +101,8 @@ agent_3:
   new_character: true
 
   location:
-    x: 300
-    y: 100
+    x: 215
+    y: 40
 
   skill_levels:
     mining: 15
@@ -117,6 +118,9 @@ agent_3:
 
   equipped_items:
     - item: "pickaxe"
+      count: 1
+      enchant: 0
+    - item: "axe"
       count: 1
       enchant: 0
     - item: "leatherarmor"

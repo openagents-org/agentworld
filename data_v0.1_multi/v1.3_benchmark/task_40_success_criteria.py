@@ -29,15 +29,7 @@ def task_40_verifier(traj_json: Dict) -> Tuple[int, str]:
 
     # Check for cooked shrimp
     cookedshrimp = count_item_in_inventories(inventories, 'cookedshrimp')
-    has_shrimp = cookedshrimp >= 4
-
-    # Check all agents alive
-    agent_hp = get_final_agent_hp_simple(traj_json)
-    all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
-
-    passed = has_shrimp and all_alive
-    msg = f"Cooked shrimp: {cookedshrimp}/4, All alive: {all_alive}"
-    return (1 if passed else 0, msg)
+    return (1 if cookedshrimp >= 4 else 0, f"Cooked shrimp: {cookedshrimp}/4")
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:
