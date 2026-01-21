@@ -70,8 +70,8 @@ agent_1:
   new_character: true
 
   location:
-    x: 580
-    y: 745
+    x: 350
+    y: 200
 
   skill_levels:
     foraging: 45
@@ -93,8 +93,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 585
-    y: 750
+    x: 355
+    y: 200
 
   skill_levels:
     foraging: 40
@@ -196,8 +196,8 @@ agent_6:
   new_character: true
 
   location:
-    x: 585
-    y: 745
+    x: 210
+    y: 205
 
   skill_levels:
     cooking: 50
@@ -222,8 +222,8 @@ agent_7:
   new_character: true
 
   location:
-    x: 590
-    y: 748
+    x: 215
+    y: 205
 
   skill_levels:
     cooking: 45
