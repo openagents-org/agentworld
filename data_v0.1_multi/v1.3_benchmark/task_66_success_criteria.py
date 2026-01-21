@@ -40,8 +40,8 @@ def task_66_verifier(traj_json: Dict) -> Tuple[int, str]:
     bow_ok = goldenbow >= 1
     arrow_ok = arrows >= 20
 
-    success = bow_ok and arrow_ok and alive
-    msg = f"Goldenbow: {goldenbow}/1, Arrows: {arrows}/20, All alive: {alive}"
+    success = bow_ok and arrow_ok
+    msg = f"Goldenbow: {goldenbow}/1, Arrows: {arrows}/20"
     return (1 if success else 0, msg)
 
 

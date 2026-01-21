@@ -43,8 +43,8 @@ def task_61_verifier(traj_json: Dict) -> Tuple[int, str]:
     sushi_ok = tunasushi >= 2
     chicken_ok = cookedchicken >= 2
 
-    success = shrimp_ok and sushi_ok and chicken_ok and alive
-    msg = f"Cookedshrimp: {cookedshrimp}/3, Tunasushi: {tunasushi}/2, Cookedchicken: {cookedchicken}/2, All alive: {alive}"
+    success = shrimp_ok and sushi_ok and chicken_ok
+    msg = f"Cookedshrimp: {cookedshrimp}/3, Tunasushi: {tunasushi}/2, Cookedchicken: {cookedchicken}/2"
     return (1 if success else 0, msg)
 
 

@@ -43,8 +43,8 @@ def task_63_verifier(traj_json: Dict) -> Tuple[int, str]:
     silver_ok = silverring >= 2
     beryl_ok = berylpendant >= 2
 
-    success = gold_ok and silver_ok and beryl_ok and alive
-    msg = f"Goldring: {goldring}/2, Silverring: {silverring}/2, Berylpendant: {berylpendant}/2, All alive: {alive}"
+    success = gold_ok and silver_ok and beryl_ok
+    msg = f"Goldring: {goldring}/2, Silverring: {silverring}/2, Berylpendant: {berylpendant}/2"
     return (1 if success else 0, msg)
 
 

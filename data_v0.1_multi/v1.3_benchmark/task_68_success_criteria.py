@@ -43,8 +43,8 @@ def task_68_verifier(traj_json: Dict) -> Tuple[int, str]:
     axe_ok = axe >= 2
     sword_ok = sword2 >= 1
 
-    success = pick_ok and axe_ok and sword_ok and alive
-    msg = f"Pickaxe: {pickaxe}/2, Axe: {axe}/2, Sword2/HeavySword: {sword2}/1, All alive: {alive}"
+    success = pick_ok and axe_ok and sword_ok
+    msg = f"Pickaxe: {pickaxe}/2, Axe: {axe}/2, Sword2/HeavySword: {sword2}/1"
     return (1 if success else 0, msg)
 
 

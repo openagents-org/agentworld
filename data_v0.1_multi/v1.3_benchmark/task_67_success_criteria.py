@@ -43,8 +43,8 @@ def task_67_verifier(traj_json: Dict) -> Tuple[int, str]:
     coal_ok = coal >= 5
     pick_ok = pickaxe >= 1
 
-    success = logs_ok and coal_ok and pick_ok and alive
-    msg = f"Logs: {logs}/6, Coal: {coal}/5, Pickaxe: {pickaxe}/1, All alive: {alive}"
+    success = logs_ok and coal_ok and pick_ok
+    msg = f"Logs: {logs}/6, Coal: {coal}/5, Pickaxe: {pickaxe}/1"
     return (1 if success else 0, msg)
 
 

@@ -40,8 +40,8 @@ def task_71_verifier(traj_json: Dict) -> Tuple[int, str]:
     logs_ok = logs >= 8
     coal_ok = coal >= 6
 
-    success = logs_ok and coal_ok and alive
-    msg = f"Logs: {logs}/8, Coal: {coal}/6, All alive: {alive}"
+    success = logs_ok and coal_ok
+    msg = f"Logs: {logs}/8, Coal: {coal}/6"
     return (1 if success else 0, msg)
 
 

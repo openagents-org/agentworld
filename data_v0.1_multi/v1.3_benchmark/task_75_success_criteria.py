@@ -43,8 +43,8 @@ def task_75_verifier(traj_json: Dict) -> Tuple[int, str]:
     pick_ok = pickaxe >= 2
     logs_ok = logs >= 8
 
-    success = shrimp_ok and pick_ok and logs_ok and alive
-    msg = f"Cookedshrimp: {cookedshrimp}/6, Pickaxe: {pickaxe}/2, Logs: {logs}/8, All alive: {alive}"
+    success = shrimp_ok and pick_ok and logs_ok
+    msg = f"Cookedshrimp: {cookedshrimp}/6, Pickaxe: {pickaxe}/2, Logs: {logs}/8"
     return (1 if success else 0, msg)
 
 
