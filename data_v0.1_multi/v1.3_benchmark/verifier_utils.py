@@ -130,23 +130,63 @@ def get_final_agent_hp_simple(traj_json: Dict) -> Dict[str, int]:
 
 
 def count_combat_kills(traj_json: Dict, target_patterns: List[str]) -> int:
-    """Count kills of targets matching patterns by checking action results."""
-    kills = 0
+    """Count kills by tracking successful attacks where the agent survived.
+
+    The previous logic looked for target name in action string, but actions use
+    instance IDs (e.g., attack_entity(targetInstance=123)), not names.
+
+    New logic:
+    1. Build instance ID -> mob name mapping from observations
+    2. Track which agents died during the task
+    3. Count unique mob instances attacked by surviving agents
+    """
+    instance_to_name = {}
+
+    # Build instance -> name mapping from all observations
     for r in traj_json.get('rounds', []):
         for act in r.get('actions', []):
-            action_str = act.get('action', '').lower()
+            obs = act.get('observation', {})
+            for mob in obs.get('mobs', []):
+                inst = mob.get('instance')
+                name = mob.get('name', '')
+                if inst:
+                    instance_to_name[str(inst)] = name
+
+    # Get agents who died
+    dead_agents = set()
+    for r in traj_json.get('rounds', []):
+        for act in r.get('actions', []):
+            agent = act.get('agent_name', '')
+            obs = act.get('observation', {})
+            status = obs.get('playerStatus', {})
+            if status.get('hp', 1) <= 0:
+                dead_agents.add(agent)
+
+    # Track unique kills (attacked + agent survived)
+    killed_instances = set()
+
+    for r in traj_json.get('rounds', []):
+        for act in r.get('actions', []):
+            agent = act.get('agent_name', '')
+            action_str = act.get('action', '')
             obs = act.get('observation', {})
 
-            if 'attack' in action_str:
-                for pattern in target_patterns:
-                    if pattern.lower() in action_str:
-                        if isinstance(obs, dict):
-                            obs_str = json.dumps(obs).lower()
-                            if 'dead' in obs_str or 'killed' in obs_str or 'defeated' in obs_str:
-                                kills += 1
-                            elif '"hp": 0' in obs_str or '"hp":0' in obs_str:
-                                kills += 1
-    return kills
+            if agent in dead_agents:
+                continue  # Skip dead agents' attacks
+
+            if 'attack' in action_str.lower():
+                match = re.search(r'targetInstance=(\d+)', action_str)
+                if match:
+                    target_inst = match.group(1)
+                    target_name = instance_to_name.get(target_inst, '')
+
+                    for pattern in target_patterns:
+                        if pattern.lower() in target_name.lower():
+                            if isinstance(obs, dict) and obs.get('status') == 'success':
+                                killed_instances.add(target_inst)
+                            break
+
+    return len(killed_instances)
 
 
 def count_attack_actions(traj_json: Dict, target_patterns: List[str] = None) -> int:
