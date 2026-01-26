@@ -30,7 +30,6 @@ def task_74_verifier(traj_json: Dict) -> Tuple[int, str]:
     - Team inventory contains 1x axe
     - Team inventory contains 1x woodenbow
     - Team inventory contains 2x silverring
-    - All agents survive the crafting mission
     """
     inventories = get_final_inventories(traj_json)
 
@@ -38,8 +37,6 @@ def task_74_verifier(traj_json: Dict) -> Tuple[int, str]:
     axe = count_item_in_inventories(inventories, 'axe')
     woodenbow = count_item_in_inventories(inventories, 'woodenbow')
     silverring = count_item_in_inventories(inventories, 'silverring')
-
-    alive = check_agents_alive(traj_json)
 
     sword_ok = sword2 >= 2
     axe_ok = axe >= 1

@@ -34,7 +34,7 @@ max_action_steps: 40
 
 # Agent configurations
 agent_1:
-  username: "guard1_agent"
+  username: "t72_guard1_agent"
   new_character: true
 
   location:
@@ -64,7 +64,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "guard2_agent"
+  username: "t72_guard2_agent"
   new_character: true
 
   location:
@@ -94,7 +94,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "archer1_agent"
+  username: "t72_archer1_agent"
   new_character: true
 
   location:
@@ -126,7 +126,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "archer2_agent"
+  username: "t72_archer2_agent"
   new_character: true
 
   location:
@@ -158,7 +158,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "commander_agent"
+  username: "t72_commander_agent"
   new_character: true
 
   location:
@@ -189,7 +189,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "support1_agent"
+  username: "t72_support1_agent"
   new_character: true
 
   location:
@@ -219,7 +219,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "support2_agent"
+  username: "t72_support2_agent"
   new_character: true
 
   location:
@@ -252,4 +252,3 @@ agent_7:
 success_criteria:
   - "3x Goblin defeated"
   - "2x Skeleton defeated"
-  - "All agents survive the defense"

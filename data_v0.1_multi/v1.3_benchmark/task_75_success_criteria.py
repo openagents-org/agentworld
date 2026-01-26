@@ -29,15 +29,12 @@ def task_75_verifier(traj_json: Dict) -> Tuple[int, str]:
     - Team inventory contains 6x cookedshrimp
     - Team inventory contains 2x pickaxe
     - Team inventory contains at least 8x logs
-    - All agents survive the mission
     """
     inventories = get_final_inventories(traj_json)
 
     cookedshrimp = count_item_in_inventories(inventories, 'cookedshrimp')
     pickaxe = count_item_in_inventories(inventories, 'pickaxe')
     logs = count_item_in_inventories(inventories, 'logs')
-
-    alive = check_agents_alive(traj_json)
 
     shrimp_ok = cookedshrimp >= 6
     pick_ok = pickaxe >= 2

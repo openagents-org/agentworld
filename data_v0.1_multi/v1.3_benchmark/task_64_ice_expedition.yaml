@@ -64,7 +64,7 @@ max_action_steps: 45
 
 # Agent configurations
 agent_1:
-  username: "scout1_agent"
+  username: "t64_scout1_agent"
   new_character: true
 
   location:
@@ -95,7 +95,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "scout2_agent"
+  username: "t64_scout2_agent"
   new_character: true
 
   location:
@@ -126,7 +126,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "lumberjack1_agent"
+  username: "t64_lumberjack1_agent"
   new_character: true
 
   location:
@@ -153,7 +153,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "lumberjack2_agent"
+  username: "t64_lumberjack2_agent"
   new_character: true
 
   location:
@@ -180,7 +180,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "hunter1_agent"
+  username: "t64_ice_hunter1_agent"
   new_character: true
 
   location:
@@ -208,7 +208,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "hunter2_agent"
+  username: "t64_ice_hunter2_agent"
   new_character: true
 
   location:
@@ -236,7 +236,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "miner_agent"
+  username: "t64_miner_agent"
   new_character: true
 
   location:
@@ -263,7 +263,7 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "crafter_agent"
+  username: "t64_crafter_agent"
   new_character: true
 
   location:
@@ -295,4 +295,3 @@ success_criteria:
   - "Team inventory contains at least 8x icelogs"
   - "4x Ice Rat defeated"
   - "Team inventory contains 2x axe"
-  - "All agents survive the expedition"

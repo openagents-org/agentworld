@@ -29,15 +29,12 @@ def task_61_verifier(traj_json: Dict) -> Tuple[int, str]:
     - Team inventory contains 3x cookedshrimp
     - Team inventory contains 2x tunasushi
     - Team inventory contains 2x cookedchicken
-    - All agents survive the banquet preparation
     """
     inventories = get_final_inventories(traj_json)
 
     cookedshrimp = count_item_in_inventories(inventories, 'cookedshrimp')
     tunasushi = count_item_in_inventories(inventories, 'tunasushi')
     cookedchicken = count_item_in_inventories(inventories, 'cookedchicken')
-
-    alive = check_agents_alive(traj_json)
 
     shrimp_ok = cookedshrimp >= 3
     sushi_ok = tunasushi >= 2

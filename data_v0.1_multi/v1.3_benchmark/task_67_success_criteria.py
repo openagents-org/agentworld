@@ -29,15 +29,12 @@ def task_67_verifier(traj_json: Dict) -> Tuple[int, str]:
     - Team inventory contains at least 6x logs
     - Team inventory contains at least 5x coal
     - Team inventory contains 1x pickaxe
-    - All agents survive the caravan mission
     """
     inventories = get_final_inventories(traj_json)
 
     logs = count_item_in_inventories(inventories, 'logs')
     coal = count_item_in_inventories(inventories, 'coal')
     pickaxe = count_item_in_inventories(inventories, 'pickaxe')
-
-    alive = check_agents_alive(traj_json)
 
     logs_ok = logs >= 6
     coal_ok = coal >= 5

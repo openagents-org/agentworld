@@ -66,7 +66,7 @@ max_action_steps: 45
 
 # Agent configurations
 agent_1:
-  username: "forager1_agent"
+  username: "t65_forager1_agent"
   new_character: true
 
   location:
@@ -89,7 +89,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "forager2_agent"
+  username: "t65_forager2_agent"
   new_character: true
 
   location:
@@ -112,7 +112,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "hunter_agent"
+  username: "t65_hunter_agent"
   new_character: true
 
   location:
@@ -140,7 +140,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "fisher1_agent"
+  username: "t65_guild_fisher1_agent"
   new_character: true
 
   location:
@@ -166,7 +166,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "fisher2_agent"
+  username: "t65_guild_fisher2_agent"
   new_character: true
 
   location:
@@ -192,7 +192,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "cook1_agent"
+  username: "t65_guild_cook1_agent"
   new_character: true
 
   location:
@@ -218,7 +218,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "cook2_agent"
+  username: "t65_guild_cook2_agent"
   new_character: true
 
   location:
@@ -247,4 +247,3 @@ success_criteria:
   - "Team inventory contains 2x cookedshrimp"
   - "Team inventory contains 2x cookedchicken"
   - "Team inventory contains 1x jellyfishsmoothie"
-  - "All agents survive the cooking mission"

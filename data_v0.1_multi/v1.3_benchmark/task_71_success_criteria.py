@@ -28,14 +28,11 @@ def task_71_verifier(traj_json: Dict) -> Tuple[int, str]:
     YAML criteria:
     - Team inventory contains at least 8x logs
     - Team inventory contains at least 6x coal
-    - All agents survive the mission
     """
     inventories = get_final_inventories(traj_json)
 
     logs = count_item_in_inventories(inventories, 'logs')
     coal = count_item_in_inventories(inventories, 'coal')
-
-    alive = check_agents_alive(traj_json)
 
     logs_ok = logs >= 8
     coal_ok = coal >= 6

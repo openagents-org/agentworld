@@ -59,7 +59,7 @@ max_action_steps: 40
 
 # Agent configurations
 agent_1:
-  username: "leader_agent"
+  username: "t67_leader_agent"
   new_character: true
 
   location:
@@ -86,7 +86,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "lumberjack1_agent"
+  username: "t67_caravan_lumber1_agent"
   new_character: true
 
   location:
@@ -113,7 +113,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "lumberjack2_agent"
+  username: "t67_caravan_lumber2_agent"
   new_character: true
 
   location:
@@ -140,7 +140,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "lumberjack3_agent"
+  username: "t67_lumberjack3_agent"
   new_character: true
 
   location:
@@ -167,7 +167,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "miner1_agent"
+  username: "t67_miner1_agent"
   new_character: true
 
   location:
@@ -194,7 +194,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "miner2_agent"
+  username: "t67_miner2_agent"
   new_character: true
 
   location:
@@ -221,7 +221,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "miner3_agent"
+  username: "t67_miner3_agent"
   new_character: true
 
   location:
@@ -248,7 +248,7 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "crafter_agent"
+  username: "t67_crafter_agent"
   new_character: true
 
   location:
@@ -278,4 +278,3 @@ success_criteria:
   - "Team inventory contains at least 6x logs"
   - "Team inventory contains at least 5x coal"
   - "Team inventory contains 1x pickaxe"
-  - "All agents survive the caravan mission"

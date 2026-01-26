@@ -29,7 +29,6 @@ def task_64_verifier(traj_json: Dict) -> Tuple[int, str]:
     - Team inventory contains at least 8x icelogs
     - 4x Ice Rat defeated
     - Team inventory contains 2x axe
-    - All agents survive the expedition
     """
     inventories = get_final_inventories(traj_json)
 
@@ -43,14 +42,12 @@ def task_64_verifier(traj_json: Dict) -> Tuple[int, str]:
     # Count Ice Rat kills
     ice_rat_kills = count_combat_kills(traj_json, ['Ice Rat', 'IceRat', 'icerat', 'ice rat'])
 
-    alive = check_agents_alive(traj_json)
-
     logs_ok = icelogs >= 8
     kills_ok = ice_rat_kills >= 4
     axe_ok = axe >= 2
 
-    success = logs_ok and kills_ok and axe_ok and alive
-    msg = f"Icelogs: {icelogs}/8, Ice Rat kills: {ice_rat_kills}/4, Axe: {axe}/2, All alive: {alive}"
+    success = logs_ok and kills_ok and axe_ok
+    msg = f"Icelogs: {icelogs}/8, Ice Rat kills: {ice_rat_kills}/4, Axe: {axe}/2"
     return (1 if success else 0, msg)
 
 

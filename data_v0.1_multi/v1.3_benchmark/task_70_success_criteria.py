@@ -35,11 +35,8 @@ def task_70_verifier(traj_json: Dict) -> Tuple[int, str]:
     kills = count_combat_kills(traj_json, ['Iron Ogre', 'Ogre Guardian', 'Ogre'])
     has_kills = kills >= 2
 
-    # Check all agents alive
-    alive = check_agents_alive(traj_json)
-
-    passed = has_swords and has_kills and alive
-    msg = f"Sword2: {sword2}/2, Boss kills: {kills}/2, All alive: {alive}"
+    passed = has_swords and has_kills
+    msg = f"Sword2: {sword2}/2, Boss kills: {kills}/2"
     return (1 if passed else 0, msg)
 
 

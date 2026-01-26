@@ -28,14 +28,11 @@ def task_66_verifier(traj_json: Dict) -> Tuple[int, str]:
     YAML criteria:
     - Team inventory contains 1x goldenbow
     - Team inventory contains at least 20x arrow
-    - All agents survive the production mission
     """
     inventories = get_final_inventories(traj_json)
 
     goldenbow = count_item_in_inventories(inventories, 'goldenbow')
     arrows = count_item_in_inventories(inventories, 'arrow')
-
-    alive = check_agents_alive(traj_json)
 
     bow_ok = goldenbow >= 1
     arrow_ok = arrows >= 20

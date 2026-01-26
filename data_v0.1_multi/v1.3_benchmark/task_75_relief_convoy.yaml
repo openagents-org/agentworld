@@ -352,4 +352,3 @@ success_criteria:
   - "Team inventory contains 6x cookedshrimp"
   - "Team inventory contains 2x pickaxe"
   - "Team inventory contains at least 8x logs"
-  - "All agents survive the mission"

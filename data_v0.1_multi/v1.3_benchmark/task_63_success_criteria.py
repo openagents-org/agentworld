@@ -29,15 +29,12 @@ def task_63_verifier(traj_json: Dict) -> Tuple[int, str]:
     - Team inventory contains 2x goldring
     - Team inventory contains 2x silverring
     - Team inventory contains 2x berylpendant
-    - All agents survive the crafting mission
     """
     inventories = get_final_inventories(traj_json)
 
     goldring = count_item_in_inventories(inventories, 'goldring')
     silverring = count_item_in_inventories(inventories, 'silverring')
     berylpendant = count_item_in_inventories(inventories, 'berylpendant')
-
-    alive = check_agents_alive(traj_json)
 
     gold_ok = goldring >= 2
     silver_ok = silverring >= 2

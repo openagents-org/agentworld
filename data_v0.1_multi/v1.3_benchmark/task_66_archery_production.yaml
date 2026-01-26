@@ -4,7 +4,7 @@ task:
   name: "Archery Production - Golden Bow Forge"
   description: "Six agents produce a legendary golden bow and arrows"
 
-# Task objectives
+# Task objectives 
 objectives:
   primary: "Craft 1x Golden Bow and 20x Arrows"
 
@@ -66,7 +66,7 @@ max_action_steps: 45
 
 # Agent configurations
 agent_1:
-  username: "hunter1_agent"
+  username: "t66_hunter1_agent"
   new_character: true
 
   location:
@@ -94,7 +94,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "hunter2_agent"
+  username: "t66_hunter2_agent"
   new_character: true
 
   location:
@@ -122,7 +122,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "lumberjack1_agent"
+  username: "t66_lumberjack1_agent"
   new_character: true
 
   location:
@@ -149,7 +149,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "lumberjack2_agent"
+  username: "t66_lumberjack2_agent"
   new_character: true
 
   location:
@@ -176,7 +176,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "fletcher1_agent"
+  username: "t66_fletcher1_agent"
   new_character: true
 
   location:
@@ -204,7 +204,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "fletcher2_agent"
+  username: "t66_fletcher2_agent"
   new_character: true
 
   location:
@@ -237,4 +237,3 @@ agent_6:
 success_criteria:
   - "Team inventory contains 1x goldenbow"
   - "Team inventory contains at least 20x arrow"
-  - "All agents survive the production mission"

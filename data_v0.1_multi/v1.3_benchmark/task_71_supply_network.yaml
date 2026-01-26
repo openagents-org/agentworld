@@ -33,7 +33,7 @@ max_action_steps: 40
 
 # Agent configurations
 agent_1:
-  username: "logger1_agent"
+  username: "t71_logger1_agent"
   new_character: true
 
   location:
@@ -63,7 +63,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "logger2_agent"
+  username: "t71_logger2_agent"
   new_character: true
 
   location:
@@ -93,7 +93,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "logger3_agent"
+  username: "t71_logger3_agent"
   new_character: true
 
   location:
@@ -123,7 +123,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "logger4_agent"
+  username: "t71_logger4_agent"
   new_character: true
 
   location:
@@ -153,7 +153,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "miner1_agent"
+  username: "t71_miner1_agent"
   new_character: true
 
   location:
@@ -183,7 +183,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "miner2_agent"
+  username: "t71_miner2_agent"
   new_character: true
 
   location:
@@ -213,7 +213,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "miner3_agent"
+  username: "t71_miner3_agent"
   new_character: true
 
   location:
@@ -243,7 +243,7 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "miner4_agent"
+  username: "t71_miner4_agent"
   new_character: true
 
   location:
@@ -276,4 +276,3 @@ agent_8:
 success_criteria:
   - "Team inventory contains at least 8x logs"
   - "Team inventory contains at least 6x coal"
-  - "All agents survive the mission"

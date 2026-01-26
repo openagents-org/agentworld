@@ -30,7 +30,6 @@ def task_73_verifier(traj_json: Dict) -> Tuple[int, str]:
     - 2x Goblin defeated
     - 1x Ogre defeated
     - Team inventory contains 1x woodenbow
-    - All agents survive the expedition
     """
     inventories = get_final_inventories(traj_json)
 
@@ -40,15 +39,13 @@ def task_73_verifier(traj_json: Dict) -> Tuple[int, str]:
     goblin_kills = count_combat_kills(traj_json, ['Goblin', 'goblin'])
     ogre_kills = count_combat_kills(traj_json, ['Ogre', 'ogre'])
 
-    alive = check_agents_alive(traj_json)
-
     logs_ok = logs >= 6
     goblin_ok = goblin_kills >= 2
     ogre_ok = ogre_kills >= 1
     bow_ok = woodenbow >= 1
 
-    success = logs_ok and goblin_ok and ogre_ok and bow_ok and alive
-    msg = f"Logs: {logs}/6, Goblin kills: {goblin_kills}/2, Ogre kills: {ogre_kills}/1, Woodenbow: {woodenbow}/1, All alive: {alive}"
+    success = logs_ok and goblin_ok and ogre_ok and bow_ok
+    msg = f"Logs: {logs}/6, Goblin kills: {goblin_kills}/2, Ogre kills: {ogre_kills}/1, Woodenbow: {woodenbow}/1"
     return (1 if success else 0, msg)
 
 

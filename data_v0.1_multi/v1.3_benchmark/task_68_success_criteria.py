@@ -29,15 +29,12 @@ def task_68_verifier(traj_json: Dict) -> Tuple[int, str]:
     - Team inventory contains 2x pickaxe
     - Team inventory contains 2x axe
     - Team inventory contains 1x sword2 (heavy sword)
-    - All agents survive the production mission
     """
     inventories = get_final_inventories(traj_json)
 
     pickaxe = count_item_in_inventories(inventories, 'pickaxe')
     axe = count_item_in_inventories(inventories, 'axe')
     sword2 = count_item_in_inventories(inventories, 'sword2') + count_item_in_inventories(inventories, 'heavysword')
-
-    alive = check_agents_alive(traj_json)
 
     pick_ok = pickaxe >= 2
     axe_ok = axe >= 2

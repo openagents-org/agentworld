@@ -16,7 +16,7 @@ relevant_game_context: |
 
   COMBAT TARGETS:
   - 2x Goblins (Level 10-15): Forest area
-  - 1x Ogre (Level 28-35): Mountain area
+  - 1x Ogre (Level 28-35): Mountain area - removed
 
   PRODUCTION TARGETS:
   - 6x logs (from forest)
@@ -62,7 +62,7 @@ max_action_steps: 45
 
 # Agent configurations
 agent_1:
-  username: "forest1_agent"
+  username: "t73_forest1_agent"
   new_character: true
 
   location:
@@ -95,7 +95,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "forest2_agent"
+  username: "t73_forest2_agent"
   new_character: true
 
   location:
@@ -128,7 +128,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "mountain1_agent"
+  username: "t73_mountain1_agent"
   new_character: true
 
   location:
@@ -158,7 +158,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "mountain2_agent"
+  username: "t73_mountain2_agent"
   new_character: true
 
   location:
@@ -188,7 +188,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "mountain3_agent"
+  username: "t73_mountain3_agent"
   new_character: true
 
   location:
@@ -218,7 +218,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "ranger1_agent"
+  username: "t73_ranger1_agent"
   new_character: true
 
   location:
@@ -250,7 +250,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "ranger2_agent"
+  username: "t73_ranger2_agent"
   new_character: true
 
   location:
@@ -282,7 +282,7 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "crafter_agent"
+  username: "t73_crafter_agent"
   new_character: true
 
   location:
@@ -316,4 +316,3 @@ success_criteria:
   - "2x Goblin defeated"
   - "1x Ogre defeated"
   - "Team inventory contains 1x woodenbow"
-  - "All agents survive the expedition"

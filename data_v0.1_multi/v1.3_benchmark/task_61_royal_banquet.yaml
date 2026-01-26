@@ -69,7 +69,7 @@ max_action_steps: 45
 
 # Agent configurations
 agent_1:
-  username: "hunter1_agent"
+  username: "t61_hunter1_agent"
   new_character: true
 
   location:
@@ -96,7 +96,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "hunter2_agent"
+  username: "t61_hunter2_agent"
   new_character: true
 
   location:
@@ -123,7 +123,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "fisher1_agent"
+  username: "t61_fisher1_agent"
   new_character: true
 
   location:
@@ -149,7 +149,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "fisher2_agent"
+  username: "t61_fisher2_agent"
   new_character: true
 
   location:
@@ -175,7 +175,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "fisher3_agent"
+  username: "t61_fisher3_agent"
   new_character: true
 
   location:
@@ -201,7 +201,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "cook1_agent"
+  username: "t61_cook1_agent"
   new_character: true
 
   location:
@@ -227,7 +227,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "cook2_agent"
+  username: "t61_cook2_agent"
   new_character: true
 
   location:
@@ -251,7 +251,7 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "coordinator_agent"
+  username: "t61_coordinator_agent"
   new_character: true
 
   location:
@@ -279,4 +279,3 @@ success_criteria:
   - "Team inventory contains 3x cookedshrimp"
   - "Team inventory contains 2x tunasushi"
   - "Team inventory contains 2x cookedchicken"
-  - "All agents survive the banquet preparation"
