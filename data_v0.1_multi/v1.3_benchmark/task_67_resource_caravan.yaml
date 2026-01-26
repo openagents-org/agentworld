@@ -20,7 +20,7 @@ relevant_game_context: |
   - 1x Pickaxe (5x ironbar + 1x logs)
 
   REGION LOCATIONS:
-  - Forest: Around (388, 10) - lumber resources
+  - Forest: Around (350, 200) - lumber resources
   - Mountain: Around (555, 545) - coal mining resources
 
   TEAM ROLES:
@@ -90,8 +90,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 388
-    y: 10
+    x: 350
+    y: 200
 
   skill_levels:
     lumberjacking: 40
@@ -117,8 +117,8 @@ agent_3:
   new_character: true
 
   location:
-    x: 392
-    y: 12
+    x: 355
+    y: 205
 
   skill_levels:
     lumberjacking: 38
@@ -144,8 +144,8 @@ agent_4:
   new_character: true
 
   location:
-    x: 390
-    y: 14
+    x: 360
+    y: 210
 
   skill_levels:
     lumberjacking: 35
