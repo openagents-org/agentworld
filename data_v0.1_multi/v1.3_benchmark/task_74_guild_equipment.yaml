@@ -30,6 +30,10 @@ relevant_game_context: |
   - Fletcher: Make bow
   - Crafter: Make rings
 
+  LOCATIONS:
+  - Oak Trees (for logs): Around (388, 10)
+  - Iron/Coal Rocks (for mining): Around (555, 545)
+
   DO NOT use complete() until all equipment is crafted!
 
   ITEM KEY REFERENCE (use these exact itemKey values in craft_item):
@@ -95,8 +99,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 230
-    y: 40
+    x: 555
+    y: 545
 
   skill_levels:
     mining: 42
@@ -125,8 +129,8 @@ agent_3:
   new_character: true
 
   location:
-    x: 235
-    y: 45
+    x: 557
+    y: 547
 
   skill_levels:
     smithing: 45
@@ -184,8 +188,8 @@ agent_5:
   new_character: true
 
   location:
-    x: 240
-    y: 50
+    x: 559
+    y: 549
 
   skill_levels:
     crafting: 48
@@ -211,8 +215,8 @@ agent_6:
   new_character: true
 
   location:
-    x: 245
-    y: 55
+    x: 561
+    y: 551
 
   skill_levels:
     strength: 35
