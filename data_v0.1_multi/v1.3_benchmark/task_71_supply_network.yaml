@@ -19,7 +19,7 @@ relevant_game_context: |
   - 6x coal (from coal mining area region)
 
   REGION LOCATIONS:
-  - Forest: Around (388, 10)
+  - Forest: Around (350, 200)
   - Coal mining area: Around (555, 545)
 
   TEAM ROLES:
@@ -37,8 +37,8 @@ agent_1:
   new_character: true
 
   location:
-    x: 388
-    y: 10
+    x: 350
+    y: 200
 
   skill_levels:
     lumberjacking: 35
@@ -67,8 +67,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 392
-    y: 12
+    x: 355
+    y: 205
 
   skill_levels:
     lumberjacking: 37
@@ -97,8 +97,8 @@ agent_3:
   new_character: true
 
   location:
-    x: 390
-    y: 14
+    x: 360
+    y: 210
 
   skill_levels:
     lumberjacking: 33
@@ -127,8 +127,8 @@ agent_4:
   new_character: true
 
   location:
-    x: 394
-    y: 16
+    x: 365
+    y: 215
 
   skill_levels:
     lumberjacking: 32
