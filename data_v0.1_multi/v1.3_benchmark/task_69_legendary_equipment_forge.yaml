@@ -20,9 +20,14 @@ relevant_game_context: |
   4. R49-54 Exhibition: list the final arsenal, confirm counts per category (golden items, staffs, elite weapons), and deliver the completion summary.
 
   EXECUTION NOTES
-  - If observe_environment isn’t available, sweep the mining/plains grids manually; rely on harvest_resource and verify_inventory for confirmation.
-  - Keep a shared checklist (“Gold 30/49”, “Beads special 3/4”) so the forge knows when each material stream is ready.
+  - If observe_environment isn't available, sweep the mining/plains grids manually; rely on harvest_resource and verify_inventory for confirmation.
+  - Keep a shared checklist ("Gold 30/49", "Beads special 3/4") so the forge knows when each material stream is ready.
   - Transfers only succeed within ~10 tiles—announce both send and receive events to avoid missing materials.
+
+  IMPORTANT CRAFTING NOTES:
+  - Gold Bar: Use SMITHING skill with goldnugget (NOT Smelting)
+  - Mining gold rocks produces goldnugget, not goldore
+  - Iron Bar: Use Smelting skill with ironore + coal (normal)
 
   ITEM KEY REFERENCE (use these exact itemKey values in craft_item):
   - Wooden Bow: itemKey=woodenbow (Fletching)
@@ -31,7 +36,7 @@ relevant_game_context: |
   - Stick/Shaft: itemKey=stick (Fletching)
   - Sword/Heavy Sword: itemKey=sword2 (Smithing)
   - Golden Sword: itemKey=goldensword (Smithing)
-  - Axe: itemKey=axe (Smithing)
+  - Axe: itemKey=axe (Smithing) 
   - Pickaxe: itemKey=pickaxe (Smithing)
   - Silver Ring: itemKey=silverring (Smithing)
   - Gold Ring: itemKey=goldring (Smithing)
@@ -44,7 +49,7 @@ relevant_game_context: |
   - Bucket: itemKey=bucket (Crafting)
   - Beryl Pendant: itemKey=berylpendant (Crafting)
   - Iron Bar: itemKey=ironbar (Smelting)
-  - Gold Bar: itemKey=goldbar (Smelting)
+  - Gold Bar: itemKey=goldbar (SMITHING) - requires goldnugget only, NO coal
   - Bronze Bar: itemKey=bronzebar (Smelting)
   - Cooked Shrimp: itemKey=cookedshrimp (Cooking)
   - Stew: itemKey=stew (Cooking)
@@ -55,7 +60,7 @@ max_action_steps: 54
 
 # Agent configurations
 agent_1:
-  username: "Gold_Extractor_Prime"
+  username: "t69_Gold_Extractor_Prime"
   new_character: true
   location: {x: 558, y: 538}
   skill_levels: {mining: 55, strength: 36, health: 42}
@@ -67,7 +72,7 @@ agent_1:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
 agent_2:
-  username: "Gold_Extractor_Alpha"
+  username: "t69_Gold_Extractor_Alpha"
   new_character: true
   location: {x: 562, y: 542}
   skill_levels: {mining: 52, strength: 34, health: 40}
@@ -79,7 +84,7 @@ agent_2:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
 agent_3:
-  username: "Gold_Extractor_Beta"
+  username: "t69_Gold_Extractor_Beta"
   new_character: true
   location: {x: 566, y: 546}
   skill_levels: {mining: 50, strength: 32, health: 38}
@@ -91,7 +96,7 @@ agent_3:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
 agent_4:
-  username: "Iron_Specialist"
+  username: "t69_Iron_Specialist"
   new_character: true
   location: {x: 550, y: 500}
   skill_levels: {mining: 48, strength: 30, health: 36}
@@ -103,7 +108,7 @@ agent_4:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
 agent_5:
-  username: "Coal_Master_Supreme"
+  username: "t69_Coal_Master_Supreme"
   new_character: true
   location: {x: 555, y: 545}
   skill_levels: {mining: 45, strength: 28, health: 34}
@@ -115,7 +120,7 @@ agent_5:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
 agent_6:
-  username: "Arcane_Bead_Hunter"
+  username: "t69_Arcane_Bead_Hunter"
   new_character: true
   location: {x: 350, y: 250}
   skill_levels: {strength: 75, accuracy: 60, foraging: 38, health: 80}
@@ -127,7 +132,7 @@ agent_6:
     - {item: "redarmor", count: 1, enchant: 0}
 
 agent_7:
-  username: "Component_Master"
+  username: "t69_Component_Master"
   new_character: true
   location: {x: 250, y: 350}
   skill_levels: {foraging: 42, lumberjacking: 40, strength: 75, health: 80}
@@ -141,7 +146,7 @@ agent_7:
     - {item: "redarmor", count: 1, enchant: 0}
 
 agent_8:
-  username: "Master_Smelter_Supreme"
+  username: "t69_Master_Smelter_Supreme"
   new_character: true
   location: {x: 528, y: 384}
   skill_levels: {crafting: 65, smithing: 45, health: 38}
@@ -152,7 +157,7 @@ agent_8:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
 agent_9:
-  username: "Legendary_Crafter"
+  username: "t69_Legendary_Crafter"
   new_character: true
   location: {x: 530, y: 386}
   skill_levels: {smithing: 70, fletching: 50, crafting: 60, health: 40}
