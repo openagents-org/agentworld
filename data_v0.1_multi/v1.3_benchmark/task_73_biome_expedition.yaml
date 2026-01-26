@@ -15,15 +15,15 @@ relevant_game_context: |
   OBJECTIVE: Explore biomes, defeat guardians, and craft equipment.
 
   COMBAT TARGETS:
-  - 2x Goblins (Level 10-15): Forest area
-  - 1x Ogre (Level 28-35): Mountain area - removed
+  - 2x Goblins: Forest area
+  - 1x Ogre: Mountain area 
 
   PRODUCTION TARGETS:
   - 6x logs (from forest)
   - 1x Wooden Bow (1x logs + 1x string)
 
   LOCATIONS:
-  - Forest: Around (250, 350)
+  - Forest (oak trees + goblins): Around (350, 200)
   - Ogre area: Around (160, 15)
 
   TEAM ROLES:
@@ -51,9 +51,9 @@ relevant_game_context: |
   - Nature Staff: itemKey=naturestaff (Crafting)
   - Bucket: itemKey=bucket (Crafting)
   - Iron Bar: itemKey=ironbar (Smelting)
-  - Gold Bar: itemKey=goldbar (Smelting)
+  - Gold Bar: itemKey=goldbar (SMITHING) - requires goldnugget only, NO coal
   - Bronze Bar: itemKey=bronzebar (Smelting)
-  - Cooked Shrimp: itemKey=cookedshrimp (Cooking)
+- Cooked Shrimp: itemKey=cookedshrimp (Cooking)
   - Stew: itemKey=stew (Cooking)
 
 
@@ -66,8 +66,8 @@ agent_1:
   new_character: true
 
   location:
-    x: 250
-    y: 350
+    x: 350
+    y: 200
 
   skill_levels:
     lumberjacking: 35
@@ -99,8 +99,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 252
-    y: 352
+    x: 352
+    y: 202
 
   skill_levels:
     lumberjacking: 32
@@ -222,8 +222,8 @@ agent_6:
   new_character: true
 
   location:
-    x: 255
-    y: 355
+    x: 355
+    y: 205
 
   skill_levels:
     accuracy: 38
@@ -254,8 +254,8 @@ agent_7:
   new_character: true
 
   location:
-    x: 258
-    y: 358
+    x: 358
+    y: 208
 
   skill_levels:
     accuracy: 36
@@ -286,8 +286,8 @@ agent_8:
   new_character: true
 
   location:
-    x: 260
-    y: 360
+    x: 360
+    y: 210
 
   skill_levels:
     fletching: 40
