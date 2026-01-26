@@ -23,7 +23,7 @@ relevant_game_context: |
   - Requires 18x ironore + 18x coal for smelting
 
   REGION LOCATIONS:
-  - Forest (Oak Trees): Around (388, 10) - lumber resources (produces logs)
+  - Forest (Oak Trees): Around (250, 35) - lumber resources (produces logs)
   - Mountain: Around (555, 545) - iron and coal mining resources
 
   TEAM ROLES:
@@ -176,8 +176,8 @@ agent_5:
   new_character: true
 
   location:
-    x: 388
-    y: 10
+    x: 250
+    y: 35
 
   skill_levels:
     lumberjacking: 50

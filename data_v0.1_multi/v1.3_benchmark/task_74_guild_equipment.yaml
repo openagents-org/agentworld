@@ -31,7 +31,7 @@ relevant_game_context: |
   - Crafter: Make rings
 
   LOCATIONS:
-  - Oak Trees (for logs): Around (388, 10)
+  - Oak Trees (for logs): Around (250, 35)
   - Iron/Coal Rocks (for mining): Around (555, 545)
 
   DO NOT use complete() until all equipment is crafted!
@@ -69,8 +69,8 @@ agent_1:
   new_character: true
 
   location:
-    x: 388
-    y: 10
+    x: 250
+    y: 35
 
   skill_levels:
     lumberjacking: 42
@@ -158,8 +158,8 @@ agent_4:
   new_character: true
 
   location:
-    x: 390
-    y: 15
+    x: 252
+    y: 40
 
   skill_levels:
     fletching: 42
