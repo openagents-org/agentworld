@@ -172,8 +172,8 @@ agent_5:
   new_character: true
 
   location:
-    x: 388
-    y: 10
+    x: 350
+    y: 200
 
   skill_levels:
     lumberjacking: 50
