@@ -27,7 +27,6 @@ relevant_game_context: |
   TEAM COORDINATION:
   - Each team works in assigned region
   - Report progress via global chat
-  - Transfer items to coordinator when done
 
   DO NOT use complete() until all resources are collected!
 
