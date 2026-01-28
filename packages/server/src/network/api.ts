@@ -588,10 +588,20 @@ export default class API {
                     }
                 }
 
-                // Get equipped items - filter out empty equipment
-                const equippedItems = player.equipment.serialize().equipments.filter((equipment: any) => 
+                // Get equipped items - filter out empty equipment and add attack range for weapons
+                const rawEquipments = player.equipment.serialize().equipments.filter((equipment: any) => 
                     equipment && equipment.key && equipment.count > -1
                 );
+                
+                // Add attack range information for weapons
+                const equippedItems = rawEquipments.map((equipment: any) => {
+                    const result = { ...equipment };
+                    // If this is a weapon (type 4 is weapon slot), add attack range
+                    if (equipment.type === 4) {
+                        result.attackRange = player.attackRange;
+                    }
+                    return result;
+                });
 
                 // Get player status with enhanced skill information
                 const skillsInfo = player.skills.serialize();
@@ -624,10 +634,9 @@ export default class API {
                             // Use type assertion to add name property
                             (skill as any).name = skillNames[skill.type];
                             
-                            // Add estimated level based on experience (simple formula)
-                            if (skill.experience) {
-                                const estimatedLevel = Math.floor(Math.sqrt(skill.experience / 100)) + 1;
-                                (skill as any).level = estimatedLevel;
+                            // Add level based on experience using the actual game formula
+                            if (skill.experience !== undefined && skill.experience > 0) {
+                                (skill as any).level = Formulas.expToLevel(skill.experience);
                             } else {
                                 (skill as any).level = 1; // Default level if no experience
                             }

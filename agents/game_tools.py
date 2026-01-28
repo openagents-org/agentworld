@@ -1380,18 +1380,35 @@ class KaetramGameTools:
             if key:
                 initial_inventory[key] = initial_inventory.get(key, 0) + count
         
-        # Check if player has a ranged weapon equipped (bow)
+        # Check if player has a ranged weapon equipped (bow, staff, etc.)
         equipped_items = observe_result.get("inventory", {}).get("equipped", [])
         is_ranged_weapon = False
         attack_range = 1  # Default melee range
         
+        # Debug: Log equipped items to help diagnose detection issues
+        self._log_message(f"🔍 Checking equipped items for ranged weapons: {equipped_items}", "debug")
+        
         for equip in equipped_items:
             equip_key = equip.get("key", "").lower()
-            # Check for bow weapons
-            if "bow" in equip_key:
+            # Check attackStyle/attackRange from equipment data (server provides this for ranged weapons)
+            equip_attack_range = equip.get("attackRange", equip.get("attackStyle"pyt, 0))
+            
+            # Check for bow weapons or any weapon with attack range > 1
+            if "bow" in equip_key or equip_attack_range > 1:
                 is_ranged_weapon = True
-                attack_range = 8  # Archer attack range from game constants
+                # Use the weapon's attack range if provided, otherwise default to archer range
+                attack_range = equip_attack_range if equip_attack_range > 1 else 8
+                self._log_message(f"🏹 Detected ranged weapon: {equip_key} with attack range {attack_range}", "debug")
                 break
+            # Also check for magic staves (ranged magic attacks)
+            elif "staff" in equip_key:
+                is_ranged_weapon = True
+                attack_range = equip_attack_range if equip_attack_range > 1 else 6  # Magic staff default range
+                self._log_message(f"🪄 Detected magic staff: {equip_key} with attack range {attack_range}", "debug")
+                break
+        
+        if not is_ranged_weapon:
+            self._log_message(f"⚔️ Using melee attack (no ranged weapon detected)", "debug")
         
         # Extract positions
         location = observe_result.get("location", {})
@@ -1980,8 +1997,8 @@ class KaetramGameTools:
         """Guess equipment type from item key for auto-equipping"""
         item_key_lower = item_key.lower()
         
-        # Weapon patterns
-        if any(weapon in item_key_lower for weapon in ['sword', 'bow', 'staff', 'dagger', 'axe', 'mace', 'spear']):
+        # Weapon patterns (includes fishingpole which is equipped as weapon for fishing)
+        if any(weapon in item_key_lower for weapon in ['sword', 'bow', 'staff', 'dagger', 'axe', 'mace', 'spear', 'fishingpole', 'pole']):
             return 'weapon'
         
         # Helmet patterns

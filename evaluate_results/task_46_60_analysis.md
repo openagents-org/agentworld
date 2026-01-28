@@ -9,7 +9,7 @@
 | 48 | Cross-Region Expedition | FAIL | [x] | [x] |
 | 49 | Jewelry Workshop | FAIL | [ ] | [x] |
 | 50 | Combat Battalion | FAIL | [ ] | [ ] |
-| 51 | Survival Challenge | FAIL | [ ] | [ ] |
+| 51 | Survival Challenge | FAIL | [x] | [x] |
 | 52 | Smithy Operation | FAIL | [ ] | [ ] |
 | 53 | Culinary Expedition | FAIL | [ ] | [ ] |
 | 54 | Archery Academy | FAIL | [ ] | [ ] |
@@ -168,9 +168,68 @@
 ### Task 51 - Survival Challenge
 - **Status:** FAIL
 - **Verification:** Bow: 1/1, Axe: 1/1, Shrimp: 0/5, Logs: 13/4
-- **Root Cause:** RNG/game mechanics - fishing spots give random fish types
-- **Fixed:** [ ]
-- **Understood:** [ ]
+- **Root Cause:** **GAME INITIALIZATION BUG - Fishing Pole Not Equipped**
+  
+  **What happened:**
+  - Task had 2 dedicated fishers with fishing poles configured as equipped items
+  - Fishers spent 2+ hours (8500+ seconds) attempting to fish with 0 shrimp caught
+  - Meanwhile, lumberjacks successfully gathered 13 logs (only needed 4)
+  
+  **The Bug - Equipment Setup Failure:**
+  
+  Init logs revealed critical difference:
+  ```
+  # Fisher agents (agent_1, agent_2):
+  [20:36:34] INIT: Equipped fishingpole: Successfully added 1x fishingpole to inventory  ← WRONG!
+  
+  # Lumberjack agents (agent_3, agent_4):
+  [20:36:39] INIT: Equipped axe: Successfully equipped 1x axe  ← CORRECT!
+  ```
+  
+  - **Fishingpole**: added to **inventory** (NOT equipped)
+  - **Axe**: properly **equipped** in weapon slot
+  
+  **Root cause in `game_tools.py` line 2001:**
+  ```python
+  def _guess_equipment_type(self, item_key: str) -> Optional[str]:
+      # Weapon patterns
+      if any(weapon in item_key_lower for weapon in ['sword', 'bow', 'staff', 'dagger', 'axe', 'mace', 'spear']):
+          return 'weapon'
+      ...
+      return None  # Can't determine equipment type, will add to inventory instead
+  ```
+  
+  The `fishingpole` doesn't match any weapon pattern ('sword', 'bow', etc.), so it returns `None` and falls through to "add to inventory" instead of being equipped.
+  
+  **Evidence from trajectory - inventory state throughout task:**
+  ```json
+  "inventory": {
+    "items": [
+      {"key": "fishingpole", "name": "Fishing Stick", "count": 1, "equippable": true},
+      {"key": "flask", ...},
+      {"key": "apple", ...}
+    ],
+    "equipped": [
+      {"type": 1, "key": "leatherboots", "count": 1}  // NO fishing pole!
+    ]
+  }
+  ```
+  
+  **Why fishing failed:**
+  - In this game, fishing requires fishing pole EQUIPPED in weapon slot
+  - Agents went to fishing spots, called `harvest_resource()`
+  - Got "HARVEST IN PROGRESS" messages but never caught any fish
+  - Agents never realized the equipment issue (misleading feedback)
+  
+  **Key insight - NOT an LLM or RNG failure:**
+  - The game setup code had a bug in `_guess_equipment_type()`
+  - Fishing pole was equippable but code didn't recognize it as equipment
+  - LLM agents correctly attempted fishing but game state was broken
+
+- **Category:** Game Initialization Bug (`_guess_equipment_type` missing fishingpole)
+- **Fix:** Add 'fishingpole' to weapon patterns in `game_tools.py`
+- **Fixed:** [x]
+- **Understood:** [x]
 
 ---
 
@@ -260,8 +319,9 @@
 | LLM Hallucination (wrong transfer target) | 48, 56 | 2 |
 | LLM Inventory State Tracking Failure | 47 | 1 |
 | **Game Initialization Bug (setSkill API)** | **49** | **1** |
+| **Game Initialization Bug (equipment type detection)** | **51** | **1** |
 | Coordination Deadlock | 52, 58, 59 | 3 |
 | Over-chatting / Analysis Paralysis | 50, 55 | 2 |
 | Recipe/Crafting Knowledge Gap | 53, 54 | 2 |
 | Combat/Threat Assessment | 50 | 1 |
-| Resource Location Unknown | 51, 57 | 2 |
+| Resource Location Unknown | 57 | 1 |
