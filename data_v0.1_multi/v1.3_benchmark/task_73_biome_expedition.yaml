@@ -23,7 +23,8 @@ relevant_game_context: |
   - 1x Wooden Bow (1x logs + 1x string)
 
   LOCATIONS:
-  - Forest (oak trees + goblins): Around (350, 200)
+  - Oak Trees (for logs): Around (250, 35)
+  - Goblins: Around (15, 25)
   - Ogre area: Around (160, 15)
 
   TEAM ROLES:
@@ -53,7 +54,7 @@ relevant_game_context: |
   - Iron Bar: itemKey=ironbar (Smelting)
   - Gold Bar: itemKey=goldbar (SMITHING) - requires goldnugget only, NO coal
   - Bronze Bar: itemKey=bronzebar (Smelting)
-- Cooked Shrimp: itemKey=cookedshrimp (Cooking)
+  - Cooked Shrimp: itemKey=cookedshrimp (Cooking)
   - Stew: itemKey=stew (Cooking)
 
 
@@ -66,8 +67,8 @@ agent_1:
   new_character: true
 
   location:
-    x: 350
-    y: 200
+    x: 250
+    y: 35
 
   skill_levels:
     lumberjacking: 35
@@ -99,8 +100,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 352
-    y: 202
+    x: 252
+    y: 37
 
   skill_levels:
     lumberjacking: 32
@@ -222,8 +223,8 @@ agent_6:
   new_character: true
 
   location:
-    x: 355
-    y: 205
+    x: 15
+    y: 25
 
   skill_levels:
     accuracy: 38
@@ -254,8 +255,8 @@ agent_7:
   new_character: true
 
   location:
-    x: 358
-    y: 208
+    x: 18
+    y: 28
 
   skill_levels:
     accuracy: 36
@@ -286,8 +287,8 @@ agent_8:
   new_character: true
 
   location:
-    x: 360
-    y: 210
+    x: 250
+    y: 40
 
   skill_levels:
     fletching: 40
