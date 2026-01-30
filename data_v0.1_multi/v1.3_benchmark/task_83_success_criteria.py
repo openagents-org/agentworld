@@ -24,28 +24,19 @@ from verifier_utils import (
 
 
 def task_83_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Elemental Relay Ritual - craft all 4 elemental cores."""
+    """Elemental Ritual - 1x berylpendant, 1x goldring, 6x blueberry."""
     inventories = get_final_inventories(traj_json)
-    
-    item_counts = {}
-    for items in inventories.values():
-        for item in items:
-            k = item.get("key", "").lower()
-            x = item.get("count", 0)
-            item_counts[k] = item_counts.get(k, 0) + x
 
-    berylpendant = item_counts.get("berylpendant", 0)
-    goldring = item_counts.get("goldring", 0) + item_counts.get("goldenring", 0)
-    cookedtuna = item_counts.get("cookedtuna", 0)
-    lightningstaff = item_counts.get("lightningstaff", 0)
+    berylpendant = count_item_in_inventories(inventories, 'berylpendant')
+    goldring = count_item_in_inventories(inventories, 'goldring') + count_item_in_inventories(inventories, 'goldenring')
+    blueberry = count_item_in_inventories(inventories, 'blueberry')
 
-    earth_passed = berylpendant >= 1
-    flame_passed = goldring >= 1
-    tide_passed = cookedtuna >= 1
-    gale_passed = lightningstaff >= 1
+    pendant_passed = berylpendant >= 1
+    ring_passed = goldring >= 1
+    berry_passed = blueberry >= 6
 
-    passed = earth_passed and flame_passed and tide_passed and gale_passed
-    msg = f"Earth(berylpendant): {berylpendant}/1, Flame(goldring): {goldring}/1, Tide(cookedtuna): {cookedtuna}/1, Gale(lightningstaff): {lightningstaff}/1"
+    passed = pendant_passed and ring_passed and berry_passed
+    msg = f"Beryl Pendant: {berylpendant}/1, Gold Ring: {goldring}/1, Blueberry: {blueberry}/6"
     return (1 if passed else 0, msg)
 
 

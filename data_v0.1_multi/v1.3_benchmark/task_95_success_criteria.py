@@ -24,28 +24,28 @@ from verifier_utils import (
 
 
 def task_95_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Deep Ocean Expedition."""
+    """Ocean Expedition - catch 8x rawshrimp, defeat Mermaid, cook 4x Cooked Shrimp."""
     inventories = get_final_inventories(traj_json)
+
+    # Count resources
     rawshrimp = count_item_in_inventories(inventories, 'rawshrimp')
-    jellyfish = count_item_in_inventories(inventories, 'jellyfish')
     cookedshrimp = count_item_in_inventories(inventories, 'cookedshrimp')
-    
-    seafood = rawshrimp + jellyfish
-    cooked = cookedshrimp
-    success = seafood >= 50 and cooked >= 40
-    msg = f"Raw seafood: {seafood}/50, Cooked shrimp: {cooked}/40"
-    return (1 if success else 0, msg)
 
+    # Raw shrimp or cooked counts toward total shrimp caught
+    shrimp_total = rawshrimp + cookedshrimp
 
-def task_95_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
-    inventories = get_final_inventories(traj_json)
-    seafood_keys = ["rawshrimp", "shrimp", "jellyfish", "crab", "rawtuna", "tuna", "fish"]
-    cooked_keys = ["cookedshrimp", "cookedtuna", "cookedfish"]
-    seafood_total = sum(count_item_in_inventories(inventories, k) for k in seafood_keys)
-    cooked_total = sum(count_item_in_inventories(inventories, k) for k in cooked_keys)
-    success = seafood_total >= 150 and cooked_total >= 60
-    msg = f"Seafood: {seafood_total}/150, Cooked: {cooked_total}/60"
-    return (1 if success else 0, msg)
+    # Check Mermaid kill
+    mermaid_kills = count_combat_kills(traj_json, ['Mermaid'])
+
+    has_shrimp = shrimp_total >= 8
+    has_mermaid = mermaid_kills >= 1
+    has_cooked = cookedshrimp >= 4
+
+    alive = check_agents_alive(traj_json)
+
+    passed = has_shrimp and has_mermaid and has_cooked and alive
+    msg = f"Shrimp(raw+cooked): {shrimp_total}/8, Mermaid killed: {mermaid_kills}/1, Cooked Shrimp: {cookedshrimp}/4, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

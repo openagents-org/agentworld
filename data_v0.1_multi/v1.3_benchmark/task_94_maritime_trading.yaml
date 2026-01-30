@@ -56,7 +56,7 @@ max_action_steps: 50
 
 # Agent configurations
 agent_1:
-  username: "fisher1_agent"
+  username: t94_fisher1_agent
   new_character: true
 
   location:
@@ -82,7 +82,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "fisher2_agent"
+  username: t94_fisher2_agent
   new_character: true
 
   location:
@@ -108,7 +108,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "fisher3_agent"
+  username: t94_fisher3_agent
   new_character: true
 
   location:
@@ -134,7 +134,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "fisher4_agent"
+  username: t94_fisher4_agent
   new_character: true
 
   location:
@@ -160,7 +160,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "fisher5_agent"
+  username: t94_fisher5_agent
   new_character: true
 
   location:
@@ -186,7 +186,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "cook1_agent"
+  username: t94_cook1_agent
   new_character: true
 
   location:
@@ -209,7 +209,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "cook2_agent"
+  username: t94_cook2_agent
   new_character: true
 
   location:
@@ -232,7 +232,7 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "crafter_agent"
+  username: t94_crafter_agent
   new_character: true
 
   location:
@@ -258,7 +258,7 @@ agent_8:
       enchant: 0
 
 agent_9:
-  username: "support1_agent"
+  username: t94_support1_agent
   new_character: true
 
   location:
@@ -281,7 +281,7 @@ agent_9:
       enchant: 0
 
 agent_10:
-  username: "support2_agent"
+  username: t94_support2_agent
   new_character: true
 
   location:
@@ -304,7 +304,7 @@ agent_10:
       enchant: 0
 
 agent_11:
-  username: "support3_agent"
+  username: t94_support3_agent
   new_character: true
 
   location:
@@ -327,7 +327,7 @@ agent_11:
       enchant: 0
 
 agent_12:
-  username: "support4_agent"
+  username: t94_support4_agent
   new_character: true
 
   location:
@@ -350,7 +350,7 @@ agent_12:
       enchant: 0
 
 agent_13:
-  username: "support5_agent"
+  username: t94_support5_agent
   new_character: true
 
   location:
@@ -373,7 +373,7 @@ agent_13:
       enchant: 0
 
 agent_14:
-  username: "support6_agent"
+  username: t94_support6_agent
   new_character: true
 
   location:
@@ -396,7 +396,7 @@ agent_14:
       enchant: 0
 
 agent_15:
-  username: "support7_agent"
+  username: t94_support7_agent
   new_character: true
 
   location:
@@ -419,7 +419,7 @@ agent_15:
       enchant: 0
 
 agent_16:
-  username: "support8_agent"
+  username: t94_support8_agent
   new_character: true
 
   location:
@@ -442,7 +442,7 @@ agent_16:
       enchant: 0
 
 agent_17:
-  username: "support9_agent"
+  username: t94_support9_agent
   new_character: true
 
   location:
@@ -465,7 +465,7 @@ agent_17:
       enchant: 0
 
 agent_18:
-  username: "support10_agent"
+  username: t94_support10_agent
   new_character: true
 
   location:
@@ -488,7 +488,7 @@ agent_18:
       enchant: 0
 
 agent_19:
-  username: "support11_agent"
+  username: t94_support11_agent
   new_character: true
 
   location:
@@ -511,7 +511,7 @@ agent_19:
       enchant: 0
 
 agent_20:
-  username: "coordinator_agent"
+  username: t94_coordinator_agent
   new_character: true
 
   location:

@@ -1,157 +1,121 @@
-# AgentWorld Multi-Agent Task Configuration
-
 task:
-  name: "Coastal Harvest Mission - Seaside Team Protection"
-  description: "Three agents work together where one guardian protects two collectors gathering coastal resources from sea creatures and threats"
-
-# Task objectives
+  name: Coastal Harvest Mission - Seaside Team Protection
+  description: Three agents work together where one guardian protects two collectors
+    gathering coastal resources from sea creatures and threats
 objectives:
-  primary: "Successfully protect collectors while they gather 6x rawshrimp and 3x icelogs under coastal threat conditions"
-
-# Relevant game context (Hint)
-relevant_game_context: |
-  This is a cooperative multi-agent coastal protection scenario requiring tactical coordination.
-  
-  OBJECTIVE: Successfully gather required coastal resources while protecting the team from sea creature threats.
-  
-  MISSION REQUIREMENTS:
-  - Collect 6x rawshrimp and 3x icelogs while under potential sea creature threat
-  - Keep all team members alive throughout the mission
-  - Use teamwork to balance resource gathering with coastal security
-  
-  TEAM COORDINATION:
-  - Establish communication protocols for sea creature detection and warnings
-  - Coordinate movements between protection and coastal resource gathering
-  - Share information about resource locations and environmental dangers
-  - Work together to ensure both safety and mission success
-  
-  GENERAL STRATEGY:
-  - The team has complementary roles in combat, fishing, and lumberjacking
-  - Sea creature threats may appear and must be dealt with appropriately
-  - Coastal resource gathering requires moving to specific locations near water
-  - Balance efficiency with safety - casualties will cause mission failure
-  - Use global chat for real-time coordination and threat alerts
-  
-  DO NOT use complete() until ALL objectives are achieved safely!
-  
-  COMBAT MECHANICS (CRITICAL KNOWLEDGE):
-  🏹 Combat - Attack threats:
-    - Use observe_environment to detect hostile sea creatures
-    - Use attack command on hostile targets
-    - Use bow for ranged combat advantage
-  
-  🎣 Fishing - rawshrimp:
-    - harvest_resource on shrimp fishing spots to get rawshrimp
-    - Level required: 1+ (Fishing skill)
-    - Target: 6x rawshrimp total
-    - IMPORTANT: Look for "Shrimp" fishing spots near water!
-  
-  ❄️ Lumberjacking - icelogs:
-    - harvest_resource on ice oak tree instances to get icelogs
-    - Level required: 10+ (Lumberjacking skill)  
-    - Target: 3x icelogs total
-    - IMPORTANT: Look for "Ice Oak" trees, NOT regular oak trees!
-
-# Limitations
+  primary: Successfully protect collectors while they gather 6x rawshrimp and 3x icelogs
+    under coastal threat conditions
+relevant_game_context: "This is a cooperative multi-agent coastal protection scenario\
+  \ requiring tactical coordination.\n\nOBJECTIVE: Successfully gather required coastal\
+  \ resources while protecting the team from sea creature threats.\n\nMISSION REQUIREMENTS:\n\
+  - Collect 6x rawshrimp and 3x icelogs while under potential sea creature threat\n\
+  - Keep all team members alive throughout the mission\n- Use teamwork to balance\
+  \ resource gathering with coastal security\n\nTEAM COORDINATION:\n- Establish communication\
+  \ protocols for sea creature detection and warnings\n- Coordinate movements between\
+  \ protection and coastal resource gathering\n- Share information about resource\
+  \ locations and environmental dangers\n- Work together to ensure both safety and\
+  \ mission success\n\nGENERAL STRATEGY:\n- The team has complementary roles in combat,\
+  \ fishing, and lumberjacking\n- Sea creature threats may appear and must be dealt\
+  \ with appropriately\n- Coastal resource gathering requires moving to specific locations\
+  \ near water\n- Balance efficiency with safety - casualties will cause mission failure\n\
+  - Use global chat for real-time coordination and threat alerts\n\nDO NOT use complete()\
+  \ until ALL objectives are achieved safely!\n\nCOMBAT MECHANICS (CRITICAL KNOWLEDGE):\n\
+  \U0001F3F9 Combat - Attack threats:\n  - Use observe_environment to detect hostile\
+  \ Snow Wolves\n  - Use attack command on hostile targets IMMEDIATELY when spotted\n\
+  \  - PRIORITY: Guardian must attack any wolf targeting ice_logger BEFORE they deal\
+  \ damage\n  - Use bow for ranged combat advantage\n  - CRITICAL: Snow Wolves (Level\
+  \ 55) patrol the Snowoak area - attack them on sight!\n  - GUARDIAN: STAY at spawn\
+  \ position (456, 15) to protect ice_logger! DO NOT move away!\n\n\U0001F3A3 Fishing\
+  \ - rawshrimp:\n  - harvest_resource on fishing spots near your spawn to get rawshrimp\n\
+  \  - Level required: 1+ (Fishing skill)\n  - Target: 6x rawshrimp total\n  - IMPORTANT:\
+  \ STAY at spawn location (685, 13) for fishing! DO NOT move to other areas!\n  -\
+  \ The fishing spots at (683, 11) and (687, 11) yield rawshrimp!\n\n❄️ Lumberjacking\
+  \ - icelogs:\n  - harvest_resource on Snowoak Tree instances to get icelogs\n  -\
+  \ Level required: 10+ (Lumberjacking skill)\n  - Target: 3x icelogs total\n  - IMPORTANT:\
+  \ Snowoak Trees at (456, 15) area - harvest there for icelogs!\n  - DANGER: Snow\
+  \ Wolves (Level 55) patrol this area - guardian MUST protect ice_logger!\n"
 max_action_steps: 25
-
-# Agent configurations
 agent_1:
-  username: "coastal_guardian_agent"
+  username: coastal_guardian_agent
   new_character: true
-
   location:
-    x: 200
-    y: 200
-
+    x: 683
+    y: 13
   skill_levels:
-    archery: 35
-    fletching: 25
-    strength: 30
-
+    archery: 99
+    fletching: 60
+    strength: 99
+    defense: 99
+    health: 60
   inventory_items:
-    - item: "flask"
-      count: 10
-    - item: "apple"
-      count: 15
-    - item: "arrow"
-      count: 70
-
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  - item: arrow
+    count: 100
   equipped_items:
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-    - item: "woodenbow"
-      count: 1
-      enchant: 0
-    - item: "leatherboots"
-      count: 1
-      enchant: 0
-
-
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: woodenbow
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
 agent_2:
-  username: "shrimp_fisher_agent"
+  username: shrimp_fisher_agent
   new_character: true
-
   location:
-    x: 205
-    y: 200
-
+    x: 683
+    y: 13
   skill_levels:
     fishing: 20
     defense: 15
-
   inventory_items:
-    - item: "flask"
-      count: 10
-    - item: "apple"
-      count: 15
-
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
   equipped_items:
-    - item: "fishingpole"
-      count: 1
-      enchant: 0
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-    - item: "leatherboots"
-      count: 1
-      enchant: 0
-
-
+  - item: fishingpole
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
 agent_3:
-  username: "ice_logger_agent"
+  username: ice_logger_agent
   new_character: true
-
   location:
-    x: 210
-    y: 200
-
+    x: 649
+    y: 14
   skill_levels:
     lumberjacking: 35
-    defense: 18
-
+    defense: 99
+    strength: 99
+    health: 60
   inventory_items:
-    - item: "flask"
-      count: 10
-    - item: "apple"
-      count: 15
-
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
   equipped_items:
-    - item: "axe"
-      count: 1
-      enchant: 0
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-    - item: "leatherboots"
-      count: 1
-      enchant: 0
-
-
-# Success criteria
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: platearmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
 success_criteria:
-  - "shrimp_fisher_agent has at least 6x rawshrimp in inventory"
-  - "ice_logger_agent has at least 3x icelogs in inventory"
-  - "All agents remain alive throughout the mission"
-  - "Coastal guardian successfully protects team from sea creature threats"
+- shrimp_fisher_agent has at least 6x rawshrimp in inventory
+- ice_logger_agent has at least 3x icelogs in inventory
+- All agents remain alive throughout the mission
+- Coastal guardian successfully protects team from sea creature threats

@@ -24,35 +24,19 @@ from verifier_utils import (
 
 
 def task_80_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Grand Festival Preparation - 10+ food, 4+ rings, 3+ decorations."""
+    """Festival Preparation - 4x cookedshrimp, 3x jellyfishsmoothie, 2x silverring."""
     inventories = get_final_inventories(traj_json)
-    
-    item_counts = {}
-    for items in inventories.values():
-        for item in items:
-            k = item.get("key", "").lower()
-            x = item.get("count", 0)
-            item_counts[k] = item_counts.get(k, 0) + x
 
-    cooked_food_keys = ["cookedshrimp", "cookedtuna", "cookedchicken", "cookedbeef",
-                        "cookedmeat", "jellyfishsmoothie", "stew"]
-    cooked_food = sum(item_counts.get(k, 0) for k in cooked_food_keys)
+    cookedshrimp = count_item_in_inventories(inventories, 'cookedshrimp')
+    jellyfishsmoothie = count_item_in_inventories(inventories, 'jellyfishsmoothie')
+    silverring = count_item_in_inventories(inventories, 'silverring')
 
-    silver_rings = item_counts.get("silverring", 0)
-    golden_rings = item_counts.get("goldring", 0) + item_counts.get("goldenring", 0)
-    total_rings = silver_rings + golden_rings
+    shrimp_passed = cookedshrimp >= 4
+    smoothie_passed = jellyfishsmoothie >= 3
+    ring_passed = silverring >= 2
 
-    pendant_keys = ["berylpendant", "topazpendant", "emeraldpendant", "pendant"]
-    pendants = sum(item_counts.get(k, 0) for k in pendant_keys)
-    staffs = item_counts.get("magicstaff", 0) + item_counts.get("staff", 0) + item_counts.get("lightningstaff", 0)
-    decorations = pendants + staffs
-
-    food_passed = cooked_food >= 10
-    rings_passed = total_rings >= 4
-    decor_passed = decorations >= 3
-
-    passed = food_passed and rings_passed and decor_passed
-    msg = f"Food: {cooked_food}/10, Rings: {total_rings}/4, Decorations: {decorations}/3"
+    passed = shrimp_passed and smoothie_passed and ring_passed
+    msg = f"Cooked Shrimp: {cookedshrimp}/4, Jellyfish Smoothie: {jellyfishsmoothie}/3, Silver Ring: {silverring}/2"
     return (1 if passed else 0, msg)
 
 

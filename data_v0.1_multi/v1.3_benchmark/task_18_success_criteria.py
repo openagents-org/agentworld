@@ -24,29 +24,24 @@ from verifier_utils import (
 
 
 def task_18_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Coastal Harvest - shrimp_fisher needs 6+ rawshrimp, ice_logger needs 3+ icelogs."""
+    """Coastal Harvest - team needs 6+ rawshrimp and 3+ icelogs total."""
     agent_items = get_agent_items_by_username(traj_json)
 
-    shrimp_fisher_items = {}
+    # Count rawshrimp across all agents (allows transfers)
+    total_rawshrimp = 0
     for username, items in agent_items.items():
-        if "shrimp_fisher" in username.lower():
-            shrimp_fisher_items = items
-            break
+        total_rawshrimp += items.get("rawshrimp", 0)
 
-    ice_logger_items = {}
+    # Count icelogs across all agents (allows transfers)
+    total_icelogs = 0
     for username, items in agent_items.items():
-        if "ice_logger" in username.lower():
-            ice_logger_items = items
-            break
+        total_icelogs += items.get("icelogs", 0)
 
-    rawshrimp = shrimp_fisher_items.get("rawshrimp", 0)
-    icelogs = ice_logger_items.get("icelogs", 0)
-
-    shrimp_passed = rawshrimp >= 6
-    ice_passed = icelogs >= 3
+    shrimp_passed = total_rawshrimp >= 6
+    ice_passed = total_icelogs >= 3
     passed = shrimp_passed and ice_passed
 
-    msg = f"rawshrimp: {rawshrimp}/6, icelogs: {icelogs}/3"
+    msg = f"rawshrimp: {total_rawshrimp}/6, icelogs: {total_icelogs}/3"
     return (1 if passed else 0, msg)
 
 

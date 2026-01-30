@@ -1,154 +1,108 @@
-# AgentWorld Multi-Agent Task Configuration
-
 task:
-  name: "Forest Gathering Mission - Wilderness Team Protection"
-  description: "Three agents work together where one guardian protects two collectors gathering forest resources from wildlife threats"
-
-# Task objectives
+  name: Forest Gathering Mission - Wilderness Team Protection
+  description: Three agents work together where one guardian protects two collectors
+    gathering forest resources from wildlife threats
 objectives:
-  primary: "Successfully protect collectors while they gather 4x palmlogs and 5x peach under wildlife threat conditions"
-
-# Relevant game context (Hint)
-relevant_game_context: |
-  This is a cooperative multi-agent forest protection scenario requiring tactical coordination.
-  
-  OBJECTIVE: Successfully gather required forest resources while protecting the team from wildlife threats.
-  
-  MISSION REQUIREMENTS:
-  - Collect 4x palmlogs and 5x peach while under potential wildlife threat
-  - Keep all team members alive throughout the mission
-  - Use teamwork to balance resource gathering with wilderness security
-  
-  TEAM COORDINATION:
-  - Establish communication protocols for wildlife detection and warnings
-  - Coordinate movements between protection and forest resource gathering
-  - Share information about resource locations and environmental dangers
-  - Work together to ensure both safety and mission success
-  
-  GENERAL STRATEGY:
-  - The team has complementary roles in combat, lumberjacking, and foraging
-  - Wildlife threats may appear and must be dealt with appropriately
-  - Forest resource gathering requires moving to specific locations and materials
-  - Balance efficiency with safety - casualties will cause mission failure
-  - Use global chat for real-time coordination and threat alerts
-  
-  DO NOT use complete() until ALL objectives are achieved safely!
-  
-  COMBAT MECHANICS (CRITICAL KNOWLEDGE):
-  🏹 Combat - Attack threats:
-    - Use observe_environment to detect hostile wildlife
-    - Use attack command on hostile targets
-    - Use bow for ranged combat advantage
-  
-  🌴 Lumberjacking - palmlogs:
-    - harvest_resource on palm tree instances to get palmlogs
-    - Level required: 5+ (Lumberjacking skill)
-    - Target: 4x palmlogs total
-    - IMPORTANT: Look for "Palm" trees, NOT regular oak trees!
-  
-  🍑 Foraging - peach:
-    - harvest_resource on peach instances
-    - Level required: 5+ (Foraging skill)  
-    - Target: 5x peach total
-    - IMPORTANT: Look for "Peach" trees, NOT other fruit trees!
-
-# Limitations
+  primary: Successfully protect collectors while they gather 4x palmlogs and 5x peach
+    under wildlife threat conditions
+relevant_game_context: "This is a cooperative multi-agent forest protection scenario\
+  \ requiring tactical coordination.\n\nOBJECTIVE: Successfully gather required forest\
+  \ resources while protecting the team from wildlife threats.\n\nMISSION REQUIREMENTS:\n\
+  - Collect 4x palmlogs and 5x peach while under potential wildlife threat\n- Keep\
+  \ all team members alive throughout the mission\n- Use teamwork to balance resource\
+  \ gathering with wilderness security\n\nTEAM COORDINATION:\n- Establish communication\
+  \ protocols for wildlife detection and warnings\n- Coordinate movements between\
+  \ protection and forest resource gathering\n- Share information about resource locations\
+  \ and environmental dangers\n- Work together to ensure both safety and mission success\n\
+  \nGENERAL STRATEGY:\n- The team has complementary roles in combat, lumberjacking,\
+  \ and foraging\n- Wildlife threats may appear and must be dealt with appropriately\n\
+  - Forest resource gathering requires moving to specific locations and materials\n\
+  - Balance efficiency with safety - casualties will cause mission failure\n- Use\
+  \ global chat for real-time coordination and threat alerts\n\nDO NOT use complete()\
+  \ until ALL objectives are achieved safely!\n\nCOMBAT MECHANICS (CRITICAL KNOWLEDGE):\n\
+  \U0001F3F9 Combat - Attack threats:\n  - Use observe_environment to detect hostile\
+  \ wildlife\n  - Use attack command on hostile targets\n  - Use bow for ranged combat\
+  \ advantage\n\n\U0001F334 Lumberjacking - palmlogs:\n  - harvest_resource on palm\
+  \ tree instances to get palmlogs\n  - Level required: 5+ (Lumberjacking skill)\n\
+  \  - Target: 4x palmlogs total\n  - IMPORTANT: Look for \"Palm\" trees, NOT regular\
+  \ oak trees!\n\n\U0001F351 Foraging - peach:\n  - harvest_resource on peach instances\n\
+  \  - Level required: 5+ (Foraging skill)  \n  - Target: 5x peach total\n  - IMPORTANT:\
+  \ Look for \"Peach\" trees, NOT other fruit trees!\n"
 max_action_steps: 25
-
-# Agent configurations
 agent_1:
-  username: "forest_guardian_agent"
+  username: forest_guardian_agent
   new_character: true
-
   location:
-    x: 60
-    y: 130
-
+    x: 20
+    y: 5
   skill_levels:
     archery: 30
     fletching: 20
     strength: 25
-
   inventory_items:
-    - item: "flask"
-      count: 10
-    - item: "apple"
-      count: 15
-    - item: "arrow"
-      count: 60
-
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
+  - item: arrow
+    count: 60
   equipped_items:
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-    - item: "woodenbow"
-      count: 1
-      enchant: 0
-    - item: "leatherboots"
-      count: 1
-      enchant: 0
-
-
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: woodenbow
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
 agent_2:
-  username: "palm_logger_agent"
+  username: palm_logger_agent
   new_character: true
-
   location:
-    x: 65
-    y: 130
-
+    x: 22
+    y: 5
   skill_levels:
     lumberjacking: 30
     defense: 15
-
   inventory_items:
-    - item: "flask"
-      count: 10
-    - item: "apple"
-      count: 15
-
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
   equipped_items:
-    - item: "axe"
-      count: 1
-      enchant: 0
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-    - item: "leatherboots"
-      count: 1
-      enchant: 0
-
-
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
 agent_3:
-  username: "peach_forager_agent"
+  username: peach_forager_agent
   new_character: true
-
   location:
-    x: 70
-    y: 130
-
+    x: 924
+    y: 17
   skill_levels:
     foraging: 20
     defense: 12
-
   inventory_items:
-    - item: "flask"
-      count: 10
-    - item: "apple"
-      count: 15
-
+  - item: flask
+    count: 10
+  - item: apple
+    count: 15
   equipped_items:
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-    - item: "leatherboots"
-      count: 1
-      enchant: 0
-
-
-# Success criteria
+  - item: leatherarmor
+    count: 1
+    enchant: 0
+  - item: leatherboots
+    count: 1
+    enchant: 0
 success_criteria:
-  - "palm_logger_agent has at least 4x palmlogs in inventory"
-  - "peach_forager_agent has at least 5x peach in inventory"
-  - "All agents remain alive throughout the mission"
-  - "Forest guardian successfully protects team from wildlife threats"
+- palm_logger_agent has at least 4x palmlogs in inventory
+- peach_forager_agent has at least 5x peach in inventory
+- All agents remain alive throughout the mission
+- Forest guardian successfully protects team from wildlife threats

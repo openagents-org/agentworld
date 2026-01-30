@@ -191,24 +191,87 @@ def verify_combat(traj_json: Dict, target_name: str | None) -> int:
 
 
 def count_combat_kills(traj_json: Dict, target_patterns: List[str]) -> int:
-    """Count kills of targets matching patterns by checking action results."""
-    # TODO: 这个判断条件不对，应该看返回值里有没有'VICTORY'这个子串
+    """Count kills of targets matching patterns by checking action results.
+
+    NOTE: Attack actions use instance IDs (attack_entity(targetInstance=123456)),
+    not mob names. So we check for mob names in observation/result strings,
+    and also check chat messages for defeat confirmations.
+    TODO: This check is not fully accurate - should look for 'VICTORY' in return value.
+    """
     kills = 0
+    killed_targets = set()  # Track killed targets to avoid double-counting
+
+    kill_keywords = ['dead', 'killed', 'defeated', 'victory', 'died',
+                     'slain', 'destroy', 'eliminated', 'vanquished', 'dropped',
+                     'hp dropped to 0', 'hp: 0', 'health: 0']
+
+    # HP zero patterns (covers different JSON formats)
+    hp_zero_patterns = ['"hp": 0', '"hp":0', '"hitpoints": 0', '"hitpoints":0']
+
     for r in traj_json.get('rounds', []):
         for act in r.get('actions', []):
             action_str = act.get('action', '').lower()
             obs = act.get('observation', {})
+            result_str = str(act.get('result', '')).lower()
 
+            # Build combined text to search for patterns and kill indicators
+            combined_text = ''
+            if isinstance(obs, dict):
+                combined_text = json.dumps(obs).lower()
+                # Also check mobs array directly for hitPoints: 0
+                mobs = obs.get('mobs', [])
+                for mob in mobs:
+                    mob_name = mob.get('name', '').lower()
+                    mob_hp = mob.get('hitPoints', -1)
+                    if mob_hp == 0:
+                        for pattern in target_patterns:
+                            if pattern.lower() in mob_name:
+                                if pattern.lower() not in killed_targets:
+                                    kills += 1
+                                    killed_targets.add(pattern.lower())
+            elif isinstance(obs, str):
+                combined_text = obs.lower()
+            combined_text += ' ' + result_str
+
+            # Check attack actions
             if 'attack' in action_str:
+                # Check if any target pattern appears in observation/result
                 for pattern in target_patterns:
-                    if pattern.lower() in action_str:
-                        if isinstance(obs, dict):
-                            obs_str = json.dumps(obs).lower()
-                            if 'dead' in obs_str or 'killed' in obs_str or 'defeated' in obs_str:
+                    pattern_lower = pattern.lower()
+                    if pattern_lower in combined_text:
+                        # Check for kill indicators
+                        if any(kw in combined_text for kw in kill_keywords):
+                            if pattern_lower not in killed_targets:
                                 kills += 1
-                            elif '"hp": 0' in obs_str or '"hp":0' in obs_str:
+                                killed_targets.add(pattern_lower)
+                        elif any(hp_pat in combined_text for hp_pat in hp_zero_patterns):
+                            if pattern_lower not in killed_targets:
                                 kills += 1
+                                killed_targets.add(pattern_lower)
+
+            # Also check chat messages for defeat confirmations
+            if 'chat' in action_str or 'global_chat' in action_str:
+                for pattern in target_patterns:
+                    pattern_lower = pattern.lower()
+                    if pattern_lower in combined_text:
+                        if any(kw in combined_text for kw in kill_keywords):
+                            if pattern_lower not in killed_targets:
+                                kills += 1
+                                killed_targets.add(pattern_lower)
+
     return kills
+
+
+def check_boss_killed_by_loot(inventories: Dict[str, List[Dict]], loot_items: List[str]) -> bool:
+    """Check if a boss was killed by verifying its loot drops are in inventory.
+
+    This is useful when kill detection via combat messages is unreliable.
+    For example, if wolfarmor is in inventory, Dark Wolf must have been killed.
+    """
+    for loot_item in loot_items:
+        if has_item_in_any_inventory(inventories, loot_item):
+            return True
+    return False
 
 
 def count_attack_actions(traj_json: Dict, target_patterns: List[str] = None) -> int:

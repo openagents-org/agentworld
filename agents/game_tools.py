@@ -1457,8 +1457,9 @@ class KaetramGameTools:
         last_known_mob_y = target_y
         player_dealt_damage = False  # Track if THIS player actually participated in combat
 
-        # No time limit - fight until someone dies
-        while True:
+        # Combat timeout of 120 seconds (2 minutes) to prevent infinite loops
+        max_combat_time = 120
+        while total_time < max_combat_time:
             time.sleep(check_interval)
             total_time += check_interval
 
@@ -1543,7 +1544,11 @@ class KaetramGameTools:
                         else:
                             combat_outcome = "mob_died_by_others"
                         break
-        
+
+        # Check if we timed out
+        if total_time >= max_combat_time and combat_outcome == "unknown":
+            combat_outcome = "timeout"
+
         # IMPROVED Auto-collect dropped items if mob died - now using groundItems and pickup API
         # Any agent can loot regardless of who got the killing blow
         collected_items = []

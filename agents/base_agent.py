@@ -289,8 +289,13 @@ Always think strategically about your actions. Make decisions based on your curr
         
         # Dump prompts if enabled (before making API call)
         self._dump_prompts(self.conversation_history, getattr(self, 'provider', 'unknown'))
-        
+
+        print(f"[DEBUG] Starting API call with {len(self.conversation_history)} messages...", flush=True)
+        import time as _time
+        _api_start = _time.time()
         response = self._make_api_call(self.conversation_history)
+        _api_elapsed = _time.time() - _api_start
+        print(f"[DEBUG] API call completed in {_api_elapsed:.2f}s", flush=True)
         if "error" in response:
             return f"Error: {response['error']}"
 
@@ -300,7 +305,9 @@ Always think strategically about your actions. Make decisions based on your curr
 
         assistant_message = choices[0].get("message", {})
         content = assistant_message.get("content") or ""
+        print(f"[DEBUG] Extracting tool calls...", flush=True)
         tool_calls = self._extract_tool_calls(assistant_message)
+        print(f"[DEBUG] Found {len(tool_calls)} tool call(s)", flush=True)
 
         if tool_calls:
             self._debug_print(f"\033[90m[ASSISTANT] Response with {len(tool_calls)} tool call(s): {content[:100]}{'...' if len(content) > 100 else ''}\033[0m")
@@ -320,7 +327,9 @@ Always think strategically about your actions. Make decisions based on your curr
         if tool_calls:
             # Take only the first tool call
             first_tool_call = tool_calls[0]
+            print(f"[DEBUG] Executing tool: {first_tool_call.get('name', 'unknown')}...", flush=True)
             tool_result = self._execute_tool_call(first_tool_call)
+            print(f"[DEBUG] Tool execution completed", flush=True)
             
             # Add tool message to conversation
             self.conversation_history.append({

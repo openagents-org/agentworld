@@ -1,457 +1,392 @@
-# AgentWorld Multi-Agent Task Configuration
-
 task:
-  name: "Resource Survey - Continental Exploration"
-  description: "Sixteen agents gather resources from multiple biomes"
-
-# Task objectives
+  name: Resource Survey - Continental Exploration
+  description: Sixteen agents gather resources from multiple biomes
 objectives:
-  primary: "Collect 8x logs, 8x ironore, 6x icelogs, and 4x rawshrimp from different regions"
+  primary: Collect 8x logs, 8x ironore, 6x icelogs, and 4x rawshrimp from different
+    regions
+relevant_game_context: 'This is a cooperative multi-agent survey scenario.
 
-# Relevant game context (Hint)
-relevant_game_context: |
-  This is a cooperative multi-agent survey scenario.
 
   OBJECTIVE: Gather resources from all major biomes.
 
+
   PRODUCTION TARGETS:
+
   - 8x logs (from forest)
-  - 8x ironore (from mountain)
+
+  - 8x ironore (from iron rocks at 545, 495)
+
   - 6x icelogs (from ice region)
+
   - 4x rawshrimp (from coast)
 
+
+  ORE TYPE REFERENCE (important - different rocks give different ores):
+
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10)
+
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+
+
   LOCATIONS:
+
   - Forest: Around (388, 10)
-  - Mountain: Around (230, 40)
-  - Ice Region: Around (259, 151)
-  - Coast: Around (580, 750)
+
+  - Iron Ore Mining: Around (545, 495) - THIS IS WHERE IRON ROCKS ARE
+
+  - Ice Region: Around (456, 15)
+
+  - Coast: Around (685, 13)
+
 
   TEAM ROLES:
+
   - Forest Team: Harvest logs
-  - Mountain Team: Mine iron ore
+
+  - Mountain Team: Mine iron rocks at (545, 495) for ironore
+
   - Ice Team: Harvest ice logs
+
   - Coastal Team: Fish shrimp
+
 
   DO NOT use complete() until all objectives are met!
 
-# Limitations
+  '
 max_action_steps: 55
-
-# Agent configurations
 agent_1:
-  username: "forest_logger1_agent"
+  username: t100_forest_logger1_agent
   new_character: true
-
   location:
     x: 200
     y: 220
-
   skill_levels:
     lumberjacking: 45
     strength: 35
     health: 38
-
   inventory_items:
-    - item: "flask"
-      count: 30
-    - item: "apple"
-      count: 35
-
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
   equipped_items:
-    - item: "axe"
-      count: 1
-      enchant: 0
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_2:
-  username: "forest_logger2_agent"
+  username: t100_forest_logger2_agent
   new_character: true
-
   location:
     x: 205
     y: 225
-
   skill_levels:
     lumberjacking: 42
     strength: 32
     health: 36
-
   inventory_items:
-    - item: "flask"
-      count: 30
-    - item: "apple"
-      count: 35
-
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
   equipped_items:
-    - item: "axe"
-      count: 1
-      enchant: 0
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_3:
-  username: "forest_logger3_agent"
+  username: t100_forest_logger3_agent
   new_character: true
-
   location:
     x: 210
     y: 230
-
   skill_levels:
     lumberjacking: 40
     strength: 30
     health: 34
-
   inventory_items:
-    - item: "flask"
-      count: 30
-    - item: "apple"
-      count: 35
-
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
   equipped_items:
-    - item: "axe"
-      count: 1
-      enchant: 0
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_4:
-  username: "mountain_miner1_agent"
+  username: t100_mountain_miner1_agent
   new_character: true
-
   location:
-    x: 230
-    y: 40
-
+    x: 545
+    y: 495
   skill_levels:
     mining: 45
     strength: 35
     health: 38
-
   inventory_items:
-    - item: "flask"
-      count: 30
-    - item: "apple"
-      count: 35
-
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
   equipped_items:
-    - item: "pickaxe"
-      count: 1
-      enchant: 0
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_5:
-  username: "mountain_miner2_agent"
+  username: t100_mountain_miner2_agent
   new_character: true
-
   location:
-    x: 232
-    y: 42
-
+    x: 547
+    y: 495
   skill_levels:
     mining: 42
     strength: 32
     health: 36
-
   inventory_items:
-    - item: "flask"
-      count: 30
-    - item: "apple"
-      count: 35
-
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
   equipped_items:
-    - item: "pickaxe"
-      count: 1
-      enchant: 0
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_6:
-  username: "mountain_miner3_agent"
+  username: t100_mountain_miner3_agent
   new_character: true
-
   location:
-    x: 234
-    y: 44
-
+    x: 549
+    y: 495
   skill_levels:
     mining: 40
     strength: 30
     health: 34
-
   inventory_items:
-    - item: "flask"
-      count: 30
-    - item: "apple"
-      count: 35
-
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
   equipped_items:
-    - item: "pickaxe"
-      count: 1
-      enchant: 0
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_7:
-  username: "ice_logger1_agent"
+  username: t100_ice_logger1_agent
   new_character: true
-
   location:
-    x: 259
-    y: 151
-
+    x: 456
+    y: 15
   skill_levels:
     lumberjacking: 42
     strength: 32
     health: 36
-
   inventory_items:
-    - item: "flask"
-      count: 30
-    - item: "apple"
-      count: 35
-
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
   equipped_items:
-    - item: "axe"
-      count: 1
-      enchant: 0
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_8:
-  username: "ice_logger2_agent"
+  username: t100_ice_logger2_agent
   new_character: true
-
   location:
-    x: 261
-    y: 153
-
+    x: 458
+    y: 15
   skill_levels:
     lumberjacking: 40
     strength: 30
     health: 34
-
   inventory_items:
-    - item: "flask"
-      count: 30
-    - item: "apple"
-      count: 35
-
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
   equipped_items:
-    - item: "axe"
-      count: 1
-      enchant: 0
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_9:
-  username: "ice_logger3_agent"
+  username: t100_ice_logger3_agent
   new_character: true
-
   location:
-    x: 263
-    y: 155
-
+    x: 454
+    y: 14
   skill_levels:
     lumberjacking: 38
     strength: 28
     health: 32
-
   inventory_items:
-    - item: "flask"
-      count: 30
-    - item: "apple"
-      count: 35
-
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
   equipped_items:
-    - item: "axe"
-      count: 1
-      enchant: 0
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_10:
-  username: "coastal_fisher1_agent"
+  username: t100_coastal_fisher1_agent
   new_character: true
-
   location:
-    x: 580
-    y: 750
-
+    x: 456
+    y: 14
   skill_levels:
     fishing: 42
     health: 35
-
   inventory_items:
-    - item: "flask"
-      count: 30
-    - item: "apple"
-      count: 35
-
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
   equipped_items:
-    - item: "fishingpole"
-      count: 1
-      enchant: 0
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: fishingpole
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_11:
-  username: "coastal_fisher2_agent"
+  username: t100_coastal_fisher2_agent
   new_character: true
-
   location:
-    x: 582
-    y: 752
-
+    x: 454
+    y: 16
   skill_levels:
     fishing: 40
     health: 33
-
   inventory_items:
-    - item: "flask"
-      count: 30
-    - item: "apple"
-      count: 35
-
+  - item: flask
+    count: 30
+  - item: apple
+    count: 35
   equipped_items:
-    - item: "fishingpole"
-      count: 1
-      enchant: 0
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: fishingpole
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_12:
-  username: "support1_agent"
+  username: t100_support1_agent
   new_character: true
-
   location:
-    x: 350
-    y: 250
-
+    x: 456
+    y: 16
   skill_levels:
     strength: 30
     health: 35
-
   inventory_items:
-    - item: "flask"
-      count: 25
-    - item: "apple"
-      count: 30
-
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
   equipped_items:
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_13:
-  username: "support2_agent"
+  username: t100_support2_agent
   new_character: true
-
   location:
-    x: 352
-    y: 252
-
+    x: 683
+    y: 13
   skill_levels:
     strength: 28
     health: 33
-
   inventory_items:
-    - item: "flask"
-      count: 25
-    - item: "apple"
-      count: 30
-
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
   equipped_items:
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_14:
-  username: "support3_agent"
+  username: t100_support3_agent
   new_character: true
-
   location:
-    x: 354
-    y: 254
-
+    x: 685
+    y: 13
   skill_levels:
     strength: 26
     health: 32
-
   inventory_items:
-    - item: "flask"
-      count: 25
-    - item: "apple"
-      count: 30
-
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
   equipped_items:
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_15:
-  username: "support4_agent"
+  username: t100_support4_agent
   new_character: true
-
   location:
-    x: 356
-    y: 256
-
+    x: 683
+    y: 15
   skill_levels:
     strength: 25
     health: 31
-
   inventory_items:
-    - item: "flask"
-      count: 25
-    - item: "apple"
-      count: 30
-
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
   equipped_items:
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_16:
-  username: "coordinator_agent"
+  username: t100_coordinator_agent
   new_character: true
-
   location:
-    x: 358
-    y: 258
-
+    x: 685
+    y: 15
   skill_levels:
     strength: 25
     health: 30
-
   inventory_items:
-    - item: "flask"
-      count: 25
-    - item: "apple"
-      count: 30
-
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
   equipped_items:
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
-# Success criteria
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 success_criteria:
-  - "Team inventory contains at least 8x logs"
-  - "Team inventory contains at least 8x ironore (or smelted)"
-  - "Team inventory contains at least 6x icelogs"
-  - "Team inventory contains at least 4x rawshrimp"
-  - "All agents survive the resource survey mission"
+- Team inventory contains at least 8x logs
+- Team inventory contains at least 8x ironore (or smelted)
+- Team inventory contains at least 6x icelogs
+- Team inventory contains at least 4x rawshrimp
+- All agents survive the resource survey mission

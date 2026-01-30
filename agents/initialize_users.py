@@ -78,13 +78,14 @@ def create_account(username: str, password: str) -> tuple:
             print(f"   ✅ Login successful (token: {data['token'][:16]}...)")
             return True, data["token"], "logged_in"
 
-        # May already be logged in, wait and retry
+        # May already be logged in, use force login to disconnect existing session
         if "already logged in" in data.get("message", "").lower():
-            print(f"   ⚠️ Account already online, retrying after wait...")
-            time.sleep(2)
+            print(f"   ⚠️ Account already online, attempting force login...")
+            time.sleep(0.5)  # Short delay before force login
             resp = requests.post(f"{BASE_URL}/ai/login", json={
                 "username": username,
-                "password": password
+                "password": password,
+                "force": True  # Force login to disconnect existing session
             })
             data = resp.json()
             if data.get("status") == "success" and data.get("token"):

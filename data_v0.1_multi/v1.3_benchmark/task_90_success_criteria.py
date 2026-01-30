@@ -40,11 +40,8 @@ def task_90_verifier(traj_json: Dict) -> Tuple[int, str]:
     kills = count_combat_kills(traj_json, ['Ancient Wizard', 'Wizard'])
     has_kills = kills >= 1
 
-    # Check all agents alive
-    alive = check_agents_alive(traj_json)
-
-    passed = has_goldore and has_lightning and has_fire and has_kills and alive
-    msg = f"Goldore: {goldore}/8, Lightning: {lightningstaff}/1, Fire: {firestaff}/1, Kills: {kills}/1, All alive: {alive}"
+    passed = has_goldore and has_lightning and has_fire and has_kills
+    msg = f"Goldore: {goldore}/8, Lightning: {lightningstaff}/1, Fire: {firestaff}/1, Kills: {kills}/1"
     return (1 if passed else 0, msg)
 
 

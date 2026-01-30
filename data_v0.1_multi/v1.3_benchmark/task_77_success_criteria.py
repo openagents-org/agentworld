@@ -24,14 +24,20 @@ from verifier_utils import (
 
 
 def task_77_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Grand Harbor Bastion - coastal defense."""
-    alive = check_agents_alive(traj_json)
+    """Harbor Defense - defeat Water Guardian and Mermaid, craft 2 wooden bows."""
+    # Check combat kills (2 bosses)
+    kills = count_combat_kills(traj_json, ['Water Guardian', 'Mermaid', 'Guardian'])
+
+    # Check for wooden bows
     inventories = get_final_inventories(traj_json)
-    cookedshrimp = count_item_in_inventories(inventories, 'cookedshrimp')
-    
-    success = alive and cookedshrimp >= 20
-    msg = f"All alive: {alive}, Cooked shrimp: {cookedshrimp}/20"
-    return (1 if success else 0, msg)
+    woodenbow = count_item_in_inventories(inventories, 'woodenbow')
+
+    kills_passed = kills >= 2
+    bow_passed = woodenbow >= 2
+
+    passed = kills_passed and bow_passed
+    msg = f"Boss kills: {kills}/2, Wooden Bow: {woodenbow}/2"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

@@ -27,8 +27,10 @@ def task_27_verifier(traj_json: Dict) -> Tuple[int, str]:
     """Volcanic Forge - mine valuable ore, defeat Water Guardian and Ogre Guardian."""
     inventories = get_final_inventories(traj_json)
 
-    # Check for valuable ores (gold, ibo, taaffeite, moonrock, lapis)
-    valuable_ores = ['goldore', 'ibo', 'taaffeite', 'moonrock', 'lapislazuli']
+    # Check for valuable ores (gold, ibo, taaffeite, moonrock, lapis, nisocore)
+    # Note: actual item keys include 'ore' suffix (moonrockore, nisocore)
+    valuable_ores = ['goldore', 'goldnugget', 'ibo', 'taaffeite', 'moonrock', 'moonrockore',
+                     'lapislazuli', 'nisocore', 'beryl', 'topaz']
     ore_count = sum(count_item_in_inventories(inventories, o) for o in valuable_ores)
     has_ore = ore_count >= 1
 

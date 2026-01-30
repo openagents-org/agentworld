@@ -71,117 +71,117 @@ max_action_steps: 35
 agent_1:
   username: "ruins_explorer_agent"
   new_character: true
-  
+
   location:
     x: 750
     y: 650
-  
-  skill_levels:
-    strength: 35      # Combat capability
-    accuracy: 30      # Combat precision
-    health: 45        # Survivability in dangerous ruins
-    defense: 30       # Protection against guardian attacks
-    magic: 20         # Magical assistance in combat
-  
-  inventory_items:
-    - item: "flask"
-      count: 20
-    - item: "apple"
-      count: 25
-    - item: "healthpotion"
-      count: 8
-  
-  equipped_items:
-    - item: "sword"
-      count: 1
-      enchant: 0
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-    - item: "leatherboots"
-      count: 1
-      enchant: 0
-    - item: "bow"
-      count: 1
-      enchant: 0
 
-agent_2:
-  username: "guardian_slayer_agent"
-  new_character: true
-  
-  location:
-    x: 770
-    y: 660
-  
   skill_levels:
-    strength: 50      # High combat power for Level 45 creature
-    accuracy: 40      # Precision attacks against fast spider
-    defense: 40       # Protection against guardian abilities
-    health: 55        # High survivability for dangerous combat
-    magic: 25         # Magical combat support
-  
+    strength: 55      # High combat capability for Level 45 enemy
+    accuracy: 45      # Combat precision
+    health: 65        # High survivability in dangerous ruins
+    defense: 45       # Strong protection against guardian attacks
+    magic: 35         # Magical assistance in combat
+
   inventory_items:
     - item: "flask"
       count: 25
     - item: "apple"
       count: 30
     - item: "healthpotion"
-      count: 12
-    - item: "manapotion"
-      count: 8
-  
+      count: 15
+
   equipped_items:
     - item: "bluesword"
       count: 1
-      enchant: 0
+      enchant: 5
     - item: "platearmor"
       count: 1
-      enchant: 0
+      enchant: 5
     - item: "leatherboots"
       count: 1
-      enchant: 0
+      enchant: 3
+    - item: "woodenbow"
+      count: 1
+      enchant: 3
+
+agent_2:
+  username: "guardian_slayer_agent"
+  new_character: true
+
+  location:
+    x: 770
+    y: 660
+
+  skill_levels:
+    strength: 70      # Very high combat power for Level 45 creature
+    accuracy: 55      # High precision attacks against fast spider
+    defense: 55       # Strong protection against guardian abilities
+    health: 75        # Very high survivability for dangerous combat
+    magic: 40         # Good magical combat support
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "healthpotion"
+      count: 20
+    - item: "manapotion"
+      count: 12
+
+  equipped_items:
+    - item: "bluesword"
+      count: 1
+      enchant: 8
+    - item: "platearmor"
+      count: 1
+      enchant: 8
+    - item: "leatherboots"
+      count: 1
+      enchant: 5
     - item: "firestaff"
       count: 1
-      enchant: 0
+      enchant: 5
 
 agent_3:
   username: "artifact_hunter_agent"
   new_character: true
-  
+
   location:
     x: 780
     y: 670
-  
+
   skill_levels:
-    strength: 40      # Combat and treasure recovery
-    accuracy: 35      # Ranged combat support
-    health: 50        # Exploration survivability
-    defense: 35       # Guardian encounter protection
-    magic: 30         # Magical exploration assistance
-  
+    strength: 55      # Good combat and treasure recovery
+    accuracy: 50      # Strong ranged combat support
+    health: 65        # High exploration survivability
+    defense: 50       # Strong guardian encounter protection
+    magic: 45         # Good magical exploration assistance
+
   inventory_items:
     - item: "flask"
-      count: 20
-    - item: "apple"
       count: 25
+    - item: "apple"
+      count: 30
     - item: "healthpotion"
-      count: 10
+      count: 15
     - item: "manapotion"
-      count: 6
-  
+      count: 10
+
   equipped_items:
-    - item: "sidesword"
+    - item: "bluesword"
       count: 1
-      enchant: 0
+      enchant: 5
     - item: "greenwingarmor"
       count: 1
-      enchant: 0
+      enchant: 5
     - item: "leatherboots"
       count: 1
-      enchant: 0
-    - item: "plasticbow"
+      enchant: 3
+    - item: "woodenbow"
       count: 1
-      enchant: 0
+      enchant: 5
 
 # Success criteria
 success_criteria:

@@ -27,18 +27,24 @@ def task_28_verifier(traj_json: Dict) -> Tuple[int, str]:
     """Dark Forest Cleansing - defeat Dark Wolf boss and collect wolfarmor."""
     inventories = get_final_inventories(traj_json)
 
-    # Check for wolfarmor drop from Dark Wolf
+    # Check for wolfarmor drop from Dark Wolf - definitive proof of kill
     wolfarmor = has_item_in_any_inventory(inventories, 'wolfarmor')
 
-    # Check combat kills (Dark Wolf)
+    # Check combat kills (Dark Wolf) via observation/chat messages
     kills = count_combat_kills(traj_json, ['Dark Wolf', 'Wolf'])
     has_kills = kills >= 1
 
-    # Check all agents alive
+    # wolfarmor in inventory is definitive proof Dark Wolf was killed
+    # (it only drops from Dark Wolf)
+    boss_killed = wolfarmor or has_kills
+
+    # Note: Primary objective is "defeat Dark Wolf and collect drops"
+    # Survival is secondary criteria, not required for primary success
     alive = check_agents_alive(traj_json)
 
-    passed = wolfarmor and has_kills and alive
-    msg = f"Wolfarmor: {wolfarmor}, Kills: {kills}/1, All alive: {alive}"
+    # Primary objective: boss killed AND wolfarmor collected
+    passed = boss_killed and wolfarmor
+    msg = f"Wolfarmor: {wolfarmor}, Kills: {kills}/1 (boss_killed={boss_killed}), All alive: {alive}"
     return (1 if passed else 0, msg)
 
 

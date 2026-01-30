@@ -24,19 +24,21 @@ from verifier_utils import (
 
 
 def task_91_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Grand Royal Tournament - 3 challenges."""
-    inventories = get_final_inventories(traj_json)
-    
-    legendary_items = ['heavysword', 'goldring', 'icestaff', 'silverring', 'axe', 'emeraldpendant']
-    legendary_count = sum(1 for item in legendary_items if has_item_in_any_inventory(inventories, item))
-    
-    food_items = ['cookedshrimp', 'cookedchicken', 'cookedbeef', 'jellyfishsmoothie']
-    food_count = sum(count_item_in_inventories(inventories, item) for item in food_items)
-    
+    """Royal Tournament - defeat Iron Ogre, Hermit Crab Warrior, and Ogre Guardian."""
+    # Check combat kills for all three bosses
+    iron_ogre_kills = count_combat_kills(traj_json, ['Iron Ogre', 'IronOgre'])
+    hermit_crab_kills = count_combat_kills(traj_json, ['Hermit Crab Warrior', 'HermitCrabWarrior', 'Hermit Crab'])
+    ogre_guardian_kills = count_combat_kills(traj_json, ['Ogre Guardian', 'OgreGuardian'])
+
+    has_iron_ogre = iron_ogre_kills >= 1
+    has_hermit_crab = hermit_crab_kills >= 1
+    has_ogre_guardian = ogre_guardian_kills >= 1
+
     alive = check_agents_alive(traj_json)
-    success = alive and legendary_count >= 5 and food_count >= 20
-    msg = f"Alive: {alive}, Legendary items: {legendary_count}/5, Food: {food_count}/20"
-    return (1 if success else 0, msg)
+
+    passed = has_iron_ogre and has_hermit_crab and has_ogre_guardian and alive
+    msg = f"Iron Ogre: {iron_ogre_kills}/1, Hermit Crab: {hermit_crab_kills}/1, Ogre Guardian: {ogre_guardian_kills}/1, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 # =============================================================================

@@ -24,9 +24,9 @@ from verifier_utils import (
 
 
 def task_78_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Transcontinental Trading Network - craft 5 specific items."""
+    """Trading Network - collect resources and craft rings."""
     inventories = get_final_inventories(traj_json)
-    
+
     all_items = {}
     for items in inventories.values():
         for item in items:
@@ -34,20 +34,20 @@ def task_78_verifier(traj_json: Dict) -> Tuple[int, str]:
             x = item.get("count", 0)
             all_items[k] = all_items.get(k, 0) + x
 
-    golden_bow = all_items.get("goldenbow", 0)
-    beryl_pendant = all_items.get("berylpendant", 0) + all_items.get("pendant", 0)
+    logs = all_items.get("logs", 0)
+    ironore = all_items.get("ironore", 0)
+    goldore = all_items.get("goldore", 0)
     golden_ring = all_items.get("goldring", 0) + all_items.get("goldenring", 0)
     silver_ring = all_items.get("silverring", 0)
-    magic_staff = all_items.get("magicstaff", 0)
 
-    bow_passed = golden_bow >= 1
-    pendant_passed = beryl_pendant >= 1
+    logs_passed = logs >= 10
+    ironore_passed = ironore >= 8
+    goldore_passed = goldore >= 6
     goldring_passed = golden_ring >= 1
     silverring_passed = silver_ring >= 1
-    staff_passed = magic_staff >= 1
 
-    passed = bow_passed and pendant_passed and goldring_passed and silverring_passed and staff_passed
-    msg = f"Golden Bow: {golden_bow}/1, Beryl Pendant: {beryl_pendant}/1, Golden Ring: {golden_ring}/1, Silver Ring: {silver_ring}/1, Magic Staff: {magic_staff}/1"
+    passed = logs_passed and ironore_passed and goldore_passed and goldring_passed and silverring_passed
+    msg = f"Logs: {logs}/10, Ironore: {ironore}/8, Goldore: {goldore}/6, Golden Ring: {golden_ring}/1, Silver Ring: {silver_ring}/1"
     return (1 if passed else 0, msg)
 
 

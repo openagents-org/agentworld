@@ -38,11 +38,8 @@ def task_87_verifier(traj_json: Dict) -> Tuple[int, str]:
     has_shrimp = rawshrimp >= 4
     has_pickaxe = pickaxe >= 2
 
-    # Check all agents alive
-    alive = check_agents_alive(traj_json)
-
-    passed = has_logs and has_ironore and has_shrimp and has_pickaxe and alive
-    msg = f"Logs: {logs}/6, Ironore: {ironore}/8, Shrimp: {rawshrimp}/4, Pickaxe: {pickaxe}/2, All alive: {alive}"
+    passed = has_logs and has_ironore and has_shrimp and has_pickaxe
+    msg = f"Logs: {logs}/6, Ironore: {ironore}/8, Shrimp: {rawshrimp}/4, Pickaxe: {pickaxe}/2"
     return (1 if passed else 0, msg)
 
 

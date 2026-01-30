@@ -24,41 +24,25 @@ from verifier_utils import (
 
 
 def task_94_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Grand Maritime Trading Empire - 30+ seafood, 20+ tools, 30+ luxury, 80+ total."""
+    """Maritime Trading - catch 8x rawshrimp, cook 6x Cooked Shrimp, craft 2x Gold Ring."""
     inventories = get_final_inventories(traj_json)
-    
-    seafood_keys = ["rawshrimp", "shrimp", "jellyfish", "crab", "rawtuna", "tuna", "fish"]
-    tool_weapon_keys = ["axe", "sword", "pickaxe", "bow", "arrow", "heavysword", "sword1", "sword2"]
-    luxury_keys = ["ring", "goldring", "silverring", "pendant", "staff", "cookedshrimp",
-                   "cookedtuna", "jellyfishsmoothie", "emerald", "ruby", "bead"]
-    starting_items = ["flask", "apple", "leatherarmor", "leatherboots"]
 
-    seafood_count = 0
-    tool_count = 0
-    luxury_count = 0
+    # Count resources
+    rawshrimp = count_item_in_inventories(inventories, 'rawshrimp')
+    cookedshrimp = count_item_in_inventories(inventories, 'cookedshrimp')
+    goldring = count_item_in_inventories(inventories, 'goldring')
 
-    for items in inventories.values():
-        for item in items:
-            k = item.get("key", "").lower()
-            x = item.get("count", 0)
-            if k in starting_items:
-                continue
-            if any(sf in k for sf in seafood_keys):
-                seafood_count += x
-            elif any(tw in k for tw in tool_weapon_keys):
-                tool_count += x
-            elif any(lx in k for lx in luxury_keys):
-                luxury_count += x
+    # Raw shrimp or cooked counts toward total shrimp caught
+    shrimp_total = rawshrimp + cookedshrimp
 
-    total = seafood_count + tool_count + luxury_count
+    has_shrimp = shrimp_total >= 8
+    has_cooked = cookedshrimp >= 6
+    has_rings = goldring >= 2
 
-    seafood_passed = seafood_count >= 30
-    tool_passed = tool_count >= 20
-    luxury_passed = luxury_count >= 30
-    total_passed = total >= 80
+    alive = check_agents_alive(traj_json)
 
-    passed = seafood_passed and tool_passed and luxury_passed and total_passed
-    msg = f"Seafood: {seafood_count}/30, Tools: {tool_count}/20, Luxury: {luxury_count}/30, Total: {total}/80"
+    passed = has_shrimp and has_cooked and has_rings and alive
+    msg = f"Shrimp(raw+cooked): {shrimp_total}/8, Cooked Shrimp: {cookedshrimp}/6, Gold Ring: {goldring}/2, All alive: {alive}"
     return (1 if passed else 0, msg)
 
 

@@ -73,35 +73,35 @@ agent_1:
     y: 680
 
   skill_levels:
-    strength: 45      # High combat power for boss encounter
-    accuracy: 40      # Precision attacks
-    magic: 35         # Magical combat capability
-    health: 50        # High survivability
-    defense: 35       # Protection against boss attacks
+    strength: 120     # Very high combat power for Level 118 boss
+    accuracy: 100     # High precision attacks
+    magic: 90         # Strong magical combat capability
+    health: 130       # Very high survivability
+    defense: 100      # Strong protection against boss attacks
 
   inventory_items:
     - item: "flask"
-      count: 25
+      count: 40
     - item: "apple"
-      count: 30
+      count: 50
     - item: "healthpotion"
-      count: 15
+      count: 30
     - item: "manapotion"
-      count: 12
+      count: 25
 
   equipped_items:
     - item: "bluesword"
       count: 1
-      enchant: 0
+      enchant: 10
     - item: "platearmor"
       count: 1
-      enchant: 0
+      enchant: 10
     - item: "leatherboots"
       count: 1
-      enchant: 0
+      enchant: 8
     - item: "firestaff"
       count: 1
-      enchant: 0
+      enchant: 8
 
 agent_2:
   username: "forest_guardian_agent"
@@ -112,35 +112,35 @@ agent_2:
     y: 690
 
   skill_levels:
-    magic: 45         # Strong magical attacks
+    magic: 110        # Very strong magical attacks
     lumberjacking: 25 # Forest knowledge
-    health: 45        # Good survivability
-    strength: 30      # Combat support capability
-    defense: 30       # Decent protection
+    health: 120       # Very high survivability
+    strength: 95      # Strong combat support capability
+    defense: 95       # Strong protection
 
   inventory_items:
     - item: "flask"
-      count: 20
+      count: 35
     - item: "apple"
-      count: 25
+      count: 45
     - item: "healthpotion"
-      count: 12
+      count: 25
     - item: "manapotion"
-      count: 15
+      count: 30
 
   equipped_items:
     - item: "firestaff"
       count: 1
-      enchant: 0
-    - item: "axe"
+      enchant: 10
+    - item: "bluesword"
       count: 1
-      enchant: 0
-    - item: "leatherarmor"
+      enchant: 8
+    - item: "platearmor"
       count: 1
-      enchant: 0
+      enchant: 10
     - item: "leatherboots"
       count: 1
-      enchant: 0
+      enchant: 8
 
 agent_3:
   username: "light_bringer_agent"
@@ -151,35 +151,35 @@ agent_3:
     y: 670
 
   skill_levels:
-    magic: 50         # Highest magical power
-    accuracy: 35      # Magical combat precision
-    health: 45        # Good survivability
-    strength: 25      # Basic physical combat
-    defense: 35       # Good protection
+    magic: 125        # Highest magical power for boss fight
+    accuracy: 100     # High magical combat precision
+    health: 115       # Very high survivability
+    strength: 85      # Good physical combat
+    defense: 100      # Strong protection
 
   inventory_items:
     - item: "flask"
-      count: 25
+      count: 40
     - item: "apple"
-      count: 30
+      count: 50
     - item: "healthpotion"
-      count: 15
+      count: 28
     - item: "manapotion"
-      count: 20
+      count: 35
 
   equipped_items:
     - item: "lightningstaff"
       count: 1
-      enchant: 0
-    - item: "leatherarmor"
+      enchant: 10
+    - item: "platearmor"
       count: 1
-      enchant: 0
+      enchant: 10
     - item: "leatherboots"
       count: 1
-      enchant: 0
-    - item: "sword"
+      enchant: 8
+    - item: "bluesword"
       count: 1
-      enchant: 0
+      enchant: 8
 
 # Success criteria (all must be verifiable with game mechanics)
 success_criteria:

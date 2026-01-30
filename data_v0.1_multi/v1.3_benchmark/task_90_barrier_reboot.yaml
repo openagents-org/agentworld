@@ -6,7 +6,7 @@ task:
 
 # Task objectives
 objectives:
-  primary: "Defeat Ancient Wizard at (163, 339), craft 1x Lightning Staff and 1x Fire Staff, and collect 8x goldore"
+  primary: "Defeat Ancient Wizard at (163, 339), craft 1x Lightning Staff and 1x Fire Staff, and collect 8x goldnugget"
 
 # Relevant game context (Hint)
 relevant_game_context: |
@@ -18,15 +18,18 @@ relevant_game_context: |
   - Ancient Wizard (Level 10) at (163, 339)
 
   PRODUCTION TARGETS:
-  - 8x goldore (from mountain)
+  - 8x goldnugget (from mountain)
   - 1x Lightning Staff (staff + lightningbead)
   - 1x Fire Staff (staff + firebead)
 
   MATERIALS PROVIDED:
   - Beads provided to crafters
 
+  GOLD ROCK REFERENCE (important - gold rocks give goldnugget):
+  - Gold Rock (around 281, 11): gives "goldnugget" (requires mining level 25)
+
   LOCATIONS:
-  - Mountain Mining: Around (230, 40)
+  - Gold Mining: Around (281, 11) - THIS IS WHERE GOLD ROCKS ARE
   - Ancient Wizard Location: (163, 339)
 
   TEAM ROLES:
@@ -65,7 +68,7 @@ max_action_steps: 45
 
 # Agent configurations
 agent_1:
-  username: "fighter1_agent"
+  username: t90_fighter1_agent
   new_character: true
 
   location:
@@ -95,7 +98,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "fighter2_agent"
+  username: t90_fighter2_agent
   new_character: true
 
   location:
@@ -125,7 +128,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "fighter3_agent"
+  username: t90_fighter3_agent
   new_character: true
 
   location:
@@ -155,12 +158,12 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "miner1_agent"
+  username: t90_miner1_agent
   new_character: true
 
   location:
-    x: 230
-    y: 40
+    x: 281
+    y: 11
 
   skill_levels:
     mining: 40
@@ -182,12 +185,12 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "miner2_agent"
+  username: t90_miner2_agent
   new_character: true
 
   location:
-    x: 232
-    y: 42
+    x: 284
+    y: 11
 
   skill_levels:
     mining: 38
@@ -209,12 +212,12 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "miner3_agent"
+  username: t90_miner3_agent
   new_character: true
 
   location:
-    x: 234
-    y: 44
+    x: 282
+    y: 17
 
   skill_levels:
     mining: 36
@@ -236,7 +239,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "crafter1_agent"
+  username: t90_crafter1_agent
   new_character: true
 
   location:
@@ -264,7 +267,7 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "crafter2_agent"
+  username: t90_crafter2_agent
   new_character: true
 
   location:
@@ -292,7 +295,7 @@ agent_8:
       enchant: 0
 
 agent_9:
-  username: "support1_agent"
+  username: t90_support1_agent
   new_character: true
 
   location:
@@ -315,7 +318,7 @@ agent_9:
       enchant: 0
 
 agent_10:
-  username: "coordinator_agent"
+  username: t90_coordinator_agent
   new_character: true
 
   location:
@@ -340,7 +343,7 @@ agent_10:
 # Success criteria
 success_criteria:
   - "Ancient Wizard at (163, 339) defeated"
-  - "Team inventory contains at least 8x goldore (or smelted)"
+  - "Team inventory contains at least 8x goldnugget (or smelted)"
   - "Team inventory contains 1x lightningstaff"
   - "Team inventory contains 1x firestaff"
   - "All agents survive the barrier reboot mission"

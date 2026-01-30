@@ -148,7 +148,7 @@ export default class API {
         });
 
         // Login with an AI agent
-        router.post('/ai/login', (request: Request, response: Response) => {
+        router.post('/ai/login', async (request: Request, response: Response) => {
             try {
                 const { username, password, force } = request.body;
 
@@ -178,8 +178,8 @@ export default class API {
                             // Disconnect the player
                             existingPlayer.connection.close();
 
-                            // Small delay to ensure cleanup completes
-                            // The connection.close() is async, so we proceed after a brief wait
+                            // Wait for cleanup to complete before proceeding
+                            await new Promise(resolve => setTimeout(resolve, 150));
                         }
                     } else {
                         return response.status(400).json({
@@ -194,7 +194,7 @@ export default class API {
 
                 // Create a mock connection for the AI agent
                 const connection = this.world.createAIConnection(username, password);
-                
+
                 if (!connection) {
                     return response.status(500).json({
                         status: 'error',
