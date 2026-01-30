@@ -24,19 +24,22 @@ from verifier_utils import (
 
 
 def task_56_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Cross-Region Trading Network - 3x goldring, 2x lightningstaff, 1x heavysword."""
+    """Cross-Region Trading Network - craft 3x Silver Rings, 2x Axes, and 1x Heavy Sword."""
     inventories = get_final_inventories(traj_json)
     
-    goldring = count_item_in_inventories(inventories, 'goldring')
-    lightningstaff = count_item_in_inventories(inventories, 'lightningstaff')
-    heavysword = count_item_in_inventories(inventories, 'heavysword') + count_item_in_inventories(inventories, 'sword2')
+    silverring = count_item_in_inventories(inventories, 'silverring')
+    axe = count_item_in_inventories(inventories, 'axe')
+    heavysword = count_item_in_inventories(inventories, 'sword2')
 
-    goldring_passed = goldring >= 3
-    staff_passed = lightningstaff >= 2
-    sword_passed = heavysword >= 1
+    has_rings = silverring >= 3
+    has_axes = axe >= 2
+    has_sword = heavysword >= 1
 
-    passed = goldring_passed and staff_passed and sword_passed
-    msg = f"Gold Rings: {goldring}/3, Lightning Staffs: {lightningstaff}/2, Heavy Swords: {heavysword}/1"
+    # Check all agents alive
+    alive = check_agents_alive(traj_json)
+
+    passed = has_rings and has_axes and has_sword and alive
+    msg = f"Silver Rings: {silverring}/3, Axes: {axe}/2, Heavy Sword: {heavysword}/1, All alive: {alive}"
     return (1 if passed else 0, msg)
 
 

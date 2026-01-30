@@ -65,8 +65,8 @@ agent_1:
   new_character: true
 
   location:
-    x: 230
-    y: 38
+    x: 555
+    y: 545
 
   skill_levels:
     mining: 45
@@ -92,8 +92,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 232
-    y: 39
+    x: 560
+    y: 548
 
   skill_levels:
     mining: 40
@@ -119,8 +119,8 @@ agent_3:
   new_character: true
 
   location:
-    x: 234
-    y: 40
+    x: 565
+    y: 550
 
   skill_levels:
     mining: 35
@@ -146,8 +146,8 @@ agent_4:
   new_character: true
 
   location:
-    x: 236
-    y: 42
+    x: 570
+    y: 552
 
   skill_levels:
     mining: 32
@@ -173,8 +173,8 @@ agent_5:
   new_character: true
 
   location:
-    x: 388
-    y: 10
+    x: 85
+    y: 85
 
   skill_levels:
     lumberjacking: 35
@@ -200,8 +200,8 @@ agent_6:
   new_character: true
 
   location:
-    x: 240
-    y: 50
+    x: 575
+    y: 555
 
   skill_levels:
     smithing: 35
@@ -224,8 +224,8 @@ agent_7:
   new_character: true
 
   location:
-    x: 242
-    y: 52
+    x: 580
+    y: 558
 
   skill_levels:
     smithing: 45

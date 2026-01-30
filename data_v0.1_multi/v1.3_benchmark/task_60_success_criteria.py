@@ -24,15 +24,25 @@ from verifier_utils import (
 
 
 def task_60_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Underground Mining Expedition."""
+    """Mining Operation - smelt 6x ironbar, craft 1x Pickaxe and 1x Silver Ring."""
     inventories = get_final_inventories(traj_json)
-    ores = ['ironore', 'goldore', 'coal']
-    ore_count = sum(count_item_in_inventories(inventories, o) for o in ores)
-    bars = ['ironbar', 'goldbar']
-    bar_count = sum(count_item_in_inventories(inventories, b) for b in bars)
-    success = ore_count >= 15 or bar_count >= 5
-    msg = f"Ores: {ore_count}, Bars: {bar_count}"
-    return (1 if success else 0, msg)
+    
+    ironbar = count_item_in_inventories(inventories, 'ironbar')
+    pickaxe = count_item_in_inventories(inventories, 'pickaxe')
+    silverring = count_item_in_inventories(inventories, 'silverring')
+    
+    # Note: ironbars get consumed when crafting, so check for final products
+    # Pickaxe requires 5 ironbar, silver ring requires 2 ironbar
+    # So we check if they have the products OR enough ironbar
+    has_pickaxe = pickaxe >= 1
+    has_ring = silverring >= 1
+    
+    # Check all agents alive
+    alive = check_agents_alive(traj_json)
+    
+    passed = has_pickaxe and has_ring and alive
+    msg = f"Pickaxe: {pickaxe}/1, Silver Ring: {silverring}/1, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def task_60_verifier_v1(traj_json: Dict) -> Tuple[int, str]:

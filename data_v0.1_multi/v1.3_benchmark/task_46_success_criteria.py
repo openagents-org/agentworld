@@ -24,13 +24,23 @@ from verifier_utils import (
 
 
 def task_46_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Grand Mining Expedition."""
+    """Mining Expedition - craft 1x Pickaxe, 1x Axe, and 1x Heavy Sword."""
     inventories = get_final_inventories(traj_json)
-    ores = ['ironore', 'goldore', 'coal', 'copperore', 'tinore']
-    ore_count = sum(count_item_in_inventories(inventories, o) for o in ores)
-    success = ore_count >= 30
-    msg = f"Ores: {ore_count}/30"
-    return (1 if success else 0, msg)
+    
+    pickaxe = count_item_in_inventories(inventories, 'pickaxe')
+    axe = count_item_in_inventories(inventories, 'axe')
+    heavysword = count_item_in_inventories(inventories, 'sword2')
+    
+    has_pickaxe = pickaxe >= 1
+    has_axe = axe >= 1
+    has_sword = heavysword >= 1
+    
+    # Check all agents alive
+    alive = check_agents_alive(traj_json)
+    
+    passed = has_pickaxe and has_axe and has_sword and alive
+    msg = f"Pickaxe: {pickaxe}/1, Axe: {axe}/1, Heavy Sword: {heavysword}/1, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

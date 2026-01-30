@@ -24,13 +24,23 @@ from verifier_utils import (
 
 
 def task_53_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Advanced Culinary Expedition."""
+    """Culinary Expedition - cook 4x Cooked Shrimp, 2x Tuna Sushi, and 1x Jellyfish Smoothie."""
     inventories = get_final_inventories(traj_json)
-    food = ['cookedshrimp', 'cookedchicken', 'cookedbeef', 'stew', 'stew2']
-    food_count = sum(count_item_in_inventories(inventories, f) for f in food)
-    success = food_count >= 10
-    msg = f"Cooked food: {food_count}/10"
-    return (1 if success else 0, msg)
+    
+    cookedshrimp = count_item_in_inventories(inventories, 'cookedshrimp')
+    tunasushi = count_item_in_inventories(inventories, 'tunasushi')
+    jellyfishsmoothie = count_item_in_inventories(inventories, 'jellyfishsmoothie')
+    
+    has_shrimp = cookedshrimp >= 4
+    has_tuna = tunasushi >= 2
+    has_jellyfish = jellyfishsmoothie >= 1
+    
+    # Check all agents alive
+    alive = check_agents_alive(traj_json)
+    
+    passed = has_shrimp and has_tuna and has_jellyfish and alive
+    msg = f"Cooked Shrimp: {cookedshrimp}/4, Tuna Sushi: {tunasushi}/2, Jellyfish Smoothie: {jellyfishsmoothie}/1, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:
