@@ -40,7 +40,7 @@ max_action_steps: 30
 
 # Agent configurations
 agent_1:
-  username: "guard1_agent"
+  username: "t45_guard1_agent"
   new_character: true
 
   location:
@@ -71,7 +71,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "guard2_agent"
+  username: "t45_guard2_agent"
   new_character: true
 
   location:
@@ -104,7 +104,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "miner_agent"
+  username: "t45_miner_agent"
   new_character: true
 
   location:
@@ -135,6 +135,6 @@ agent_3:
 
 # Success criteria
 success_criteria:
-  - "miner_agent inventory contains at least 3x goldore"
+  - "t45_miner_agent inventory contains at least 3x goldore"
   - "At least 2 hostile creatures are defeated by guards"
   - "All agents survive the escort mission"

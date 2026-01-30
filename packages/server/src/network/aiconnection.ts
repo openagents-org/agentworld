@@ -15,6 +15,9 @@ export default class AIConnection {
     public address: string = '127.0.0.1'; // Mock IP address
     public player: Player;
     public closed: boolean = false;
+    public playerLoaded: boolean = false; // Flag to indicate player is fully loaded
+    private playerLoadedPromise: Promise<void>; // Promise that resolves when player is loaded
+    private resolvePlayerLoaded!: () => void; // Resolver for the promise
 
     // Connection interface compatibility
     public messageCallback?: (message: string) => void;
@@ -29,6 +32,11 @@ export default class AIConnection {
         public password: string
     ) {
         this.instance = Utils.createInstance();
+        
+        // Create a promise that will resolve when player is fully loaded
+        this.playerLoadedPromise = new Promise((resolve) => {
+            this.resolvePlayerLoaded = resolve;
+        });
         
         // Create a player instance for this connection
         this.player = new Player(world, database, this as any);
@@ -48,6 +56,14 @@ export default class AIConnection {
     }
 
     /**
+     * Returns a promise that resolves when the player is fully loaded from database.
+     * This should be awaited before modifying player data to avoid race conditions.
+     */
+    public waitForPlayerLoaded(): Promise<void> {
+        return this.playerLoadedPromise;
+    }
+
+    /**
      * Attempts to load existing player data from database or creates new character
      */
     private loadPlayerData(world: World, database: MongoDB): void {
@@ -60,6 +76,7 @@ export default class AIConnection {
                     await this.player.load(playerInfo);
                     // Mark AI player as ready immediately after loading to avoid timeout rejection
                     this.makePlayerReady();
+                    this.markPlayerLoaded();
                     log.info(`AI agent ${this.username} has been loaded with existing character data`);
                 } catch (error) {
                     log.error(`Error loading existing AI character data for ${this.username}: ${error}`);
@@ -80,7 +97,17 @@ export default class AIConnection {
         await this.player.load(Creator.serializePlayer(this.player));
         // Mark AI player as ready immediately after loading to avoid timeout rejection
         this.makePlayerReady();
+        this.markPlayerLoaded();
         log.info(`AI agent ${this.username} has been loaded with fresh character data`);
+    }
+
+    /**
+     * Marks the player as fully loaded and resolves the waiting promise
+     */
+    private markPlayerLoaded(): void {
+        this.playerLoaded = true;
+        this.resolvePlayerLoaded();
+        log.info(`AI agent ${this.username} marked as fully loaded`);
     }
 
     /**

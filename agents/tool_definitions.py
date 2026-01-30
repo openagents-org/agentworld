@@ -109,7 +109,7 @@ GAME_TOOLS = [
         "type": "function",
         "function": {
             "name": "craft_item",
-            "description": "Craft an item using the specified crafting skill. You must have the required materials in your inventory and meet the level requirements. Available crafting skills: Crafting, Smithing, Fletching, Cooking, Smelting. Common items you can craft include: staff (magic staff), lightningstaff, firestaff, icestaff, naturestaff, arrow, sword2, axe, pickaxe, etc.",
+            "description": "Craft an item using the specified crafting skill. You must have the required materials in your inventory and meet the level requirements. Available crafting skills: Crafting, Smithing, Fletching, Cooking, Smelting. Common items you can craft include: staff (magic staff), lightningstaff, firestaff, icestaff, naturestaff, arrow, sword2, axe, pickaxe, etc. IMPORTANT for arrows: The arrow recipe produces 10 arrows per craft (using 10 sticks + 10 feathers), so use count=1 to get 10 arrows, NOT count=10.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -124,7 +124,7 @@ GAME_TOOLS = [
                     },
                     "count": {
                         "type": "integer",
-                        "description": "Number of items to craft (optional, defaults to 1). Must be 1, 5, or 10.",
+                        "description": "Number of times to execute the recipe (optional, defaults to 1). Must be 1, 5, or 10. Note: For arrows, each execution produces 10 arrows, so count=1 already gives you 10 arrows.",
                         "enum": [1, 5, 10]
                     }
                 },

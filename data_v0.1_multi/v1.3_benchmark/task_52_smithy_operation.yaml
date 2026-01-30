@@ -23,10 +23,16 @@ relevant_game_context: |
   - Need 11x ironore + 11x coal for smelting
 
   TEAM ROLES:
-  - Miners: Extract iron ore and coal
+  - Miner1: Extract COAL from Coal Rocks (near spawn)
+  - Miner2: Extract IRON ORE from Iron Rocks (further south ~y=590)
   - Lumberjack: Provide logs
   - Smelter: Process ore to bars
-  - Smiths: Craft final items
+  - Smith: Craft final items
+  
+  RESOURCE LOCATIONS (important!):
+  - Coal Rocks: Around (550-571, 531-555) - miner1 area
+  - Iron Rocks: Around (556-582, 580-597) - miner2 area
+  - Both miners need to gather materials and transfer to smelter
 
   DO NOT use complete() until all items are crafted!
 
@@ -59,12 +65,12 @@ max_action_steps: 42
 
 # Agent configurations
 agent_1:
-  username: "miner1_agent"
+  username: "t52_miner1_agent"
   new_character: true
 
   location:
-    x: 230
-    y: 45
+    x: 555
+    y: 545
 
   skill_levels:
     mining: 28
@@ -89,15 +95,15 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "miner2_agent"
+  username: "t52_miner2_agent"
   new_character: true
 
   location:
-    x: 235
-    y: 45
+    x: 565
+    y: 590
 
   skill_levels:
-    mining: 26
+    mining: 28
     strength: 28
     health: 38
 
@@ -119,7 +125,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "lumberjack_agent"
+  username: "t52_lumberjack_agent"
   new_character: true
 
   location:
@@ -149,12 +155,12 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "smelter_agent"
+  username: "t52_smelter_agent"
   new_character: true
 
   location:
-    x: 240
-    y: 50
+    x: 560
+    y: 560
 
   skill_levels:
     smithing: 28
@@ -176,12 +182,12 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "smith_agent"
+  username: "t52_smith_agent"
   new_character: true
 
   location:
-    x: 245
-    y: 50
+    x: 565
+    y: 560
 
   skill_levels:
     smithing: 30

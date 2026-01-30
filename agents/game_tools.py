@@ -224,10 +224,10 @@ class KaetramGameTools:
             return f"Failed to create character: {result.get('message', 'Unknown error')}"
 
     def login_character(self, arguments: Dict[str, Any]) -> str:
-        """Login with existing character. Supports force login to disconnect existing sessions."""
+        """Login with existing character. Always uses force login by default to disconnect existing sessions."""
         username = arguments.get("username", "QwenAgent")
         password = arguments.get("password", "qwen123456")
-        force = arguments.get("force", False)
+        force = arguments.get("force", True)  # Default to True to always kick existing sessions
 
         data = {
             "username": username,
@@ -1391,7 +1391,7 @@ class KaetramGameTools:
         for equip in equipped_items:
             equip_key = equip.get("key", "").lower()
             # Check attackStyle/attackRange from equipment data (server provides this for ranged weapons)
-            equip_attack_range = equip.get("attackRange", equip.get("attackStyle"pyt, 0))
+            equip_attack_range = equip.get("attackRange", equip.get("attackStyle", 0))
             
             # Check for bow weapons or any weapon with attack range > 1
             if "bow" in equip_key or equip_attack_range > 1:
@@ -2559,3 +2559,73 @@ class KaetramGameTools:
         self._log_message(f"📋 Transfer completed: {success_message}", "info")
         
         return success_message 
+
+    # ============================================================
+    # BENCHMARK TASK SETUP METHODS
+    # ============================================================
+
+    def spawn_mob_for_benchmark(self, mob_key: str, x: int, y: int) -> str:
+        """
+        Spawn a mob at a specific location for benchmark task setup.
+        This is used to ensure required mobs (like bosses) exist before a task runs.
+        
+        Args:
+            mob_key: The mob type key (e.g., 'wizard', 'hermitcrab')
+            x: X coordinate to spawn at
+            y: Y coordinate to spawn at
+            
+        Returns:
+            Result message indicating success or failure
+        """
+        try:
+            data = {
+                "mobKey": mob_key,
+                "x": x,
+                "y": y,
+                "masterPassword": "agentworld-benchmark"
+            }
+            
+            result = self._make_request("POST", "/api/ai/benchmark/spawn-mob", data)
+            
+            if result.get("status") == "success":
+                return f"✅ Spawned {result.get('mobName', mob_key)} at ({x}, {y}), instance: {result.get('mobInstance')}"
+            else:
+                return f"❌ Failed to spawn mob: {result.get('message', 'Unknown error')}"
+                
+        except Exception as e:
+            return f"❌ Error spawning mob: {str(e)}"
+
+    def reset_benchmark_mobs(self, spawn_locations: list) -> str:
+        """
+        Reset/respawn mobs at their defined spawn points for benchmark tasks.
+        Use this before running boss raid or combat tasks to ensure mobs exist.
+        
+        Args:
+            spawn_locations: List of dictionaries with 'x' and 'y' coordinates
+                            e.g., [{"x": 163, "y": 339}, {"x": 224, "y": 359}]
+            
+        Returns:
+            Result message with details about what was spawned
+        """
+        try:
+            data = {
+                "spawnLocations": spawn_locations,
+                "masterPassword": "agentworld-benchmark"
+            }
+            
+            result = self._make_request("POST", "/api/ai/benchmark/reset-mobs", data)
+            
+            if result.get("status") == "success":
+                results_summary = []
+                for r in result.get("results", []):
+                    loc = r.get("location", {})
+                    status = r.get("status")
+                    msg = r.get("message")
+                    results_summary.append(f"  ({loc.get('x')}, {loc.get('y')}): {status} - {msg}")
+                
+                return f"✅ Mob reset completed:\n" + "\n".join(results_summary)
+            else:
+                return f"❌ Failed to reset mobs: {result.get('message', 'Unknown error')}"
+                
+        except Exception as e:
+            return f"❌ Error resetting mobs: {str(e)}"

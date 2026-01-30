@@ -15,26 +15,37 @@ relevant_game_context: |
   OBJECTIVE: Defeat two dangerous bosses in sequence.
 
   TARGET BOSSES:
-  - Ancient Wizard (Level 10): Located at magical region (163, 339)
-  - Hermit Crab Warrior (Level 30): Located at coastal region (224, 359)
+  - Ancient Wizard (Level 10): SPAWN POINT at (163, 339) - magical region
+  - Hermit Crab Warrior (Level 30): SPAWN POINT at (224, 359) - coastal region
+
+  IMPORTANT - ROAMING BOSSES:
+  Both bosses are ROAMING mobs - they may have wandered from their spawn points!
+  - Check the spawn location first with get_observation()
+  - If not visible, search nearby tiles (within ~10 tile radius)
+  - Use get_observation() repeatedly while moving to scan the area
+  - The boss could be anywhere within roaming distance of spawn point
+  - Look for mobs named "Ancient Wizard" or "Hermit Crab Warrior" in observations
 
   COMBAT STRATEGY:
   - Ancient Wizard: Magic attacks, spread out to avoid AoE
-  - Hermit Crab Warrior: Heavy armor, use crush damage
+  - Hermit Crab Warrior: Heavy armor, aggressive, use physical attacks
 
   RAID ORDER:
-  1. First defeat Ancient Wizard (easier target)
-  2. Then move to Hermit Crab Warrior location
-  3. Coordinate attacks on Hermit Crab Warrior
+  1. Search for and defeat Ancient Wizard near (163, 339)
+  2. Then move to (224, 359) area to find Hermit Crab Warrior
+  3. Coordinate attacks - tank should attack first to draw aggro
 
   TEAM ROLES:
-  - Tank: Draw aggro
-  - DPS: Deal damage
-  - Mage: Magic support
+  - Tank: Attack first to draw aggro, use attack_mob()
+  - DPS: Deal damage with attack_mob()
+  - Mage: Magic support attacks
   - Archer: Ranged damage
-  - Healer: Keep team alive
+  - Support: Keep team alive with flasks/apples
 
-  DO NOT use complete() until both bosses are defeated!
+  CRITICAL: 
+  - Use attack_mob(mob_instance_id) to attack - get instance from get_observation()
+  - If boss not visible, MOVE and SEARCH - don't just wait!
+  - DO NOT use complete() until BOTH bosses are defeated!
 
 # Limitations
 max_action_steps: 45

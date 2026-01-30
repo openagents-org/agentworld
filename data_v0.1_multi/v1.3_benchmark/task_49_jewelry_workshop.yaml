@@ -23,9 +23,9 @@ relevant_game_context: |
   - 4x ironore + 4x coal → 4x ironbar → 2x silverring
 
   RESOURCE LOCATIONS:
-  - Gold rocks: Mountain regions (Level 25 mining)
-  - Iron rocks: Mountain regions (Level 20 mining)
-  - Coal rocks: Mountain regions (Level 1 mining)
+  - Gold rocks: Mining area around (555, 545) (Level 25 mining)
+  - Iron rocks: Mining area around (555, 545) (Level 20 mining)
+  - Coal rocks: Mining area around (555, 545) (Level 1 mining)
 
   TEAM ROLES:
   - Gold Miners: Extract gold ore
@@ -63,12 +63,12 @@ max_action_steps: 42
 
 # Agent configurations
 agent_1:
-  username: "goldminer_agent"
+  username: "t49_goldminer_agent"
   new_character: true
 
   location:
-    x: 230
-    y: 45
+    x: 555
+    y: 545
 
   skill_levels:
     mining: 30
@@ -93,12 +93,12 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "ironminer_agent"
+  username: "t49_ironminer_agent"
   new_character: true
 
   location:
-    x: 235
-    y: 45
+    x: 560
+    y: 548
 
   skill_levels:
     mining: 25
@@ -123,12 +123,12 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "coalminer_agent"
+  username: "t49_coalminer_agent"
   new_character: true
 
   location:
-    x: 240
-    y: 45
+    x: 565
+    y: 550
 
   skill_levels:
     mining: 20
@@ -153,12 +153,12 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "smelter_agent"
+  username: "t49_smelter_agent"
   new_character: true
 
   location:
-    x: 245
-    y: 50
+    x: 570
+    y: 555
 
   skill_levels:
     smithing: 25
@@ -180,12 +180,12 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "jeweler_agent"
+  username: "t49_jeweler_agent"
   new_character: true
 
   location:
-    x: 250
-    y: 50
+    x: 575
+    y: 555
 
   skill_levels:
     smithing: 28
