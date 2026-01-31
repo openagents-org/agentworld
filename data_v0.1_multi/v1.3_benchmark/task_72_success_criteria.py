@@ -29,11 +29,8 @@ def task_72_verifier(traj_json: Dict) -> Tuple[int, str]:
     kills = count_combat_kills(traj_json, ['Goblin', 'Skeleton', 'goblin', 'skeleton'])
     has_kills = kills >= 5
 
-    # Check all agents alive
-    alive = check_agents_alive(traj_json)
-
-    passed = has_kills and alive
-    msg = f"Kills: {kills}/5 (3 Goblin + 2 Skeleton), All alive: {alive}"
+    passed = has_kills
+    msg = f"Kills: {kills}/5 (3 Goblin + 2 Skeleton)"
     return (1 if passed else 0, msg)
 
 

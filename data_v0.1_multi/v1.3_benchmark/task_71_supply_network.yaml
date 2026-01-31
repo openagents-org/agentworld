@@ -16,11 +16,11 @@ relevant_game_context: |
 
   COLLECTION TARGETS:
   - 8x logs (from forest region)
-  - 6x coal (from mountain region)
+  - 6x coal (from coal mining area region)
 
   REGION LOCATIONS:
-  - Forest: Around (388, 10)
-  - Mountain: Around (230, 40)
+  - Forest (Oak Trees): Around (250, 35) - produces logs
+  - Coal mining area: Around (555, 545)
 
   TEAM ROLES:
   - Loggers: Gather logs from forest
@@ -33,12 +33,12 @@ max_action_steps: 40
 
 # Agent configurations
 agent_1:
-  username: "logger1_agent"
+  username: "t71_logger1_agent"
   new_character: true
 
   location:
-    x: 388
-    y: 10
+    x: 250
+    y: 35
 
   skill_levels:
     lumberjacking: 35
@@ -63,12 +63,12 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "logger2_agent"
+  username: "t71_logger2_agent"
   new_character: true
 
   location:
-    x: 392
-    y: 12
+    x: 252
+    y: 33
 
   skill_levels:
     lumberjacking: 37
@@ -93,12 +93,12 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "logger3_agent"
+  username: "t71_logger3_agent"
   new_character: true
 
   location:
-    x: 390
-    y: 14
+    x: 248
+    y: 37
 
   skill_levels:
     lumberjacking: 33
@@ -123,12 +123,12 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "logger4_agent"
+  username: "t71_logger4_agent"
   new_character: true
 
   location:
-    x: 394
-    y: 16
+    x: 254
+    y: 39
 
   skill_levels:
     lumberjacking: 32
@@ -153,15 +153,15 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "miner1_agent"
+  username: "t71_miner1_agent"
   new_character: true
 
   location:
-    x: 230
-    y: 40
+    x: 555
+    y: 540
 
   skill_levels:
-    mining: 38
+    mining: 50
     strength: 35
     health: 40
 
@@ -183,15 +183,15 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "miner2_agent"
+  username: "t71_miner2_agent"
   new_character: true
 
   location:
-    x: 232
-    y: 42
+    x: 558
+    y: 542
 
   skill_levels:
-    mining: 35
+    mining: 48
     strength: 33
     health: 38
 
@@ -213,15 +213,15 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "miner3_agent"
+  username: "t71_miner3_agent"
   new_character: true
 
   location:
-    x: 234
-    y: 44
+    x: 560
+    y: 545
 
   skill_levels:
-    mining: 32
+    mining: 45
     strength: 30
     health: 36
 
@@ -243,15 +243,15 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "miner4_agent"
+  username: "t71_miner4_agent"
   new_character: true
 
   location:
-    x: 236
-    y: 46
+    x: 562
+    y: 548
 
   skill_levels:
-    mining: 30
+    mining: 42
     strength: 28
     health: 34
 
@@ -276,4 +276,3 @@ agent_8:
 success_criteria:
   - "Team inventory contains at least 8x logs"
   - "Team inventory contains at least 6x coal"
-  - "All agents survive the mission"

@@ -66,11 +66,11 @@ max_action_steps: 45
 
 # Agent configurations
 agent_1:
-  username: "forager1_agent"
+  username: "t65_forager1_agent"
   new_character: true
 
   location:
-    x: 200
+    x: 350
     y: 200
 
   skill_levels:
@@ -89,12 +89,12 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "forager2_agent"
+  username: "t65_forager2_agent"
   new_character: true
 
   location:
-    x: 205
-    y: 205
+    x: 355
+    y: 200
 
   skill_levels:
     foraging: 40
@@ -112,7 +112,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "hunter_agent"
+  username: "t65_hunter_agent"
   new_character: true
 
   location:
@@ -120,9 +120,10 @@ agent_3:
     y: 230
 
   skill_levels:
-    strength: 42
-    accuracy: 38
-    health: 48
+    strength: 85
+    accuracy: 70
+    health: 90
+    defense: 70
 
   inventory_items:
     - item: "flask"
@@ -131,20 +132,20 @@ agent_3:
       count: 35
 
   equipped_items:
-    - item: "sword"
+    - item: "sword2"
       count: 1
       enchant: 0
-    - item: "platearmor"
+    - item: "redarmor"
       count: 1
       enchant: 0
 
 agent_4:
-  username: "fisher1_agent"
+  username: "t65_guild_fisher1_agent"
   new_character: true
 
   location:
-    x: 210
-    y: 210
+    x: 688
+    y: 15
 
   skill_levels:
     fishing: 40
@@ -165,12 +166,12 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "fisher2_agent"
+  username: "t65_guild_fisher2_agent"
   new_character: true
 
   location:
-    x: 215
-    y: 215
+    x: 690
+    y: 12
 
   skill_levels:
     fishing: 35
@@ -191,12 +192,12 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "cook1_agent"
+  username: "t65_guild_cook1_agent"
   new_character: true
 
   location:
-    x: 220
-    y: 220
+    x: 210
+    y: 205
 
   skill_levels:
     cooking: 50
@@ -217,12 +218,12 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "cook2_agent"
+  username: "t65_guild_cook2_agent"
   new_character: true
 
   location:
-    x: 225
-    y: 225
+    x: 215
+    y: 205
 
   skill_levels:
     cooking: 45
@@ -246,4 +247,3 @@ success_criteria:
   - "Team inventory contains 2x cookedshrimp"
   - "Team inventory contains 2x cookedchicken"
   - "Team inventory contains 1x jellyfishsmoothie"
-  - "All agents survive the cooking mission"

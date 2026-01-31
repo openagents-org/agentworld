@@ -19,7 +19,7 @@ relevant_game_context: |
   - 2x Skeletons (Level 18-25)
 
   ENEMY LOCATIONS:
-  - Goblins and Skeletons spawn around (355, 305) area
+  - Goblins and Skeletons spawn around (15, 15) area
 
   TEAM ROLES:
   - Guards: Front-line combat
@@ -34,12 +34,12 @@ max_action_steps: 40
 
 # Agent configurations
 agent_1:
-  username: "guard1_agent"
+  username: "t72_guard1_agent"
   new_character: true
 
   location:
-    x: 352
-    y: 302
+    x: 15
+    y: 12
 
   skill_levels:
     defense: 42
@@ -64,12 +64,12 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "guard2_agent"
+  username: "t72_guard2_agent"
   new_character: true
 
   location:
-    x: 355
-    y: 305
+    x: 18
+    y: 15
 
   skill_levels:
     defense: 40
@@ -94,12 +94,12 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "archer1_agent"
+  username: "t72_archer1_agent"
   new_character: true
 
   location:
-    x: 358
-    y: 305
+    x: 20
+    y: 18
 
   skill_levels:
     accuracy: 42
@@ -126,12 +126,12 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "archer2_agent"
+  username: "t72_archer2_agent"
   new_character: true
 
   location:
-    x: 360
-    y: 307
+    x: 22
+    y: 16
 
   skill_levels:
     accuracy: 40
@@ -158,12 +158,12 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "commander_agent"
+  username: "t72_commander_agent"
   new_character: true
 
   location:
-    x: 357
-    y: 305
+    x: 17
+    y: 14
 
   skill_levels:
     strength: 38
@@ -189,12 +189,12 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "support1_agent"
+  username: "t72_support1_agent"
   new_character: true
 
   location:
-    x: 362
-    y: 307
+    x: 24
+    y: 18
 
   skill_levels:
     magic: 35
@@ -219,12 +219,12 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "support2_agent"
+  username: "t72_support2_agent"
   new_character: true
 
   location:
-    x: 365
-    y: 310
+    x: 25
+    y: 20
 
   skill_levels:
     magic: 33
@@ -252,4 +252,3 @@ agent_7:
 success_criteria:
   - "3x Goblin defeated"
   - "2x Skeleton defeated"
-  - "All agents survive the defense"

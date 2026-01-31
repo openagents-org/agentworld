@@ -1,6 +1,6 @@
 # AgentWorld Multi-Agent Task Configuration
 
-task:
+task: 
   name: "Tool Production - Smithing Workshop"
   description: "Seven smiths mine ore and craft tools and weapons"
 
@@ -22,10 +22,14 @@ relevant_game_context: |
   TOTAL IRON NEEDED: 18x ironbar
   - Requires 18x ironore + 18x coal for smelting
 
+  REGION LOCATIONS:
+  - Forest (Oak Trees): Around (250, 35) - lumber resources (produces logs)
+  - Mountain: Around (555, 545) - iron and coal mining resources
+
   TEAM ROLES:
   - Iron Miners: Extract iron ore
   - Coal Miners: Mine coal
-  - Lumberjack: Harvest logs for handles
+  - Lumberjack: Harvest logs from Oak Tree forest for handles
   - Smelter: Smelt ore to bars
   - Smith: Craft tools and weapons
 
@@ -60,12 +64,12 @@ max_action_steps: 45
 
 # Agent configurations
 agent_1:
-  username: "ironminer1_agent"
+  username: "t68_ironminer1_agent"
   new_character: true
 
   location:
-    x: 230
-    y: 38
+    x: 548
+    y: 495
 
   skill_levels:
     mining: 50
@@ -87,12 +91,12 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "ironminer2_agent"
+  username: "t68_ironminer2_agent"
   new_character: true
 
   location:
-    x: 232
-    y: 40
+    x: 552
+    y: 500
 
   skill_levels:
     mining: 48
@@ -114,12 +118,12 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "coalminer1_agent"
+  username: "t68_coalminer1_agent"
   new_character: true
 
   location:
-    x: 234
-    y: 42
+    x: 555
+    y: 540
 
   skill_levels:
     mining: 40
@@ -141,12 +145,12 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "coalminer2_agent"
+  username: "t68_coalminer2_agent"
   new_character: true
 
   location:
-    x: 236
-    y: 44
+    x: 558
+    y: 545
 
   skill_levels:
     mining: 38
@@ -168,12 +172,12 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "lumberjack_agent"
+  username: "t68_lumberjack_agent"
   new_character: true
 
   location:
-    x: 388
-    y: 10
+    x: 250
+    y: 35
 
   skill_levels:
     lumberjacking: 50
@@ -195,12 +199,12 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "smelter_agent"
+  username: "t68_smelter_agent"
   new_character: true
 
   location:
-    x: 240
-    y: 50
+    x: 550
+    y: 510
 
   skill_levels:
     smithing: 45
@@ -219,12 +223,12 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "smith_agent"
+  username: "t68_smith_agent"
   new_character: true
 
   location:
-    x: 242
-    y: 52
+    x: 552
+    y: 512
 
   skill_levels:
     smithing: 60
@@ -249,4 +253,3 @@ success_criteria:
   - "Team inventory contains 2x pickaxe"
   - "Team inventory contains 2x axe"
   - "Team inventory contains 1x sword2 (heavy sword)"
-  - "All agents survive the production mission"

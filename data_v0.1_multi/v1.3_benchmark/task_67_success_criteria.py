@@ -24,38 +24,25 @@ from verifier_utils import (
 
 
 def task_67_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Multi-Biome Resource Caravan - 80+ resources, 12+ crafted items."""
+    """Multi-Biome Resource Caravan.
+    YAML criteria:
+    - Team inventory contains at least 6x logs
+    - Team inventory contains at least 5x coal
+    - Team inventory contains 1x pickaxe
+    """
     inventories = get_final_inventories(traj_json)
-    
-    resource_keys = ["logs", "oak", "palm", "ice", "stick", "coal", "ironore", "goldore",
-                     "rawshrimp", "rawtuna", "jellyfish", "crab", "fish", "herb", "apple",
-                     "peach", "blueberry", "corn", "tomato", "cactus", "feather", "string", "bead"]
-    crafted_keys = ["ironbar", "goldbar", "sword", "axe", "pickaxe", "bow", "arrow",
-                    "cookedshrimp", "cookedtuna", "ring", "staff", "armor", "boots"]
-    starting_items = ["flask", "apple"]
 
-    total_resources = 0
-    total_crafted = 0
+    logs = count_item_in_inventories(inventories, 'logs')
+    coal = count_item_in_inventories(inventories, 'coal')
+    pickaxe = count_item_in_inventories(inventories, 'pickaxe')
 
-    for items in inventories.values():
-        for item in items:
-            k = item.get("key", "").lower()
-            x = item.get("count", 0)
-            if k in starting_items:
-                continue
-            is_resource = any(res in k for res in resource_keys)
-            is_crafted = any(craft in k for craft in crafted_keys)
-            if is_resource:
-                total_resources += x
-            elif is_crafted:
-                total_crafted += x
+    logs_ok = logs >= 6
+    coal_ok = coal >= 5
+    pick_ok = pickaxe >= 1
 
-    resources_passed = total_resources >= 80
-    crafted_passed = total_crafted >= 12
-
-    passed = resources_passed and crafted_passed
-    msg = f"Resources: {total_resources}/80, Crafted: {total_crafted}/12"
-    return (1 if passed else 0, msg)
+    success = logs_ok and coal_ok and pick_ok
+    msg = f"Logs: {logs}/6, Coal: {coal}/5, Pickaxe: {pickaxe}/1"
+    return (1 if success else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

@@ -23,7 +23,7 @@ relevant_game_context: |
   TOTALS: 30 goldbar, 18 ironbar, 3 hilt2 (have 4), 7 logs, 11 string (have 12)
 
   FLOW
-  1. R1-15 Procurement: Iron_Master (20+ iron ore), Gold_Master (35+ gold ore), Coal_Master (60+ coal) mine around (230-240,40). Lumber_Jack harvests 10+ logs near (250,350). String_Maker already has 12 string and can assist with coordination. Forge team stays at (528,384) monitoring counts.
+  1. R1-15 Procurement: Iron_Master (20+ iron ore), Gold_Master (35+ gold ore), Coal_Master (60+ coal) mine around (550-560, 500-545) near southern ore deposits. Lumber_Jack harvests 10+ logs near (250,350). String_Maker already has 12 string and can assist with coordination. Forge team stays at (528,384) monitoring counts.
   2. R16-28 Transport & Consolidation: all gatherers travel toward the forge in ≤32-tile hops, transferring resources via transfer_items (ores/coal → Master_Forger, logs/string → Weaponsmith). When observe_environment is unavailable, rely on grid movement plus harvest confirmations.
   3. R29-45 Production: Master_Forger smelts ~18 iron + ~30 gold bars (announce milestones). Weaponsmith crafts in order: pickaxe, axes, wooden bow, heavy swords, golden sword, golden bow; ensure hilts/strings/logs are allocated before crafting each recipe.
   4. R46-52 Verification: verify_inventory shows every weapon, and the consortium announces "Arsenal complete" before calling complete().
@@ -68,7 +68,7 @@ max_action_steps: 52
 agent_1:
   username: "Iron_Master"
   new_character: true
-  location: {x: 230, y: 38}
+  location: {x: 550, y: 500}
   skill_levels: {mining: 50, strength: 32, health: 38}
   inventory_items:
     - {item: "flask", count: 25}
@@ -80,7 +80,7 @@ agent_1:
 agent_2:
   username: "Gold_Master"
   new_character: true
-  location: {x: 238, y: 48}
+  location: {x: 560, y: 540}
   skill_levels: {mining: 45, strength: 30, health: 36}
   inventory_items:
     - {item: "flask", count: 25}
@@ -92,7 +92,7 @@ agent_2:
 agent_3:
   username: "Coal_Master"
   new_character: true
-  location: {x: 232, y: 40}
+  location: {x: 555, y: 545}
   skill_levels: {mining: 35, strength: 28, health: 34}
   inventory_items:
     - {item: "flask", count: 25}

@@ -20,17 +20,21 @@ relevant_game_context: |
   - 2x Beryl Pendant (beryl + string each)
 
   MATERIAL REQUIREMENTS:
-  - 4x goldore + 4x coal (for gold bars)
-  - 4x ironore + 4x coal (for iron bars)
-  - 2x beryl (foraging)
+  - 4x goldnugget (from gold rocks) -> craft goldbar via SMITHING (no coal needed)
+  - 4x ironore + 4x coal (for iron bars via Smelting)
+  - 2x beryl (from beryl rocks - requires MINING)
   - 2x string (for pendants)
 
+  IMPORTANT CRAFTING NOTES:
+  - Gold Bar: Use SMITHING skill with goldnugget (NOT Smelting)
+  - Iron Bar: Use Smelting skill with ironore + coal
+
   TEAM ROLES:
-  - Gold Miner: Extract gold ore
+  - Gold Miner: Extract gold nuggets from gold rocks
   - Iron Miner: Extract iron ore
-  - Coal Miner: Mine coal
-  - Forager: Gather beryl
-  - Smelter: Smelt bars
+  - Coal Miner: Mine coal (for iron bars only)
+  - Beryl Miner: Mine beryl rocks (requires mining skill)
+  - Smelter: Smelt iron bars (Smelting), craft gold bars (Smithing)
   - Jeweler: Craft all jewelry
 
   DO NOT use complete() until all jewelry is crafted!
@@ -52,8 +56,8 @@ relevant_game_context: |
   - Ice Staff: itemKey=icestaff (Crafting)
   - Nature Staff: itemKey=naturestaff (Crafting)
   - Bucket: itemKey=bucket (Crafting)
-  - Iron Bar: itemKey=ironbar (Smelting)
-  - Gold Bar: itemKey=goldbar (Smelting)
+  - Iron Bar: itemKey=ironbar (Smelting) - requires ironore + coal
+  - Gold Bar: itemKey=goldbar (Smithing) - requires goldnugget only, NO coal
   - Bronze Bar: itemKey=bronzebar (Smelting)
   - Cooked Shrimp: itemKey=cookedshrimp (Cooking)
   - Stew: itemKey=stew (Cooking)
@@ -64,12 +68,12 @@ max_action_steps: 42
 
 # Agent configurations
 agent_1:
-  username: "goldminer_agent"
+  username: "t63_goldminer_agent"
   new_character: true
 
   location:
-    x: 238
-    y: 48
+    x: 560
+    y: 540
 
   skill_levels:
     mining: 42
@@ -91,12 +95,12 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "ironminer_agent"
+  username: "t63_ironminer_agent"
   new_character: true
 
   location:
-    x: 230
-    y: 40
+    x: 550
+    y: 500
 
   skill_levels:
     mining: 40
@@ -118,12 +122,12 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "coalminer_agent"
+  username: "t63_coalminer_agent"
   new_character: true
 
   location:
-    x: 232
-    y: 42
+    x: 555
+    y: 545
 
   skill_levels:
     mining: 35
@@ -145,15 +149,15 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "forager_agent"
+  username: "t63_berylminer_agent"
   new_character: true
 
   location:
-    x: 250
-    y: 350
+    x: 558
+    y: 542
 
   skill_levels:
-    foraging: 45
+    mining: 15
     health: 35
 
   inventory_items:
@@ -165,17 +169,20 @@ agent_4:
       count: 2
 
   equipped_items:
+    - item: "pickaxe"
+      count: 1
+      enchant: 0
     - item: "leatherarmor"
       count: 1
       enchant: 0
 
 agent_5:
-  username: "smelter_agent"
+  username: "t63_smelter_agent"
   new_character: true
 
   location:
-    x: 240
-    y: 50
+    x: 552
+    y: 510
 
   skill_levels:
     smithing: 40
@@ -194,12 +201,12 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "jeweler_agent"
+  username: "t63_jeweler_agent"
   new_character: true
 
   location:
-    x: 245
-    y: 52
+    x: 554
+    y: 512
 
   skill_levels:
     crafting: 50
@@ -222,4 +229,3 @@ success_criteria:
   - "Team inventory contains 2x goldring"
   - "Team inventory contains 2x silverring"
   - "Team inventory contains 2x berylpendant"
-  - "All agents survive the crafting mission"

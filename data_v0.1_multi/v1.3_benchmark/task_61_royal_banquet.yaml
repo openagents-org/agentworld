@@ -16,13 +16,14 @@ relevant_game_context: |
 
   PRODUCTION TARGETS:
   - 3x Cooked Shrimp (cook 3x rawshrimp)
-  - 2x Tuna Sushi (cook 2x rawtuna)
+  - 2x Tuna Sushi (cook 2x rawtuna + 2x kelp)
   - 2x Cooked Chicken (cook 2x rawchicken)
 
   GATHERING REQUIREMENTS:
   - 3x rawshrimp (fishing at coast)
   - 2x rawtuna (fishing at coast)
   - 2x rawchicken (hunting chickens)
+  - 2x kelp (provided to cook)
 
   FISHING LOCATIONS:
   - Coastal fishing spots (580-600, 740-760)
@@ -68,7 +69,7 @@ max_action_steps: 45
 
 # Agent configurations
 agent_1:
-  username: "hunter1_agent"
+  username: "t61_hunter1_agent"
   new_character: true
 
   location:
@@ -76,9 +77,9 @@ agent_1:
     y: 220
 
   skill_levels:
-    strength: 40
-    accuracy: 35
-    health: 45
+    strength: 75
+    accuracy: 60
+    health: 80
 
   inventory_items:
     - item: "flask"
@@ -87,15 +88,15 @@ agent_1:
       count: 30
 
   equipped_items:
-    - item: "sword"
+    - item: "sword2"
       count: 1
       enchant: 0
-    - item: "platearmor"
+    - item: "redarmor"
       count: 1
       enchant: 0
 
 agent_2:
-  username: "hunter2_agent"
+  username: "t61_hunter2_agent"
   new_character: true
 
   location:
@@ -103,9 +104,9 @@ agent_2:
     y: 225
 
   skill_levels:
-    strength: 38
-    accuracy: 33
-    health: 43
+    strength: 75
+    accuracy: 60
+    health: 80
 
   inventory_items:
     - item: "flask"
@@ -114,15 +115,15 @@ agent_2:
       count: 30
 
   equipped_items:
-    - item: "sword"
+    - item: "sword2"
       count: 1
       enchant: 0
-    - item: "leatherarmor"
+    - item: "redarmor"
       count: 1
       enchant: 0
 
 agent_3:
-  username: "fisher1_agent"
+  username: "t61_fisher1_agent"
   new_character: true
 
   location:
@@ -148,7 +149,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "fisher2_agent"
+  username: "t61_fisher2_agent"
   new_character: true
 
   location:
@@ -174,7 +175,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "fisher3_agent"
+  username: "t61_fisher3_agent"
   new_character: true
 
   location:
@@ -200,7 +201,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "cook1_agent"
+  username: "t61_cook1_agent"
   new_character: true
 
   location:
@@ -217,6 +218,8 @@ agent_6:
       count: 20
     - item: "apple"
       count: 25
+    - item: "kelp"
+      count: 2
 
   equipped_items:
     - item: "leatherarmor"
@@ -224,7 +227,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "cook2_agent"
+  username: "t61_cook2_agent"
   new_character: true
 
   location:
@@ -248,7 +251,7 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "coordinator_agent"
+  username: "t61_coordinator_agent"
   new_character: true
 
   location:
@@ -276,4 +279,3 @@ success_criteria:
   - "Team inventory contains 3x cookedshrimp"
   - "Team inventory contains 2x tunasushi"
   - "Team inventory contains 2x cookedchicken"
-  - "All agents survive the banquet preparation"

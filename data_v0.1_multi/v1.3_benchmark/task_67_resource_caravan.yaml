@@ -20,8 +20,8 @@ relevant_game_context: |
   - 1x Pickaxe (5x ironbar + 1x logs)
 
   REGION LOCATIONS:
-  - Forest: Around (388, 10) - lumber resources
-  - Mountain: Around (230, 40) - mining resources
+  - Forest (Oak Trees): Around (250, 35) - lumber resources (produces logs)
+  - Mountain: Around (555, 545) - coal mining resources
 
   TEAM ROLES:
   - Lumberjacks: Gather logs from forest
@@ -59,17 +59,17 @@ max_action_steps: 40
 
 # Agent configurations
 agent_1:
-  username: "leader_agent"
+  username: "t67_leader_agent"
   new_character: true
 
   location:
-    x: 350
-    y: 250
+    x: 250
+    y: 40
 
   skill_levels:
-    strength: 38
-    health: 48
-    defense: 35
+    strength: 75
+    health: 80
+    defense: 60
 
   inventory_items:
     - item: "flask"
@@ -78,52 +78,52 @@ agent_1:
       count: 40
 
   equipped_items:
-    - item: "sword"
+    - item: "sword2"
+      count: 1
+      enchant: 0
+    - item: "redarmor"
+      count: 1
+      enchant: 0
+
+agent_2:
+  username: "t67_caravan_lumber1_agent"
+  new_character: true
+
+  location:
+    x: 250
+    y: 35
+
+  skill_levels:
+    lumberjacking: 40
+    strength: 50
+    health: 60
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+
+  equipped_items:
+    - item: "axe"
       count: 1
       enchant: 0
     - item: "platearmor"
       count: 1
       enchant: 0
 
-agent_2:
-  username: "lumberjack1_agent"
-  new_character: true
-
-  location:
-    x: 388
-    y: 10
-
-  skill_levels:
-    lumberjacking: 40
-    strength: 32
-    health: 38
-
-  inventory_items:
-    - item: "flask"
-      count: 30
-    - item: "apple"
-      count: 35
-
-  equipped_items:
-    - item: "axe"
-      count: 1
-      enchant: 0
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
 agent_3:
-  username: "lumberjack2_agent"
+  username: "t67_caravan_lumber2_agent"
   new_character: true
 
   location:
-    x: 392
-    y: 12
+    x: 252
+    y: 33
 
   skill_levels:
     lumberjacking: 38
-    strength: 30
-    health: 36
+    strength: 50
+    health: 60
 
   inventory_items:
     - item: "flask"
@@ -135,22 +135,22 @@ agent_3:
     - item: "axe"
       count: 1
       enchant: 0
-    - item: "leatherarmor"
+    - item: "platearmor"
       count: 1
       enchant: 0
 
 agent_4:
-  username: "lumberjack3_agent"
+  username: "t67_lumberjack3_agent"
   new_character: true
 
   location:
-    x: 390
-    y: 14
+    x: 248
+    y: 37
 
   skill_levels:
     lumberjacking: 35
-    strength: 28
-    health: 34
+    strength: 50
+    health: 60
 
   inventory_items:
     - item: "flask"
@@ -162,22 +162,22 @@ agent_4:
     - item: "axe"
       count: 1
       enchant: 0
-    - item: "leatherarmor"
+    - item: "platearmor"
       count: 1
       enchant: 0
 
 agent_5:
-  username: "miner1_agent"
+  username: "t67_miner1_agent"
   new_character: true
 
   location:
-    x: 230
-    y: 40
+    x: 555
+    y: 540
 
   skill_levels:
     mining: 35
-    strength: 28
-    health: 36
+    strength: 50
+    health: 60
 
   inventory_items:
     - item: "flask"
@@ -189,22 +189,22 @@ agent_5:
     - item: "pickaxe"
       count: 1
       enchant: 0
-    - item: "leatherarmor"
+    - item: "platearmor"
       count: 1
       enchant: 0
 
 agent_6:
-  username: "miner2_agent"
+  username: "t67_miner2_agent"
   new_character: true
 
   location:
-    x: 232
-    y: 42
+    x: 558
+    y: 543
 
   skill_levels:
     mining: 32
-    strength: 26
-    health: 34
+    strength: 50
+    health: 60
 
   inventory_items:
     - item: "flask"
@@ -216,22 +216,22 @@ agent_6:
     - item: "pickaxe"
       count: 1
       enchant: 0
-    - item: "leatherarmor"
+    - item: "platearmor"
       count: 1
       enchant: 0
 
 agent_7:
-  username: "miner3_agent"
+  username: "t67_miner3_agent"
   new_character: true
 
   location:
-    x: 234
-    y: 44
+    x: 560
+    y: 546
 
   skill_levels:
     mining: 30
-    strength: 25
-    health: 32
+    strength: 50
+    health: 60
 
   inventory_items:
     - item: "flask"
@@ -243,17 +243,17 @@ agent_7:
     - item: "pickaxe"
       count: 1
       enchant: 0
-    - item: "leatherarmor"
+    - item: "platearmor"
       count: 1
       enchant: 0
 
 agent_8:
-  username: "crafter_agent"
+  username: "t67_crafter_agent"
   new_character: true
 
   location:
-    x: 350
-    y: 255
+    x: 254
+    y: 38
 
   skill_levels:
     crafting: 40
@@ -278,4 +278,3 @@ success_criteria:
   - "Team inventory contains at least 6x logs"
   - "Team inventory contains at least 5x coal"
   - "Team inventory contains 1x pickaxe"
-  - "All agents survive the caravan mission"

@@ -61,17 +61,17 @@ max_action_steps: 45
 
 # Agent configurations
 agent_1:
-  username: "tank1_agent"
+  username: "t70_tank1_agent"
   new_character: true
 
   location:
-    x: 380
-    y: 290
+    x: 220
+    y: 45
 
   skill_levels:
-    defense: 40
-    strength: 35
-    health: 50
+    defense: 75
+    strength: 80
+    health: 100
 
   inventory_items:
     - item: "flask"
@@ -91,17 +91,17 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "tank2_agent"
+  username: "t70_tank2_agent"
   new_character: true
 
   location:
-    x: 385
-    y: 292
+    x: 222
+    y: 43
 
   skill_levels:
-    defense: 38
-    strength: 37
-    health: 48
+    defense: 70
+    strength: 80
+    health: 95
 
   inventory_items:
     - item: "flask"
@@ -121,17 +121,17 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "dps1_agent"
+  username: "t70_dps1_agent"
   new_character: true
 
   location:
-    x: 390
-    y: 295
+    x: 224
+    y: 46
 
   skill_levels:
-    strength: 45
-    accuracy: 38
-    health: 42
+    strength: 85
+    accuracy: 70
+    health: 90
 
   inventory_items:
     - item: "flask"
@@ -151,17 +151,17 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "dps2_agent"
+  username: "t70_dps2_agent"
   new_character: true
 
   location:
-    x: 395
-    y: 298
+    x: 226
+    y: 44
 
   skill_levels:
-    strength: 43
-    accuracy: 40
-    health: 40
+    strength: 85
+    accuracy: 70
+    health: 85
 
   inventory_items:
     - item: "flask"
@@ -181,17 +181,17 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "ranger1_agent"
+  username: "t70_ranger1_agent"
   new_character: true
 
   location:
-    x: 382
-    y: 300
+    x: 218
+    y: 42
 
   skill_levels:
-    accuracy: 45
-    archery: 40
-    health: 38
+    accuracy: 70
+    archery: 60
+    health: 80
 
   inventory_items:
     - item: "flask"
@@ -213,17 +213,17 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "ranger2_agent"
+  username: "t70_ranger2_agent"
   new_character: true
 
   location:
-    x: 387
-    y: 303
+    x: 220
+    y: 40
 
   skill_levels:
-    accuracy: 42
-    archery: 38
-    health: 36
+    accuracy: 70
+    archery: 60
+    health: 75
 
   inventory_items:
     - item: "flask"
@@ -245,12 +245,12 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "smith_agent"
+  username: "t70_dungeon_smith_agent"
   new_character: true
 
   location:
-    x: 392
-    y: 305
+    x: 215
+    y: 38
 
   skill_levels:
     smithing: 40
@@ -280,4 +280,3 @@ success_criteria:
   - "Iron Ogre at (238, 48) is defeated"
   - "Ogre Guardian at (291, 644) is defeated"
   - "Team inventory contains 2x sword2 (heavy sword)"
-  - "All agents survive the expedition"

@@ -24,12 +24,50 @@ from verifier_utils import (
 
 
 def task_69_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Legendary Equipment Forge."""
+    """Legendary Equipment Forge.
+    YAML criteria:
+    - Golden Sword, Golden Bow, Golden Boots (3 golden items)
+    - 2 Gold Rings
+    - 4 magical staffs (lightning, fire, ice, nature)
+    - 6 elite weapons (2 swords, 2 pickaxes, 2 axes)
+    - Total 15 legendary items created
+    """
     inventories = get_final_inventories(traj_json)
-    legendary = ['goldensword', 'goldenbow', 'goldring', 'lightningstaff', 'firestaff']
-    legendary_count = sum(1 for l in legendary if has_item_in_any_inventory(inventories, l))
-    success = legendary_count >= 2
-    msg = f"Legendary items: {legendary_count}/2"
+
+    # Golden items
+    goldensword = count_item_in_inventories(inventories, 'goldensword')
+    goldenbow = count_item_in_inventories(inventories, 'goldenbow')
+    goldenboots = count_item_in_inventories(inventories, 'goldenboots')
+    goldring = count_item_in_inventories(inventories, 'goldring')
+
+    # Staffs
+    lightningstaff = count_item_in_inventories(inventories, 'lightningstaff')
+    firestaff = count_item_in_inventories(inventories, 'firestaff')
+    icestaff = count_item_in_inventories(inventories, 'icestaff')
+    naturestaff = count_item_in_inventories(inventories, 'naturestaff')
+    total_staffs = lightningstaff + firestaff + icestaff + naturestaff
+
+    # Elite weapons
+    sword2 = count_item_in_inventories(inventories, 'sword2') + count_item_in_inventories(inventories, 'heavysword')
+    pickaxe = count_item_in_inventories(inventories, 'pickaxe')
+    axe = count_item_in_inventories(inventories, 'axe')
+
+    total_legendary = goldensword + goldenbow + goldenboots + goldring + total_staffs + sword2 + pickaxe + axe
+
+    gs_ok = goldensword >= 1
+    gb_ok = goldenbow >= 1
+    gboot_ok = goldenboots >= 1
+    ring_ok = goldring >= 2
+    staff_ok = total_staffs >= 4
+    sword_ok = sword2 >= 2
+    pick_ok = pickaxe >= 2
+    axe_ok = axe >= 2
+    total_ok = total_legendary >= 15
+
+    success = gs_ok and gb_ok and gboot_ok and ring_ok and staff_ok and sword_ok and pick_ok and axe_ok and total_ok
+    msg = (f"GoldenSword: {goldensword}/1, GoldenBow: {goldenbow}/1, GoldenBoots: {goldenboots}/1, "
+           f"GoldRing: {goldring}/2, Staffs: {total_staffs}/4, Sword2: {sword2}/2, "
+           f"Pickaxe: {pickaxe}/2, Axe: {axe}/2, Total: {total_legendary}/15")
     return (1 if success else 0, msg)
 
 
