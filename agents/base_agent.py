@@ -315,10 +315,12 @@ Always think strategically about your actions. Make decisions based on your curr
             self._debug_print(f"\033[92m[ASSISTANT] Final response: {content[:200]}{'...' if len(content) > 200 else ''}\033[0m")
 
         # Add assistant message (include original tool_calls if present)
+        # NOTE: Claude API rejects empty text content blocks, so only include content if non-empty
         assistant_msg: Dict[str, Any] = {
             "role": "assistant",
-            "content": content
         }
+        if content:  # Only add content if non-empty (Claude rejects empty strings)
+            assistant_msg["content"] = content
         if tool_calls:
             assistant_msg["tool_calls"] = assistant_message.get("tool_calls", [])
         self.conversation_history.append(assistant_msg)
@@ -414,10 +416,12 @@ Always think strategically about your actions. Make decisions based on your curr
                 self._debug_print(f"\033[92m[ASSISTANT] Final response: {content[:200]}{'...' if len(content) > 200 else ''}\033[0m")
 
             # Add assistant message (include original tool_calls if present)
+            # NOTE: Claude API rejects empty text content blocks, so only include content if non-empty
             assistant_msg: Dict[str, Any] = {
                 "role": "assistant",
-                "content": content
             }
+            if content:  # Only add content if non-empty (Claude rejects empty strings)
+                assistant_msg["content"] = content
             if tool_calls:
                 assistant_msg["tool_calls"] = assistant_message.get("tool_calls", [])
             self.conversation_history.append(assistant_msg)
