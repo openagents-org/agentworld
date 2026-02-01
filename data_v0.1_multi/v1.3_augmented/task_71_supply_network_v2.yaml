@@ -27,11 +27,17 @@ relevant_game_context: |
   - Mountain: Around (230, 40)
 
   DO NOT use complete() until ALL resources are collected!
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
 
 max_action_steps: 65
 
 agent_1:
-  username: "logger1_agent"
+  username: "t71a2_logger1_agent"
   new_character: true
 
   location:
@@ -61,7 +67,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "logger2_agent"
+  username: "t71a2_logger2_agent"
   new_character: true
 
   location:
@@ -91,7 +97,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "logger3_agent"
+  username: "t71a2_logger3_agent"
   new_character: true
 
   location:
@@ -121,7 +127,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "logger4_agent"
+  username: "t71a2_logger4_agent"
   new_character: true
 
   location:
@@ -151,7 +157,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "miner1_agent"
+  username: "t71a2_miner1_agent"
   new_character: true
 
   location:
@@ -181,7 +187,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "miner2_agent"
+  username: "t71a2_miner2_agent"
   new_character: true
 
   location:
@@ -211,7 +217,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "miner3_agent"
+  username: "t71a2_miner3_agent"
   new_character: true
 
   location:
@@ -241,7 +247,7 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "miner4_agent"
+  username: "t71a2_miner4_agent"
   new_character: true
 
   location:

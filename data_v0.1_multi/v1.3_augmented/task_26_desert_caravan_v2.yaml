@@ -48,11 +48,17 @@ relevant_game_context: |
   ⛏️ Mining Operations:
     - Mine Gold ore (level 25), Pythar ore (level 15)
     - Need 2+ successful mining operations
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
 
 max_action_steps: 65
 
 agent_1:
-  username: "caravan_leader_agent"
+  username: "t26a2_caravan_leader_agent"
   new_character: true
 
   location:
@@ -89,7 +95,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "desert_trader_agent"
+  username: "t26a2_desert_trader_agent"
   new_character: true
 
   location:
@@ -122,7 +128,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "resource_gatherer_agent"
+  username: "t26a2_resource_gatherer_agent"
   new_character: true
 
   location:
@@ -159,7 +165,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "desert_scout_agent"
+  username: "t26a2_desert_scout_agent"
   new_character: true
 
   location:

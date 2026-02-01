@@ -14,7 +14,7 @@ relevant_game_context: |
 
   CHALLENGE MODE:
   - Must craft 2x golden rings (doubled target!)
-  - Need to mine 4x goldore from scratch (no pre-gathered materials)
+  - Need to mine 4x goldnugget from scratch (no pre-gathered materials)
   - Need 4x coal for smelting operations
   - Added 4th agent (mining_support_agent) for better coordination
   - Reduced consumables - manage resources carefully
@@ -38,7 +38,7 @@ relevant_game_context: |
 
   CRAFTING RECIPES (CRITICAL KNOWLEDGE):
   Mining - Gold Ore (RARE):
-    - harvest_resource on Gold Rock instances to get goldore
+    - harvest_resource on Gold Rock instances to get goldnugget
     - Level required: 30+ (Mining skill)
     - RARE: Gold Rocks are much scarcer than Iron Rocks!
 
@@ -49,23 +49,29 @@ relevant_game_context: |
 
   Smelting Recipe - goldbar:
     - craft_item skill=Smelting itemKey=goldbar
-    - Materials: 1x goldore + 1x coal → 1x goldbar
+    - Materials: 1x goldnugget + 1x coal → 1x goldbar
     - Level required: Smelting skill
 
   Smithing Recipe - goldring:
     - craft_item skill=Smithing itemKey=goldring
     - Materials: 2x goldbar → 1x goldring
     - Level required: Smithing level 1
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
 
 max_action_steps: 45
 
 agent_1:
-  username: "ore_prospector_agent"
+  username: "t21a2_ore_prospector_agent"
   new_character: true
 
   location:
-    x: 600
-    y: 500
+    x: 141
+    y: 10
 
   skill_levels:
     mining: 32
@@ -94,12 +100,12 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "fuel_gatherer_agent"
+  username: "t21a2_fuel_gatherer_agent"
   new_character: true
 
   location:
-    x: 580
-    y: 480
+    x: 230
+    y: 45
 
   skill_levels:
     mining: 22
@@ -124,12 +130,12 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "master_smith_agent"
+  username: "t21a2_master_smith_agent"
   new_character: true
 
   location:
-    x: 620
-    y: 520
+    x: 235
+    y: 45
 
   skill_levels:
     smithing: 48
@@ -155,12 +161,12 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "mining_support_agent"
+  username: "t21a2_mining_support_agent"
   new_character: true
 
   location:
-    x: 590
-    y: 510
+    x: 145
+    y: 10
 
   skill_levels:
     mining: 35
@@ -185,7 +191,7 @@ agent_4:
       enchant: 0
 
 success_criteria:
-  - "Team mines at least 4x goldore from Gold Rock deposits"
+  - "Team mines at least 4x goldnugget from Gold Rock deposits"
   - "Team gathers at least 4x coal for smelting"
   - "master_smith_agent successfully smelts 4x Gold Bars"
   - "master_smith_agent successfully crafts 2x Golden Rings"

@@ -7,14 +7,14 @@ task:
   description: "Ten agents defeat one boss and craft one staff with pre-gathered materials"
 
 objectives:
-  primary: "Defeat Ancient Wizard at (163, 339), craft 1x Lightning Staff, and collect 5x goldore"
+  primary: "Defeat Ancient Wizard at (163, 339), craft 1x Lightning Staff, and collect 5x goldnugget"
 
 relevant_game_context: |
   This is a cooperative multi-agent combat and crafting scenario with reduced difficulty.
 
   STARTING ADVANTAGE:
   - Higher combat stats for fighters
-  - miner1_agent has 3x goldore pre-gathered
+  - miner1_agent has 3x goldnugget pre-gathered
   - crafter1_agent has staff ready
   - Only 1 staff to craft
   - More consumables
@@ -23,7 +23,7 @@ relevant_game_context: |
   - Ancient Wizard (Level 10) at (163, 339)
 
   PRODUCTION TARGETS (REDUCED):
-  - 5x goldore (from mountain) - 3 already gathered!
+  - 5x goldnugget (from mountain) - 3 already gathered!
   - 1x Lightning Staff (staff + lightningbead) - staff ready!
 
   TEAM ROLES:
@@ -32,11 +32,17 @@ relevant_game_context: |
   - Crafter: Make staff
 
   DO NOT use complete() until all objectives are met!
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
 
 max_action_steps: 22
 
 agent_1:
-  username: "fighter1_agent"
+  username: "t90a1_fighter1_agent"
   new_character: true
 
   location:
@@ -66,7 +72,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "fighter2_agent"
+  username: "t90a1_fighter2_agent"
   new_character: true
 
   location:
@@ -96,7 +102,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "fighter3_agent"
+  username: "t90a1_fighter3_agent"
   new_character: true
 
   location:
@@ -126,7 +132,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "miner1_agent"
+  username: "t90a1_miner1_agent"
   new_character: true
 
   location:
@@ -143,7 +149,7 @@ agent_4:
       count: 35
     - item: "apple"
       count: 40
-    - item: "goldore"
+    - item: "goldnugget"
       count: 3
 
   equipped_items:
@@ -155,7 +161,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "miner2_agent"
+  username: "t90a1_miner2_agent"
   new_character: true
 
   location:
@@ -182,7 +188,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "miner3_agent"
+  username: "t90a1_miner3_agent"
   new_character: true
 
   location:
@@ -209,7 +215,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "crafter1_agent"
+  username: "t90a1_crafter1_agent"
   new_character: true
 
   location:
@@ -237,7 +243,7 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "crafter2_agent"
+  username: "t90a1_crafter2_agent"
   new_character: true
 
   location:
@@ -261,7 +267,7 @@ agent_8:
       enchant: 0
 
 agent_9:
-  username: "support1_agent"
+  username: "t90a1_support1_agent"
   new_character: true
 
   location:
@@ -284,7 +290,7 @@ agent_9:
       enchant: 0
 
 agent_10:
-  username: "coordinator_agent"
+  username: "t90a1_coordinator_agent"
   new_character: true
 
   location:
@@ -308,6 +314,6 @@ agent_10:
 
 success_criteria:
   - "Ancient Wizard at (163, 339) defeated"
-  - "Team inventory contains at least 5x goldore (or smelted)"
+  - "Team inventory contains at least 5x goldnugget (or smelted)"
   - "Team inventory contains 1x lightningstaff"
   - "All agents survive the barrier reboot mission"

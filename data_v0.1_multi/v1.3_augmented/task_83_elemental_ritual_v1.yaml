@@ -30,11 +30,17 @@ relevant_game_context: |
   - Crafter: Make pendant
 
   DO NOT use complete() until all objectives are met!
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
 
 max_action_steps: 20
 
 agent_1:
-  username: "miner1_agent"
+  username: "t83a1_miner1_agent"
   new_character: true
 
   location:
@@ -61,7 +67,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "miner2_agent"
+  username: "t83a1_miner2_agent"
   new_character: true
 
   location:
@@ -88,7 +94,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "forager1_agent"
+  username: "t83a1_forager1_agent"
   new_character: true
 
   location:
@@ -113,7 +119,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "forager2_agent"
+  username: "t83a1_forager2_agent"
   new_character: true
 
   location:
@@ -136,7 +142,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "forager3_agent"
+  username: "t83a1_forager3_agent"
   new_character: true
 
   location:
@@ -159,7 +165,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "crafter1_agent"
+  username: "t83a1_crafter1_agent"
   new_character: true
 
   location:
@@ -187,7 +193,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "crafter2_agent"
+  username: "t83a1_crafter2_agent"
   new_character: true
 
   location:
@@ -211,7 +217,7 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "support1_agent"
+  username: "t83a1_support1_agent"
   new_character: true
 
   location:
@@ -234,7 +240,7 @@ agent_8:
       enchant: 0
 
 agent_9:
-  username: "support2_agent"
+  username: "t83a1_support2_agent"
   new_character: true
 
   location:
@@ -257,7 +263,7 @@ agent_9:
       enchant: 0
 
 agent_10:
-  username: "coordinator_agent"
+  username: "t83a1_coordinator_agent"
   new_character: true
 
   location:

@@ -33,11 +33,17 @@ relevant_game_context: |
   - Coal/Iron rocks: Mountain regions (200-250, 30-60)
 
   DO NOT use complete() until coordinator has all resources!
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
 
 max_action_steps: 40
 
 agent_1:
-  username: "lumberjack_agent"
+  username: "t44a2_lumberjack_agent"
   new_character: true
 
   location:
@@ -67,7 +73,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "miner_agent"
+  username: "t44a2_miner_agent"
   new_character: true
 
   location:
@@ -97,7 +103,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "coordinator_agent"
+  username: "t44a2_coordinator_agent"
   new_character: true
 
   location:
@@ -123,7 +129,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "runner_agent"
+  username: "t44a2_runner_agent"
   new_character: true
 
   location:

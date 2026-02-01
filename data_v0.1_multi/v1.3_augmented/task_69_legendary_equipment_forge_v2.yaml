@@ -46,11 +46,17 @@ relevant_game_context: |
   - Component_Master: Provide logs and hilts
 
   DO NOT use complete() until ALL objectives are met!
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
 
 max_action_steps: 90
 
 agent_1:
-  username: "Gold_Extractor_Prime"
+  username: "t69a2_Gold_Extractor_Prime"
   new_character: true
   location: {x: 230, y: 38}
   skill_levels: {mining: 55, strength: 35, health: 42}
@@ -62,7 +68,7 @@ agent_1:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
 agent_2:
-  username: "Gold_Extractor_Alpha"
+  username: "t69a2_Gold_Extractor_Alpha"
   new_character: true
   location: {x: 238, y: 48}
   skill_levels: {mining: 52, strength: 33, health: 40}
@@ -74,7 +80,7 @@ agent_2:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
 agent_3:
-  username: "Iron_Miner"
+  username: "t69a2_Iron_Miner"
   new_character: true
   location: {x: 236, y: 46}
   skill_levels: {mining: 48, strength: 30, health: 38}
@@ -86,7 +92,7 @@ agent_3:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
 agent_4:
-  username: "Iron_Specialist"
+  username: "t69a2_Iron_Specialist"
   new_character: true
   location: {x: 232, y: 40}
   skill_levels: {mining: 45, smelting: 30, health: 36}
@@ -99,7 +105,7 @@ agent_4:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
 agent_5:
-  username: "Coal_Master"
+  username: "t69a2_Coal_Master"
   new_character: true
   location: {x: 234, y: 42}
   skill_levels: {mining: 42, strength: 28, health: 34}
@@ -112,7 +118,7 @@ agent_5:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
 agent_6:
-  username: "Arcane_Bead_Hunter"
+  username: "t69a2_Arcane_Bead_Hunter"
   new_character: true
   location: {x: 350, y: 250}
   skill_levels: {strength: 45, accuracy: 42, foraging: 40, health: 50}
@@ -125,7 +131,7 @@ agent_6:
     - {item: "platearmor", count: 1, enchant: 0}
 
 agent_7:
-  username: "Component_Master"
+  username: "t69a2_Component_Master"
   new_character: true
   location: {x: 388, y: 10}
   skill_levels: {foraging: 45, lumberjacking: 42, health: 40}
@@ -140,7 +146,7 @@ agent_7:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
 agent_8:
-  username: "Master_Smelter_Supreme"
+  username: "t69a2_Master_Smelter_Supreme"
   new_character: true
   location: {x: 528, y: 384}
   skill_levels: {crafting: 80, smithing: 50, smelting: 40, health: 42}
@@ -153,7 +159,7 @@ agent_8:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
 agent_9:
-  username: "Legendary_Crafter"
+  username: "t69a2_Legendary_Crafter"
   new_character: true
   location: {x: 530, y: 386}
   skill_levels: {smithing: 85, fletching: 55, crafting: 65, health: 45}

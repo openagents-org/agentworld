@@ -22,11 +22,11 @@ relevant_game_context: |
 
   REQUIRED MATERIALS FOR 2 GOLD RINGS:
   - 4x goldbar (2 per ring)
-  - Must smelt from goldore + coal
-  - With 40% success rate, need ~10x goldore and coal for 4 successes
+  - Must smelt from goldnugget + coal
+  - With 40% success rate, need ~10x goldnugget and coal for 4 successes
 
   CRITICAL: Gold smelting has 40% success rate!
-  - Team has 12x goldore + 12x coal distributed
+  - Team has 12x goldnugget + 12x coal distributed
   - Multiple smelting attempts required
   - Track successes via chat
 
@@ -35,7 +35,7 @@ relevant_game_context: |
   CRAFTING RECIPES:
   🟨 Smelting Recipe - goldbar:
     - craft_item skill=Smelting itemKey=goldbar
-    - Materials: 1x goldore + 1x coal → 1x goldbar
+    - Materials: 1x goldnugget + 1x coal → 1x goldbar
     - Level required: 20 (Smithing skill)
     - Success chance: 40% - VERY CHALLENGING!
 
@@ -43,11 +43,17 @@ relevant_game_context: |
     - craft_item skill=Smithing itemKey=goldring
     - Materials: 2x goldbar → 1x goldring
     - Level required: 1 (Smithing skill)
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
 
 max_action_steps: 50
 
 agent_1:
-  username: "gold_miner_agent"
+  username: "t12a2_gold_miner_agent"
   new_character: true
   location:
     x: 212
@@ -61,7 +67,7 @@ agent_1:
       count: 10
     - item: "apple"
       count: 12
-    - item: "goldore"
+    - item: "goldnugget"
       count: 5
     - item: "coal"
       count: 5
@@ -77,7 +83,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "coal_supplier_agent"
+  username: "t12a2_coal_supplier_agent"
   new_character: true
   location:
     x: 216
@@ -91,7 +97,7 @@ agent_2:
       count: 8
     - item: "apple"
       count: 10
-    - item: "goldore"
+    - item: "goldnugget"
       count: 4
     - item: "coal"
       count: 4
@@ -107,7 +113,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "gold_smith_agent"
+  username: "t12a2_gold_smith_agent"
   new_character: true
   location:
     x: 242
@@ -122,7 +128,7 @@ agent_3:
       count: 8
     - item: "apple"
       count: 10
-    - item: "goldore"
+    - item: "goldnugget"
       count: 3
     - item: "coal"
       count: 3
@@ -135,7 +141,7 @@ agent_3:
       enchant: 0
 
 success_criteria:
-  - "Team consolidates goldore and coal with gold_smith_agent"
+  - "Team consolidates goldnugget and coal with gold_smith_agent"
   - "gold_smith_agent attempts multiple smeltings (40% success rate)"
   - "gold_smith_agent obtains at least 4x goldbar"
   - "gold_smith_agent crafts 2x goldring"

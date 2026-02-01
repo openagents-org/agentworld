@@ -36,7 +36,7 @@ relevant_game_context: |
 max_action_steps: 45
 
 agent_1:
-  username: "forager_agent"
+  username: "t37a2_forager_agent"
   new_character: true
 
   location:
@@ -63,7 +63,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "farmer_agent"
+  username: "t37a2_farmer_agent"
   new_character: true
 
   location:
@@ -90,7 +90,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "lumberjack_agent"
+  username: "t37a2_lumberjack_agent"
   new_character: true
 
   location:
@@ -120,7 +120,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "gatherer_agent"
+  username: "t37a2_gatherer_agent"
   new_character: true
 
   location:

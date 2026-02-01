@@ -29,7 +29,7 @@ relevant_game_context: |
 max_action_steps: 45
 
 agent_1:
-  username: "orchard_guardian_agent"
+  username: "t20a2_orchard_guardian_agent"
   new_character: true
   location:
     x: 200
@@ -58,7 +58,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "berry_picker_agent"
+  username: "t20a2_berry_picker_agent"
   new_character: true
   location:
     x: 205
@@ -80,7 +80,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "pond_fisher_agent"
+  username: "t20a2_pond_fisher_agent"
   new_character: true
   location:
     x: 210
@@ -105,7 +105,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "grove_guardian_agent"
+  username: "t20a2_grove_guardian_agent"
   new_character: true
   location:
     x: 195

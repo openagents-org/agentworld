@@ -48,7 +48,7 @@ relevant_game_context: |
 max_action_steps: 22
 
 agent_1:
-  username: "ice_warrior_agent"
+  username: "t25a1_ice_warrior_agent"
   new_character: true
 
   location:
@@ -87,7 +87,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "frost_lumberjack_agent"
+  username: "t25a1_frost_lumberjack_agent"
   new_character: true
 
   location:
@@ -126,7 +126,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "ice_guardian_agent"
+  username: "t25a1_ice_guardian_agent"
   new_character: true
 
   location:

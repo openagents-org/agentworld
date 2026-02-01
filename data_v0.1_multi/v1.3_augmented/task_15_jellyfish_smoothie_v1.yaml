@@ -35,7 +35,7 @@ relevant_game_context: |
 max_action_steps: 15
 
 agent_1:
-  username: "marine_fisher_agent"
+  username: "t15a1_marine_fisher_agent"
   new_character: true
   location:
     x: 200
@@ -63,7 +63,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "container_maker_agent"
+  username: "t15a1_container_maker_agent"
   new_character: true
   location:
     x: 205
@@ -92,7 +92,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "beverage_specialist_agent"
+  username: "t15a1_beverage_specialist_agent"
   new_character: true
   location:
     x: 210

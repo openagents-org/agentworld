@@ -36,11 +36,17 @@ relevant_game_context: |
   - jeweler_agent crafts Silver Ring
 
   DO NOT use complete() until items are ready!
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
 
 max_action_steps: 25
 
 agent_1:
-  username: "gatherer1_agent"
+  username: "t58a1_gatherer1_agent"
   new_character: true
 
   location:
@@ -66,7 +72,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "gatherer2_agent"
+  username: "t58a1_gatherer2_agent"
   new_character: true
 
   location:
@@ -94,7 +100,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "crafter_agent"
+  username: "t58a1_crafter_agent"
   new_character: true
 
   location:
@@ -117,7 +123,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "smith_supplier_agent"
+  username: "t58a1_smith_supplier_agent"
   new_character: true
 
   location:
@@ -143,7 +149,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "jeweler_agent"
+  username: "t58a1_jeweler_agent"
   new_character: true
 
   location:
@@ -169,7 +175,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "coordinator_agent"
+  username: "t58a1_coordinator_agent"
   new_character: true
 
   location:

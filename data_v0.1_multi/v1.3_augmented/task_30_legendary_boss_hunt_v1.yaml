@@ -41,7 +41,7 @@ relevant_game_context: |
 max_action_steps: 28
 
 agent_1:
-  username: "warrior_agent"
+  username: "t30a1_warrior_agent"
   new_character: true
 
   location:
@@ -72,7 +72,7 @@ agent_1:
       enchant: 1
 
 agent_2:
-  username: "mage_agent"
+  username: "t30a1_mage_agent"
   new_character: true
 
   location:
@@ -103,7 +103,7 @@ agent_2:
       enchant: 1
 
 agent_3:
-  username: "ranger_agent"
+  username: "t30a1_ranger_agent"
   new_character: true
 
   location:

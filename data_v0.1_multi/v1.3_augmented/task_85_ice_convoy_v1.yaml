@@ -33,7 +33,7 @@ relevant_game_context: |
 max_action_steps: 20
 
 agent_1:
-  username: "icelogger1_agent"
+  username: "t85a1_icelogger1_agent"
   new_character: true
 
   location:
@@ -62,7 +62,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "icelogger2_agent"
+  username: "t85a1_icelogger2_agent"
   new_character: true
 
   location:
@@ -89,7 +89,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "icelogger3_agent"
+  username: "t85a1_icelogger3_agent"
   new_character: true
 
   location:
@@ -116,7 +116,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "icelogger4_agent"
+  username: "t85a1_icelogger4_agent"
   new_character: true
 
   location:
@@ -143,7 +143,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "fisher1_agent"
+  username: "t85a1_fisher1_agent"
   new_character: true
 
   location:
@@ -171,7 +171,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "fisher2_agent"
+  username: "t85a1_fisher2_agent"
   new_character: true
 
   location:
@@ -197,7 +197,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "crafter_agent"
+  username: "t85a1_crafter_agent"
   new_character: true
 
   location:
@@ -225,7 +225,7 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "support1_agent"
+  username: "t85a1_support1_agent"
   new_character: true
 
   location:
@@ -248,7 +248,7 @@ agent_8:
       enchant: 0
 
 agent_9:
-  username: "support2_agent"
+  username: "t85a1_support2_agent"
   new_character: true
 
   location:
@@ -271,7 +271,7 @@ agent_9:
       enchant: 0
 
 agent_10:
-  username: "coordinator_agent"
+  username: "t85a1_coordinator_agent"
   new_character: true
 
   location:

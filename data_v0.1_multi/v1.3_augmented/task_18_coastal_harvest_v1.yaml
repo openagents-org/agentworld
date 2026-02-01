@@ -29,7 +29,7 @@ relevant_game_context: |
 max_action_steps: 20
 
 agent_1:
-  username: "coastal_guardian_agent"
+  username: "t18a1_coastal_guardian_agent"
   new_character: true
   location:
     x: 200
@@ -58,7 +58,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "shrimp_fisher_agent"
+  username: "t18a1_shrimp_fisher_agent"
   new_character: true
   location:
     x: 205
@@ -85,7 +85,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "ice_logger_agent"
+  username: "t18a1_ice_logger_agent"
   new_character: true
   location:
     x: 210

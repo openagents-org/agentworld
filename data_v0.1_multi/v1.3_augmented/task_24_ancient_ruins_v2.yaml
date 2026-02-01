@@ -47,7 +47,7 @@ relevant_game_context: |
 max_action_steps: 50
 
 agent_1:
-  username: "ruins_explorer_agent"
+  username: "t24a2_ruins_explorer_agent"
   new_character: true
 
   location:
@@ -84,7 +84,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "guardian_slayer_agent"
+  username: "t24a2_guardian_slayer_agent"
   new_character: true
 
   location:
@@ -123,7 +123,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "artifact_hunter_agent"
+  username: "t24a2_artifact_hunter_agent"
   new_character: true
 
   location:
@@ -162,7 +162,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "relic_scout_agent"
+  username: "t24a2_relic_scout_agent"
   new_character: true
 
   location:

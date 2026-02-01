@@ -35,6 +35,13 @@ relevant_game_context: |
 
   DO NOT use complete() until 2x beryl pendants are created!
 
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
+
   CRAFTING RECIPES (CRITICAL KNOWLEDGE):
   🌸 Foraging - bluelily:
     - harvest_resource on bluelily instances to get bluelily
@@ -57,7 +64,7 @@ max_action_steps: 35
 
 # Agent configurations
 agent_1:
-  username: "forager_agent"
+  username: "t05a2_forager_agent"
   new_character: true
 
   location:
@@ -84,7 +91,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "gem_miner_agent"
+  username: "t05a2_gem_miner_agent"
   new_character: true
 
   location:
@@ -116,7 +123,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "jeweler_agent"
+  username: "t05a2_jeweler_agent"
   new_character: true
 
   location:

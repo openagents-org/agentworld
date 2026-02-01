@@ -33,7 +33,7 @@ relevant_game_context: |
 max_action_steps: 20
 
 agent_1:
-  username: "warrior_agent"
+  username: "t36a1_warrior_agent"
   new_character: true
 
   location:
@@ -64,7 +64,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "fighter_agent"
+  username: "t36a1_fighter_agent"
   new_character: true
 
   location:
@@ -95,7 +95,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "gatherer_agent"
+  username: "t36a1_gatherer_agent"
   new_character: true
 
   location:

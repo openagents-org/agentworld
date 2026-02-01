@@ -7,19 +7,19 @@ task:
   description: "Three powerful agents protect miner with pre-gathered gold"
 
 objectives:
-  primary: "Protect miner while they collect 1 more goldore (2 already gathered) and defeat 1x threat"
+  primary: "Protect miner while they collect 1 more goldnugget (2 already gathered) and defeat 1x threat"
 
 relevant_game_context: |
   This is a cooperative multi-agent escort scenario with reduced difficulty.
 
   STARTING ADVANTAGE:
-  - miner_agent starts with 2x goldore already gathered
+  - miner_agent starts with 2x goldnugget already gathered
   - Guards have higher combat stats
   - Only need to defeat 1 threat (not 2)
   - More consumables for healing
 
   TARGETS (REDUCED):
-  - Miner collects 3x goldore total (have 2, need 1)
+  - Miner collects 3x goldnugget total (have 2, need 1)
   - Guards defeat 1x hostile creature
 
   GOLD LOCATIONS:
@@ -31,11 +31,17 @@ relevant_game_context: |
   - Miner focuses on final extraction
 
   DO NOT use complete() until gold is collected and threat eliminated!
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
 
 max_action_steps: 18
 
 agent_1:
-  username: "guard1_agent"
+  username: "t45a1_guard1_agent"
   new_character: true
 
   location:
@@ -66,7 +72,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "guard2_agent"
+  username: "t45a1_guard2_agent"
   new_character: true
 
   location:
@@ -99,7 +105,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "miner_agent"
+  username: "t45a1_miner_agent"
   new_character: true
 
   location:
@@ -116,7 +122,7 @@ agent_3:
       count: 30
     - item: "apple"
       count: 35
-    - item: "goldore"
+    - item: "goldnugget"
       count: 2
 
   equipped_items:
@@ -131,6 +137,6 @@ agent_3:
       enchant: 0
 
 success_criteria:
-  - "miner_agent inventory contains at least 3x goldore"
+  - "miner_agent inventory contains at least 3x goldnugget"
   - "At least 1 hostile creature is defeated by guards"
   - "All agents survive the escort mission"

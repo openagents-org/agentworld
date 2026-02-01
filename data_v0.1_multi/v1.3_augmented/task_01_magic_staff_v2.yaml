@@ -62,7 +62,7 @@ max_action_steps: 35
 
 # Agent configurations
 agent_1:
-  username: "lumberjack_agent"
+  username: "t01a2_lumberjack_agent"
   new_character: true
 
   # Starting location - forest area for tree cutting
@@ -96,7 +96,7 @@ agent_1:
 
 
 agent_2:
-  username: "woodworker_agent"
+  username: "t01a2_woodworker_agent"
   new_character: true
 
   # Starting location - central area for coordination
@@ -128,7 +128,7 @@ agent_2:
 
 
 agent_3:
-  username: "wizard_agent"
+  username: "t01a2_wizard_agent"
   new_character: true
 
   # Starting location - magical area

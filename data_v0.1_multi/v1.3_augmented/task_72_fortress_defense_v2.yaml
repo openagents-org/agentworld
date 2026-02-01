@@ -30,7 +30,7 @@ relevant_game_context: |
 max_action_steps: 65
 
 agent_1:
-  username: "guard1_agent"
+  username: "t72a2_guard1_agent"
   new_character: true
 
   location:
@@ -60,7 +60,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "guard2_agent"
+  username: "t72a2_guard2_agent"
   new_character: true
 
   location:
@@ -90,7 +90,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "archer1_agent"
+  username: "t72a2_archer1_agent"
   new_character: true
 
   location:
@@ -122,7 +122,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "archer2_agent"
+  username: "t72a2_archer2_agent"
   new_character: true
 
   location:
@@ -154,7 +154,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "commander_agent"
+  username: "t72a2_commander_agent"
   new_character: true
 
   location:
@@ -185,7 +185,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "support1_agent"
+  username: "t72a2_support1_agent"
   new_character: true
 
   location:
@@ -215,7 +215,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "support2_agent"
+  username: "t72a2_support2_agent"
   new_character: true
 
   location:
