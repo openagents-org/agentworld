@@ -34,11 +34,17 @@ relevant_game_context: |
   - 7x logs, 10x string, hilts provided
 
   DO NOT use complete() until ALL weapons forged!
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
 
 max_action_steps: 150
 
 agent_1:
-  username: "Iron_Master"
+  username: "t62a2_Iron_Master"
   new_character: true
   location: {x: 230, y: 38}
   skill_levels: {mining: 45, strength: 28, health: 33}
@@ -50,7 +56,7 @@ agent_1:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
 agent_2:
-  username: "Gold_Master"
+  username: "t62a2_Gold_Master"
   new_character: true
   location: {x: 238, y: 48}
   skill_levels: {mining: 40, strength: 26, health: 31}
@@ -62,7 +68,7 @@ agent_2:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
 agent_3:
-  username: "Coal_Master"
+  username: "t62a2_Coal_Master"
   new_character: true
   location: {x: 232, y: 40}
   skill_levels: {mining: 30, strength: 24, health: 29}
@@ -74,7 +80,7 @@ agent_3:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
 agent_4:
-  username: "Lumber_Jack"
+  username: "t62a2_Lumber_Jack"
   new_character: true
   location: {x: 250, y: 350}
   skill_levels: {lumberjacking: 40, strength: 26, health: 27}
@@ -86,7 +92,7 @@ agent_4:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
 agent_5:
-  username: "String_Maker"
+  username: "t62a2_String_Maker"
   new_character: true
   location: {x: 252, y: 352}
   skill_levels: {foraging: 30, crafting: 22, health: 25}
@@ -98,7 +104,7 @@ agent_5:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
 agent_6:
-  username: "Master_Forger"
+  username: "t62a2_Master_Forger"
   new_character: true
   location: {x: 528, y: 384}
   skill_levels: {crafting: 55, smithing: 35, health: 27}
@@ -109,7 +115,7 @@ agent_6:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
 agent_7:
-  username: "Weaponsmith"
+  username: "t62a2_Weaponsmith"
   new_character: true
   location: {x: 530, y: 386}
   skill_levels: {smithing: 62, fletching: 40, crafting: 30, health: 29}

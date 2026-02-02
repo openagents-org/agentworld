@@ -44,7 +44,7 @@ relevant_game_context: |
 max_action_steps: 60
 
 agent_1:
-  username: "lumberjack1_agent"
+  username: "t65a2_lumberjack1_agent"
   new_character: true
 
   location:
@@ -73,7 +73,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "lumberjack2_agent"
+  username: "t65a2_lumberjack2_agent"
   new_character: true
 
   location:
@@ -102,7 +102,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "material_agent"
+  username: "t65a2_material_agent"
   new_character: true
 
   location:
@@ -130,7 +130,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "fisher1_agent"
+  username: "t65a2_fisher1_agent"
   new_character: true
 
   location:
@@ -156,7 +156,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "fisher2_agent"
+  username: "t65a2_fisher2_agent"
   new_character: true
 
   location:
@@ -182,7 +182,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "crafter_agent"
+  username: "t65a2_crafter_agent"
   new_character: true
 
   location:
@@ -206,7 +206,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "smith_agent"
+  username: "t65a2_smith_agent"
   new_character: true
 
   location:

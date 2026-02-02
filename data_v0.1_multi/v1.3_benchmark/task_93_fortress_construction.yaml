@@ -1,445 +1,403 @@
-# AgentWorld Multi-Agent Task Configuration
-
 task:
-  name: "Fortress Construction - Resource Gathering"
-  description: "Fifteen agents gather materials for fortress construction"
-
-# Task objectives
+  name: Fortress Construction - Resource Gathering
+  description: Fifteen agents gather materials for fortress construction
 objectives:
-  primary: "Collect 8x logs, 8x ironore, 6x coal, and craft 2x Heavy Sword and 2x Axe"
+  primary: Collect 8x logs, 8x ironore, 6x coal, and craft 2x Heavy Sword and 2x Axe
+relevant_game_context: 'This is a cooperative multi-agent construction scenario.
 
-# Relevant game context (Hint)
-relevant_game_context: |
-  This is a cooperative multi-agent construction scenario.
 
   OBJECTIVE: Gather materials and craft weapons.
 
+
   PRODUCTION TARGETS:
+
   - 8x logs (from forest)
-  - 8x ironore (from mountain)
-  - 6x coal (from mountain)
+
+  - 8x ironore (from iron rocks at 545, 495)
+
+  - 6x coal (from coal rocks)
+
   - 2x Heavy Sword (2x ironbar + hilt2)
+
   - 2x Axe (3x ironbar + logs)
 
+
   MATERIALS PROVIDED:
+
   - Iron bars and hilts provided to crafter
 
+
+  ORE TYPE REFERENCE (important - different rocks give different ores):
+
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10)
+
+  - Coal Rock: gives "coal"
+
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+
+
   LOCATIONS:
+
   - Forest: Around (388, 10)
-  - Mountain: Around (230, 40)
+
+  - Iron Ore Mining: Around (545, 495) - THIS IS WHERE IRON ROCKS ARE
+
 
   DO NOT use complete() until all objectives are met!
 
+
   ITEM KEY REFERENCE (use these exact itemKey values in craft_item):
+
   - Wooden Bow: itemKey=woodenbow (Fletching)
+
   - Golden Bow: itemKey=goldenbow (Fletching)
+
   - Arrow: itemKey=arrow (Fletching)
+
   - Stick/Shaft: itemKey=stick (Fletching)
+
   - Sword/Heavy Sword: itemKey=sword2 (Smithing)
+
   - Golden Sword: itemKey=goldensword (Smithing)
+
   - Axe: itemKey=axe (Smithing)
+
   - Pickaxe: itemKey=pickaxe (Smithing)
+
   - Silver Ring: itemKey=silverring (Smithing)
+
   - Gold Ring: itemKey=goldring (Smithing)
+
   - Staff: itemKey=staff (Crafting)
+
   - Lightning Staff: itemKey=lightningstaff (Crafting)
+
   - Fire Staff: itemKey=firestaff (Crafting)
+
   - Ice Staff: itemKey=icestaff (Crafting)
+
   - Nature Staff: itemKey=naturestaff (Crafting)
+
   - Bucket: itemKey=bucket (Crafting)
+
   - Iron Bar: itemKey=ironbar (Smelting)
+
   - Gold Bar: itemKey=goldbar (Smelting)
+
   - Bronze Bar: itemKey=bronzebar (Smelting)
+
   - Cooked Shrimp: itemKey=cookedshrimp (Cooking)
+
   - Stew: itemKey=stew (Cooking)
 
-
-# Limitations
+  '
 max_action_steps: 50
-
-# Agent configurations
 agent_1:
-  username: "logger1_agent"
+  username: t93_logger1_agent
   new_character: true
-
   location:
     x: 388
     y: 10
-
   skill_levels:
     lumberjacking: 45
     strength: 35
     health: 38
-
   inventory_items:
-    - item: "flask"
-      count: 25
-    - item: "apple"
-      count: 30
-
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
   equipped_items:
-    - item: "axe"
-      count: 1
-      enchant: 0
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_2:
-  username: "logger2_agent"
+  username: t93_logger2_agent
   new_character: true
-
   location:
     x: 390
     y: 12
-
   skill_levels:
     lumberjacking: 42
     strength: 32
     health: 35
-
   inventory_items:
-    - item: "flask"
-      count: 25
-    - item: "apple"
-      count: 30
-
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
   equipped_items:
-    - item: "axe"
-      count: 1
-      enchant: 0
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_3:
-  username: "logger3_agent"
+  username: t93_logger3_agent
   new_character: true
-
   location:
-    x: 392
-    y: 14
-
+    x: 334
+    y: 5
   skill_levels:
     lumberjacking: 40
     strength: 30
     health: 33
-
   inventory_items:
-    - item: "flask"
-      count: 25
-    - item: "apple"
-      count: 30
-
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
   equipped_items:
-    - item: "axe"
-      count: 1
-      enchant: 0
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: axe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_4:
-  username: "miner1_agent"
+  username: t93_miner1_agent
   new_character: true
-
   location:
-    x: 230
-    y: 40
-
+    x: 545
+    y: 495
   skill_levels:
     mining: 45
     strength: 35
     health: 38
-
   inventory_items:
-    - item: "flask"
-      count: 25
-    - item: "apple"
-      count: 30
-
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
   equipped_items:
-    - item: "pickaxe"
-      count: 1
-      enchant: 0
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_5:
-  username: "miner2_agent"
+  username: t93_miner2_agent
   new_character: true
-
   location:
-    x: 232
-    y: 42
-
+    x: 547
+    y: 495
   skill_levels:
     mining: 42
     strength: 32
     health: 35
-
   inventory_items:
-    - item: "flask"
-      count: 25
-    - item: "apple"
-      count: 30
-
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
   equipped_items:
-    - item: "pickaxe"
-      count: 1
-      enchant: 0
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_6:
-  username: "miner3_agent"
+  username: t93_miner3_agent
   new_character: true
-
   location:
-    x: 234
-    y: 44
-
+    x: 549
+    y: 495
   skill_levels:
     mining: 40
     strength: 30
     health: 33
-
   inventory_items:
-    - item: "flask"
-      count: 25
-    - item: "apple"
-      count: 30
-    - item: "coal"
-      count: 5
-
+  - item: flask
+    count: 25
+  - item: apple
+    count: 30
+  - item: coal
+    count: 5
   equipped_items:
-    - item: "pickaxe"
-      count: 1
-      enchant: 0
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: pickaxe
+    count: 1
+    enchant: 0
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_7:
-  username: "smith1_agent"
+  username: t93_smith1_agent
   new_character: true
-
   location:
-    x: 236
-    y: 46
-
+    x: 334
+    y: 7
   skill_levels:
     smithing: 45
     crafting: 40
     health: 35
-
   inventory_items:
-    - item: "flask"
-      count: 20
-    - item: "apple"
-      count: 25
-    - item: "ironbar"
-      count: 8
-    - item: "hilt2"
-      count: 2
-
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
+  - item: ironbar
+    count: 8
+  - item: hilt2
+    count: 2
   equipped_items:
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_8:
-  username: "smith2_agent"
+  username: t93_smith2_agent
   new_character: true
-
   location:
-    x: 238
-    y: 48
-
+    x: 336
+    y: 7
   skill_levels:
     smithing: 42
     crafting: 38
     health: 33
-
   inventory_items:
-    - item: "flask"
-      count: 20
-    - item: "apple"
-      count: 25
-
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
   equipped_items:
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_9:
-  username: "support1_agent"
+  username: t93_support1_agent
   new_character: true
-
   location:
     x: 350
     y: 250
-
   skill_levels:
     strength: 30
     health: 35
-
   inventory_items:
-    - item: "flask"
-      count: 20
-    - item: "apple"
-      count: 25
-
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
   equipped_items:
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_10:
-  username: "support2_agent"
+  username: t93_support2_agent
   new_character: true
-
   location:
     x: 352
     y: 252
-
   skill_levels:
     strength: 28
     health: 33
-
   inventory_items:
-    - item: "flask"
-      count: 20
-    - item: "apple"
-      count: 25
-
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
   equipped_items:
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_11:
-  username: "support3_agent"
+  username: t93_support3_agent
   new_character: true
-
   location:
     x: 354
     y: 254
-
   skill_levels:
     strength: 26
     health: 32
-
   inventory_items:
-    - item: "flask"
-      count: 20
-    - item: "apple"
-      count: 25
-
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
   equipped_items:
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_12:
-  username: "support4_agent"
+  username: t93_support4_agent
   new_character: true
-
   location:
     x: 356
     y: 256
-
   skill_levels:
     strength: 25
     health: 31
-
   inventory_items:
-    - item: "flask"
-      count: 20
-    - item: "apple"
-      count: 25
-
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
   equipped_items:
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_13:
-  username: "support5_agent"
+  username: t93_support5_agent
   new_character: true
-
   location:
     x: 358
     y: 258
-
   skill_levels:
     strength: 25
     health: 30
-
   inventory_items:
-    - item: "flask"
-      count: 20
-    - item: "apple"
-      count: 25
-
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
   equipped_items:
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_14:
-  username: "support6_agent"
+  username: t93_support6_agent
   new_character: true
-
   location:
     x: 360
     y: 260
-
   skill_levels:
     strength: 25
     health: 30
-
   inventory_items:
-    - item: "flask"
-      count: 20
-    - item: "apple"
-      count: 25
-
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
   equipped_items:
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 agent_15:
-  username: "coordinator_agent"
+  username: t93_coordinator_agent
   new_character: true
-
   location:
     x: 362
     y: 262
-
   skill_levels:
     strength: 25
     health: 30
-
   inventory_items:
-    - item: "flask"
-      count: 20
-    - item: "apple"
-      count: 25
-
+  - item: flask
+    count: 20
+  - item: apple
+    count: 25
   equipped_items:
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-
-# Success criteria
+  - item: leatherarmor
+    count: 1
+    enchant: 0
 success_criteria:
-  - "Team inventory contains at least 8x logs"
-  - "Team inventory contains at least 8x ironore (or smelted)"
-  - "Team inventory contains at least 6x coal (or used)"
-  - "Team inventory contains 2x heavysword"
-  - "Team inventory contains 2x axe"
-  - "All agents survive the construction mission"
+- Team inventory contains at least 8x logs
+- Team inventory contains at least 8x ironore (or smelted)
+- Team inventory contains at least 6x coal (or used)
+- Team inventory contains 2x heavysword
+- Team inventory contains 2x axe
+- All agents survive the construction mission

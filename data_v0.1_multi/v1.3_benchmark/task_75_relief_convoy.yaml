@@ -61,7 +61,7 @@ max_action_steps: 45
 
 # Agent configurations
 agent_1:
-  username: "leader_agent"
+  username: t75_leader_agent
   new_character: true
 
   location:
@@ -91,7 +91,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "logger1_agent"
+  username: t75_logger1_agent
   new_character: true
 
   location:
@@ -121,7 +121,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "logger2_agent"
+  username: t75_logger2_agent
   new_character: true
 
   location:
@@ -151,7 +151,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "smith_agent"
+  username: t75_smith_agent
   new_character: true
 
   location:
@@ -183,7 +183,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "fisher1_agent"
+  username: t75_fisher1_agent
   new_character: true
 
   location:
@@ -212,7 +212,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "fisher2_agent"
+  username: t75_fisher2_agent
   new_character: true
 
   location:
@@ -241,7 +241,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "fisher3_agent"
+  username: t75_fisher3_agent
   new_character: true
 
   location:
@@ -270,7 +270,7 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "cook_agent"
+  username: t75_cook_agent
   new_character: true
 
   location:
@@ -296,7 +296,7 @@ agent_8:
       enchant: 0
 
 agent_9:
-  username: "support1_agent"
+  username: t75_support1_agent
   new_character: true
 
   location:
@@ -322,7 +322,7 @@ agent_9:
       enchant: 0
 
 agent_10:
-  username: "support2_agent"
+  username: t75_support2_agent
   new_character: true
 
   location:

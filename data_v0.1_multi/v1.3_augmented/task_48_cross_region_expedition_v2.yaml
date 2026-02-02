@@ -35,11 +35,17 @@ relevant_game_context: |
   - No resource sharing needed - just totals
 
   DO NOT use complete() until all resources are collected!
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
 
 max_action_steps: 55
 
 agent_1:
-  username: "forest1_agent"
+  username: "t48a2_forest1_agent"
   new_character: true
 
   location:
@@ -69,7 +75,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "forest2_agent"
+  username: "t48a2_forest2_agent"
   new_character: true
 
   location:
@@ -99,7 +105,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "mountain1_agent"
+  username: "t48a2_mountain1_agent"
   new_character: true
 
   location:
@@ -129,7 +135,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "mountain2_agent"
+  username: "t48a2_mountain2_agent"
   new_character: true
 
   location:
@@ -159,7 +165,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "coastal_agent"
+  username: "t48a2_coastal_agent"
   new_character: true
 
   location:

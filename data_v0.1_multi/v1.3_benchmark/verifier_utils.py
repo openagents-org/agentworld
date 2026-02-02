@@ -65,6 +65,22 @@ def has_item_in_any_inventory(inventories: Dict[str, List[Dict]], item_key: str,
     return False
 
 
+def check_agent_alive(traj_json: Dict, agent_name):
+    # check if an agent is alive
+    for r in traj_json.get('rounds', []):
+        for act in r.get('actions', []):
+            agent_name = act.get('agent_name', '')
+            if agent_name != agent_name:
+                continue
+            status = act.get('status', '')
+            if '❤️' in status:
+                hp_part = status.split('❤️')[1].split('|')[0].strip()
+                current_hp = int(hp_part.split('/')[0])
+                if current_hp <= 0:
+                    return False
+    return True
+
+
 def check_agents_alive(traj_json: Dict) -> bool:
     """Check if all agents survived (HP > 0 in final state)."""
     for r in traj_json.get('rounds', []):
@@ -150,66 +166,112 @@ def get_final_agent_hp_simple(traj_json: Dict) -> Dict[str, int]:
     return agent_hp
 
 
+def verify_combat(traj_json: Dict, target_name: str | None) -> int:
+    """Legacy combat verification function for backward compatibility.
+
+    Used by tasks 35, 36, 43. For new tasks, prefer count_combat_kills().
+    """
+    if not target_name:
+        # only count how many attacks are made
+        attacks = 0
+        for r in traj_json.get('rounds', []):
+            for act in r.get('actions', []):
+                action_str = act.get('action', '').lower()
+                if 'attack_entity' in action_str:
+                    attacks += 1
+        return attacks
+    # return number of kills of the target
+    # Build a mapping from instance_id -> mob_name
+    instance_to_name = {}
+    for r in traj_json.get('rounds', []):
+        for act in r.get('actions', []):
+            mobs = act.get('observation', {}).get('mobs', [])
+            for m in mobs:
+                instance_id = m.get('instance', '')
+                mob_name = m.get('name', '').lower()
+                if instance_id and mob_name:
+                    instance_to_name[instance_id] = mob_name
+
+    # Track killed instances to avoid double counting
+    killed_instances = set()
+    kills = 0
+
+    for r in traj_json.get('rounds', []):
+        for act in r.get('actions', []):
+            action_str = act.get('action', '').lower()
+            if 'attack_entity' in action_str:
+                # Check each known instance
+                for instance_id, mob_name in instance_to_name.items():
+                    # Check if this instance was attacked and matches target
+                    if (instance_id in action_str and
+                        target_name.lower() in mob_name and
+                        instance_id not in killed_instances):
+                        kills += 1
+                        killed_instances.add(instance_id)
+                        break
+    return kills
+
+
 def count_combat_kills(traj_json: Dict, target_patterns: List[str] = None) -> int:
     """Count combat kills by checking observation results for kill indicators.
-    
+
     This function looks for kill indicators in the observation JSON, including:
     - VICTORY messages
     - "killed", "slain", "defeated", "dead" keywords
     - Mobs with hitPoints=0
     - Combat result messages indicating enemy death
-    
+
     Args:
         traj_json: The trajectory JSON data
         target_patterns: Optional list of mob name patterns to filter by.
                         If None, counts all kills. Patterns are matched against
                         mob names in observations, not action strings.
-    
+
     Returns:
         Number of kills detected
     """
     kills = 0
     killed_instances = set()  # Track killed instance IDs to avoid double counting
-    
+
     for r in traj_json.get('rounds', []):
         for act in r.get('actions', []):
             action_str = act.get('action', '').lower()
             obs = act.get('observation', {})
-            
+
             if 'attack' not in action_str:
                 continue
-            
+
             if not isinstance(obs, dict):
                 continue
-            
+
             # Convert observation to string for keyword search
             obs_str = json.dumps(obs).lower()
-            
+
             # Check for kill indicators in the observation
             kill_indicators = [
                 'victory',
                 'killed',
-                'slain', 
+                'slain',
                 'defeated',
                 'you have defeated',
                 'enemy died',
                 'target eliminated',
             ]
-            
+
             has_kill_indicator = any(indicator in obs_str for indicator in kill_indicators)
-            
+
             # Also check for "DEFEAT" but only if it's the enemy being defeated, not the player
             # Player defeat looks like "DEFEAT: You were slain"
             if 'defeat' in obs_str and 'you were slain' not in obs_str:
                 has_kill_indicator = True
-            
+
             # Check mobs in observation for HP=0
             mobs = obs.get('mobs', [])
             for mob in mobs:
                 mob_hp = mob.get('hitPoints', -1)
                 mob_name = mob.get('name', '').lower()
                 mob_instance = mob.get('instance', '')
-                
+
                 if mob_hp == 0 and mob_instance not in killed_instances:
                     # If target_patterns specified, check if mob name matches
                     if target_patterns:
@@ -219,7 +281,7 @@ def count_combat_kills(traj_json: Dict, target_patterns: List[str] = None) -> in
                     else:
                         kills += 1
                         killed_instances.add(mob_instance)
-            
+
             # If we found kill indicators but no HP=0 mobs, still count it
             # (the mob may have despawned immediately on death)
             if has_kill_indicator and not mobs:
@@ -233,8 +295,20 @@ def count_combat_kills(traj_json: Dict, target_patterns: List[str] = None) -> in
                     else:
                         # Count the kill if we have a kill indicator
                         kills += 1
-    
+
     return kills
+
+
+def check_boss_killed_by_loot(inventories: Dict[str, List[Dict]], loot_items: List[str]) -> bool:
+    """Check if a boss was killed by verifying its loot drops are in inventory.
+
+    This is useful when kill detection via combat messages is unreliable.
+    For example, if wolfarmor is in inventory, Dark Wolf must have been killed.
+    """
+    for loot_item in loot_items:
+        if has_item_in_any_inventory(inventories, loot_item):
+            return True
+    return False
 
 
 def count_attack_actions(traj_json: Dict, target_patterns: List[str] = None) -> int:

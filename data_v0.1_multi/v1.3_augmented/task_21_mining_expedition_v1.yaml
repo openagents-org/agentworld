@@ -13,7 +13,7 @@ relevant_game_context: |
   This is a cooperative multi-agent mining expedition with reduced difficulty.
 
   STARTING ADVANTAGE:
-  - ore_prospector_agent starts with 2x goldore already mined
+  - ore_prospector_agent starts with 2x goldnugget already mined
   - fuel_gatherer_agent starts with 2x coal for smelting
   - Higher skill levels for faster processing
   - More consumables for safety
@@ -35,18 +35,24 @@ relevant_game_context: |
   CRAFTING RECIPES (CRITICAL KNOWLEDGE):
   Smelting Recipe - goldbar:
     - craft_item skill=Smelting itemKey=goldbar
-    - Materials: 1x goldore + 1x coal → 1x goldbar
+    - Materials: 1x goldnugget + 1x coal → 1x goldbar
     - Level required: Smelting skill
 
   Smithing Recipe - goldring:
     - craft_item skill=Smithing itemKey=goldring
     - Materials: 2x goldbar → 1x goldring
     - Level required: Smithing level 1
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
 
 max_action_steps: 18
 
 agent_1:
-  username: "ore_prospector_agent"
+  username: "t21a1_ore_prospector_agent"
   new_character: true
 
   location:
@@ -64,7 +70,7 @@ agent_1:
       count: 20
     - item: "apple"
       count: 25
-    - item: "goldore"
+    - item: "goldnugget"
       count: 2
 
   equipped_items:
@@ -82,7 +88,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "fuel_gatherer_agent"
+  username: "t21a1_fuel_gatherer_agent"
   new_character: true
 
   location:
@@ -114,7 +120,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "master_smith_agent"
+  username: "t21a1_master_smith_agent"
   new_character: true
 
   location:
@@ -145,7 +151,7 @@ agent_3:
       enchant: 0
 
 success_criteria:
-  - "ore_prospector_agent transfers 2x goldore to master_smith_agent"
+  - "ore_prospector_agent transfers 2x goldnugget to master_smith_agent"
   - "fuel_gatherer_agent transfers 2x coal to master_smith_agent"
   - "master_smith_agent successfully smelts 2x Gold Bars"
   - "master_smith_agent successfully crafts Golden Ring"

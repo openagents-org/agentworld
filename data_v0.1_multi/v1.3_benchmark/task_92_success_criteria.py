@@ -24,35 +24,31 @@ from verifier_utils import (
 
 
 def task_92_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Continental Trade Network - multiple production targets."""
+    """Trade Network - collect 8x logs, 6x ironore, 4x rawshrimp, craft 2x Gold Ring."""
     inventories = get_final_inventories(traj_json)
-    
-    item_counts = {}
-    for items in inventories.values():
-        for item in items:
-            k = item.get("key", "").lower()
-            x = item.get("count", 0)
-            item_counts[k] = item_counts.get(k, 0) + x
 
-    cookedshrimp = item_counts.get("cookedshrimp", 0)
-    jellyfishsmoothie = item_counts.get("jellyfishsmoothie", 0)
-    ironbar = item_counts.get("ironbar", 0)
-    goldbar = item_counts.get("goldbar", 0)
-    goldring = item_counts.get("goldring", 0)
-    heavysword = item_counts.get("heavysword", 0) + item_counts.get("sword2", 0)
-    axe = item_counts.get("axe", 0)
+    # Count resources
+    logs = count_item_in_inventories(inventories, 'logs')
+    ironore = count_item_in_inventories(inventories, 'ironore')
+    ironbar = count_item_in_inventories(inventories, 'ironbar')  # smelted iron counts too
+    rawshrimp = count_item_in_inventories(inventories, 'rawshrimp')
+    cookedshrimp = count_item_in_inventories(inventories, 'cookedshrimp')  # cooked shrimp counts too
+    goldring = count_item_in_inventories(inventories, 'goldring')
 
-    shrimp_passed = cookedshrimp >= 20
-    smoothie_passed = jellyfishsmoothie >= 8
-    iron_passed = ironbar >= 15
-    gold_passed = goldbar >= 8
-    ring_passed = goldring >= 3
-    sword_passed = heavysword >= 2
-    axe_passed = axe >= 2
+    # Iron ore or smelted bars count
+    iron_total = ironore + ironbar
+    # Raw or cooked shrimp count
+    shrimp_total = rawshrimp + cookedshrimp
 
-    passed = (shrimp_passed and smoothie_passed and iron_passed and
-              gold_passed and ring_passed and sword_passed and axe_passed)
-    msg = f"Shrimp: {cookedshrimp}/20, Smoothie: {jellyfishsmoothie}/8, Iron: {ironbar}/15, Gold: {goldbar}/8, Rings: {goldring}/3, Swords: {heavysword}/2, Axes: {axe}/2"
+    has_logs = logs >= 8
+    has_iron = iron_total >= 6
+    has_shrimp = shrimp_total >= 4
+    has_rings = goldring >= 2
+
+    alive = check_agents_alive(traj_json)
+
+    passed = has_logs and has_iron and has_shrimp and has_rings and alive
+    msg = f"Logs: {logs}/8, Iron(ore+bar): {iron_total}/6, Shrimp(raw+cooked): {shrimp_total}/4, Gold Ring: {goldring}/2, All alive: {alive}"
     return (1 if passed else 0, msg)
 
 

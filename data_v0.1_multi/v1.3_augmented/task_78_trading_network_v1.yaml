@@ -7,7 +7,7 @@ task:
   description: "Ten agents gather resources and craft jewelry with pre-gathered materials"
 
 objectives:
-  primary: "Collect 5x logs, 4x ironore, 3x goldore, and craft 1x Golden Ring"
+  primary: "Collect 5x logs, 4x ironore, 3x goldnugget, and craft 1x Golden Ring"
 
 relevant_game_context: |
   This is a cooperative multi-agent resource gathering with reduced difficulty.
@@ -21,17 +21,23 @@ relevant_game_context: |
   COLLECTION TARGETS (REDUCED):
   - 5x logs (from forest) - 3 already gathered!
   - 4x ironore (from mountain)
-  - 3x goldore (from mountain)
+  - 3x goldnugget (from mountain)
 
   PRODUCTION TARGET:
   - 1x Golden Ring (2x goldbar) - goldbar ready!
 
   DO NOT use complete() until all objectives are met!
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
 
 max_action_steps: 20
 
 agent_1:
-  username: "logger1_agent"
+  username: "t78a1_logger1_agent"
   new_character: true
 
   location:
@@ -60,7 +66,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "logger2_agent"
+  username: "t78a1_logger2_agent"
   new_character: true
 
   location:
@@ -87,7 +93,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "logger3_agent"
+  username: "t78a1_logger3_agent"
   new_character: true
 
   location:
@@ -114,7 +120,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "ironminer1_agent"
+  username: "t78a1_ironminer1_agent"
   new_character: true
 
   location:
@@ -141,7 +147,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "ironminer2_agent"
+  username: "t78a1_ironminer2_agent"
   new_character: true
 
   location:
@@ -168,7 +174,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "goldminer1_agent"
+  username: "t78a1_goldminer1_agent"
   new_character: true
 
   location:
@@ -195,7 +201,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "goldminer2_agent"
+  username: "t78a1_goldminer2_agent"
   new_character: true
 
   location:
@@ -222,7 +228,7 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "smelter_agent"
+  username: "t78a1_smelter_agent"
   new_character: true
 
   location:
@@ -250,7 +256,7 @@ agent_8:
       enchant: 0
 
 agent_9:
-  username: "crafter_agent"
+  username: "t78a1_crafter_agent"
   new_character: true
 
   location:
@@ -274,7 +280,7 @@ agent_9:
       enchant: 0
 
 agent_10:
-  username: "coordinator_agent"
+  username: "t78a1_coordinator_agent"
   new_character: true
 
   location:
@@ -299,6 +305,6 @@ agent_10:
 success_criteria:
   - "Team inventory contains at least 5x logs"
   - "Team inventory contains at least 4x ironore (or smelted)"
-  - "Team inventory contains at least 3x goldore (or smelted)"
+  - "Team inventory contains at least 3x goldnugget (or smelted)"
   - "Team inventory contains 1x goldring"
   - "All agents survive the mission"

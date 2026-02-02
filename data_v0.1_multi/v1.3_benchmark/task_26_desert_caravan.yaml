@@ -100,8 +100,8 @@ agent_1:
   new_character: true
 
   location:
-    x: 180
-    y: 200
+    x: 200
+    y: 620
 
   skill_levels:
     strength: 35      # Combat capability for desert creatures
@@ -137,8 +137,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 185
-    y: 200
+    x: 205
+    y: 620
 
   skill_levels:
     crafting: 30      # Can craft items from gathered resources
@@ -170,8 +170,8 @@ agent_3:
   new_character: true
 
   location:
-    x: 190
-    y: 200
+    x: 210
+    y: 620
 
   skill_levels:
     mining: 25        # Can mine gold ore (level 25) and below

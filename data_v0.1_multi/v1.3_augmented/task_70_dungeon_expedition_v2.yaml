@@ -37,7 +37,7 @@ relevant_game_context: |
 max_action_steps: 70
 
 agent_1:
-  username: "tank1_agent"
+  username: "t70a2_tank1_agent"
   new_character: true
 
   location:
@@ -67,7 +67,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "tank2_agent"
+  username: "t70a2_tank2_agent"
   new_character: true
 
   location:
@@ -97,7 +97,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "dps1_agent"
+  username: "t70a2_dps1_agent"
   new_character: true
 
   location:
@@ -127,7 +127,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "dps2_agent"
+  username: "t70a2_dps2_agent"
   new_character: true
 
   location:
@@ -157,7 +157,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "ranger1_agent"
+  username: "t70a2_ranger1_agent"
   new_character: true
 
   location:
@@ -189,7 +189,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "ranger2_agent"
+  username: "t70a2_ranger2_agent"
   new_character: true
 
   location:
@@ -221,7 +221,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "smith_agent"
+  username: "t70a2_smith_agent"
   new_character: true
 
   location:

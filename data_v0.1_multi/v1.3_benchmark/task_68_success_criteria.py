@@ -24,12 +24,24 @@ from verifier_utils import (
 
 
 def task_68_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Master Toolsmith Consortium."""
+    """Master Toolsmith Consortium.
+    YAML criteria:
+    - Team inventory contains 2x pickaxe
+    - Team inventory contains 2x axe
+    - Team inventory contains 1x sword2 (heavy sword)
+    """
     inventories = get_final_inventories(traj_json)
-    tools = ['pickaxe', 'axe', 'fishingpole', 'fishingrod']
-    tool_count = sum(count_item_in_inventories(inventories, t) for t in tools)
-    success = tool_count >= 3
-    msg = f"Tools: {tool_count}/3"
+
+    pickaxe = count_item_in_inventories(inventories, 'pickaxe')
+    axe = count_item_in_inventories(inventories, 'axe')
+    sword2 = count_item_in_inventories(inventories, 'sword2') + count_item_in_inventories(inventories, 'heavysword')
+
+    pick_ok = pickaxe >= 2
+    axe_ok = axe >= 2
+    sword_ok = sword2 >= 1
+
+    success = pick_ok and axe_ok and sword_ok
+    msg = f"Pickaxe: {pickaxe}/2, Axe: {axe}/2, Sword2/HeavySword: {sword2}/1"
     return (1 if success else 0, msg)
 
 

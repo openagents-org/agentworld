@@ -29,7 +29,7 @@ relevant_game_context: |
 max_action_steps: 20
 
 agent_1:
-  username: "forest_guardian_agent"
+  username: "t17a1_forest_guardian_agent"
   new_character: true
   location:
     x: 60
@@ -58,7 +58,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "palm_logger_agent"
+  username: "t17a1_palm_logger_agent"
   new_character: true
   location:
     x: 65
@@ -85,7 +85,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "peach_forager_agent"
+  username: "t17a1_peach_forager_agent"
   new_character: true
   location:
     x: 70

@@ -29,7 +29,7 @@ relevant_game_context: |
 max_action_steps: 45
 
 agent_1:
-  username: "farm_guardian_agent"
+  username: "t19a2_farm_guardian_agent"
   new_character: true
   location:
     x: 180
@@ -58,7 +58,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "corn_harvester_agent"
+  username: "t19a2_corn_harvester_agent"
   new_character: true
   location:
     x: 185
@@ -80,7 +80,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "tomato_gatherer_agent"
+  username: "t19a2_tomato_gatherer_agent"
   new_character: true
   location:
     x: 190
@@ -102,7 +102,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "patrol_guardian_agent"
+  username: "t19a2_patrol_guardian_agent"
   new_character: true
   location:
     x: 175

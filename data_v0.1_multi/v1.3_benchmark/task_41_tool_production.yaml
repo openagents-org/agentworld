@@ -15,47 +15,55 @@ relevant_game_context: |
   OBJECTIVE: Create essential tools through mining and smithing.
 
   PRODUCTION CHAIN:
-  1. Mine 8x ironore from Iron rocks (Level 20 mining)
-  2. Mine 8x coal from Coal rocks (Level 1 mining)
-  3. Smelt 8x ironbar (1x ironore + 1x coal → 1x ironbar)
-  4. Gather 2x logs from Oak trees
-  5. Craft 1x pickaxe (5x ironbar + 1x logs)
-  6. Craft 1x axe (3x ironbar + 1x logs)
+  1. Miner has 8x ironore (pre-equipped) - NO NEED TO MINE IRON
+  2. Coal miner: Mine 8x coal from Coal rocks (Level 1 mining) in southern region (550-570, 540-560)
+  3. Lumberjack: Gather 2x logs from Oak trees - multiple locations available
+  4. Transfer all materials to smith_agent
+  5. Smith smelts 8x ironbar (1x ironore + 1x coal → 1x ironbar)
+  6. Smith crafts 1x pickaxe (5x ironbar + 1x logs)
+  7. Smith crafts 1x axe (3x ironbar + 1x logs)
 
   RESOURCE LOCATIONS:
-  - Iron rocks: Mountain regions (200-250, 30-60)
-  - Coal rocks: Mountain regions
-  - Oak trees: Forest regions (380-400, 0-50)
+  - Coal rocks: Southern volcanic/desert regions around (550-570, 540-560) - Dense coal area ✅
+  - Oak trees: Multiple locations available - try these areas:
+    * Area 1: Around (186, 38) - western forest
+    * Area 2: Around (388, 10) - eastern forest  
+    * Area 3: Around (390-395, 8-12) - nearby eastern area
+    * TIP: If you don't see trees at your spawn point, move 5-10 tiles to find them
+  
+  CRITICAL: Ironore is PRE-PROVIDED to smith_agent's inventory!
 
   TEAM COORDINATION:
-  - Miners gather ore and coal
-  - Smith smelts and crafts
-  - Lumberjack provides logs
+  - smith_agent: Has 8x ironore (pre-equipped), waits for coal and logs
+  - coal_miner_agent: Mine 8x coal from southern region (around 560, 550), transfer to smith
+  - lumberjack_agent: Find Oak trees in eastern/western forest areas, harvest 2x logs, transfer to smith
+  - smith_agent: Receives coal and logs, smelts 8x ironbar, crafts pickaxe and axe
+  - Use global chat to coordinate transfers and progress
+  - IMPORTANT: Only call complete() after successfully harvesting/transferring your materials
 
   DO NOT use complete() until both tools are crafted!
 
-  ITEM KEY REFERENCE (use these exact itemKey values in craft_item):
+  LUMBERJACK TIPS:
+  - If you can't see tree instances at your starting location, explore nearby areas
+  - Oak trees are common in forest regions - move around to find them
+  - You need to harvest 2x logs total
+  - Transfer logs to smith_agent using: transfer_items(count=2, itemKey=logs, targetPlayer=smith_agent)
+  - Only call complete() AFTER successfully transferring logs
+
+  ITEM KEY REFERENCE (use these exact itemKey values):
+  - Logs: itemKey=logs (harvested from Oak trees)
+  - Coal: itemKey=coal (mined from Coal rocks)
+  - Iron Bar: itemKey=ironbar (Smelting: 1x ironore + 1x coal)
+  - Pickaxe: itemKey=pickaxe (Smithing: 5x ironbar + 1x logs)
+  - Axe: itemKey=axe (Smithing: 3x ironbar + 1x logs)
+  
+  OTHER ITEMS (for reference):
   - Wooden Bow: itemKey=woodenbow (Fletching)
-  - Golden Bow: itemKey=goldenbow (Fletching)
   - Arrow: itemKey=arrow (Fletching)
   - Stick/Shaft: itemKey=stick (Fletching)
   - Sword/Heavy Sword: itemKey=sword2 (Smithing)
-  - Golden Sword: itemKey=goldensword (Smithing)
-  - Axe: itemKey=axe (Smithing)
-  - Pickaxe: itemKey=pickaxe (Smithing)
-  - Silver Ring: itemKey=silverring (Smithing)
   - Gold Ring: itemKey=goldring (Smithing)
-  - Staff: itemKey=staff (Crafting)
-  - Lightning Staff: itemKey=lightningstaff (Crafting)
-  - Fire Staff: itemKey=firestaff (Crafting)
-  - Ice Staff: itemKey=icestaff (Crafting)
-  - Nature Staff: itemKey=naturestaff (Crafting)
-  - Bucket: itemKey=bucket (Crafting)
-  - Iron Bar: itemKey=ironbar (Smelting)
-  - Gold Bar: itemKey=goldbar (Smelting)
-  - Bronze Bar: itemKey=bronzebar (Smelting)
-  - Cooked Shrimp: itemKey=cookedshrimp (Cooking)
-  - Stew: itemKey=stew (Cooking)
+  - Silver Ring: itemKey=silverring (Smithing)
 
 
 # Limitations
@@ -63,12 +71,12 @@ max_action_steps: 35
 
 # Agent configurations
 agent_1:
-  username: "miner_agent"
+  username: "coal_miner_agent"
   new_character: true
 
   location:
-    x: 230
-    y: 45
+    x: 560
+    y: 550
 
   skill_levels:
     mining: 25
@@ -97,8 +105,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 235
-    y: 45
+    x: 200
+    y: 30
 
   skill_levels:
     smithing: 25
@@ -111,6 +119,8 @@ agent_2:
       count: 20
     - item: "apple"
       count: 25
+    - item: "ironore"
+      count: 8
 
   equipped_items:
     - item: "pickaxe"
@@ -129,7 +139,7 @@ agent_3:
 
   location:
     x: 388
-    y: 10
+    y: 3
 
   skill_levels:
     lumberjacking: 25

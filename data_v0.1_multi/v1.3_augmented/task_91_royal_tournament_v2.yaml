@@ -34,7 +34,7 @@ relevant_game_context: |
 max_action_steps: 120
 
 agent_1:
-  username: "champion1_agent"
+  username: "t91a2_champion1_agent"
   new_character: true
 
   location:
@@ -64,7 +64,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "champion2_agent"
+  username: "t91a2_champion2_agent"
   new_character: true
 
   location:
@@ -94,7 +94,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "warrior1_agent"
+  username: "t91a2_warrior1_agent"
   new_character: true
 
   location:
@@ -124,7 +124,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "warrior2_agent"
+  username: "t91a2_warrior2_agent"
   new_character: true
 
   location:
@@ -154,7 +154,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "fighter1_agent"
+  username: "t91a2_fighter1_agent"
   new_character: true
 
   location:
@@ -184,7 +184,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "fighter2_agent"
+  username: "t91a2_fighter2_agent"
   new_character: true
 
   location:
@@ -214,7 +214,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "support1_agent"
+  username: "t91a2_support1_agent"
   new_character: true
 
   location:
@@ -240,7 +240,7 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "support2_agent"
+  username: "t91a2_support2_agent"
   new_character: true
 
   location:
@@ -266,7 +266,7 @@ agent_8:
       enchant: 0
 
 agent_9:
-  username: "support3_agent"
+  username: "t91a2_support3_agent"
   new_character: true
 
   location:
@@ -289,7 +289,7 @@ agent_9:
       enchant: 0
 
 agent_10:
-  username: "coordinator_agent"
+  username: "t91a2_coordinator_agent"
   new_character: true
 
   location:

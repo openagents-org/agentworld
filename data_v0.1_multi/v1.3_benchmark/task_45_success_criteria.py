@@ -27,6 +27,7 @@ from verifier_utils import (
     check_crafted_items,
     count_chat_messages,
     get_agent_items_by_username,
+    verify_combat,
 )
 
 
@@ -56,7 +57,7 @@ def get_agent_items_by_key(traj_json: Dict) -> Dict[str, Dict[str, int]]:
 
 def task_45_verifier(traj_json: Dict) -> Tuple[int, str]:
     """Caravan Escort - agent_3 (miner) must have 3+ gold ore, 2+ kills, all survive.
-    
+
     Uses agent keys instead of usernames for reliability across different task configurations.
     Uses 'goldnugget' item key (the actual mineable gold ore) instead of 'goldore' (orphaned item).
     """
@@ -64,7 +65,7 @@ def task_45_verifier(traj_json: Dict) -> Tuple[int, str]:
     # Note: agent_3 is the miner in task 45's configuration
     agent_items = get_agent_items_by_key(traj_json)
     miner_items = agent_items.get('agent_3', {})
-    
+
     # Use 'goldnugget' - the actual item obtained from mining Gold Rock
     # (not 'goldore' which is an orphaned item with no acquisition path)
     goldore = miner_items.get('goldnugget', 0)

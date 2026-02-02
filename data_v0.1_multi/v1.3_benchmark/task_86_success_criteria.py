@@ -24,16 +24,24 @@ from verifier_utils import (
 
 
 def task_86_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Tri-Forge Vanguard."""
+    """Forge Vanguard - 10x ironore, 8x coal, 6x ironbar, 2x heavysword, 1x axe."""
     inventories = get_final_inventories(traj_json)
+
+    ironore = count_item_in_inventories(inventories, 'ironore')
+    coal = count_item_in_inventories(inventories, 'coal')
+    ironbar = count_item_in_inventories(inventories, 'ironbar')
     heavysword = count_item_in_inventories(inventories, 'heavysword') + count_item_in_inventories(inventories, 'sword2')
-    goldenbow = count_item_in_inventories(inventories, 'goldenbow')
-    lightningstaff = count_item_in_inventories(inventories, 'lightningstaff')
-    firestaff = count_item_in_inventories(inventories, 'firestaff')
-    
-    success = heavysword >= 4 and goldenbow >= 3 and lightningstaff >= 2 and firestaff >= 2
-    msg = f"Heavy swords: {heavysword}/4, Golden bows: {goldenbow}/3, Lightning staffs: {lightningstaff}/2, Fire staffs: {firestaff}/2"
-    return (1 if success else 0, msg)
+    axe = count_item_in_inventories(inventories, 'axe')
+
+    ironore_passed = ironore >= 10
+    coal_passed = coal >= 8
+    ironbar_passed = ironbar >= 6
+    sword_passed = heavysword >= 2
+    axe_passed = axe >= 1
+
+    passed = ironore_passed and coal_passed and ironbar_passed and sword_passed and axe_passed
+    msg = f"Ironore: {ironore}/10, Coal: {coal}/8, Ironbar: {ironbar}/6, Heavy Sword: {heavysword}/2, Axe: {axe}/1"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

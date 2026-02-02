@@ -33,11 +33,17 @@ relevant_game_context: |
   - 4x logs for axe handles
 
   DO NOT use complete() until ALL objectives are met!
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
 
 max_action_steps: 60
 
 agent_1:
-  username: "scout1_agent"
+  username: "t64a2_scout1_agent"
   new_character: true
 
   location:
@@ -68,7 +74,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "scout2_agent"
+  username: "t64a2_scout2_agent"
   new_character: true
 
   location:
@@ -99,7 +105,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "lumberjack1_agent"
+  username: "t64a2_lumberjack1_agent"
   new_character: true
 
   location:
@@ -126,7 +132,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "lumberjack2_agent"
+  username: "t64a2_lumberjack2_agent"
   new_character: true
 
   location:
@@ -153,7 +159,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "hunter1_agent"
+  username: "t64a2_hunter1_agent"
   new_character: true
 
   location:
@@ -181,7 +187,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "hunter2_agent"
+  username: "t64a2_hunter2_agent"
   new_character: true
 
   location:
@@ -209,7 +215,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "miner_agent"
+  username: "t64a2_miner_agent"
   new_character: true
 
   location:
@@ -236,7 +242,7 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "crafter_agent"
+  username: "t64a2_crafter_agent"
   new_character: true
 
   location:

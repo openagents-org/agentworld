@@ -6,7 +6,7 @@ task:
 
 # Task objectives
 objectives:
-  primary: "Harvest 6x logs, craft 1x Wooden Bow, and produce 10x Arrows through coordinated woodworking"
+  primary: "Harvest 4x logs, craft 1x Wooden Bow, and produce 10x Arrows through coordinated woodworking"
 
 # Relevant game context (Hint)
 relevant_game_context: |
@@ -15,7 +15,7 @@ relevant_game_context: |
   OBJECTIVE: Produce archery equipment through coordinated lumber gathering and crafting.
 
   PRODUCTION TARGETS:
-  - Harvest 6x logs from Oak trees
+  - Harvest 4x logs from Oak trees
   - Craft 1x Wooden Bow (1x logs + 1x string)
   - Craft 10x Arrows (10x stick + 10x feather = 10x arrows)
 
@@ -24,18 +24,38 @@ relevant_game_context: |
   - Fletching: 1x logs + 1x string → 1x Wooden Bow
   - Fletching: 10x stick + 10x feather → 10x Arrow
 
+  ⚠️ CRITICAL CRAFTING INSTRUCTIONS:
+  - To craft sticks: craft_item(count=1, itemKey=stick, skill=Fletching)
+    * This will convert 1x logs → 4x sticks
+    * Repeat this 3 times to get 12 sticks from 3 logs
+  - To craft Wooden Bow: craft_item(count=1, itemKey=woodenbow, skill=Fletching)
+    * Requires 1x logs + 1x string
+  - To craft 10 Arrows: craft_item(count=10, itemKey=arrow, skill=Fletching)
+    * Requires 10x stick + 10x feather
+    * Make sure you have EXACTLY 10 sticks and 10 feathers BEFORE crafting
+    * If crafting fails, check your inventory for both materials
+
   TEAM COORDINATION:
   - Lumberjack gathers logs from Oak trees
   - Fletcher processes logs into sticks and crafts items
   - Coordinator manages material transfers and tracks progress
+  - Fletcher_agent already has 15x feathers in starting inventory - enough for arrows!
 
   DO NOT use complete() until all items are crafted!
 
-  ITEM KEY REFERENCE (use these exact itemKey values in craft_item):
-  - Wooden Bow: itemKey=woodenbow (Fletching)
+  ITEM KEY REFERENCE FOR THIS TASK:
+  ⚠️ FLETCHING RECIPES (use in craft_item with skill=Fletching):
+  - Stick/Shaft: itemKey=stick (1x logs → 4x stick)
+  - Wooden Bow: itemKey=woodenbow (1x logs + 1x string → 1x bow)
+  - Arrow: itemKey=arrow (10x stick + 10x feather → 10x arrow)
+  
+  ⚠️ MATERIALS (use in transfer_items):
+  - Logs: itemKey=logs
+  - String: itemKey=string  
+  - Feather: itemKey=feather
+  
+  OTHER ITEM KEY REFERENCE (for general knowledge):
   - Golden Bow: itemKey=goldenbow (Fletching)
-  - Arrow: itemKey=arrow (Fletching)
-  - Stick/Shaft: itemKey=stick (Fletching)
   - Sword/Heavy Sword: itemKey=sword2 (Smithing)
   - Golden Sword: itemKey=goldensword (Smithing)
   - Axe: itemKey=axe (Smithing)

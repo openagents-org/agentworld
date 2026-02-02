@@ -24,33 +24,31 @@ from verifier_utils import (
 
 
 def task_64_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Ice Region Survival Expedition - 50+ ice materials, 15+ kills, 8+ crafts, all survive."""
+    """Ice Region Survival Expedition.
+    YAML criteria:
+    - Team inventory contains at least 8x icelogs
+    - 4x Ice Rat defeated
+    - Team inventory contains 2x axe
+    """
     inventories = get_final_inventories(traj_json)
-    
-    ice_items = ["icelogs", "icelog", "icepalm", "iceoaklogs", "coal", "ice"]
-    total_ice_materials = 0
-    for items in inventories.values():
-        for item in items:
-            k = item.get("key", "").lower()
-            x = item.get("count", 0)
-            if any(ice_key in k for ice_key in ice_items):
-                total_ice_materials += x
 
-    ice_creatures = ["icerat", "icebat", "icecrab", "icegoblin", "ice"]
-    ice_kills = count_attack_actions(traj_json, ice_creatures)
-    crafted_items = count_crafted_items(traj_json)
+    # Count icelogs (check various possible key names)
+    icelogs = count_item_in_inventories(inventories, 'icelogs')
+    if icelogs == 0:
+        icelogs = count_item_in_inventories(inventories, 'icelog')
 
-    agent_hp = get_final_agent_hp_simple(traj_json)
-    all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
+    axe = count_item_in_inventories(inventories, 'axe')
 
-    ice_materials_passed = total_ice_materials >= 50
-    ice_kills_passed = ice_kills >= 15
-    crafted_passed = crafted_items >= 8
-    survival_passed = all_alive
+    # Count Ice Rat kills
+    ice_rat_kills = count_combat_kills(traj_json, ['Ice Rat', 'IceRat', 'icerat', 'ice rat'])
 
-    passed = ice_materials_passed and ice_kills_passed and crafted_passed and survival_passed
-    msg = f"Ice materials: {total_ice_materials}/50, Kills: {ice_kills}/15, Crafts: {crafted_items}/8, Alive: {all_alive}"
-    return (1 if passed else 0, msg)
+    logs_ok = icelogs >= 8
+    kills_ok = ice_rat_kills >= 4
+    axe_ok = axe >= 2
+
+    success = logs_ok and kills_ok and axe_ok
+    msg = f"Icelogs: {icelogs}/8, Ice Rat kills: {ice_rat_kills}/4, Axe: {axe}/2"
+    return (1 if success else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

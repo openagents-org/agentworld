@@ -33,7 +33,7 @@ max_action_steps: 50
 
 # Agent configurations
 agent_1:
-  username: "fisher1_agent"
+  username: t97_fisher1_agent
   new_character: true
 
   location:
@@ -59,7 +59,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "fisher2_agent"
+  username: t97_fisher2_agent
   new_character: true
 
   location:
@@ -85,7 +85,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "fisher3_agent"
+  username: t97_fisher3_agent
   new_character: true
 
   location:
@@ -111,7 +111,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "fisher4_agent"
+  username: t97_fisher4_agent
   new_character: true
 
   location:
@@ -137,7 +137,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "fisher5_agent"
+  username: t97_fisher5_agent
   new_character: true
 
   location:
@@ -165,7 +165,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "cook1_agent"
+  username: t97_cook1_agent
   new_character: true
 
   location:
@@ -188,7 +188,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "cook2_agent"
+  username: t97_cook2_agent
   new_character: true
 
   location:
@@ -211,7 +211,7 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "support1_agent"
+  username: t97_support1_agent
   new_character: true
 
   location:
@@ -234,7 +234,7 @@ agent_8:
       enchant: 0
 
 agent_9:
-  username: "support2_agent"
+  username: t97_support2_agent
   new_character: true
 
   location:
@@ -257,7 +257,7 @@ agent_9:
       enchant: 0
 
 agent_10:
-  username: "support3_agent"
+  username: t97_support3_agent
   new_character: true
 
   location:
@@ -280,7 +280,7 @@ agent_10:
       enchant: 0
 
 agent_11:
-  username: "support4_agent"
+  username: t97_support4_agent
   new_character: true
 
   location:
@@ -303,7 +303,7 @@ agent_11:
       enchant: 0
 
 agent_12:
-  username: "support5_agent"
+  username: t97_support5_agent
   new_character: true
 
   location:
@@ -326,7 +326,7 @@ agent_12:
       enchant: 0
 
 agent_13:
-  username: "support6_agent"
+  username: t97_support6_agent
   new_character: true
 
   location:
@@ -349,7 +349,7 @@ agent_13:
       enchant: 0
 
 agent_14:
-  username: "coordinator_agent"
+  username: t97_coordinator_agent
   new_character: true
 
   location:

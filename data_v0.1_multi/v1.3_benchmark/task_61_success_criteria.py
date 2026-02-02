@@ -24,12 +24,24 @@ from verifier_utils import (
 
 
 def task_61_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Royal Banquet Preparation."""
+    """Royal Banquet Preparation.
+    YAML criteria:
+    - Team inventory contains 3x cookedshrimp
+    - Team inventory contains 2x tunasushi
+    - Team inventory contains 2x cookedchicken
+    """
     inventories = get_final_inventories(traj_json)
-    food_items = ['cookedshrimp', 'cookedchicken', 'cookedbeef', 'stew', 'stew2', 'jellyfishsmoothie']
-    food_count = sum(count_item_in_inventories(inventories, f) for f in food_items)
-    success = food_count >= 15
-    msg = f"Food items: {food_count}/15"
+
+    cookedshrimp = count_item_in_inventories(inventories, 'cookedshrimp')
+    tunasushi = count_item_in_inventories(inventories, 'tunasushi')
+    cookedchicken = count_item_in_inventories(inventories, 'cookedchicken')
+
+    shrimp_ok = cookedshrimp >= 3
+    sushi_ok = tunasushi >= 2
+    chicken_ok = cookedchicken >= 2
+
+    success = shrimp_ok and sushi_ok and chicken_ok
+    msg = f"Cookedshrimp: {cookedshrimp}/3, Tunasushi: {tunasushi}/2, Cookedchicken: {cookedchicken}/2"
     return (1 if success else 0, msg)
 
 

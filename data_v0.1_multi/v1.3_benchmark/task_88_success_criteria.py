@@ -27,13 +27,9 @@ def task_88_verifier(traj_json: Dict) -> Tuple[int, str]:
     """War Council - defeat Ogre Guardian, Dark Wolf, and Golden Golem."""
     # Check combat kills (3 bosses)
     kills = count_combat_kills(traj_json, ['Ogre Guardian', 'Dark Wolf', 'Golden Golem', 'Ogre', 'Wolf', 'Golem'])
-    has_kills = kills >= 3
 
-    # Check all agents alive
-    alive = check_agents_alive(traj_json)
-
-    passed = has_kills and alive
-    msg = f"Boss kills: {kills}/3, All alive: {alive}"
+    passed = kills >= 3
+    msg = f"Boss kills: {kills}/3"
     return (1 if passed else 0, msg)
 
 

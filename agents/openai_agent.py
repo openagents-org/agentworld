@@ -37,6 +37,7 @@ class OpenAIAgent(BaseAgent):
         }
 
         cnt = 0
+        last_error = None
         while cnt < 5:
             try:
                 response = self.session.post(url, json=data, timeout=60)
@@ -44,9 +45,34 @@ class OpenAIAgent(BaseAgent):
                 return response.json()
             except requests.exceptions.RequestException as e:
                 cnt += 1
+                last_error = e
+                error_details = f"Attempt {cnt}/5 failed: {type(e).__name__}: {str(e)}"
+                status_code = None
+                if hasattr(e, 'response') and e.response is not None:
+                    status_code = e.response.status_code
+                    error_details += f" | Status: {status_code} | Body: {e.response.text[:500]}"
+                print(f"[API ERROR] {error_details}", flush=True)
+
+                # Save request payload for 520 errors (CloudFlare server errors)
+                if status_code == 520:
+                    import os
+                    from datetime import datetime
+                    error_dir = os.path.join(os.path.dirname(__file__), "error_captures")
+                    os.makedirs(error_dir, exist_ok=True)
+                    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                    error_file = os.path.join(error_dir, f"520_error_{timestamp}.json")
+                    with open(error_file, 'w') as f:
+                        json.dump({
+                            "timestamp": timestamp,
+                            "error": str(e),
+                            "status_code": status_code,
+                            "request_data": data
+                        }, f, indent=2, default=str)
+                    print(f"[API ERROR] Saved 520 error payload to: {error_file}", flush=True)
+
                 time.sleep(10 * (cnt + 1))
-        
-        return {"error": f"API call failed: {str(e)}"}
+
+        return {"error": f"API call failed after 5 attempts: {str(last_error)}"}
     
     def _extract_tool_calls(self, assistant_message: Dict[str, Any]) -> List[Dict[str, Any]]:
         """Extract tool calls from OpenAI response message"""

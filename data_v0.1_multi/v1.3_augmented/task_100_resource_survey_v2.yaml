@@ -37,11 +37,17 @@ relevant_game_context: |
   - Coastal Team: Fish shrimp
 
   DO NOT use complete() until all objectives are met!
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
 
 max_action_steps: 70
 
 agent_1:
-  username: "forest_logger1_agent"
+  username: "t100a2_forest_logger1_agent"
   new_character: true
 
   location:
@@ -68,7 +74,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "forest_logger2_agent"
+  username: "t100a2_forest_logger2_agent"
   new_character: true
 
   location:
@@ -95,7 +101,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "mountain_miner1_agent"
+  username: "t100a2_mountain_miner1_agent"
   new_character: true
 
   location:
@@ -122,7 +128,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "mountain_miner2_agent"
+  username: "t100a2_mountain_miner2_agent"
   new_character: true
 
   location:
@@ -149,7 +155,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "ice_logger1_agent"
+  username: "t100a2_ice_logger1_agent"
   new_character: true
 
   location:
@@ -176,7 +182,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "ice_logger2_agent"
+  username: "t100a2_ice_logger2_agent"
   new_character: true
 
   location:
@@ -203,7 +209,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "coastal_fisher1_agent"
+  username: "t100a2_coastal_fisher1_agent"
   new_character: true
 
   location:
@@ -229,7 +235,7 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "coastal_fisher2_agent"
+  username: "t100a2_coastal_fisher2_agent"
   new_character: true
 
   location:
@@ -255,7 +261,7 @@ agent_8:
       enchant: 0
 
 agent_9:
-  username: "support1_agent"
+  username: "t100a2_support1_agent"
   new_character: true
 
   location:
@@ -278,7 +284,7 @@ agent_9:
       enchant: 0
 
 agent_10:
-  username: "coordinator_agent"
+  username: "t100a2_coordinator_agent"
   new_character: true
 
   location:

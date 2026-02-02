@@ -35,6 +35,13 @@ relevant_game_context: |
 
   DO NOT use complete() until 2x pickaxes are created!
 
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
+
   CRAFTING RECIPES (CRITICAL KNOWLEDGE):
   ⛏️ Mining - materials:
     - harvest_resource on iron rock instances to get ironore (level 10+)
@@ -56,7 +63,7 @@ max_action_steps: 50
 
 # Agent configurations
 agent_1:
-  username: "miner_agent"
+  username: "t07a2_miner_agent"
   new_character: true
 
   location:
@@ -94,7 +101,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "smelter_agent"
+  username: "t07a2_smelter_agent"
   new_character: true
 
   location:
@@ -126,7 +133,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "tool_smith_agent"
+  username: "t07a2_tool_smith_agent"
   new_character: true
 
   location:

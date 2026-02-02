@@ -13,7 +13,7 @@ relevant_game_context: |
   This is a cooperative multi-agent desert expedition with reduced difficulty.
 
   STARTING ADVANTAGE:
-  - resource_gatherer_agent starts with 2x goldore already mined
+  - resource_gatherer_agent starts with 2x goldnugget already mined
   - desert_trader_agent has 15x goldnugget for trading
   - Higher skill levels for safer combat
   - More consumables for desert survival
@@ -38,12 +38,18 @@ relevant_game_context: |
   📦 Transfer Items:
     - Use transfer_items tool to share resources
     - Parameters: targetPlayer (username), itemKey, count
-    - Example: transfer goldore to desert_trader_agent
+    - Example: transfer goldnugget to desert_trader_agent
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
 
 max_action_steps: 28
 
 agent_1:
-  username: "caravan_leader_agent"
+  username: "t26a1_caravan_leader_agent"
   new_character: true
 
   location:
@@ -80,7 +86,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "desert_trader_agent"
+  username: "t26a1_desert_trader_agent"
   new_character: true
 
   location:
@@ -113,7 +119,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "resource_gatherer_agent"
+  username: "t26a1_resource_gatherer_agent"
   new_character: true
 
   location:
@@ -134,7 +140,7 @@ agent_3:
       count: 35
     - item: "healthpotion"
       count: 12
-    - item: "goldore"
+    - item: "goldnugget"
       count: 2
 
   equipped_items:
@@ -155,6 +161,6 @@ success_criteria:
   - "All agents successfully navigate to Southern Desert region (Y > 600)"
   - "At least one resource transfer between agents using transfer_items"
   - "desert_trader_agent transfers goldnugget to another agent"
-  - "resource_gatherer_agent transfers goldore to another agent"
+  - "resource_gatherer_agent transfers goldnugget to another agent"
   - "Team coordinates via chat at least 2 times"
   - "All agents survive the desert expedition"

@@ -52,12 +52,19 @@ relevant_game_context: |
 
   DO NOT use complete() until 2x silverring is in inventory!
 
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
+
 # Limitations
 max_action_steps: 35
 
 # Agent configurations
 agent_1:
-  username: "miner_agent"
+  username: "t03a2_miner_agent"
   new_character: true
 
   location:
@@ -91,7 +98,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "smelter_agent"
+  username: "t03a2_smelter_agent"
   new_character: true
 
   location:
@@ -123,7 +130,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "smith_agent"
+  username: "t03a2_smith_agent"
   new_character: true
 
   location:

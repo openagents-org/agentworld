@@ -29,7 +29,7 @@ relevant_game_context: |
 max_action_steps: 22
 
 agent_1:
-  username: "leader_agent"
+  username: "t77a1_leader_agent"
   new_character: true
 
   location:
@@ -59,7 +59,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "tank1_agent"
+  username: "t77a1_tank1_agent"
   new_character: true
 
   location:
@@ -89,7 +89,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "tank2_agent"
+  username: "t77a1_tank2_agent"
   new_character: true
 
   location:
@@ -119,7 +119,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "dps1_agent"
+  username: "t77a1_dps1_agent"
   new_character: true
 
   location:
@@ -149,7 +149,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "dps2_agent"
+  username: "t77a1_dps2_agent"
   new_character: true
 
   location:
@@ -179,7 +179,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "archer1_agent"
+  username: "t77a1_archer1_agent"
   new_character: true
 
   location:
@@ -211,7 +211,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "archer2_agent"
+  username: "t77a1_archer2_agent"
   new_character: true
 
   location:
@@ -243,7 +243,7 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "support1_agent"
+  username: "t77a1_support1_agent"
   new_character: true
 
   location:
@@ -273,7 +273,7 @@ agent_8:
       enchant: 0
 
 agent_9:
-  username: "support2_agent"
+  username: "t77a1_support2_agent"
   new_character: true
 
   location:
@@ -303,7 +303,7 @@ agent_9:
       enchant: 0
 
 agent_10:
-  username: "crafter_agent"
+  username: "t77a1_crafter_agent"
   new_character: true
 
   location:

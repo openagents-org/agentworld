@@ -24,36 +24,26 @@ from verifier_utils import (
 
 
 def task_99_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Kingdom Festival Celebration - 30+ food, 20+ masterwork, 60+ total."""
+    """Kingdom Festival - defeat Ancient Wizard, cook 4x Cooked Shrimp, craft 2x Heavy Sword and 2x Gold Ring."""
     inventories = get_final_inventories(traj_json)
-    
-    item_counts = {}
-    for items in inventories.values():
-        for item in items:
-            k = item.get("key", "").lower()
-            x = item.get("count", 0)
-            item_counts[k] = item_counts.get(k, 0) + x
 
-    cooked_keys = ["cookedshrimp", "cookedtuna", "cookedchicken", "cookedbeef",
-                   "cookedmeat", "jellyfishsmoothie", "stew"]
-    masterwork_keys = ["heavysword", "sword2", "axe", "pickaxe", "bow",
-                       "goldring", "goldenring", "silverring",
-                       "emeraldpendant", "berylpendant", "topazpendant", "pendant",
-                       "magicstaff", "lightningstaff"]
-    trophy_keys = ["feather", "bead", "lightningbead", "emerald", "ruby", "beryl",
-                   "rawmeat", "rawchicken", "rawbeef"]
+    # Count resources
+    cookedshrimp = count_item_in_inventories(inventories, 'cookedshrimp')
+    heavysword = count_item_in_inventories(inventories, 'heavysword') + count_item_in_inventories(inventories, 'sword2')
+    goldring = count_item_in_inventories(inventories, 'goldring')
 
-    cooked_count = sum(item_counts.get(k, 0) for k in cooked_keys)
-    masterwork_count = sum(item_counts.get(k, 0) for k in masterwork_keys)
-    trophy_count = sum(item_counts.get(k, 0) for k in trophy_keys)
-    total_festival = cooked_count + masterwork_count + trophy_count
+    # Check Ancient Wizard kill
+    wizard_kills = count_combat_kills(traj_json, ['Ancient Wizard', 'AncientWizard', 'Wizard'])
 
-    food_passed = cooked_count >= 30
-    masterwork_passed = masterwork_count >= 20
-    total_passed = total_festival >= 60
+    has_wizard = wizard_kills >= 1
+    has_cooked = cookedshrimp >= 4
+    has_swords = heavysword >= 2
+    has_rings = goldring >= 2
 
-    passed = food_passed and masterwork_passed and total_passed
-    msg = f"Food: {cooked_count}/30, Masterwork: {masterwork_count}/20, Total: {total_festival}/60"
+    alive = check_agents_alive(traj_json)
+
+    passed = has_wizard and has_cooked and has_swords and has_rings and alive
+    msg = f"Ancient Wizard: {wizard_kills}/1, Cooked Shrimp: {cookedshrimp}/4, Heavy Sword: {heavysword}/2, Gold Ring: {goldring}/2, All alive: {alive}"
     return (1 if passed else 0, msg)
 
 

@@ -13,13 +13,13 @@ relevant_game_context: |
   This is a cooperative multi-agent mining and crafting scenario with reduced difficulty.
 
   STARTING ADVANTAGE:
-  - miner_agent starts with 2x goldore already mined
+  - miner_agent starts with 2x goldnugget already mined
   - support_agent starts with 2x coal for smelting
   - Higher skill levels for guaranteed success
   - No mining required - just crafting operations
 
   PRODUCTION CHAIN:
-  1. Smelt 2x goldbar (1x goldore + 1x coal → 1x goldbar)
+  1. Smelt 2x goldbar (1x goldnugget + 1x coal → 1x goldbar)
   2. Craft 1x goldring (2x goldbar → 1x goldring)
 
   TEAM COORDINATION:
@@ -27,11 +27,17 @@ relevant_game_context: |
   - Smith performs smelting and crafting
 
   DO NOT use complete() until gold ring is crafted!
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
 
 max_action_steps: 18
 
 agent_1:
-  username: "miner_agent"
+  username: "t38a1_miner_agent"
   new_character: true
 
   location:
@@ -48,7 +54,7 @@ agent_1:
       count: 25
     - item: "apple"
       count: 30
-    - item: "goldore"
+    - item: "goldnugget"
       count: 2
 
   equipped_items:
@@ -63,7 +69,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "smith_agent"
+  username: "t38a1_smith_agent"
   new_character: true
 
   location:
@@ -94,7 +100,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "support_agent"
+  username: "t38a1_support_agent"
   new_character: true
 
   location:

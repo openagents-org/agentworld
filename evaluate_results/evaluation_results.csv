@@ -1,5 +1,2 @@
 task_id,solvability,plausibility,diversity,duration,error
-1,,,,11.5,""
-2,YES,Good,Good,17.4,""
-3,YES,Bad,Bad,13.2,""
-4,YES,Good,Good,14.8,""
+18,YES,Bad,Good,10.7,""

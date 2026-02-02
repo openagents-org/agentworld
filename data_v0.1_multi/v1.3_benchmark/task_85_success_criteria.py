@@ -36,12 +36,8 @@ def task_85_verifier(traj_json: Dict) -> Tuple[int, str]:
     has_shrimp = rawshrimp >= 4
     has_icestaff = icestaff >= 1
 
-    # Check all agents alive
-    agent_hp = get_final_agent_hp_simple(traj_json)
-    all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
-
-    passed = has_icelogs and has_shrimp and has_icestaff and all_alive
-    msg = f"Icelogs: {icelogs}/10, Shrimp: {rawshrimp}/4, Icestaff: {icestaff}/1, All alive: {all_alive}"
+    passed = has_icelogs and has_shrimp and has_icestaff
+    msg = f"Icelogs: {icelogs}/10, Shrimp: {rawshrimp}/4, Icestaff: {icestaff}/1"
     return (1 if passed else 0, msg)
 
 

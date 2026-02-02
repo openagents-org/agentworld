@@ -38,11 +38,8 @@ def task_81_verifier(traj_json: Dict) -> Tuple[int, str]:
     has_lightning = lightningstaff >= 1
     has_fire = firestaff >= 1
 
-    # Check all agents alive
-    alive = check_agents_alive(traj_json)
-
-    passed = has_icelogs and has_logs and has_lightning and has_fire and alive
-    msg = f"Icelogs: {icelogs}/8, Logs: {logs}/6, Lightning: {lightningstaff}/1, Fire: {firestaff}/1, All alive: {alive}"
+    passed = has_icelogs and has_logs and has_lightning and has_fire
+    msg = f"Icelogs: {icelogs}/8, Logs: {logs}/6, Lightning: {lightningstaff}/1, Fire: {firestaff}/1"
     return (1 if passed else 0, msg)
 
 

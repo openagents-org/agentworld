@@ -24,12 +24,28 @@ from verifier_utils import (
 
 
 def task_65_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Alchemist Guild Potions."""
+    """Cooking Guild.
+    YAML criteria:
+    - Team inventory contains 2x cornstew
+    - Team inventory contains 2x cookedshrimp
+    - Team inventory contains 2x cookedchicken
+    - Team inventory contains 1x jellyfishsmoothie
+    """
     inventories = get_final_inventories(traj_json)
-    potions = ['healthpotion', 'manapotion', 'jellyfishsmoothie']
-    potion_count = sum(count_item_in_inventories(inventories, p) for p in potions)
-    msg = f"Potions/consumables: {potion_count}"
-    return (1 if potion_count >= 5 else 0, msg)
+
+    cornstew = count_item_in_inventories(inventories, 'cornstew')
+    cookedshrimp = count_item_in_inventories(inventories, 'cookedshrimp')
+    cookedchicken = count_item_in_inventories(inventories, 'cookedchicken')
+    jellyfishsmoothie = count_item_in_inventories(inventories, 'jellyfishsmoothie')
+
+    stew_ok = cornstew >= 2
+    shrimp_ok = cookedshrimp >= 2
+    chicken_ok = cookedchicken >= 2
+    jelly_ok = jellyfishsmoothie >= 1
+
+    success = stew_ok and shrimp_ok and chicken_ok and jelly_ok
+    msg = f"Cornstew: {cornstew}/2, Cookedshrimp: {cookedshrimp}/2, Cookedchicken: {cookedchicken}/2, Jellyfishsmoothie: {jellyfishsmoothie}/1"
+    return (1 if success else 0, msg)
 
 
 def task_65_verifier_v1(traj_json: Dict) -> Tuple[int, str]:

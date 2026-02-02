@@ -29,11 +29,17 @@ relevant_game_context: |
   - Jeweler_Pendants: will craft pendants
 
   DO NOT use complete() until ALL jewelry is crafted!
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
 
 max_action_steps: 70
 
 agent_1:
-  username: "Ruby_Miner"
+  username: "t57a2_Ruby_Miner"
   new_character: true
 
   location:
@@ -64,7 +70,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "Emerald_Miner"
+  username: "t57a2_Emerald_Miner"
   new_character: true
 
   location:
@@ -95,7 +101,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "Combat_Support"
+  username: "t57a2_Combat_Support"
   new_character: true
 
   location:
@@ -126,7 +132,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "Gold_Miner"
+  username: "t57a2_Gold_Miner"
   new_character: true
 
   location:
@@ -153,7 +159,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "Coal_Miner"
+  username: "t57a2_Coal_Miner"
   new_character: true
 
   location:
@@ -184,7 +190,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "Smelter"
+  username: "t57a2_Smelter"
   new_character: true
 
   location:
@@ -208,7 +214,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "Jeweler_Rings"
+  username: "t57a2_Jeweler_Rings"
   new_character: true
 
   location:
@@ -234,7 +240,7 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "Jeweler_Pendants"
+  username: "t57a2_Jeweler_Pendants"
   new_character: true
 
   location:

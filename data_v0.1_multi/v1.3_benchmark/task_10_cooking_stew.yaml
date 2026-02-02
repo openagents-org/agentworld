@@ -64,10 +64,9 @@ relevant_game_context: |
     - Materials: 4x stick → 1x bowlmedium
     - Level required: 5 (Fletching skill)
   
-  🍄 Foraging - mushrooms and vegetables:
-    - harvest_resource on mushroom instances to get mushroom2
-    - harvest_resource on corn instances to get corn
-    - Level required: varies (Foraging skill)
+  🍄 Ingredients:
+    - mushroom2: ingredient_gatherer_agent has 1x mushroom2 in inventory (pre-supplied)
+    - corn: ingredient_gatherer_agent has 1x corn in inventory (pre-supplied)
   
   🍲 Cooking Recipe - stew2:
     - craft_item skill=Cooking itemKey=stew2
@@ -127,7 +126,11 @@ agent_2:
       count: 10
     - item: "apple"
       count: 15
-  
+    - item: "mushroom2"
+      count: 1
+    - item: "corn"
+      count: 1
+
   equipped_items:
     - item: "leatherarmor"
       count: 1
@@ -135,7 +138,7 @@ agent_2:
     - item: "leatherboots"
       count: 1
       enchant: 0
-  
+
 agent_3:
   username: "chef_agent"
   new_character: true

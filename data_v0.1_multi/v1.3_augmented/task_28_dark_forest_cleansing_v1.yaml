@@ -44,7 +44,7 @@ relevant_game_context: |
 max_action_steps: 20
 
 agent_1:
-  username: "shadow_hunter_agent"
+  username: "t28a1_shadow_hunter_agent"
   new_character: true
 
   location:
@@ -83,7 +83,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "forest_guardian_agent"
+  username: "t28a1_forest_guardian_agent"
   new_character: true
 
   location:
@@ -122,7 +122,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "light_bringer_agent"
+  username: "t28a1_light_bringer_agent"
   new_character: true
 
   location:

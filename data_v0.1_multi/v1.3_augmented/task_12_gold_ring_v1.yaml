@@ -33,11 +33,17 @@ relevant_game_context: |
     - craft_item skill=Smithing itemKey=goldring
     - Materials: 2x goldbar → 1x goldring
     - Level required: 1 (Smithing skill)
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
 
 max_action_steps: 15
 
 agent_1:
-  username: "gold_miner_agent"
+  username: "t12a1_gold_miner_agent"
   new_character: true
   location:
     x: 212
@@ -51,7 +57,7 @@ agent_1:
       count: 20
     - item: "apple"
       count: 25
-    - item: "goldore"
+    - item: "goldnugget"
       count: 3
     - item: "coal"
       count: 3
@@ -67,7 +73,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "coal_supplier_agent"
+  username: "t12a1_coal_supplier_agent"
   new_character: true
   location:
     x: 216
@@ -95,7 +101,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "gold_smith_agent"
+  username: "t12a1_gold_smith_agent"
   new_character: true
   location:
     x: 242

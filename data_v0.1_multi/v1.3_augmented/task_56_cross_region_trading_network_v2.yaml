@@ -37,11 +37,17 @@ relevant_game_context: |
   - All teams coordinate via chat
 
   DO NOT use complete() until ALL items are crafted!
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
 
 max_action_steps: 65
 
 agent_1:
-  username: "Forest_Gatherer_1"
+  username: "t56a2_Forest_Gatherer_1"
   new_character: true
 
   location:
@@ -68,7 +74,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "Forest_Gatherer_2"
+  username: "t56a2_Forest_Gatherer_2"
   new_character: true
 
   location:
@@ -95,7 +101,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "Mountain_Miner_1"
+  username: "t56a2_Mountain_Miner_1"
   new_character: true
 
   location:
@@ -122,7 +128,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "Mountain_Miner_2"
+  username: "t56a2_Mountain_Miner_2"
   new_character: true
 
   location:
@@ -149,7 +155,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "Coastal_Forager"
+  username: "t56a2_Coastal_Forager"
   new_character: true
 
   location:
@@ -177,7 +183,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "Crafter_Gold"
+  username: "t56a2_Crafter_Gold"
   new_character: true
 
   location:
@@ -203,7 +209,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "Crafter_Magic"
+  username: "t56a2_Crafter_Magic"
   new_character: true
 
   location:

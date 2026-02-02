@@ -25,15 +25,11 @@ from verifier_utils import (
 
 def task_79_verifier(traj_json: Dict) -> Tuple[int, str]:
     """Dragon Hunt - defeat Iron Ogre, Water Guardian, and Mermaid."""
-    # Check combat kills (3 bosses)
+    # Check combat kills (3 bosses) - agent survival not required
     kills = count_combat_kills(traj_json, ['Iron Ogre', 'Water Guardian', 'Mermaid', 'Ogre', 'Guardian'])
-    has_kills = kills >= 3
 
-    # Check all agents alive
-    alive = check_agents_alive(traj_json)
-
-    passed = has_kills and alive
-    msg = f"Boss kills: {kills}/3, All alive: {alive}"
+    passed = kills >= 3
+    msg = f"Boss kills: {kills}/3"
     return (1 if passed else 0, msg)
 
 

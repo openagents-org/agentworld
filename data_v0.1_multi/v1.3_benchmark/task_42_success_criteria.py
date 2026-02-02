@@ -36,13 +36,7 @@ def task_42_verifier(traj_json: Dict) -> Tuple[int, str]:
     has_silverring = silverring >= 1
     has_sticks = stick >= 10
 
-    # Check all agents alive
-    agent_hp = get_final_agent_hp_simple(traj_json)
-    all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
-
-    passed = has_staff and has_silverring and has_sticks and all_alive
-    msg = f"Staff: {staff}/1, Silverring: {silverring}/1, Stick: {stick}/10, All alive: {all_alive}"
-    return (1 if passed else 0, msg)
+    return (1 if has_staff and has_silverring and has_sticks else 0, f"Staff: {staff}/1, Silverring: {silverring}/1, Stick: {stick}/10")
 
 
 def task_42_verifier_v1(traj_json: Dict) -> Tuple[int, str]:

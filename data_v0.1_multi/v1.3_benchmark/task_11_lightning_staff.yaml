@@ -78,11 +78,11 @@ agent_1:
   new_character: true
 
   location:
-    x: 180
-    y: 200
+    x: 130
+    y: 25
 
   skill_levels:
-    lumberjacking: 20
+    lumberjacking: 35
     fletching: 15
     crafting: 15      # For basic staff creation
     strength: 25
@@ -112,8 +112,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 185
-    y: 200
+    x: 135
+    y: 25
 
   skill_levels:
     foraging: 25      # For magical material search
@@ -142,8 +142,8 @@ agent_3:
   new_character: true
 
   location:
-    x: 190
-    y: 200
+    x: 140
+    y: 25
 
   skill_levels:
     crafting: 25      # Required for lightning staff (level 10+)

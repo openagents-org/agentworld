@@ -24,16 +24,13 @@ from verifier_utils import (
 
 
 def task_76_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Elemental Nexus Stabilization - stabilize 3 shrines."""
-    alive = check_agents_alive(traj_json)
-    inventories = get_final_inventories(traj_json)
-    
-    staffs = ['firestaff', 'lightningstaff', 'naturestaff', 'icestaff']
-    staff_count = sum(1 for s in staffs if has_item_in_any_inventory(inventories, s))
-    
-    success = alive and staff_count >= 3
-    msg = f"Alive: {alive}, Elemental staffs: {staff_count}/3"
-    return (1 if success else 0, msg)
+    """Elemental Bosses - defeat 3 bosses (Ice Guardian, Iron Ogre, Water Guardian)."""
+    # Check combat kills (3 bosses)
+    kills = count_combat_kills(traj_json, ['Ice Guardian', 'Iron Ogre', 'Water Guardian', 'Guardian', 'Ogre'])
+
+    passed = kills >= 3
+    msg = f"Boss kills: {kills}/3"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

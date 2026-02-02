@@ -20,14 +20,22 @@ relevant_game_context: |
   - 4x logs (from Oak trees, Level 1 lumberjacking)
 
   RESOURCE LOCATIONS:
-  - Blueberry bushes: Found in forest edges and clearings
-  - Corn: Found in farming areas
-  - Oak trees: Forest regions (380-400, 0-50)
+  - Blueberry bushes: Western regions around (120-130, 20-25) - Look for "Blueberry" plants NOT "Blue Lily"
+  - Corn: Farming areas around (230-250, 200-210) - verified locations
+  - Oak trees: Eastern forest (388, 3) or mountain foothills (230-240, 40-45) - for regular "logs"
+  
+  CRITICAL DISTINCTIONS:
+  - Blueberry ≠ Blue Lily (Blue Lily is a herb, NOT the blueberry fruit!)
+  - Oak logs ≠ Ice Logs (Ice Logs come from Snowoak/Ice Oak trees)
+  - Look for "Blueberry" plants specifically, NOT "Bluelily" plants
+  - Look for "Oak", "Oak2", "Oak3", "Oak4", or "Oak5" trees, NOT "Snow Oak" or "Ice Oak"
 
   TEAM COORDINATION:
-  - Foragers gather food items
-  - Lumberjack gathers wood
-  - Coordinate to cover different resource types
+  - forager_agent: Gather 5x blueberry from Blueberry bushes (around 125, 22)
+  - farmer_agent: Gather 3x corn from Corn plants (around 240, 205)
+  - lumberjack_agent: Gather 4x logs from Oak trees (around 388, 3)
+  - Use global chat to coordinate and share progress
+  - Verify you're collecting the CORRECT resource type (check item names in inventory!)
 
   DO NOT use complete() until all resources are collected!
 
@@ -40,8 +48,8 @@ agent_1:
   new_character: true
 
   location:
-    x: 350
-    y: 200
+    x: 125
+    y: 22
 
   skill_levels:
     foraging: 20
@@ -67,8 +75,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 355
-    y: 200
+    x: 240
+    y: 205
 
   skill_levels:
     foraging: 25
@@ -95,7 +103,7 @@ agent_3:
 
   location:
     x: 388
-    y: 10
+    y: 3
 
   skill_levels:
     lumberjacking: 25

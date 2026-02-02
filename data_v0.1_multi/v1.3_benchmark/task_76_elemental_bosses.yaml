@@ -36,7 +36,7 @@ max_action_steps: 48
 
 # Agent configurations
 agent_1:
-  username: "ice_leader_agent"
+  username: t76_ice_leader_agent
   new_character: true
 
   location:
@@ -66,7 +66,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "ice_dps1_agent"
+  username: t76_ice_dps1_agent
   new_character: true
 
   location:
@@ -96,7 +96,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "ice_support_agent"
+  username: t76_ice_support_agent
   new_character: true
 
   location:
@@ -126,7 +126,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "mountain_leader_agent"
+  username: t76_mountain_leader_agent
   new_character: true
 
   location:
@@ -156,7 +156,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "mountain_dps1_agent"
+  username: t76_mountain_dps1_agent
   new_character: true
 
   location:
@@ -186,7 +186,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "mountain_support_agent"
+  username: t76_mountain_support_agent
   new_character: true
 
   location:
@@ -216,7 +216,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "water_leader_agent"
+  username: t76_water_leader_agent
   new_character: true
 
   location:
@@ -246,7 +246,7 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "water_dps1_agent"
+  username: t76_water_dps1_agent
   new_character: true
 
   location:
@@ -276,7 +276,7 @@ agent_8:
       enchant: 0
 
 agent_9:
-  username: "water_dps2_agent"
+  username: t76_water_dps2_agent
   new_character: true
 
   location:
@@ -306,7 +306,7 @@ agent_9:
       enchant: 0
 
 agent_10:
-  username: "water_support_agent"
+  username: t76_water_support_agent
   new_character: true
 
   location:

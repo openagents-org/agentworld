@@ -32,6 +32,7 @@ def task_32_verifier(traj_json: Dict) -> Tuple[int, str]:
     has_logs = logs >= 5
 
     # Check combat kills (3 wolves)
+    # TODO: 改这个函数就行
     kills = count_combat_kills(traj_json, ['Wolf', 'wolf'])
     has_kills = kills >= 3
 

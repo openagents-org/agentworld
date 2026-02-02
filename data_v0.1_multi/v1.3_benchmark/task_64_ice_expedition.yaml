@@ -20,7 +20,7 @@ relevant_game_context: |
   - 2x Axe (3x ironbar + 1x logs each)
 
   ICE REGION LOCATION:
-  - Ice region around (259, 151)
+  - Ice region around (450-470, 155-180)
   - Ice Rats spawn in ice region
 
   MATERIAL REQUIREMENTS:
@@ -64,18 +64,18 @@ max_action_steps: 45
 
 # Agent configurations
 agent_1:
-  username: "scout1_agent"
+  username: "t64_scout1_agent"
   new_character: true
 
   location:
-    x: 350
-    y: 250
+    x: 450
+    y: 160
 
   skill_levels:
-    strength: 38
-    accuracy: 35
-    health: 50
-    defense: 35
+    strength: 75
+    accuracy: 60
+    health: 80
+    defense: 60
 
   inventory_items:
     - item: "flask"
@@ -84,10 +84,10 @@ agent_1:
       count: 40
 
   equipped_items:
-    - item: "sword"
+    - item: "sword2"
       count: 1
       enchant: 0
-    - item: "platearmor"
+    - item: "redarmor"
       count: 1
       enchant: 0
     - item: "leatherboots"
@@ -95,18 +95,18 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "scout2_agent"
+  username: "t64_scout2_agent"
   new_character: true
 
   location:
-    x: 352
-    y: 252
+    x: 455
+    y: 165
 
   skill_levels:
-    strength: 36
-    accuracy: 33
-    health: 48
-    defense: 33
+    strength: 75
+    accuracy: 60
+    health: 80
+    defense: 60
 
   inventory_items:
     - item: "flask"
@@ -115,10 +115,10 @@ agent_2:
       count: 40
 
   equipped_items:
-    - item: "sword"
+    - item: "sword2"
       count: 1
       enchant: 0
-    - item: "leatherarmor"
+    - item: "redarmor"
       count: 1
       enchant: 0
     - item: "leatherboots"
@@ -126,12 +126,12 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "lumberjack1_agent"
+  username: "t64_lumberjack1_agent"
   new_character: true
 
   location:
-    x: 354
-    y: 254
+    x: 445
+    y: 155
 
   skill_levels:
     lumberjacking: 40
@@ -153,12 +153,12 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "lumberjack2_agent"
+  username: "t64_lumberjack2_agent"
   new_character: true
 
   location:
-    x: 356
-    y: 256
+    x: 448
+    y: 158
 
   skill_levels:
     lumberjacking: 38
@@ -180,18 +180,18 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "hunter1_agent"
+  username: "t64_ice_hunter1_agent"
   new_character: true
 
   location:
-    x: 348
-    y: 248
+    x: 460
+    y: 170
 
   skill_levels:
-    strength: 45
-    accuracy: 40
-    health: 52
-    defense: 36
+    strength: 75
+    accuracy: 60
+    health: 80
+    defense: 60
 
   inventory_items:
     - item: "flask"
@@ -200,26 +200,26 @@ agent_5:
       count: 40
 
   equipped_items:
-    - item: "heavysword"
+    - item: "sword2"
       count: 1
       enchant: 0
-    - item: "platearmor"
+    - item: "redarmor"
       count: 1
       enchant: 0
 
 agent_6:
-  username: "hunter2_agent"
+  username: "t64_ice_hunter2_agent"
   new_character: true
 
   location:
-    x: 350
-    y: 246
+    x: 465
+    y: 175
 
   skill_levels:
-    strength: 43
-    accuracy: 38
-    health: 50
-    defense: 34
+    strength: 75
+    accuracy: 60
+    health: 80
+    defense: 60
 
   inventory_items:
     - item: "flask"
@@ -228,20 +228,20 @@ agent_6:
       count: 40
 
   equipped_items:
-    - item: "sword"
+    - item: "sword2"
       count: 1
       enchant: 0
-    - item: "platearmor"
+    - item: "redarmor"
       count: 1
       enchant: 0
 
 agent_7:
-  username: "miner_agent"
+  username: "t64_miner_agent"
   new_character: true
 
   location:
-    x: 346
-    y: 252
+    x: 452
+    y: 162
 
   skill_levels:
     mining: 35
@@ -263,12 +263,12 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "crafter_agent"
+  username: "t64_crafter_agent"
   new_character: true
 
   location:
-    x: 352
-    y: 248
+    x: 458
+    y: 168
 
   skill_levels:
     crafting: 40
@@ -295,4 +295,3 @@ success_criteria:
   - "Team inventory contains at least 8x icelogs"
   - "4x Ice Rat defeated"
   - "Team inventory contains 2x axe"
-  - "All agents survive the expedition"

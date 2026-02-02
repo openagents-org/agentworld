@@ -7,7 +7,7 @@ task:
   description: "Ten agents defeat multiple bosses and craft multiple staffs"
 
 objectives:
-  primary: "Defeat Ancient Wizard at (163, 339), Golden Golem at (548, 232), and Dark Ogre at (238, 48), craft 2x Lightning Staff and 2x Fire Staff, and collect 12x goldore"
+  primary: "Defeat Ancient Wizard at (163, 339), Golden Golem at (548, 232), and Dark Ogre at (238, 48), craft 2x Lightning Staff and 2x Fire Staff, and collect 12x goldnugget"
 
 relevant_game_context: |
   This is a cooperative multi-agent combat and crafting scenario with maximum difficulty.
@@ -24,7 +24,7 @@ relevant_game_context: |
   - Dark Ogre (Level 25) at (238, 48)
 
   PRODUCTION TARGETS (DOUBLED):
-  - 12x goldore (from mountain)
+  - 12x goldnugget (from mountain)
   - 2x Lightning Staff (staff + lightningbead each)
   - 2x Fire Staff (staff + firebead each)
 
@@ -34,11 +34,17 @@ relevant_game_context: |
   - Crafters: Make staffs
 
   DO NOT use complete() until all objectives are met!
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
 
 max_action_steps: 65
 
 agent_1:
-  username: "fighter1_agent"
+  username: "t90a2_fighter1_agent"
   new_character: true
 
   location:
@@ -68,7 +74,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "fighter2_agent"
+  username: "t90a2_fighter2_agent"
   new_character: true
 
   location:
@@ -98,7 +104,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "fighter3_agent"
+  username: "t90a2_fighter3_agent"
   new_character: true
 
   location:
@@ -128,7 +134,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "miner1_agent"
+  username: "t90a2_miner1_agent"
   new_character: true
 
   location:
@@ -155,7 +161,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "miner2_agent"
+  username: "t90a2_miner2_agent"
   new_character: true
 
   location:
@@ -182,7 +188,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "miner3_agent"
+  username: "t90a2_miner3_agent"
   new_character: true
 
   location:
@@ -209,7 +215,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "crafter1_agent"
+  username: "t90a2_crafter1_agent"
   new_character: true
 
   location:
@@ -239,7 +245,7 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "crafter2_agent"
+  username: "t90a2_crafter2_agent"
   new_character: true
 
   location:
@@ -269,7 +275,7 @@ agent_8:
       enchant: 0
 
 agent_9:
-  username: "support1_agent"
+  username: "t90a2_support1_agent"
   new_character: true
 
   location:
@@ -292,7 +298,7 @@ agent_9:
       enchant: 0
 
 agent_10:
-  username: "coordinator_agent"
+  username: "t90a2_coordinator_agent"
   new_character: true
 
   location:
@@ -318,7 +324,7 @@ success_criteria:
   - "Ancient Wizard at (163, 339) defeated"
   - "Golden Golem at (548, 232) defeated"
   - "Dark Ogre at (238, 48) defeated"
-  - "Team inventory contains at least 12x goldore (or smelted)"
+  - "Team inventory contains at least 12x goldnugget (or smelted)"
   - "Team inventory contains 2x lightningstaff"
   - "Team inventory contains 2x firestaff"
   - "All agents survive the barrier reboot mission"

@@ -24,15 +24,28 @@ from verifier_utils import (
 
 
 def task_74_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Guild Headquarters Establishment."""
-    alive = check_agents_alive(traj_json)
+    """Guild Equipment.
+    YAML criteria:
+    - Team inventory contains 2x sword2 (heavy sword)
+    - Team inventory contains 1x axe
+    - Team inventory contains 1x woodenbow
+    - Team inventory contains 2x silverring
+    """
     inventories = get_final_inventories(traj_json)
-    
-    ironbar = count_item_in_inventories(inventories, 'ironbar')
-    logs = count_item_in_inventories(inventories, 'logs')
-    
-    msg = f"Alive: {alive}, Iron bars: {ironbar}, Logs: {logs}"
-    return (1 if alive else 0, msg)
+
+    sword2 = count_item_in_inventories(inventories, 'sword2') + count_item_in_inventories(inventories, 'heavysword')
+    axe = count_item_in_inventories(inventories, 'axe')
+    woodenbow = count_item_in_inventories(inventories, 'woodenbow')
+    silverring = count_item_in_inventories(inventories, 'silverring')
+
+    sword_ok = sword2 >= 2
+    axe_ok = axe >= 1
+    bow_ok = woodenbow >= 1
+    ring_ok = silverring >= 2
+
+    success = sword_ok and axe_ok and bow_ok and ring_ok
+    msg = f"Sword2/HeavySword: {sword2}/2, Axe: {axe}/1, Woodenbow: {woodenbow}/1, Silverring: {silverring}/2"
+    return (1 if success else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

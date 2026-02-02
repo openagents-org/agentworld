@@ -31,7 +31,7 @@ relevant_game_context: |
 max_action_steps: 15
 
 agent_1:
-  username: "lumberjack_agent"
+  username: "t42a1_lumberjack_agent"
   new_character: true
 
   location:
@@ -61,7 +61,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "fletcher_agent"
+  username: "t42a1_fletcher_agent"
   new_character: true
 
   location:
@@ -93,7 +93,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "smith_agent"
+  username: "t42a1_smith_agent"
   new_character: true
 
   location:

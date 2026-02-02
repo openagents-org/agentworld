@@ -44,7 +44,7 @@ relevant_game_context: |
 max_action_steps: 20
 
 agent_1:
-  username: "deep_diver_agent"
+  username: "t23a1_deep_diver_agent"
   new_character: true
 
   location:
@@ -79,7 +79,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "marine_harvester_agent"
+  username: "t23a1_marine_harvester_agent"
   new_character: true
 
   location:
@@ -112,7 +112,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "treasure_hunter_agent"
+  username: "t23a1_treasure_hunter_agent"
   new_character: true
 
   location:

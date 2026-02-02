@@ -32,7 +32,7 @@ relevant_game_context: |
 max_action_steps: 18
 
 agent_1:
-  username: "tank_agent"
+  username: "t35a1_tank_agent"
   new_character: true
 
   location:
@@ -63,7 +63,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "dps_agent"
+  username: "t35a1_dps_agent"
   new_character: true
 
   location:
@@ -94,7 +94,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "ranger_agent"
+  username: "t35a1_ranger_agent"
   new_character: true
 
   location:

@@ -26,10 +26,11 @@ from verifier_utils import (
 def task_33_verifier(traj_json: Dict) -> Tuple[int, str]:
     """Resource Expedition."""
     inventories = get_final_inventories(traj_json)
-    resources = ['logs', 'ironore', 'coal', 'goldore']
-    resource_count = sum(count_item_in_inventories(inventories, r) for r in resources)
-    success = resource_count >= 20
-    msg = f"Resources: {resource_count}/20"
+    logs = count_item_in_inventories(inventories, 'logs')
+    coals = count_item_in_inventories(inventories, 'coal')
+    copperores = count_item_in_inventories(inventories, 'copperore')
+    success = logs >= 4 and coals >= 3 and copperores >= 2
+    msg = f"Logs: {logs}/4, Coal: {coals}/3, Copperore: {copperores}/2"
     return (1 if success else 0, msg)
 
 

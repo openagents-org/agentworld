@@ -150,7 +150,8 @@ agent_3:
     y: 336
   
   skill_levels:
-    smithing: 30      # Required for gold smelting and ring creation
+    smelting: 25      # Required for gold bar smelting (level 20+)
+    smithing: 30      # Required for gold ring creation
     mining: 15        # Gold material knowledge
     strength: 25
     health: 25

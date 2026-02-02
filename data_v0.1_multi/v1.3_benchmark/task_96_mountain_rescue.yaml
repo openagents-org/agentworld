@@ -59,7 +59,7 @@ max_action_steps: 48
 
 # Agent configurations
 agent_1:
-  username: "logger1_agent"
+  username: t96_logger1_agent
   new_character: true
 
   location:
@@ -86,7 +86,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "logger2_agent"
+  username: t96_logger2_agent
   new_character: true
 
   location:
@@ -113,7 +113,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "miner1_agent"
+  username: t96_miner1_agent
   new_character: true
 
   location:
@@ -140,7 +140,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "miner2_agent"
+  username: t96_miner2_agent
   new_character: true
 
   location:
@@ -167,7 +167,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "miner3_agent"
+  username: t96_miner3_agent
   new_character: true
 
   location:
@@ -194,7 +194,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "cook1_agent"
+  username: t96_cook1_agent
   new_character: true
 
   location:
@@ -219,7 +219,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "crafter_agent"
+  username: t96_crafter_agent
   new_character: true
 
   location:
@@ -245,7 +245,7 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "support1_agent"
+  username: t96_support1_agent
   new_character: true
 
   location:
@@ -268,7 +268,7 @@ agent_8:
       enchant: 0
 
 agent_9:
-  username: "support2_agent"
+  username: t96_support2_agent
   new_character: true
 
   location:
@@ -291,7 +291,7 @@ agent_9:
       enchant: 0
 
 agent_10:
-  username: "support3_agent"
+  username: t96_support3_agent
   new_character: true
 
   location:
@@ -314,7 +314,7 @@ agent_10:
       enchant: 0
 
 agent_11:
-  username: "support4_agent"
+  username: t96_support4_agent
   new_character: true
 
   location:
@@ -337,7 +337,7 @@ agent_11:
       enchant: 0
 
 agent_12:
-  username: "coordinator_agent"
+  username: t96_coordinator_agent
   new_character: true
 
   location:

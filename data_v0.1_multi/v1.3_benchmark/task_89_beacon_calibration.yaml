@@ -64,7 +64,7 @@ max_action_steps: 42
 
 # Agent configurations
 agent_1:
-  username: "logger1_agent"
+  username: t89_logger1_agent
   new_character: true
 
   location:
@@ -91,7 +91,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "logger2_agent"
+  username: t89_logger2_agent
   new_character: true
 
   location:
@@ -118,7 +118,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "logger3_agent"
+  username: t89_logger3_agent
   new_character: true
 
   location:
@@ -145,7 +145,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "icelogger1_agent"
+  username: t89_icelogger1_agent
   new_character: true
 
   location:
@@ -172,7 +172,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "icelogger2_agent"
+  username: t89_icelogger2_agent
   new_character: true
 
   location:
@@ -199,7 +199,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "crafter1_agent"
+  username: t89_crafter1_agent
   new_character: true
 
   location:
@@ -227,7 +227,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "crafter2_agent"
+  username: t89_crafter2_agent
   new_character: true
 
   location:
@@ -255,7 +255,7 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "support1_agent"
+  username: t89_support1_agent
   new_character: true
 
   location:
@@ -278,7 +278,7 @@ agent_8:
       enchant: 0
 
 agent_9:
-  username: "support2_agent"
+  username: t89_support2_agent
   new_character: true
 
   location:
@@ -301,7 +301,7 @@ agent_9:
       enchant: 0
 
 agent_10:
-  username: "coordinator_agent"
+  username: t89_coordinator_agent
   new_character: true
 
   location:

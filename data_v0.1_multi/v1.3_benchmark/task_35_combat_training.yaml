@@ -19,13 +19,14 @@ relevant_game_context: |
   - Goblins drop: leather armor, leather boots, plastic bow
 
   COMBAT TACTICS:
-  - Tank agent draws aggro and absorbs damage
+  - Tank agent initiates combat and absorbs damage
   - DPS agents deal damage from flanking positions
-  - Support provides ranged backup
+  - Ranger provides ranged backup with bow and arrows
 
   GOBLIN LOCATIONS:
-  - Wilderness regions around (400-500, 300-400)
-  - Goblins are aggressive and will attack on sight
+  - Northwest forest regions around (0-100, 0-100) - DENSEST area with 27+ goblins
+  - Center location approximately (26, 41)
+  - Goblins are non-aggressive but will defend when attacked
 
   DO NOT use complete() until all goblins are defeated!
 
@@ -38,8 +39,8 @@ agent_1:
   new_character: true
 
   location:
-    x: 420
-    y: 350
+    x: 25
+    y: 40
 
   skill_levels:
     strength: 40
@@ -69,8 +70,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 425
-    y: 350
+    x: 28
+    y: 42
 
   skill_levels:
     strength: 45
@@ -100,8 +101,8 @@ agent_3:
   new_character: true
 
   location:
-    x: 430
-    y: 350
+    x: 30
+    y: 38
 
   skill_levels:
     archery: 35

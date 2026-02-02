@@ -13,7 +13,7 @@ relevant_game_context: |
   This is a cooperative multi-agent expedition with reduced difficulty.
 
   STARTING ADVANTAGE:
-  - volcanic_miner_agent starts with 2x goldore and 1x lapisore pre-mined
+  - volcanic_miner_agent starts with 2x goldnugget and 1x lapisore pre-mined
   - Higher skill levels for safer combat
   - More consumables for survival
   - Only need to defeat ONE miniboss (Water Guardian)
@@ -38,11 +38,17 @@ relevant_game_context: |
     - Drops: redguardarmor, ring1, scimitar, watermelonbow
     - Coordinate team attacks for faster kill
     - Focus fire for efficiency
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
 
 max_action_steps: 22
 
 agent_1:
-  username: "lava_navigator_agent"
+  username: "t27a1_lava_navigator_agent"
   new_character: true
 
   location:
@@ -81,7 +87,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "volcanic_miner_agent"
+  username: "t27a1_volcanic_miner_agent"
   new_character: true
 
   location:
@@ -102,7 +108,7 @@ agent_2:
       count: 40
     - item: "healthpotion"
       count: 22
-    - item: "goldore"
+    - item: "goldnugget"
       count: 2
     - item: "lapisore"
       count: 1
@@ -122,7 +128,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "forge_master_agent"
+  username: "t27a1_forge_master_agent"
   new_character: true
 
   location:
@@ -163,6 +169,6 @@ agent_3:
 success_criteria:
   - "Team navigates to Water Guardian location at (197, 633)"
   - "Team defeats Water Guardian (Level 36)"
-  - "volcanic_miner_agent has goldore and lapisore verified in inventory"
+  - "volcanic_miner_agent has goldnugget and lapisore verified in inventory"
   - "All agents coordinate via chat during combat"
   - "All agents survive the Water Guardian encounter"

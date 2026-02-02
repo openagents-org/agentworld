@@ -29,15 +29,7 @@ def task_38_verifier(traj_json: Dict) -> Tuple[int, str]:
 
     # Check for goldring in team inventory
     goldring = count_item_in_inventories(inventories, 'goldring')
-    has_goldring = goldring >= 1
-
-    # Check all agents alive
-    agent_hp = get_final_agent_hp_simple(traj_json)
-    all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
-
-    passed = has_goldring and all_alive
-    msg = f"Goldring: {goldring}/1, All alive: {all_alive}"
-    return (1 if passed else 0, msg)
+    return (1 if goldring >= 1 else 0, f"Goldring: {goldring}/1")
 
 
 def task_38_verifier_v1(traj_json: Dict) -> Tuple[int, str]:

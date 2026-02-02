@@ -42,7 +42,7 @@ relevant_game_context: |
 max_action_steps: 40
 
 agent_1:
-  username: "staff_crafter_agent"
+  username: "t11a2_staff_crafter_agent"
   new_character: true
   location:
     x: 180
@@ -72,7 +72,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "elemental_gatherer_agent"
+  username: "t11a2_elemental_gatherer_agent"
   new_character: true
   location:
     x: 185
@@ -98,7 +98,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "magic_enhancer_agent"
+  username: "t11a2_magic_enhancer_agent"
   new_character: true
   location:
     x: 190

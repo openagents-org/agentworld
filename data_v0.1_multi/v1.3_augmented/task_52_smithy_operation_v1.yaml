@@ -32,11 +32,17 @@ relevant_game_context: |
   - Other agents can mine for extras if desired
 
   DO NOT use complete() until items are crafted!
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
 
 max_action_steps: 18
 
 agent_1:
-  username: "miner1_agent"
+  username: "t52a1_miner1_agent"
   new_character: true
 
   location:
@@ -66,7 +72,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "miner2_agent"
+  username: "t52a1_miner2_agent"
   new_character: true
 
   location:
@@ -96,7 +102,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "lumberjack_agent"
+  username: "t52a1_lumberjack_agent"
   new_character: true
 
   location:
@@ -128,7 +134,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "smelter_agent"
+  username: "t52a1_smelter_agent"
   new_character: true
 
   location:
@@ -157,7 +163,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "smith_agent"
+  username: "t52a1_smith_agent"
   new_character: true
 
   location:

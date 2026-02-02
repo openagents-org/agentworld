@@ -43,7 +43,7 @@ relevant_game_context: |
 max_action_steps: 24
 
 agent_1:
-  username: "siege_commander_agent"
+  username: "t29a1_siege_commander_agent"
   new_character: true
 
   location:
@@ -82,7 +82,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "fortress_breacher_agent"
+  username: "t29a1_fortress_breacher_agent"
   new_character: true
 
   location:
@@ -121,7 +121,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "castle_tactician_agent"
+  username: "t29a1_castle_tactician_agent"
   new_character: true
 
   location:

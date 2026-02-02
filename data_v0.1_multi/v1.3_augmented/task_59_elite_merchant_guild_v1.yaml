@@ -37,11 +37,17 @@ relevant_game_context: |
   3. Craft all items
 
   DO NOT use complete() until items are crafted!
+  ORE TYPE REFERENCE (CRITICAL - different rocks give different ores):
+  - Iron Rock (around 545, 495): gives "ironore" (requires mining level 10+)
+  - Nisoc Rock (around 336, 5): gives "nisocore" (NOT iron!)
+  - Gold Rock (around 141, 5): gives "goldnugget" (requires mining level 25+)
+  - Coal Rock: gives "coal" (requires mining level 1)
+
 
 max_action_steps: 28
 
 agent_1:
-  username: "Gold_Baron"
+  username: "t59a1_Gold_Baron"
   new_character: true
 
   location:
@@ -70,7 +76,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "Coal_Magnate"
+  username: "t59a1_Coal_Magnate"
   new_character: true
 
   location:
@@ -97,7 +103,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "Iron_Trader"
+  username: "t59a1_Iron_Trader"
   new_character: true
 
   location:
@@ -126,7 +132,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "Timber_Merchant"
+  username: "t59a1_Timber_Merchant"
   new_character: true
 
   location:
@@ -158,7 +164,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "Mystic_Collector"
+  username: "t59a1_Mystic_Collector"
   new_character: true
 
   location:
@@ -189,7 +195,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "Master_Smelter"
+  username: "t59a1_Master_Smelter"
   new_character: true
 
   location:
@@ -213,7 +219,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "Guild_Master"
+  username: "t59a1_Guild_Master"
   new_character: true
 
   location:

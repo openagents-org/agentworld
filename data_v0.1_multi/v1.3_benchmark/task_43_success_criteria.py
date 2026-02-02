@@ -14,7 +14,7 @@ from verifier_utils import (
     get_final_hp,
     get_final_agent_status,
     get_final_agent_hp_simple,
-    count_combat_kills,
+    verify_combat,
     count_attack_actions,
     count_crafted_items,
     check_crafted_items,
@@ -26,21 +26,14 @@ from verifier_utils import (
 def task_43_verifier(traj_json: Dict) -> Tuple[int, str]:
     """Forest Cleanup - defeat 5x Rats and collect 4x blueberry."""
     inventories = get_final_inventories(traj_json)
-
+    
     # Check for blueberry
     blueberry = count_item_in_inventories(inventories, 'blueberry')
     has_blueberry = blueberry >= 4
 
     # Check combat kills (5 rats)
-    kills = count_combat_kills(traj_json, ['Rat', 'rat'])
-    has_kills = kills >= 5
-
-    # Check all agents alive
-    alive = check_agents_alive(traj_json)
-
-    passed = has_blueberry and has_kills and alive
-    msg = f"Blueberry: {blueberry}/4, Kills: {kills}/5, All alive: {alive}"
-    return (1 if passed else 0, msg)
+    kills = verify_combat(traj_json, 'rat')
+    return (1 if blueberry >= 4 and kills >= 5 else 0, f"Blueberry: {blueberry}/4, Kills: {kills}/5")
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

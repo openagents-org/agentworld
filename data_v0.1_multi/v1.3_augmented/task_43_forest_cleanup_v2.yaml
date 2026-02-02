@@ -33,7 +33,7 @@ relevant_game_context: |
 max_action_steps: 38
 
 agent_1:
-  username: "hunter1_agent"
+  username: "t43a2_hunter1_agent"
   new_character: true
 
   location:
@@ -64,7 +64,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "hunter2_agent"
+  username: "t43a2_hunter2_agent"
   new_character: true
 
   location:
@@ -95,7 +95,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "forager_agent"
+  username: "t43a2_forager_agent"
   new_character: true
 
   location:
@@ -122,7 +122,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "patrol_agent"
+  username: "t43a2_patrol_agent"
   new_character: true
 
   location:

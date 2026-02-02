@@ -28,12 +28,16 @@ def task_26_verifier(traj_json: Dict) -> Tuple[int, str]:
     inventories = get_final_inventories(traj_json)
 
     # Check for mined ores (any ore type)
-    ores = ['ironore', 'goldore', 'coal', 'copperore', 'tinore']
+    # Note: goldnugget is the actual item key for gold ore in the game
+    ores = ['ironore', 'goldore', 'goldnugget', 'coal', 'copperore', 'tinore']
     ore_count = sum(count_item_in_inventories(inventories, o) for o in ores)
     has_ore = ore_count >= 1
 
-    # Check combat kills (desert creature)
-    kills = count_combat_kills(traj_json, ['cactus', 'scorpion', 'vulture', 'Cactus', 'Scorpion', 'Vulture'])
+    # Check combat kills (any creature - primary objective just says "combat")
+    # Include desert creatures plus common enemies the agents might encounter
+    kills = count_combat_kills(traj_json, ['cactus', 'scorpion', 'vulture', 'Cactus', 'Scorpion', 'Vulture',
+                                           'skeleton', 'Skeleton', 'wizard', 'Wizard', 'guardian', 'Guardian',
+                                           'mouse', 'Mouse', 'crab', 'Crab'])
     has_kills = kills >= 1
 
     # Check chat messages (coordination)

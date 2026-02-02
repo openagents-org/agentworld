@@ -1622,12 +1622,12 @@ class KaetramGameTools:
                         else:
                             combat_outcome = "mob_died_by_others"
                         break
-        
+
         # Handle combat timeout
         if combat_outcome == "unknown" and total_time >= max_combat_time:
             self._log_message(f"⚠️ Combat timed out after {max_combat_time}s - breaking combat loop", "warning")
             combat_outcome = "timeout"
-        
+
         # IMPROVED Auto-collect dropped items if mob died - now using groundItems and pickup API
         # Any agent can loot regardless of who got the killing blow
         collected_items = []

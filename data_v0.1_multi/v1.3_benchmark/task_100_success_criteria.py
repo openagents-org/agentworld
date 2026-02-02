@@ -24,16 +24,32 @@ from verifier_utils import (
 
 
 def task_100_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """World Resource Survey."""
-    alive = check_agents_alive(traj_json)
+    """Resource Survey - collect 8x logs, 8x ironore, 6x icelogs, 4x rawshrimp from different regions."""
     inventories = get_final_inventories(traj_json)
-    
-    resource_types = ['logs', 'ironore', 'coal', 'goldore', 'blueberry', 'corn', 'rawshrimp']
-    found_types = sum(1 for r in resource_types if count_item_in_inventories(inventories, r) > 0)
-    
-    success = alive and found_types >= 5
-    msg = f"All alive: {alive}, Resource types found: {found_types}/5"
-    return (1 if success else 0, msg)
+
+    # Count resources
+    logs = count_item_in_inventories(inventories, 'logs')
+    ironore = count_item_in_inventories(inventories, 'ironore')
+    ironbar = count_item_in_inventories(inventories, 'ironbar')  # smelted iron counts too
+    icelogs = count_item_in_inventories(inventories, 'icelogs')
+    rawshrimp = count_item_in_inventories(inventories, 'rawshrimp')
+    cookedshrimp = count_item_in_inventories(inventories, 'cookedshrimp')  # cooked shrimp counts too
+
+    # Iron ore or smelted bars count
+    iron_total = ironore + ironbar
+    # Raw or cooked shrimp count
+    shrimp_total = rawshrimp + cookedshrimp
+
+    has_logs = logs >= 8
+    has_iron = iron_total >= 8
+    has_icelogs = icelogs >= 6
+    has_shrimp = shrimp_total >= 4
+
+    alive = check_agents_alive(traj_json)
+
+    passed = has_logs and has_iron and has_icelogs and has_shrimp and alive
+    msg = f"Logs: {logs}/8, Iron(ore+bar): {iron_total}/8, Ice Logs: {icelogs}/6, Shrimp(raw+cooked): {shrimp_total}/4, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 # =============================================================================

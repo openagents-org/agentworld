@@ -24,12 +24,24 @@ from verifier_utils import (
 
 
 def task_63_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Enchanted Jewelry Workshop."""
+    """Enchanted Jewelry Workshop.
+    YAML criteria:
+    - Team inventory contains 2x goldring
+    - Team inventory contains 2x silverring
+    - Team inventory contains 2x berylpendant
+    """
     inventories = get_final_inventories(traj_json)
-    jewelry = ['silverring', 'goldring', 'topazring', 'berylpendant']
-    jewelry_count = sum(1 for j in jewelry if has_item_in_any_inventory(inventories, j))
-    success = jewelry_count >= 2
-    msg = f"Jewelry: {jewelry_count}/2"
+
+    goldring = count_item_in_inventories(inventories, 'goldring')
+    silverring = count_item_in_inventories(inventories, 'silverring')
+    berylpendant = count_item_in_inventories(inventories, 'berylpendant')
+
+    gold_ok = goldring >= 2
+    silver_ok = silverring >= 2
+    beryl_ok = berylpendant >= 2
+
+    success = gold_ok and silver_ok and beryl_ok
+    msg = f"Goldring: {goldring}/2, Silverring: {silverring}/2, Berylpendant: {berylpendant}/2"
     return (1 if success else 0, msg)
 
 

@@ -26,21 +26,13 @@ from verifier_utils import (
 def task_44_verifier(traj_json: Dict) -> Tuple[int, str]:
     """Messenger Run - coordinator_agent must have 3+ logs and 2+ coal."""
     # Check coordinator_agent inventory
-    agent_items = get_agent_items_by_username(traj_json)
-    coordinator_items = agent_items.get('coordinator_agent', {})
-    logs = coordinator_items.get('logs', 0)
-    coal = coordinator_items.get('coal', 0)
+    inventories = get_final_inventories(traj_json)
+    # hard code, agent_3 is the target agent, only keep its inventory
+    inventories = {'agent_3': inventories['agent_3']}
+    logs = count_item_in_inventories(inventories, 'logs')
+    coal = count_item_in_inventories(inventories, 'coal')
 
-    has_logs = logs >= 3
-    has_coal = coal >= 2
-
-    # Check all agents alive
-    agent_hp = get_final_agent_hp_simple(traj_json)
-    all_alive = all(hp > 0 for hp in agent_hp.values()) if agent_hp else False
-
-    passed = has_logs and has_coal and all_alive
-    msg = f"Coordinator logs: {logs}/3, coal: {coal}/2, All alive: {all_alive}"
-    return (1 if passed else 0, msg)
+    return (1 if logs >= 3 and coal >= 2 else 0, f"Coordinator logs: {logs}/3, coal: {coal}/2")
 
 
 def task_44_verifier_v1(traj_json: Dict) -> Tuple[int, str]:

@@ -35,7 +35,7 @@ relevant_game_context: |
 max_action_steps: 20
 
 agent_1:
-  username: "guardian_agent"
+  username: "t16a1_guardian_agent"
   new_character: true
   location:
     x: 180
@@ -64,7 +64,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "lumber_collector_agent"
+  username: "t16a1_lumber_collector_agent"
   new_character: true
   location:
     x: 185
@@ -91,7 +91,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "forager_collector_agent"
+  username: "t16a1_forager_collector_agent"
   new_character: true
   location:
     x: 190

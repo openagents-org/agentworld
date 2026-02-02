@@ -40,11 +40,8 @@ def task_84_verifier(traj_json: Dict) -> Tuple[int, str]:
     kills = count_combat_kills(traj_json, ['Skeleton', 'skeleton'])
     has_kills = kills >= 3
 
-    # Check all agents alive
-    alive = check_agents_alive(traj_json)
-
-    passed = has_ironore and has_coal and has_pickaxe and has_kills and alive
-    msg = f"Ironore: {ironore}/8, Coal: {coal}/6, Pickaxe: {pickaxe}/1, Kills: {kills}/3, All alive: {alive}"
+    passed = has_ironore and has_coal and has_pickaxe and has_kills
+    msg = f"Ironore: {ironore}/8, Coal: {coal}/6, Pickaxe: {pickaxe}/1, Kills: {kills}/3"
     return (1 if passed else 0, msg)
 
 

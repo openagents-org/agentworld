@@ -24,9 +24,9 @@ from verifier_utils import (
 
 
 def task_75_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Continental Relief Convoy - 30+ iron bars, 30+ cooked shrimp, 60+ arrows, all HP > 25%."""
+    """Relief Convoy - 6+ cooked shrimp, 2+ pickaxe, 8+ logs."""
     inventories = get_final_inventories(traj_json)
-    
+
     item_counts = {}
     for items in inventories.values():
         for item in items:
@@ -34,24 +34,16 @@ def task_75_verifier(traj_json: Dict) -> Tuple[int, str]:
             x = item.get("count", 0)
             item_counts[k] = item_counts.get(k, 0) + x
 
-    ironbar = item_counts.get("ironbar", 0)
     cookedshrimp = item_counts.get("cookedshrimp", 0)
-    arrow = item_counts.get("arrow", 0)
+    pickaxe = item_counts.get("pickaxe", 0)
+    logs = item_counts.get("logs", 0)
 
-    agent_hp = get_final_agent_status(traj_json)
-    all_healthy = True
-    for agent, hp_data in agent_hp.items():
-        percent = (hp_data['current'] / hp_data['max'] * 100) if hp_data['max'] > 0 else 0
-        if percent <= 25:
-            all_healthy = False
+    shrimp_passed = cookedshrimp >= 6
+    pickaxe_passed = pickaxe >= 2
+    logs_passed = logs >= 8
 
-    ironbar_passed = ironbar >= 30
-    shrimp_passed = cookedshrimp >= 30
-    arrow_passed = arrow >= 60
-    hp_passed = all_healthy
-
-    passed = ironbar_passed and shrimp_passed and arrow_passed and hp_passed
-    msg = f"Iron bars: {ironbar}/30, Cooked shrimp: {cookedshrimp}/30, Arrows: {arrow}/60, HP>25%: {hp_passed}"
+    passed = shrimp_passed and pickaxe_passed and logs_passed
+    msg = f"Cooked shrimp: {cookedshrimp}/6, Pickaxe: {pickaxe}/2, Logs: {logs}/8"
     return (1 if passed else 0, msg)
 
 

@@ -37,7 +37,7 @@ relevant_game_context: |
 max_action_steps: 20
 
 agent_1:
-  username: "stick_gatherer_agent"
+  username: "t11a1_stick_gatherer_agent"
   new_character: true
   location:
     x: 180
@@ -67,7 +67,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "bead_gatherer_agent"
+  username: "t11a1_bead_gatherer_agent"
   new_character: true
   location:
     x: 185
@@ -95,7 +95,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "crafter_agent"
+  username: "t11a1_crafter_agent"
   new_character: true
   location:
     x: 190
