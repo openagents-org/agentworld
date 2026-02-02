@@ -71,7 +71,9 @@ def task_45_verifier(traj_json: Dict) -> Tuple[int, str]:
     has_goldore = goldore >= 3
 
     # Check combat kills (by guards)
-    kills = count_combat_kills(traj_json, ['hostile', 'creature', 'enemy', 'monster'])
+    # Pass None to count ALL hostile mob kills (mobs like Spectre, Dark Mage, Iron Ogre, etc.)
+    # The old pattern ['hostile', 'creature', 'enemy', 'monster'] didn't match actual mob names
+    kills = count_combat_kills(traj_json, None)
     has_kills = kills >= 2
 
     # Check all agents alive

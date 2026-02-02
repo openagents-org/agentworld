@@ -19,18 +19,18 @@ relevant_game_context: |
   - 2x Silver Ring (2x ironbar each = 4x ironbar total)
 
   MATERIAL REQUIREMENTS:
-  - 4x goldore + 4x coal → 4x goldbar → 2x goldring
-  - 4x ironore + 4x coal → 4x ironbar → 2x silverring
+  - 4x goldnugget (mined from Gold Rock) → 4x goldbar (Smithing, no coal needed) → 2x goldring
+  - 4x ironore + 4x coal → 4x ironbar (Smelting) → 2x silverring
 
   RESOURCE LOCATIONS:
-  - Gold rocks: Mining area around (555, 545) (Level 25 mining)
+  - Gold rocks: Mining area around (555, 545) (Level 25 mining) - drops goldnugget (displays as "Gold Ore")
   - Iron rocks: Mining area around (555, 545) (Level 20 mining)
   - Coal rocks: Mining area around (555, 545) (Level 1 mining)
 
   TEAM ROLES:
-  - Gold Miners: Extract gold ore
-  - Iron/Coal Miners: Extract iron and coal
-  - Smiths: Smelt and craft rings
+  - Gold Miners: Extract gold nuggets from Gold Rock
+  - Iron/Coal Miners: Extract iron ore and coal
+  - Smiths: Smith gold bars (from goldnugget), smelt iron bars (from ironore+coal), craft rings
 
   DO NOT use complete() until all rings are crafted!
 
@@ -51,8 +51,8 @@ relevant_game_context: |
   - Ice Staff: itemKey=icestaff (Crafting)
   - Nature Staff: itemKey=naturestaff (Crafting)
   - Bucket: itemKey=bucket (Crafting)
-  - Iron Bar: itemKey=ironbar (Smelting)
-  - Gold Bar: itemKey=goldbar (Smelting)
+  - Iron Bar: itemKey=ironbar (Smelting, from ironore+coal)
+  - Gold Bar: itemKey=goldbar (Smithing, from goldnugget - no coal needed)
   - Bronze Bar: itemKey=bronzebar (Smelting)
   - Cooked Shrimp: itemKey=cookedshrimp (Cooking)
   - Stew: itemKey=stew (Cooking)
@@ -63,7 +63,7 @@ max_action_steps: 42
 
 # Agent configurations
 agent_1:
-  username: "t49_goldminer_agent"
+  username: "goldminer_agent"
   new_character: true
 
   location:
@@ -93,7 +93,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "t49_ironminer_agent"
+  username: "ironminer_agent"
   new_character: true
 
   location:
@@ -123,7 +123,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "t49_coalminer_agent"
+  username: "coalminer_agent"
   new_character: true
 
   location:
@@ -153,7 +153,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "t49_smelter_agent"
+  username: "smelter_agent"
   new_character: true
 
   location:
@@ -180,7 +180,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "t49_jeweler_agent"
+  username: "jeweler_agent"
   new_character: true
 
   location:

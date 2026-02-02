@@ -8,7 +8,7 @@
 | 46 | Mining Expedition | SUCCESS | - | - |
 | 47 | Magic Staff Forge | FAIL | [ ] | [x] |
 | 48 | Cross-Region Expedition | FAIL | [x] | [x] |
-| 49 | Jewelry Workshop | FAIL | [ ] | [x] |
+| 49 | Jewelry Workshop | FAIL | [x] | [x] |
 | 50 | Combat Battalion | FAIL | [x] | [x] |
 | 51 | Survival Challenge | FAIL | [x] | [x] |
 | 52 | Smithy Operation | FAIL | [x] | [x] |
@@ -27,84 +27,140 @@
 
 ### Task 45 - Caravan Escort
 - **Status:** FAIL
-- **Verification:** Miner goldore: 0/3, Kills: 0/2, All alive: True
-- **Root Cause:** **MULTIPLE BUGS - Verifier Bugs + Agent Decision Failure + Game Data Issue**
+- **Verification (Latest - 2026-02-01):** Miner gold ore: 13/3 ✅, Kills: 4/2 ✅, All alive: False ❌
+- **Root Cause:** **MULTIPLE BUGS - Verifier Bugs + Game Design Issue (Dangerous Spawn Area)**
 
-  **This task had THREE separate bugs that all contributed to failure:**
-
-  **Bug 1: Verifier Used Wrong Username (CRITICAL)**
-  - Verifier looked for: `agent_items.get('miner_agent', {})`
-  - Actual username in task: `t45_miner_agent`
-  - Result: Verifier found empty dict, reported 0 gold ore even if miner had items
+  **Latest Run Analysis (rerun_45_60_20260201_181412):**
   
-  **Fix:** Changed to use agent key `agent_3` instead of username:
+  | Criteria | Result | Details |
+  |----------|--------|---------|
+  | Gold Ore | ✅ 13/3 | Miner successfully collected 13 gold ore |
+  | Kills | ✅ 4/2 | Guards killed: Spectre, Dark Mage, Preta, Iron Ogre |
+  | All Alive | ❌ False | Agent_1 (guard1) was slain by **Ogre Lord (Level 44)** |
+
+  ---
+
+  **Bug 1: Verifier `get_final_agent_hp_simple` Only Checked Last Round (CRITICAL)**
+  - Function only checked the LAST round for agent HP
+  - Dead agents don't take actions in subsequent rounds → missing from last round
+  - Result: Dead agent_1 was not in round 33, so HP check only saw agent_3
+  - `all(hp > 0 for hp in {'agent_3': 779}.values())` = True (WRONG!)
+  
+  **Fix Applied to `verifier_utils.py`:**
   ```python
-  # Old (broken)
-  miner_items = agent_items.get('miner_agent', {})
+  # Old (broken) - only checked last round
+  last_round = traj_json['rounds'][-1]
+  for act in last_round.get('actions', []):
+      # Only sees agents who took actions in final round
   
-  # New (fixed)
-  agent_items = get_agent_items_by_key(traj_json)
-  miner_items = agent_items.get('agent_3', {})
+  # New (fixed) - tracks HP across ALL rounds
+  for r in traj_json.get('rounds', []):
+      for act in r.get('actions', []):
+          # Track last known HP for each agent
+          # Also checks observation.playerStatus.hitPoints
   ```
 
-  **Bug 2: Verifier Used Wrong Item Key (CRITICAL)**
+  ---
+
+  **Bug 2: Verifier `count_combat_kills` Pattern Matching Was Broken (CRITICAL)**
+  - Old function looked for patterns like "hostile", "creature" in **action strings**
+  - But actions look like: `attack_entity(targetInstance=123456)` - no mob name!
+  - Also checked for "dead"/"killed" in observation, but game uses different terminology
+  
+  **Fix Applied to `verifier_utils.py`:**
+  ```python
+  # Old (broken) - looked for patterns in action string
+  if pattern.lower() in action_str:  # Never matched!
+  
+  # New (fixed) - checks mobs array in observation for HP=0
+  mobs = obs.get('mobs', [])
+  for mob in mobs:
+      if mob.get('hitPoints', -1) == 0:
+          kills += 1  # Track by instance ID to avoid double counting
+  ```
+
+  ---
+
+  **Bug 3: Task 45 Verifier Used Wrong Kill Patterns**
+  - Called: `count_combat_kills(traj_json, ['hostile', 'creature', 'enemy', 'monster'])`
+  - Actual mob names: "Spectre", "Dark Mage", "Preta", "Iron Ogre" - no pattern match!
+  
+  **Fix Applied to `task_45_success_criteria.py`:**
+  ```python
+  # Old (broken)
+  kills = count_combat_kills(traj_json, ['hostile', 'creature', 'enemy', 'monster'])
+  
+  # New (fixed) - count ALL mob kills
+  kills = count_combat_kills(traj_json, None)
+  ```
+
+  ---
+
+  **Game Design Issue: Dangerous Spawn Location**
+  - Gold Rocks are located in a high-level area with dangerous mobs
+  - Agent_1 (guard1) attacked **Ogre Lord (Level 44, 2850 HP)** - a boss mob!
+  - Guard1 had decent stats but was no match for a boss → slain in combat
+  - This caused "All alive: False" despite good gold collection and kills
+
+  **Evidence from trajectory:**
+  ```json
+  // Agent_1's final observation shows HP=0
+  "playerStatus": {
+    "name": "t45_guard1_agent",
+    "hitPoints": 0,
+    "maxHitPoints": 1569
+  }
+  
+  // Mobs in area included Ogre Lord (boss)
+  "mobs": [{
+    "name": "Ogre Lord",
+    "level": 44,
+    "hitPoints": 1753,
+    "maxHitPoints": 2850
+  }]
+  ```
+
+  ---
+
+  **Historical Bugs (Fixed Earlier):**
+  
+  **Bug 4: Verifier Used Wrong Username**
+  - Verifier looked for: `agent_items.get('miner_agent', {})`
+  - Actual agent key: `agent_3`
+  - ✅ Fixed: Now uses `agent_items.get('agent_3', {})`
+
+  **Bug 5: Verifier Used Wrong Item Key**
   - Verifier looked for: `miner_items.get('goldore', 0)`
   - Actual item key from mining: `goldnugget`
-  - Both items display as "Gold Ore" but have different internal keys!
-  
+  - Both display as "Gold Ore" but have different internal keys!
+  - ✅ Fixed: Now uses `miner_items.get('goldnugget', 0)`
+
   **Game has TWO items both named "Gold Ore":**
   | Item Key | Display Name | Source | Used For |
   |----------|--------------|--------|----------|
   | `goldnugget` | "Gold Ore" | Mining Gold Rock | Smithing → goldbar (no coal needed) |
   | `goldore` | "Gold Ore" | **NOTHING - orphaned item!** | Smelting → goldbar (requires coal) |
-  
-  **Evidence from rocks.json:**
-  ```json
-  "gold": {
-      "levelRequirement": 25,
-      "item": "goldnugget"  // Mining Gold Rock gives goldnugget, NOT goldore
-  }
-  ```
-  
-  **The `goldore` item is UNOBTAINABLE:**
-  - Not produced by any rock type
-  - Not dropped by any mob
-  - Exists in items.json but has no acquisition path
-  - Likely an orphaned item from game development
-  
-  **Fix:** Changed to use correct item key:
-  ```python
-  # Old (broken)
-  goldore = miner_items.get('goldore', 0)
-  
-  # New (fixed)
-  goldore = miner_items.get('goldnugget', 0)
-  ```
 
-  **Bug 3: Miner Transferred Gold Ore Away (Agent Decision)**
-  - Miner successfully collected 3x Gold Ore (goldnugget)
-  - Miner then called: `transfer_items(count=3, itemKey=goldnugget, targetPlayer=t45_guard1_agent)`
-  - Task instructions said "collect 3x goldore" but didn't say "KEEP in inventory"
-  - Success criteria: "miner_agent inventory contains at least 3x goldore"
-  - After transfer, miner's inventory was empty → verification would fail regardless
+  **Bug 6: Task YAML Used Wrong Item Key `goldore`**
+  - Task description referenced non-existent `goldore` in 3 places
+  - ✅ Fixed in `task_45_caravan_escort.yaml`:
   
-  **Evidence from trajectory:**
-  ```
-  "action": "transfer_items(count=3, itemKey=goldnugget, targetPlayer=t45_guard1_agent)"
-  "chat": "Sent 3x Gold Ore to t45_guard1_agent"
-  ```
-  
-  **Additional issue: Excessive chatting**
-  - Miner: 12 actions but **38 chats** (3x more chats than actions!)
-  - Guard2: 30 actions but **0 chats** (never responded)
-  - Coordination deadlock: Miner kept asking for confirmation that never came
+  | Location | Before | After |
+  |----------|--------|-------|
+  | objectives.primary | `3x goldore` | `3x Gold Ore (goldnugget)` |
+  | relevant_game_context (TARGETS) | `3x goldore` | `3x Gold Ore (itemKey: goldnugget)` |
+  | success_criteria | `3x goldore` | `3x goldnugget (Gold Ore)` |
 
-- **Category:** Verifier Bug + Game Data Issue + Agent Decision Failure
+- **Category:** Verifier Bug + Task Definition Bug + Game Design Issue (dangerous spawn area)
 - **Fixes Applied:**
-  1. ✅ Verifier now uses `agent_3` instead of username
-  2. ✅ Verifier now uses `goldnugget` instead of `goldore`
-  3. [ ] Task instructions should clarify miner must KEEP the gold ore
-- **Fixed:** [x] (verifier fixed)
+  1. ✅ `get_final_agent_hp_simple` now tracks HP across ALL rounds
+  2. ✅ `count_combat_kills` now checks mob HP=0 in observations
+  3. ✅ Task 45 verifier uses `None` for kill patterns (count all kills)
+  4. ✅ Verifier uses `agent_3` instead of username
+  5. ✅ Verifier uses `goldnugget` instead of `goldore`
+  6. ✅ Task YAML updated: `goldore` → `goldnugget` in all references
+  7. [ ] Consider relocating spawn away from Ogre Lord boss area
+- **Fixed:** [x] (all verifier and task definition bugs fixed)
 - **Understood:** [x]
 
 ---
@@ -193,50 +249,77 @@
 ### Task 49 - Jewelry Workshop
 - **Status:** FAIL
 - **Verification:** Gold Rings: 0/2, Silver Rings: 0/2
-- **Root Cause:** **GAME INITIALIZATION BUG - Skill Levels Not Applied**
+- **Root Cause:** **MULTIPLE BUGS - Skill Level Formula Mismatch + Wrong Spawn Location + Incorrect Recipe Documentation**
   
-  **What happened:**
-  - Task required mining Gold (level 25), Iron (level 20), Coal (level 1)
-  - Task config specified: goldminer=30, ironminer=25, coalminer=20
-  - Init logs showed: "Set mining to level 30: Successfully set Mining to level 30"
-  - **BUT actual in-game observations showed completely different levels!**
+  ---
   
-  **Configured vs Actual Skill Levels:**
-  | Agent | Configured Mining | Actual Mining |
-  |-------|-------------------|---------------|
-  | goldminer_agent | 30 | **13** |
-  | ironminer_agent | 25 | **10** |
-  | coalminer_agent | 20 | **8** |
+  **Bug 1: Skill Level Formula Mismatch in Observation API (FIXED)**
   
-  **Evidence from trajectory:**
-  ```json
-  // Agent 1 (goldminer) observation - line 370-371
-  {"name": "Mining", "level": 13}  // Should be 30!
+  The observation API was using a simplified formula to calculate skill levels instead of the actual game formula:
   
-  // Agent 2 (ironminer) observation - line 603-604
-  {"name": "Mining", "level": 10}  // Should be 25!
+  | Agent | Configured Mining | Observed Mining | Expected |
+  |-------|-------------------|-----------------|----------|
+  | goldminer_agent | 30 | **13** | 30 |
+  | ironminer_agent | 25 | **10** | 25 |
+  | coalminer_agent | 20 | **8** | 20 |
+  
+  **Root cause in `packages/server/src/network/api.ts`:**
+  ```typescript
+  // OLD (broken) - simplified sqrt formula
+  const estimatedLevel = Math.floor(Math.sqrt(skill.experience / 100)) + 1;
+  
+  // NEW (fixed) - uses actual game formula
+  (skill as any).level = Formulas.expToLevel(skill.experience);
   ```
   
-  **LLM agents correctly identified the problem:**
+  The `setSkillLevel` API was correctly setting experience based on `Formulas.LevelExp[level]`, but the observation endpoint was using a different formula to derive level from experience, causing the mismatch.
+  
+  **Fix Applied:** Updated `api.ts` to use `Formulas.expToLevel(skill.experience)`
+  
+  ---
+  
+  **Bug 2: Wrong Spawn Location - No Iron/Coal Rocks (FIXED)**
+  
+  Original spawn coordinates (230-250, 45-50) had NO Iron or Coal Rocks:
+  
+  | Location | What Was There | What Was Needed |
+  |----------|----------------|-----------------|
+  | (230-250, 45-50) | Nisoc Rock, Cinnabar Rock | Iron Rock, Coal Rock |
+  
+  **Fix Applied:** Updated spawn locations to mining area (~555-575, 545-555) where Iron and Coal Rocks actually exist.
+  
+  ---
+  
+  **Bug 3: Incorrect Recipe Documentation - goldore vs goldnugget (FIXED)**
+  
+  Task description used `goldore` which **does not exist** in the game:
+  
+  | Item Key | Display Name | Actually Exists? | Source |
+  |----------|--------------|------------------|--------|
+  | `goldnugget` | "Gold Ore" | ✅ Yes | Mining Gold Rock |
+  | `goldore` | "Gold Ore" | ❌ No (orphaned) | Nothing |
+  
+  **Old (broken) recipe documentation:**
   ```
-  "Mining lvl 13 — I CANNOT mine Gold (requires lvl25)"
-  "I cannot mine gold or iron (Mining level 10)"
+  4x goldore + 4x coal → 4x goldbar → 2x goldring
   ```
   
-  **Cascade failure:**
-  1. Agents couldn't mine required resources (gold/iron/coal)
-  2. Mined Nisoc Ore instead (useless for rings)
-  3. Smelter had: Gold Ore x4, Nisoc Ore x31, **0x Iron Ore, 0x Coal**
-  4. Without iron ore + coal, couldn't smelt iron bars
-  5. Without bars, couldn't craft rings
+  **New (fixed) recipe documentation:**
+  ```
+  4x goldnugget → 4x goldbar (Smithing, no coal needed) → 2x goldring
+  ```
   
-  **Key insight - NOT an LLM failure:**
-  - The API returned "Successfully set Mining to level 30" but it LIED
-  - LLM agents actually identified the problem and tried to adapt
-  - This is a game server/initialization bug
+  **Fix Applied:** Updated task YAML to use `goldnugget` with Smithing skill (no coal required for gold bars).
+  
+  ---
+  
+  **Summary of Fixes Applied:**
+  1. ✅ `api.ts` - Fixed skill level formula to use `Formulas.expToLevel()`
+  2. ✅ `task_49_jewelry_workshop.yaml` - Fixed spawn locations to (555-575, 545-555)
+  3. ✅ `task_49_jewelry_workshop.yaml` - Fixed recipe docs: goldnugget + Smithing (no coal)
 
-- **Category:** Game Initialization Bug (setSkill API returned success but didn't work)
-- **Fixed:** [ ] (requires game server fix)
+- **Category:** Multiple Bugs (API formula mismatch + wrong spawn + incorrect item keys)
+- **Fixed:** [x]
 - **Understood:** [x]
 
 ---
@@ -713,9 +796,27 @@
 ### Task 59 - Elite Merchant Guild
 - **Status:** FAIL
 - **Verification:** Golden items: 0/4, Staffs: 0/3, Weapons: 0/2
-- **Root Cause:** Resource bottleneck - coal mining blocked everything (131 chat messages)
-- **Fixed:** [ ]
-- **Understood:** [ ]
+- **Root Cause:** Task design used wrong crafting recipe - instructed agents to use `Smelting` for gold bars (requires non-existent `goldore` + coal) instead of `Smithing` (uses `goldnugget` directly, no coal)
+- **Fixed:** [x] Updated task YAML to use correct Smithing recipe
+- **Understood:** [x]
+
+**Fixes Applied to `task_59_elite_merchant_guild.yaml`:**
+
+| Line | Before | After |
+|------|--------|-------|
+| 17 | Coal_Magnate mines **54 coal** | Coal_Magnate mines **7 coal** (only needed for iron bars) |
+| 17 | Gold_Baron mines 47 gold ore | Gold_Baron mines 47 gold ore **(goldnugget)** |
+| 24 | Master_Smelter **smelts** all 47 gold bars | Master_Smelter **smiths** 47 gold bars (using **Smithing**, no coal needed) |
+| 30 | craft_item(**Smelting**, goldbar) | craft_item(**Smithing**, goldbar) - converts goldnugget directly WITHOUT coal |
+| 52 | Gold Bar: itemKey=goldbar (**Smelting**) | Gold Bar: itemKey=goldbar (**Smithing**) - NO coal needed |
+| 260 | Coal Magnate mines **54 coal** | Coal Magnate mines **7+ coal** (only for iron smelting) |
+| 267 | smelts 47 gold bars from **gold ore and coal** | smiths 47 gold bars from **gold nuggets (no coal needed)** |
+
+**Key Issue:** The game has two recipes for Gold Bar:
+- `Smelting`: requires `goldore` (doesn't exist as mineable item!) + `coal`
+- `Smithing`: requires `goldnugget` (what Gold Rocks actually drop) - **correct recipe**
+
+**Impact:** Coal requirement reduced from 54 → 7 (only needed for 7 iron bars)
 
 ---
 
@@ -781,11 +882,24 @@ The standalone `task_verifier.py` has outdated criteria that doesn't match the a
 
 The following tasks have been confirmed to use correct verifiers in `run.py`:
 
-- [x] Task 45 - Fixed verifier (agent key + goldnugget)
+- [x] Task 45 - Fixed verifier (agent key + goldnugget + HP tracking + kill counting)
 - [x] Task 46 - ✅ Working
 - [x] Task 53 - ✅ Working  
 - [x] Task 58 - Fixed verifier (stew2 instead of cornstew)
 - [x] Task 60 - ✅ Working (verified pickaxe + silverring + alive)
+
+### Verifier Utility Fixes (2026-02-01)
+
+**`verifier_utils.py` improvements:**
+
+1. **`get_final_agent_hp_simple`** - Now tracks HP across ALL rounds, not just last round
+   - Correctly handles agents who die mid-task and are skipped in later rounds
+   - Also reads `observation.playerStatus.hitPoints` for reliability
+
+2. **`count_combat_kills`** - Now checks mob HP=0 in observation's mobs array
+   - No longer relies on pattern matching in action strings
+   - Tracks killed instance IDs to avoid double counting
+   - Supports optional target_patterns filter by mob name
 
 ---
 
@@ -793,17 +907,22 @@ The following tasks have been confirmed to use correct verifiers in `run.py`:
 
 | Category | Tasks | Count |
 |----------|-------|-------|
+| **Verifier Bug (HP tracking only checked last round)** | **45** | **1** |
+| **Verifier Bug (kill counter pattern matching broken)** | **45** | **1** |
 | **Verifier Bug (wrong username/item key)** | **45** | **1** |
+| **Task Definition Bug (wrong item key in YAML)** | **45** | **1** |
 | **Game Data Issue (orphaned/unobtainable item)** | **45** | **1** |
 | LLM Hallucination (wrong transfer target) | 48 | 1 |
 | LLM Inventory State Tracking Failure | 47 | 1 |
 | **LLM Decision Failure (ignored instructions)** | **56** | **1** |
-| **Game Initialization Bug (setSkill API race condition)** | **49, 53** | **2** |
+| **API Bug (skill level formula mismatch in observation)** | **49** | **1** |
+| **Task Definition Bug (goldore item key doesn't exist)** | **49, 57** | **2** |
+| **Game Initialization Bug (setSkill API race condition)** | **53** | **1** |
 | **Game Initialization Bug (equipment type detection)** | **51** | **1** |
 | **Game Design Error (wrong spawn location)** | **50, 51, 52** | **3** |
+| **Game Design Error (dangerous spawn area near boss)** | **45** | **1** |
 | **Game Design Error (invalid item keys/missing ingredients)** | **58** | **1** |
 | **Agent Decision Failure (premature completion)** | **57** | **1** |
-| **Agent Decision Failure (transferred items away)** | **45** | **1** |
 | Coordination Deadlock | 59 | 1 |
-| Over-chatting / Analysis Paralysis | 45, 55 | 2 |
+| Over-chatting / Analysis Paralysis | 55 | 1 |
 | **Tool Documentation Bug (ambiguous parameter semantics)** | **54** | **1** |

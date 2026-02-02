@@ -11,34 +11,34 @@ objectives:
 # Context and guidance for agents
 relevant_game_context: |
   EXPEDITION OVERVIEW
-  - Eight specialists complete five stages in ~53 rounds to deliver: 2 rubyring, 2 emeraldpendant, 2 berylpendant, 1 topazring. Miners extract gemstones and gold ore from mining deposits, smelter processes materials, and jewelers craft everything at the mining camp rendezvous (~560,550).
+  - Eight specialists complete five stages in ~53 rounds to deliver: 2 rubyring, 2 emeraldpendant, 2 berylpendant, 1 topazring. Miners extract gemstones and gold nuggets from mining deposits, smelter processes materials, and jewelers craft everything at the mining camp rendezvous (~560,550).
 
   GEMSTONE MINING REQUIREMENTS (from collectable_items.md)
-  - Ruby: Mining level 62 required (t57_Ruby_Miner has 65)
-  - Emerald: Mining level 57 required (t57_Emerald_Miner has 60)
-  - Topaz: Mining level 15 required (t57_Gold_Miner has 40)
-  - Beryl: Mining level 1 required (t57_Coal_Miner has 25)
-  - Gold Nuggets: Mining level 25 required (t57_Gold_Miner has 40)
+  - Ruby: Mining level 62 required (Ruby_Miner has 65)
+  - Emerald: Mining level 57 required (Emerald_Miner has 60)
+  - Topaz: Mining level 15 required (Gold_Miner has 40)
+  - Beryl: Mining level 1 required (Coal_Miner has 25)
+  - Gold Nuggets: Mining level 25 required (Gold_Miner has 40)
 
   STAGE SUMMARY
   1. R1-12 Gemstone Mining (Agents 1-3)
-     - t57_Ruby_Miner: Travel to high-level mining areas and extract 2 rubies using harvest_resource on ruby rock deposits.
-     - t57_Emerald_Miner: Locate emerald deposits and mine 2 emeralds.
-     - t57_Combat_Support: Provide protection and assist with navigation; forage 2 beryl from beryl rock deposits.
+     - Ruby_Miner: Travel to high-level mining areas and extract 2 rubies using harvest_resource on ruby rock deposits.
+     - Emerald_Miner: Locate emerald deposits and mine 2 emeralds.
+     - Combat_Support: Provide protection and assist with navigation; forage 2 beryl from beryl rock deposits.
   2. R13-22 Resource Extraction (Agents 4-5)
-     - t57_Gold_Miner extracts 6+ gold nuggets and 1 topaz from mountain deposits.
-     - t57_Coal_Miner assists with beryl mining (beryl rock deposits) since coal is NOT needed for Smithing gold bars.
-     - t57_Smelter begins traveling toward the mining area to receive materials.
+     - Gold_Miner extracts 6+ gold nuggets and 1 topaz from mountain deposits.
+     - Coal_Miner assists with beryl mining (beryl rock deposits) since coal is NOT needed for Smithing gold bars.
+     - Smelter begins traveling toward the mining area to receive materials.
   3. R23-35 Smithing & Transit
-     - t57_Smelter receives gold nuggets via transfer_items.
-     - t57_Smelter uses craft_item with skill "Smithing" to create 6 gold bars from 6 goldnuggets.
-     - t57_Smelter crafts 3 gold rings using craft_item with skill "Smithing" (needs 2 goldbar each).
+     - Smelter receives gold nuggets via transfer_items.
+     - Smelter uses craft_item with skill "Smithing" to create 6 gold bars from 6 goldnuggets.
+     - Smelter crafts 3 gold rings using craft_item with skill "Smithing" (needs 2 goldbar each).
      - Jewelers (Agents 7-8) travel from starting positions toward the mountain camp.
-     - t57_Combat_Support consolidates all gemstones and delivers to the camp.
+     - Combat_Support consolidates all gemstones and delivers to the camp.
   4. R36-48 Jewelry Assembly at Mountain Camp
-     - Transfer materials: gold rings to t57_Jeweler_Rings, strings to t57_Jeweler_Pendants, gems distributed accordingly.
-     - t57_Jeweler_Rings crafts: 2x rubyring (each needs 1 ruby + 1 goldring), 1x topazring (needs 1 topaz + 1 goldring).
-     - t57_Jeweler_Pendants crafts: 2x emeraldpendant (each needs 1 emerald + 1 string), 2x berylpendant (each needs 1 beryl + 1 string).
+     - Transfer materials: gold rings to Jeweler_Rings, strings to Jeweler_Pendants, gems distributed accordingly.
+     - Jeweler_Rings crafts: 2x rubyring (each needs 1 ruby + 1 goldring), 1x topazring (needs 1 topaz + 1 goldring).
+     - Jeweler_Pendants crafts: 2x emeraldpendant (each needs 1 emerald + 1 string), 2x berylpendant (each needs 1 beryl + 1 string).
   5. R49-53 Quality Control
      - Each crafter uses verify_inventory and broadcasts holdings via chat.
      - Distribute finished pieces if desired, then summarize the expedition with complete().
@@ -49,14 +49,13 @@ relevant_game_context: |
   - Topaz Ring: Crafting skill, level 5, needs 1 topaz + 1 goldring
   - Beryl Pendant: Crafting skill, level 1, needs 1 beryl + 1 string
   - Gold Ring: Smithing skill, level 1, needs 2 goldbar
-  - Gold Bar (Option A - RECOMMENDED): Smithing skill, level 1, needs 1 goldnugget (mined from Gold Rock)
-  - Gold Bar (Option B): Smelting skill, level 20, needs 1 goldore + 1 coal (40% success chance)
+  - Gold Bar: Smithing skill, level 1, needs 1 goldnugget (mined from Gold Rock, displays as "Gold Ore" in game)
 
   EXECUTION NOTES
   - Use harvest_resource with the instance ID of rocks visible in environment observation.
   - Use move_character with ≤32-tile hops, announcing coordinates at each checkpoint.
   - Use transfer_items to pass materials between agents when they are nearby.
-  - Keep a shared checklist in chat ("Rubies 2/2, Gold ore 5/6...") so jewelers know when materials are ready.
+  - Keep a shared checklist in chat ("Rubies 2/2, Gold nuggets 5/6...") so jewelers know when materials are ready.
   - Miners should focus on their specialty gems first, then assist others.
 
   COMPLETION
@@ -83,7 +82,7 @@ relevant_game_context: |
   - Bucket: itemKey=bucket (Crafting)
   - Beryl Pendant: itemKey=berylpendant (Crafting)
   - Iron Bar: itemKey=ironbar (Smelting)
-  - Gold Bar: itemKey=goldbar (Smelting)
+  - Gold Bar: itemKey=goldbar (Smithing, from goldnugget)
   - Bronze Bar: itemKey=bronzebar (Smelting)
   - Cooked Shrimp: itemKey=cookedshrimp (Cooking)
   - Stew: itemKey=stew (Cooking)
@@ -94,7 +93,7 @@ max_action_steps: 53
 
 # Agent configurations
 agent_1:
-  username: "t57_Ruby_Miner"
+  username: "Ruby_Miner"
   new_character: true
 
   location:
@@ -125,7 +124,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "t57_Emerald_Miner"
+  username: "Emerald_Miner"
   new_character: true
 
   location:
@@ -156,7 +155,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "t57_Combat_Support"
+  username: "Combat_Support"
   new_character: true
 
   location:
@@ -187,7 +186,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "t57_Gold_Miner"
+  username: "Gold_Miner"
   new_character: true
 
   location:
@@ -214,7 +213,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "t57_Coal_Miner"
+  username: "Coal_Miner"
   new_character: true
 
   location:
@@ -243,7 +242,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "t57_Smelter"
+  username: "Smelter"
   new_character: true
 
   location:
@@ -267,7 +266,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "t57_Jeweler_Rings"
+  username: "Jeweler_Rings"
   new_character: true
 
   location:
@@ -291,7 +290,7 @@ agent_7:
       enchant: 0
 
 agent_8:
-  username: "t57_Jeweler_Pendants"
+  username: "Jeweler_Pendants"
   new_character: true
 
   location:
@@ -316,25 +315,25 @@ agent_8:
 
 # Success criteria for multi-agent task
 success_criteria:
-  - "Stage 1: t57_Ruby_Miner mines 2 rubies from ruby rock deposits (mining level 62+ required)"
-  - "Stage 1: t57_Emerald_Miner mines 2 emeralds from emerald rock deposits (mining level 57+ required)"
-  - "Stage 1: t57_Combat_Support or t57_Coal_Miner mines 2 beryl from beryl rock deposits"
-  - "Stage 1: All gemstones consolidated with t57_Combat_Support for transport"
-  - "Stage 2: t57_Gold_Miner mines 6+ gold nuggets from gold deposits (mining level 25+ required)"
-  - "Stage 2: t57_Gold_Miner mines 1 topaz from topaz rock deposits (mining level 15+ required)"
-  - "Stage 2: t57_Coal_Miner mines 8+ coal from coal deposits"
-  - "Stage 2: t57_Smelter travels toward mining area to receive materials"
-  - "Stage 3: t57_Smelter receives gold nuggets and coal via transfer_items"
-  - "Stage 3: t57_Smelter smelts 6 gold bars from gold nuggets and coal"
-  - "Stage 3: t57_Smelter crafts 3 gold rings from 6 gold bars"
+  - "Stage 1: Ruby_Miner mines 2 rubies from ruby rock deposits (mining level 62+ required)"
+  - "Stage 1: Emerald_Miner mines 2 emeralds from emerald rock deposits (mining level 57+ required)"
+  - "Stage 1: Combat_Support or Coal_Miner mines 2 beryl from beryl rock deposits"
+  - "Stage 1: All gemstones consolidated with Combat_Support for transport"
+  - "Stage 2: Gold_Miner mines 6+ gold nuggets from gold deposits (mining level 25+ required)"
+  - "Stage 2: Gold_Miner mines 1 topaz from topaz rock deposits (mining level 15+ required)"
+  - "Stage 2: Coal_Miner assists with beryl mining from beryl rock deposits"
+  - "Stage 2: Smelter travels toward mining area to receive materials"
+  - "Stage 3: Smelter receives gold nuggets via transfer_items"
+  - "Stage 3: Smelter smiths 6 gold bars from gold nuggets (Smithing skill, no coal needed)"
+  - "Stage 3: Smelter crafts 3 gold rings from 6 gold bars"
   - "Stage 3: Jewelers travel toward mountain camp"
-  - "Stage 3: t57_Combat_Support delivers all gemstones to mountain camp"
+  - "Stage 3: Combat_Support delivers all gemstones to mountain camp"
   - "Stage 4: All 8 agents converge at mountain region"
-  - "Stage 4: Materials distributed correctly - gold rings to t57_Jeweler_Rings, strings to t57_Jeweler_Pendants"
-  - "Stage 4: t57_Jeweler_Rings crafts 2 ruby rings using 2 rubies and 2 gold rings"
-  - "Stage 4: t57_Jeweler_Rings crafts 1 topaz ring using 1 topaz and 1 gold ring"
-  - "Stage 4: t57_Jeweler_Pendants crafts 2 emerald pendants using 2 emeralds and 2 strings"
-  - "Stage 4: t57_Jeweler_Pendants crafts 2 beryl pendants using 2 beryls and 2 strings"
+  - "Stage 4: Materials distributed correctly - gold rings to Jeweler_Rings, strings to Jeweler_Pendants"
+  - "Stage 4: Jeweler_Rings crafts 2 ruby rings using 2 rubies and 2 gold rings"
+  - "Stage 4: Jeweler_Rings crafts 1 topaz ring using 1 topaz and 1 gold ring"
+  - "Stage 4: Jeweler_Pendants crafts 2 emerald pendants using 2 emeralds and 2 strings"
+  - "Stage 4: Jeweler_Pendants crafts 2 beryl pendants using 2 beryls and 2 strings"
   - "Stage 5: Final verification confirms all 7 jewelry pieces created"
   - "All agents use chat extensively for stage coordination"
   - "Sequential stage execution without deadlocks"

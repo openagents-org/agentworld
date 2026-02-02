@@ -109,6 +109,11 @@ Icon
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
 
+
+# Claude Md
+CLAUDE.md
+./CLAUDE.md
+
 # Directories potentially created on remote AFP share
 .AppleDB
 .AppleDesktop
