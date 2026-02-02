@@ -14,20 +14,20 @@ relevant_game_context: |
   - Seven merchants must gather their specialties, trade them at the guild hall (528,384), then craft the showcase set by Round 53: 4 golden items (sword, bow, boots, ring), 3 elemental staffs, and 2 iron weapons (pickaxe + heavy sword). Gathering is decentralized (mountains/forest/plains), while smelting and high-level crafting happen at the hub.
 
   ROLE CHECKLIST
-  1. Gold_Baron mines 47 gold ore; Coal_Magnate mines 54 coal; Iron_Trader mines 7 iron ore. All operate around (230–240, 38–42) and keep a running count in chat.
+  1. Gold_Baron mines 47 gold ore (goldnugget); Coal_Magnate mines 7 coal (only needed for iron bars); Iron_Trader mines 7 iron ore. All operate around (230–240, 38–42) and keep a running count in chat.
   2. Timber_Merchant collects 8 logs + 10 string in the western forest (~250,350). Mystic_Collector forages/hunts for 3 regular beads plus lightning/fire/ice beads near (350,250).
   3. Master_Smelter and Guild_Master stay at the hall preparing inventories, hilts, and crafting plans.
 
   PHASE FLOW
   - Act 1 (R1-15) Specialization: each merchant focuses on their quota, announcing progress and verifying inventories.
   - Act 2 (R16-30) Trading: everyone marches to the hall using ≤32-tile moves, then transfers resources to Smelter (ores/logs) and Guild_Master (strings/beads/hilts) via transfer_items with verify_inventory confirmations. Smelting of gold begins immediately even if not yet finished.
-  - Act 3 (R31-45) Crafting: Master_Smelter smelts all 47 gold + 7 iron bars, while Guild_Master turns logs → sticks → staffs and upgrades them with the special beads. Finish intermediate items (gold rings, pickaxe, sword2) as soon as bars exist.
+  - Act 3 (R31-45) Crafting: Master_Smelter smiths 47 gold bars (using Smithing, no coal needed) and smelts 7 iron bars (using Smelting with coal), while Guild_Master turns logs → sticks → staffs and upgrades them with the special beads. Finish intermediate items (gold rings, pickaxe, sword2) as soon as bars exist.
   - Act 4 (R46-53) Exhibition: Guild_Master crafts the golden sword/bow/boots/ring, completes lightning/fire/ice staffs, and finalizes pickaxe + heavy sword. Everyone confirms holdings before the leader calls complete().
 
   EXECUTION NOTES
   - If observe_environment is unavailable, sweep the specified coordinate bands and rely on harvest_resource feedback plus verify_inventory counts.
   - Keep the trade order disciplined: ores → Smelter first, utility materials → Guild_Master second. Use chat threads like “Gold 30/47”, “Coal delivery next round” to avoid confusion.
-  - Smelting 47 bars takes time: expect multiple rounds of repeated craft_item(Smelting, goldbar); post milestones every 10 bars so craft planning stays aligned.
+  - Smithing 47 gold bars: use craft_item(Smithing, goldbar) which converts goldnugget directly to gold bars WITHOUT coal. Post milestones every 10 bars so craft planning stays aligned.
 
   ITEM KEY REFERENCE (use these exact itemKey values in craft_item):
   - Wooden Bow: itemKey=woodenbow (Fletching)
@@ -48,8 +48,8 @@ relevant_game_context: |
   - Nature Staff: itemKey=naturestaff (Crafting)
   - Bucket: itemKey=bucket (Crafting)
   - Beryl Pendant: itemKey=berylpendant (Crafting)
-  - Iron Bar: itemKey=ironbar (Smelting)
-  - Gold Bar: itemKey=goldbar (Smelting)
+  - Iron Bar: itemKey=ironbar (Smelting) - requires ironore + coal
+  - Gold Bar: itemKey=goldbar (Smithing) - converts goldnugget directly, NO coal needed
   - Bronze Bar: itemKey=bronzebar (Smelting)
   - Cooked Shrimp: itemKey=cookedshrimp (Cooking)
   - Stew: itemKey=stew (Cooking)
@@ -257,14 +257,14 @@ agent_7:
 # Success criteria for multi-agent task
 success_criteria:
   - "Act 1: Gold Baron mines 47 gold ore from Northern Mountains"
-  - "Act 1: Coal Magnate mines 54 coal from Northern Mountains"
+  - "Act 1: Coal Magnate mines 7+ coal from Northern Mountains (only needed for iron smelting)"
   - "Act 1: Iron Trader mines 7 iron ore from Northern Mountains"
   - "Act 1: Timber Merchant harvests 8+ logs and forages 10+ strings"
   - "Act 1: Mystic Collector gathers 3 regular beads and 3 special beads"
   - "Act 2: All specialty merchants travel to Guild Hall successfully"
   - "Act 2: Peer-to-peer trading network executed perfectly"
   - "Act 2: All resources consolidated with Master Smelter and Guild Master"
-  - "Act 3: Master Smelter smelts 47 gold bars from gold ore and coal"
+  - "Act 3: Master Smelter smiths 47 gold bars from gold nuggets (no coal needed)"
   - "Act 3: Master Smelter smelts 7 iron bars from iron ore and coal"
   - "Act 3: Guild Master crafts 3 base magic staffs from sticks and beads"
   - "Act 3: Guild Master upgrades staffs to Lightning, Fire, and Ice Staffs"

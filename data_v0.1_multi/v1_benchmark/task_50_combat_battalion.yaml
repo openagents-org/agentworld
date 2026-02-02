@@ -19,24 +19,29 @@ relevant_game_context: |
   OBJECTIVE: Eliminate multiple enemy types through coordinated warfare.
 
   TARGETS:
-  - 2x Ogres (Level 18, 150 HP each)
-  - 3x Goblins (Level 7, 90 HP each)
+  - 2x Ogres (Level 18, 150 HP each) - MUST be exact name "Ogre", NOT "Ogre Lord" or "Iron Ogre"
+  - 3x Goblins (Level 7, 90 HP each) - MUST be exact name "Goblin", NOT "Hobgoblin"
 
   ENEMY CHARACTERISTICS:
-  - Ogres: Strong melee fighters, high HP
-  - Goblins: Weaker but often in groups
+  - Ogres: Strong melee fighters, high HP, found NORTHEAST around (154-188, 11-71)
+  - Goblins: Weaker but often in groups, found WEST/SOUTHWEST around (35-71, 54-78)
 
   COMBAT TACTICS:
-  - Tank draws ogre aggro
-  - DPS focus fire on single target
+  - Tank draws ogre aggro first
+  - All DPS focus fire on single target until dead
   - Archer provides ranged support
-  - Healers keep team alive
+  - Use flasks/apples to heal when HP drops below 50%
+  - Kill goblins first (easier), then ogres
 
-  ENEMY LOCATIONS:
-  - Ogres: Mountain and wilderness regions
-  - Goblins: Forest edges and caves
+  STARTING POSITION: You start near (112, 50) - between goblin and ogre territories
+  - Head SOUTHWEST (~50 tiles) to find Goblins
+  - Head NORTHEAST (~50 tiles) to find Ogres
 
-  DO NOT use complete() until all enemies are defeated!
+  IMPORTANT:
+  - Use get_observation() to scan for nearby mobs
+  - Coordinate attacks via chat - call out target instance IDs
+  - DO NOT attack "Ogre Lord" (Level 44) or "Hobgoblin" (Level 42) - too strong!
+  - DO NOT use complete() until all 5 enemies are defeated!
 
 # Limitations
 max_action_steps: 35
@@ -47,8 +52,8 @@ agent_1:
   new_character: true
 
   location:
-    x: 420
-    y: 350
+    x: 112
+    y: 50
 
   skill_levels:
     strength: 45
@@ -78,8 +83,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 425
-    y: 350
+    x: 114
+    y: 50
 
   skill_levels:
     strength: 50
@@ -109,8 +114,8 @@ agent_3:
   new_character: true
 
   location:
-    x: 430
-    y: 350
+    x: 116
+    y: 50
 
   skill_levels:
     strength: 48
@@ -140,8 +145,8 @@ agent_4:
   new_character: true
 
   location:
-    x: 435
-    y: 355
+    x: 113
+    y: 52
 
   skill_levels:
     archery: 45
@@ -173,8 +178,8 @@ agent_5:
   new_character: true
 
   location:
-    x: 440
-    y: 355
+    x: 115
+    y: 52
 
   skill_levels:
     magic: 45

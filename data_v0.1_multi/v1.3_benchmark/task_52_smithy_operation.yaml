@@ -23,10 +23,16 @@ relevant_game_context: |
   - Need 11x ironore + 11x coal for smelting
 
   TEAM ROLES:
-  - Miners: Extract iron ore and coal
+  - Miner1: Extract COAL from Coal Rocks (near spawn)
+  - Miner2: Extract IRON ORE from Iron Rocks (further south ~y=590)
   - Lumberjack: Provide logs
   - Smelter: Process ore to bars
-  - Smiths: Craft final items
+  - Smith: Craft final items
+  
+  RESOURCE LOCATIONS (important!):
+  - Coal Rocks: Around (550-571, 531-555) - miner1 area
+  - Iron Rocks: Around (556-582, 580-597) - miner2 area
+  - Both miners need to gather materials and transfer to smelter
 
   DO NOT use complete() until all items are crafted!
 
@@ -63,8 +69,8 @@ agent_1:
   new_character: true
 
   location:
-    x: 230
-    y: 45
+    x: 555
+    y: 545
 
   skill_levels:
     mining: 28
@@ -93,11 +99,11 @@ agent_2:
   new_character: true
 
   location:
-    x: 235
-    y: 45
+    x: 565
+    y: 590
 
   skill_levels:
-    mining: 26
+    mining: 28
     strength: 28
     health: 38
 
@@ -153,8 +159,8 @@ agent_4:
   new_character: true
 
   location:
-    x: 240
-    y: 50
+    x: 560
+    y: 560
 
   skill_levels:
     smithing: 28
@@ -180,8 +186,8 @@ agent_5:
   new_character: true
 
   location:
-    x: 245
-    y: 50
+    x: 565
+    y: 560
 
   skill_levels:
     smithing: 30

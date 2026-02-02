@@ -6,7 +6,7 @@ task:
 
 # Task objectives
 objectives:
-  primary: "Protect gatherer while they collect 3x goldore and defeat any 2x threats"
+  primary: "Protect gatherer while they collect 3x Gold Ore (goldnugget) and defeat any 2x threats"
 
 # Relevant game context (Hint)
 relevant_game_context: |
@@ -15,7 +15,7 @@ relevant_game_context: |
   OBJECTIVE: Protect miner while they extract gold ore.
 
   TARGETS:
-  - Miner collects 3x goldore from Gold rocks
+  - Miner collects 3x Gold Ore (itemKey: goldnugget) from Gold rocks
   - Guards defeat at least 2x hostile creatures
   - All agents survive
 
@@ -135,6 +135,6 @@ agent_3:
 
 # Success criteria
 success_criteria:
-  - "miner_agent inventory contains at least 3x goldore"
+  - "miner_agent inventory contains at least 3x goldnugget (Gold Ore)"
   - "At least 2 hostile creatures are defeated by guards"
   - "All agents survive the escort mission"

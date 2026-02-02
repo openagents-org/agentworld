@@ -19,18 +19,18 @@ relevant_game_context: |
   - 2x Silver Ring (2x ironbar each = 4x ironbar total)
 
   MATERIAL REQUIREMENTS:
-  - 4x goldore + 4x coal → 4x goldbar → 2x goldring
-  - 4x ironore + 4x coal → 4x ironbar → 2x silverring
+  - 4x goldnugget (mined from Gold Rock) → 4x goldbar (Smithing, no coal needed) → 2x goldring
+  - 4x ironore + 4x coal → 4x ironbar (Smelting) → 2x silverring
 
   RESOURCE LOCATIONS:
-  - Gold rocks: Mountain regions (Level 25 mining)
-  - Iron rocks: Mountain regions (Level 20 mining)
-  - Coal rocks: Mountain regions (Level 1 mining)
+  - Gold rocks: Mining area around (555, 545) (Level 25 mining) - drops goldnugget (displays as "Gold Ore")
+  - Iron rocks: Mining area around (555, 545) (Level 20 mining)
+  - Coal rocks: Mining area around (555, 545) (Level 1 mining)
 
   TEAM ROLES:
-  - Gold Miners: Extract gold ore
-  - Iron/Coal Miners: Extract iron and coal
-  - Smiths: Smelt and craft rings
+  - Gold Miners: Extract gold nuggets from Gold Rock
+  - Iron/Coal Miners: Extract iron ore and coal
+  - Smiths: Smith gold bars (from goldnugget), smelt iron bars (from ironore+coal), craft rings
 
   DO NOT use complete() until all rings are crafted!
 
@@ -51,8 +51,8 @@ relevant_game_context: |
   - Ice Staff: itemKey=icestaff (Crafting)
   - Nature Staff: itemKey=naturestaff (Crafting)
   - Bucket: itemKey=bucket (Crafting)
-  - Iron Bar: itemKey=ironbar (Smelting)
-  - Gold Bar: itemKey=goldbar (Smelting)
+  - Iron Bar: itemKey=ironbar (Smelting, from ironore+coal)
+  - Gold Bar: itemKey=goldbar (Smithing, from goldnugget - no coal needed)
   - Bronze Bar: itemKey=bronzebar (Smelting)
   - Cooked Shrimp: itemKey=cookedshrimp (Cooking)
   - Stew: itemKey=stew (Cooking)
@@ -67,8 +67,8 @@ agent_1:
   new_character: true
 
   location:
-    x: 230
-    y: 45
+    x: 555
+    y: 545
 
   skill_levels:
     mining: 30
@@ -97,8 +97,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 235
-    y: 45
+    x: 560
+    y: 548
 
   skill_levels:
     mining: 25
@@ -127,8 +127,8 @@ agent_3:
   new_character: true
 
   location:
-    x: 240
-    y: 45
+    x: 565
+    y: 550
 
   skill_levels:
     mining: 20
@@ -157,8 +157,8 @@ agent_4:
   new_character: true
 
   location:
-    x: 245
-    y: 50
+    x: 570
+    y: 555
 
   skill_levels:
     smithing: 25
@@ -184,8 +184,8 @@ agent_5:
   new_character: true
 
   location:
-    x: 250
-    y: 50
+    x: 575
+    y: 555
 
   skill_levels:
     smithing: 28

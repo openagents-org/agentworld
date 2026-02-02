@@ -11,7 +11,7 @@ objectives:
 # Context and guidance for agents
 relevant_game_context: |
   EXPEDITION OVERVIEW
-  - Eight specialists complete five stages in ~53 rounds to deliver: 2 rubyring, 2 emeraldpendant, 2 berylpendant, 1 topazring. Miners extract gemstones and gold ore from mountain deposits, smelter processes materials, and jewelers craft everything at the mountain rendezvous (~230,38).
+  - Eight specialists complete five stages in ~53 rounds to deliver: 2 rubyring, 2 emeraldpendant, 2 berylpendant, 1 topazring. Miners extract gemstones and gold nuggets from mining deposits, smelter processes materials, and jewelers craft everything at the mining camp rendezvous (~560,550).
 
   GEMSTONE MINING REQUIREMENTS (from collectable_items.md)
   - Ruby: Mining level 62 required (Ruby_Miner has 65)
@@ -27,12 +27,12 @@ relevant_game_context: |
      - Combat_Support: Provide protection and assist with navigation; forage 2 beryl from beryl rock deposits.
   2. R13-22 Resource Extraction (Agents 4-5)
      - Gold_Miner extracts 6+ gold nuggets and 1 topaz from mountain deposits.
-     - Coal_Miner gathers 8+ coal for smelting operations.
+     - Coal_Miner assists with beryl mining (beryl rock deposits) since coal is NOT needed for Smithing gold bars.
      - Smelter begins traveling toward the mining area to receive materials.
-  3. R23-35 Smelting & Transit
-     - Smelter receives gold nuggets and coal via transfer_items.
-     - Smelter uses craft_item with skill "Smelting" to create 6 gold bars.
-     - Smelter crafts 3 gold rings using craft_item with skill "Smithing".
+  3. R23-35 Smithing & Transit
+     - Smelter receives gold nuggets via transfer_items.
+     - Smelter uses craft_item with skill "Smithing" to create 6 gold bars from 6 goldnuggets.
+     - Smelter crafts 3 gold rings using craft_item with skill "Smithing" (needs 2 goldbar each).
      - Jewelers (Agents 7-8) travel from starting positions toward the mountain camp.
      - Combat_Support consolidates all gemstones and delivers to the camp.
   4. R36-48 Jewelry Assembly at Mountain Camp
@@ -49,13 +49,13 @@ relevant_game_context: |
   - Topaz Ring: Crafting skill, level 5, needs 1 topaz + 1 goldring
   - Beryl Pendant: Crafting skill, level 1, needs 1 beryl + 1 string
   - Gold Ring: Smithing skill, level 1, needs 2 goldbar
-  - Gold Bar: Smelting skill, needs gold nugget + coal
+  - Gold Bar: Smithing skill, level 1, needs 1 goldnugget (mined from Gold Rock, displays as "Gold Ore" in game)
 
   EXECUTION NOTES
   - Use harvest_resource with the instance ID of rocks visible in environment observation.
   - Use move_character with ≤32-tile hops, announcing coordinates at each checkpoint.
   - Use transfer_items to pass materials between agents when they are nearby.
-  - Keep a shared checklist in chat ("Rubies 2/2, Gold ore 5/6...") so jewelers know when materials are ready.
+  - Keep a shared checklist in chat ("Rubies 2/2, Gold nuggets 5/6...") so jewelers know when materials are ready.
   - Miners should focus on their specialty gems first, then assist others.
 
   COMPLETION
@@ -82,7 +82,7 @@ relevant_game_context: |
   - Bucket: itemKey=bucket (Crafting)
   - Beryl Pendant: itemKey=berylpendant (Crafting)
   - Iron Bar: itemKey=ironbar (Smelting)
-  - Gold Bar: itemKey=goldbar (Smelting)
+  - Gold Bar: itemKey=goldbar (Smithing, from goldnugget)
   - Bronze Bar: itemKey=bronzebar (Smelting)
   - Cooked Shrimp: itemKey=cookedshrimp (Cooking)
   - Stew: itemKey=stew (Cooking)
@@ -97,8 +97,8 @@ agent_1:
   new_character: true
 
   location:
-    x: 180
-    y: 200
+    x: 560
+    y: 540
 
   skill_levels:
     mining: 65
@@ -128,8 +128,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 185
-    y: 200
+    x: 545
+    y: 500
 
   skill_levels:
     mining: 60
@@ -159,8 +159,8 @@ agent_3:
   new_character: true
 
   location:
-    x: 190
-    y: 200
+    x: 555
+    y: 545
 
   skill_levels:
     strength: 35
@@ -190,8 +190,8 @@ agent_4:
   new_character: true
 
   location:
-    x: 180
-    y: 205
+    x: 565
+    y: 535
 
   skill_levels:
     mining: 40
@@ -217,8 +217,8 @@ agent_5:
   new_character: true
 
   location:
-    x: 185
-    y: 205
+    x: 560
+    y: 535
 
   skill_levels:
     mining: 25
@@ -246,8 +246,8 @@ agent_6:
   new_character: true
 
   location:
-    x: 190
-    y: 205
+    x: 560
+    y: 550
 
   skill_levels:
     smithing: 30
@@ -270,8 +270,8 @@ agent_7:
   new_character: true
 
   location:
-    x: 180
-    y: 210
+    x: 560
+    y: 555
 
   skill_levels:
     crafting: 45
@@ -294,8 +294,8 @@ agent_8:
   new_character: true
 
   location:
-    x: 185
-    y: 210
+    x: 565
+    y: 555
 
   skill_levels:
     crafting: 40
@@ -321,10 +321,10 @@ success_criteria:
   - "Stage 1: All gemstones consolidated with Combat_Support for transport"
   - "Stage 2: Gold_Miner mines 6+ gold nuggets from gold deposits (mining level 25+ required)"
   - "Stage 2: Gold_Miner mines 1 topaz from topaz rock deposits (mining level 15+ required)"
-  - "Stage 2: Coal_Miner mines 8+ coal from coal deposits"
+  - "Stage 2: Coal_Miner assists with beryl mining from beryl rock deposits"
   - "Stage 2: Smelter travels toward mining area to receive materials"
-  - "Stage 3: Smelter receives gold nuggets and coal via transfer_items"
-  - "Stage 3: Smelter smelts 6 gold bars from gold nuggets and coal"
+  - "Stage 3: Smelter receives gold nuggets via transfer_items"
+  - "Stage 3: Smelter smiths 6 gold bars from gold nuggets (Smithing skill, no coal needed)"
   - "Stage 3: Smelter crafts 3 gold rings from 6 gold bars"
   - "Stage 3: Jewelers travel toward mountain camp"
   - "Stage 3: Combat_Support delivers all gemstones to mountain camp"

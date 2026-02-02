@@ -224,10 +224,10 @@ class KaetramGameTools:
             return f"Failed to create character: {result.get('message', 'Unknown error')}"
 
     def login_character(self, arguments: Dict[str, Any]) -> str:
-        """Login with existing character. Supports force login to disconnect existing sessions."""
+        """Login with existing character. Always uses force login by default to disconnect existing sessions."""
         username = arguments.get("username", "QwenAgent")
         password = arguments.get("password", "qwen123456")
-        force = arguments.get("force", False)
+        force = arguments.get("force", True)  # Default to True to always kick existing sessions
 
         data = {
             "username": username,
@@ -1380,6 +1380,36 @@ class KaetramGameTools:
             if key:
                 initial_inventory[key] = initial_inventory.get(key, 0) + count
         
+        # Check if player has a ranged weapon equipped (bow, staff, etc.)
+        equipped_items = observe_result.get("inventory", {}).get("equipped", [])
+        is_ranged_weapon = False
+        attack_range = 1  # Default melee range
+        
+        # Debug: Log equipped items to help diagnose detection issues
+        self._log_message(f"🔍 Checking equipped items for ranged weapons: {equipped_items}", "debug")
+        
+        for equip in equipped_items:
+            equip_key = equip.get("key", "").lower()
+            # Check attackStyle/attackRange from equipment data (server provides this for ranged weapons)
+            equip_attack_range = equip.get("attackRange", equip.get("attackStyle", 0))
+            
+            # Check for bow weapons or any weapon with attack range > 1
+            if "bow" in equip_key or equip_attack_range > 1:
+                is_ranged_weapon = True
+                # Use the weapon's attack range if provided, otherwise default to archer range
+                attack_range = equip_attack_range if equip_attack_range > 1 else 8
+                self._log_message(f"🏹 Detected ranged weapon: {equip_key} with attack range {attack_range}", "debug")
+                break
+            # Also check for magic staves (ranged magic attacks)
+            elif "staff" in equip_key:
+                is_ranged_weapon = True
+                attack_range = equip_attack_range if equip_attack_range > 1 else 6  # Magic staff default range
+                self._log_message(f"🪄 Detected magic staff: {equip_key} with attack range {attack_range}", "debug")
+                break
+        
+        if not is_ranged_weapon:
+            self._log_message(f"⚔️ Using melee attack (no ranged weapon detected)", "debug")
+        
         # Extract positions
         location = observe_result.get("location", {})
         player_x, player_y = location.get("x"), location.get("y")
@@ -1390,17 +1420,36 @@ class KaetramGameTools:
         if any(v is None for v in [player_x, player_y, target_x, target_y]):
             return "Error: Could not determine positions."
         
-        # Move to attack position if needed
+        # Calculate distance to target
         dx, dy = abs(target_x - player_x), abs(target_y - player_y)
-        is_adjacent = (dx == 1 and dy == 0) or (dx == 0 and dy == 1)
+        distance = dx + dy  # Manhattan distance
+        is_in_range = distance <= attack_range
         movement_info = ""
         
-        if not is_adjacent:
-            # Find best adjacent position
-            possible_positions = [
-                (target_x, target_y - 1), (target_x, target_y + 1),
-                (target_x - 1, target_y), (target_x + 1, target_y)
-            ]
+        if not is_in_range:
+            # Need to move closer - but only close enough for our weapon range
+            if is_ranged_weapon:
+                # For ranged weapons, move to a position within range but not necessarily adjacent
+                # Try to stay at optimal range (about half the max range)
+                optimal_range = max(1, attack_range // 2)
+                # Find a position that's about optimal_range tiles away from target
+                possible_positions = []
+                for ox in range(-optimal_range, optimal_range + 1):
+                    for oy in range(-optimal_range, optimal_range + 1):
+                        if abs(ox) + abs(oy) <= optimal_range and abs(ox) + abs(oy) > 0:
+                            possible_positions.append((target_x + ox, target_y + oy))
+                if not possible_positions:
+                    # Fallback to adjacent positions
+                    possible_positions = [
+                        (target_x, target_y - 1), (target_x, target_y + 1),
+                        (target_x - 1, target_y), (target_x + 1, target_y)
+                    ]
+            else:
+                # For melee weapons, must be adjacent
+                possible_positions = [
+                    (target_x, target_y - 1), (target_x, target_y + 1),
+                    (target_x - 1, target_y), (target_x + 1, target_y)
+                ]
             
             best_position = min(possible_positions, 
                               key=lambda pos: abs(pos[0] - player_x) + abs(pos[1] - player_y))
@@ -1449,6 +1498,7 @@ class KaetramGameTools:
         # ENHANCED COMBAT MONITORING - Fight until death (mob or player)
         check_interval = 0.5  # Check every 500ms
         total_time = 0
+        max_combat_time = 1200  # Maximum 5 minutes per combat - prevents infinite loops
         combat_outcome = "unknown"
         final_hp = initial_hp
         final_mp = initial_mp
@@ -1457,8 +1507,7 @@ class KaetramGameTools:
         last_known_mob_y = target_y
         player_dealt_damage = False  # Track if THIS player actually participated in combat
 
-        # Combat timeout of 120 seconds (2 minutes) to prevent infinite loops
-        max_combat_time = 120
+        # Combat loop with timeout
         while total_time < max_combat_time:
             time.sleep(check_interval)
             total_time += check_interval
@@ -1495,6 +1544,23 @@ class KaetramGameTools:
 
                 target_still_alive = target_mob_current is not None
 
+                # SAFEGUARD: Check distance to target - if too far, something is wrong
+                if target_still_alive:
+                    current_loc = current_observe.get("location", {})
+                    curr_player_x, curr_player_y = current_loc.get("x"), current_loc.get("y")
+                    mob_x, mob_y = target_mob_current.get("x"), target_mob_current.get("y")
+                    
+                    if curr_player_x is not None and mob_x is not None:
+                        distance_to_target = abs(mob_x - curr_player_x) + abs(mob_y - curr_player_y)
+                        
+                        # If player is beyond their weapon range + buffer, combat state is invalid
+                        # Use attack_range + 3 as the max distance before breaking
+                        max_combat_distance = attack_range + 3
+                        if distance_to_target > max_combat_distance:
+                            self._log_message(f"⚠️ Player too far from target ({distance_to_target} tiles, max {max_combat_distance}) - breaking combat loop", "warning")
+                            combat_outcome = "distance_exceeded"
+                            break
+
                 if not target_still_alive:
                     # Mob is no longer in the environment - confirmed kill
                     # Count as victory if player participated (was in combat, took damage, or killed quickly)
@@ -1513,15 +1579,27 @@ class KaetramGameTools:
                     mob_x, mob_y = target_mob_current.get("x"), target_mob_current.get("y")
 
                     if curr_player_x is not None and mob_x is not None:
-                        dx = abs(mob_x - curr_player_x)
-                        dy = abs(mob_y - curr_player_y)
-                        is_still_adjacent = (dx == 1 and dy == 0) or (dx == 0 and dy == 1) or (dx == 0 and dy == 0)
+                        current_distance = abs(mob_x - curr_player_x) + abs(mob_y - curr_player_y)
+                        is_in_attack_range = current_distance <= attack_range
 
-                        if not is_still_adjacent:
-                            # Move to adjacent position before re-attacking
-                            adj_positions = [(mob_x, mob_y - 1), (mob_x, mob_y + 1), (mob_x - 1, mob_y), (mob_x + 1, mob_y)]
-                            best_adj = min(adj_positions, key=lambda p: abs(p[0] - curr_player_x) + abs(p[1] - curr_player_y))
-                            move_data = {"token": self.token, "x": best_adj[0], "y": best_adj[1]}
+                        if not is_in_attack_range:
+                            # Move closer - use appropriate range based on weapon type
+                            if is_ranged_weapon:
+                                # For ranged, move to optimal range (not necessarily adjacent)
+                                optimal_range = max(1, attack_range // 2)
+                                possible_positions = []
+                                for ox in range(-optimal_range, optimal_range + 1):
+                                    for oy in range(-optimal_range, optimal_range + 1):
+                                        if 0 < abs(ox) + abs(oy) <= optimal_range:
+                                            possible_positions.append((mob_x + ox, mob_y + oy))
+                                if not possible_positions:
+                                    possible_positions = [(mob_x, mob_y - 1), (mob_x, mob_y + 1), (mob_x - 1, mob_y), (mob_x + 1, mob_y)]
+                            else:
+                                # For melee, must be adjacent
+                                possible_positions = [(mob_x, mob_y - 1), (mob_x, mob_y + 1), (mob_x - 1, mob_y), (mob_x + 1, mob_y)]
+                            
+                            best_pos = min(possible_positions, key=lambda p: abs(p[0] - curr_player_x) + abs(p[1] - curr_player_y))
+                            move_data = {"token": self.token, "x": best_pos[0], "y": best_pos[1]}
                             self._make_request("POST", AGENTWORLD_API_ENDPOINTS["move"], move_data)
                             time.sleep(0.3)
                             # Update last known position
@@ -1545,8 +1623,9 @@ class KaetramGameTools:
                             combat_outcome = "mob_died_by_others"
                         break
 
-        # Check if we timed out
-        if total_time >= max_combat_time and combat_outcome == "unknown":
+        # Handle combat timeout
+        if combat_outcome == "unknown" and total_time >= max_combat_time:
+            self._log_message(f"⚠️ Combat timed out after {max_combat_time}s - breaking combat loop", "warning")
             combat_outcome = "timeout"
 
         # IMPROVED Auto-collect dropped items if mob died - now using groundItems and pickup API
@@ -1676,6 +1755,26 @@ class KaetramGameTools:
                 f"💙 Player MP: {final_mp}/{initial_max_mp} ({mp_change:+d})\n"
                 f"⚡ Combat Duration: {total_time:.1f}s\n"
                 f"🎯 Status: Target eliminated - ready for next action"
+            )
+
+        elif combat_outcome == "distance_exceeded":
+            # Player got too far from target - combat state was invalid
+            result_message = (
+                f"{movement_info}⚠️ COMBAT INTERRUPTED: Too far from {target_name} (Level {target_level})\n"
+                f"❤️  Player HP: {final_hp}/{initial_max_hp} ({hp_change:+d})\n"
+                f"💙 Player MP: {final_mp}/{initial_max_mp} ({mp_change:+d})\n"
+                f"⚡ Time Elapsed: {total_time:.1f}s\n"
+                f"🎯 Status: Combat ended - player too far from target. Move closer and try again."
+            )
+
+        elif combat_outcome == "timeout":
+            # Combat took too long - break out to prevent infinite loops
+            result_message = (
+                f"{movement_info}⏱️ COMBAT TIMEOUT: Battle with {target_name} (Level {target_level}) took too long\n"
+                f"❤️  Player HP: {final_hp}/{initial_max_hp} ({hp_change:+d})\n"
+                f"💙 Player MP: {final_mp}/{initial_max_mp} ({mp_change:+d})\n"
+                f"⚡ Time Elapsed: {total_time:.1f}s (max: {max_combat_time}s)\n"
+                f"🎯 Status: Combat timed out. Target may still be alive - try attacking again or find another target."
             )
 
         else:
@@ -1898,8 +1997,8 @@ class KaetramGameTools:
         """Guess equipment type from item key for auto-equipping"""
         item_key_lower = item_key.lower()
         
-        # Weapon patterns
-        if any(weapon in item_key_lower for weapon in ['sword', 'bow', 'staff', 'dagger', 'axe', 'mace', 'spear']):
+        # Weapon patterns (includes fishingpole which is equipped as weapon for fishing)
+        if any(weapon in item_key_lower for weapon in ['sword', 'bow', 'staff', 'dagger', 'axe', 'mace', 'spear', 'fishingpole', 'pole']):
             return 'weapon'
         
         # Helmet patterns
@@ -2460,3 +2559,73 @@ class KaetramGameTools:
         self._log_message(f"📋 Transfer completed: {success_message}", "info")
         
         return success_message 
+
+    # ============================================================
+    # BENCHMARK TASK SETUP METHODS
+    # ============================================================
+
+    def spawn_mob_for_benchmark(self, mob_key: str, x: int, y: int) -> str:
+        """
+        Spawn a mob at a specific location for benchmark task setup.
+        This is used to ensure required mobs (like bosses) exist before a task runs.
+        
+        Args:
+            mob_key: The mob type key (e.g., 'wizard', 'hermitcrab')
+            x: X coordinate to spawn at
+            y: Y coordinate to spawn at
+            
+        Returns:
+            Result message indicating success or failure
+        """
+        try:
+            data = {
+                "mobKey": mob_key,
+                "x": x,
+                "y": y,
+                "masterPassword": "agentworld-benchmark"
+            }
+            
+            result = self._make_request("POST", "/api/ai/benchmark/spawn-mob", data)
+            
+            if result.get("status") == "success":
+                return f"✅ Spawned {result.get('mobName', mob_key)} at ({x}, {y}), instance: {result.get('mobInstance')}"
+            else:
+                return f"❌ Failed to spawn mob: {result.get('message', 'Unknown error')}"
+                
+        except Exception as e:
+            return f"❌ Error spawning mob: {str(e)}"
+
+    def reset_benchmark_mobs(self, spawn_locations: list) -> str:
+        """
+        Reset/respawn mobs at their defined spawn points for benchmark tasks.
+        Use this before running boss raid or combat tasks to ensure mobs exist.
+        
+        Args:
+            spawn_locations: List of dictionaries with 'x' and 'y' coordinates
+                            e.g., [{"x": 163, "y": 339}, {"x": 224, "y": 359}]
+            
+        Returns:
+            Result message with details about what was spawned
+        """
+        try:
+            data = {
+                "spawnLocations": spawn_locations,
+                "masterPassword": "agentworld-benchmark"
+            }
+            
+            result = self._make_request("POST", "/api/ai/benchmark/reset-mobs", data)
+            
+            if result.get("status") == "success":
+                results_summary = []
+                for r in result.get("results", []):
+                    loc = r.get("location", {})
+                    status = r.get("status")
+                    msg = r.get("message")
+                    results_summary.append(f"  ({loc.get('x')}, {loc.get('y')}): {status} - {msg}")
+                
+                return f"✅ Mob reset completed:\n" + "\n".join(results_summary)
+            else:
+                return f"❌ Failed to reset mobs: {result.get('message', 'Unknown error')}"
+                
+        except Exception as e:
+            return f"❌ Error resetting mobs: {str(e)}"

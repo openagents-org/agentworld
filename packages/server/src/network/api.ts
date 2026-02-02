@@ -202,6 +202,13 @@ export default class API {
                     });
                 }
 
+                // IMPORTANT: Wait for the player to be fully loaded from database
+                // This prevents race conditions where skill modifications are overwritten
+                // by async database loading that completes after the API returns
+                log.info(`Waiting for player ${username} to be fully loaded...`);
+                await connection.waitForPlayerLoaded();
+                log.info(`Player ${username} fully loaded, proceeding with login response`);
+
                 // Store the player reference for future API calls
                 this.aiAgents[token] = connection.player;
 
@@ -381,7 +388,6 @@ export default class API {
 
         // Get observations for the AI agent
         router.get('/ai/observe', (request: Request, response: Response) => {
-            console.log('[API DEBUG] Observe endpoint called - NEW CODE ACTIVE');
             try {
                 const token = request.query.token as string;
 
@@ -567,11 +573,12 @@ export default class API {
                     radius
                 );
 
-                // Get inventory items - filter out empty slots with count -1
+                // Get inventory items - filter out empty slots
                 const inventoryItems: any[] = [];
                 for (let i = 0; i < player.inventory.size; i++) {
                     const slot = player.inventory.get(i);
-                    if (slot) {
+                    // Check slot exists, has items (count >= 1), AND has a valid key
+                    if (slot && !slot.isEmpty() && slot.key) {
                         const item = player.inventory.getItem(slot);
                         // Only include items with count > -1
                         if (item.count > -1) {
@@ -588,10 +595,20 @@ export default class API {
                     }
                 }
 
-                // Get equipped items - filter out empty equipment
-                const equippedItems = player.equipment.serialize().equipments.filter((equipment: any) => 
+                // Get equipped items - filter out empty equipment and add attack range for weapons
+                const rawEquipments = player.equipment.serialize().equipments.filter((equipment: any) => 
                     equipment && equipment.key && equipment.count > -1
                 );
+                
+                // Add attack range information for weapons
+                const equippedItems = rawEquipments.map((equipment: any) => {
+                    const result = { ...equipment };
+                    // If this is a weapon (type 4 is weapon slot), add attack range
+                    if (equipment.type === 4) {
+                        result.attackRange = player.attackRange;
+                    }
+                    return result;
+                });
 
                 // Get player status with enhanced skill information
                 const skillsInfo = player.skills.serialize();
@@ -624,10 +641,9 @@ export default class API {
                             // Use type assertion to add name property
                             (skill as any).name = skillNames[skill.type];
                             
-                            // Add estimated level based on experience (simple formula)
-                            if (skill.experience) {
-                                const estimatedLevel = Math.floor(Math.sqrt(skill.experience / 100)) + 1;
-                                (skill as any).level = estimatedLevel;
+                            // Add level based on experience using the actual game formula
+                            if (skill.experience !== undefined && skill.experience > 0) {
+                                (skill as any).level = Formulas.expToLevel(skill.experience);
                             } else {
                                 (skill as any).level = 1; // Default level if no experience
                             }
@@ -689,7 +705,6 @@ export default class API {
 
                 response.json({
                     status: 'success',
-                    CACHE_TEST: 'NEW_CODE_LOADED_SUCCESSFULLY',
                     location,
                     map,
                     entries,
@@ -2231,6 +2246,185 @@ export default class API {
                 });
             } catch (error) {
                 log.error(`Error in simulation act: ${error}`);
+                response.status(500).json({
+                    status: 'error',
+                    message: 'Internal server error'
+                });
+            }
+        });
+
+        /**
+         * BENCHMARK: Spawn a mob at a specific location for task setup
+         * This endpoint is used to ensure required mobs exist before benchmark tasks run.
+         * Input: { mobKey: string, x: number, y: number, masterPassword: string }
+         * Output: { status, message, mobInstance }
+         */
+        router.post('/ai/benchmark/spawn-mob', (request: Request, response: Response) => {
+            try {
+                const { mobKey, x, y, masterPassword } = request.body;
+
+                // Validate master password for security
+                if (masterPassword !== 'agentworld-benchmark') {
+                    return response.status(403).json({
+                        status: 'error',
+                        message: 'Invalid master password'
+                    });
+                }
+
+                // Validate required parameters
+                if (!mobKey || typeof x !== 'number' || typeof y !== 'number') {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Missing required parameters: mobKey, x, y'
+                    });
+                }
+
+                // Check if a mob already exists at this location
+                const existingMobs: any[] = [];
+                this.world.entities.forEachEntity((entity: any) => {
+                    if (entity.isMob && entity.isMob()) {
+                        const dist = Math.abs(entity.x - x) + Math.abs(entity.y - y);
+                        if (dist <= 2) {
+                            existingMobs.push({
+                                instance: entity.instance,
+                                name: entity.name,
+                                x: entity.x,
+                                y: entity.y
+                            });
+                        }
+                    }
+                });
+
+                if (existingMobs.length > 0) {
+                    return response.json({
+                        status: 'success',
+                        message: `Mob(s) already exist near (${x}, ${y})`,
+                        existingMobs
+                    });
+                }
+
+                // Spawn the mob
+                const mob = this.world.entities.spawnMob(mobKey, x, y);
+
+                if (!mob) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: `Failed to spawn mob: ${mobKey}. Check if mob key exists in mobs.json`
+                    });
+                }
+
+                log.info(`[BENCHMARK] Spawned mob ${mobKey} (${mob.name}) at (${x}, ${y}), instance: ${mob.instance}`);
+
+                response.json({
+                    status: 'success',
+                    message: `Spawned ${mob.name} at (${x}, ${y})`,
+                    mobInstance: mob.instance,
+                    mobName: mob.name,
+                    mobLevel: mob.level,
+                    mobHitPoints: mob.hitPoints
+                });
+            } catch (error) {
+                log.error(`Error in benchmark spawn-mob: ${error}`);
+                response.status(500).json({
+                    status: 'error',
+                    message: 'Internal server error'
+                });
+            }
+        });
+
+        /**
+         * BENCHMARK: Reset/respawn mobs at their original spawn points
+         * This endpoint forces mobs to respawn even if they were killed.
+         * Input: { spawnLocations: [{x, y}], masterPassword: string }
+         * Output: { status, message, respawnedMobs }
+         */
+        router.post('/ai/benchmark/reset-mobs', (request: Request, response: Response) => {
+            try {
+                const { spawnLocations, masterPassword } = request.body;
+
+                // Validate master password for security
+                if (masterPassword !== 'agentworld-benchmark') {
+                    return response.status(403).json({
+                        status: 'error',
+                        message: 'Invalid master password'
+                    });
+                }
+
+                if (!spawnLocations || !Array.isArray(spawnLocations)) {
+                    return response.status(400).json({
+                        status: 'error',
+                        message: 'Missing spawnLocations array'
+                    });
+                }
+
+                const results: any[] = [];
+
+                // For each spawn location, check spawns.json and respawn if needed
+                const Spawns = require('../../../../data/spawns.json');
+                
+                for (const loc of spawnLocations) {
+                    const key = `${loc.x}-${loc.y}`;
+                    const spawnData = Spawns[key];
+
+                    if (!spawnData) {
+                        results.push({
+                            location: loc,
+                            status: 'skipped',
+                            message: `No spawn defined at (${loc.x}, ${loc.y})`
+                        });
+                        continue;
+                    }
+
+                    // Check if mob already exists near this location
+                    let existingMob: any = null;
+                    this.world.entities.forEachEntity((entity: any) => {
+                        if (entity.isMob && entity.isMob() && entity.spawnX === loc.x && entity.spawnY === loc.y) {
+                            existingMob = entity;
+                        }
+                    });
+
+                    if (existingMob && !existingMob.dead) {
+                        results.push({
+                            location: loc,
+                            status: 'exists',
+                            message: `${existingMob.name} already exists at spawn point`,
+                            mobInstance: existingMob.instance
+                        });
+                        continue;
+                    }
+
+                    // Need to spawn a new mob - use the mob key from spawn data or derive it
+                    // The name in spawns.json is display name, we need the mob key
+                    // For bosses, we need to find the base mob type or spawn directly
+                    const mobKey = spawnData.mobKey || 'wizard'; // Default to wizard for Ancient Wizard
+                    
+                    const mob = this.world.entities.spawnMob(mobKey, loc.x, loc.y);
+                    
+                    if (mob) {
+                        log.info(`[BENCHMARK] Respawned ${mob.name} at (${loc.x}, ${loc.y}), instance: ${mob.instance}`);
+                        results.push({
+                            location: loc,
+                            status: 'spawned',
+                            message: `Spawned ${mob.name}`,
+                            mobInstance: mob.instance,
+                            mobName: mob.name
+                        });
+                    } else {
+                        results.push({
+                            location: loc,
+                            status: 'failed',
+                            message: `Failed to spawn mob at (${loc.x}, ${loc.y})`
+                        });
+                    }
+                }
+
+                response.json({
+                    status: 'success',
+                    message: `Processed ${results.length} spawn locations`,
+                    results
+                });
+            } catch (error) {
+                log.error(`Error in benchmark reset-mobs: ${error}`);
                 response.status(500).json({
                     status: 'error',
                     message: 'Internal server error'

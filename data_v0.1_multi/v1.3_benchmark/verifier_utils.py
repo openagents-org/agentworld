@@ -130,22 +130,47 @@ def get_final_agent_status(traj_json: Dict) -> Dict[str, Dict]:
 
 
 def get_final_agent_hp_simple(traj_json: Dict) -> Dict[str, int]:
-    """Get final HP for all agents (simpler version returning just HP values)."""
+    """Get final HP for all agents by tracking HP across ALL rounds.
+    
+    This function iterates through all rounds and tracks the last known HP
+    for each agent. This correctly handles cases where an agent dies mid-task
+    and no longer appears in subsequent rounds.
+    
+    Returns dict of {agent_name: last_known_hp}.
+    """
     agent_hp = {}
     if not traj_json.get('rounds'):
         return agent_hp
 
-    last_round = traj_json['rounds'][-1]
-    for act in last_round.get('actions', []):
-        agent_name = act.get('agent_name', '')
-        status = act.get('status', '')
-        hp_match = re.search(r'❤️(\d+)/(\d+)', status)
-        if hp_match:
-            agent_hp[agent_name] = int(hp_match.group(1))
+    # Track HP across ALL rounds, not just the last one
+    # This ensures we capture agent deaths that occurred in earlier rounds
+    for r in traj_json.get('rounds', []):
+        for act in r.get('actions', []):
+            agent_name = act.get('agent_name', '')
+            if not agent_name:
+                continue
+            
+            # Check status string for HP (format: ❤️current/max)
+            status = act.get('status', '')
+            hp_match = re.search(r'❤️(\d+)/(\d+)', status)
+            if hp_match:
+                agent_hp[agent_name] = int(hp_match.group(1))
+            
+            # Also check observation for playerStatus.hitPoints (more reliable)
+            obs = act.get('observation', {})
+            if isinstance(obs, dict):
+                player_status = obs.get('playerStatus', {})
+                if 'hitPoints' in player_status:
+                    agent_hp[agent_name] = player_status['hitPoints']
+    
     return agent_hp
 
 
 def verify_combat(traj_json: Dict, target_name: str | None) -> int:
+    """Legacy combat verification function for backward compatibility.
+
+    Used by tasks 35, 36, 43. For new tasks, prefer count_combat_kills().
+    """
     if not target_name:
         # only count how many attacks are made
         attacks = 0
@@ -158,7 +183,6 @@ def verify_combat(traj_json: Dict, target_name: str | None) -> int:
     # return number of kills of the target
     # Build a mapping from instance_id -> mob_name
     instance_to_name = {}
-    print(instance_to_name)
     for r in traj_json.get('rounds', []):
         for act in r.get('actions', []):
             mobs = act.get('observation', {}).get('mobs', [])
@@ -167,13 +191,11 @@ def verify_combat(traj_json: Dict, target_name: str | None) -> int:
                 mob_name = m.get('name', '').lower()
                 if instance_id and mob_name:
                     instance_to_name[instance_id] = mob_name
-    
-    print(f"Found {len(instance_to_name)} unique mob instances")
-    
+
     # Track killed instances to avoid double counting
     killed_instances = set()
     kills = 0
-    
+
     for r in traj_json.get('rounds', []):
         for act in r.get('actions', []):
             action_str = act.get('action', '').lower()
@@ -181,8 +203,8 @@ def verify_combat(traj_json: Dict, target_name: str | None) -> int:
                 # Check each known instance
                 for instance_id, mob_name in instance_to_name.items():
                     # Check if this instance was attacked and matches target
-                    if (instance_id in action_str and 
-                        target_name.lower() in mob_name and 
+                    if (instance_id in action_str and
+                        target_name.lower() in mob_name and
                         instance_id not in killed_instances):
                         kills += 1
                         killed_instances.add(instance_id)
@@ -190,74 +212,89 @@ def verify_combat(traj_json: Dict, target_name: str | None) -> int:
     return kills
 
 
-def count_combat_kills(traj_json: Dict, target_patterns: List[str]) -> int:
-    """Count kills of targets matching patterns by checking action results.
+def count_combat_kills(traj_json: Dict, target_patterns: List[str] = None) -> int:
+    """Count combat kills by checking observation results for kill indicators.
 
-    NOTE: Attack actions use instance IDs (attack_entity(targetInstance=123456)),
-    not mob names. So we check for mob names in observation/result strings,
-    and also check chat messages for defeat confirmations.
-    TODO: This check is not fully accurate - should look for 'VICTORY' in return value.
+    This function looks for kill indicators in the observation JSON, including:
+    - VICTORY messages
+    - "killed", "slain", "defeated", "dead" keywords
+    - Mobs with hitPoints=0
+    - Combat result messages indicating enemy death
+
+    Args:
+        traj_json: The trajectory JSON data
+        target_patterns: Optional list of mob name patterns to filter by.
+                        If None, counts all kills. Patterns are matched against
+                        mob names in observations, not action strings.
+
+    Returns:
+        Number of kills detected
     """
     kills = 0
-    killed_targets = set()  # Track killed targets to avoid double-counting
-
-    kill_keywords = ['dead', 'killed', 'defeated', 'victory', 'died',
-                     'slain', 'destroy', 'eliminated', 'vanquished', 'dropped',
-                     'hp dropped to 0', 'hp: 0', 'health: 0']
-
-    # HP zero patterns (covers different JSON formats)
-    hp_zero_patterns = ['"hp": 0', '"hp":0', '"hitpoints": 0', '"hitpoints":0']
+    killed_instances = set()  # Track killed instance IDs to avoid double counting
 
     for r in traj_json.get('rounds', []):
         for act in r.get('actions', []):
             action_str = act.get('action', '').lower()
             obs = act.get('observation', {})
-            result_str = str(act.get('result', '')).lower()
 
-            # Build combined text to search for patterns and kill indicators
-            combined_text = ''
-            if isinstance(obs, dict):
-                combined_text = json.dumps(obs).lower()
-                # Also check mobs array directly for hitPoints: 0
-                mobs = obs.get('mobs', [])
-                for mob in mobs:
-                    mob_name = mob.get('name', '').lower()
-                    mob_hp = mob.get('hitPoints', -1)
-                    if mob_hp == 0:
-                        for pattern in target_patterns:
-                            if pattern.lower() in mob_name:
-                                if pattern.lower() not in killed_targets:
-                                    kills += 1
-                                    killed_targets.add(pattern.lower())
-            elif isinstance(obs, str):
-                combined_text = obs.lower()
-            combined_text += ' ' + result_str
+            if 'attack' not in action_str:
+                continue
 
-            # Check attack actions
-            if 'attack' in action_str:
-                # Check if any target pattern appears in observation/result
-                for pattern in target_patterns:
-                    pattern_lower = pattern.lower()
-                    if pattern_lower in combined_text:
-                        # Check for kill indicators
-                        if any(kw in combined_text for kw in kill_keywords):
-                            if pattern_lower not in killed_targets:
-                                kills += 1
-                                killed_targets.add(pattern_lower)
-                        elif any(hp_pat in combined_text for hp_pat in hp_zero_patterns):
-                            if pattern_lower not in killed_targets:
-                                kills += 1
-                                killed_targets.add(pattern_lower)
+            if not isinstance(obs, dict):
+                continue
 
-            # Also check chat messages for defeat confirmations
-            if 'chat' in action_str or 'global_chat' in action_str:
-                for pattern in target_patterns:
-                    pattern_lower = pattern.lower()
-                    if pattern_lower in combined_text:
-                        if any(kw in combined_text for kw in kill_keywords):
-                            if pattern_lower not in killed_targets:
-                                kills += 1
-                                killed_targets.add(pattern_lower)
+            # Convert observation to string for keyword search
+            obs_str = json.dumps(obs).lower()
+
+            # Check for kill indicators in the observation
+            kill_indicators = [
+                'victory',
+                'killed',
+                'slain',
+                'defeated',
+                'you have defeated',
+                'enemy died',
+                'target eliminated',
+            ]
+
+            has_kill_indicator = any(indicator in obs_str for indicator in kill_indicators)
+
+            # Also check for "DEFEAT" but only if it's the enemy being defeated, not the player
+            # Player defeat looks like "DEFEAT: You were slain"
+            if 'defeat' in obs_str and 'you were slain' not in obs_str:
+                has_kill_indicator = True
+
+            # Check mobs in observation for HP=0
+            mobs = obs.get('mobs', [])
+            for mob in mobs:
+                mob_hp = mob.get('hitPoints', -1)
+                mob_name = mob.get('name', '').lower()
+                mob_instance = mob.get('instance', '')
+
+                if mob_hp == 0 and mob_instance not in killed_instances:
+                    # If target_patterns specified, check if mob name matches
+                    if target_patterns:
+                        if any(p.lower() in mob_name for p in target_patterns):
+                            kills += 1
+                            killed_instances.add(mob_instance)
+                    else:
+                        kills += 1
+                        killed_instances.add(mob_instance)
+
+            # If we found kill indicators but no HP=0 mobs, still count it
+            # (the mob may have despawned immediately on death)
+            if has_kill_indicator and not mobs:
+                # Try to extract mob name from action result message
+                result_msg = obs.get('result', '') or obs.get('message', '')
+                if isinstance(result_msg, str):
+                    result_lower = result_msg.lower()
+                    if target_patterns:
+                        if any(p.lower() in result_lower for p in target_patterns):
+                            kills += 1
+                    else:
+                        # Count the kill if we have a kill indicator
+                        kills += 1
 
     return kills
 

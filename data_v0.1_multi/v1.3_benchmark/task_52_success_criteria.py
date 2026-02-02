@@ -24,12 +24,23 @@ from verifier_utils import (
 
 
 def task_52_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Comprehensive Smithy."""
+    """Smithy Operation - craft 1x Heavy Sword, 1x Pickaxe, and 2x Silver Rings."""
     inventories = get_final_inventories(traj_json)
-    weapons = ['sword2', 'heavysword', 'axe', 'pickaxe']
-    weapon_count = sum(1 for w in weapons if has_item_in_any_inventory(inventories, w))
-    msg = f"Weapons crafted: {weapon_count}"
-    return (1 if weapon_count >= 2 else 0, msg)
+    
+    heavysword = count_item_in_inventories(inventories, 'sword2')
+    pickaxe = count_item_in_inventories(inventories, 'pickaxe')
+    silverring = count_item_in_inventories(inventories, 'silverring')
+    
+    has_sword = heavysword >= 1
+    has_pickaxe = pickaxe >= 1
+    has_rings = silverring >= 2
+    
+    # Check all agents alive
+    alive = check_agents_alive(traj_json)
+    
+    passed = has_sword and has_pickaxe and has_rings and alive
+    msg = f"Heavy Sword: {heavysword}/1, Pickaxe: {pickaxe}/1, Silver Rings: {silverring}/2, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

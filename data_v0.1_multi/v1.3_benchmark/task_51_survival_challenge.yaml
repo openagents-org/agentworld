@@ -69,8 +69,8 @@ agent_1:
   new_character: true
 
   location:
-    x: 200
-    y: 220
+    x: 150
+    y: 250
 
   skill_levels:
     fishing: 20
@@ -99,8 +99,8 @@ agent_2:
   new_character: true
 
   location:
-    x: 205
-    y: 225
+    x: 155
+    y: 250
 
   skill_levels:
     fishing: 20
@@ -130,7 +130,7 @@ agent_3:
 
   location:
     x: 210
-    y: 230
+    y: 115
 
   skill_levels:
     lumberjacking: 25
@@ -160,7 +160,7 @@ agent_4:
 
   location:
     x: 215
-    y: 235
+    y: 115
 
   skill_levels:
     lumberjacking: 25
@@ -189,8 +189,8 @@ agent_5:
   new_character: true
 
   location:
-    x: 220
-    y: 240
+    x: 200
+    y: 130
 
   skill_levels:
     fletching: 20

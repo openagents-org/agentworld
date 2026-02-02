@@ -24,13 +24,21 @@ from verifier_utils import (
 
 
 def task_54_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Grand Archery Academy."""
+    """Archery Academy - craft 2x Wooden Bows and 10x Arrows."""
     inventories = get_final_inventories(traj_json)
+    
+    woodenbow = count_item_in_inventories(inventories, 'woodenbow')
     arrows = count_item_in_inventories(inventories, 'arrow')
-    bow = has_item_in_any_inventory(inventories, 'woodenbow') or has_item_in_any_inventory(inventories, 'bow')
-    success = arrows >= 30 and bow
-    msg = f"Arrows: {arrows}/30, Has bow: {bow}"
-    return (1 if success else 0, msg)
+    
+    has_bows = woodenbow >= 2
+    has_arrows = arrows >= 10
+    
+    # Check all agents alive
+    alive = check_agents_alive(traj_json)
+    
+    passed = has_bows and has_arrows and alive
+    msg = f"Wooden Bows: {woodenbow}/2, Arrows: {arrows}/10, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def verify(traj_json: Dict) -> Tuple[int, str]:

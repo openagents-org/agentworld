@@ -109,6 +109,11 @@ Icon
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
 
+
+# Claude Md
+CLAUDE.md
+./CLAUDE.md
+
 # Directories potentially created on remote AFP share
 .AppleDB
 .AppleDesktop
@@ -459,3 +464,5 @@ benchmark_results
 
 # Agent experiment results
 **/results_*/
+scripts/run_parallel_45_60.sh
+scripts/run_tasks_45_60.sh

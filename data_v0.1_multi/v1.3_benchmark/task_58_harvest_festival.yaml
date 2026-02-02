@@ -15,13 +15,14 @@ relevant_game_context: |
   OBJECTIVE: Prepare items for the harvest festival celebration.
 
   PRODUCTION TARGETS:
-  - 3x Corn Stew (cook corn with bowl)
+  - 3x Corn Stew (itemKey=stew2, requires: bowlmedium + mushroom2 + corn each)
   - 2x Silver Ring (2x ironbar each)
   - 1x Wooden Bow (1x logs + 1x string)
 
   MATERIAL REQUIREMENTS:
   - 3x corn (foraging)
-  - 3x bowl (cooking containers)
+  - 3x bowlmedium (cooking containers)
+  - 3x mushroom2 (Russula mushroom for stew)
   - 4x ironbar (for rings)
   - 1x logs (for bow)
   - 1x string (for bow)
@@ -55,7 +56,8 @@ relevant_game_context: |
   - Gold Bar: itemKey=goldbar (Smelting)
   - Bronze Bar: itemKey=bronzebar (Smelting)
   - Cooked Shrimp: itemKey=cookedshrimp (Cooking)
-  - Stew: itemKey=stew (Cooking)
+  - Tomato Stew: itemKey=stew (Cooking) - requires bowlmedium + mushroom1 + tomato
+  - Corn Stew: itemKey=stew2 (Cooking) - requires bowlmedium + mushroom2 + corn
 
 
 # Limitations
@@ -80,6 +82,8 @@ agent_1:
       count: 15
     - item: "apple"
       count: 20
+    - item: "mushroom2"
+      count: 2
 
   equipped_items:
     - item: "leatherarmor"
@@ -104,6 +108,8 @@ agent_2:
       count: 15
     - item: "apple"
       count: 20
+    - item: "mushroom2"
+      count: 1
 
   equipped_items:
     - item: "leatherarmor"
@@ -128,7 +134,7 @@ agent_3:
       count: 15
     - item: "apple"
       count: 20
-    - item: "bowl"
+    - item: "bowlmedium"
       count: 3
 
   equipped_items:
@@ -216,7 +222,7 @@ agent_6:
 
 # Success criteria
 success_criteria:
-  - "Team inventory contains 3x cornstew"
+  - "Team inventory contains 3x stew2"
   - "Team inventory contains 2x silverring"
   - "Team inventory contains 1x woodenbow"
   - "All agents survive the festival preparation"

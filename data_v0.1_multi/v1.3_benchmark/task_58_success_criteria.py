@@ -24,13 +24,24 @@ from verifier_utils import (
 
 
 def task_58_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Grand Harvest Festival."""
+    """Harvest Festival - cook 3x Corn Stew, craft 2x Silver Rings, and 1x Wooden Bow."""
     inventories = get_final_inventories(traj_json)
-    food_items = ['cookedshrimp', 'cookedchicken', 'cookedbeef', 'stew', 'stew2']
-    food_count = sum(count_item_in_inventories(inventories, f) for f in food_items)
-    success = food_count >= 20
-    msg = f"Food items: {food_count}/20"
-    return (1 if success else 0, msg)
+    
+    # Check for stew (corn stew is 'stew' item)
+    stew = count_item_in_inventories(inventories, 'stew') + count_item_in_inventories(inventories, 'stew2')
+    silverring = count_item_in_inventories(inventories, 'silverring')
+    woodenbow = count_item_in_inventories(inventories, 'woodenbow')
+    
+    has_stew = stew >= 3
+    has_rings = silverring >= 2
+    has_bow = woodenbow >= 1
+    
+    # Check all agents alive
+    alive = check_agents_alive(traj_json)
+    
+    passed = has_stew and has_rings and has_bow and alive
+    msg = f"Corn Stew: {stew}/3, Silver Rings: {silverring}/2, Wooden Bow: {woodenbow}/1, All alive: {alive}"
+    return (1 if passed else 0, msg)
 
 
 def task_58_verifier_v1(traj_json: Dict) -> Tuple[int, str]:
