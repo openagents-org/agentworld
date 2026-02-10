@@ -24,13 +24,21 @@ from verifier_utils import (
 
 
 def task_72_verifier(traj_json: Dict) -> Tuple[int, str]:
-    """Fortress Defense - defeat 3x Goblin and 2x Skeleton."""
-    # Check combat kills (5 total: 3 goblins + 2 skeletons)
-    kills = count_combat_kills(traj_json, ['Goblin', 'Skeleton', 'goblin', 'skeleton'])
-    has_kills = kills >= 5
+    """Fortress Defense - craft 2x Heavy Sword, defeat 6x Goblin and 4x Skeleton."""
+    inventories = get_final_inventories(traj_json)
 
-    passed = has_kills
-    msg = f"Kills: {kills}/5 (3 Goblin + 2 Skeleton)"
+    # Check for heavy swords (sword2)
+    sword2 = count_item_in_inventories(inventories, 'sword2') + count_item_in_inventories(inventories, 'heavysword')
+    sword_ok = sword2 >= 2
+
+    # Check combat kills (10 total: 6 goblins + 4 skeletons)
+    goblin_kills = count_combat_kills(traj_json, ['Goblin', 'goblin'])
+    skeleton_kills = count_combat_kills(traj_json, ['Skeleton', 'skeleton'])
+    goblin_ok = goblin_kills >= 6
+    skeleton_ok = skeleton_kills >= 4
+
+    passed = sword_ok and goblin_ok and skeleton_ok
+    msg = f"Sword2: {sword2}/2, Goblin kills: {goblin_kills}/6, Skeleton kills: {skeleton_kills}/4"
     return (1 if passed else 0, msg)
 
 

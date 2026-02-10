@@ -1,36 +1,49 @@
 # AgentWorld Multi-Agent Task Configuration
 
 task:
-  name: "Fortress Defense - Enemy Wave Combat"
-  description: "Seven defenders defeat waves of enemies"
+  name: "Fortress Defense - Siege Combat"
+  description: "Seven defenders craft weapons and repel enemy siege forces"
 
 # Task objectives
 objectives:
-  primary: "Defeat 3x Goblins and 2x Skeletons"
+  primary: "Craft 2x Heavy Sword, defeat 6x Goblins and 4x Skeletons"
 
 # Relevant game context (Hint)
 relevant_game_context: |
-  This is a cooperative multi-agent defense scenario.
+  This is a cooperative multi-agent fortress defense scenario.
 
-  OBJECTIVE: Defend against enemy waves.
+  OBJECTIVE: Arm your warriors and defeat the enemy siege forces.
 
   COMBAT TARGETS:
-  - 3x Goblins (Level 10-15)
-  - 2x Skeletons (Level 18-25)
+  - 6x Goblins (Level 10-15)
+  - 4x Skeletons (Level 18-25)
+
+  PRODUCTION TARGETS:
+  - 2x Heavy Sword (2x ironbar + 1x hilt2 each)
 
   ENEMY LOCATIONS:
-  - Goblins and Skeletons spawn around (15, 15) area
+  - Goblins and Skeletons spawn around (15, 20) area
 
   TEAM ROLES:
-  - Guards: Front-line combat
-  - Archers: Ranged support
-  - Commander: Coordinate attacks
-  - Support: Healing
+  - Guards: Front-line combat (already armed)
+  - Warriors: Carry iron bars, need weapons from smith
+  - Archer: Ranged support
+  - Smith: Craft 2x Heavy Sword from iron bars + hilt2
+  - Commander: Coordinate defense (already armed)
 
   DO NOT use complete() until all enemies are defeated!
 
+  ITEM KEY REFERENCE (use these exact itemKey values in craft_item):
+  - Sword/Heavy Sword: itemKey=sword2 (Smithing)
+  - Axe: itemKey=axe (Smithing)
+  - Pickaxe: itemKey=pickaxe (Smithing)
+  - Iron Bar: itemKey=ironbar (Smelting)
+  - Gold Bar: itemKey=goldbar (SMITHING) - requires goldnugget only, NO coal
+  - Bronze Bar: itemKey=bronzebar (Smelting)
+
+
 # Limitations
-max_action_steps: 40
+max_action_steps: 45
 
 # Agent configurations
 agent_1:
@@ -39,7 +52,7 @@ agent_1:
 
   location:
     x: 15
-    y: 12
+    y: 20
 
   skill_levels:
     defense: 42
@@ -69,7 +82,7 @@ agent_2:
 
   location:
     x: 18
-    y: 15
+    y: 22
 
   skill_levels:
     defense: 40
@@ -94,12 +107,70 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "t72_archer1_agent"
+  username: "t72_warrior1_agent"
   new_character: true
 
   location:
     x: 20
     y: 18
+
+  skill_levels:
+    strength: 40
+    defense: 38
+    health: 48
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "ironbar"
+      count: 2
+
+  equipped_items:
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_4:
+  username: "t72_warrior2_agent"
+  new_character: true
+
+  location:
+    x: 22
+    y: 16
+
+  skill_levels:
+    strength: 38
+    defense: 36
+    health: 46
+
+  inventory_items:
+    - item: "flask"
+      count: 30
+    - item: "apple"
+      count: 35
+    - item: "ironbar"
+      count: 2
+
+  equipped_items:
+    - item: "platearmor"
+      count: 1
+      enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_5:
+  username: "t72_archer_agent"
+  new_character: true
+
+  location:
+    x: 24
+    y: 20
 
   skill_levels:
     accuracy: 42
@@ -125,17 +196,17 @@ agent_3:
       count: 1
       enchant: 0
 
-agent_4:
-  username: "t72_archer2_agent"
+agent_6:
+  username: "t72_smith_agent"
   new_character: true
 
   location:
-    x: 22
-    y: 16
+    x: 16
+    y: 24
 
   skill_levels:
-    accuracy: 40
-    archery: 36
+    smithing: 50
+    crafting: 40
     health: 38
 
   inventory_items:
@@ -143,11 +214,11 @@ agent_4:
       count: 25
     - item: "apple"
       count: 30
-    - item: "arrow"
-      count: 35
+    - item: "hilt2"
+      count: 2
 
   equipped_items:
-    - item: "woodenbow"
+    - item: "sword"
       count: 1
       enchant: 0
     - item: "leatherarmor"
@@ -157,7 +228,7 @@ agent_4:
       count: 1
       enchant: 0
 
-agent_5:
+agent_7:
   username: "t72_commander_agent"
   new_character: true
 
@@ -166,10 +237,10 @@ agent_5:
     y: 14
 
   skill_levels:
-    strength: 38
-    defense: 35
+    strength: 42
+    defense: 38
     accuracy: 35
-    health: 45
+    health: 50
 
   inventory_items:
     - item: "flask"
@@ -188,67 +259,8 @@ agent_5:
       count: 1
       enchant: 0
 
-agent_6:
-  username: "t72_support1_agent"
-  new_character: true
-
-  location:
-    x: 24
-    y: 18
-
-  skill_levels:
-    magic: 35
-    health: 40
-    defense: 30
-
-  inventory_items:
-    - item: "flask"
-      count: 28
-    - item: "apple"
-      count: 32
-
-  equipped_items:
-    - item: "staff"
-      count: 1
-      enchant: 0
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-    - item: "leatherboots"
-      count: 1
-      enchant: 0
-
-agent_7:
-  username: "t72_support2_agent"
-  new_character: true
-
-  location:
-    x: 25
-    y: 20
-
-  skill_levels:
-    magic: 33
-    health: 38
-    defense: 28
-
-  inventory_items:
-    - item: "flask"
-      count: 28
-    - item: "apple"
-      count: 32
-
-  equipped_items:
-    - item: "staff"
-      count: 1
-      enchant: 0
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-    - item: "leatherboots"
-      count: 1
-      enchant: 0
-
 # Success criteria
 success_criteria:
-  - "3x Goblin defeated"
-  - "2x Skeleton defeated"
+  - "Team inventory contains 2x sword2 (heavy sword)"
+  - "6x Goblin defeated"
+  - "4x Skeleton defeated"

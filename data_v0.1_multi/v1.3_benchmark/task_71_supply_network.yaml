@@ -1,35 +1,60 @@
 # AgentWorld Multi-Agent Task Configuration
 
 task:
-  name: "Supply Network - Resource Collection"
-  description: "Eight agents gather resources from multiple regions"
+  name: "Supply Network - Resource Processing Chain"
+  description: "Eight agents coordinate a multi-region supply chain to gather, process, and craft resources"
 
 # Task objectives
 objectives:
-  primary: "Collect 8x logs from forest and 6x coal from mountain"
+  primary: "Collect 6x logs, craft 2x Axe, 1x Wooden Bow, 1x Pickaxe, and 1x Heavy Sword"
 
 # Relevant game context (Hint)
 relevant_game_context: |
-  This is a cooperative multi-agent resource collection scenario.
+  This is a cooperative multi-agent supply chain scenario.
 
-  OBJECTIVE: Gather resources from different regions.
+  OBJECTIVE: Gather resources from forest and mountain regions, then process and craft tools and weapons.
 
-  COLLECTION TARGETS:
-  - 8x logs (from forest region)
-  - 6x coal (from coal mining area region)
+  PRODUCTION TARGETS:
+  - 6x logs (collected from forest region)
+  - 2x Axe (3x ironbar + 1x logs each)
+  - 1x Wooden Bow (1x logs + 1x string)
+  - 1x Pickaxe (5x ironbar + 1x logs)
+  - 1x Heavy Sword (2x ironbar + 1x hilt2)
+
+  TOTAL IRON NEEDED: 13x ironbar
+  - Requires 13x ironore + 13x coal for smelting
+  - Smith starts with 2x ironbar, smelter must produce 11 more
 
   REGION LOCATIONS:
   - Forest (Oak Trees): Around (250, 35) - produces logs
-  - Coal mining area: Around (555, 545)
+  - Mountain: Around (555, 545) - iron ore and coal mining
+  - Furnace area: Around (552, 510) - smelting and smithing
 
   TEAM ROLES:
-  - Loggers: Gather logs from forest
-  - Miners: Extract coal from mountain
+  - Loggers: Harvest logs from forest
+  - Fletcher: Craft Wooden Bow
+  - Iron Miners: Mine iron ore from mountain
+  - Coal Miner: Mine coal from mountain
+  - Smelter: Smelt iron ore + coal into iron bars
+  - Smith: Craft axes, pickaxe, and heavy sword
 
-  DO NOT use complete() until all resources are collected!
+  DO NOT use complete() until all objectives are met!
+
+  ITEM KEY REFERENCE (use these exact itemKey values in craft_item):
+  - Wooden Bow: itemKey=woodenbow (Fletching)
+  - Stick/Shaft: itemKey=stick (Fletching)
+  - Pickaxe: itemKey=pickaxe (Smithing)
+  - Axe: itemKey=axe (Smithing)
+  - Sword/Heavy Sword: itemKey=sword2 (Smithing)
+  - Iron Bar: itemKey=ironbar (Smelting)
+  - Gold Bar: itemKey=goldbar (SMITHING) - requires goldnugget only, NO coal
+  - Bronze Bar: itemKey=bronzebar (Smelting)
+  - Cooked Shrimp: itemKey=cookedshrimp (Cooking)
+  - Stew: itemKey=stew (Cooking)
+
 
 # Limitations
-max_action_steps: 40
+max_action_steps: 45
 
 # Agent configurations
 agent_1:
@@ -93,28 +118,27 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "t71_logger3_agent"
+  username: "t71_fletcher_agent"
   new_character: true
 
   location:
     x: 248
-    y: 37
+    y: 38
 
   skill_levels:
-    lumberjacking: 33
-    strength: 30
-    health: 34
+    fletching: 40
+    crafting: 35
+    health: 35
 
   inventory_items:
     - item: "flask"
       count: 20
     - item: "apple"
       count: 25
+    - item: "string"
+      count: 1
 
   equipped_items:
-    - item: "axe"
-      count: 1
-      enchant: 0
     - item: "leatherarmor"
       count: 1
       enchant: 0
@@ -123,37 +147,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "t71_logger4_agent"
-  new_character: true
-
-  location:
-    x: 254
-    y: 39
-
-  skill_levels:
-    lumberjacking: 32
-    strength: 28
-    health: 32
-
-  inventory_items:
-    - item: "flask"
-      count: 20
-    - item: "apple"
-      count: 25
-
-  equipped_items:
-    - item: "axe"
-      count: 1
-      enchant: 0
-    - item: "leatherarmor"
-      count: 1
-      enchant: 0
-    - item: "leatherboots"
-      count: 1
-      enchant: 0
-
-agent_5:
-  username: "t71_miner1_agent"
+  username: "t71_ironminer1_agent"
   new_character: true
 
   location:
@@ -182,8 +176,8 @@ agent_5:
       count: 1
       enchant: 0
 
-agent_6:
-  username: "t71_miner2_agent"
+agent_5:
+  username: "t71_ironminer2_agent"
   new_character: true
 
   location:
@@ -212,8 +206,8 @@ agent_6:
       count: 1
       enchant: 0
 
-agent_7:
-  username: "t71_miner3_agent"
+agent_6:
+  username: "t71_coalminer_agent"
   new_character: true
 
   location:
@@ -242,29 +236,57 @@ agent_7:
       count: 1
       enchant: 0
 
-agent_8:
-  username: "t71_miner4_agent"
+agent_7:
+  username: "t71_smelter_agent"
   new_character: true
 
   location:
-    x: 562
-    y: 548
+    x: 552
+    y: 510
 
   skill_levels:
-    mining: 42
-    strength: 28
-    health: 34
+    smithing: 45
+    crafting: 30
+    health: 35
 
   inventory_items:
     - item: "flask"
-      count: 20
+      count: 22
     - item: "apple"
-      count: 25
+      count: 28
 
   equipped_items:
-    - item: "pickaxe"
+    - item: "leatherarmor"
       count: 1
       enchant: 0
+    - item: "leatherboots"
+      count: 1
+      enchant: 0
+
+agent_8:
+  username: "t71_smith_agent"
+  new_character: true
+
+  location:
+    x: 554
+    y: 512
+
+  skill_levels:
+    smithing: 55
+    crafting: 40
+    health: 36
+
+  inventory_items:
+    - item: "flask"
+      count: 22
+    - item: "apple"
+      count: 28
+    - item: "ironbar"
+      count: 2
+    - item: "hilt2"
+      count: 1
+
+  equipped_items:
     - item: "leatherarmor"
       count: 1
       enchant: 0
@@ -274,5 +296,8 @@ agent_8:
 
 # Success criteria
 success_criteria:
-  - "Team inventory contains at least 8x logs"
-  - "Team inventory contains at least 6x coal"
+  - "Team inventory contains at least 6x logs"
+  - "Team inventory contains 2x axe"
+  - "Team inventory contains 1x woodenbow"
+  - "Team inventory contains 1x pickaxe"
+  - "Team inventory contains 1x sword2 (heavy sword)"

@@ -26,19 +26,28 @@ from verifier_utils import (
 def task_71_verifier(traj_json: Dict) -> Tuple[int, str]:
     """Multi-Region Supply Network.
     YAML criteria:
-    - Team inventory contains at least 8x logs
-    - Team inventory contains at least 6x coal
+    - Team inventory contains at least 6x logs
+    - Team inventory contains 2x axe
+    - Team inventory contains 1x woodenbow
+    - Team inventory contains 1x pickaxe
+    - Team inventory contains 1x sword2 (heavy sword)
     """
     inventories = get_final_inventories(traj_json)
 
     logs = count_item_in_inventories(inventories, 'logs')
-    coal = count_item_in_inventories(inventories, 'coal')
+    axe = count_item_in_inventories(inventories, 'axe')
+    woodenbow = count_item_in_inventories(inventories, 'woodenbow')
+    pickaxe = count_item_in_inventories(inventories, 'pickaxe')
+    sword2 = count_item_in_inventories(inventories, 'sword2') + count_item_in_inventories(inventories, 'heavysword')
 
-    logs_ok = logs >= 8
-    coal_ok = coal >= 6
+    logs_ok = logs >= 6
+    axe_ok = axe >= 2
+    bow_ok = woodenbow >= 1
+    pickaxe_ok = pickaxe >= 1
+    sword_ok = sword2 >= 1
 
-    success = logs_ok and coal_ok
-    msg = f"Logs: {logs}/8, Coal: {coal}/6"
+    success = logs_ok and axe_ok and bow_ok and pickaxe_ok and sword_ok
+    msg = f"Logs: {logs}/6, Axe: {axe}/2, Woodenbow: {woodenbow}/1, Pickaxe: {pickaxe}/1, Sword2: {sword2}/1"
     return (1 if success else 0, msg)
 
 
