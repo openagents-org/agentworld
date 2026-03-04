@@ -92,6 +92,57 @@ export default class API {
             });
         });
 
+        // Public world status endpoint (no auth required, CORS enabled)
+        router.get('/ai/world-status', (_request, response) => {
+            response.header('Access-Control-Allow-Origin', '*');
+            response.header('Access-Control-Allow-Methods', 'GET');
+            try {
+                let players: {
+                    name: string;
+                    x: number;
+                    y: number;
+                    level: number;
+                    hitPoints: number;
+                    maxHitPoints: number;
+                    combat: boolean;
+                    moving: boolean;
+                    isAI: boolean;
+                }[] = [];
+
+                this.world.entities.forEachPlayer((player: Player) => {
+                    players.push({
+                        name: player.name,
+                        x: player.x,
+                        y: player.y,
+                        level: player.level,
+                        hitPoints: player.hitPoints.getHitPoints(),
+                        maxHitPoints: player.hitPoints.getMaxHitPoints(),
+                        combat: player.inCombat(),
+                        moving: player.moving,
+                        isAI: player.isAI
+                    });
+                });
+
+                response.json({
+                    status: 'success',
+                    timestamp: new Date().toISOString(),
+                    map: {
+                        width: this.world.map.width,
+                        height: this.world.map.height,
+                        tileSize: this.world.map.tileSize
+                    },
+                    playerCount: this.world.getPopulation(),
+                    players
+                });
+            } catch (error) {
+                log.error(`Error getting world status: ${error}`);
+                response.status(500).json({
+                    status: 'error',
+                    message: 'Internal server error'
+                });
+            }
+        });
+
         // AI Agent API endpoints
         this.handleAIAgentRoutes(router);
     }
@@ -211,6 +262,114 @@ export default class API {
 
                 // Store the player reference for future API calls
                 this.aiAgents[token] = connection.player;
+
+                // Auto-initialize new/low-level characters with high skills and equipment
+                const player = connection.player;
+                const currentCombatLevel = player.skills.getCombatLevel();
+
+                if (currentCombatLevel < 200) {
+                    log.info(`Auto-initializing character ${username} (combat level ${currentCombatLevel})`);
+
+                    try {
+                        // --- Set ALL skills to level 45 ---
+                        const allSkills = [
+                            Modules.Skills.Accuracy,
+                            Modules.Skills.Strength,
+                            Modules.Skills.Defense,
+                            Modules.Skills.Health,
+                            Modules.Skills.Magic,
+                            Modules.Skills.Archery,
+                            Modules.Skills.Lumberjacking,
+                            Modules.Skills.Mining,
+                            Modules.Skills.Fishing,
+                            Modules.Skills.Cooking,
+                            Modules.Skills.Smithing,
+                            Modules.Skills.Crafting,
+                            Modules.Skills.Fletching,
+                            Modules.Skills.Smelting,
+                            Modules.Skills.Foraging
+                        ];
+
+                        const targetLevel = 45;
+
+                        for (const skillType of allSkills) {
+                            const skill = player.skills.get(skillType);
+                            if (!skill) continue;
+
+                            const experience = Formulas.LevelExp[targetLevel] || 0;
+                            skill.setExperience(experience);
+                        }
+
+                        // Update Health HP and Magic Mana
+                        const healthSkill = player.skills.get(Modules.Skills.Health);
+                        if (healthSkill) {
+                            const newMaxHP = Formulas.getMaxHitPoints(healthSkill.level);
+                            player.hitPoints.setMaxHitPoints(newMaxHP);
+                            player.hitPoints.setHitPoints(newMaxHP);
+                        }
+
+                        const magicSkill = player.skills.get(Modules.Skills.Magic);
+                        if (magicSkill) {
+                            const newMaxMana = Formulas.getMaxMana(magicSkill.level);
+                            player.mana.setMaxMana(newMaxMana);
+                            player.mana.setMana(newMaxMana);
+                        }
+
+                        // Update overall combat level
+                        player.level = player.skills.getCombatLevel();
+                        player.skills.sync();
+
+                        // --- Equip good gear ---
+                        // Equipment enum: Armour(0), Boots(1), Pendant(2), Ring(3), Weapon(4), Arrows(5)
+                        const equipmentSetup: { type: number; key: string; count: number }[] = [
+                            { type: Modules.Equipment.Weapon, key: 'bastardsword', count: 1 },
+                            { type: Modules.Equipment.Armour, key: 'whitearmor', count: 1 },
+                            { type: Modules.Equipment.Boots, key: 'lavaboots', count: 1 },
+                            { type: Modules.Equipment.Ring, key: 'pytharring', count: 1 },
+                            { type: Modules.Equipment.Pendant, key: 'rubypendant', count: 1 },
+                            { type: Modules.Equipment.Arrows, key: 'pythararrow', count: 100 }
+                        ];
+
+                        for (const equip of equipmentSetup) {
+                            try {
+                                const item = new Item(equip.key, -1, -1, false, equip.count);
+                                if (item.exists) {
+                                    const slot = player.equipment.get(equip.type);
+                                    if (slot) slot.update(item);
+                                }
+                            } catch (e) {
+                                log.debug(`Could not equip ${equip.key}: ${e}`);
+                            }
+                        }
+
+                        // --- Add useful inventory items ---
+                        const inventoryItems = [
+                            { key: 'rosebow', count: 1 },
+                            { key: 'pythararrow', count: 100 },
+                            { key: 'icestaff', count: 1 },
+                            { key: 'flask', count: 15 },
+                            { key: 'apple', count: 15 },
+                            { key: 'pickaxe', count: 1 },
+                            { key: 'axe', count: 1 }
+                        ];
+
+                        for (const inv of inventoryItems) {
+                            try {
+                                const item = new Item(inv.key, -1, -1, false, inv.count);
+                                if (item.exists) player.inventory.add(item);
+                            } catch (e) {
+                                log.debug(`Could not add ${inv.key}: ${e}`);
+                            }
+                        }
+
+                        player.save();
+                        player.sync();
+                        log.info(`Auto-initialization complete for ${username} — combat level: ${player.level}`);
+                    } catch (initError) {
+                        log.error(`Auto-initialization failed for ${username}: ${initError}`);
+                        // Non-fatal — player can still play, just without the boost
+                    }
+                }
 
                 response.json({
                     status: 'success',
