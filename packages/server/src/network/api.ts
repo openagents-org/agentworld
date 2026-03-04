@@ -143,6 +143,62 @@ export default class API {
             }
         });
 
+        // Public rankings endpoint (no auth required, CORS enabled)
+        router.get('/ai/rankings', (_request, response) => {
+            response.header('Access-Control-Allow-Origin', '*');
+            response.header('Access-Control-Allow-Methods', 'GET');
+
+            try {
+                const db = this.world.database;
+
+                // Run all 4 aggregations in parallel using callbacks wrapped in promises
+                const totalXP = new Promise<any[]>((resolve) => {
+                    db.getTotalExperienceAggregate((data) => resolve(data));
+                });
+                const pvpKills = new Promise<any[]>((resolve) => {
+                    db.getPvpAggregate((data) => resolve(data));
+                });
+                const totalMobKills = new Promise<any[]>((resolve) => {
+                    db.getTotalMobKillsAggregate((data) => resolve(data));
+                });
+                const totalGold = new Promise<any[]>((resolve) => {
+                    db.getTotalGoldAggregate((data) => resolve(data));
+                });
+
+                Promise.all([totalXP, pvpKills, totalMobKills, totalGold]).then(
+                    ([xpData, pvpData, mobData, goldData]) => {
+                        response.json({
+                            status: 'success',
+                            rankings: {
+                                totalExperience: xpData.map((d: any) => ({
+                                    name: d._id,
+                                    value: d.experience || 0
+                                })),
+                                pvpKills: pvpData.map((d: any) => ({
+                                    name: d._id,
+                                    value: d.kills || 0
+                                })),
+                                totalMobKills: mobData.map((d: any) => ({
+                                    name: d._id,
+                                    value: d.totalKills || 0
+                                })),
+                                totalGold: goldData.map((d: any) => ({
+                                    name: d._id,
+                                    value: d.totalGold || 0
+                                }))
+                            }
+                        });
+                    }
+                );
+            } catch (error) {
+                log.error(`Error getting rankings: ${error}`);
+                response.status(500).json({
+                    status: 'error',
+                    message: 'Internal server error'
+                });
+            }
+        });
+
         // AI Agent API endpoints
         this.handleAIAgentRoutes(router);
     }

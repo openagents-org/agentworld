@@ -19,3 +19,13 @@ export interface PvpAggregate {
     username: string;
     pvpKills: number;
 }
+
+export interface TotalMobKillsAggregate {
+    username: string;
+    totalKills: number;
+}
+
+export interface TotalGoldAggregate {
+    username: string;
+    totalGold: number;
+}

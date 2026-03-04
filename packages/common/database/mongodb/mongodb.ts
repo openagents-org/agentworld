@@ -15,7 +15,9 @@ import type {
     MobAggregate,
     PvpAggregate,
     SkillExperience,
-    TotalExperience
+    TotalExperience,
+    TotalMobKillsAggregate,
+    TotalGoldAggregate
 } from '@kaetram/common/types/leaderboards';
 
 export default class MongoDB {
@@ -369,6 +371,67 @@ export default class MongoDB {
         ])
             .toArray()
             .then((data) => callback(data as PvpAggregate[]));
+    }
+
+    /**
+     * Aggregates total mob kills across all mob types per player.
+     * @param callback Contains aggregate data for total mob kills.
+     */
+
+    public getTotalMobKillsAggregate(callback: (data: TotalMobKillsAggregate[]) => void): void {
+        if (!this.hasDatabase()) return;
+
+        let stats = this.database.collection('player_statistics');
+
+        stats.aggregate([
+            {
+                $project: {
+                    username: 1,
+                    cheater: 1,
+                    killsArray: { $objectToArray: { $ifNull: ['$mobKills', {}] } }
+                }
+            },
+            { $unwind: { path: '$killsArray', preserveNullAndEmptyArrays: true } },
+            {
+                $group: {
+                    _id: '$username',
+                    totalKills: { $sum: { $ifNull: ['$killsArray.v', 0] } },
+                    cheater: { $first: '$cheater' }
+                }
+            },
+            { $match: { totalKills: { $gt: 0 } } },
+            { $sort: { totalKills: -1 } },
+            { $limit: 150 }
+        ])
+            .toArray()
+            .then((data) => callback(data as TotalMobKillsAggregate[]));
+    }
+
+    /**
+     * Aggregates total gold from player inventories.
+     * @param callback Contains aggregate data for total gold.
+     */
+
+    public getTotalGoldAggregate(callback: (data: TotalGoldAggregate[]) => void): void {
+        if (!this.hasDatabase()) return;
+
+        let inventory = this.database.collection('player_inventory');
+
+        inventory.aggregate([
+            { $unwind: '$slots' },
+            { $match: { 'slots.key': 'gold' } },
+            {
+                $group: {
+                    _id: '$username',
+                    totalGold: { $sum: '$slots.count' }
+                }
+            },
+            { $match: { totalGold: { $gt: 0 } } },
+            { $sort: { totalGold: -1 } },
+            { $limit: 150 }
+        ])
+            .toArray()
+            .then((data) => callback(data as TotalGoldAggregate[]));
     }
 
     /**
