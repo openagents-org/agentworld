@@ -63,7 +63,7 @@ max_action_steps: 42
 
 # Agent configurations
 agent_1:
-  username: "goldminer_agent"
+  username: "t49_goldminer_agent"
   new_character: true
 
   location:
@@ -93,7 +93,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "ironminer_agent"
+  username: "t49_ironminer_agent"
   new_character: true
 
   location:
@@ -123,7 +123,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "coalminer_agent"
+  username: "t49_coalminer_agent"
   new_character: true
 
   location:
@@ -153,7 +153,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "smelter_agent"
+  username: "t49_smelter_agent"
   new_character: true
 
   location:
@@ -180,7 +180,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "jeweler_agent"
+  username: "t49_jeweler_agent"
   new_character: true
 
   location:

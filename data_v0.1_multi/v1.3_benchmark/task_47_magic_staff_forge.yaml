@@ -66,7 +66,7 @@ max_action_steps: 45
 
 # Agent configurations
 agent_1:
-  username: "lumberjack1_agent"
+  username: "t47_lumberjack1_agent"
   new_character: true
 
   location:
@@ -96,7 +96,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "lumberjack2_agent"
+  username: "t47_lumberjack2_agent"
   new_character: true
 
   location:
@@ -126,7 +126,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "fletcher_agent"
+  username: "t47_fletcher_agent"
   new_character: true
 
   location:
@@ -153,7 +153,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "crafter1_agent"
+  username: "t47_crafter1_agent"
   new_character: true
 
   location:
@@ -184,7 +184,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "crafter2_agent"
+  username: "t47_crafter2_agent"
   new_character: true
 
   location:

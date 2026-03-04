@@ -78,7 +78,7 @@ max_action_steps: 25
 
 # Agent configurations
 agent_1:
-  username: "miner_agent"
+  username: "t06_miner_agent"
   new_character: true
   
   location:
@@ -116,7 +116,7 @@ agent_1:
       enchant: 0
   
 agent_2:
-  username: "smelter_agent"
+  username: "t06_smelter_agent"
   new_character: true
   
   location:
@@ -145,7 +145,7 @@ agent_2:
       enchant: 0
   
 agent_3:
-  username: "weapon_smith_agent"
+  username: "t06_weapon_smith_agent"
   new_character: true
   
   location:

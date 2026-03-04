@@ -96,7 +96,7 @@ max_action_steps: 50
 
 # Agent configurations
 agent_1:
-  username: "caravan_leader_agent"
+  username: "t26_caravan_leader_agent"
   new_character: true
 
   location:
@@ -133,7 +133,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "desert_trader_agent"
+  username: "t26_desert_trader_agent"
   new_character: true
 
   location:
@@ -166,7 +166,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "resource_gatherer_agent"
+  username: "t26_resource_gatherer_agent"
   new_character: true
 
   location:

@@ -78,7 +78,7 @@ max_action_steps: 25
 
 # Agent configurations
 agent_1:
-  username: "container_crafter_agent"
+  username: "t10_container_crafter_agent"
   new_character: true
   
   location:
@@ -109,7 +109,7 @@ agent_1:
       enchant: 0
   
 agent_2:
-  username: "ingredient_gatherer_agent"
+  username: "t10_ingredient_gatherer_agent"
   new_character: true
 
   location:
@@ -140,7 +140,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "chef_agent"
+  username: "t10_chef_agent"
   new_character: true
   
   location:

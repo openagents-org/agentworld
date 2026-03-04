@@ -80,7 +80,7 @@ max_action_steps: 32
 
 # Agent configurations
 agent_1:
-  username: "gold_miner_agent"
+  username: "t38_gold_miner_agent"
   new_character: true
 
   location:
@@ -110,7 +110,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "smith_agent"
+  username: "t38_smith_agent"
   new_character: true
 
   location:
@@ -141,7 +141,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "coal_miner_agent"
+  username: "t38_coal_miner_agent"
   new_character: true
 
   location:

@@ -86,7 +86,7 @@ max_action_steps: 30
 
 # Agent configurations
 agent_1:
-  username: "ore_prospector_agent"
+  username: "t21_ore_prospector_agent"
   new_character: true
   
   location:
@@ -120,7 +120,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "fuel_gatherer_agent"
+  username: "t21_fuel_gatherer_agent"
   new_character: true
   
   location:
@@ -150,7 +150,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "master_smith_agent"
+  username: "t21_master_smith_agent"
   new_character: true
   
   location:

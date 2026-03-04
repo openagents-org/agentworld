@@ -14,19 +14,19 @@ relevant_game_context: |
   - Seven merchants must gather their specialties, trade them at the guild hall (528,384), then craft the showcase set by Round 53: 4 golden items (sword, bow, boots, ring), 3 elemental staffs, and 2 iron weapons (pickaxe + heavy sword). Gathering is decentralized (mountains/forest/plains), while smelting and high-level crafting happen at the hub.
 
   ROLE CHECKLIST
-  1. Gold_Baron mines 47 gold ore (goldnugget); Coal_Magnate mines 7 coal (only needed for iron bars); Iron_Trader mines 7 iron ore. All operate around (230–240, 38–42) and keep a running count in chat.
-  2. Timber_Merchant collects 8 logs + 10 string in the western forest (~250,350). Mystic_Collector forages/hunts for 3 regular beads plus lightning/fire/ice beads near (350,250).
-  3. Master_Smelter and Guild_Master stay at the hall preparing inventories, hilts, and crafting plans.
+  1. t59_Gold_Baron mines 47 gold ore (goldnugget); t59_Coal_Magnate mines 7 coal (only needed for iron bars); t59_Iron_Trader mines 7 iron ore. All operate around (230–240, 38–42) and keep a running count in chat.
+  2. t59_Timber_Merchant collects 8 logs + 10 string in the western forest (~250,350). t59_Mystic_Collector forages/hunts for 3 regular beads plus lightning/fire/ice beads near (350,250).
+  3. t59_Master_Smelter and t59_Guild_Master stay at the hall preparing inventories, hilts, and crafting plans.
 
   PHASE FLOW
   - Act 1 (R1-15) Specialization: each merchant focuses on their quota, announcing progress and verifying inventories.
-  - Act 2 (R16-30) Trading: everyone marches to the hall using ≤32-tile moves, then transfers resources to Smelter (ores/logs) and Guild_Master (strings/beads/hilts) via transfer_items with verify_inventory confirmations. Smelting of gold begins immediately even if not yet finished.
-  - Act 3 (R31-45) Crafting: Master_Smelter smiths 47 gold bars (using Smithing, no coal needed) and smelts 7 iron bars (using Smelting with coal), while Guild_Master turns logs → sticks → staffs and upgrades them with the special beads. Finish intermediate items (gold rings, pickaxe, sword2) as soon as bars exist.
-  - Act 4 (R46-53) Exhibition: Guild_Master crafts the golden sword/bow/boots/ring, completes lightning/fire/ice staffs, and finalizes pickaxe + heavy sword. Everyone confirms holdings before the leader calls complete().
+  - Act 2 (R16-30) Trading: everyone marches to the hall using ≤32-tile moves, then transfers resources to Smelter (ores/logs) and t59_Guild_Master (strings/beads/hilts) via transfer_items with verify_inventory confirmations. Smelting of gold begins immediately even if not yet finished.
+  - Act 3 (R31-45) Crafting: t59_Master_Smelter smiths 47 gold bars (using Smithing, no coal needed) and smelts 7 iron bars (using Smelting with coal), while t59_Guild_Master turns logs → sticks → staffs and upgrades them with the special beads. Finish intermediate items (gold rings, pickaxe, sword2) as soon as bars exist.
+  - Act 4 (R46-53) Exhibition: t59_Guild_Master crafts the golden sword/bow/boots/ring, completes lightning/fire/ice staffs, and finalizes pickaxe + heavy sword. Everyone confirms holdings before the leader calls complete().
 
   EXECUTION NOTES
   - If observe_environment is unavailable, sweep the specified coordinate bands and rely on harvest_resource feedback plus verify_inventory counts.
-  - Keep the trade order disciplined: ores → Smelter first, utility materials → Guild_Master second. Use chat threads like “Gold 30/47”, “Coal delivery next round” to avoid confusion.
+  - Keep the trade order disciplined: ores → Smelter first, utility materials → t59_Guild_Master second. Use chat threads like “Gold 30/47”, “Coal delivery next round” to avoid confusion.
   - Smithing 47 gold bars: use craft_item(Smithing, goldbar) which converts goldnugget directly to gold bars WITHOUT coal. Post milestones every 10 bars so craft planning stays aligned.
 
   ITEM KEY REFERENCE (use these exact itemKey values in craft_item):
@@ -60,7 +60,7 @@ max_action_steps: 53
 
 # Agent configurations
 agent_1:
-  username: "Gold_Baron"
+  username: "t59_Gold_Baron"
   new_character: true
 
   location:
@@ -87,7 +87,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "Coal_Magnate"
+  username: "t59_Coal_Magnate"
   new_character: true
 
   location:
@@ -114,7 +114,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "Iron_Trader"
+  username: "t59_Iron_Trader"
   new_character: true
 
   location:
@@ -143,7 +143,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "Timber_Merchant"
+  username: "t59_Timber_Merchant"
   new_character: true
 
   location:
@@ -171,7 +171,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "Mystic_Collector"
+  username: "t59_Mystic_Collector"
   new_character: true
 
   location:
@@ -200,7 +200,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "Master_Smelter"
+  username: "t59_Master_Smelter"
   new_character: true
 
   location:
@@ -225,7 +225,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "Guild_Master"
+  username: "t59_Guild_Master"
   new_character: true
 
   location:

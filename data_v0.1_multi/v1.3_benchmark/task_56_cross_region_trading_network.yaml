@@ -20,35 +20,35 @@ relevant_game_context: |
   - TOTAL NEEDED: 14 ironbar, 2 logs, 1 hilt2
 
   STARTING MATERIALS DISTRIBUTION
-  - Mountain_Miner_1: 5 ironbar
-  - Mountain_Miner_2: 5 ironbar
-  - Crafter_Gold: 4 ironbar, 2 hilt2
+  - t56_Mountain_Miner_1: 5 ironbar
+  - t56_Mountain_Miner_2: 5 ironbar
+  - t56_Crafter_Gold: 4 ironbar, 2 hilt2
   - TOTAL AVAILABLE: 14 ironbar, 2 hilt2 (logs must be gathered)
 
   PHASE OUTLINE
   1. R1-12 Gather & Explore
      - Forest pair: Harvest 4+ logs from Western Forest (around 250,350) using lumberjacking
      - Mountain pair: Explore Northern Mountain region (around 500,100), verify ironbar inventory
-     - Coastal_Forager: Explore Eastern Coast (around 900,400), scout the area
+     - t56_Coastal_Forager: Explore Eastern Coast (around 900,400), scout the area
      - Crafters: Prepare at starting location, coordinate via chat
 
   2. R13-25 Travel + Transfers
      - All teams move toward Central Hub (528,384) using ≤32 tiles per move
      - Post coordinates in chat after each major move
      - Transfer order:
-       * Forest → Crafter_Gold (2 logs)
-       * Mountain_Miner_1 → Crafter_Gold (5 ironbar)
-       * Mountain_Miner_2 → Crafter_Gold (5 ironbar)
+       * Forest → t56_Crafter_Gold (2 logs)
+       * t56_Mountain_Miner_1 → t56_Crafter_Gold (5 ironbar)
+       * t56_Mountain_Miner_2 → t56_Crafter_Gold (5 ironbar)
      - Use transfer_items with verify_inventory confirmations
 
-  3. R26-40 Crafting (Crafter_Gold executes all smithing)
+  3. R26-40 Crafting (t56_Crafter_Gold executes all smithing)
      - Verify inventory: should have 14 ironbar, 2 logs, 2 hilt2
      - Craft 3x Silver Rings (craft_item skill="Smithing" itemKey="silverring" count=1, repeat 3x)
      - Craft 2x Axes (craft_item skill="Smithing" itemKey="axe" count=1, repeat 2x)
      - Craft 1x Heavy Sword (craft_item skill="Smithing" itemKey="sword2")
 
   4. R41-50 Verification & Distribution
-     - Crafter_Gold verifies: 3 silverring, 2 axe, 1 sword2 in inventory
+     - t56_Crafter_Gold verifies: 3 silverring, 2 axe, 1 sword2 in inventory
      - Optionally distribute items to team members
      - All agents report final status via chat
      - Leader calls complete() with summary
@@ -58,7 +58,7 @@ relevant_game_context: |
   - All movement: Use move_character with x,y coordinates within 32 tiles of current position
   - Transfers: Both players must be within proximity; use transfer_items function
   - Chat regularly to coordinate: "Forest has 3/4 logs", "Moving to (x,y)", "Transfer complete"
-  - Crafter_Gold has Smithing:35, sufficient for all recipes (max requirement is L5 for pickaxe)
+  - t56_Crafter_Gold has Smithing:35, sufficient for all recipes (max requirement is L5 for pickaxe)
 
   BIOME LOCATIONS FOR 5-REGION EXPLORATION
   1. Western Forest: (200-350, 250-450) - Log gathering
@@ -70,7 +70,7 @@ relevant_game_context: |
   COMPLETION CHECKLIST
   - 4+ logs gathered from Western Forest
   - All 7 agents visited at least 2 different biomes
-  - All ironbars consolidated with Crafter_Gold (14 total)
+  - All ironbars consolidated with t56_Crafter_Gold (14 total)
   - Crafted items verified: 3 silver rings, 2 axes, 1 heavy sword
   - Extensive chat coordination throughout all phases
   - Task completed with complete() call including phase summary
@@ -107,7 +107,7 @@ max_action_steps: 50
 
 # Agent configurations
 agent_1:
-  username: "Forest_Gatherer_1"
+  username: "t56_Forest_Gatherer_1"
   new_character: true
 
   location:
@@ -134,7 +134,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "Forest_Gatherer_2"
+  username: "t56_Forest_Gatherer_2"
   new_character: true
 
   location:
@@ -161,7 +161,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "Mountain_Miner_1"
+  username: "t56_Mountain_Miner_1"
   new_character: true
 
   location:
@@ -190,7 +190,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "Mountain_Miner_2"
+  username: "t56_Mountain_Miner_2"
   new_character: true
 
   location:
@@ -219,7 +219,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "Coastal_Forager"
+  username: "t56_Coastal_Forager"
   new_character: true
 
   location:
@@ -247,7 +247,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "Crafter_Gold"
+  username: "t56_Crafter_Gold"
   new_character: true
 
   location:
@@ -275,7 +275,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "Crafter_Magic"
+  username: "t56_Crafter_Magic"
   new_character: true
 
   location:
@@ -306,17 +306,17 @@ agent_7:
 success_criteria:
   - "Phase 1: Forest Team gathers 4+ logs from Western Forest region"
   - "Phase 1: Mountain Team explores Northern Mountain region and verifies ironbar inventory"
-  - "Phase 1: Coastal_Forager explores Eastern Coast region"
+  - "Phase 1: t56_Coastal_Forager explores Eastern Coast region"
   - "Phase 1: All teams visit at least 2 different biomes during exploration"
   - "Phase 2: All teams travel to Central Hub (528, 384) covering significant distance"
   - "Phase 2: Teams execute sequential transfer protocol without deadlocks"
-  - "Phase 2: Forest team transfers 2 logs to Crafter_Gold"
-  - "Phase 2: Mountain_Miner_1 transfers 5 ironbar to Crafter_Gold"
-  - "Phase 2: Mountain_Miner_2 transfers 5 ironbar to Crafter_Gold"
-  - "Phase 2: Crafter_Gold consolidates: 14 ironbar, 2 logs, 2 hilt2"
-  - "Phase 3: Crafter_Gold crafts exactly 3x Silver Rings (using 6 ironbar)"
-  - "Phase 3: Crafter_Gold crafts exactly 2x Axes (using 6 ironbar + 2 logs)"
-  - "Phase 3: Crafter_Gold crafts exactly 1x Heavy Sword (using 2 ironbar + 1 hilt2)"
+  - "Phase 2: Forest team transfers 2 logs to t56_Crafter_Gold"
+  - "Phase 2: t56_Mountain_Miner_1 transfers 5 ironbar to t56_Crafter_Gold"
+  - "Phase 2: t56_Mountain_Miner_2 transfers 5 ironbar to t56_Crafter_Gold"
+  - "Phase 2: t56_Crafter_Gold consolidates: 14 ironbar, 2 logs, 2 hilt2"
+  - "Phase 3: t56_Crafter_Gold crafts exactly 3x Silver Rings (using 6 ironbar)"
+  - "Phase 3: t56_Crafter_Gold crafts exactly 2x Axes (using 6 ironbar + 2 logs)"
+  - "Phase 3: t56_Crafter_Gold crafts exactly 1x Heavy Sword (using 2 ironbar + 1 hilt2)"
   - "Phase 4: Final verification confirms 3 silver rings, 2 axes, 1 heavy sword"
   - "All agents use chat extensively throughout all 4 phases for coordination"
   - "All transfers completed successfully using transfer_items function"

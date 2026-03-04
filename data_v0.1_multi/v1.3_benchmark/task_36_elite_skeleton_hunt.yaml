@@ -35,7 +35,7 @@ max_action_steps: 30
 
 # Agent configurations
 agent_1:
-  username: "warrior_agent"
+  username: "t36_warrior_agent"
   new_character: true
 
   location:
@@ -66,7 +66,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "fighter_agent"
+  username: "t36_fighter_agent"
   new_character: true
 
   location:
@@ -97,7 +97,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "gatherer_agent"
+  username: "t36_gatherer_agent"
   new_character: true
 
   location:

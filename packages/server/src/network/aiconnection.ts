@@ -121,6 +121,13 @@ export default class AIConnection {
             this.player.readyTimeout = null;
         }
 
+        // Teleport to spawn if position was never set (new character)
+        if (this.player.x <= 0 && this.player.y <= 0) {
+            let spawn = this.player.getSpawn();
+            this.player.setPosition(spawn.x, spawn.y);
+            log.info(`AI agent ${this.username} teleported to spawn (${spawn.x}, ${spawn.y})`);
+        }
+
         // Mark player as ready
         this.player.ready = true;
 
@@ -132,7 +139,7 @@ export default class AIConnection {
         this.player.updateEntities();
         this.player.updateEntityList();
 
-        log.info(`AI agent ${this.username} marked as ready`);
+        log.info(`AI agent ${this.username} marked as ready at (${this.player.x}, ${this.player.y})`);
     }
 
     /**

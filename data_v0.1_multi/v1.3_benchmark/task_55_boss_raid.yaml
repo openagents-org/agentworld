@@ -52,7 +52,7 @@ max_action_steps: 45
 
 # Agent configurations
 agent_1:
-  username: "tank_agent"
+  username: "t55_tank_agent"
   new_character: true
 
   location:
@@ -83,7 +83,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "dps_agent"
+  username: "t55_dps_agent"
   new_character: true
 
   location:
@@ -114,7 +114,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "mage_agent"
+  username: "t55_mage_agent"
   new_character: true
 
   location:
@@ -145,7 +145,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "archer_agent"
+  username: "t55_archer_agent"
   new_character: true
 
   location:
@@ -178,7 +178,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "support_agent"
+  username: "t55_support_agent"
   new_character: true
 
   location:

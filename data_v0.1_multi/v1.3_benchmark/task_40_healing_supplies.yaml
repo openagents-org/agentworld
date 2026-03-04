@@ -37,7 +37,7 @@ max_action_steps: 30
 
 # Agent configurations
 agent_1:
-  username: "fisher1_agent"
+  username: "t40_fisher1_agent"
   new_character: true
 
   location:
@@ -67,7 +67,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "fisher2_agent"
+  username: "t40_fisher2_agent"
   new_character: true
 
   location:
@@ -97,7 +97,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "cook_agent"
+  username: "t40_cook_agent"
   new_character: true
 
   location:

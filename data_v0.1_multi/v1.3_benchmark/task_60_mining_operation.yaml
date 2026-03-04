@@ -61,7 +61,7 @@ max_action_steps: 40
 
 # Agent configurations
 agent_1:
-  username: "ironminer1_agent"
+  username: "t60_ironminer1_agent"
   new_character: true
 
   location:
@@ -88,7 +88,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "ironminer2_agent"
+  username: "t60_ironminer2_agent"
   new_character: true
 
   location:
@@ -115,7 +115,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "coalminer1_agent"
+  username: "t60_coalminer1_agent"
   new_character: true
 
   location:
@@ -142,7 +142,7 @@ agent_3:
       enchant: 0
 
 agent_4:
-  username: "coalminer2_agent"
+  username: "t60_coalminer2_agent"
   new_character: true
 
   location:
@@ -169,7 +169,7 @@ agent_4:
       enchant: 0
 
 agent_5:
-  username: "lumberjack_agent"
+  username: "t60_lumberjack_agent"
   new_character: true
 
   location:
@@ -196,7 +196,7 @@ agent_5:
       enchant: 0
 
 agent_6:
-  username: "smelter_agent"
+  username: "t60_smelter_agent"
   new_character: true
 
   location:
@@ -220,7 +220,7 @@ agent_6:
       enchant: 0
 
 agent_7:
-  username: "smith_agent"
+  username: "t60_smith_agent"
   new_character: true
 
   location:

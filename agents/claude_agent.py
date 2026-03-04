@@ -4,6 +4,7 @@ Implements Function Calling using Anthropic Claude API
 """
 
 import json
+import time
 import requests
 from typing import Dict, List, Any, Optional
 from base_agent import BaseAgent
@@ -36,20 +37,25 @@ class ClaudeAgent(BaseAgent):
             "max_tokens": 4096
         }
 
-        try:
-            response = self.session.post(url, json=data, timeout=60)
-            response.raise_for_status()
-            return response.json()
-        except requests.exceptions.RequestException as e:
-            error_detail = ""
-            if hasattr(e, 'response') and e.response is not None:
-                try:
-                    error_detail = e.response.text
-                    print(f"\n❌ CLAUDE API ERROR: {e}")
-                    print(f"❌ RESPONSE BODY: {error_detail}\n")
-                except:
-                    pass
-            return {"error": f"API call failed: {str(e)} Response: {error_detail}"}
+        cnt = 0
+        last_error = None
+        while cnt < 5:
+            try:
+                response = self.session.post(url, json=data, timeout=60)
+                response.raise_for_status()
+                return response.json()
+            except requests.exceptions.RequestException as e:
+                cnt += 1
+                last_error = e
+                error_details = f"Attempt {cnt}/5 failed: {type(e).__name__}: {str(e)}"
+                status_code = None
+                if hasattr(e, 'response') and e.response is not None:
+                    status_code = e.response.status_code
+                    error_details += f" | Status: {status_code} | Body: {e.response.text[:500]}"
+                print(f"[CLAUDE API ERROR] {error_details}", flush=True)
+                time.sleep(10 * (cnt + 1))
+
+        return {"error": f"API call failed after 5 attempts: {str(last_error)}"}
     
     def _convert_claude_response_to_openai(self, claude_response: Dict[str, Any]) -> Dict[str, Any]:
         """Convert Claude response format to OpenAI format for compatibility"""

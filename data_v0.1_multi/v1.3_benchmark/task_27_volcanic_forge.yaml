@@ -97,7 +97,7 @@ max_action_steps: 35
 
 # Agent configurations
 agent_1:
-  username: "lava_navigator_agent"
+  username: "t27_lava_navigator_agent"
   new_character: true
 
   location:
@@ -136,7 +136,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "volcanic_miner_agent"
+  username: "t27_volcanic_miner_agent"
   new_character: true
 
   location:
@@ -173,7 +173,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "forge_master_agent"
+  username: "t27_forge_master_agent"
   new_character: true
 
   location:

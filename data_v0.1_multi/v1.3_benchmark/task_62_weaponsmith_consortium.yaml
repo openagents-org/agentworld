@@ -11,7 +11,7 @@ objectives:
 # Context and guidance for agents
 relevant_game_context: |
   ARSENAL PLAN
-  - Seven smiths build a 9-piece arsenal (golden sword, golden bow, 2 heavy swords, 3 battle axes, 1 wooden bow, 1 pickaxe) by Round 52. Mountain miners supply ore, forest suppliers bring logs, String_Maker brings pre-gathered string, and the central forge team smelts/crafts everything.
+  - Seven smiths build a 9-piece arsenal (golden sword, golden bow, 2 heavy swords, 3 battle axes, 1 wooden bow, 1 pickaxe) by Round 52. Mountain miners supply ore, forest suppliers bring logs, t62_String_Maker brings pre-gathered string, and the central forge team smelts/crafts everything.
 
   MATERIAL REQUIREMENTS
   - Golden Sword: 15 goldbar + 1 hilt2 (Smithing 62)
@@ -23,16 +23,16 @@ relevant_game_context: |
   TOTALS: 30 goldbar, 18 ironbar, 3 hilt2 (have 4), 7 logs, 11 string (have 12)
 
   FLOW
-  1. R1-15 Procurement: Iron_Master (20+ iron ore), Gold_Master (35+ gold ore), Coal_Master (60+ coal) mine around (550-560, 500-545) near southern ore deposits. Lumber_Jack harvests 10+ logs near (250,350). String_Maker already has 12 string and can assist with coordination. Forge team stays at (528,384) monitoring counts.
-  2. R16-28 Transport & Consolidation: all gatherers travel toward the forge in ≤32-tile hops, transferring resources via transfer_items (ores/coal → Master_Forger, logs/string → Weaponsmith). When observe_environment is unavailable, rely on grid movement plus harvest confirmations.
-  3. R29-45 Production: Master_Forger smelts ~18 iron + ~30 gold bars (announce milestones). Weaponsmith crafts in order: pickaxe, axes, wooden bow, heavy swords, golden sword, golden bow; ensure hilts/strings/logs are allocated before crafting each recipe.
+  1. R1-15 Procurement: t62_Iron_Master (20+ iron ore), t62_Gold_Master (35+ gold ore), t62_Coal_Master (60+ coal) mine around (550-560, 500-545) near southern ore deposits. t62_Lumber_Jack harvests 10+ logs near (250,350). t62_String_Maker already has 12 string and can assist with coordination. Forge team stays at (528,384) monitoring counts.
+  2. R16-28 Transport & Consolidation: all gatherers travel toward the forge in ≤32-tile hops, transferring resources via transfer_items (ores/coal → t62_Master_Forger, logs/string → t62_Weaponsmith). When observe_environment is unavailable, rely on grid movement plus harvest confirmations.
+  3. R29-45 Production: t62_Master_Forger smelts ~18 iron + ~30 gold bars (announce milestones). t62_Weaponsmith crafts in order: pickaxe, axes, wooden bow, heavy swords, golden sword, golden bow; ensure hilts/strings/logs are allocated before crafting each recipe.
   4. R46-52 Verification: verify_inventory shows every weapon, and the consortium announces "Arsenal complete" before calling complete().
 
   EXECUTION NOTES
   - Keep a shared progress log ("Gold 18/30", "Iron 10/18") so the forge can plan smelting batches.
   - If smelting lags, prioritize the bars required for non-gold weapons first so counts progress toward the objective.
   - Transfers only succeed within ~10 tiles; both parties must acknowledge receipt and run verify_inventory.
-  - Weaponsmith has 4 hilt2 but only needs 3 for the arsenal (1 golden sword + 2 heavy swords).
+  - t62_Weaponsmith has 4 hilt2 but only needs 3 for the arsenal (1 golden sword + 2 heavy swords).
 
 
   ITEM KEY REFERENCE (use these exact itemKey values in craft_item):
@@ -66,7 +66,7 @@ max_action_steps: 52
 
 # Agent configurations
 agent_1:
-  username: "Iron_Master"
+  username: "t62_Iron_Master"
   new_character: true
   location: {x: 550, y: 500}
   skill_levels: {mining: 50, strength: 32, health: 38}
@@ -78,7 +78,7 @@ agent_1:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
 agent_2:
-  username: "Gold_Master"
+  username: "t62_Gold_Master"
   new_character: true
   location: {x: 560, y: 540}
   skill_levels: {mining: 45, strength: 30, health: 36}
@@ -90,7 +90,7 @@ agent_2:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
 agent_3:
-  username: "Coal_Master"
+  username: "t62_Coal_Master"
   new_character: true
   location: {x: 555, y: 545}
   skill_levels: {mining: 35, strength: 28, health: 34}
@@ -102,7 +102,7 @@ agent_3:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
 agent_4:
-  username: "Lumber_Jack"
+  username: "t62_Lumber_Jack"
   new_character: true
   location: {x: 250, y: 350}
   skill_levels: {lumberjacking: 45, strength: 30, health: 32}
@@ -114,7 +114,7 @@ agent_4:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
 agent_5:
-  username: "String_Maker"
+  username: "t62_String_Maker"
   new_character: true
   location: {x: 252, y: 352}
   skill_levels: {foraging: 35, crafting: 25, health: 30}
@@ -126,7 +126,7 @@ agent_5:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
 agent_6:
-  username: "Master_Forger"
+  username: "t62_Master_Forger"
   new_character: true
   location: {x: 528, y: 384}
   skill_levels: {crafting: 60, smithing: 40, smelting: 50, health: 32}
@@ -137,7 +137,7 @@ agent_6:
     - {item: "leatherarmor", count: 1, enchant: 0}
 
 agent_7:
-  username: "Weaponsmith"
+  username: "t62_Weaponsmith"
   new_character: true
   location: {x: 530, y: 386}
   skill_levels: {smithing: 65, fletching: 45, crafting: 35, health: 34}
@@ -157,11 +157,11 @@ success_criteria:
   - "Forge 2: All materials consolidated at Central Forge"
   - "Forge 3: Master Forger smelts 18+ iron bars"
   - "Forge 3: Master Forger smelts 30+ gold bars"
-  - "Forge 3: Weaponsmith crafts Golden Sword (1)"
-  - "Forge 3: Weaponsmith crafts Golden Bow (1)"
-  - "Forge 3: Weaponsmith crafts Heavy Swords (2)"
-  - "Forge 3: Weaponsmith crafts Battle Axes (3)"
-  - "Forge 3: Weaponsmith crafts Wooden Bow (1)"
-  - "Forge 3: Weaponsmith crafts Pickaxe (1)"
+  - "Forge 3: t62_Weaponsmith crafts Golden Sword (1)"
+  - "Forge 3: t62_Weaponsmith crafts Golden Bow (1)"
+  - "Forge 3: t62_Weaponsmith crafts Heavy Swords (2)"
+  - "Forge 3: t62_Weaponsmith crafts Battle Axes (3)"
+  - "Forge 3: t62_Weaponsmith crafts Wooden Bow (1)"
+  - "Forge 3: t62_Weaponsmith crafts Pickaxe (1)"
   - "Total 9 weapons forged"
   - "Complete arsenal in 50-52 rounds"

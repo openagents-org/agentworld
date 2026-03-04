@@ -57,7 +57,7 @@ max_action_steps: 25
 
 # Agent configurations
 agent_1:
-  username: "orchard_guardian_agent"
+  username: "t20_orchard_guardian_agent"
   new_character: true
 
   location:
@@ -90,7 +90,7 @@ agent_1:
 
 
 agent_2:
-  username: "berry_picker_agent"
+  username: "t20_berry_picker_agent"
   new_character: true
 
   location:
@@ -117,7 +117,7 @@ agent_2:
 
 
 agent_3:
-  username: "pond_fisher_agent"
+  username: "t20_pond_fisher_agent"
   new_character: true
 
   location:

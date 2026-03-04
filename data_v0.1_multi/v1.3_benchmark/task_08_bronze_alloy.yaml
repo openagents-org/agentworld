@@ -75,7 +75,7 @@ max_action_steps: 25
 
 # Agent configurations
 agent_1:
-  username: "copper_miner_agent"
+  username: "t08_copper_miner_agent"
   new_character: true
   
   location:
@@ -109,7 +109,7 @@ agent_1:
       enchant: 0
   
 agent_2:
-  username: "tin_miner_agent"
+  username: "t08_tin_miner_agent"
   new_character: true
   
   location:
@@ -139,7 +139,7 @@ agent_2:
       enchant: 0
   
 agent_3:
-  username: "alloy_smith_agent"
+  username: "t08_alloy_smith_agent"
   new_character: true
   
   location:

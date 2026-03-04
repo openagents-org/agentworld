@@ -71,7 +71,7 @@ max_action_steps: 35
 
 # Agent configurations
 agent_1:
-  username: "coal_miner_agent"
+  username: "t41_coal_miner_agent"
   new_character: true
 
   location:
@@ -101,7 +101,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "smith_agent"
+  username: "t41_smith_agent"
   new_character: true
 
   location:
@@ -134,7 +134,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "lumberjack_agent"
+  username: "t41_lumberjack_agent"
   new_character: true
 
   location:

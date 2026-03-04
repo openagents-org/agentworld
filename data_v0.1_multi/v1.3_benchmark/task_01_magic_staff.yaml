@@ -78,7 +78,7 @@ max_action_steps: 25
 
 # Agent configurations
 agent_1:
-  username: "lumberjack_agent"
+  username: "t01_lumberjack_agent"
   new_character: true
   
   # Starting location - near oak trees for tree cutting
@@ -112,7 +112,7 @@ agent_1:
 
 
 agent_2:
-  username: "woodworker_agent"
+  username: "t01_woodworker_agent"
   new_character: true
   
   # Starting location - near oak trees for coordination
@@ -144,7 +144,7 @@ agent_2:
 
 
 agent_3:
-  username: "wizard_agent"
+  username: "t01_wizard_agent"
   new_character: true
   
   # Starting location - near team for coordination

@@ -74,7 +74,7 @@ max_action_steps: 25
 
 # Agent configurations
 agent_1:
-  username: "staff_crafter_agent"
+  username: "t11_staff_crafter_agent"
   new_character: true
 
   location:
@@ -108,7 +108,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "elemental_gatherer_agent"
+  username: "t11_elemental_gatherer_agent"
   new_character: true
 
   location:
@@ -138,7 +138,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "magic_enhancer_agent"
+  username: "t11_magic_enhancer_agent"
   new_character: true
 
   location:

@@ -69,7 +69,7 @@ max_action_steps: 35
 
 # Agent configurations
 agent_1:
-  username: "ruins_explorer_agent"
+  username: "t24_ruins_explorer_agent"
   new_character: true
 
   location:
@@ -106,7 +106,7 @@ agent_1:
       enchant: 3
 
 agent_2:
-  username: "guardian_slayer_agent"
+  username: "t24_guardian_slayer_agent"
   new_character: true
 
   location:
@@ -145,7 +145,7 @@ agent_2:
       enchant: 5
 
 agent_3:
-  username: "artifact_hunter_agent"
+  username: "t24_artifact_hunter_agent"
   new_character: true
 
   location:

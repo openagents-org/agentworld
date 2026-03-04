@@ -36,7 +36,7 @@ relevant_game_context: "This is a cooperative multi-agent coastal protection sce
   \ Wolves (Level 55) patrol this area - guardian MUST protect ice_logger!\n"
 max_action_steps: 25
 agent_1:
-  username: coastal_guardian_agent
+  username: "t18_coastal_guardian_agent"
   new_character: true
   location:
     x: 683
@@ -65,7 +65,7 @@ agent_1:
     count: 1
     enchant: 0
 agent_2:
-  username: shrimp_fisher_agent
+  username: "t18_shrimp_fisher_agent"
   new_character: true
   location:
     x: 683
@@ -89,7 +89,7 @@ agent_2:
     count: 1
     enchant: 0
 agent_3:
-  username: ice_logger_agent
+  username: "t18_ice_logger_agent"
   new_character: true
   location:
     x: 649

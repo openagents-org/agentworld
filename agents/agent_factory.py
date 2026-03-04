@@ -9,6 +9,7 @@ from qwen_agent import QwenAgent
 from openai_agent import OpenAIAgent
 from claude_agent import ClaudeAgent
 from deepseek_agent import DeepSeekAgent
+from gemini_agent import GeminiAgent
 
 
 class AgentFactory:
@@ -19,7 +20,8 @@ class AgentFactory:
         "openai": "OpenAI (GPT-4, GPT-3.5, etc.)",
         "claude": "Anthropic Claude",
         "deepseek": "DeepSeek",
-        "deepseek_local": "DeepSeek (Local vLLM)"
+        "deepseek_local": "DeepSeek (Local vLLM)",
+        "gemini": "Google Gemini"
     }
     
     @classmethod
@@ -81,6 +83,12 @@ class AgentFactory:
             default_model = model or "deepseek-chat"
             return DeepSeekAgent(api_key=api_key, model=default_model, username=username, password=password, base_url=base_url, dump_prompts=dump_prompts)
         
+        elif provider == "gemini":
+            if not api_key:
+                raise ValueError("Gemini API key is required for Gemini provider")
+            default_model = model or "gemini-3-flash-preview"
+            return GeminiAgent(api_key=api_key, model=default_model, username=username, password=password, base_url=base_url, dump_prompts=dump_prompts)
+
         elif provider == "deepseek_local":
             # Lazy import to avoid requiring vllm when not using local model
             from deepseek_local_agent import DeepSeekLocalAgent
@@ -117,7 +125,8 @@ class AgentFactory:
             "openai": "gpt-4o",
             "claude": "claude-3-5-sonnet-20241022",
             "deepseek": "deepseek-chat",
-            "deepseek_local": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B"
+            "deepseek_local": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
+            "gemini": "gemini-3-flash-preview"
         }
     
     @classmethod

@@ -78,7 +78,7 @@ max_action_steps: 25
 
 # Agent configurations
 agent_1:
-  username: "gem_miner_agent"
+  username: "t09_gem_miner_agent"
   new_character: true
   
   location:
@@ -114,7 +114,7 @@ agent_1:
       enchant: 0
   
 agent_2:
-  username: "gold_smith_agent"
+  username: "t09_gold_smith_agent"
   new_character: true
   
   location:
@@ -149,7 +149,7 @@ agent_2:
       enchant: 0
   
 agent_3:
-  username: "luxury_jeweler_agent"
+  username: "t09_luxury_jeweler_agent"
   new_character: true
   
   location:

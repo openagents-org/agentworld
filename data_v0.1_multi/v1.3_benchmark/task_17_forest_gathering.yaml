@@ -30,7 +30,7 @@ relevant_game_context: "This is a cooperative multi-agent forest protection scen
   \ Look for \"Peach\" trees, NOT other fruit trees!\n"
 max_action_steps: 25
 agent_1:
-  username: forest_guardian_agent
+  username: "t17_forest_guardian_agent"
   new_character: true
   location:
     x: 20
@@ -57,7 +57,7 @@ agent_1:
     count: 1
     enchant: 0
 agent_2:
-  username: palm_logger_agent
+  username: "t17_palm_logger_agent"
   new_character: true
   location:
     x: 22
@@ -81,7 +81,7 @@ agent_2:
     count: 1
     enchant: 0
 agent_3:
-  username: peach_forager_agent
+  username: "t17_peach_forager_agent"
   new_character: true
   location:
     x: 924

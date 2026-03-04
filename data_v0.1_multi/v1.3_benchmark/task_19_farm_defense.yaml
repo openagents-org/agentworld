@@ -57,7 +57,7 @@ max_action_steps: 25
 
 # Agent configurations
 agent_1:
-  username: "farm_guardian_agent"
+  username: "t19_farm_guardian_agent"
   new_character: true
 
   location:
@@ -90,7 +90,7 @@ agent_1:
 
 
 agent_2:
-  username: "corn_harvester_agent"
+  username: "t19_corn_harvester_agent"
   new_character: true
 
   location:
@@ -117,7 +117,7 @@ agent_2:
 
 
 agent_3:
-  username: "tomato_gatherer_agent"
+  username: "t19_tomato_gatherer_agent"
   new_character: true
 
   location:

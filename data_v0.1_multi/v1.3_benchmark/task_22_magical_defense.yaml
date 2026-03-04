@@ -95,7 +95,7 @@ max_action_steps: 35
 
 # Agent configurations
 agent_1:
-  username: "woodcutter_agent"
+  username: "t22_woodcutter_agent"
   new_character: true
 
   location:
@@ -126,7 +126,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "staff_crafter_agent"
+  username: "t22_staff_crafter_agent"
   new_character: true
 
   location:
@@ -162,7 +162,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "battle_mage_agent"
+  username: "t22_battle_mage_agent"
   new_character: true
 
   location:

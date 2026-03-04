@@ -35,7 +35,7 @@ max_action_steps: 25
 
 # Agent configurations
 agent_1:
-  username: "tank_agent"
+  username: "t35_tank_agent"
   new_character: true
 
   location:
@@ -66,7 +66,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "dps_agent"
+  username: "t35_dps_agent"
   new_character: true
 
   location:
@@ -97,7 +97,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "ranger_agent"
+  username: "t35_ranger_agent"
   new_character: true
 
   location:

@@ -35,7 +35,7 @@ max_action_steps: 30
 
 # Agent configurations
 agent_1:
-  username: "hunter_agent"
+  username: "t32_hunter_agent"
   new_character: true
 
   location:
@@ -66,7 +66,7 @@ agent_1:
       enchant: 0
 
 agent_2:
-  username: "gatherer_agent"
+  username: "t32_gatherer_agent"
   new_character: true
 
   location:
@@ -97,7 +97,7 @@ agent_2:
       enchant: 0
 
 agent_3:
-  username: "support_agent"
+  username: "t32_support_agent"
   new_character: true
 
   location:

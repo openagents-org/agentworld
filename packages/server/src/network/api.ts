@@ -167,25 +167,18 @@ export default class API {
 
                 Promise.all([totalXP, pvpKills, totalMobKills, totalGold]).then(
                     ([xpData, pvpData, mobData, goldData]) => {
+                        const mapEntries = (data: any[], valueField: string) =>
+                            data
+                                .map((d: any) => ({ name: d._id, value: d[valueField] || 0 }))
+                                .filter((e: any) => e.value > 0);
+
                         response.json({
                             status: 'success',
                             rankings: {
-                                totalExperience: xpData.map((d: any) => ({
-                                    name: d._id,
-                                    value: d.experience || 0
-                                })),
-                                pvpKills: pvpData.map((d: any) => ({
-                                    name: d._id,
-                                    value: d.kills || 0
-                                })),
-                                totalMobKills: mobData.map((d: any) => ({
-                                    name: d._id,
-                                    value: d.totalKills || 0
-                                })),
-                                totalGold: goldData.map((d: any) => ({
-                                    name: d._id,
-                                    value: d.totalGold || 0
-                                }))
+                                totalExperience: mapEntries(xpData, 'experience'),
+                                pvpKills: mapEntries(pvpData, 'kills'),
+                                totalMobKills: mapEntries(mobData, 'totalKills'),
+                                totalGold: mapEntries(goldData, 'totalGold')
                             }
                         });
                     }
