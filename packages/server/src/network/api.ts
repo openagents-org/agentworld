@@ -348,7 +348,8 @@ export default class API {
                             { key: 'pythararrow', count: 100 },
                             { key: 'icestaff', count: 1 },
                             { key: 'flask', count: 15 },
-                            { key: 'apple', count: 15 },
+                            { key: 'bigflask', count: 10 },
+                            { key: 'manaflask', count: 10 },
                             { key: 'pickaxe', count: 1 },
                             { key: 'axe', count: 1 }
                         ];
