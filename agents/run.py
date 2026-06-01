@@ -38,6 +38,7 @@ from agent_factory import AgentFactory
 from console import GameConsole
 from config import MASTER_PASSWORD
 from base_agent import BaseAgent
+from experiment import ExperimentConfig, RandomAgentPolicy, DEFAULT_MAX_ROUNDS
 
 
 class ConfigurableAgent:
@@ -107,6 +108,8 @@ class TaskConfig:
     agents: Dict[str, Dict[str, Any]]
     success_criteria: List[str]
     relevant_game_context: Optional[str] = None
+    rounds: Optional[int] = None
+    shared_plan: Optional[str] = None
 
 
 @dataclass
@@ -350,10 +353,11 @@ class SplitScreenDisplay:
 class TaskRunner:
     """Main task runner class"""
     
-    def __init__(self, agent_config_path: str, output_dir: str, use_split_screen: bool = True, dump_prompts: bool = False):
+    def __init__(self, agent_config_path: str, output_dir: str, use_split_screen: bool = True, dump_prompts: bool = False, experiment: Optional[ExperimentConfig] = None):
         """Initialize the task runner"""
         self.agent_config_path = agent_config_path
         self.dump_prompts = dump_prompts
+        self.experiment = experiment or ExperimentConfig()
         
         # Create a unique run folder for this execution
         self.run_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -445,7 +449,9 @@ class TaskRunner:
                 max_action_steps=config_data.get('max_action_steps', 100),
                 agents=agents,
                 success_criteria=config_data['success_criteria'],
-                relevant_game_context=config_data.get('relevant_game_context')
+                relevant_game_context=config_data.get('relevant_game_context'),
+                rounds=config_data.get('rounds'),
+                shared_plan=config_data.get('shared_plan')
             )
         except Exception as e:
             self.logger.error(f"Error loading task config from {task_path}: {e}")
@@ -610,6 +616,17 @@ class TaskRunner:
         location = None
         if 'location' in agent_data:
             location = (agent_data['location']['x'], agent_data['location']['y'])
+
+        # Random-spawn baseline: override the configured location with a seeded random one.
+        if self.experiment.random_spawn:
+            base_locations = []
+            for adata in getattr(self, '_current_task_config_agents', {}).values():
+                if 'location' in adata:
+                    base_locations.append((adata['location']['x'], adata['location']['y']))
+            if location is not None and not base_locations:
+                base_locations = [location]
+            location = self.experiment.random_location(base_locations)
+            self.logger.info(f"🧪 random spawn for {agent_name}: {location}")
         
         # Parse skill levels
         skill_levels = agent_data.get('skill_levels', {})
@@ -671,6 +688,13 @@ class TaskRunner:
 
         # Override max iterations (default to 50 if not in config)
         console.max_iterations = 50
+
+        # Apply experiment communication restrictions to the agent.
+        # For discussion-rounds, the per-round phase logic overrides this each round;
+        # the initial setting here is the steady (post-discussion) state.
+        self.experiment.apply_agent_restrictions(
+            console.agent, **self.experiment.steady_state_restrictions()
+        )
 
         return console
     
@@ -864,6 +888,43 @@ class TaskRunner:
             self.logger.warning(f"Error checking agent death status: {e}")
             return False
 
+    def _apply_comm_phase(self, agent_states: Dict[str, AgentExecutionState], round_count: int):
+        """Adjust per-agent communication restrictions for the current round.
+
+        Only meaningful for the --discussion-rounds baseline:
+          rounds 1..N  -> chat-only phase (all action tools disabled, chat enabled)
+          rounds > N   -> communication fully cut
+        For all other configurations this is a no-op (restrictions were set at console creation).
+        """
+        exp = self.experiment
+        if exp.discussion_rounds <= 0:
+            return
+
+        in_discussion = round_count <= exp.discussion_rounds
+        for agent_state in agent_states.values():
+            if not agent_state.console:
+                continue
+            if in_discussion:
+                # Chat-only: agents can talk and see each other, but cannot act.
+                exp.apply_agent_restrictions(
+                    agent_state.console.agent,
+                    allow_chat=True,
+                    allow_transfer=False,
+                    hide_chat_history=False,
+                    hide_other_players=False,
+                    discussion_phase=True,
+                )
+            else:
+                # Post-discussion: communication fully cut.
+                exp.apply_agent_restrictions(
+                    agent_state.console.agent,
+                    allow_chat=False,
+                    allow_transfer=False,
+                    hide_chat_history=True,
+                    hide_other_players=True,
+                    discussion_phase=False,
+                )
+
     def _execute_agent_turn(self, agent_state: AgentExecutionState, task_prompt: str, max_action_steps: int) -> Tuple[bool, str]:
         """
         Execute a single tool call for an agent.
@@ -874,8 +935,14 @@ class TaskRunner:
             if agent_state.start_time is None:
                 agent_state.start_time = time.time()
             
-            # Execute exactly one tool call using the new single tool call method
-            response = agent_state.console.agent.execute_single_tool_call(task_prompt)
+            # Execute exactly one tool call.
+            if self.experiment.random_agent:
+                # Random baseline: pick a uniformly random legal action (no LLM).
+                if not hasattr(self, '_random_policy'):
+                    self._random_policy = RandomAgentPolicy(self.experiment)
+                response = self._random_policy.act(agent_state.console)
+            else:
+                response = agent_state.console.agent.execute_single_tool_call(task_prompt)
             agent_state.last_response = response
             
             # Check if this was a complete action
@@ -1039,6 +1106,9 @@ class TaskRunner:
         # Load task configuration
         task_config = self._load_task_config(task_path)
         
+        # Make agents available for spawn-region computation in _create_agent_console
+        self._current_task_config_agents = task_config.agents
+        
         # Initialize trajectory data
         self._init_trajectory(task_path, task_config)
         
@@ -1047,6 +1117,12 @@ class TaskRunner:
         self.logger.info(f"Primary objective: {task_config.objectives['primary']}")
         self.logger.info(f"Agents: {list(task_config.agents.keys())}")
         
+        # Single-agent upper-bound baseline: collapse a multi-agent task into one merged agent.
+        if self.experiment.single_agent_upper_bound and len(task_config.agents) > 1:
+            self.logger.info("🧪 single-agent upper bound: collapsing multi-agent task into one merged agent")
+            self.experiment.collapse_to_single_agent(task_config)
+            self.logger.info(f"Collapsed agents: {list(task_config.agents.keys())}")
+
         # Check if this is a multi-agent task
         if len(task_config.agents) > 1:
             return self._run_multi_agent_task(task_config)
@@ -1233,13 +1309,18 @@ class TaskRunner:
         self.logger.info(f"🔄 Starting synchronized tool-call-level execution...")
         self.logger.info(f"   Each agent will execute exactly one tool call per turn")
         
-        max_rounds = 55  # Maximum number of rounds to prevent infinite loops
+        max_rounds = self.experiment.resolve_max_rounds(task_config.rounds)  # CLI > YAML > 55
         round_count = 0
         agent_order = list(agent_states.keys())  # Fixed order for round-robin
+        if self.experiment.discussion_rounds > 0:
+            self.logger.info(f"🧪 discussion phase: first {self.experiment.discussion_rounds} rounds are chat-only, then communication is cut")
         
         while round_count < max_rounds:
             round_count += 1
             
+            # Apply discussion-phase communication gating for this round.
+            self._apply_comm_phase(agent_states, round_count)
+
             # Log round header with better formatting
             self.log_message("=" * 80)
             self.log_message(f"🔄 ROUND {round_count}", color=4)
@@ -1568,6 +1649,15 @@ class TaskRunner:
     
     def _build_task_prompt(self, task_config: TaskConfig, agent_name: str = None, agent_states: Dict[str, 'AgentExecutionState'] = None) -> str:
         """Build task prompt from configuration using Jinja2 template if available"""
+        exp = self.experiment
+        comms_off = exp.cuts_communication
+
+        # Resolve the task-specific document (honor --no-task-docs).
+        relevant_context = None if exp.no_task_docs else task_config.relevant_game_context
+
+        # Resolved round budget (CLI > task YAML > default).
+        resolved_max_rounds = exp.resolve_max_rounds(task_config.rounds)
+
         # Check if we have a user prompt template in the agent config
         if hasattr(self, 'agent_config') and self.agent_config.user_prompt_template:
             # Use Jinja2 template
@@ -1579,9 +1669,10 @@ class TaskRunner:
                 'task_description': task_config.description,
                 'primary_objective': task_config.objectives['primary'],
                 'secondary_objectives': task_config.objectives.get('secondary', []),
-                'relevant_game_context': task_config.relevant_game_context,
+                'relevant_game_context': relevant_context,
                 'success_criteria': task_config.success_criteria,
-                'objectives': task_config.objectives  # Full objectives dict for backward compatibility
+                'objectives': task_config.objectives,  # Full objectives dict for backward compatibility
+                'max_rounds': resolved_max_rounds
             }
             
             # Add team information for multi-agent tasks
@@ -1594,15 +1685,25 @@ class TaskRunner:
                     if name != agent_name:
                         username = state.console.username if hasattr(state, 'console') and state.console else name
                         other_usernames.append(username)
-                
+
+                # --no-roles: present a generic identity so role isn't inferred from the username.
+                if exp.no_roles and agent_name:
+                    agent_index = list(agent_states.keys()).index(agent_name) + 1 if agent_name in agent_states else 1
+                    current_agent_username = f"Agent_{agent_index}"
+                    other_usernames = [f"Agent_{i + 1}" for i in range(len(agent_states)) if i != agent_index - 1]
+
+                # When communication is cut, other agents are not visible at all.
+                if comms_off:
+                    other_usernames = []
+
                 template_vars.update({
                     'total_agents': len(agent_states),
                     'agent_username': current_agent_username,
                     'other_agent_usernames': other_usernames
                 })
                 
-                # Add agent status information
-                if agent_states:
+                # Add agent status information (only when communication / visibility is on)
+                if agent_states and not comms_off:
                     agent_status_info = []
                     for name, state in agent_states.items():
                         username = state.console.username if hasattr(state, 'console') and state.console else name
@@ -1651,7 +1752,8 @@ class TaskRunner:
             rendered_prompt = template.render(**template_vars)
 
             # Add agent status information to the end of the prompt if available
-            if agent_states and len(agent_states) > 1:
+            # (suppressed when communication / other-agent visibility is cut)
+            if agent_states and len(agent_states) > 1 and not comms_off:
                 agent_status_info = template_vars.get('agent_status_info', [])
                 if agent_status_info:
                     status_lines = ["\n\n=== PARTY AGENT STATUS ==="]
@@ -1685,6 +1787,7 @@ class TaskRunner:
                     status_lines.append("=== END PARTY STATUS ===")
                     rendered_prompt += "\n".join(status_lines)
 
+            rendered_prompt += self._experiment_prompt_suffix(task_config, resolved_max_rounds)
             return rendered_prompt
         else:
             # Fallback to original format if no template is defined
@@ -1699,11 +1802,11 @@ class TaskRunner:
                 for obj in task_config.objectives['secondary']:
                     prompt_parts.append(f"- {obj}")
             
-            if task_config.relevant_game_context:
+            if relevant_context:
                 prompt_parts.extend([
                     "",
                     "Relevant Context:",
-                    task_config.relevant_game_context
+                    relevant_context
                 ])
             
             if task_config.success_criteria:
@@ -1714,7 +1817,48 @@ class TaskRunner:
                 for criteria in task_config.success_criteria:
                     prompt_parts.append(f"- {criteria}")
             
-            return "\\n".join(prompt_parts)
+            suffix = self._experiment_prompt_suffix(task_config, resolved_max_rounds)
+            return "\\n".join(prompt_parts) + suffix
+
+    def _experiment_prompt_suffix(self, task_config: TaskConfig, resolved_max_rounds: int) -> str:
+        """Build the trailing experiment directives appended to every task prompt.
+
+        Covers the round budget, the --no-roles directive, the no-communication notice,
+        and the --shared-plan-only injected plan. Returns '' when nothing applies.
+        """
+        exp = self.experiment
+        parts: List[str] = []
+
+        # Always communicate the real (resolved) round budget so it overrides any
+        # hardcoded number baked into the agent system prompt.
+        parts.append(
+            f"\n\n=== ROUND BUDGET ===\nYour team has a MAXIMUM of {resolved_max_rounds} rounds "
+            f"to complete the task. Work efficiently.\n=== END ROUND BUDGET ==="
+        )
+
+        if exp.no_roles:
+            parts.append(
+                "\n\n=== ROLE ASSIGNMENT ===\nRoles are NOT pre-assigned. Do not infer your job "
+                "from your name or anyone else's. The team must self-organize and decide who does "
+                "what based on the current situation.\n=== END ROLE ASSIGNMENT ==="
+            )
+
+        if exp.no_communication:
+            parts.append(
+                "\n\n=== NO COMMUNICATION ===\nYou cannot communicate with other agents (no chat, "
+                "no item transfers, and other agents are not visible to you). Act independently "
+                "using only the information you can directly observe.\n=== END NO COMMUNICATION ==="
+            )
+
+        if exp.shared_plan_only:
+            plan = task_config.shared_plan or task_config.relevant_game_context or "(no shared plan provided)"
+            parts.append(
+                "\n\n=== SHARED PLAN (read-only) ===\nThe team agreed on this plan in advance. "
+                "You cannot communicate further; execute your part of it independently.\n"
+                f"{plan}\n=== END SHARED PLAN ==="
+            )
+
+        return "".join(parts)
     
     def _init_trajectory(self, task_path: str, task_config: TaskConfig):
         """Initialize trajectory data structure"""
@@ -1943,7 +2087,77 @@ Examples:
         action="store_true",
         help="Dump prompt messages when calling LLM into /tmp/prompts folder"
     )
-    
+
+    # ===== Experiment baselines =====
+    exp = parser.add_argument_group("experiment baselines")
+    exp.add_argument(
+        "--single-agent-upper-bound",
+        action="store_true",
+        help="Collapse a multi-agent task into ONE agent with merged abilities (max skills, summed inventory, unioned equipment)."
+    )
+    exp.add_argument(
+        "--discussion-rounds",
+        type=int,
+        default=0,
+        metavar="N",
+        help="First N rounds are chat-only (all other actions disabled); communication is fully cut afterwards."
+    )
+    exp.add_argument(
+        "--no-communication",
+        action="store_true",
+        help="Cut communication from round 1 (no chat tool, no transfers, no chat history, other agents hidden)."
+    )
+    exp.add_argument(
+        "--shared-plan-only",
+        action="store_true",
+        help="Cut communication but inject a single shared plan (task YAML 'shared_plan' or relevant_game_context) into every agent prompt."
+    )
+    exp.add_argument(
+        "--random-agent",
+        action="store_true",
+        help="Skip the LLM entirely; each turn take a uniformly random legal action."
+    )
+
+    # ===== Design knobs (combinable with any baseline) =====
+    knobs = parser.add_argument_group("experiment design knobs")
+    knobs.add_argument(
+        "--max-rounds",
+        type=int,
+        default=None,
+        metavar="N",
+        help=f"Override the round budget. Precedence: this flag > task YAML 'rounds' > {DEFAULT_MAX_ROUNDS}."
+    )
+    knobs.add_argument(
+        "--no-roles",
+        action="store_true",
+        help="Present a generic identity and a 'roles are not pre-assigned, self-organize' directive (prompt-only)."
+    )
+    knobs.add_argument(
+        "--random-spawn",
+        action="store_true",
+        help="Replace each agent's configured spawn location with a seeded random coordinate."
+    )
+    knobs.add_argument(
+        "--spawn-region",
+        type=int,
+        nargs=4,
+        default=None,
+        metavar=("X1", "Y1", "X2", "Y2"),
+        help="Bounding box for --random-spawn (requires --random-spawn)."
+    )
+    knobs.add_argument(
+        "--no-task-docs",
+        action="store_true",
+        help="Drop the task-specific document (relevant_game_context) from the prompt."
+    )
+    knobs.add_argument(
+        "--seed",
+        type=int,
+        default=None,
+        metavar="N",
+        help="Seed RNG for --random-spawn and --random-agent (reproducibility)."
+    )
+
     return parser.parse_args()
 
 
@@ -1964,6 +2178,14 @@ def main():
         print(f"❌ Error: Agent config file not found: {args.agent}")
         sys.exit(1)
     
+    # Build and validate experiment configuration from baseline flags
+    try:
+        experiment = ExperimentConfig.from_args(args)
+        experiment.validate()
+    except ValueError as e:
+        print(f"❌ Error: invalid experiment configuration: {e}")
+        sys.exit(1)
+
     try:
         # Clear /tmp/prompts folder if dump-prompts is enabled
         if args.dump_prompts:
@@ -1977,7 +2199,7 @@ def main():
         
         # Create task runner
         use_split_screen = not args.no_split_screen
-        runner = TaskRunner(args.agent, args.output, use_split_screen, args.dump_prompts)
+        runner = TaskRunner(args.agent, args.output, use_split_screen, args.dump_prompts, experiment)
         
         # Execute tasks
         if args.task:

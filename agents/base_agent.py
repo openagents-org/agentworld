@@ -19,6 +19,13 @@ class BaseAgent(ABC):
     
     def __init__(self, username: Optional[str] = None, password: Optional[str] = None, base_url: Optional[str] = None, dump_prompts: bool = False, debug_prints: bool = False):
         self.game_tools = KaetramGameTools(base_url=base_url, debug_prints=debug_prints)
+        # Experiment restriction flags (default: full capabilities, current behavior).
+        # These are toggled by ExperimentConfig.apply_agent_restrictions for baselines.
+        self.allow_chat = True
+        self.allow_transfer = True
+        self.hide_chat_history = False
+        self.hide_other_players = False
+        self.discussion_phase = False  # chat-only mode (all other action tools disabled)
         self.tools = get_tool_definitions()
         self.conversation_history = []
         self.username = username
@@ -29,6 +36,34 @@ class BaseAgent(ABC):
         
         # Initialize with system prompt
         self._initialize_system_prompt()
+
+    def _rebuild_tools(self):
+        """Rebuild the tool list honoring current experiment restriction flags.
+
+        Used by ExperimentConfig to enable/disable communication tools (chat,
+        transfer_items) and to enter a chat-only "discussion" phase.
+        """
+        all_tools = get_tool_definitions()
+
+        def _name(tool_def: Dict[str, Any]) -> str:
+            # Tool defs are shaped {"type": "function", "function": {"name": ...}}
+            return tool_def.get("function", {}).get("name", tool_def.get("name", ""))
+
+        if self.discussion_phase:
+            # Chat-only phase: only chat (and the no-op sleep/complete) remain available.
+            allowed = {"chat", "sleep", "complete"}
+            self.tools = [t for t in all_tools if _name(t) in allowed]
+            return
+
+        filtered = []
+        for tool in all_tools:
+            name = _name(tool)
+            if name == "chat" and not self.allow_chat:
+                continue
+            if name == "transfer_items" and not self.allow_transfer:
+                continue
+            filtered.append(tool)
+        self.tools = filtered
     
     def _debug_print(self, message: str):
         """Print debug message only if debug_prints is enabled"""
@@ -98,14 +133,33 @@ class BaseAgent(ABC):
             
             result = self.game_tools.observe_environment({"radius": 64})
             if isinstance(result, str) and "Environment observation" in result:
+                # In no-communication baselines we also hide the presence of other
+                # players (positions, names) so agents cannot implicitly coordinate.
+                if self.hide_other_players:
+                    result = self._strip_other_players(result)
                 return result
             return ""
         except Exception:
             return ""
-    
+
+    def _strip_other_players(self, observation: str) -> str:
+        """Remove the 'players' array from an observation string (other-agent visibility off)."""
+        try:
+            prefix, _, payload = observation.partition(": ")
+            data = json.loads(payload)
+            if isinstance(data, dict) and "players" in data:
+                data["players"] = []
+                return f"{prefix}: {json.dumps(data, indent=2)}"
+        except Exception:
+            pass
+        return observation
+
     def _get_current_chat_messages(self) -> str:
         """Get current chat messages from the game session. Returns empty string if not available."""
         try:
+            # In no-communication / chat-cut baselines, agents must not read chat history.
+            if self.hide_chat_history:
+                return ""
             if not self.game_tools.token:
                 return ""
             
