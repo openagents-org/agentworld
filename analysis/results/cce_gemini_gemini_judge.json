@@ -1,0 +1,2446 @@
+{
+  "model": "gemini",
+  "llm_judge": "gemini",
+  "task_range": "all",
+  "results": [
+    {
+      "task_id": "task_01",
+      "success": true,
+      "ce": 0.5417,
+      "total_actions": 24,
+      "contributing_actions": 13,
+      "pac": {
+        "agent_1": 0.5556,
+        "agent_2": 0.625,
+        "agent_3": 0.4286
+      },
+      "contributing_ids": [
+        0,
+        1,
+        3,
+        5,
+        6,
+        9,
+        10,
+        11,
+        13,
+        16,
+        19,
+        20,
+        21
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_02",
+      "success": true,
+      "ce": 0.123,
+      "total_actions": 122,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.1707,
+        "agent_2": 0.122,
+        "agent_3": 0.075
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        14,
+        15,
+        17
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_03",
+      "success": true,
+      "ce": 0.6667,
+      "total_actions": 9,
+      "contributing_actions": 6,
+      "pac": {
+        "agent_1": 0.6667,
+        "agent_2": 0.3333,
+        "agent_3": 1.0
+      },
+      "contributing_ids": [
+        0,
+        2,
+        5,
+        6,
+        7,
+        8
+      ],
+      "reasoning": "Action [0] (agent_1's chat) causally contributed by prompting the smith_agent to craft the silver ring, referencing the necessary materials. Action [2] (agent_3's"
+    },
+    {
+      "task_id": "task_04",
+      "success": true,
+      "ce": 0.5769,
+      "total_actions": 26,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.5556,
+        "agent_2": 0.3333,
+        "agent_3": 0.875
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        14,
+        17,
+        20
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_05",
+      "success": true,
+      "ce": 0.6667,
+      "total_actions": 15,
+      "contributing_actions": 10,
+      "pac": {
+        "agent_1": 0.8,
+        "agent_2": 0.4,
+        "agent_3": 0.8
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        8,
+        11,
+        12,
+        13,
+        14
+      ],
+      "reasoning": "Agent 1 (forager_agent) harvested blue"
+    },
+    {
+      "task_id": "task_06",
+      "success": true,
+      "ce": 0.5185,
+      "total_actions": 27,
+      "contributing_actions": 14,
+      "pac": {
+        "agent_1": 0.6667,
+        "agent_2": 0.5556,
+        "agent_3": 0.3333
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6,
+        9,
+        10,
+        12,
+        13,
+        15,
+        16,
+        19,
+        20
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_07",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 115,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_3": 0.0,
+        "agent_2": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_08",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 82,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_3": 0.0,
+        "agent_2": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_09",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 112,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_3": 0.0,
+        "agent_2": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_10",
+      "success": true,
+      "ce": 0.8333,
+      "total_actions": 18,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.6667,
+        "agent_2": 1.0,
+        "agent_3": 0.8333
+      },
+      "contributing_ids": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        12,
+        13,
+        14,
+        16,
+        17
+      ],
+      "reasoning": "The task succeeded because agents effectively coordinated and executed"
+    },
+    {
+      "task_id": "task_11",
+      "success": true,
+      "ce": 0.4167,
+      "total_actions": 36,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.5833,
+        "agent_2": 0.5,
+        "agent_3": 0.1667
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        12,
+        13,
+        15,
+        16,
+        18
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_12",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 91,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_3": 0.0,
+        "agent_2": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_13",
+      "success": true,
+      "ce": 0.625,
+      "total_actions": 24,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.625,
+        "agent_2": 0.625,
+        "agent_3": 0.625
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_14",
+      "success": true,
+      "ce": 0.8333,
+      "total_actions": 18,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 1.0,
+        "agent_2": 0.6667,
+        "agent_3": 0.8333
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_15",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 105,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_3": 0.0,
+        "agent_2": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_16",
+      "success": true,
+      "ce": 1.0,
+      "total_actions": 18,
+      "contributing_actions": 18,
+      "pac": {
+        "agent_1": 1.0,
+        "agent_2": 1.0,
+        "agent_3": 1.0
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_17",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 50,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_3": 0.0,
+        "agent_2": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_18",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 89,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_3": 0.0,
+        "agent_2": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_19",
+      "success": true,
+      "ce": 0.4167,
+      "total_actions": 36,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.4167,
+        "agent_2": 0.4167,
+        "agent_3": 0.4167
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_20",
+      "success": true,
+      "ce": 0.2885,
+      "total_actions": 52,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.3889,
+        "agent_2": 0.2353,
+        "agent_3": 0.2353
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        13,
+        14,
+        15,
+        16
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_21",
+      "success": true,
+      "ce": 0.2381,
+      "total_actions": 63,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.2381,
+        "agent_2": 0.2857,
+        "agent_3": 0.1905
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        16,
+        18,
+        19
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_22",
+      "success": true,
+      "ce": 0.5556,
+      "total_actions": 27,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.3333,
+        "agent_2": 0.6667,
+        "agent_3": 0.6667
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10,
+        11,
+        13,
+        14,
+        16,
+        17
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_23",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 99,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_3": 0.0,
+        "agent_2": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_24",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 86,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_3": 0.0,
+        "agent_2": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_25",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 101,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_3": 0.0,
+        "agent_2": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_26",
+      "success": true,
+      "ce": 0.3333,
+      "total_actions": 45,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.3333,
+        "agent_2": 0.3333,
+        "agent_3": 0.3333
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_27",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 107,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_3": 0.0,
+        "agent_2": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_28",
+      "success": true,
+      "ce": 0.2642,
+      "total_actions": 53,
+      "contributing_actions": 14,
+      "pac": {
+        "agent_1": 0.2222,
+        "agent_2": 0.2222,
+        "agent_3": 0.3529
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        4,
+        8,
+        9,
+        11,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_29",
+      "success": true,
+      "ce": 1.0,
+      "total_actions": 18,
+      "contributing_actions": 18,
+      "pac": {
+        "agent_1": 1.0,
+        "agent_2": 1.0,
+        "agent_3": 1.0
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_30",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 0,
+      "contributing_actions": 0,
+      "pac": {},
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_31",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 0,
+      "contributing_actions": 0,
+      "pac": {},
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_32",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 0,
+      "contributing_actions": 0,
+      "pac": {},
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_33",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 0,
+      "contributing_actions": 0,
+      "pac": {},
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_34",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 0,
+      "contributing_actions": 0,
+      "pac": {},
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_35",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 19,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_3": 0.0,
+        "agent_2": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_36",
+      "success": true,
+      "ce": 0.4688,
+      "total_actions": 32,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.4286,
+        "agent_2": 1.0,
+        "agent_3": 0.3077
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_37",
+      "success": true,
+      "ce": 0.375,
+      "total_actions": 40,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.3571,
+        "agent_2": 0.3571,
+        "agent_3": 0.4167
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_38",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 121,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_3": 0.0,
+        "agent_2": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_39",
+      "success": true,
+      "ce": 0.4167,
+      "total_actions": 36,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.4167,
+        "agent_2": 0.4167,
+        "agent_3": 0.4167
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_40",
+      "success": true,
+      "ce": 0.5556,
+      "total_actions": 27,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.7778,
+        "agent_2": 0.6667,
+        "agent_3": 0.2222
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        9,
+        10,
+        12,
+        13,
+        14,
+        15,
+        16,
+        18
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_41",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 37,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_3": 0.0,
+        "agent_2": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_42",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 67,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_3": 0.0,
+        "agent_2": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_43",
+      "success": true,
+      "ce": 1.0,
+      "total_actions": 18,
+      "contributing_actions": 18,
+      "pac": {
+        "agent_1": 1.0,
+        "agent_2": 1.0,
+        "agent_3": 1.0
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "reasoning": "All 'attack_entity' actions directly contributed to defeating the 5 rats. All 'harvest_resource' actions directly contributed to collecting the 4 blueberries. The 'move_character' action by agent_2 is considered contributing as it likely positioned the agent for subsequent successful attacks. The 'chat' action by agent_3 contributed by coordinating team efforts, informing others of the blueberry objective's completion and signaling a shift to assisting with rat extermination, which agent_3 then did."
+    },
+    {
+      "task_id": "task_44",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 111,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_3": 0.0,
+        "agent_2": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_45",
+      "success": true,
+      "ce": 0.3659,
+      "total_actions": 41,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.4286,
+        "agent_2": 0.3571,
+        "agent_3": 0.3077
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_46",
+      "success": true,
+      "ce": 0.0892,
+      "total_actions": 157,
+      "contributing_actions": 14,
+      "pac": {
+        "agent_1": 0.129,
+        "agent_2": 0.129,
+        "agent_3": 0.1034,
+        "agent_4": 0.0303,
+        "agent_5": 0.0606
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        10,
+        11,
+        12,
+        15,
+        16,
+        19
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_47",
+      "success": true,
+      "ce": 0.2027,
+      "total_actions": 74,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.2667,
+        "agent_2": 0.2667,
+        "agent_3": 0.1333,
+        "agent_4": 0.1333,
+        "agent_5": 0.2143
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        14,
+        15,
+        16
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_48",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 206,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_5": 0.0,
+        "agent_2": 0.0,
+        "agent_3": 0.0,
+        "agent_4": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_49",
+      "success": true,
+      "ce": 0.1351,
+      "total_actions": 111,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.1538,
+        "agent_2": 0.1765,
+        "agent_3": 0.3333,
+        "agent_4": 0.1,
+        "agent_5": 0.069
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        15
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_50",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 184,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_5": 0.0,
+        "agent_2": 0.0,
+        "agent_3": 0.0,
+        "agent_4": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_51",
+      "success": true,
+      "ce": 0.4828,
+      "total_actions": 29,
+      "contributing_actions": 14,
+      "pac": {
+        "agent_1": 0.3333,
+        "agent_2": 0.8,
+        "agent_3": 0.5,
+        "agent_4": 0.5,
+        "agent_5": 0.3333
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        11,
+        12,
+        13,
+        14,
+        16
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_52",
+      "success": true,
+      "ce": 0.0714,
+      "total_actions": 196,
+      "contributing_actions": 14,
+      "pac": {
+        "agent_1": 0.129,
+        "agent_2": 0.0976,
+        "agent_3": 0.0732,
+        "agent_4": 0.0244,
+        "agent_5": 0.0476
+      },
+      "contributing_ids": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        10,
+        11,
+        12,
+        15,
+        16,
+        17
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_53",
+      "success": true,
+      "ce": 0.25,
+      "total_actions": 60,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.3333,
+        "agent_2": 0.3333,
+        "agent_3": 0.25,
+        "agent_4": 0.1667,
+        "agent_5": 0.1667
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        15,
+        16
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_54",
+      "success": true,
+      "ce": 0.3333,
+      "total_actions": 45,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.4444,
+        "agent_2": 0.3333,
+        "agent_3": 0.3333,
+        "agent_4": 0.3333,
+        "agent_5": 0.2222
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_55",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 231,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_5": 0.0,
+        "agent_2": 0.0,
+        "agent_3": 0.0,
+        "agent_4": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_56",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 222,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_6": 0.0,
+        "agent_5": 0.0,
+        "agent_7": 0.0,
+        "agent_2": 0.0,
+        "agent_3": 0.0,
+        "agent_4": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_57",
+      "success": true,
+      "ce": 0.0761,
+      "total_actions": 197,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.087,
+        "agent_2": 0.0741,
+        "agent_3": 0.0909,
+        "agent_4": 0.0769,
+        "agent_5": 0.0769,
+        "agent_6": 0.0769,
+        "agent_7": 0.08,
+        "agent_8": 0.0455
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_58",
+      "success": true,
+      "ce": 0.2778,
+      "total_actions": 54,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.3333,
+        "agent_2": 0.3333,
+        "agent_3": 0.3333,
+        "agent_4": 0.2222,
+        "agent_5": 0.2222,
+        "agent_6": 0.2222
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_59",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 350,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_6": 0.0,
+        "agent_5": 0.0,
+        "agent_7": 0.0,
+        "agent_2": 0.0,
+        "agent_3": 0.0,
+        "agent_4": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_60",
+      "success": true,
+      "ce": 0.1429,
+      "total_actions": 105,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.2,
+        "agent_2": 0.2,
+        "agent_3": 0.2,
+        "agent_4": 0.2,
+        "agent_5": 0.0667,
+        "agent_6": 0.0667,
+        "agent_7": 0.0667
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        14,
+        15,
+        16,
+        17
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_61",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 300,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_6": 0.0,
+        "agent_5": 0.0,
+        "agent_7": 0.0,
+        "agent_2": 0.0,
+        "agent_3": 0.0,
+        "agent_4": 0.0,
+        "agent_8": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_62",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 382,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_6": 0.0,
+        "agent_5": 0.0,
+        "agent_7": 0.0,
+        "agent_2": 0.0,
+        "agent_3": 0.0,
+        "agent_4": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_63",
+      "success": true,
+      "ce": 0.119,
+      "total_actions": 126,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.1905,
+        "agent_2": 0.1429,
+        "agent_3": 0.1429,
+        "agent_4": 0.1429,
+        "agent_5": 0.0476,
+        "agent_6": 0.0476
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        12,
+        13,
+        14,
+        15,
+        18
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_64",
+      "success": true,
+      "ce": 0.3125,
+      "total_actions": 48,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.3333,
+        "agent_2": 0.3333,
+        "agent_3": 0.3333,
+        "agent_4": 0.3333,
+        "agent_5": 0.3333,
+        "agent_6": 0.3333,
+        "agent_7": 0.1667,
+        "agent_8": 0.3333
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        15
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_65",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 132,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_6": 0.0,
+        "agent_5": 0.0,
+        "agent_7": 0.0,
+        "agent_2": 0.0,
+        "agent_3": 0.0,
+        "agent_4": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_66",
+      "success": true,
+      "ce": 0.1556,
+      "total_actions": 90,
+      "contributing_actions": 14,
+      "pac": {
+        "agent_1": 0.1333,
+        "agent_2": 0.2,
+        "agent_3": 0.2,
+        "agent_4": 0.2,
+        "agent_5": 0.0667,
+        "agent_6": 0.1333
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_67",
+      "success": true,
+      "ce": 0.3125,
+      "total_actions": 48,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.3333,
+        "agent_2": 0.3333,
+        "agent_3": 0.3333,
+        "agent_4": 0.3333,
+        "agent_5": 0.3333,
+        "agent_6": 0.3333,
+        "agent_7": 0.3333,
+        "agent_8": 0.1667
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_68",
+      "success": true,
+      "ce": 0.075,
+      "total_actions": 200,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.0938,
+        "agent_2": 0.0909,
+        "agent_3": 0.1875,
+        "agent_4": 0.0645,
+        "agent_5": 0.0645,
+        "agent_6": 0.04,
+        "agent_7": 0.0312
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        14,
+        15,
+        16
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_69",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 492,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_6": 0.0,
+        "agent_5": 0.0,
+        "agent_7": 0.0,
+        "agent_2": 0.0,
+        "agent_3": 0.0,
+        "agent_9": 0.0,
+        "agent_4": 0.0,
+        "agent_8": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_70",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 122,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_6": 0.0,
+        "agent_5": 0.0,
+        "agent_7": 0.0,
+        "agent_2": 0.0,
+        "agent_3": 0.0,
+        "agent_4": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_71",
+      "success": true,
+      "ce": 0.0735,
+      "total_actions": 204,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.1111,
+        "agent_2": 0.0741,
+        "agent_3": 0.037,
+        "agent_4": 0.08,
+        "agent_5": 0.0909,
+        "agent_6": 0.08,
+        "agent_7": 0.04,
+        "agent_8": 0.0769
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13,
+        15,
+        16
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_72",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 281,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_6": 0.0,
+        "agent_5": 0.0,
+        "agent_7": 0.0,
+        "agent_2": 0.0,
+        "agent_3": 0.0,
+        "agent_4": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_73",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 89,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_6": 0.0,
+        "agent_5": 0.0,
+        "agent_7": 0.0,
+        "agent_2": 0.0,
+        "agent_3": 0.0,
+        "agent_4": 0.0,
+        "agent_8": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_74",
+      "success": true,
+      "ce": 0.0694,
+      "total_actions": 216,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.1111,
+        "agent_2": 0.1111,
+        "agent_3": 0.0278,
+        "agent_4": 0.0833,
+        "agent_5": 0.0278,
+        "agent_6": 0.0556
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        12,
+        13,
+        15,
+        17,
+        18,
+        19
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_75",
+      "success": true,
+      "ce": 0.0728,
+      "total_actions": 206,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.1,
+        "agent_2": 0.0952,
+        "agent_3": 0.0952,
+        "agent_4": 0.0952,
+        "agent_5": 0.0952,
+        "agent_6": 0.0476,
+        "agent_7": 0.0476,
+        "agent_8": 0.05,
+        "agent_9": 0.05,
+        "agent_10": 0.05
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_76",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 54,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_6": 0.0,
+        "agent_5": 0.0,
+        "agent_7": 0.0,
+        "agent_2": 0.0,
+        "agent_3": 0.0,
+        "agent_9": 0.0,
+        "agent_10": 0.0,
+        "agent_4": 0.0,
+        "agent_8": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_77",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 71,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_6": 0.0,
+        "agent_5": 0.0,
+        "agent_7": 0.0,
+        "agent_2": 0.0,
+        "agent_3": 0.0,
+        "agent_9": 0.0,
+        "agent_10": 0.0,
+        "agent_4": 0.0,
+        "agent_8": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_78",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 418,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_6": 0.0,
+        "agent_5": 0.0,
+        "agent_7": 0.0,
+        "agent_2": 0.0,
+        "agent_3": 0.0,
+        "agent_9": 0.0,
+        "agent_10": 0.0,
+        "agent_4": 0.0,
+        "agent_8": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_79",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 482,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_6": 0.0,
+        "agent_5": 0.0,
+        "agent_7": 0.0,
+        "agent_2": 0.0,
+        "agent_3": 0.0,
+        "agent_9": 0.0,
+        "agent_10": 0.0,
+        "agent_4": 0.0,
+        "agent_8": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_80",
+      "success": true,
+      "ce": 0.1705,
+      "total_actions": 88,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.2222,
+        "agent_2": 0.2222,
+        "agent_3": 0.2222,
+        "agent_4": 0.2222,
+        "agent_5": 0.2222,
+        "agent_6": 0.1111,
+        "agent_7": 0.1111,
+        "agent_8": 0.1111,
+        "agent_9": 0.1429,
+        "agent_10": 0.1111
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_81",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 204,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_6": 0.0,
+        "agent_5": 0.0,
+        "agent_7": 0.0,
+        "agent_2": 0.0,
+        "agent_3": 0.0,
+        "agent_9": 0.0,
+        "agent_10": 0.0,
+        "agent_4": 0.0,
+        "agent_8": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_82",
+      "success": true,
+      "ce": 0.0833,
+      "total_actions": 180,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.1111,
+        "agent_2": 0.1111,
+        "agent_3": 0.1111,
+        "agent_4": 0.1111,
+        "agent_5": 0.1111,
+        "agent_6": 0.0556,
+        "agent_7": 0.0556,
+        "agent_8": 0.0556,
+        "agent_9": 0.0556,
+        "agent_10": 0.0556
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_83",
+      "success": true,
+      "ce": 0.1176,
+      "total_actions": 119,
+      "contributing_actions": 14,
+      "pac": {
+        "agent_1": 0.0833,
+        "agent_2": 0.1667,
+        "agent_4": 0.0833,
+        "agent_5": 0.25,
+        "agent_6": 0.1667,
+        "agent_7": 0.0833,
+        "agent_8": 0.0833,
+        "agent_9": 0.0833,
+        "agent_10": 0.0833,
+        "agent_3": 0.0909
+      },
+      "contributing_ids": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        13,
+        14,
+        20,
+        23
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_84",
+      "success": true,
+      "ce": 0.1685,
+      "total_actions": 89,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.2222,
+        "agent_2": 0.2222,
+        "agent_3": 0.2222,
+        "agent_4": 0.2222,
+        "agent_5": 0.125,
+        "agent_6": 0.2222,
+        "agent_7": 0.1111,
+        "agent_8": 0.1111,
+        "agent_9": 0.1111,
+        "agent_10": 0.1111
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_85",
+      "success": true,
+      "ce": 0.1573,
+      "total_actions": 89,
+      "contributing_actions": 14,
+      "pac": {
+        "agent_1": 0.2222,
+        "agent_2": 0.2222,
+        "agent_3": 0.2222,
+        "agent_4": 0.2222,
+        "agent_5": 0.2222,
+        "agent_6": 0.1111,
+        "agent_7": 0.0,
+        "agent_8": 0.1111,
+        "agent_9": 0.125,
+        "agent_10": 0.1111
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_86",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 168,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_6": 0.0,
+        "agent_5": 0.0,
+        "agent_7": 0.0,
+        "agent_2": 0.0,
+        "agent_3": 0.0,
+        "agent_9": 0.0,
+        "agent_10": 0.0,
+        "agent_4": 0.0,
+        "agent_8": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_87",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 401,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_6": 0.0,
+        "agent_5": 0.0,
+        "agent_7": 0.0,
+        "agent_2": 0.0,
+        "agent_3": 0.0,
+        "agent_9": 0.0,
+        "agent_10": 0.0,
+        "agent_4": 0.0,
+        "agent_8": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_88",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 229,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_6": 0.0,
+        "agent_5": 0.0,
+        "agent_7": 0.0,
+        "agent_2": 0.0,
+        "agent_3": 0.0,
+        "agent_9": 0.0,
+        "agent_10": 0.0,
+        "agent_4": 0.0,
+        "agent_8": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_89",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 254,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_6": 0.0,
+        "agent_5": 0.0,
+        "agent_7": 0.0,
+        "agent_2": 0.0,
+        "agent_3": 0.0,
+        "agent_9": 0.0,
+        "agent_10": 0.0,
+        "agent_4": 0.0,
+        "agent_8": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_90",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 463,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_6": 0.0,
+        "agent_5": 0.0,
+        "agent_7": 0.0,
+        "agent_2": 0.0,
+        "agent_3": 0.0,
+        "agent_9": 0.0,
+        "agent_10": 0.0,
+        "agent_4": 0.0,
+        "agent_8": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_91",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 350,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_6": 0.0,
+        "agent_5": 0.0,
+        "agent_7": 0.0,
+        "agent_2": 0.0,
+        "agent_3": 0.0,
+        "agent_9": 0.0,
+        "agent_10": 0.0,
+        "agent_4": 0.0,
+        "agent_8": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_92",
+      "success": true,
+      "ce": 0.1389,
+      "total_actions": 108,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.2222,
+        "agent_2": 0.2222,
+        "agent_3": 0.2222,
+        "agent_4": 0.1111,
+        "agent_5": 0.1111,
+        "agent_6": 0.1111,
+        "agent_7": 0.1111,
+        "agent_8": 0.1111,
+        "agent_9": 0.1111,
+        "agent_10": 0.1111,
+        "agent_11": 0.1111,
+        "agent_12": 0.1111
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_93",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 742,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_6": 0.0,
+        "agent_12": 0.0,
+        "agent_13": 0.0,
+        "agent_15": 0.0,
+        "agent_5": 0.0,
+        "agent_7": 0.0,
+        "agent_2": 0.0,
+        "agent_11": 0.0,
+        "agent_14": 0.0,
+        "agent_3": 0.0,
+        "agent_9": 0.0,
+        "agent_10": 0.0,
+        "agent_4": 0.0,
+        "agent_8": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_94",
+      "success": true,
+      "ce": 0.1271,
+      "total_actions": 118,
+      "contributing_actions": 15,
+      "pac": {
+        "agent_1": 0.1667,
+        "agent_2": 0.1667,
+        "agent_3": 0.1667,
+        "agent_4": 0.2,
+        "agent_5": 0.2,
+        "agent_6": 0.1667,
+        "agent_7": 0.1667,
+        "agent_8": 0.1667,
+        "agent_9": 0.1667,
+        "agent_10": 0.1667,
+        "agent_11": 0.1667,
+        "agent_12": 0.1667,
+        "agent_13": 0.1667,
+        "agent_14": 0.1667,
+        "agent_15": 0.1667,
+        "agent_16": 0.0,
+        "agent_17": 0.0,
+        "agent_18": 0.0,
+        "agent_19": 0.0,
+        "agent_20": 0.0
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_95",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 558,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_6": 0.0,
+        "agent_5": 0.0,
+        "agent_7": 0.0,
+        "agent_2": 0.0,
+        "agent_11": 0.0,
+        "agent_3": 0.0,
+        "agent_9": 0.0,
+        "agent_10": 0.0,
+        "agent_4": 0.0,
+        "agent_8": 0.0,
+        "agent_1": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    },
+    {
+      "task_id": "task_96",
+      "success": true,
+      "ce": 0.1944,
+      "total_actions": 72,
+      "contributing_actions": 14,
+      "pac": {
+        "agent_1": 0.1667,
+        "agent_2": 0.1667,
+        "agent_3": 0.3333,
+        "agent_4": 0.3333,
+        "agent_5": 0.3333,
+        "agent_6": 0.1667,
+        "agent_7": 0.1667,
+        "agent_8": 0.1667,
+        "agent_9": 0.1667,
+        "agent_10": 0.1667,
+        "agent_11": 0.0,
+        "agent_12": 0.1667
+      },
+      "contributing_ids": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        19,
+        20,
+        21
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_97",
+      "success": true,
+      "ce": 0.0,
+      "total_actions": 84,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_1": 0.0,
+        "agent_2": 0.0,
+        "agent_3": 0.0,
+        "agent_4": 0.0,
+        "agent_5": 0.0,
+        "agent_6": 0.0,
+        "agent_7": 0.0,
+        "agent_8": 0.0,
+        "agent_9": 0.0,
+        "agent_10": 0.0,
+        "agent_11": 0.0,
+        "agent_12": 0.0,
+        "agent_13": 0.0,
+        "agent_14": 0.0
+      },
+      "contributing_ids": [],
+      "reasoning": "The provided actions do not show any direct contribution to the task's success criteria. The success criteria require catching rawshrimp and jellyfish, and then cooking them into cooked shrimp and jellyfish smoothies. The logs contain only two generic 'harvest_resource' actions at the very beginning, which"
+    },
+    {
+      "task_id": "task_98",
+      "success": true,
+      "ce": 0.052,
+      "total_actions": 269,
+      "contributing_actions": 14,
+      "pac": {
+        "agent_1": 0.1111,
+        "agent_2": 0.1111,
+        "agent_3": 0.1111,
+        "agent_4": 0.1111,
+        "agent_5": 0.0,
+        "agent_6": 0.0556,
+        "agent_7": 0.0556,
+        "agent_8": 0.0556,
+        "agent_9": 0.0,
+        "agent_10": 0.0,
+        "agent_11": 0.0556,
+        "agent_12": 0.0556,
+        "agent_13": 0.0,
+        "agent_14": 0.0,
+        "agent_15": 0.0588
+      },
+      "contributing_ids": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6,
+        7,
+        10,
+        11,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "reasoning": "parsed from partial response"
+    },
+    {
+      "task_id": "task_99",
+      "success": false,
+      "ce": 0.0,
+      "total_actions": 499,
+      "contributing_actions": 0,
+      "pac": {
+        "agent_6": 0.0,
+        "agent_12": 0.0,
+        "agent_16": 0.0,
+        "agent_15": 0.0,
+        "agent_11": 0.0,
+        "agent_19": 0.0,
+        "agent_3": 0.0,
+        "agent_7": 0.0,
+        "agent_2": 0.0,
+        "agent_13": 0.0,
+        "agent_5": 0.0,
+        "agent_17": 0.0,
+        "agent_18": 0.0,
+        "agent_14": 0.0,
+        "agent_4": 0.0,
+        "agent_8": 0.0,
+        "agent_1": 0.0,
+        "agent_20": 0.0,
+        "agent_9": 0.0,
+        "agent_10": 0.0
+      },
+      "reasoning": "Task failed, CE=0 by definition"
+    }
+  ],
+  "summary": {
+    "total_tasks": 99,
+    "successful_tasks": 52,
+    "failed_tasks": 47,
+    "avg_ce_successful": 0.3373,
+    "avg_ce_all": 0.1772
+  }
+}
