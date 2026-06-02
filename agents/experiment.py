@@ -8,7 +8,7 @@ flags are set, ExperimentConfig is a no-op.
 
 Baselines / knobs (see agents/run.py --help):
   Behavior baselines:
-    - single_agent_upper_bound : collapse a multi-agent task into one merged agent
+    - single_agent_upper_bound : run the whole task with one solo merged agent
     - discussion_rounds N      : first N rounds chat-only, then communication cut
     - no_communication         : communication cut from round 1
     - shared_plan_only         : communication cut, but a shared plan is injected
@@ -24,8 +24,6 @@ Baselines / knobs (see agents/run.py --help):
 and the visibility of other players (PARTY AGENT STATUS block + the `players` array
 in observations). Cutting communication removes all of these.
 """
-
-from __future__ import annotations
 
 import json
 import random
@@ -104,7 +102,12 @@ class ExperimentConfig:
     @property
     def cuts_communication(self) -> bool:
         """True if the steady-state (post-discussion) has communication disabled."""
-        return self.no_communication or self.shared_plan_only or self.discussion_rounds > 0
+        return (
+            self.single_agent_upper_bound
+            or self.no_communication
+            or self.shared_plan_only
+            or self.discussion_rounds > 0
+        )
 
     def resolve_max_rounds(self, task_rounds: Optional[int]) -> int:
         """Precedence: CLI --max-rounds > task YAML rounds > DEFAULT_MAX_ROUNDS."""
@@ -142,7 +145,7 @@ class ExperimentConfig:
 
     def steady_state_restrictions(self) -> Dict[str, bool]:
         """The restriction kwargs that apply once any discussion phase is over."""
-        cut = self.no_communication or self.shared_plan_only or self.discussion_rounds > 0
+        cut = self.cuts_communication
         return {
             "allow_chat": not cut,
             "allow_transfer": not cut,
@@ -154,10 +157,13 @@ class ExperimentConfig:
     # ---- single-agent upper bound ----------------------------------------
 
     def collapse_to_single_agent(self, task_config) -> None:
-        """Merge all agents in a multi-agent task into a single agent_1, in place.
+        """Turn a multi-agent task into one solo agent_1, in place.
 
-        Skills: max per skill. Inventory: summed per item. Equipment: unioned by item.
-        Location / username / new_character: taken from the first agent.
+        The run has exactly one participant for the whole task; no other agents are
+        spawned and communication tools are disabled by steady_state_restrictions().
+        To make the solo upper bound feasible, skills are max-merged, inventory is
+        summed, and equipment is unioned. Location / username / new_character are
+        taken from the first agent.
         """
         agents = task_config.agents
         if len(agents) <= 1:

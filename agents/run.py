@@ -1119,7 +1119,7 @@ class TaskRunner:
         
         # Single-agent upper-bound baseline: collapse a multi-agent task into one merged agent.
         if self.experiment.single_agent_upper_bound and len(task_config.agents) > 1:
-            self.logger.info("🧪 single-agent upper bound: collapsing multi-agent task into one merged agent")
+            self.logger.info("🧪 single-agent upper bound: running the entire task with one solo merged agent (no other agents, no communication)")
             self.experiment.collapse_to_single_agent(task_config)
             self.logger.info(f"Collapsed agents: {list(task_config.agents.keys())}")
 
@@ -1841,6 +1841,15 @@ class TaskRunner:
                 "\n\n=== ROLE ASSIGNMENT ===\nRoles are NOT pre-assigned. Do not infer your job "
                 "from your name or anyone else's. The team must self-organize and decide who does "
                 "what based on the current situation.\n=== END ROLE ASSIGNMENT ==="
+            )
+
+        if exp.single_agent_upper_bound:
+            parts.append(
+                "\n\n=== SOLO UPPER BOUND ===\nYou are the ONLY agent participating in this run. "
+                "No other agents are spawned, there is no discussion phase, and communication "
+                "tools are disabled. You must complete every part of the task yourself. "
+                "Ignore any task text that says to coordinate, discuss, transfer to teammates, "
+                "or wait for other agents.\n=== END SOLO UPPER BOUND ==="
             )
 
         if exp.no_communication:

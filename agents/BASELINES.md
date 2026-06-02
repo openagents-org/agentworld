@@ -31,13 +31,15 @@ python3 agents/run.py \
 
 | 参数 | 含义 |
 |------|------|
-| `--single-agent-upper-bound` | 把多 agent 任务**塌缩成一个 agent**，能力合并（技能取每项最大值、库存累加、装备并集；位置/用户名用 agent_1 的）。用单 agent 流水线跑，作为"上限"参照。 |
+| `--single-agent-upper-bound` | **全程只有一个 agent 参与**，没有其他 agent 被创建，也没有讨论/聊天/转移物品。这个 solo agent 需要自己完成所有事情；为保证这是 upper bound，会把原任务里所有 agent 的能力合并到它身上（技能取每项最大值、库存累加、装备并集；位置/用户名用 agent_1 的）。 |
 | `--discussion-rounds N` | **前 N 回合只能聊天**（其它动作工具全部禁用），第 N 回合之后**彻底断开交流**。这 N 回合会消耗回合预算。 |
 | `--no-communication` | **从第 1 回合就断开交流**：没有 chat 工具、不能转移物品、看不到聊天记录、也看不到其他 agent。 |
 | `--shared-plan-only` | 断开交流，但在每个 agent 的 prompt 里注入一份**共享计划**（来源：任务 YAML 的 `shared_plan` 字段，没有就用 `relevant_game_context`）。各自照着计划独立执行。 |
 | `--random-agent` | **完全不调用 LLM**，每回合从当前可观测到的合法动作里随机选一个执行（随机移动 / 采集可见资源 / 攻击可见怪 / 装备可装备物品 / sleep；若允许交流还包括 chat / transfer）。 |
 
 > ⚠️ `--no-communication`、`--discussion-rounds`、`--shared-plan-only` **三选一**（互斥），同时传会报错退出。
+>
+> `--single-agent-upper-bound` 本身就是 solo run：只有一个 agent，全程不交流。
 
 ### "交流"到底指什么？
 
@@ -81,9 +83,9 @@ shared_plan: |      # 给 --shared-plan-only 用的共享计划文本
 ## 5. 常用组合示例
 
 ```bash
-# 单 agent 上限，且不给角色提示
+# 单 agent 上限：全程只有一个 agent 自己完成所有事情（无讨论、无交流）
 python3 agents/run.py --task task.yaml --agent agents/configs/qwen_agent.yaml \
-  --output logs/ --single-agent-upper-bound --no-roles
+  --output logs/ --single-agent-upper-bound
 
 # 先讨论 5 回合再各干各的 + 随机出生点（可复现）
 python3 agents/run.py --task-folder data_v0.1_multi/.../ \
