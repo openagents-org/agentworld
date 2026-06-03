@@ -1123,18 +1123,16 @@ class TaskRunner:
             self.experiment.collapse_to_single_agent(task_config)
             self.logger.info(f"Collapsed agents: {list(task_config.agents.keys())}")
 
-        # Route through the round-based engine when:
-        #   - this is genuinely a multi-agent task, OR
-        #   - the single-agent upper bound collapsed it to one agent.
-        # The legacy single-agent path (_run_single_agent_task) does NOT record
-        # trajectory rounds, ignores the experiment round budget, and skips the
-        # experiment communication restrictions, which produced empty trajectory
-        # logs for the single-agent-upper-bound baseline. The round-based engine
-        # handles a lone agent fine (round-robin over one agent).
-        if len(task_config.agents) > 1 or self.experiment.single_agent_upper_bound:
-            return self._run_multi_agent_task(task_config)
-        else:
-            return self._run_single_agent_task(task_config)
+        # Always route through the round-based engine, regardless of agent count.
+        #
+        # The legacy single-agent path (_run_single_agent_task) drives the agent
+        # via process_user_input() and does NOT record trajectory rounds, ignores
+        # the experiment round budget, and skips the experiment communication
+        # restrictions. That is why genuine solo runs produced trajectory JSON with
+        # empty "rounds": [] and "metrics": {}. The round-based engine handles a
+        # lone agent fine (round-robin over a single agent) and populates both, so
+        # solo and multi-agent runs now emit an identical trajectory schema.
+        return self._run_multi_agent_task(task_config)
     
     def _run_single_agent_task(self, task_config: TaskConfig) -> Dict[str, Any]:
         """Run task with single agent (original behavior)"""
