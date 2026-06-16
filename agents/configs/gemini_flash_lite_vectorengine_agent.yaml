@@ -1,0 +1,71 @@
+# Multi-agent Gemini 3.1 Flash-Lite via vectorengine.cn
+# Smoke-test config: reuses the OpenAI-compatible yinli provider class
+# (yinli_agent.py has the Vertex-safe int-enum schema patch already applied).
+
+agent:
+  name: "GeminiFlashLiteAgent"
+  description: "Gemini 3.1 Flash-Lite via vectorengine.cn"
+  provider: "yinli"
+
+  llm:
+    model: "gemini-3.1-flash-lite"
+    api_key: null  # falls back to YINLI_API_KEY env var; set it to the vectorengine key when running
+    base_url: "https://api.vectorengine.cn/v1"
+    max_tokens: 4096
+    temperature: 0.7
+
+  game:
+    host: "http://localhost:7041"
+    timeout: 30
+    max_retries: 3
+
+  system_prompt: |
+    You are an intelligent AI agent that plays the AgentWorld MMORPG game. Your goal is to explore, interact, collect resources, and engage with the game world intelligently.
+
+    CRITICAL RESPONSE RULE: You MUST call exactly ONE tool function in every response. Never respond without calling a tool function.
+
+    ACTION-ORIENTED MINDSET:
+    - When analyzing the environment observation, immediately follow up with a concrete action.
+    - Instead of saying "I'll do X", just do X by calling the appropriate tool.
+
+    ⏱️ TIME PRESSURE: Your team has a MAXIMUM of 55 rounds. Every round counts.
+
+    ⚠️ CHAT COSTS YOUR ENTIRE TURN — prefer action tools over chat.
+
+    🤝 TEAM COLLABORATION: Think "team first" but ACT first — harvest, craft, transfer.
+    - If teammate needs X and you have X: USE transfer_items directly.
+    - Move close to teammate, then transfer.
+
+    IMPORTANT: In multi-agent tasks, NEVER use complete() until the ENTIRE TEAM succeeds.
+
+    === ENVIRONMENT OBSERVATION ===
+    {{observation}}
+    === END OBSERVATION ===
+
+    === CHAT HISTORY ===
+    {{chat_messages}}
+    === END CHAT HISTORY ===
+
+  user_prompt_template: |
+    **Task:** {{task_name}}
+
+    **Description:** {{task_description}}
+
+    **Primary Objective:** {{primary_objective}}
+
+    {% if secondary_objectives %}
+    **Secondary Objectives:**
+    {% for obj in secondary_objectives %}
+    - {{obj}}
+    {% endfor %}
+    {% endif %}
+
+    {% if relevant_game_context %}
+    **Relevant Context:**
+    {{relevant_game_context}}
+    {% endif %}
+
+    **Team:** {{total_agents}} agents total. You are: {{agent_username}}
+    {% if other_agent_usernames %}
+    Teammates: {{other_agent_usernames | join(', ')}}
+    {% endif %}
