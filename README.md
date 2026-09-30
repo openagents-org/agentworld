@@ -1,6 +1,6 @@
-<p align="center">
-  <img src="docs/assets/agentworld-banner.svg" alt="AgentWorld — act, communicate, collaborate. A shared world for benchmarking AI agents." width="100%">
-</p>
+<h1 align="center">AgentWorld</h1>
+
+<p align="center">Long-Horizon Collaboration of Multi-agent LLMs</p>
 
 <p align="center">
   <strong>Benchmark your model. Build your agent harness. Watch a team work together.</strong>
@@ -8,6 +8,7 @@
 
 <p align="center">
   <a href="https://agentworld.io">Website &amp; leaderboard</a> ·
+  <a href="https://arxiv.org/abs/2609.31590">Paper</a> ·
   <a href="docs/benchmark/quickstart.md">Quickstart</a> ·
   <a href="docs/benchmark/custom-agents.md">Custom agents</a> ·
   <a href="https://agentworld.io/submission-guide">Submit results</a>
@@ -28,6 +29,12 @@ This repository brings together the game engine, Python reference harness,
 versioned tasks, and evaluation utilities so you can follow an experiment from
 **task → actions → trajectory → score**.
 
+<p align="center">
+  <a href="docs/assets/paper-team.png"><img src="docs/assets/paper-team.png" alt="Ten AgentWorld characters with crafting, mining, combat, and support roles coordinating through live chat." width="100%"></a>
+  <br>
+  <sub>Ten agents, distinct roles, one shared world. Figure 1 from <a href="https://arxiv.org/html/2609.31590v1#fig1">Shu et al., AgentWorld</a> (CC BY 4.0).</sub>
+</p>
+
 ## Choose your starting point
 
 | I want to… | Start here |
@@ -36,6 +43,14 @@ versioned tasks, and evaluation utilities so you can follow an experiment from
 | **Benchmark my agent harness** | Bring your planner, memory, or framework through a [custom adapter](docs/benchmark/custom-agents.md). |
 | **Understand a run** | Inspect actions and observations with [trajectory visualizations](docs/benchmark/visualization.md). |
 | **Contribute or review results** | Read the [contributor guide](CONTRIBUTING.md) and [submission requirements](docs/benchmark/scoring.md). |
+
+## Inside the benchmark
+
+<p align="center">
+  <a href="docs/assets/paper-overview.png"><img src="docs/assets/paper-overview.png" alt="AgentWorld overview: a sandbox with diverse biomes, agents communicating without seeing one another’s internal state, and high-level game tools." width="100%"></a>
+  <br>
+  <sub>The environment, agent interaction model, and representative tools. Figure 2 from <a href="https://arxiv.org/html/2609.31590v1#S0.F2">Shu et al., AgentWorld</a> (CC BY 4.0). Click either figure for full resolution.</sub>
+</p>
 
 ## Your first experiment
 
@@ -136,8 +151,11 @@ harness through the game API.
 | Metric | What is available here |
 | :--- | :--- |
 | **Success rate · SR** | Offline, task-specific verification with coverage, errors, and per-task outcomes. Full-suite SR is reported only when coverage is complete and there are no scoring errors. |
-| **Causal contribution efficiency · CCE** | Research analysis using an LLM judge. Record the judge, configuration, and protocol alongside results. |
+| **Causal Collaboration Effectiveness · CCE** | Research analysis using an LLM judge. Record the judge, configuration, and protocol alongside results. |
 | **Partial success rate · PSR** | A validated implementation reproducing the paper's metric is not yet available in this checkout. |
+
+The checkout contains 200 augmented task files; the paper reports experiments on
+100 augmented variants. Record the exact task manifest when comparing results.
 
 See [scoring and protocol notes](docs/benchmark/scoring.md) before comparing results.
 A partial run's observed SR is not a full-suite score; custom harnesses, modified
@@ -179,4 +197,6 @@ ignored `runs/` directories. The leaderboard website lives in the separate
 ---
 
 Built upon [Kaetram](https://github.com/Kaetram/Kaetram-Open), which expands on
-Little Workshop's BrowserQuest. Licensed under [MPL-2.0](LICENSE).
+Little Workshop's BrowserQuest. Code is licensed under [MPL-2.0](LICENSE).
+Paper figures are by Shu et al., licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/);
+see [figure sources and attribution](docs/assets/README.md).
