@@ -1,0 +1,12 @@
+# Example adapter: PYTHONPATH=examples/agents python agents/run.py ...
+agent:
+  name: MyHarness
+  provider: custom
+  llm:
+    agent_class: custom_agent:CustomAgent
+    model: ${MODEL_NAME}
+    api_key: ${MODEL_API_KEY}
+    base_url: ${MODEL_BASE_URL}
+    auth_header: Authorization
+  game:
+    host: ${AGENTWORLD_BASE_URL}

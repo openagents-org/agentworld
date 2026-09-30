@@ -35,6 +35,8 @@ except ImportError:
 
 # Import existing agent components
 from agent_factory import AgentFactory
+from config_loader import load_agent_config
+from verification import verify_trajectory
 from console import GameConsole
 from config import MASTER_PASSWORD
 from base_agent import BaseAgent
@@ -414,8 +416,7 @@ class TaskRunner:
     def _load_agent_config(self) -> AgentConfig:
         """Load agent configuration from YAML file"""
         try:
-            with open(self.agent_config_path, 'r') as f:
-                config_data = yaml.safe_load(f)
+            config_data = load_agent_config(self.agent_config_path)
             
             agent_data = config_data['agent']
             return AgentConfig(
@@ -1886,6 +1887,8 @@ class TaskRunner:
         
         self.trajectory_data = {
             'task_id': f"task_{task_number}",
+            'task_source': str(Path(task_path).resolve()),
+            'task_key': task_filename,
             'timestamp': datetime.now().isoformat(),
             'task_definition': task_definition,
             'rounds': [],
@@ -1959,7 +1962,11 @@ class TaskRunner:
         """Save trajectory data to JSON file"""
         # Extract task number from task_id
         task_number = self.trajectory_data['task_id'].split('_')[1] if '_' in self.trajectory_data['task_id'] else self.trajectory_data['task_id']
-        trajectory_file = self.output_dir / f"task_{task_number}_trajectory.json"
+        # Keep the historical main-task filename; variants need distinct files.
+        task_key = self.trajectory_data.get('task_key', f'task_{task_number}')
+        suffix = task_key.rsplit('_', 1)[-1]
+        filename = task_key if suffix in ('v1', 'v2') else f'task_{task_number}'
+        trajectory_file = self.output_dir / f"{filename}_trajectory.json"
         
         # Update metrics from results
         if '_multi_agent_metrics' in results:
@@ -1979,48 +1986,7 @@ class TaskRunner:
             Tuple[bool, str]: (success, message) where success is True if task is complete
         """
         try:
-            # Get task number from trajectory data
-            task_id = self.trajectory_data.get('task_id', '')
-            if not task_id:
-                return False, "No task_id in trajectory data"
-
-            # Extract task number (e.g., "task_01" -> "01")
-            import re
-            match = re.search(r'task_(\d+)', task_id)
-            if not match:
-                return False, f"Could not parse task number from {task_id}"
-
-            task_num = int(match.group(1))
-
-            # Try to import the verifier module
-            verifier_path = Path(__file__).parent.parent / "data_v0.1_multi" / "v1.3_benchmark"
-            verifier_file = verifier_path / f"task_{task_num:02d}_success_criteria.py"
-
-            if not verifier_file.exists():
-                self.logger.debug(f"No verifier found at {verifier_file}")
-                return False, f"No verifier for task {task_num:02d}"
-
-            # Dynamically import the verifier module
-            import importlib.util
-            spec = importlib.util.spec_from_file_location(f"task_{task_num:02d}_verifier", verifier_file)
-            verifier_module = importlib.util.module_from_spec(spec)
-
-            # Add verifier_utils to the module's namespace
-            verifier_utils_path = verifier_path / "verifier_utils.py"
-            if verifier_utils_path.exists():
-                utils_spec = importlib.util.spec_from_file_location("verifier_utils", verifier_utils_path)
-                utils_module = importlib.util.module_from_spec(utils_spec)
-                sys.modules['verifier_utils'] = utils_module
-                utils_spec.loader.exec_module(utils_module)
-
-            spec.loader.exec_module(verifier_module)
-
-            # Call the verify function
-            if hasattr(verifier_module, 'verify'):
-                success, msg = verifier_module.verify(self.trajectory_data)
-                return bool(success), msg
-            else:
-                return False, "Verifier module has no verify() function"
+            return verify_trajectory(self.trajectory_data)
 
         except Exception as e:
             self.logger.debug(f"Early success check failed: {e}")

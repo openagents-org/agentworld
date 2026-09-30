@@ -1,0 +1,11 @@
+# Export these variables in your shell; the runner resolves ${NAME} after YAML parsing.
+agent:
+  name: MyModel
+  provider: openai
+  llm:
+    model: ${MODEL_NAME}
+    api_key: ${MODEL_API_KEY}
+    base_url: ${MODEL_BASE_URL}
+    auth_header: Authorization
+  game:
+    host: ${AGENTWORLD_BASE_URL}

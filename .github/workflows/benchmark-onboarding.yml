@@ -1,0 +1,28 @@
+name: Benchmark onboarding
+on:
+  pull_request:
+    paths:
+      - 'agents/**'
+      - 'benchmarks/**'
+      - 'examples/agents/**'
+      - 'tests/benchmark/**'
+      - 'data_v0.1_multi/v1.3*/**'
+      - 'analysis/scripts/compute_cce_v2.py'
+      - 'analysis/requirements-cce.txt'
+      - '.github/workflows/benchmark-onboarding.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r agents/requirements.txt -r analysis/requirements-cce.txt
+      - run: python -m unittest discover -s tests/benchmark -v
+      - run: python agents/run.py --help
+      - run: python benchmarks/score.py --help
+      - run: python analysis/scripts/compute_cce_v2.py --help
