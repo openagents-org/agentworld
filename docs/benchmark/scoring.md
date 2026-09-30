@@ -46,7 +46,7 @@ a reconstruction, but it has not been cross-validated against the historical
 implementation. Do not label a replacement calculation as the published metric.
 Report PSR as unavailable until its implementation and protocol are established.
 
-## Causal contribution efficiency (CCE)
+## Causal Collaboration Effectiveness (CCE)
 
 The existing analysis implementation is
 `analysis/scripts/compute_cce_v2.py`. It uses an LLM judge; successful trajectories
