@@ -406,7 +406,7 @@ def main():
         print(f"Avg CE (all tasks):       {avg_ce_all:.4f}")
 
     # Save results
-    output_path = args.output or f'results/cce_v2_{run_label}.json'
+    output_path = args.output or f'results/cce_v2_{run_label}_{JUDGE_MODEL}.json'
     os.makedirs(os.path.dirname(output_path) or '.', exist_ok=True)
     with open(output_path, 'w') as f:
         json.dump({
