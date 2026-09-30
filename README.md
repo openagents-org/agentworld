@@ -1,48 +1,182 @@
-# AgentWorld
+<p align="center">
+  <img src="docs/assets/agentworld-banner.svg" alt="AgentWorld — act, communicate, collaborate. A shared world for benchmarking AI agents." width="100%">
+</p>
 
-AgentWorld is a 2D multiplayer environment for evaluating how AI agents act,
-communicate, and collaborate. This repository contains the game engine, Python
-agent harness, benchmark tasks, and evaluation utilities.
+<p align="center">
+  <strong>Benchmark your model. Build your agent harness. Watch a team work together.</strong>
+</p>
 
-[Website and leaderboard](https://agentworld.io) ·
-[Submit results](https://agentworld.io/submission-guide) ·
-[Contributing](CONTRIBUTING.md)
+<p align="center">
+  <a href="https://agentworld.io">Website &amp; leaderboard</a> ·
+  <a href="docs/benchmark/quickstart.md">Quickstart</a> ·
+  <a href="docs/benchmark/custom-agents.md">Custom agents</a> ·
+  <a href="https://agentworld.io/submission-guide">Submit results</a>
+</p>
 
-## Start here
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-64748b?style=flat-square" alt="License: MPL-2.0"></a>
+  <a href="docs/benchmark/quickstart.md"><img src="https://img.shields.io/badge/runner-Python_3.10%2B-0f766e?style=flat-square" alt="Runner: Python 3.10 or newer"></a>
+  <a href="data_v0.1_multi/v1.3_benchmark"><img src="https://img.shields.io/badge/main_suite-100_tasks-2563eb?style=flat-square" alt="Main suite: 100 tasks"></a>
+  <a href="data_v0.1_multi/v1.3_augmented"><img src="https://img.shields.io/badge/augmented_suite-200_variants-7c3aed?style=flat-square" alt="Augmented suite: 200 variants"></a>
+</p>
 
-| Goal | Guide |
-| --- | --- |
-| Run your model on a task, then a benchmark suite | [Benchmark quickstart](docs/benchmark/quickstart.md) |
-| Integrate your own agent harness or model adapter | [Custom agents](docs/benchmark/custom-agents.md) |
-| Calculate scores and prepare a submission | [Scoring and results](docs/benchmark/scoring.md) |
-| Inspect a trajectory visually | [Trajectory visualization](docs/benchmark/visualization.md) |
-| Understand where code belongs | [Repository map](docs/repository-map.md) |
-| Start or configure the game server | [Server setup](docs/benchmark/server.md) |
+AgentWorld is a **2D multiplayer environment for evaluating AI agents**. Agents
+interact with a shared game world through tools: gathering resources, crafting,
+fighting, communicating, and coordinating toward task objectives.
 
-## Repository overview
+This repository brings together the game engine, Python reference harness,
+versioned tasks, and evaluation utilities so you can follow an experiment from
+**task → actions → trajectory → score**.
 
-```text
-agents/                  Python runner, reference agents, tools, example configs
-benchmarks/              Benchmark entry-point documentation and offline SR reporting
-data_v0.1_multi/          Versioned multi-agent task definitions and verifiers
-data_v0.1_solo/           Solo task definitions
-examples/agents/         Custom-agent adapter example
-analysis/                Research analysis, CCE scripts, and historical report archive
-packages/                TypeScript game server, client, shared code, and tools
-scripts/                 Development utilities and manual game diagnostics
-docs/                    Onboarding, protocol notes, and game documentation
-tests/benchmark/         Offline regression tests for benchmark entry points
+## Choose your starting point
+
+| I want to… | Start here |
+| :--- | :--- |
+| **Benchmark a model** | Use an OpenAI-compatible endpoint with the [reference runner](docs/benchmark/quickstart.md). |
+| **Benchmark my agent harness** | Bring your planner, memory, or framework through a [custom adapter](docs/benchmark/custom-agents.md). |
+| **Understand a run** | Inspect actions and observations with [trajectory visualizations](docs/benchmark/visualization.md). |
+| **Contribute or review results** | Read the [contributor guide](CONTRIBUTING.md) and [submission requirements](docs/benchmark/scoring.md). |
+
+## Your first experiment
+
+You need **Python 3.10+**, a running **AgentWorld game instance**, and a model
+endpoint supporting the reference adapter's tool-calling contract. API-based
+models do not need a local GPU. All commands below run from the repository root.
+
+### 1 · Install the runner
+
+```bash
+git clone --branch develop https://github.com/openagents-org/agentworld.git
+cd agentworld
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r agents/requirements.txt
 ```
 
-The quickstart uses `data_v0.1_multi/v1.3_benchmark` (100 main tasks) and
-`data_v0.1_multi/v1.3_augmented` (200 variants). Older task versions and
-machine-specific launch scripts remain available for reproducing historical work;
-see the repository map before using them. Scoring limitations are documented
-explicitly; a successful local run does not by itself certify leaderboard comparability.
+### 2 · Connect the game and model
 
-## Credits and license
+Start a dedicated game instance using the [server setup guide](docs/benchmark/server.md).
+The game HTTP API and your model endpoint are **two separate services**.
+
+```bash
+export AGENTWORLD_BASE_URL='http://localhost:7031'
+export MODEL_BASE_URL='http://localhost:8000/v1'
+export MODEL_NAME='your-tool-calling-model-id'
+export MODEL_API_KEY='your-model-api-key'
+```
+
+Use `MODEL_API_KEY=unused` for an unauthenticated local model endpoint. The
+[example configuration](agents/configs/openai-compatible.example.yaml) reads
+these variables from your shell. See the [quickstart](docs/benchmark/quickstart.md)
+for endpoint compatibility and authentication options.
+
+### 3 · Run one task
+
+```bash
+python agents/run.py \
+  --task data_v0.1_multi/v1.3_benchmark/task_01_magic_staff.yaml \
+  --agent agents/configs/openai-compatible.example.yaml \
+  --output runs/my-model/smoke \
+  --no-split-screen
+```
+
+Open `runs/my-model/smoke/task_01_trajectory.json` to inspect the recorded rounds,
+actions, observations, and verification metrics. Once the smoke task runs
+correctly, move to a complete suite.
+
+<details>
+<summary><strong>Run the main suite and calculate success rate</strong></summary>
+
+Use a fresh directory for each model, harness configuration, and trial.
+
+```bash
+python agents/run.py \
+  --task-folder data_v0.1_multi/v1.3_benchmark \
+  --agent agents/configs/openai-compatible.example.yaml \
+  --output runs/my-model/main/trial-1 \
+  --no-split-screen
+
+python benchmarks/score.py \
+  --suite main \
+  --trajectories runs/my-model/main/trial-1 \
+  --output runs/my-model/main/trial-1/scores.json
+```
+
+For augmented runs, use `data_v0.1_multi/v1.3_augmented`, a separate output
+directory, and `--suite augmented` when scoring. Do not use the parent
+`data_v0.1_multi/` directory as a suite: it includes historical datasets.
+
+The runner can overwrite results in reused directories. Give concurrent
+experiments separate game instances to avoid shared-state interference.
+
+</details>
+
+## Bring your own harness
+
+**Model integration:** point the reference configuration at your model endpoint.
+**Harness integration:** start from the [custom Python adapter](examples/agents/custom_agent.py)
+and [example configuration](agents/configs/custom.example.yaml).
+
+```bash
+# Uses the same model and game environment variables as above.
+PYTHONPATH=examples/agents python agents/run.py \
+  --task data_v0.1_multi/v1.3_benchmark/task_01_magic_staff.yaml \
+  --agent agents/configs/custom.example.yaml \
+  --output runs/my-harness/smoke \
+  --no-split-screen
+```
+
+The example initially preserves the reference policy so you can verify the
+integration before changing behavior. The [custom-agent guide](docs/benchmark/custom-agents.md)
+explains the turn contract, trajectory records, and how to connect an independent
+harness through the game API.
+
+## Scores you can inspect
+
+| Metric | What is available here |
+| :--- | :--- |
+| **Success rate · SR** | Offline, task-specific verification with coverage, errors, and per-task outcomes. Full-suite SR is reported only when coverage is complete and there are no scoring errors. |
+| **Causal contribution efficiency · CCE** | Research analysis using an LLM judge. Record the judge, configuration, and protocol alongside results. |
+| **Partial success rate · PSR** | A validated implementation reproducing the paper's metric is not yet available in this checkout. |
+
+See [scoring and protocol notes](docs/benchmark/scoring.md) before comparing results.
+A partial run's observed SR is not a full-suite score; custom harnesses, modified
+budgets, and alternative judges must be identified in submissions.
+
+**Ready to share?** Follow the [submission guide](https://agentworld.io/submission-guide)
+and open a [result-submission GitHub issue](https://github.com/openagents-org/agentworld-web/issues/new?template=result-submission.yml).
+Include your model and harness versions, task revision, settings, trials, scores,
+and raw trajectories. Reviewers check the evidence before leaderboard publication.
+
+## Find your way around
+
+```text
+agentworld/
+├── agents/              Reference runner, model adapters, tools, and configs
+├── benchmarks/          Offline scoring and benchmark entry-point docs
+├── data_v0.1_multi/      Versioned multi-agent tasks and task verifiers
+├── data_v0.1_solo/       Solo task definitions
+├── examples/agents/     Custom-harness integration example
+├── packages/            TypeScript game server, browser client, and shared code
+├── analysis/            Research analysis and historical report archive
+├── scripts/             Development utilities and manual diagnostics
+├── docs/                Benchmark guides and game documentation
+└── tests/benchmark/     Offline onboarding regression tests
+```
+
+The [repository map](docs/repository-map.md) distinguishes the supported onboarding
+path from historical experiments. Generated runs and visualizations belong in
+ignored `runs/` directories. The leaderboard website lives in the separate
+[agentworld-web repository](https://github.com/openagents-org/agentworld-web).
+
+## Explore and contribute
+
+- **Learn the world:** [game tools](docs/game_tools.md), [crafting](docs/crafting.md), and [regions](docs/regions.md).
+- **Customize experiments:** [prompt templates](docs/benchmark/prompt-templates.md) and [baseline flags](agents/BASELINES.md).
+- **Improve the benchmark:** contribute adapters, task/verifier fixes, documentation, or submission reviews. Start with [CONTRIBUTING.md](CONTRIBUTING.md).
+- **Revisit earlier work:** see [legacy usage](docs/legacy-usage.md) and the [research archive](analysis/archive/README.md).
+
+---
 
 Built upon [Kaetram](https://github.com/Kaetram/Kaetram-Open), which expands on
 Little Workshop's BrowserQuest. Licensed under [MPL-2.0](LICENSE).
-
-Detailed historical console examples are retained in [Legacy usage](docs/legacy-usage.md).
