@@ -66,3 +66,5 @@ observations/actions needed by the task verifiers. The offline SR scorer expects
 This is a minimum identification shape, not the entire verifier contract: retain
 all fields emitted by the reference runner and inspect the relevant task verifier.
 Do not use a result-only JSON file as a substitute for the trajectory.
+
+For YAML prompt customization, see [Prompt templates](prompt-templates.md).

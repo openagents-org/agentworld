@@ -25,3 +25,9 @@ python benchmarks/score.py --help
 Live game/model runs are separate validation. Include the task/harness revision,
 settings, and coverage with those results. Keep credentials, virtual environments,
 and generated run artifacts out of commits.
+
+Generated trajectories, HTML visualizations, and task-review output belong in
+ignored `runs/` directories. Do not commit model API response dumps from
+`agents/error_captures/`. Retained historical reports live in `analysis/archive/`;
+new utility scripts belong in an appropriate `scripts/` or `analysis/scripts/`
+subdirectory rather than the repository root.
