@@ -20,18 +20,26 @@
 
 The repository retains older datasets (`v1_benchmark`, `v1.2_benchmark`, rewritten
 and augmented-generation directories), solo tasks, task-generation utilities,
-`evaluate_results*`, research reports, and visualization files. They are useful
+`analysis/archive/`, and research reports. They are useful
 for historical work but are not additional suites to mix into the main score.
 
 `agents/run_*.sh` and many `scripts/run_*.sh` files are machine-specific experiment
 launchers. `scripts/benchmark/` belongs to an older tooling layout. Prefer
 `agents/run.py` for new experiments. `beam_verifier/` is a separate search-based
-verification experiment. Root `evaluate_tasks.py` evaluates task design, not
-model benchmark scores. `task_verifier.py`, `task_verifier1.py`, and
-`batch_verify.sh` are legacy verification entry points; the new guide uses the
-per-task verifiers through `agents/verification.py`.
+verification experiment. `analysis/scripts/evaluate_tasks.py` evaluates task design,
+not model benchmark scores. Manual attack, harvest, and tile diagnostics live in
+`scripts/diagnostics/`. The historical batch wrapper is now
+`scripts/legacy/batch_verify.sh`.
 
-Existing task/code paths stay in place to preserve historical scripts. Put new
+Root `task_verifier.py` and `task_verifier1.py` remain because existing visualizer,
+analysis, and beam-verifier code imports them. The maintained benchmark guide
+uses per-task verifiers through `agents/verification.py`. Generated HTML snapshots
+and captured API-error responses are not tracked; see the
+[visualization guide](benchmark/visualization.md) to generate a fresh report and
+[archive notes](../analysis/archive/README.md) for historical file locations.
+
+Benchmark task definitions, runner paths, and imported verifier modules stay in
+place. The archive and script READMEs document relocated utilities. Put new
 onboarding docs under `docs/benchmark/`, examples under `examples/agents/`, and
 portable evaluation entry points under `benchmarks/`. Put generated runs under
 `runs/` (ignored by Git), not among source files. Install the Python runner in
@@ -39,3 +47,5 @@ portable evaluation entry points under `benchmarks/`. Put generated runs under
 
 The leaderboard and website live in
 [openagents-org/agentworld-web](https://github.com/openagents-org/agentworld-web).
+
+Prompt configuration details are in [Prompt templates](benchmark/prompt-templates.md).

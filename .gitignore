@@ -473,3 +473,13 @@ scripts/run_tasks_45_60.sh
 .venv/
 /runs/
 /agents/configs/*.local.yaml
+
+# Generated trajectory reports and captured API responses
+/viz_task_*.html
+/task*_viz.html
+/trajectory_visualization.html
+/agents/error_captures/
+# Historical output locations; new task reviews go under runs/.
+/evaluate_results/
+/evaluate_results_augmented/
+/investigate_results/

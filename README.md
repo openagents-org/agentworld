@@ -15,6 +15,7 @@ agent harness, benchmark tasks, and evaluation utilities.
 | Run your model on a task, then a benchmark suite | [Benchmark quickstart](docs/benchmark/quickstart.md) |
 | Integrate your own agent harness or model adapter | [Custom agents](docs/benchmark/custom-agents.md) |
 | Calculate scores and prepare a submission | [Scoring and results](docs/benchmark/scoring.md) |
+| Inspect a trajectory visually | [Trajectory visualization](docs/benchmark/visualization.md) |
 | Understand where code belongs | [Repository map](docs/repository-map.md) |
 | Start or configure the game server | [Server setup](docs/benchmark/server.md) |
 
@@ -26,8 +27,9 @@ benchmarks/              Benchmark entry-point documentation and offline SR repo
 data_v0.1_multi/          Versioned multi-agent task definitions and verifiers
 data_v0.1_solo/           Solo task definitions
 examples/agents/         Custom-agent adapter example
-analysis/                Research analysis and CCE judge scripts
+analysis/                Research analysis, CCE scripts, and historical report archive
 packages/                TypeScript game server, client, shared code, and tools
+scripts/                 Development utilities and manual game diagnostics
 docs/                    Onboarding, protocol notes, and game documentation
 tests/benchmark/         Offline regression tests for benchmark entry points
 ```
