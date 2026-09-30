@@ -3,6 +3,7 @@ Agent Factory for Creating Different LLM Agents
 Provides a unified interface to create agents for different LLM providers
 """
 
+import importlib
 from typing import Optional
 from base_agent import BaseAgent
 from qwen_agent import QwenAgent
@@ -16,6 +17,7 @@ class AgentFactory:
     """Factory class for creating different types of LLM agents"""
     
     SUPPORTED_PROVIDERS = {
+        "custom": "User-supplied BaseAgent adapter",
         "qwen": "Alibaba Cloud Qwen (DashScope)",
         "openai": "OpenAI (GPT-4, GPT-3.5, etc.)",
         "claude": "Anthropic Claude",
@@ -62,6 +64,19 @@ class AgentFactory:
             supported = ", ".join(cls.SUPPORTED_PROVIDERS.keys())
             raise ValueError(f"Unsupported provider: {provider}. Supported providers: {supported}")
         
+        if provider == "custom":
+            # Configured Python adapters execute trusted local code.
+            target = llm_params.get("agent_class", "")
+            module_name, separator, class_name = target.partition(":")
+            if not separator or not module_name or not class_name:
+                raise ValueError("Custom provider requires llm.agent_class: module:Class")
+            agent_class = getattr(importlib.import_module(module_name), class_name)
+            if not isinstance(agent_class, type) or not issubclass(agent_class, BaseAgent):
+                raise ValueError("Custom agent class must inherit BaseAgent")
+            return agent_class(api_key=api_key, model=model, username=username,
+                               password=password, base_url=base_url,
+                               dump_prompts=dump_prompts, llm_params=llm_params)
+
         if provider == "qwen":
             return QwenAgent(username=username, password=password, base_url=base_url, dump_prompts=dump_prompts)
         
@@ -69,7 +84,7 @@ class AgentFactory:
             if not api_key:
                 raise ValueError("OpenAI API key is required for OpenAI provider")
             default_model = model or "gpt-4o"
-            return OpenAIAgent(api_key=api_key, model=default_model, username=username, password=password, base_url=base_url, dump_prompts=dump_prompts)
+            return OpenAIAgent(api_key=api_key, model=default_model, username=username, password=password, base_url=base_url, dump_prompts=dump_prompts, llm_params=llm_params)
         
         elif provider == "claude":
             if not api_key:
@@ -151,7 +166,7 @@ class AgentFactory:
             return True
 
         # Local DeepSeek runs fully offline
-        if provider == "deepseek_local":
+        if provider in ("deepseek_local", "custom"):
             return True
         
         # All other providers require API keys

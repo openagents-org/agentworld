@@ -1,0 +1,3 @@
+# Optional in-process GPU inference; not needed for an HTTP model endpoint.
+-r requirements.txt
+vllm>=0.6.2

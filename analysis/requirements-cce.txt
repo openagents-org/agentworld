@@ -1,0 +1,2 @@
+# Optional LLM judge client for compute_cce_v2.py
+openai>=1.0.0

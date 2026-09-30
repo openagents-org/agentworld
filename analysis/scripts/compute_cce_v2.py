@@ -18,10 +18,10 @@ import re
 import argparse
 from openai import OpenAI
 
-# Config
-API_KEY = "sk-QJ3tm90vbicqSOMEW5auku5OeR6cvbHo59yy7mRNH5hxCuTz"
-BASE_URL = "https://yinli.one/v1"
-JUDGE_MODEL = "gpt-4.1"
+# Configure the judge explicitly. Importing this module makes no API calls.
+API_KEY = os.environ.get("CCE_API_KEY", "")
+BASE_URL = os.environ.get("CCE_BASE_URL", "https://api.openai.com/v1")
+JUDGE_MODEL = os.environ.get("CCE_JUDGE_MODEL", "gpt-4.1")
 
 MODEL_DIRS = {
     'gemini': 'gemini_v1.3',
@@ -33,9 +33,9 @@ MODEL_DIRS = {
     'deepseek_aug': 'deepseek_augmented',
     'gemini_aug': 'gemini_augmented',
 }
-LOGS_BASE = os.path.expanduser('~/works/agentworld/agents/logs')
+LOGS_BASE = os.environ.get('AGENTWORLD_LOGS_DIR', os.path.join(os.path.dirname(__file__), '../../agents/logs'))
 
-client = OpenAI(api_key=API_KEY, base_url=BASE_URL)
+client = None
 
 
 def call_llm(prompt, verbose=False):
@@ -46,6 +46,11 @@ def call_llm(prompt, verbose=False):
         print(prompt[:500] + "..." if len(prompt) > 500 else prompt)
         print(f"{'─'*60}")
 
+    global client
+    if client is None:
+        if not API_KEY:
+            raise ValueError("Set CCE_API_KEY before computing CCE")
+        client = OpenAI(api_key=API_KEY, base_url=BASE_URL)
     response = client.chat.completions.create(
         model=JUDGE_MODEL,
         max_tokens=2000,
@@ -327,6 +332,7 @@ def compute_cce_v2(trajectory, verbose=False):
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument('--trajectory', help='Score one trajectory JSON from any run directory')
     parser.add_argument('--model', type=str, default='gemini', choices=MODEL_DIRS.keys())
     parser.add_argument('--task', type=str, default='1', help='Task number or "all" for batch run')
     parser.add_argument('--verbose', action='store_true', help='Print detailed LLM interactions')
@@ -336,7 +342,11 @@ def main():
     model_dir = os.path.join(LOGS_BASE, MODEL_DIRS[args.model])
 
     # Determine task list
-    if args.task == 'all':
+    if args.trajectory:
+        if not os.path.isfile(args.trajectory):
+            parser.error('--trajectory does not exist')
+        tasks = [(0, args.trajectory)]
+    elif args.task == 'all':
         traj_files = sorted(glob.glob(os.path.join(model_dir, 'task_*_trajectory.json')))
         tasks = []
         for f in traj_files:
@@ -351,7 +361,8 @@ def main():
             return
         tasks = [(task_num, filepath)]
 
-    print(f"CCE v2 | Model: {args.model} | Judge: {JUDGE_MODEL} | Tasks: {len(tasks)}")
+    run_label = 'trajectory' if args.trajectory else args.model
+    print(f"CCE v2 | Model: {run_label} | Judge: {JUDGE_MODEL} | Tasks: {len(tasks)}")
     print(f"{'='*70}")
 
     all_results = []
@@ -395,11 +406,13 @@ def main():
         print(f"Avg CE (all tasks):       {avg_ce_all:.4f}")
 
     # Save results
-    output_path = args.output or f'results/cce_v2_{args.model}_{JUDGE_MODEL}.json'
+    output_path = args.output or f'results/cce_v2_{run_label}.json'
     os.makedirs(os.path.dirname(output_path) or '.', exist_ok=True)
     with open(output_path, 'w') as f:
         json.dump({
-            'model': args.model,
+            'model': None if args.trajectory else args.model,
+            'trajectory': args.trajectory,
+            'judge_base_url': BASE_URL,
             'judge': JUDGE_MODEL,
             'results': all_results,
             'summary': {

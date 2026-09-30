@@ -10,18 +10,24 @@ from base_agent import BaseAgent
 
 
 class OpenAIAgent(BaseAgent):
-    def __init__(self, api_key: str, model: str = "gpt-4o", username: Optional[str] = None, password: Optional[str] = None, base_url: Optional[str] = None, dump_prompts: bool = False):
+    def __init__(self, api_key: str, model: str = "gpt-4o", username: Optional[str] = None, password: Optional[str] = None, base_url: Optional[str] = None, dump_prompts: bool = False, llm_params: Optional[dict] = None):
         # Initialize parent class
         super().__init__(username, password, base_url, dump_prompts)
         
         # OpenAI-specific configuration
         self.api_key = api_key or 'agentworld'
         self.model = model
-        self.base_url = "https://model-gateway.acenta.ai/v1"
+        llm_params = llm_params or {}
+        # Preserve existing gateway configs; explicit endpoints use Bearer auth.
+        self.base_url = llm_params.get("base_url", "https://model-gateway.acenta.ai/v1").rstrip("/")
+        auth_header = llm_params.get("auth_header", "Authorization" if "base_url" in llm_params else "X-API-Key")
+        if auth_header not in ("Authorization", "X-API-Key"):
+            raise ValueError("auth_header must be Authorization or X-API-Key")
+        auth_value = f"Bearer {self.api_key}" if auth_header == "Authorization" else self.api_key
         self.provider = "openai"
         self.session = requests.Session()
         self.session.headers.update({
-            "X-API-Key": self.api_key,
+            auth_header: auth_value,
             "Content-Type": "application/json"
         })
 
