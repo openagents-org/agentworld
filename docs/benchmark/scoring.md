@@ -40,11 +40,18 @@ than assuming their saved success flags remain comparable.
 
 ## Partial success rate (PSR)
 
-A validated, portable implementation reproducing the paper's PSR is not present
-in this upstream checkout. The separately maintained local experiment copy has
-a reconstruction, but it has not been cross-validated against the historical
-implementation. Do not label a replacement calculation as the published metric.
-Report PSR as unavailable until its implementation and protocol are established.
+The [metrics guide](metrics.md#partial-success-rate-psr) specifies the checkpoint
+reconstruction used for the additional-model experiments, with a worked example
+and commands for [scripts/score_psr.py](../../scripts/score_psr.py). Quantities
+receive fractional credit capped at 1; booleans and round limits receive 0/1;
+checkpoints are averaged within each task and tasks are averaged equally.
+Successful tasks receive 1.
+
+Report this as **reconstructed PSR (`checkpoint_fraction_v1`)**. It has not been
+cross-validated against the unavailable historical implementation and does not
+certify reproduction of the paper's PSR. The additional-model collector retains
+its historical `task_verifier.py` path; it does not silently replace the newer
+task-specific verifier protocol used by `benchmarks/score.py` above.
 
 ## Causal Collaboration Effectiveness (CCE)
 
