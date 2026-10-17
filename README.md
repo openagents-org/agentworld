@@ -42,6 +42,7 @@ versioned tasks, and evaluation utilities so you can follow an experiment from
 | **Benchmark a model** | Use an OpenAI-compatible endpoint with the [reference runner](docs/benchmark/quickstart.md). |
 | **Benchmark my agent harness** | Bring your planner, memory, or framework through a [custom adapter](docs/benchmark/custom-agents.md). |
 | **Understand a run** | Inspect actions and observations with [trajectory visualizations](docs/benchmark/visualization.md). |
+| **Understand the metrics** | Read the [SR, PSR, and CCE definitions and scoring examples](docs/benchmark/metrics.md). |
 | **Contribute or review results** | Read the [contributor guide](CONTRIBUTING.md) and [submission requirements](docs/benchmark/scoring.md). |
 
 ## Inside the benchmark
@@ -152,7 +153,7 @@ harness through the game API.
 | :--- | :--- |
 | **Success rate · SR** | Offline, task-specific verification with coverage, errors, and per-task outcomes. Full-suite SR is reported only when coverage is complete and there are no scoring errors. |
 | **Causal Collaboration Effectiveness · CCE** | Research analysis using an LLM judge. Record the judge, configuration, and protocol alongside results. |
-| **Partial success rate · PSR** | A validated implementation reproducing the paper's metric is not yet available in this checkout. |
+| **Partial success rate · PSR** | [Checkpoint reconstruction and worked example](docs/benchmark/metrics.md#partial-success-rate-psr); not cross-validated against the historical implementation. |
 
 The checkout contains 200 augmented task files; the paper reports experiments on
 100 augmented variants. Record the exact task manifest when comparing results.
