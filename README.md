@@ -195,6 +195,16 @@ ignored `runs/` directories. The leaderboard website lives in the separate
 - **Improve the benchmark:** contribute adapters, task/verifier fixes, documentation, or submission reviews. Start with [CONTRIBUTING.md](CONTRIBUTING.md).
 - **Revisit earlier work:** see [legacy usage](docs/legacy-usage.md) and the [research archive](analysis/archive/README.md).
 
+
+## Other projects named "AgentWorld"
+
+Several independent projects share the AgentWorld name; if you arrived here looking for one of them:
+
+- [QwenLM/Qwen-AgentWorld](https://github.com/QwenLM/Qwen-AgentWorld) — language world models for general agents
+- [iwana888/AgentWorld](https://github.com/iwana888/AgentWorld) — an experimental runtime for autonomous agents (context + reliability)
+- [shawnhvac/agentworld](https://github.com/shawnhvac/agentworld) — a live economy of ~500 autonomous AI agents transacting in real USDC on Base L2 ([what it is](https://agentworld.me/what-is-agentworld))
+
+---
 ---
 
 Built upon [Kaetram](https://github.com/Kaetram/Kaetram-Open), which expands on
